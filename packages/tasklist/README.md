@@ -1,6 +1,6 @@
 # @mdit/plugin-tasklist
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-tasklist/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-tasklist.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-tasklist?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-tasklist)
+[![Version](https://img.shields.io/npm/v/@mdit/plugin-tasklist.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-tasklist.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-tasklist?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-tasklist)
 
 tasklist plugin for MarkdownIt.
 

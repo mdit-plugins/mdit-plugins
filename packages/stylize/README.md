@@ -1,6 +1,6 @@
 # @mdit/plugin-stylize
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-stylize/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-stylize.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-stylize?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-stylize)
+[![Version](https://img.shields.io/npm/v/@mdit/plugin-stylize.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-stylize.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-stylize?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-stylize)
 
 stylize plugin for MarkdownIt.
 

@@ -1,6 +1,6 @@
 # @mdit/plugin-img-mark
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-img-mark/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-img-mark.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-img-mark?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-img-mark)
+[![Version](https://img.shields.io/npm/v/@mdit/plugin-img-mark.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-img-mark.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-img-mark?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-img-mark)
 
 img-mark plugin for MarkdownIt.
 

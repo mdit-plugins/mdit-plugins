@@ -1,6 +1,6 @@
 # @mdit/plugin-container
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-container/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-container.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-container?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-container)
+[![Version](https://img.shields.io/npm/v/@mdit/plugin-container.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-container.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-container?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-container)
 
 container plugin for MarkdownIt.
 
