@@ -3,7 +3,7 @@
  */
 import type { PluginWithOptions } from "markdown-it";
 import type Token from "markdown-it/lib/token.js";
-import type { FigureOptions } from "./options.js";
+import type { MarkdownItFigureOptions } from "./options.js";
 
 const removeAttribute = (token: Token, attribute: string): void => {
   token.attrs = (token.attrs || []).filter(([key]) => key !== attribute);
@@ -21,7 +21,10 @@ const getCaption = (image: Token): string => {
   return image.content;
 };
 
-export const figure: PluginWithOptions<FigureOptions> = (md, options = {}) => {
+export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
+  md,
+  options = {}
+) => {
   md.core.ruler.before("linkify", "figure", (state) => {
     // do not process first and last token
     for (

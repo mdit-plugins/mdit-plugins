@@ -1,4 +1,4 @@
-export interface ImgMarkOptions {
+export interface MarkdownItImgMarkOptions {
   /**
    * lightmode only ids
    *

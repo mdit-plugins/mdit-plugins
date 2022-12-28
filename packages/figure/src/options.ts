@@ -1,4 +1,4 @@
-export interface FigureOptions {
+export interface MarkdownItFigureOptions {
   /**
    * @default true
    */

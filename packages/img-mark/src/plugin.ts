@@ -1,7 +1,7 @@
 import type { PluginWithOptions } from "markdown-it";
-import type { ImgMarkOptions } from "./options.js";
+import type { MarkdownItImgMarkOptions } from "./options.js";
 
-export const imgMark: PluginWithOptions<ImgMarkOptions> = (
+export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,
   {
     light = ["gh-light-mode-only", "light"],

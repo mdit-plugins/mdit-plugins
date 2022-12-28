@@ -1,6 +1,6 @@
 import type { KatexOptions } from "katex";
 
-export interface KatexPluginOptions extends KatexOptions {
+export interface MarkdownItKatexOptions extends KatexOptions {
   /**
    * Whether enable mhchem extension
    *

@@ -5,7 +5,7 @@ import { escapeHtml } from "./utils.js";
 
 import type { PluginWithOptions } from "markdown-it";
 import type { KatexOptions as OriginalKatexOptions } from "katex";
-import type { KatexPluginOptions } from "./options.js";
+import type { MarkdownItKatexOptions } from "./options.js";
 
 const require = createRequire(import.meta.url);
 
@@ -38,7 +38,7 @@ const katexBlock = (tex: string, options: OriginalKatexOptions): string => {
   }
 };
 
-export const katex: PluginWithOptions<KatexPluginOptions> = (
+export const katex: PluginWithOptions<MarkdownItKatexOptions> = (
   md,
   options = {}
 ) => {

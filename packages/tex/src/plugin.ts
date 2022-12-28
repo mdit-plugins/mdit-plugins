@@ -6,7 +6,7 @@ import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.js";
 import type { RuleBlock } from "markdown-it/lib/parser_block.js";
-import type { TexPluginOptions } from "./options.js";
+import type { MarkdownItTexOptions } from "./options.js";
 
 /*
  * Test if potential opening or closing delimiter
@@ -172,7 +172,7 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
   return true;
 };
 
-export const tex: PluginWithOptions<TexPluginOptions> = (md, options) => {
+export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   const { render } = options || {};
 
   if (typeof render !== "function")
