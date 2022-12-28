@@ -7,7 +7,7 @@ import pkg from "../package.json" assert { type: "json" };
 const { version: currentVersion } = pkg;
 const { prompt } = inquirer;
 
-const tags = [ "alpha","latest",  "beta", "test","next",];
+const tags = ["alpha", "latest", "beta", "test", "next"];
 
 const release = async (): Promise<void> => {
   ora(`Current version: ${pc.green(currentVersion)}`).info();

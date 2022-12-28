@@ -3,7 +3,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
 
-import type { ModuleFormat, Plugin, RollupOptions } from "rollup";
+import type { ModuleFormat, RollupOptions } from "rollup";
 
 const isProduction = process.env["NODE_ENV"] === "production";
 
@@ -48,14 +48,7 @@ export const rollupTypescript = (
       },
     ],
     plugins: [
-      ...(resolve
-        ? [
-            nodeResolve({ preferBuiltins: true }),
-            // @ts-ignore
-            commonjs() as Plugin,
-          ]
-        : []),
-      // @ts-ignore
+      ...(resolve ? [nodeResolve({ preferBuiltins: true }), commonjs()] : []),
       esbuild({ charset: "utf8", minify: isProduction, target: "node14" }),
     ],
     external,
