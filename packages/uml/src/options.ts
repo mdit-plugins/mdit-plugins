@@ -1,12 +1,31 @@
 import type { RenderRule } from "markdown-it/lib/renderer.js";
 
 export interface MarkdownItUMLOptions {
-  /** name */
+  /**
+   * UML name
+   *
+   * UML 名称
+   */
   name: string;
-  /** open marker */
+
+  /**
+   * Opening marker
+   *
+   * 开始标记
+   */
   open: string;
-  /** close marker */
+
+  /**
+   *  Closing marker
+   *
+   * 结束标记
+   */
   close: string;
-  /** render function */
+
+  /**
+   * Render function
+   *
+   * 渲染函数
+   */
   render: RenderRule;
 }

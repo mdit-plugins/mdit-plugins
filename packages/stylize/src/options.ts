@@ -44,7 +44,24 @@ export interface MarkdownItStylizeConfig {
 }
 
 export interface MarkdownItStylizeOptions {
+  /**
+   * Stylize config
+   *
+   * 格式化配置
+   */
   config?: MarkdownItStylizeConfig[];
+
+  /**
+   * Local config getter
+   *
+   * @param env Markdown env object
+   * @returns local stylize config
+   *
+   * 本地配置获取器
+   *
+   * @param env Markdown 环境对象
+   * @returns 本地格式化配置
+   */
   localConfigGetter?: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     env?: any
