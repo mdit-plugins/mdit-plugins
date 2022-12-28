@@ -30,6 +30,7 @@ This repo contains the following plugins:
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
 - @mdit/plugin-katex
+- @mdit/plugin-mathjax
 - @mdit/plugin-mark
 - @mdit/plugin-stylize
 - @mdit/plugin-sub

@@ -1,11 +1,14 @@
 {
   "cSpell.words": [
+    "chtml",
     "darkmode",
     "esbuild",
     "lazyload",
     "lightmode",
     "linkify",
     "katex",
+    "mathjax",
+    "mathml",
     "markdownit",
     "mdit",
     "mhchem",
