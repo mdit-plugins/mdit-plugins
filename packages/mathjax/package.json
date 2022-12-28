@@ -32,6 +32,9 @@
   "files": [
     "lib"
   ],
+  "engines": {
+    "node": ">= 14"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
