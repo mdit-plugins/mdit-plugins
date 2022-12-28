@@ -22,6 +22,7 @@ We recommend you to contact using [issues](https://github.com/Mister-Hope/mdit-p
 This repo contains the following plugins:
 
 - @mdit/plugin-align
+- @mdit/plugin-attrs
 - @mdit/plugin-container
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
