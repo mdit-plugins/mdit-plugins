@@ -228,7 +228,9 @@ describe("Check generated style", () => {
 
       expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
-      expect(generateMathjaxStyle(mathjaxInstance)).toMatchSnapshot("style");
+      expect(
+        generateMathjaxStyle(mathjaxInstance).split("\n").length
+      ).toMatchSnapshot("style");
     });
   });
 });
