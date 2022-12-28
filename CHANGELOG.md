@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.1.0-alpha.1...v0.1.0) (2022-12-28)
+
+### Features
+
+- add include plugin ([1e22cdc](https://github.com/Mister-Hope/mdit-plugins/commit/1e22cdc644a1046178517424c20ab29a9bfb96ed))
+- **mathjax:** update api ([f092805](https://github.com/Mister-Hope/mdit-plugins/commit/f092805e448b67302065ff92914bf8f056fa5e06))
+
 ## 0.1.0-alpha.1 (2022-12-28)
 
 ### Features
