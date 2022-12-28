@@ -28,8 +28,8 @@ This repo contains the following plugins:
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
-- @mdit/plugin-img-katex
-- @mdit/plugin-img-mark
+- @mdit/plugin-katex
+- @mdit/plugin-mark
 - @mdit/plugin-stylize
 - @mdit/plugin-sub
 - @mdit/plugin-sup
