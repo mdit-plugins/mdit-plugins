@@ -149,6 +149,19 @@ importers:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
 
+  packages/include:
+    specifiers:
+      '@mdit/plugin-container': workspace:*
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+      upath: ^2.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+      upath: 2.0.1
+    devDependencies:
+      '@mdit/plugin-container': link:../container
+
   packages/katex:
     specifiers:
       '@mdit/plugin-tex': workspace:*
