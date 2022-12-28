@@ -9,6 +9,7 @@
     "markdownit",
     "mdit",
     "mhchem",
+    "softbreak",
     "tasklist",
     "treeshake"
   ]

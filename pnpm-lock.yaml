@@ -90,6 +90,17 @@ importers:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
 
+  packages/attrs:
+    specifiers:
+      '@mdit/plugin-katex': workspace:*
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+    devDependencies:
+      '@mdit/plugin-katex': link:../katex
+
   packages/container:
     specifiers:
       '@types/markdown-it': ^12.2.3
