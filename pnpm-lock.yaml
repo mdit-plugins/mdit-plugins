@@ -98,6 +98,22 @@ importers:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
 
+  packages/figure:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/footnote:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
 packages:
 
   /@babel/code-frame/7.18.6:
