@@ -1,0 +1,13 @@
+# Node modules
+**/node_modules/**
+
+# Dist files
+packages/*/lib/**
+
+# Test Coverage
+coverage/
+
+# Vuepress Related
+**/.vuepress/.cache/**
+**/.vuepress/.temp/**
+**/.vuepress/dist/**

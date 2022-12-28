@@ -1,0 +1,102 @@
+{
+  "name": "markdown-it-ts-root",
+  "version": "0.1.0-alpha.0",
+  "private": true,
+  "description": "MarkdownIt plugin collections written in typescript",
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production pnpm run --stream -r build",
+    "clean": "pnpm run --stream -r clean",
+    "commit": "pnpm git-cz",
+    "docs:build": "pnpm run --filter=docs build",
+    "docs:dev": "pnpm run --filter=docs dev",
+    "postinstall": "husky install",
+    "lint": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
+    "lint:check": "pnpm lint:prettier && pnpm lint:eslint",
+    "lint:eslint": "eslint . --ext .js,.ts",
+    "lint:md": "markdownlint **/*.md",
+    "lint:prettier": "prettier --check .",
+    "packages:bootstrap": "tsx scripts/bootstrap.ts",
+    "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
+    "packages:update": "pnpm up -r",
+    "release": "pnpm clean && pnpm build && pnpm release:bump && pnpm release:publish && pnpm release:sync",
+    "release:bump": "bumpp package.json docs/package.json packages/*/package.json --execute=\"pnpm commit-and-tag-version && git add CHANGELOG.md\" --commit \"chore(release): publish v%s\" --all --tag --push",
+    "release:publish": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/release.ts",
+    "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/sync.ts",
+    "test": "vitest --coverage"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.3.0",
+    "@commitlint/config-conventional": "17.3.0",
+    "@rollup/plugin-commonjs": "24.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@types/inquirer": "9.0.3",
+    "@types/node": "18.11.18",
+    "@typescript-eslint/eslint-plugin": "5.47.1",
+    "@typescript-eslint/parser": "5.47.1",
+    "@vitest/coverage-c8": "0.26.2",
+    "@vue/eslint-config-typescript": "11.0.2",
+    "bumpp": "8.2.1",
+    "commit-and-tag-version": "10.1.0",
+    "commitizen": "4.2.6",
+    "cross-env": "7.0.3",
+    "cz-git": "1.4.1",
+    "esbuild": "0.16.11",
+    "eslint": "8.30.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-vue": "9.8.0",
+    "execa": "6.1.0",
+    "husky": "8.0.2",
+    "inquirer": "9.1.4",
+    "markdownlint-cli": "0.32.2",
+    "nano-staged": "0.8.0",
+    "ora": "6.1.2",
+    "picocolors": "1.0.0",
+    "prettier": "2.8.1",
+    "rimraf": "3.0.2",
+    "rollup": "3.8.1",
+    "rollup-plugin-dts": "5.1.0",
+    "rollup-plugin-esbuild": "5.0.0",
+    "sort-package-json": "2.1.0",
+    "tslib": "2.4.1",
+    "tsx": "3.12.1",
+    "typescript": "4.9.4",
+    "vitest": "0.26.2"
+  },
+  "packageManager": "pnpm@7.20.0",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=8",
+    "pnpm": ">=7"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "bump": true,
+      "commit": true,
+      "tag": true
+    }
+  },
+  "nano-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "markdownlint",
+      "prettier --write"
+    ],
+    "*.{json,yml}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  }
+  
+}
