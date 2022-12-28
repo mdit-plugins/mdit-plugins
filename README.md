@@ -19,7 +19,23 @@ We recommend you to contact using [issues](https://github.com/Mister-Hope/mdit-p
 
 ## Details
 
-<!-- TODO -->
+This repo contains the following plugins:
+
+- @mdit/plugin-align
+- @mdit/plugin-container
+- @mdit/plugin-figure
+- @mdit/plugin-footnote
+- @mdit/plugin-img-lazyload
+- @mdit/plugin-img-mark
+- @mdit/plugin-img-size
+- @mdit/plugin-img-katex
+- @mdit/plugin-img-mark
+- @mdit/plugin-stylize
+- @mdit/plugin-sub
+- @mdit/plugin-sup
+- @mdit/plugin-tasklist
+- @mdit/plugin-tex
+- @mdit/plugin-uml
 
 ## Project Status
 
