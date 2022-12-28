@@ -152,7 +152,55 @@ importers:
       katex: 0.16.4
       markdown-it: 13.0.1
 
+  packages/mark:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/stylize:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/sub:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/sup:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/tasklist:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
   packages/tex:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
+  packages/uml:
     specifiers:
       '@types/markdown-it': ^12.2.3
       markdown-it: ^13.0.1
