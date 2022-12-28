@@ -4,20 +4,7 @@
 
 img-lazyload plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-img-lazyload
-# npm
-npm i -D @mdit/plugin-img-lazyload
-# yarn
-yarn add -D @mdit/plugin-img-lazyload
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

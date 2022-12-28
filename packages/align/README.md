@@ -4,20 +4,7 @@
 
 align plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-align
-# npm
-npm i -D @mdit/plugin-align
-# yarn
-yarn add -D @mdit/plugin-align
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

@@ -4,20 +4,7 @@
 
 sup plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-sup
-# npm
-npm i -D @mdit/plugin-sup
-# yarn
-yarn add -D @mdit/plugin-sup
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

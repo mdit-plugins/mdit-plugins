@@ -4,20 +4,7 @@
 
 uml plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-uml
-# npm
-npm i -D @mdit/plugin-uml
-# yarn
-yarn add -D @mdit/plugin-uml
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

@@ -4,20 +4,7 @@
 
 footnote plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-footnote
-# npm
-npm i -D @mdit/plugin-footnote
-# yarn
-yarn add -D @mdit/plugin-footnote
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

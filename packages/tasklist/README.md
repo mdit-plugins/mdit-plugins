@@ -4,20 +4,7 @@
 
 tasklist plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-tasklist
-# npm
-npm i -D @mdit/plugin-tasklist
-# yarn
-yarn add -D @mdit/plugin-tasklist
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

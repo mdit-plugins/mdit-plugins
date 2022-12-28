@@ -72,20 +72,7 @@ files.forEach((pkgName) => {
 
 ${desc}.
 
-## Install
-
-\`\`\`bash
-# pnpm
-pnpm add -D @mdit/plugin-${pkgName}
-# npm
-npm i -D @mdit/plugin-${pkgName}
-# yarn
-yarn add -D @mdit/plugin-${pkgName}
-\`\`\`
-
----
-
-## 安装
+## Install / 安装
 
 \`\`\`bash
 # pnpm

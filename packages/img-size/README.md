@@ -4,20 +4,7 @@
 
 img-size plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-img-size
-# npm
-npm i -D @mdit/plugin-img-size
-# yarn
-yarn add -D @mdit/plugin-img-size
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

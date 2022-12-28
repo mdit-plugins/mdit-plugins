@@ -4,20 +4,7 @@
 
 img-mark plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-img-mark
-# npm
-npm i -D @mdit/plugin-img-mark
-# yarn
-yarn add -D @mdit/plugin-img-mark
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

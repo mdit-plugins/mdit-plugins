@@ -4,20 +4,7 @@
 
 katex plugin for MarkdownIt.
 
-## Install
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-katex
-# npm
-npm i -D @mdit/plugin-katex
-# yarn
-yarn add -D @mdit/plugin-katex
-```
-
----
-
-## 安装
+## Install / 安装
 
 ```bash
 # pnpm

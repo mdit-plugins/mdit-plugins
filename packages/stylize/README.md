@@ -4,7 +4,7 @@
 
 stylize plugin for MarkdownIt.
 
-## Install
+## Install / 安装
 
 ```bash
 # pnpm
