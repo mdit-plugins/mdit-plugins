@@ -1,6 +1,6 @@
 import MarkdownIt from "markdown-it";
 import { describe, it, expect } from "vitest";
-import { CHTML, mathjax, initMathjax } from "../src/index.js";
+import { CHTML, mathjax, createMathjaxInstance } from "../src/index.js";
 import { generateMathjaxStyle } from "../src/plugin.js";
 
 const examples = [
@@ -12,7 +12,7 @@ describe("Inline mathjax", () => {
   it("Should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
 
     examples.forEach((example) => {
@@ -39,7 +39,7 @@ describe("Inline mathjax", () => {
   it("Should output HTML", () => {
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({
+      createMathjaxInstance({
         output: "chtml",
       })
     );
@@ -69,11 +69,11 @@ describe("Inline mathjax", () => {
   it("Should output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({
+      createMathjaxInstance({
         output: "chtml",
       })
     );
@@ -97,11 +97,11 @@ describe("Inline mathjax", () => {
   it("Should not output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({ a11y: false })
+      createMathjaxInstance({ a11y: false })
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({
+      createMathjaxInstance({
         a11y: false,
         output: "chtml",
       })
@@ -126,7 +126,7 @@ describe("Inline mathjax", () => {
   it("Should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
 
     expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
@@ -137,7 +137,7 @@ describe("Block mathjax", () => {
   it("Should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
@@ -154,7 +154,7 @@ $$
   it("Should output HTML", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({ output: "chtml" })
+      createMathjaxInstance({ output: "chtml" })
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
@@ -171,7 +171,7 @@ $$
   it("Should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
 
     expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
@@ -188,7 +188,7 @@ $$
   it("Should not output warnings when content has line breaks", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      initMathjax({})
+      createMathjaxInstance({})
     );
 
     expect(
@@ -207,7 +207,7 @@ $$
 describe("Check generated style", () => {
   describe("Basic sample", () => {
     it("Should generate correct CSS with svg", () => {
-      const mathjaxInstance = initMathjax({ output: "svg" })!;
+      const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
       const markdownIt = MarkdownIt({ linkify: true }).use(
         mathjax,
         mathjaxInstance
@@ -217,7 +217,7 @@ describe("Check generated style", () => {
     });
 
     it("Should generate correct CSS with HTML", () => {
-      const mathjaxInstance = initMathjax({ output: "chtml" })!;
+      const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
       const markdownIt = MarkdownIt({ linkify: true }).use(
         mathjax,
         mathjaxInstance

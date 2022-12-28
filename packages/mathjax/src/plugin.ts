@@ -57,7 +57,7 @@ export interface MathjaxInstance {
   documentOptions: DocumentOptions;
 }
 
-export const initMathjax = (
+export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {}
 ): MathjaxInstance | null => {
   const documentOptions = getDocumentOptions(options);
