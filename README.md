@@ -8,7 +8,7 @@
 
 <!-- markdownlint-restore -->
 
-[![DeepScan grade](https://deepscan.io/api/teams/9792/projects/17544/branches/405512/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=9792&pid=17544&bid=405512)
+[![DeepScan grade](https://deepscan.io/api/teams/15982/projects/23409/branches/708702/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=15982&pid=23409&bid=708702)
 ![CodeQL](https://github.com/Mister-Hope/mdit-plugins/actions/workflows/codeql-analysis.yml/badge.svg)
 [![code cov](https://codecov.io/gh/Mister-Hope/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/Mister-Hope/mdit-plugins)
 ![Test](https://github.com/Mister-Hope/mdit-plugins/actions/workflows/test.yml/badge.svg)

@@ -1,3 +1,14 @@
 {
-  "cSpell.words": ["esbuild", "linkify", "mdit", "treeshake"]
+  "cSpell.words": [
+    "darkmode",
+    "esbuild",
+    "lazyload",
+    "lightmode",
+    "linkify",
+    "katex",
+    "markdownit",
+    "mdit",
+    "mhchem",
+    "treeshake"
+  ]
 }
