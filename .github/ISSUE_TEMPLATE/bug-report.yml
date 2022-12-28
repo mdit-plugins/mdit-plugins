@@ -1,0 +1,37 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[Bug]"
+labels:
+  - bug
+assignees: Mister-Hope
+body:
+  - type: input
+    id: package
+    attributes:
+      label: Package name
+      description: Which package are you reporting
+      placeholder: package name
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Describe the bug
+
+        > If applicable, add screenshots and log to help explain your problem.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: If you are not reporting something obvious, a minimal reproduction repo and related log is required.
+      placeholder: Add any other context about the problem here. Especially the issue occurs in certain OS, browser or configuration.
