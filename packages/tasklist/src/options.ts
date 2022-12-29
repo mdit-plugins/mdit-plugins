@@ -16,4 +16,40 @@ export interface MarkdownItTaskListOptions {
    * @default true
    */
   label?: boolean;
+
+  /**
+   * Class for tasklist container
+   *
+   * tasklist 容器的 class
+   *
+   * @default 'task-list-container'
+   */
+  containerClass?: string;
+
+  /**
+   * Class for tasklist item
+   *
+   * tasklist item 的 class
+   *
+   * @default 'task-list-item'
+   */
+  itemClass?: string;
+
+  /**
+   * Class for tasklist item label
+   *
+   * tasklist item label 的 class
+   *
+   * @default 'task-list-item-label'
+   */
+  labelClass?: string;
+
+  /**
+   * Class for tasklist item checkbox
+   *
+   * tasklist item checkbox 的 class
+   *
+   * @default 'task-list-item-checkbox'
+   */
+  checkboxClass?: string;
 }

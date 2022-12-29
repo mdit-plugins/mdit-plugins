@@ -67,6 +67,34 @@ interface MarkdownItTasklistOptions {
    * @default true
    */
   label?: boolean;
+
+  /**
+   * Class for tasklist container
+   *
+   * @default 'task-list-container'
+   */
+  containerClass?: string;
+
+  /**
+   * Class for tasklist item
+   *
+   * @default 'task-list-item'
+   */
+  itemClass?: string;
+
+  /**
+   * Class for tasklist item label
+   *
+   * @default 'task-list-item-label'
+   */
+  labelClass?: string;
+
+  /**
+   * Class for tasklist item checkbox
+   *
+   * @default 'task-list-item-checkbox'
+   */
+  checkboxClass?: string;
 }
 ```
 

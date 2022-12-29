@@ -31,12 +31,19 @@ const isTaskListItem = (tokens: Token[], index: number): boolean =>
   isListItemToken(tokens[index - 2]) &&
   startsWithTodoMarkdown(tokens[index]);
 
-const generateCheckbox = (token: Token, id: string, disabled = true): Token => {
+const generateCheckbox = (
+  token: Token,
+  id: string,
+  {
+    checkboxClass,
+    disabled,
+  }: Required<Pick<MarkdownItTaskListOptions, "checkboxClass" | "disabled">>
+): Token => {
   const checkbox = new Token("checkbox_input", "input", 0);
 
   checkbox.attrs = [
     ["type", "checkbox"],
-    ["class", "task-list-item-checkbox"],
+    ["class", checkboxClass],
     ["id", id],
   ];
 
@@ -49,11 +56,11 @@ const generateCheckbox = (token: Token, id: string, disabled = true): Token => {
   return checkbox;
 };
 
-const beginLabel = (id: string): Token => {
+const beginLabel = (id: string, labelClass: string): Token => {
   const label = new Token("label_open", "label", 1);
 
   label.attrs = [
-    ["class", "task-list-item-label"],
+    ["class", labelClass],
     ["for", id],
   ];
 
@@ -65,7 +72,12 @@ const endLabel = (): Token => new Token("label_close", "label", -1);
 const addCheckBox = (
   token: Token,
   state: TaskListStateCore,
-  options: Required<MarkdownItTaskListOptions>
+  {
+    disabled,
+    checkboxClass,
+    label,
+    labelClass,
+  }: Required<Omit<MarkdownItTaskListOptions, "containerClass" | "itemClass">>
 ): void => {
   const id = `task-item-${state.env.tasklists++}`;
 
@@ -74,18 +86,27 @@ const addCheckBox = (
   // remove the checkbox syntax letter
   token.children[0].content = token.children[0].content.slice(3);
 
-  if (options.label) {
+  if (label) {
     // add label
-    token.children.unshift(beginLabel(id));
+    token.children.unshift(beginLabel(id, labelClass));
     token.children.push(endLabel());
   }
   // checkbox
-  token.children.unshift(generateCheckbox(token, id, options.disabled));
+  token.children.unshift(
+    generateCheckbox(token, id, { checkboxClass, disabled })
+  );
 };
 
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   md,
-  { disabled = true, label = true } = {}
+  {
+    disabled = true,
+    label = true,
+    containerClass = "task-list-container",
+    itemClass = "task-list-item",
+    checkboxClass = "task-list-item-checkbox",
+    labelClass = "task-list-item-label",
+  } = {}
 ) => {
   md.core.ruler.after(
     "inline",
@@ -97,12 +118,17 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
       for (let i = 2; i < tokens.length; i++) {
         if (isTaskListItem(tokens, i)) {
-          addCheckBox(tokens[i], state, { disabled, label });
-          setTokenAttr(tokens[i - 2], "class", "task-list-item");
+          addCheckBox(tokens[i], state, {
+            disabled,
+            label,
+            checkboxClass,
+            labelClass,
+          });
+          setTokenAttr(tokens[i - 2], "class", itemClass);
           setTokenAttr(
             tokens[getParentTokenIndex(tokens, i - 2)],
             "class",
-            "task-list-container"
+            containerClass
           );
         }
       }
