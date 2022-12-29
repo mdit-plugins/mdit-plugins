@@ -245,7 +245,9 @@ const getTabsDataGetter =
         if (type === `${name}_tab_open`) {
           isTabStart = true;
 
-          // code tab is active
+          meta.index = tabData.length;
+
+          // tab is active
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (meta.active) {
             if (activeIndex === -1) activeIndex = tabData.length;
@@ -255,6 +257,8 @@ const getTabsDataGetter =
 
           tabData.push({
             title: info,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            index: meta.index as number,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             ...(meta.id ? { id: meta.id as string } : {}),
           });
@@ -286,6 +290,8 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
 
   return {
     title: info,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    index: meta.index as number,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ...(meta.id ? { id: meta.id as string } : {}),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

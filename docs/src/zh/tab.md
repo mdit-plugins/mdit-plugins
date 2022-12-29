@@ -62,22 +62,21 @@ mdIt.render("content");
 ```ts
 interface MarkdownItTabData {
   /**
-   * Title of tab
-   *
    * Tab 标题
    */
   title: string;
 
   /**
-   * Identifier of tab
-   *
+   * Tab 索引
+   */
+  index: number;
+
+  /**
    * Tab 标识符
    */
   id?: string;
 
   /**
-   * Whether the tab is active
-   *
    * Tab 是否激活
    */
   isActive?: boolean;
@@ -85,10 +84,6 @@ interface MarkdownItTabData {
 
 interface MarkdownItTabInfo {
   /**
-   * Which tab is active
-   *
-   * @description -1 means no tab is active
-   *
    * 激活的 Tab
    *
    * @description -1 表示没有 Tab 激活
@@ -96,8 +91,6 @@ interface MarkdownItTabInfo {
   active: number;
 
   /**
-   * Data of tabs
-   *
    * Tab 数据
    */
   data: MarkdownItTabData[];
@@ -105,8 +98,6 @@ interface MarkdownItTabInfo {
 
 interface MarkdownItTabOptions {
   /**
-   * The name of the tab container.
-   *
    * Tab 容器的名称。
    */
   name: string;

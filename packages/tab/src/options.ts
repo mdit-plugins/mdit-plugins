@@ -11,6 +11,13 @@ export interface MarkdownItTabData {
   title: string;
 
   /**
+   * Tab index
+   *
+   * Tab 索引
+   */
+  index: number;
+
+  /**
    * Identifier of tab
    *
    * Tab 标识符

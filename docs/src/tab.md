@@ -67,6 +67,11 @@ interface MarkdownItTabData {
   title: string;
 
   /**
+   * Tab index
+   */
+  index: number;
+
+  /**
    * Identifier of tab
    */
   id?: string;
