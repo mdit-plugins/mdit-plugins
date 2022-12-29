@@ -1,9 +1,12 @@
 <!-- markdownlint-disable -->
+<p align="center">
+  <img width="240" src="https://mister-hope.github.io/mdit-plugins/logo.svg" style="text-align: center;">
+</p>
 <h1 align="center">markdown-it plugin collections</h1>
 <h4 align="center">Some awesome markdown-it plugin written in typescript✨</h4>
 
 [![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mrhope.site)
-[![License](https://img.shields.io/npm/l/vuepress-theme-hope.svg?style=for-the-badge)](https://github.com/Mister-Hope/mdit-plugins/blob/main/LICENSE)
+[![License](https://img.shields.io/npm/l/@mdit/plugin-align.svg?style=for-the-badge)](https://github.com/Mister-Hope/mdit-plugins/blob/main/LICENSE)
 [![Open in Visual Studio Code](https://img.shields.io/badge/-open%20in%20vscode-blue?style=for-the-badge&logo=visualstudiocode)](https://open.vscode.dev/Mister-Hope/mdit-plugins)
 
 <!-- markdownlint-restore -->
@@ -12,6 +15,8 @@
 ![CodeQL](https://github.com/Mister-Hope/mdit-plugins/actions/workflows/codeql-analysis.yml/badge.svg)
 [![code cov](https://codecov.io/gh/Mister-Hope/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/Mister-Hope/mdit-plugins)
 ![Test](https://github.com/Mister-Hope/mdit-plugins/actions/workflows/test.yml/badge.svg)
+
+## [English Docs](https://mister-hope.github.io/mdit-plugins/) | [中文文档](https://mister-hope.github.io/mdit-plugins/zh/)
 
 ## Contact
 
