@@ -180,7 +180,7 @@ export const resolveInclude = (
 
         if (result) {
           const [, includePath, region, lineStart, lineEnd] = result;
-          const actualPath = options.getPath(includePath, cwd);
+          const actualPath = options.resolvePath(includePath, cwd);
           const resolvedPath =
             options.resolveImagePath || options.resolveLinkPath;
 
@@ -219,7 +219,7 @@ export const createIncludeCoreRule =
   (state): void => {
     const env = <IncludeEnv>state.env;
     const includedFiles = env.includedFiles || (env.includedFiles = []);
-    const currentPath = options.getCurrentPath(env);
+    const currentPath = options.currentPath(env);
 
     state.src = resolveInclude(state.src, options, {
       cwd: currentPath ? path.dirname(currentPath) : null,
@@ -311,14 +311,14 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
   options
 ): void => {
   const {
-    getCurrentPath,
-    getPath = (path: string): string => path,
+    currentPath,
+    resolvePath = (path: string): string => path,
     deep = false,
     resolveLinkPath = true,
     resolveImagePath = true,
   } = options || {};
 
-  if (typeof getCurrentPath !== "function")
+  if (typeof currentPath !== "function")
     return console.error(
       '[@mdit/plugin-include]: "getCurrentPath" is required'
     );
@@ -328,8 +328,8 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     "normalize",
     "md_import",
     createIncludeCoreRule({
-      getCurrentPath,
-      getPath,
+      currentPath,
+      resolvePath,
       deep,
       resolveLinkPath,
       resolveImagePath,
@@ -386,10 +386,9 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         self
       ): string => {
         const token = tokens[index];
-        const currentPath = getCurrentPath(env);
+        const path = currentPath(env);
 
-        if (currentPath)
-          resolveRelatedLink("src", token, currentPath, env.includedPaths);
+        if (path) resolveRelatedLink("src", token, path, env.includedPaths);
 
         // pass token to default renderer.
         return defaultImageRenderer(tokens, index, options, env, self);
@@ -410,10 +409,9 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         self
       ): string => {
         const token = tokens[index];
-        const currentPath = getCurrentPath(env);
+        const path = currentPath(env);
 
-        if (currentPath)
-          resolveRelatedLink("href", token, currentPath, env.includedPaths);
+        if (path) resolveRelatedLink("href", token, path, env.includedPaths);
 
         // pass token to default renderer.
         return defaultLinkRenderer(tokens, index, options, env, self);

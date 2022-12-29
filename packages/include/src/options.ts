@@ -7,7 +7,7 @@ export interface MarkdownItIncludeOptions {
    * @default (path) => path
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getCurrentPath: (env: any) => string;
+  currentPath: (env: any) => string;
 
   /**
    * handle include filePath
@@ -17,7 +17,7 @@ export interface MarkdownItIncludeOptions {
    * @default (path) => path
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getPath?: (path: string, cwd: string | null) => string;
+  resolvePath?: (path: string, cwd: string | null) => string;
 
   /**
    * Whether deep include files in included Markdown files
