@@ -392,7 +392,3 @@ $$
 ### Text
 
 To insert text in TeX, you should use `\text{}` to wrap them.
-
-<script setup lang="ts">
-import KatexPlayground from '@KatexPlayground';
-</script>

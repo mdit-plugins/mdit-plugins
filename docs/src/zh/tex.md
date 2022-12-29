@@ -390,7 +390,3 @@ $$
 ### 文字
 
 如果你需要在公式中插入文字，请使用 `\text{}`。
-
-<script setup lang="ts">
-import KatexPlayground from '@KatexPlayground';
-</script>

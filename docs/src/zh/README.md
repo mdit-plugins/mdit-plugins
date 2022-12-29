@@ -20,6 +20,7 @@ icon: home
 - [@mdit/plugin-stylize](stylize.md)
 - [@mdit/plugin-sub](sub.md)
 - [@mdit/plugin-sup](sup.md)
+- [@mdit/plugin-tab](tab.md)
 - [@mdit/plugin-tasklist](tasklist.md)
 - [@mdit/plugin-tex](tex.md)
 - [@mdit/plugin-uml](uml.md)

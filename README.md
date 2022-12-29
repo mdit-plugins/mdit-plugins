@@ -41,6 +41,7 @@ This repo contains the following plugins:
 - @mdit/plugin-stylize
 - @mdit/plugin-sub
 - @mdit/plugin-sup
+- @mdit/plugin-tab
 - @mdit/plugin-tasklist
 - @mdit/plugin-tex
 - @mdit/plugin-uml

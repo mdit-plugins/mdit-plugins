@@ -55,6 +55,7 @@ export default hopeTheme({
       mathjax: true,
       sub: true,
       sup: true,
+      tabs: true,
       tasklist: true,
     },
   },

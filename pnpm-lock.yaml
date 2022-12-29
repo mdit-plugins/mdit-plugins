@@ -260,6 +260,14 @@ importers:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
 
+  packages/tab:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      markdown-it: ^13.0.1
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+
   packages/tasklist:
     specifiers:
       '@types/markdown-it': ^12.2.3
