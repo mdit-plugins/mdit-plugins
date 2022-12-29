@@ -21,9 +21,11 @@ export default defineUserConfig({
 
   markdown: {
     code: {
-      lineNumbers: 20,
+      lineNumbers: 10,
     },
   },
+
+  pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
     md.use(container, {
