@@ -43,6 +43,29 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 - If there are multiple paragraph in footnote, the paragraph show be double indented.
 
+::: tip Nesting and escaping
+
+- Nestings are supported:
+
+  ```md
+  Footnote 1 link[^first].
+
+  [^first]: Footnote can reference [^second].
+  [^second]: Other footnote.
+  ```
+
+- Escaping can be done by adding `\`:
+
+  ```md
+  The following \[^first] is not a footnote.
+  ```
+
+  will be
+
+  The following \[^first] is not a footnote.
+
+:::
+
 ## Demo
 
 Footnote 1 link[^first].
@@ -51,11 +74,11 @@ Footnote 2 link[^second].
 
 Inline footnote^[Text of inline footnote] definition.
 
-Duplicated footnote reference[^second].
+Duplicated footnote reference.
 
 [^first]: Footnote **can have markup**
 
-    and multiple paragraphs.
+    and multiple paragraphs[^second].
 
 [^second]: Footnote text.
 

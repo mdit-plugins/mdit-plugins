@@ -43,6 +43,29 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 - 如果脚注包含多个段落，其后的段落应当保持双层缩进。
 
+::: tip 嵌套和转义
+
+- 支持嵌套：
+
+  ```MD
+  脚注 1 链接 [^first]。
+
+  [^first]：脚注可以参考[^second]。
+  [^second]：其他脚注。
+  ```
+
+- 转义可以通过添加 `\` 来完成：
+
+  ```MD
+  紧随的 \[^first] 不是脚注。
+  ```
+
+  将渲染为
+
+  紧随的 \[^first] 不是脚注。
+
+::::
+
 ## 例子
 
 脚注 1 链接[^first]。
