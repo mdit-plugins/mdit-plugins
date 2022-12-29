@@ -283,38 +283,38 @@ const describeTestsWithOptions = (
     it(replaceDelimiters("should add classes for list items", options), () => {
       const src = "- item 1{.red}\n- item 2";
 
-      let expected = "";
-
-      expected += "<ul>\n";
-      expected += '<li class="red">item 1</li>\n';
-      expected += "<li>item 2</li>\n";
-      expected += "</ul>\n";
+      const expected = `\
+<ul>
+<li class="red">item 1</li>
+<li>item 2</li>
+</ul>
+`;
 
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
 
     it(replaceDelimiters("should add classes in nested lists", options), () => {
-      let src = "";
+      const src = `\
+- item 1{.a}
+  - nested item {.b}
+  {.c}
+    1. nested nested item {.d}
+    {.e}
+`;
 
-      src += "- item 1{.a}\n";
-      src += "  - nested item {.b}\n";
-      src += "  {.c}\n";
-      src += "    1. nested nested item {.d}\n";
-      src += "    {.e}\n";
-
-      let expected = "";
-
-      expected += "<ul>\n";
-      expected += '<li class="a">item 1\n';
-      expected += '<ul class="c">\n';
-      expected += '<li class="b">nested item\n';
-      expected += '<ol class="e">\n';
-      expected += '<li class="d">nested nested item</li>\n';
-      expected += "</ol>\n";
-      expected += "</li>\n";
-      expected += "</ul>\n";
-      expected += "</li>\n";
-      expected += "</ul>\n";
+      const expected = `\
+<ul>
+<li class="a">item 1
+<ul class="c">
+<li class="b">nested item
+<ol class="e">
+<li class="d">nested nested item</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+`;
 
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
@@ -324,12 +324,11 @@ const describeTestsWithOptions = (
       () => {
         const src = "- **bold *italics*{.blue}**{.green}";
 
-        let expected = "";
-
-        expected += "<ul>\n";
-        expected +=
-          '<li><strong class="green">bold <em class="blue">italics</em></strong></li>\n';
-        expected += "</ul>\n";
+        const expected = `\
+<ul>
+<li><strong class="green">bold <em class="blue">italics</em></strong></li>
+</ul>
+`;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected
@@ -354,11 +353,11 @@ const describeTestsWithOptions = (
       () => {
         const src = "- **bold** text {.red}";
 
-        let expected = "";
-
-        expected += "<ul>\n";
-        expected += '<li class="red"><strong>bold</strong> text</li>\n';
-        expected += "</ul>\n";
+        const expected = `\
+<ul>
+<li class="red"><strong>bold</strong> text</li>
+</ul>
+`;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected
@@ -399,11 +398,11 @@ const describeTestsWithOptions = (
       () => {
         const src = "- item{.red}\n{.blue}";
 
-        let expected = "";
-
-        expected += '<ul class="blue">\n';
-        expected += '<li class="red">item</li>\n';
-        expected += "</ul>\n";
+        const expected = `\
+<ul class="blue">
+<li class="red">item</li>
+</ul>
+`;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected
@@ -416,11 +415,11 @@ const describeTestsWithOptions = (
       () => {
         const src = "- item\n{.blue}";
 
-        let expected = "";
-
-        expected += '<ul class="blue">\n';
-        expected += "<li>item</li>\n";
-        expected += "</ul>\n";
+        const expected = `\
+<ul class="blue">
+<li>item</li>
+</ul>
+`;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected
@@ -436,11 +435,11 @@ const describeTestsWithOptions = (
       () => {
         const src = "- item\n*{.blue}*";
 
-        let expected = "";
-
-        expected += "<ul>\n";
-        expected += "<li>item\n<em>{.blue}</em></li>\n";
-        expected += "</ul>\n";
+        const expected = `\
+<ul>
+<li>item\n<em>{.blue}</em></li>
+</ul>
+`;
 
         expect(markdownIt.render(src)).toBe(expected);
       }
@@ -449,11 +448,11 @@ const describeTestsWithOptions = (
     it(replaceDelimiters("should work with ordered lists", options), () => {
       const src = "1. item\n{.blue}";
 
-      let expected = "";
-
-      expected += '<ol class="blue">\n';
-      expected += "<li>item</li>\n";
-      expected += "</ol>\n";
+      const expected = `\
+<ol class="blue">
+<li>item</li>
+</ol>
+`;
 
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
@@ -504,52 +503,51 @@ const describeTestsWithOptions = (
     });
 
     it(replaceDelimiters("should support tables", options), () => {
-      let src = "";
+      const src = `\
+| h1 | h2 |
+| -- | -- |
+| c1 | c1 |
 
-      src += "| h1 | h2 |\n";
-      src += "| -- | -- |\n";
-      src += "| c1 | c1 |\n";
-      src += "\n";
-      src += "{.c}";
+{.c}`;
 
-      let expected = "";
-
-      expected += '<table class="c">\n';
-      expected += "<thead>\n";
-      expected += "<tr>\n";
-      expected += "<th>h1</th>\n";
-      expected += "<th>h2</th>\n";
-      expected += "</tr>\n";
-      expected += "</thead>\n";
-      expected += "<tbody>\n";
-      expected += "<tr>\n";
-      expected += "<td>c1</td>\n";
-      expected += "<td>c1</td>\n";
-      expected += "</tr>\n";
-      expected += "</tbody>\n";
-      expected += "</table>\n";
+      const expected = `\
+<table class="c">
+<thead>
+<tr>
+<th>h1</th>
+<th>h2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>c1</td>
+<td>c1</td>
+</tr>
+</tbody>
+</table>
+`;
 
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
 
     it(replaceDelimiters("should support nested lists", options), () => {
-      let src = "";
+      const src = `\
+- item
+  - nested
+  {.red}
 
-      src += "- item\n";
-      src += "  - nested\n";
-      src += "  {.red}\n";
-      src += "\n";
-      src += "{.blue}\n";
+{.blue}
+`;
 
-      let expected = "";
-
-      expected += '<ul class="blue">\n';
-      expected += "<li>item\n";
-      expected += '<ul class="red">\n';
-      expected += "<li>nested</li>\n";
-      expected += "</ul>\n";
-      expected += "</li>\n";
-      expected += "</ul>\n";
+      const expected = `\
+<ul class="blue">
+<li>item
+<ul class="red">
+<li>nested</li>
+</ul>
+</li>
+</ul>
+`;
 
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });

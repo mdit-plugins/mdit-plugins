@@ -3,9 +3,8 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - none
-      # - main
-      # - work
+      - main
+      - work
 
 jobs:
   deploy-gh-pages:
@@ -38,11 +37,11 @@ jobs:
       - name: Docs build
         env:
           NODE_OPTIONS: --max_old_space_size=8192
-        run: pnpm run docs:vite-build
+        run: pnpm run docs:build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: docs/.vuepress/dist
+          folder: docs/src/.vuepress/dist
           single-commit: true

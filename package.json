@@ -8,8 +8,8 @@
     "build": "cross-env NODE_ENV=production pnpm run --stream -r build",
     "clean": "pnpm run --stream -r clean",
     "commit": "pnpm git-cz",
-    "docs:build": "pnpm run --filter=docs build",
-    "docs:dev": "pnpm run --filter=docs dev",
+    "docs:build": "pnpm run --filter=docs docs:build",
+    "docs:dev": "pnpm run --filter=docs docs:dev",
     "postinstall": "husky install",
     "lint": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
     "lint:check": "pnpm lint:prettier && pnpm lint:eslint",
@@ -97,5 +97,27 @@
     "package.json": [
       "sort-package-json"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "@mdit/plugin-align": "workspace:*",
+      "@mdit/plugin-attrs": "workspace:*",
+      "@mdit/plugin-container": "workspace:*",
+      "@mdit/plugin-figure": "workspace:*",
+      "@mdit/plugin-footnote": "workspace:*",
+      "@mdit/plugin-img-lazyload": "workspace:*",
+      "@mdit/plugin-img-mark": "workspace:*",
+      "@mdit/plugin-img-size": "workspace:*",
+      "@mdit/plugin-include": "workspace:*",
+      "@mdit/plugin-katex": "workspace:*",
+      "@mdit/plugin-mathjax": "workspace:*",
+      "@mdit/plugin-mark": "workspace:*",
+      "@mdit/plugin-stylize": "workspace:*",
+      "@mdit/plugin-sub": "workspace:*",
+      "@mdit/plugin-sup": "workspace:*",
+      "@mdit/plugin-tasklist": "workspace:*",
+      "@mdit/plugin-tex": "workspace:*",
+      "@mdit/plugin-uml": "workspace:*"
+    }
   }
 }
