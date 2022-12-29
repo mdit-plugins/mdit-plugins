@@ -42,6 +42,8 @@ export interface MarkdownItAttrsOptions {
   /**
    * Rules to enable
    *
+   * 启用的规则
+   *
    * @default "all"
    */
   rule?: "all" | boolean | MarkdownItAttrRuleName[];

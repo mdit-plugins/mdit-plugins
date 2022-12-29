@@ -3,9 +3,8 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - none
-      # - main
-      # - work
+      - main
+      - work
 
 jobs:
   deploy-gh-pages:
