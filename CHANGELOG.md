@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.2.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.1...v0.2.2) (2022-12-29)
+
+### Bug Fixes
+
+- **tab:** fix multiple instance issue ([907130b](https://github.com/Mister-Hope/mdit-plugins/commit/907130bbe621ffed45b85873751b557d3432953e))
+
 ### [0.2.1](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.0...v0.2.1) (2022-12-29)
 
 ### Features
