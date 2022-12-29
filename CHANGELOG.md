@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.2.1](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.0...v0.2.1) (2022-12-29)
+
+### Features
+
+- **tab:** add index information ([356c5a5](https://github.com/Mister-Hope/mdit-plugins/commit/356c5a5296c8c5997bf6b85995fd32f379efbb07))
+
 ## [0.2.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.1.0...v0.2.0) (2022-12-29)
 
 ### ⚠ BREAKING CHANGES
