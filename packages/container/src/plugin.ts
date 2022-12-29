@@ -69,7 +69,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
     if (!validate(params, markup)) return false;
 
     // Since start is found, we can report success here in validation mode
-
     if (silent) return true;
 
     let nextLine = startLine;

@@ -13,8 +13,9 @@ import type {
 const TAB_MARKER = `@tab`;
 
 const getTabRule =
-  (name: string): RuleBlock =>
+  (name: string, store: { state: string | null }): RuleBlock =>
   (state, startLine, endLine, silent) => {
+    if (store.state !== name) return false;
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
 
@@ -89,11 +90,13 @@ const getTabRule =
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
-    const [title, id] = info.replace(/^:active/, "").split("#", 2);
+    const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
+      info.replace(/^:active/, "")
+    )!;
 
     openToken.block = true;
     openToken.markup = markup;
-    openToken.info = title.trim();
+    openToken.info = title.trim().replace(/\\#/g, "#");
     openToken.meta = {
       active: info.includes(":active"),
     };
@@ -101,7 +104,7 @@ const getTabRule =
     if (id) openToken.meta.id = id.trim();
     openToken.map = [startLine, nextLine];
 
-    state.md.block.tokenize(state, startLine + 1, nextLine);
+    state.md.block.tokenize(state, startLine + 1, nextLine + 1);
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -116,7 +119,7 @@ const getTabRule =
   };
 
 const getTabsRule =
-  (name: string): RuleBlock =>
+  (name: string, store: { state: string | null }): RuleBlock =>
   (state, startLine, endLine, silent) => {
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
@@ -147,7 +150,6 @@ const getTabsRule =
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
-    // Search for the end of the block
     let nextLine = startLine;
     let autoClosed = false;
 
@@ -169,7 +171,6 @@ const getTabsRule =
 
       if (
         // match start
-
         state.src[start] === ":" &&
         // closing fence should be indented less than 4 spaces
         state.sCount[nextLine] - state.blkIndent < 4
@@ -209,11 +210,17 @@ const getTabsRule =
     openToken.meta = { id: id.trim() };
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
+    const originalState = store.state;
+
+    store.state = name;
+
     state.md.block.tokenize(
       state,
       startLine + 1,
       nextLine - (autoClosed ? 1 : 0)
     );
+
+    store.state = originalState;
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
@@ -233,14 +240,27 @@ const getTabsDataGetter =
     const tabData: MarkdownItTabData[] = [];
     let activeIndex = -1;
     let isTabStart = false;
+    let nestingDepth = -1;
 
     for (let i = index; i < tokens.length; i++) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { block, meta, type, info } = tokens[i];
 
       if (block) {
-        if (type === `${name}_tabs_close`) break;
-        if (type === `${name}_tabs_open`) continue;
+        if (type === `${name}_tabs_open`) {
+          nestingDepth += 1;
+          continue;
+        }
+
+        if (type === `${name}_tabs_close`) {
+          if (nestingDepth === 0) break;
+          else {
+            nestingDepth -= 1;
+            continue;
+          }
+        }
+
+        if (nestingDepth > 0) continue;
 
         if (type === `${name}_tab_open`) {
           isTabStart = true;
@@ -299,6 +319,8 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
   };
 };
 
+const store = { state: null };
+
 export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
@@ -311,10 +333,12 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       _env: unknown,
       self: Renderer
     ): string => {
-      const token = tokens[index];
       const { active, data } = info;
+      const token = tokens[index];
 
       token.attrJoin("class", `${name}-tabs-wrapper`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (token.meta.id) token.attrJoin("data-id", token.meta.id as string);
 
       const tabs = data.map(
         ({ title, id }, index) =>
@@ -351,6 +375,9 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
         "class",
         `${name}-tab-content${info.isActive ? " active" : ""}`
       );
+      token.attrSet("data-index", info.index.toString());
+      if (info.id) token.attrSet("data-id", info.id.toString());
+
       if (info.isActive) token.attrJoin("data-active", "");
 
       return `<div${self.renderAttrs(tokens[index])}>`;
@@ -361,11 +388,11 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   const tabsDataGetter = getTabsDataGetter(name);
 
-  md.block.ruler.before("fence", `${name}_tabs`, getTabsRule(name), {
+  md.block.ruler.before("fence", `${name}_tabs`, getTabsRule(name, store), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.block.ruler.before("fence", `${name}_tab`, getTabRule(name), {
+  md.block.ruler.before("paragraph", `${name}_tab`, getTabRule(name, store), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
