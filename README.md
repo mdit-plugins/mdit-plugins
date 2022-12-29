@@ -34,6 +34,7 @@ This repo contains the following plugins:
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
+- @mdit/plugin-include
 - @mdit/plugin-katex
 - @mdit/plugin-mathjax
 - @mdit/plugin-mark

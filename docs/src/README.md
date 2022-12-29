@@ -13,6 +13,7 @@ This collection contains the following plugins:
 - [@mdit/plugin-img-lazyload](img-lazyload.md)
 - [@mdit/plugin-img-mark](img-mark.md)
 - [@mdit/plugin-img-size](img-size.md)
+- [@mdit/plugin-include](include.md)
 - [@mdit/plugin-katex](katex.md)
 - [@mdit/plugin-mathjax](mathjax.md)
 - [@mdit/plugin-mark](mark.md)
