@@ -30,7 +30,7 @@ mdIt.render("$E=mc^2$");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { katex } = require("@mdit/plugin-katex");
 

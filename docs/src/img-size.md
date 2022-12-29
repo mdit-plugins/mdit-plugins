@@ -24,7 +24,7 @@ mdIt.render("![image](https://example.com/image.png =300x200)");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { imgSize } = require("@mdit/plugin-img-size");
 

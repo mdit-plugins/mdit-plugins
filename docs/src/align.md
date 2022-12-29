@@ -34,7 +34,7 @@ Contents to align center
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { align } = require("@mdit/plugin-align");
 

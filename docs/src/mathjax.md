@@ -36,7 +36,7 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const {
   createMathjaxInstance,

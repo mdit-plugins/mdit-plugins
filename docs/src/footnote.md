@@ -24,7 +24,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { footnote } = require("@mdit/plugin-footnote");
 

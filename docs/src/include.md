@@ -29,7 +29,7 @@ mdIt.render("@include(./path/to/include/file.md)", {
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { include } = require("@mdit/plugin-include");
 
@@ -168,7 +168,7 @@ mdIt.render("@include(./path/to/include/file.md)", {
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { include } = require("@mdit/plugin-include");
 

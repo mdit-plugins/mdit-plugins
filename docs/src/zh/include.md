@@ -29,7 +29,7 @@ mdIt.render("@include(./path/to/include/file.md)", {
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { include } = require("@mdit/plugin-include");
 
@@ -91,7 +91,7 @@ mdIt.use(include, {
 
 - `@include(filename#region)`
 
-::: info 文件区域
+:::: info 文件区域
 
 文件区域是 vscode 中的一个概念，区域内容被 `#region` 和 `#endregion` 注释包围。
 
@@ -168,7 +168,7 @@ mdIt.render("@include(./path/to/include/file.md)", {
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { include } = require("@mdit/plugin-include");
 

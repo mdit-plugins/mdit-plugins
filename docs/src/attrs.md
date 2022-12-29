@@ -26,7 +26,7 @@ mdIt.render("# Heading 🎉{#heading}");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { attrs } = require("@mdit/plugin-attrs");
 

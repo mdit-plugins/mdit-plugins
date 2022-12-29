@@ -24,7 +24,7 @@ mdIt.render("![Image](https://example.com/image.png)");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { imgLazyload } = require("@mdit/plugin-img-lazyload");
 

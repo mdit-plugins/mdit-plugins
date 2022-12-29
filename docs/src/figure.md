@@ -26,7 +26,7 @@ mdIt.render("![image](https://example.com/image.png)");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { figure } = require("@mdit/plugin-figure");
 

@@ -26,7 +26,7 @@ mdIt.render("![image](https://example.com/image.png#light)");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { imgMark } = require("@mdit/plugin-img-mark");
 

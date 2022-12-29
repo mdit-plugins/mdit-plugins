@@ -24,7 +24,7 @@ mdIt.render("VuePress Theme Hope is ==powerful==.");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { mark } = require("@mdit/plugin-mark");
 

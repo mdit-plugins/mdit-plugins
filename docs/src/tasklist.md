@@ -3,8 +3,79 @@ title: "@mdit/plugin-tasklist"
 icon: check
 ---
 
-::: tip TODO
+Plugins to support tasklist.
 
-Docs are on the way
+<!-- more -->
+
+## Usage
+
+::: code-tabs#language
+
+@tab TS
+
+```ts
+import MarkdownIt from "markdown-it";
+import { tasklist } from "@mdit/plugin-tasklist";
+
+const mdIt = MarkdownIt().use(tasklist, {
+  // your options, optional
+});
+
+mdIt.render(`\
+- [x] task 1
+- [ ] task 2
+`);
+```
+
+@tab JS
+
+```js
+const MarkdownIt = require("markdown-it");
+const { tasklist } = require("@mdit/plugin-tasklist");
+
+const mdIt = MarkdownIt().use(tasklist, {
+  // your options, optional
+});
+
+mdIt.render(`\
+- [x] task 1
+- [ ] task 2
+`);
+```
 
 :::
+
+## Syntax
+
+- Use `- [ ] some text` to render a unchecked task item.
+- Use `- [x] some text` to render a checked task item. (Capital `X` is also supported)
+
+## Options
+
+```ts
+interface MarkdownItTasklistOptions {
+  /**
+   * Whether disable checkbox
+   *
+   * @default true
+   */
+  disabled?: boolean;
+
+  /**
+   * Whether use `<label>` to wrap text
+   *
+   * @default true
+   */
+  label?: boolean;
+}
+```
+
+## Demo
+
+- [ ] Plan A
+- [x] Plan B
+
+```md
+- [ ] Plan A
+- [x] Plan B
+```

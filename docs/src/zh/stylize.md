@@ -28,7 +28,7 @@ mdIt.render("Check FAQ for more details._Recommanded_");
 
 @tab JS
 
-```ts
+```js
 const MarkdownIt = require("markdown-it");
 const { stylize } = require("@mdit/plugin-stylize");
 
