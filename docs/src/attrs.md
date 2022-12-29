@@ -136,10 +136,10 @@ interface MarkdownItAttrsOptions {
 
 ### Inline
 
-Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.emphasis} and **bold**{.bold}.
+Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.inline-emphasis} and **bold**{.inline-bold}.
 
 ```md
-Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.emphasis} and **bold**{.bold}.
+Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.inline-emphasis} and **bold**{.inline-bold}.
 ```
 
 ### Block
@@ -228,8 +228,8 @@ A line with break
 .list,
 .list-item,
 .nested,
-.emphasis,
-.bold,
+.inline-emphasis,
+.inline-bold,
 .table,
 .fence {
   margin: 4px;

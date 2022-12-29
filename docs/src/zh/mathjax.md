@@ -13,7 +13,7 @@ icon: tex
 
 <!-- more -->
 
-## Usage
+## 使用
 
 :::: code-tabs#language
 
@@ -53,9 +53,9 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 ::::
 
-这个插件与其他插件有点不同。 它要求您先创建一个 Mathjax 实例，然后将其传递给插件。
+这个插件与其他插件有点不同。 它要求你先创建一个 Mathjax 实例，然后将其传递给插件。
 
-该实例保存每次调用的渲染内容，因此您在所有渲染完成后调用 `generateMathjaxStyle` 获取使用过的样式。
+该实例保存每次调用的渲染内容，因此你在所有渲染完成后调用 `generateMathjaxStyle` 获取使用过的样式。
 
 如果你正在构建一个网站，你可以在页面之间共享相同的实例，并在所有页面呈现后调用 `generateMathjaxStyle` 以获得最终的 CSS，但是如果你正在为单个页面创建预览，你应该为每个页面创建一个新实例以防止样式包含其他页面内容。
 

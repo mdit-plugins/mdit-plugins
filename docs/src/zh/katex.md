@@ -47,7 +47,7 @@ mdIt.render("$E=mc^2$");
 
 ::: tip 样式
 
-您应该自己从 `katex` 包或 CDN 导入 `katex/dist/katex.min.css`。
+你应该自己从 `katex` 包或 CDN 导入 `katex/dist/katex.min.css`。
 
 :::
 

@@ -3,11 +3,11 @@ title: "@mdit/plugin-img-size"
 icon: resize
 ---
 
-Plugins to support image size syntax.
+支持图片尺寸的插件。
 
 <!-- more -->
 
-## Usage
+## 使用
 
 ::: code-tabs#language
 

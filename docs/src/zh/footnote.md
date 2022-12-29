@@ -7,7 +7,7 @@ icon: quote
 
 <!-- more -->
 
-## 用法
+## 使用
 
 ::: code-tabs#language
 

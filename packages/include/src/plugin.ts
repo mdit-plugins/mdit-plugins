@@ -30,7 +30,6 @@ interface IncludeInfo {
 
 const INDENT_RE = /^([ \t]*)(.*)\n/gm;
 const REGIONS_RE = [
-  /^<!-- ?#?((?:end)?region) ([\w*-]+) ?-->$/, // markdown
   /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
   /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
   /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++

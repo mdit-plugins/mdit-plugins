@@ -136,10 +136,10 @@ interface MarkdownItAttrsOptions {
 
 ### Inline
 
-包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.emphasis} 和 **加粗**{.bold}。
+包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.inline-emphasis} 和 **加粗**{.inline-bold}。
 
 ```md
-包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.emphasis} 和 **加粗**{.bold}。
+包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.inline-emphasis} 和 **加粗**{.inline-bold}。
 ```
 
 ### Block
@@ -228,8 +228,8 @@ const a = 1;
 .list,
 .list-item,
 .nested,
-.emphasis,
-.bold,
+.inline-emphasis,
+.inline-bold,
 .table,
 .fence {
   margin: 4px;

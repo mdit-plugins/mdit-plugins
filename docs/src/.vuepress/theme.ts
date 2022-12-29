@@ -51,6 +51,7 @@ export default hopeTheme({
       imgLazyload: true,
       imgMark: true,
       imgSize: true,
+      include: true,
       mathjax: true,
       sub: true,
       sup: true,

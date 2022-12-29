@@ -7,7 +7,7 @@ icon: load
 
 <!-- more -->
 
-## 用法
+## 使用
 
 ::: code-tabs#language
 
@@ -41,6 +41,6 @@ mdIt.render("![Image](https://example.com/image.png)");
 
 ::: note
 
-这是 HTML5 的原生功能，因此您的浏览器必须支持 [loading=lazy 属性](https://caniuse.com/loading-lazy-attr)。
+这是 HTML5 的原生功能，因此你的浏览器必须支持 [loading=lazy 属性](https://caniuse.com/loading-lazy-attr)。
 
 ::::

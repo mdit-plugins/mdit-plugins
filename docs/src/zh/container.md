@@ -43,7 +43,7 @@ mdIt.render("# Heading 🎉{#heading}");
 
 ## 格式
 
-使用此插件，您可以创建块容器，例如:
+使用此插件，你可以创建块容器，例如:
 
 ```md
 ::: warning
@@ -148,11 +148,10 @@ interface MarkdownItContainerOptions {
 md.use(container, {
   name: "hint",
   openRender: (tokens, index, _options) => {
-    const token = tokens[index];
-    // resolve info (title)
-    let info = token.info.trim().slice(4).trim();
+    const info = tokens[index].info.trim().slice(4).trim();
+
     return `<div class="custom-container hint">\n<p class="custom-container-title">${
-      info || "提示"
+      info || "Hint"
     }</p>\n`;
   },
 });

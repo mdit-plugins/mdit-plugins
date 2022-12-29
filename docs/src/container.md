@@ -148,9 +148,8 @@ With some styles and:
 md.use(container, {
   name: "hint",
   openRender: (tokens, index, _options) => {
-    const token = tokens[index];
-    // resolve info (title)
-    let info = token.info.trim().slice(4).trim();
+    const info = tokens[index].info.trim().slice(4).trim();
+
     return `<div class="custom-container hint">\n<p class="custom-container-title">${
       info || "Hint"
     }</p>\n`;
