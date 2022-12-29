@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.1.0...v0.2.0) (2022-12-29)
+
+### ⚠ BREAKING CHANGES
+
+- **include:** rename `getCurrentPath` to `currentPath`
+  rename `getPath` to `resolvePath`
+
+### Features
+
+- add tab plugin ([96d116a](https://github.com/Mister-Hope/mdit-plugins/commit/96d116a232b363892f095792c12453580bcd490d))
+- **include:** update options ([7ccf4b9](https://github.com/Mister-Hope/mdit-plugins/commit/7ccf4b9d60a0337c503a8aae1c9f314363970f83))
+- **tasklist:** add options for class name ([cdc1ff6](https://github.com/Mister-Hope/mdit-plugins/commit/cdc1ff64db2379091f19bef8925ed4b9ca141770))
+
 ## [0.1.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.1.0-alpha.1...v0.1.0) (2022-12-28)
 
 ### Features
