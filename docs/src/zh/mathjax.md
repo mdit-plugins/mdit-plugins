@@ -63,6 +63,20 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 你应该在行内使用 `$tex expression$`，在块中使用 `$$tex expression$$`。
 
+::: tip 转义
+
+- 你可以使用 `\` 来转义 `$`:
+
+  ```md
+  Euler’s identity \$e^{i\pi}+1=0$
+  ```
+
+  会被渲染为
+
+  Euler’s identity \$e^{i\pi}+1=0$
+
+:::
+
 ## 示例
 
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.

@@ -339,6 +339,21 @@ namespace HelloWorldApp {
 
 ::::
 
+::: tip 嵌套与转义
+
+- 你可以在选项中设置 `deep: true` 让插件递归处理导入 Markdown 文件的 `@include()` 语法。
+- 你可以通过在 `\` 转义 `@`
+
+  ```md
+  \@include(./demo.snippet.md)
+  ```
+
+  会被渲染为
+
+  \@include(./demo.snippet.md)
+
+:::
+
 ## 选项
 
 ```ts

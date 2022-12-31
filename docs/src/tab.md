@@ -57,6 +57,20 @@ By default the plugin renders related tabs dom for you, if you want to customize
 
 The plugin doesn't provide any styles, and will not register any events, so that you should add styles and events by yourself.
 
+::: tip Nesting and escaping
+
+- Nesting is **not** supported because `@tab` does not contain any information about what tab container it's marking.
+
+- If you need to use `@tab` at the beginning of the line, you can use `\` to escape it to `\@tab`
+
+- If your tab title contain `#`, you can escape it with `\`:
+
+  ```md
+  @tab c\#
+  ```
+
+:::
+
 ## Options
 
 ```ts

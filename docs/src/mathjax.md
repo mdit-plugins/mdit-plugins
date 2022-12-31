@@ -63,6 +63,20 @@ If you are building a website, you can share same instance between pages, and ca
 
 You should use `$tex expression$` inline, and use `$$tex expression$$` for block.
 
+::: tip Escaping
+
+- You can use `\` to escape `$`:
+
+  ```md
+  Euler’s identity \$e^{i\pi}+1=0$
+  ```
+
+  will be
+
+  Euler’s identity \$e^{i\pi}+1=0$
+
+:::
+
 ## Demo
 
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.

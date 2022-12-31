@@ -39,6 +39,20 @@ mdIt.render("19^th^");
 
 Use `^ ^` to mark the subscript.
 
+::: tip Escaping
+
+- You can use `\` to escape `^`:
+
+  ```md
+  19\^th^
+  ```
+
+  will be
+
+  19\^th^
+
+:::
+
 ## Demo
 
 19^th^

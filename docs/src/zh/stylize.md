@@ -93,7 +93,7 @@ mdIt.use(stylize, {
 });
 ```
 
-此外，我们提供了一个 `localConfigGetter` 来接收 env 对象，以防您想在某些情况下应用本地规则。
+此外，我们提供了一个 `localConfigGetter` 来接收 env 对象，以防你想在某些情况下应用本地规则。
 
 ```ts {2,7-17}
 mdIt.use(stylize, {

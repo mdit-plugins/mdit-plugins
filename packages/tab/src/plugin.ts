@@ -73,7 +73,6 @@ const getTabRule =
         if (openMakerMatched) {
           // found!
           autoClosed = true;
-          nextLine -= 1;
           break;
         }
       }
@@ -86,7 +85,7 @@ const getTabRule =
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine;
+    state.lineMax = nextLine - (autoClosed ? 1 : 0);
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
@@ -102,9 +101,13 @@ const getTabRule =
     };
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (id) openToken.meta.id = id.trim();
-    openToken.map = [startLine, nextLine];
+    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    state.md.block.tokenize(state, startLine + 1, nextLine + 1);
+    state.md.block.tokenize(
+      state,
+      startLine + 1,
+      nextLine + (autoClosed ? 0 : 1)
+    );
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -113,7 +116,7 @@ const getTabRule =
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
-    state.line = nextLine + (autoClosed ? 1 : 0);
+    state.line = nextLine + (autoClosed ? 0 : 1);
 
     return true;
   };

@@ -67,6 +67,18 @@ Another content
 
 :::
 
+::: tip 转义
+
+- 你可以使用 `\` 来转义 `@`，因此以下内容不会被解析：
+
+  ```MD
+  \@demostart
+
+  \@demoend
+  ```
+
+:::
+
 ## Options
 
 ```ts

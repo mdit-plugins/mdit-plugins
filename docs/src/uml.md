@@ -67,6 +67,18 @@ The plugin is different from container plugin as contents inside container will 
 
 :::
 
+::: tip Escaping
+
+- You can use `\` to escape `@`, so the following won't be parsed:
+
+  ```md
+  \@demostart
+
+  \@demoend
+  ```
+
+:::
+
 ## Options
 
 ```ts

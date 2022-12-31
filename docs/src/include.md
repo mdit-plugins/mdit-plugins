@@ -339,6 +339,22 @@ namespace HelloWorldApp {
 
 ::::
 
+::: tip Nesting and Escaping
+
+- Nesting is supported by setting `deep: true` in the options, the plugin recursively process the `@include()` syntax for imported Markdown files.
+
+- You can escape `@` by `\`
+
+  ```md
+  \@include(./demo.snippet.md)
+  ```
+
+  will be
+
+  \@include(./demo.snippet.md)
+
+:::
+
 ## Options
 
 ```ts

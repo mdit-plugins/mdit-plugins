@@ -39,6 +39,20 @@ mdIt.render("H~2~O");
 
 Use `~ ~` to mark the superscript.
 
+::: tip Escaping
+
+- You can use `\` to escape `^`:
+
+  ```md
+  H\~2~O
+  ```
+
+  will be
+
+  H\~2~O
+
+:::
+
 ## Demo
 
 H~2~O

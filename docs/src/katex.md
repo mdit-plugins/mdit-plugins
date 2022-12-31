@@ -51,6 +51,20 @@ You should import `katex/dist/katex.min.css` from `katex` package or CDN yoursel
 
 :::
 
+::: tip Escaping
+
+- You can use `\` to escape `$`:
+
+  ```md
+  Euler’s identity \$e^{i\pi}+1=0$
+  ```
+
+  will be
+
+  Euler’s identity \$e^{i\pi}+1=0$
+
+:::
+
 ## Demo
 
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
