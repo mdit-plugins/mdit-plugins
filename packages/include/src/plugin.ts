@@ -318,9 +318,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
   } = options || {};
 
   if (typeof currentPath !== "function")
-    return console.error(
-      '[@mdit/plugin-include]: "getCurrentPath" is required'
-    );
+    return console.error('[@mdit/plugin-include]: "currentPath" is required');
 
   // add md_import core rule
   md.core.ruler.after(

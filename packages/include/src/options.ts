@@ -1,3 +1,5 @@
+import type { IncludeEnv } from "./types.js";
+
 export interface MarkdownItIncludeOptions {
   /**
    * Get current filePath
@@ -7,7 +9,7 @@ export interface MarkdownItIncludeOptions {
    * @default (path) => path
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  currentPath: (env: any) => string;
+  currentPath: (env: IncludeEnv) => string;
 
   /**
    * handle include filePath
