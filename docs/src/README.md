@@ -18,6 +18,7 @@ This collection contains the following plugins:
 - [@mdit/plugin-mathjax](mathjax.md)
 - [@mdit/plugin-mark](mark.md)
 - [@mdit/plugin-stylize](stylize.md)
+- [@mdit/plugin-snippet](snippet.md)
 - [@mdit/plugin-sub](sub.md)
 - [@mdit/plugin-sup](sup.md)
 - [@mdit/plugin-tab](tab.md)

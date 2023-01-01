@@ -1,7 +1,13 @@
 import { container } from "@mdit/plugin-container";
+import { snippet } from "@mdit/plugin-snippet";
+import { getDirname, path } from "@vuepress/utils";
 import { defineUserConfig } from "vuepress";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
-import theme from "./theme";
+import theme from "./theme.js";
+
+import type { MarkdownEnv } from "@vuepress/markdown";
+
+const __dirname = getDirname(import.meta.url);
 
 export default defineUserConfig({
   base: "/mdit-plugins/",
@@ -39,6 +45,22 @@ export default defineUserConfig({
         return `<div class="custom-container hint">\n<p class="custom-container-title">${
           info || "Hint"
         }</p>\n`;
+      },
+    });
+
+    md.use(snippet, {
+      currentPath: (env: MarkdownEnv) => env.filePath,
+
+      // add support for @snippets/ alias
+      resolvePath: (filePath: string, cwd: string) => {
+        if (filePath.startsWith("@snippets/"))
+          return path.resolve(
+            __dirname,
+            "snippets",
+            filePath.replace("@snippets/", "")
+          );
+
+        return path.join(cwd, filePath);
       },
     });
   },

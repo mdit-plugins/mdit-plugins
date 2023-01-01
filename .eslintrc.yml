@@ -19,10 +19,11 @@ ignorePatterns:
   - "**/node_modules/**"
   - "coverage/**"
   - "packages/*/lib/**"
-  - "!.vuepress/**"
+  - "!**/.vuepress/**"
   - "**/.vuepress/.cache/**"
   - "**/.vuepress/.temp/**"
   - "**/.vuepress/dist/**"
+  - "**/__tests__/__fixtures__/**"
 
 rules:
   padding-line-between-statements:
