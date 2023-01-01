@@ -70,4 +70,24 @@ describe("Img Size", () => {
       '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n'
     );
   });
+
+  it("With label", () => {
+    expect(
+      markdownIt.render(
+        `\
+![image][logo]
+
+[logo]: /logo.svg
+`
+      )
+    ).toEqual('<p><img src="/logo.svg" alt="image"></p>\n');
+
+    expect(
+      markdownIt.render(`\
+![image][logo]
+
+[logo]: /logo.svg "title"
+`)
+    ).toEqual('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
+  });
 });

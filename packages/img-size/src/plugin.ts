@@ -198,6 +198,13 @@ const imgSizeRule: RuleInline = (state, silent) => {
     //
     if (typeof env.references === "undefined") return false;
 
+    // [foo]  [bar]
+    //      ^^ optional whitespace (can include newlines)
+    for (; pos < max; pos++) {
+      char = state.src.charAt(pos);
+      if (char !== " " && char !== "\t") break;
+    }
+
     if (pos < max && state.src.charAt(pos) === "[") {
       const start = pos + 1;
 
@@ -228,6 +235,9 @@ const imgSizeRule: RuleInline = (state, silent) => {
   // so all that's left to do is to call tokenizer.
   //
   if (!silent) {
+    state.pos = labelStart;
+    state.posMax = labelEnd;
+
     const content = state.src.slice(labelStart, labelEnd);
     const tokens: Token[] = [];
 
