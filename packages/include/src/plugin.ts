@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "upath";
-import { NEWLINES_RE } from "./utils.js";
+import { NEWLINES_RE, dedent } from "./utils.js";
 
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.js";
@@ -41,24 +41,6 @@ const REGIONS_RE = [
 // regexp to match the import syntax
 const INCLUDE_RE =
   /^@include\(([^)]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\)$/;
-
-const dedent = (text: string): string => {
-  const lines = text.split("\n");
-
-  const minIndentLength = lines.reduce((acc, line) => {
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] !== " " && line[i] !== "\t") return Math.min(i, acc);
-    }
-
-    return acc;
-  }, Infinity);
-
-  if (minIndentLength < Infinity) {
-    return lines.map((x) => x.slice(minIndentLength)).join("\n");
-  }
-
-  return text;
-};
 
 const testLine = (
   line: string,
