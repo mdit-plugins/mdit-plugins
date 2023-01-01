@@ -28,7 +28,6 @@ interface IncludeInfo {
   resolvedPath?: boolean;
 }
 
-const INDENT_RE = /^([ \t]*)(.*)\n/gm;
 const REGIONS_RE = [
   /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
   /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
@@ -44,29 +43,18 @@ const INCLUDE_RE =
   /^@include\(([^)]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\)$/;
 
 const dedent = (text: string): string => {
-  let match: RegExpMatchArray | null;
-  let minIndentLength = null;
+  const lines = text.split("\n");
 
-  while ((match = INDENT_RE.exec(text)) !== null) {
-    const [indentation, content] = match.slice(1);
+  const minIndentLength = lines.reduce((acc, line) => {
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] !== " " && line[i] !== "\t") return Math.min(i, acc);
+    }
 
-    if (!content) continue;
+    return acc;
+  }, Infinity);
 
-    const indentLength = indentation.length;
-
-    if (indentLength > 0) {
-      minIndentLength =
-        minIndentLength !== null
-          ? Math.min(minIndentLength, indentLength)
-          : indentLength;
-    } else break;
-  }
-
-  if (minIndentLength) {
-    text = text.replace(
-      new RegExp(`^[ \t]{${minIndentLength}}(.*)`, "gm"),
-      "$1"
-    );
+  if (minIndentLength < Infinity) {
+    return lines.map((x) => x.slice(minIndentLength)).join("\n");
   }
 
   return text;
