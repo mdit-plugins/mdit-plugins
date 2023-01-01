@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.2.3](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.2...v0.2.3) (2023-01-01)
+
+### Features
+
+- add plugin-snippet ([c410e6d](https://github.com/Mister-Hope/mdit-plugins/commit/c410e6dbebaeadb6c91c15221f274870a4b5b19c))
+- **tex:** throw error when render function is missing ([0ce0efa](https://github.com/Mister-Hope/mdit-plugins/commit/0ce0efa8b626ffabf3f81429eb9c7f082ee0a858))
+
+### Bug Fixes
+
+- **include:** fix dedent single line file ([f84216f](https://github.com/Mister-Hope/mdit-plugins/commit/f84216fdfb64efd36ed2ee31c2ced182a2f13eb5))
+- **include:** improve option types and fix error hint ([30dc191](https://github.com/Mister-Hope/mdit-plugins/commit/30dc1915496d3c4afc0c1203b7548dad800b1dc8))
+
 ### [0.2.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.1...v0.2.2) (2022-12-29)
 
 ### Bug Fixes

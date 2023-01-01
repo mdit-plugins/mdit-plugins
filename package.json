@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-ts-root",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
