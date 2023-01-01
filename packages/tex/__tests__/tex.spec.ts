@@ -9,6 +9,10 @@ const render = (content: string, displayMode: boolean): string =>
 
 const markdownIt = MarkdownIt({ linkify: true }).use(tex, { render });
 
+it("render option should be required", () => {
+  expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrowError();
+});
+
 describe("inline katex", () => {
   it("Should render", () => {
     expect(markdownIt.render(`$a=1$`)).toEqual("<p>{Tex content: a=1}</p>\n");

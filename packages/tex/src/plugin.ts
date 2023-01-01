@@ -176,9 +176,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   const { render } = options || {};
 
   if (typeof render !== "function")
-    return console.error(
-      'markdown-it tex: "render" option should be a function'
-    );
+    throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
 
   md.inline.ruler.after("escape", "math_inline", inlineTex);
   md.block.ruler.after("blockquote", "math_block", blockTex, {
