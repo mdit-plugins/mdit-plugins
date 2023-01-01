@@ -21,6 +21,10 @@ describe("inline katex", () => {
     );
   });
 
+  it("Should not render when no close marker", () => {
+    expect(markdownIt.render("$a = 1")).toEqual("<p>$a = 1</p>\n");
+  });
+
   it("Should not render when escape", () => {
     expect(markdownIt.render("$a = 1\\$")).toEqual("<p>$a = 1$</p>\n");
     expect(markdownIt.render("\\$a = 1$")).toEqual("<p>$a = 1$</p>\n");

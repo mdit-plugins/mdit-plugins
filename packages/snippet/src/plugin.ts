@@ -70,9 +70,7 @@ const getSnippetRule =
     const max = state.eMarks[startLine];
 
     // if it's indented more than 3 spaces, it should be a code block
-    if (state.sCount[startLine] - state.blkIndent >= 4) {
-      return false;
-    }
+    if (state.sCount[startLine] - state.blkIndent >= 4) return false;
 
     for (let index = 0; index < 3; ++index) {
       const char = state.src.charAt(pos + index);
@@ -156,10 +154,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
       : [""];
 
     if (src) {
-      const isFile =
-        fs.lstatSync(src, { throwIfNoEntry: false })?.isFile() || false;
-
-      if (fs.existsSync(src) && isFile) {
+      if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
         let content = fs.readFileSync(src, "utf8");
 
         if (regionName) {
@@ -179,9 +174,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
 
         (env.snippetFiles ??= []).push(src);
       } else {
-        token.content = isFile
-          ? `Code snippet path not found: ${src}`
-          : `Invalid code snippet option`;
+        token.content = `Code snippet path not found: ${src}`;
         token.info = "";
       }
     }

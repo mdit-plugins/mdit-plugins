@@ -25,6 +25,30 @@ describe("snippet", () => {
     expect(env.snippetFiles).toEqual(undefined);
   });
 
+  it("should not parse code block", () => {
+    const source = [
+      "    <<< not-exisit.md#snippet{1-3}",
+      "    <<< not-exisit.md",
+      "    <<< not-exisit.md#snippet",
+      "    <<< not-exisit.md{1-3}",
+      "```\n<<< not-exisit.md#snippet{1-3}\n```",
+      "```\n<<< not-exisit.md\n```",
+      "```\n<<< not-exisit.md#snippet\n```",
+      "```\n<<< not-exisit.md{1-3}\n```",
+    ];
+
+    source.forEach((item) => {
+      const env: SnippetEnv = {
+        filePath: __filename,
+      };
+      const rendered = md.render(item, env);
+
+      expect(rendered).toContain("not-exisit.md");
+      expect(rendered).toMatchSnapshot();
+      expect(env.snippetFiles?.length).toBe(undefined);
+    });
+  });
+
   it("should import all lines", () => {
     const source = [
       "<<< ./__fixtures__/example.html",
@@ -80,6 +104,25 @@ describe("snippet", () => {
       expect(env.snippetFiles?.[0]).toContain(
         path.join(fixturesPath, "example.")
       );
+    });
+  });
+
+  it("should give warnings with not exist path", () => {
+    const source = [
+      "<<< not-exisit.md#snippet{1-3}",
+      "<<< not-exisit.md",
+      "<<< not-exisit.md#snippet",
+      "<<< not-exisit.md{1-3}",
+    ];
+
+    source.forEach((item) => {
+      const env: SnippetEnv = {
+        filePath: __filename,
+      };
+      const rendered = md.render(item, env);
+
+      expect(rendered).toContain("Code snippet path not found");
+      expect(env.snippetFiles?.length).toBe(undefined);
     });
   });
 });
