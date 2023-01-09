@@ -1,7 +1,7 @@
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default hopeTheme({
-  hostname: "https://mister-hope.github.io/mdit-plugins/",
+  hostname: "https://mdit-plugins.mrhope.site",
 
   logo: "/logo.svg",
   repo: "Mister-Hope/mdit-plugins",

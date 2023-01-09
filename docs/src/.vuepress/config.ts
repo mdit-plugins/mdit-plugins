@@ -10,7 +10,7 @@ import type { MarkdownEnv } from "@vuepress/markdown";
 const __dirname = getDirname(import.meta.url);
 
 export default defineUserConfig({
-  base: "/mdit-plugins/",
+  base: "/",
 
   locales: {
     "/": {
