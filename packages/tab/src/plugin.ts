@@ -268,6 +268,7 @@ const getTabsDataGetter =
         if (type === `${name}_tab_open`) {
           isTabStart = true;
 
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           meta.index = tabData.length;
 
           // tab is active
