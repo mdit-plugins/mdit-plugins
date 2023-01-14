@@ -39,11 +39,12 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
           pnpm run docs:build
-          echo "mdit-plugins.mrhope.site" > docs/src/.vuepress/dist/CNAME
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          repository-name: mdit-plugins/mdit-plugins.github.io
           branch: gh-pages
           folder: docs/src/.vuepress/dist
+          token: ${{ secrets.ACCESS_TOKEN }}
           single-commit: true
