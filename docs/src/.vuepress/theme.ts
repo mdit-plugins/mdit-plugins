@@ -4,7 +4,7 @@ export default hopeTheme({
   hostname: "https://mdit-plugins.mrhope.site",
 
   logo: "/logo.svg",
-  repo: "Mister-Hope/mdit-plugins",
+  repo: "mdit-plugins/mdit-plugins",
   docsDir: "docs/src",
   docsBranch: "main",
 
@@ -36,7 +36,7 @@ export default hopeTheme({
   plugins: {
     comment: {
       provider: "Giscus",
-      repo: "Mister-Hope/mdit-plugins",
+      repo: "mdit-plugins/mdit-plugins",
       repoId: "R_kgDOIr2YGw",
       category: "General",
       categoryId: "DIC_kwDOIr2YG84CTTf-",
