@@ -30,6 +30,13 @@ export interface MarkdownItTabData {
    * Tab 是否激活
    */
   isActive?: boolean;
+
+  /**
+   * The navigation ID
+   *
+   * 用于导航到 Tab 的 ID
+   */
+  navId?: string;
 }
 
 export interface MarkdownItTabInfo {

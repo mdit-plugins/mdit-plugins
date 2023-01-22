@@ -89,18 +89,51 @@ const getTabRule =
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
-    const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
-      info.replace(/^:active/, "")
-    )!;
+    const newSyntax = /^(.*?)(?<!\\){([^}]*)}$/.exec(info);
+
+    if (newSyntax && newSyntax[2]) {
+      openToken.info = newSyntax[1].trim().replace(/\\{/g, "{");
+      openToken.meta = {
+        active: false,
+      };
+
+      const options = newSyntax[2].split(" ").map((s) => s.trim());
+
+      for (const o of options) {
+        if (o.startsWith("#")) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          openToken.meta.navId = o.substring(1);
+        } else {
+          const [k, ..._v] = o.split("=");
+          const v = _v.length ? _v.join("=") : k;
+
+          switch (k) {
+            case "active":
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              openToken.meta.active = !!v;
+              break;
+            case "eventId":
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              openToken.meta.id = v;
+              break;
+          }
+        }
+      }
+    } else {
+      const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
+        info.replace(/^:active/, "")
+      )!;
+
+      openToken.info = title.trim().replace(/\\#/g, "#");
+      openToken.meta = {
+        active: info.includes(":active"),
+      };
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (id) openToken.meta.id = id.trim();
+    }
 
     openToken.block = true;
     openToken.markup = markup;
-    openToken.info = title.trim().replace(/\\#/g, "#");
-    openToken.meta = {
-      active: info.includes(":active"),
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (id) openToken.meta.id = id.trim();
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
     state.md.block.tokenize(
@@ -284,6 +317,8 @@ const getTabsDataGetter =
             index: meta.index as number,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             ...(meta.id ? { id: meta.id as string } : {}),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            ...(meta.navId ? { navId: meta.navId as string } : {}),
           });
 
           continue;
@@ -319,6 +354,8 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
     ...(meta.id ? { id: meta.id as string } : {}),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     isActive: Boolean(meta.active),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    ...(meta.navId ? { navId: meta.navId as string } : {}),
   };
 };
 
@@ -380,6 +417,8 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       );
       token.attrSet("data-index", info.index.toString());
       if (info.id) token.attrSet("data-id", info.id.toString());
+
+      if (info.navId) token.attrSet("id", info.navId.toString());
 
       if (info.isActive) token.attrJoin("data-active", "");
 
