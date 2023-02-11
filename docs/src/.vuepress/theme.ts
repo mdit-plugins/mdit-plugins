@@ -16,7 +16,7 @@ export default hopeTheme({
     "/": {
       sidebar: "structure",
       footer:
-        'Docs by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a>',
+        'Docs by <a href="https://theme-hope.vuejs.press/" target="_blank">VuePress Theme Hope</a>',
       copyright: "MIT LICENSE | Copyright © 2022-present Mr.Hope",
 
       displayFooter: true,
@@ -25,7 +25,7 @@ export default hopeTheme({
     "/zh/": {
       sidebar: "structure",
       footer:
-        '文档由 <a href="https://vuepress-theme-hope.github.io/v2/zh/" target="_blank">VuePress Theme Hope</a> 创建',
+        '文档由 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 创建',
       copyright: "MIT 协议 | 版权所有 © 2022-present Mr.Hope",
       displayFooter: true,
     },

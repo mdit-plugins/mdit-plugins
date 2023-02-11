@@ -190,7 +190,7 @@ const a = 1;
   - nested list item
     {.nested}
 
-{.list}
+{.list-wrapper}
 
 ```md
 - list item{.list-item}
@@ -198,7 +198,7 @@ const a = 1;
   - nested list item
     {.nested}
 
-{.list}
+{.list-wrapper}
 ```
 
 ### Horizontal
@@ -219,13 +219,13 @@ A line with break
 {.break}
 ```
 
-<style>
+<style scope>
 .block,
 .break,
 .horizontal,
 .image,
 .inline-code,
-.list,
+.list-wrapper,
 .list-item,
 .nested,
 .inline-emphasis,

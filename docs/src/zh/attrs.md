@@ -190,7 +190,7 @@ const a = 1;
   - 嵌套列表内容
     {.nested}
 
-{.list}
+{.list-wrapper}
 
 ```md
 - 列表内容{.list-item}
@@ -198,7 +198,7 @@ const a = 1;
   - 嵌套列表内容
     {.nested}
 
-{.list}
+{.list-wrapper}
 ```
 
 ### Horizontal
@@ -219,13 +219,13 @@ const a = 1;
 {.break}
 ```
 
-<style>
+<style scope>
 .block,
 .break,
 .horizontal,
 .image,
 .inline-code,
-.list,
+.list-wrapper,
 .list-item,
 .nested,
 .inline-emphasis,
