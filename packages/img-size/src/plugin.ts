@@ -266,3 +266,28 @@ const imgSizeRule: RuleInline = (state, silent) => {
 export const imgSize: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "image", imgSizeRule);
 };
+
+export const obsidianImageSize: PluginSimple = (md) => {
+  const originalImageRender = md.renderer.rules.image!;
+
+  md.renderer.rules.image = (tokens, index, options, env, self): string => {
+    const token = tokens[index];
+
+    const content = token.children?.[0]?.content;
+
+    if (content) {
+      const result = /^(.*)\|(\d*)(?:x(\d*))?$/.exec(content);
+
+      if (result) {
+        const [, realContent, width, height] = result;
+
+        token.content = realContent;
+        token.children![0].content = realContent;
+        token.attrSet("width", width);
+        if (typeof height === "string") token.attrSet("height", height);
+      }
+    }
+
+    return originalImageRender(tokens, index, options, env, self);
+  };
+};

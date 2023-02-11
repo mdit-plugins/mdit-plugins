@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import MarkdownIt from "markdown-it";
-import { imgSize } from "../src/index.js";
+import { imgSize, obsidianImageSize } from "../src/index.js";
 
 describe("Img Size", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(imgSize);
@@ -89,5 +89,57 @@ describe("Img Size", () => {
 [logo]: /logo.svg "title"
 `)
     ).toEqual('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
+  });
+});
+
+describe("Obsidian image Size", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImageSize);
+
+  it("Should render", () => {
+    expect(markdownIt.render(`![](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt=""></p>\n'
+    );
+
+    expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200x300](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image" width="200"></p>\n'
+    );
+  });
+
+  it("Should not render", () => {
+    expect(markdownIt.render(`![image|abcxdef](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|abcxdef"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|abcx100](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|abcx100"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200xdef](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|200xdef"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|12ax300](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|12ax300"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200x12a](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|200x12a"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200X300](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|200X300"></p>\n'
+    );
+
+    expect(markdownIt.render(`![image|200×300](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image|200×300"></p>\n'
+    );
   });
 });
