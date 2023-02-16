@@ -2,19 +2,19 @@
  * Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js
  */
 
+import { type PluginWithOptions } from "markdown-it";
+import type StateCore from "markdown-it/lib/rules_core/state_core.js";
 import Token from "markdown-it/lib/token.js";
+
+import { type MarkdownItTaskListOptions } from "./options.js";
+import { type TaskListEnv } from "./types.js";
 import {
   getParentTokenIndex,
   isInlineToken,
-  isParagraphToken,
   isListItemToken,
+  isParagraphToken,
   setTokenAttr,
 } from "./utils.js";
-
-import type { PluginWithOptions } from "markdown-it";
-import type StateCore from "markdown-it/lib/rules_core/state_core.js";
-import type { MarkdownItTaskListOptions } from "./options.js";
-import type { TaskListEnv } from "./types.js";
 
 interface TaskListStateCore extends StateCore {
   env: TaskListEnv;
@@ -116,7 +116,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
       if (!state.env.tasklists) state.env.tasklists = 0;
 
-      for (let i = 2; i < tokens.length; i++) {
+      for (let i = 2; i < tokens.length; i++)
         if (isTaskListItem(tokens, i)) {
           addCheckBox(tokens[i], state, {
             disabled,
@@ -131,7 +131,6 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
             containerClass
           );
         }
-      }
 
       return true;
     }

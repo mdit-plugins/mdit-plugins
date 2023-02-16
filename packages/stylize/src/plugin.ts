@@ -1,8 +1,9 @@
-import type { PluginWithOptions } from "markdown-it";
+import { type PluginWithOptions } from "markdown-it";
 import type Token from "markdown-it/lib/token.js";
-import type {
-  MarkdownItStylizeOptions,
-  MarkdownItStylizeConfig,
+
+import {
+  type MarkdownItStylizeConfig,
+  type MarkdownItStylizeOptions,
 } from "./options.js";
 
 const scanTokens = (

@@ -1,7 +1,7 @@
-import { getElements, isArrayOfFunctions, isArrayOfObjects } from "../utils.js";
-
 import type Token from "markdown-it/lib/token.js";
-import type { RuleSet } from "./types.js";
+
+import { type RuleSet } from "./types.js";
+import { getElements, isArrayOfFunctions, isArrayOfObjects } from "../utils.js";
 
 /**
  * Test if rule matches token stream.

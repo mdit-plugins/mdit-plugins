@@ -1,10 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
 import { katex } from "@mdit/plugin-katex";
 import MarkdownIt from "markdown-it";
-import { attrs } from "../src/index.js";
-import { getAttrs } from "../src/attrs.js";
+import { describe, expect, it, vi } from "vitest";
 
-import type { MarkdownItAttrsOptions } from "../src/index.js";
+import { getAttrs } from "../src/attrs.js";
+import { type MarkdownItAttrsOptions, attrs } from "../src/index.js";
 
 const replaceDelimiters = (
   text: string,

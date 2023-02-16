@@ -2,17 +2,17 @@
  * Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.js
  */
 
-import Token from "markdown-it/lib/token.js";
+import { type PluginSimple } from "markdown-it";
 import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label.js";
-
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
+import { type RuleInline } from "markdown-it/lib/parser_inline.js";
 import type Renderer from "markdown-it/lib/renderer.js";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.js";
 import type StateCore from "markdown-it/lib/rules_core/state_core.js";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
-import type { PluginSimple } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.js";
-import type { RuleInline } from "markdown-it/lib/parser_inline.js";
-import type { FootNoteEnv, FootNoteToken } from "./types.js";
+import Token from "markdown-it/lib/token.js";
+
+import { type FootNoteEnv, type FootNoteToken } from "./types.js";
 
 interface FootNoteStateBlock extends StateBlock {
   tokens: FootNoteToken[];
@@ -319,7 +319,9 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
       footnoteId = state.env.footnotes.list.length;
       state.env.footnotes.list[footnoteId] = { label, count: 0 };
       state.env.footnotes.refs[`:${label}`] = footnoteId;
-    } else footnoteId = state.env.footnotes.refs[`:${label}`];
+    } else {
+      footnoteId = state.env.footnotes.refs[`:${label}`];
+    }
 
     footnoteSubId = state.env.footnotes.list[footnoteId].count!;
     state.env.footnotes.list[footnoteId].count =
@@ -393,8 +395,11 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
       token = new Token("paragraph_close", "p", -1);
       token.block = true;
       tokens.push(token);
-    } else if (list[i].label) tokens = refTokens[`:${list[i].label!}`];
-    else tokens = [];
+    } else if (list[i].label) {
+      tokens = refTokens[`:${list[i].label!}`];
+    } else {
+      tokens = [];
+    }
 
     if (tokens) state.tokens = state.tokens.concat(tokens);
     if (state.tokens[state.tokens.length - 1].type === "paragraph_close")

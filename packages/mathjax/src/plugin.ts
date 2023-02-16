@@ -3,21 +3,24 @@
  */
 
 import { createRequire } from "node:module";
-import path from "upath";
+
 import { tex } from "@mdit/plugin-tex";
-import { mathjax as MathJax } from "mathjax-full/js/mathjax.js";
-import { TeX } from "mathjax-full/js/input/tex.js";
-import { CHTML } from "mathjax-full/js/output/chtml.js";
-import { SVG } from "mathjax-full/js/output/svg.js";
-import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
+import { type PluginWithOptions } from "markdown-it";
 import { AssistiveMmlHandler } from "mathjax-full/js/a11y/assistive-mml.js";
+import { type LiteElement } from "mathjax-full/js/adaptors/lite/Element.js";
+import {
+  type LiteAdaptor,
+  liteAdaptor,
+} from "mathjax-full/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
+import { TeX } from "mathjax-full/js/input/tex.js";
+import { mathjax as MathJax } from "mathjax-full/js/mathjax.js";
+import { CHTML } from "mathjax-full/js/output/chtml.js";
+import { SVG } from "mathjax-full/js/output/svg.js";
+import path from "upath";
 
-import type { PluginWithOptions } from "markdown-it";
-import type { LiteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
-import type { LiteElement } from "mathjax-full/js/adaptors/lite/Element.js";
-import type { MarkdownItMathjaxOptions } from "./options.js";
+import { type MarkdownItMathjaxOptions } from "./options.js";
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;

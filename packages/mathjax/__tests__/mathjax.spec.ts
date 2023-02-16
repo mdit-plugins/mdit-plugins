@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
-import { describe, it, expect } from "vitest";
-import { CHTML, mathjax, createMathjaxInstance } from "../src/index.js";
+import { describe, expect, it } from "vitest";
+
+import { CHTML, createMathjaxInstance, mathjax } from "../src/index.js";
 import { generateMathjaxStyle } from "../src/plugin.js";
 
 const examples = [

@@ -1,5 +1,6 @@
 import type Token from "markdown-it/lib/token.js";
-import type { MarkdownItAttrsOptions } from "./options.js";
+
+import { type MarkdownItAttrsOptions } from "./options.js";
 
 export type Attr = [key: string, value: string];
 
@@ -44,7 +45,9 @@ export const getAttrs = (
       if (str.charAt(index + 1) === CLASS_MARKER) {
         key = "css-module";
         index += 1;
-      } else key = "class";
+      } else {
+        key = "class";
+      }
 
       parsingKey = false;
       continue;
@@ -70,10 +73,9 @@ export const getAttrs = (
 
     // read next key/value pair
     if (char === PAIR_SEPARATOR && !valueInsideQuotes) {
-      if (key === "") {
+      if (key === "")
         // beginning or ending space: { .red } vs {.red}
         continue;
-      }
 
       attrs.push([key, value]);
       key = "";

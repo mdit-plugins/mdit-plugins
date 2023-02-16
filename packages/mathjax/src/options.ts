@@ -1,7 +1,7 @@
-import type {
-  MathJaxTexInputOptions,
-  MathjaxCommonHTMLOutputOptions,
-  MathjaxSVGOutputOptions,
+import {
+  type MathJaxTexInputOptions,
+  type MathjaxCommonHTMLOutputOptions,
+  type MathjaxSVGOutputOptions,
 } from "./mathjax.js";
 
 export interface MarkdownItMathjaxOptions {

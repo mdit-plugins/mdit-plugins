@@ -1,4 +1,4 @@
-import type { KatexOptions } from "katex";
+import { type KatexOptions } from "katex";
 
 export interface MarkdownItKatexOptions extends KatexOptions {
   /**

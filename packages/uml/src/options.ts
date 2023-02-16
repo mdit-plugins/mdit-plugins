@@ -1,4 +1,4 @@
-import type { RenderRule } from "markdown-it/lib/renderer.js";
+import { type RenderRule } from "markdown-it/lib/renderer.js";
 
 export interface MarkdownItUMLOptions {
   /**

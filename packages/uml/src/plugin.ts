@@ -1,6 +1,7 @@
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.js";
-import type { MarkdownItUMLOptions } from "./options.js";
+import { type PluginWithOptions } from "markdown-it";
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
+
+import { type MarkdownItUMLOptions } from "./options.js";
 
 export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
   md,

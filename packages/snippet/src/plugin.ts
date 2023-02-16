@@ -1,13 +1,14 @@
 import fs from "node:fs";
-import path from "upath";
-import { NEWLINES_RE, dedent } from "./utils.js";
 
-import type { Options, PluginWithOptions } from "markdown-it";
-import type Token from "markdown-it/lib/token.js";
-import type { RuleBlock } from "markdown-it/lib/parser_block.js";
+import { type Options, type PluginWithOptions } from "markdown-it";
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 import type Renderer from "markdown-it/lib/renderer.js";
-import type { MarkdownItSnippetOptions } from "./options.js";
-import type { SnippetEnv } from "./types.js";
+import type Token from "markdown-it/lib/token.js";
+import path from "upath";
+
+import { type MarkdownItSnippetOptions } from "./options.js";
+import { type SnippetEnv } from "./types.js";
+import { NEWLINES_RE, dedent } from "./utils.js";
 
 const REGIONS_RE = [
   /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
@@ -53,8 +54,9 @@ const findRegion = (
           regexp = reg;
           break;
         }
-    } else if (testLine(line, regexp, regionName, true))
+    } else if (testLine(line, regexp, regionName, true)) {
       return { start, end: lineId, regexp };
+    }
 
   return null;
 };
@@ -153,7 +155,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
       ? (<string>meta["src"]).split("#")
       : [""];
 
-    if (src) {
+    if (src)
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
         let content = fs.readFileSync(src, "utf8");
 
@@ -177,7 +179,6 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
         token.content = `Code snippet path not found: ${src}`;
         token.info = "";
       }
-    }
 
     return fence(tokens, index, options, env, self);
   };

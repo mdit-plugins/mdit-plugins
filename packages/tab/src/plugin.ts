@@ -1,14 +1,14 @@
-import { escapeHtml } from "./utils.js";
-
-import type { Options, PluginWithOptions } from "markdown-it";
+import { type Options, type PluginWithOptions } from "markdown-it";
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 import type Renderer from "markdown-it/lib/renderer.js";
 import type Token from "markdown-it/lib/token.js";
-import type { RuleBlock } from "markdown-it/lib/parser_block.js";
-import type {
-  MarkdownItTabOptions,
-  MarkdownItTabData,
-  MarkdownItTabInfo,
+
+import {
+  type MarkdownItTabData,
+  type MarkdownItTabInfo,
+  type MarkdownItTabOptions,
 } from "./options";
+import { escapeHtml } from "./utils.js";
 
 const TAB_MARKER = `@tab`;
 
@@ -255,13 +255,13 @@ const getTabsDataGetter =
           continue;
         }
 
-        if (type === `${name}_tabs_close`) {
-          if (nestingDepth === 0) break;
-          else {
+        if (type === `${name}_tabs_close`)
+          if (nestingDepth === 0) {
+            break;
+          } else {
             nestingDepth -= 1;
             continue;
           }
-        }
 
         if (nestingDepth > 0) continue;
 
@@ -273,11 +273,10 @@ const getTabsDataGetter =
 
           // tab is active
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (meta.active) {
+          if (meta.active)
             if (activeIndex === -1) activeIndex = tabData.length;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             else meta.active = false;
-          }
 
           tabData.push({
             title: info,

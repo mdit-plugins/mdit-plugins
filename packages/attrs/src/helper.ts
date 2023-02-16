@@ -1,6 +1,6 @@
-import { escapeRegExp } from "./utils.js";
-
 import type Token from "markdown-it/lib/token.js";
+
+import { escapeRegExp } from "./utils.js";
 
 export const hasDelimiters =
   (

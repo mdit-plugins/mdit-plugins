@@ -1,9 +1,8 @@
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { type ModuleFormat, type RollupOptions } from "rollup";
 import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
-
-import type { ModuleFormat, RollupOptions } from "rollup";
 
 const isProduction = process.env["NODE_ENV"] === "production";
 

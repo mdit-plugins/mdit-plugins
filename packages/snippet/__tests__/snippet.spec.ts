@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
-import path from "upath";
 import MarkdownIt from "markdown-it";
-import { snippet } from "../src/index.js";
-import type { SnippetEnv } from "../src/index.js";
+import path from "upath";
+import { describe, expect, it } from "vitest";
+
+import { type SnippetEnv, snippet } from "../src/index.js";
 
 const md = MarkdownIt({ html: true }).use(snippet, {
   currentPath: (env: SnippetEnv) => env["filePath"] as string,

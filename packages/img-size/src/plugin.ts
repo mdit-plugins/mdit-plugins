@@ -2,10 +2,11 @@
  * Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js
  */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.js";
+import { type PluginSimple } from "markdown-it";
+import { type RuleInline } from "markdown-it/lib/parser_inline.js";
 import type Token from "markdown-it/lib/token.js";
-import type { ImgSizeEnv } from "./types.js";
+
+import { type ImgSizeEnv } from "./types.js";
 
 // Parse image size
 //
@@ -24,9 +25,8 @@ const parseNumber = (
 
   char = str.charAt(pos);
 
-  while ((pos < max && char.match(/\d/)) || char === "%") {
+  while ((pos < max && char.match(/\d/)) || char === "%")
     char = str.charAt(++pos);
-  }
 
   result.ok = true;
   result.pos = pos;
@@ -158,7 +158,9 @@ const imgSizeRule: RuleInline = (state, silent) => {
         char = state.src.charAt(pos);
         if (char !== " " && char !== "\t") break;
       }
-    } else title = "";
+    } else {
+      title = "";
+    }
 
     // [link](  <href>  "title" =WxH  )
     //                          ^^^^ parsing image size
@@ -212,7 +214,9 @@ const imgSizeRule: RuleInline = (state, silent) => {
 
       if (pos >= 0) label = state.src.slice(start, pos++);
       else pos = labelEnd + 1;
-    } else pos = labelEnd + 1;
+    } else {
+      pos = labelEnd + 1;
+    }
 
     // covers label === '' and label === undefined
     // (collapsed reference link and shortcut reference link respectively)

@@ -1,13 +1,14 @@
 import fs from "node:fs";
-import path from "upath";
-import { NEWLINES_RE, dedent } from "./utils.js";
 
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.js";
-import type { RuleCore } from "markdown-it/lib/parser_core.js";
+import { type PluginWithOptions } from "markdown-it";
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
+import { type RuleCore } from "markdown-it/lib/parser_core.js";
 import type Token from "markdown-it/lib/token.js";
-import type { MarkdownItIncludeOptions } from "./options.js";
-import type { IncludeEnv } from "./types.js";
+import path from "upath";
+
+import { type MarkdownItIncludeOptions } from "./options.js";
+import { type IncludeEnv } from "./types.js";
+import { NEWLINES_RE, dedent } from "./utils.js";
 
 interface ImportFileLineInfo {
   filePath: string;
@@ -73,8 +74,9 @@ const findRegion = (
           regexp = reg;
           break;
         }
-    } else if (testLine(line, regexp, regionName, true))
+    } else if (testLine(line, regexp, regionName, true)) {
       return { lineStart, lineEnd: lineId };
+    }
 
   return null;
 };
@@ -246,7 +248,9 @@ const includePopRule: RuleBlock = (state, startLine, _, silent): boolean => {
 
       token.map = [startLine, state.line];
       token.markup = "include_pop";
-    } else result = false;
+    } else {
+      result = false;
+    }
   }
 
   return result;

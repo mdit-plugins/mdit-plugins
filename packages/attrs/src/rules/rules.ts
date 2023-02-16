@@ -1,16 +1,15 @@
+import { type Rule } from "./types.js";
 import { addAttrs, getAttrs } from "../attrs.js";
 import {
   getMatchingOpeningToken,
   hasDelimiters,
   removeDelimiter,
 } from "../helper.js";
-import { escapeRegExp } from "../utils.js";
-
-import type { Rule } from "./types.js";
-import type {
-  MarkdownItAttrRuleName,
-  MarkdownItAttrsOptions,
+import {
+  type MarkdownItAttrRuleName,
+  type MarkdownItAttrsOptions,
 } from "../options.js";
+import { escapeRegExp } from "../utils.js";
 
 const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
   /**
@@ -209,9 +208,9 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
         tokens[ii - 1] &&
         tokens[ii - 1].type !== "ordered_list_open" &&
         tokens[ii - 1].type !== "bullet_list_open"
-      ) {
+      )
         ii--;
-      }
+
       addAttrs(attrs, tokens[ii - 1]);
       tokens[indx].children = tokens[indx].children!.slice(0, -2);
     },

@@ -1,9 +1,9 @@
-import { describe, it, expect } from "vitest";
 import { container } from "@mdit/plugin-container";
-import path from "upath";
 import MarkdownIt from "markdown-it";
-import { include } from "../src/index.js";
-import type { IncludeEnv } from "../src/index.js";
+import path from "upath";
+import { describe, expect, it } from "vitest";
+
+import { type IncludeEnv, include } from "../src/index.js";
 
 const mdFixturePathRelative = "./__fixtures__/include.md";
 const mdFixturePath = path.resolve(__dirname, mdFixturePathRelative);

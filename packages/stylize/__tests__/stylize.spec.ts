@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
 import MarkdownIt from "markdown-it";
-import { stylize } from "../src/index.js";
-import type {
-  MarkdownItStylizeConfig,
-  MarkdownItStylizeOptions,
-  MarkdownItStylizeResult,
+import { describe, expect, it } from "vitest";
+
+import {
+  type MarkdownItStylizeConfig,
+  type MarkdownItStylizeOptions,
+  type MarkdownItStylizeResult,
+  stylize,
 } from "../src/index.js";
 
 describe("stylize", () => {

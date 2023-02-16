@@ -1,11 +1,11 @@
 import { createRequire } from "node:module";
-import { tex } from "@mdit/plugin-tex";
-import Katex from "katex";
-import { escapeHtml } from "./utils.js";
 
-import type { PluginWithOptions } from "markdown-it";
-import type { KatexOptions as OriginalKatexOptions } from "katex";
-import type { MarkdownItKatexOptions } from "./options.js";
+import { tex } from "@mdit/plugin-tex";
+import Katex, { type KatexOptions as OriginalKatexOptions } from "katex";
+import { type PluginWithOptions } from "markdown-it";
+
+import { type MarkdownItKatexOptions } from "./options.js";
+import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
 

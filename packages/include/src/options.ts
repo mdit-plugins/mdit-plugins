@@ -1,4 +1,4 @@
-import type { IncludeEnv } from "./types.js";
+import { type IncludeEnv } from "./types.js";
 
 export interface MarkdownItIncludeOptions {
   /**

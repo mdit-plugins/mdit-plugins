@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
 import MarkdownIt from "markdown-it";
+import { describe, expect, it } from "vitest";
+
 import { figure } from "../src/index.js";
 
 describe("Figure", () => {
