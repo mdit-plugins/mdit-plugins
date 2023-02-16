@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.3...v0.2.4) (2023-02-16)
+
+### Features
+
+- add obsidianImageSize plugin ([d20c16d](https://github.com/Mister-Hope/mdit-plugins/commit/d20c16d0a888d13fe9a50365f4846d2baedba377))
+
 ### [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.2...v0.2.3) (2023-01-01)
 
 ### Features
