@@ -38,6 +38,7 @@ This repo contains the following plugins:
 - @mdit/plugin-katex
 - @mdit/plugin-mathjax
 - @mdit/plugin-mark
+- @mdit/plugin-snippet
 - @mdit/plugin-stylize
 - @mdit/plugin-sub
 - @mdit/plugin-sup
