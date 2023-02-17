@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.4...v0.3.0) (2023-02-17)
+
+### ⚠ BREAKING CHANGES
+
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle
+
+### Features
+
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle ([6fa0408](https://github.com/Mister-Hope/mdit-plugins/commit/6fa0408f5dd250b107d5dc0a22dca8b47ff7d6cd))
+
+### Bug Fixes
+
+- **mathjax:** add reset method to clear label between pages, close [#25](https://github.com/Mister-Hope/mdit-plugins/issues/25) ([d580f1b](https://github.com/Mister-Hope/mdit-plugins/commit/d580f1b4055c1b65c0ed025b2135191251204065))
+
 ## [0.2.4](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.3...v0.2.4) (2023-02-16)
 
 ### Features
