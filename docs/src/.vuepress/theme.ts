@@ -52,6 +52,7 @@ export default hopeTheme({
       imgMark: true,
       imgSize: true,
       include: true,
+      mark: true,
       mathjax: true,
       sub: true,
       sup: true,
