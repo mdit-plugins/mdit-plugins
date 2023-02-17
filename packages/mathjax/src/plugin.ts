@@ -55,9 +55,29 @@ export const getDocumentOptions = (
   enableAssistiveMml: options.a11y !== false,
 });
 
+/**
+ * Mathjax instance
+ */
 export interface MathjaxInstance {
+  /**
+   * Mathjax adaptor
+   */
   adaptor: LiteAdaptor;
+
+  /**
+   * Mathjax document options
+   */
   documentOptions: DocumentOptions;
+
+  /**
+   * Clear style cache
+   */
+  clearStyle: () => void;
+
+  /**
+   * Reset tex (including labels)
+   */
+  reset: () => void;
 }
 
 export const createMathjaxInstance = (
@@ -70,22 +90,41 @@ export const createMathjaxInstance = (
 
   if (options.a11y !== false) AssistiveMmlHandler(handler);
 
+  const { OutputJax, InputJax } = documentOptions;
+
+  const clearStyle = (): void => {
+    // clear style cache
+    if (OutputJax instanceof CHTML) OutputJax.clearCache();
+  };
+
+  const reset = (): void => {
+    InputJax.reset();
+  };
+
   return {
     adaptor,
     documentOptions,
+    clearStyle,
+    reset,
   };
 };
 
 export const generateMathjaxStyle = ({
   adaptor,
   documentOptions,
-}: MathjaxInstance): string =>
-  adaptor.innerHTML(
+  clearStyle,
+}: MathjaxInstance): string => {
+  const style = adaptor.innerHTML(
     documentOptions.OutputJax.styleSheet(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       MathJax.document("", documentOptions)
     )
   );
+
+  clearStyle();
+
+  return style;
+};
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
   const { adaptor, documentOptions } = options!;

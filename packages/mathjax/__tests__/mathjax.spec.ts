@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { CHTML, createMathjaxInstance, mathjax } from "../src/index.js";
+import { createMathjaxInstance, mathjax } from "../src/index.js";
 import { generateMathjaxStyle } from "../src/plugin.js";
 
 const examples = [
@@ -205,33 +205,78 @@ $$
   });
 });
 
-describe("Check generated style", () => {
-  describe("Basic sample", () => {
-    it("Should generate correct CSS with svg", () => {
-      const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
-      const markdownIt = MarkdownIt({ linkify: true }).use(
-        mathjax,
-        mathjaxInstance
-      );
+describe("Generating Style", () => {
+  it("Should generate correct CSS with svg", () => {
+    const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(
+      mathjax,
+      mathjaxInstance
+    );
 
-      expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
-    });
+    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
-    it("Should generate correct CSS with HTML", () => {
-      const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
-      const markdownIt = MarkdownIt({ linkify: true }).use(
-        mathjax,
-        mathjaxInstance
-      );
-      const { OutputJax } = mathjaxInstance.documentOptions;
+    expect(
+      generateMathjaxStyle(mathjaxInstance).split("\n").length
+    ).toMatchSnapshot("style");
+  });
 
-      if (OutputJax instanceof CHTML) OutputJax.clearCache();
+  it("Should generate correct CSS with HTML", () => {
+    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(
+      mathjax,
+      mathjaxInstance
+    );
 
-      expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
+    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
-      expect(
-        generateMathjaxStyle(mathjaxInstance).split("\n").length
-      ).toMatchSnapshot("style");
-    });
+    expect(
+      generateMathjaxStyle(mathjaxInstance).split("\n").length
+    ).toMatchSnapshot("style");
+  });
+});
+
+describe("Check label result pre page", () => {
+  it("Should generate correct label and CSS with svg", () => {
+    const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(
+      mathjax,
+      mathjaxInstance
+    );
+
+    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
+      "content1"
+    );
+
+    mathjaxInstance.reset();
+
+    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
+      "content2"
+    );
+
+    expect(
+      generateMathjaxStyle(mathjaxInstance).split("\n").length
+    ).toMatchSnapshot("style");
+  });
+
+  it("Should generate correct label and CSS with HTML", () => {
+    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(
+      mathjax,
+      mathjaxInstance
+    );
+
+    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
+      "content1"
+    );
+
+    mathjaxInstance.reset();
+
+    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
+      "content2"
+    );
+
+    expect(
+      generateMathjaxStyle(mathjaxInstance).split("\n").length
+    ).toMatchSnapshot("style");
   });
 });
