@@ -55,9 +55,11 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 This plugin is a bit different from other plugins. It requires you to create a Mathjax instance first, and then pass it to the plugin.
 
-The instance holds render content of each calls, so you can get used styles when calling `generateMathjaxStyle` after all rendering is done.
+The instance holds render content of each calls, so you should:
 
-If you are building a website, you can share same instance between pages, and call `generateMathjaxStyle` after all pages are rendered to get a final CSS, but if you are creating preview for a single page, you should create a new instance for each page to prevent generating styles for other page content.
+- Call `mathjaxInstance.reset()` before each render in different pages, this ensure things like label are reset.
+- Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
+- Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
 
 ## Syntax
 

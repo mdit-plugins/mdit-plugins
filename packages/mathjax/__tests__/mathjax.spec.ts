@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { createMathjaxInstance, mathjax } from "../src/index.js";
-import { generateMathjaxStyle } from "../src/plugin.js";
+import {} from "../src/plugin.js";
 
 const examples = [
   "a=1",
@@ -215,9 +215,9 @@ describe("Generating Style", () => {
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
-    expect(
-      generateMathjaxStyle(mathjaxInstance).split("\n").length
-    ).toMatchSnapshot("style");
+    expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
+      "style"
+    );
   });
 
   it("Should generate correct CSS with HTML", () => {
@@ -229,9 +229,9 @@ describe("Generating Style", () => {
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
-    expect(
-      generateMathjaxStyle(mathjaxInstance).split("\n").length
-    ).toMatchSnapshot("style");
+    expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
+      "style"
+    );
   });
 });
 
@@ -253,9 +253,9 @@ describe("Check label result pre page", () => {
       "content2"
     );
 
-    expect(
-      generateMathjaxStyle(mathjaxInstance).split("\n").length
-    ).toMatchSnapshot("style");
+    expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
+      "style"
+    );
   });
 
   it("Should generate correct label and CSS with HTML", () => {
@@ -275,8 +275,8 @@ describe("Check label result pre page", () => {
       "content2"
     );
 
-    expect(
-      generateMathjaxStyle(mathjaxInstance).split("\n").length
-    ).toMatchSnapshot("style");
+    expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
+      "style"
+    );
   });
 });

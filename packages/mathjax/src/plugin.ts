@@ -75,6 +75,13 @@ export interface MathjaxInstance {
   clearStyle: () => void;
 
   /**
+   * Output style for rendered content and clears it
+   *
+   * @returns style
+   */
+  outputStyle: () => string;
+
+  /**
    * Reset tex (including labels)
    */
   reset: () => void;
@@ -101,29 +108,26 @@ export const createMathjaxInstance = (
     InputJax.reset();
   };
 
+  const outputStyle = (): string => {
+    const style = adaptor.innerHTML(
+      documentOptions.OutputJax.styleSheet(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        MathJax.document("", documentOptions)
+      )
+    );
+
+    clearStyle();
+
+    return style;
+  };
+
   return {
     adaptor,
     documentOptions,
     clearStyle,
     reset,
+    outputStyle,
   };
-};
-
-export const generateMathjaxStyle = ({
-  adaptor,
-  documentOptions,
-  clearStyle,
-}: MathjaxInstance): string => {
-  const style = adaptor.innerHTML(
-    documentOptions.OutputJax.styleSheet(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      MathJax.document("", documentOptions)
-    )
-  );
-
-  clearStyle();
-
-  return style;
 };
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {

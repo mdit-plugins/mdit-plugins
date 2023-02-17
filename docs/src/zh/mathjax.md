@@ -55,9 +55,11 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 这个插件与其他插件有点不同。 它要求你先创建一个 Mathjax 实例，然后将其传递给插件。
 
-该实例保存每次调用的渲染内容，因此你在所有渲染完成后调用 `generateMathjaxStyle` 获取使用过的样式。
+该实例包含每个调用的渲染内容，因此您应该：
 
-如果你正在构建一个网站，你可以在页面之间共享相同的实例，并在所有页面呈现后调用 `generateMathjaxStyle` 以获得最终的 CSS，但是如果你正在为单个页面创建预览，你应该为每个页面创建一个新实例以防止样式包含其他页面内容。
+- 在不同页面中的每次渲染之前调用 `mathjaxInstance.reset()`，这确保标签之类的项目被重置。
+- 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
+- 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
 
 ## 语法
 
