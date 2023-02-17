@@ -111,7 +111,6 @@
       "@mdit/plugin-img-size": "workspace:*",
       "@mdit/plugin-include": "workspace:*",
       "@mdit/plugin-katex": "workspace:*",
-      "@mdit/plugin-mathjax": "workspace:*",
       "@mdit/plugin-mark": "workspace:*",
       "@mdit/plugin-stylize": "workspace:*",
       "@mdit/plugin-sub": "workspace:*",

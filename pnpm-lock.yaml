@@ -11,7 +11,6 @@ overrides:
   '@mdit/plugin-img-size': workspace:*
   '@mdit/plugin-include': workspace:*
   '@mdit/plugin-katex': workspace:*
-  '@mdit/plugin-mathjax': workspace:*
   '@mdit/plugin-mark': workspace:*
   '@mdit/plugin-stylize': workspace:*
   '@mdit/plugin-sub': workspace:*
@@ -2311,6 +2310,17 @@ packages:
 
   /@mdit-vue/types@0.11.0:
     resolution: {integrity: sha512-ygCGP7vFpqS02hpZwEe1uz8cfImWX06+zRs08J+tCZRKb6k+easIaIHFtY9ZSxt7j9L/gAPLDo/5RmOT6z0DPQ==}
+    dev: false
+
+  /@mdit/plugin-mathjax@0.2.4:
+    resolution: {integrity: sha512-si4MxwvdTSuCoctHbSngLHolmKjKmbkbb9CE66LmSd/s7Us6vSfgeYbEnU6GWTlrDJoXl+PnLlBXx5wWCNs9bA==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@mdit/plugin-tex': link:packages/tex
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+      mathjax-full: 3.2.2
+      upath: 2.0.1
     dev: false
 
   /@mdit/plugin-tab@0.2.3:
@@ -8906,7 +8916,7 @@ packages:
       '@mdit/plugin-include': link:packages/include
       '@mdit/plugin-katex': link:packages/katex
       '@mdit/plugin-mark': link:packages/mark
-      '@mdit/plugin-mathjax': link:packages/mathjax
+      '@mdit/plugin-mathjax': 0.2.4
       '@mdit/plugin-stylize': link:packages/stylize
       '@mdit/plugin-sub': link:packages/sub
       '@mdit/plugin-sup': link:packages/sup
