@@ -49,7 +49,7 @@ This repo contains the following plugins:
 
 ## Project Status
 
-![Status](https://repobeats.axiom.co/api/embed/015c5d2492a490ea56efe197441399ff975d668c.svg)
+![Status](https://repobeats.axiom.co/api/embed/a63b6210b8f2053edd09af67807977c2f1bff5b8.svg)
 
 ## Contributors
 
