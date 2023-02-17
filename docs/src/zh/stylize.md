@@ -23,7 +23,7 @@ const mdIt = MarkdownIt().use(stylize, {
   ],
 });
 
-mdIt.render("Check FAQ for more details._Recommanded_");
+mdIt.render("Check FAQ for more details._Recommended_");
 ```
 
 @tab JS
@@ -38,7 +38,7 @@ const mdIt = MarkdownIt().use(stylize, {
   ],
 });
 
-mdIt.render("Check FAQ for more details._Recommanded_");
+mdIt.render("Check FAQ for more details._Recommended_");
 ```
 
 :::
@@ -100,7 +100,7 @@ mdIt.use(stylize, {
   localConfigGetter: (env) => env.stylize || [],
 });
 
-mdIt.render("Check FAQ for more details._Recommanded_", {
+mdIt.render("Check FAQ for more details._Recommended_", {
   stylize: [
     {
       matcher: "Recommended",
