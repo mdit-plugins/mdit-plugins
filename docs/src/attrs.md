@@ -152,14 +152,9 @@ block content {.block}
 
 ### Fence
 
-<!-- markdownlint-disable MD033 -->
-
-<!-- This is because VuePress bug -->
-
-<div class="language-javascript" data-ext="js"><pre class="fence language-javascript"><code><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-</code></pre></div>
-
-<!-- markdownlint-enable MD033 -->
+```js {.fence}
+const a = 1;
+```
 
 ````md
 ```js {.fence}
