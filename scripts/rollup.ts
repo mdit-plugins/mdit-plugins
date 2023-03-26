@@ -1,6 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import { type ModuleFormat, type RollupOptions } from "rollup";
+import { type RollupOptions } from "rollup";
 import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
 
@@ -23,7 +23,7 @@ export const rollupTypescript = (
     dtsExternal = [],
     resolve = false,
     output = {},
-    inlineDynamicImports = true,
+    inlineDynamicImports = false,
   }: RollupTypescriptOptions = {}
 ): RollupOptions[] => [
   {
@@ -52,17 +52,17 @@ export const rollupTypescript = (
     ],
     external,
     treeshake: {
-      unknownGlobalSideEffects: false,
+      preset: "smallest",
     },
   },
   ...(enableDts
     ? [
-        {
+        <RollupOptions>{
           input: `./src/${filePath}.ts`,
           output: [
-            { file: `./lib/${filePath}.d.ts`, format: "esm" as ModuleFormat },
-            { file: `./lib/${filePath}.d.cts`, format: "esm" as ModuleFormat },
-            { file: `./lib/${filePath}.d.mts`, format: "esm" as ModuleFormat },
+            { file: `./lib/${filePath}.d.ts`, format: "esm" },
+            { file: `./lib/${filePath}.d.cts`, format: "esm" },
+            { file: `./lib/${filePath}.d.mts`, format: "esm" },
           ],
           plugins: [
             dts({
@@ -72,6 +72,9 @@ export const rollupTypescript = (
             }),
           ],
           external: dtsExternal,
+          treeshake: {
+            preset: "smallest",
+          },
         },
       ]
     : []),
