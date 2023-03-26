@@ -3,7 +3,7 @@ title: "@mdit/plugin-img-size"
 icon: resize
 ---
 
-Plugins to support image size syntax.
+Plugins to support setting size for images.
 
 <!-- more -->
 

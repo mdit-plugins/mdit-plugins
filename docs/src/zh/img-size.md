@@ -3,7 +3,7 @@ title: "@mdit/plugin-img-size"
 icon: resize
 ---
 
-支持图片尺寸的插件。
+支持设置图片尺寸的插件。
 
 <!-- more -->
 

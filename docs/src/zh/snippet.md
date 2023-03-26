@@ -3,7 +3,7 @@ title: "@mdit/plugin-snippet"
 icon: context
 ---
 
-用于在 markdown 中导入代码片段的插件。
+用于在 Markdown 中导入代码片段的插件。
 
 <!-- more -->
 

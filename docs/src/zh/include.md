@@ -3,7 +3,7 @@ title: "@mdit/plugin-include"
 icon: at
 ---
 
-在 markdown 中包含其他文件的插件。
+在 Markdown 中包含其他文件的插件。
 
 <!-- more -->
 

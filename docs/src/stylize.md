@@ -3,7 +3,7 @@ title: "@mdit/plugin-stylize"
 icon: style
 ---
 
-Plugin for stylizing token.
+Plugin for stylizing tokens.
 
 <!-- more -->
 
