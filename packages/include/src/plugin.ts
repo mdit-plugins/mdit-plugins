@@ -41,7 +41,7 @@ const REGIONS_RE = [
 
 // regexp to match the import syntax
 const INCLUDE_RE =
-  /^@include\(([^)]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\)$/;
+  /<!--\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-->/g;
 
 const testLine = (
   line: string,
@@ -142,48 +142,43 @@ export const resolveInclude = (
   options: Required<MarkdownItIncludeOptions>,
   { cwd, includedFiles }: IncludeInfo
 ): string =>
-  content
-    .split("\n")
-    .map((line) => {
-      if (line.startsWith("@include")) {
-        // check if it’s matched the syntax
-        const result = line.match(INCLUDE_RE);
+  content.replace(
+    INCLUDE_RE,
+    (
+      _,
+      includePath: string,
+      region?: string,
+      lineStart?: number,
+      lineEnd?: number
+    ) => {
+      const actualPath = options.resolvePath(includePath, cwd);
+      const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
 
-        if (result) {
-          const [, includePath, region, lineStart, lineEnd] = result;
-          const actualPath = options.resolvePath(includePath, cwd);
-          const resolvedPath =
-            options.resolveImagePath || options.resolveLinkPath;
+      const content = handleInclude(
+        {
+          filePath: actualPath,
+          ...(region
+            ? { region }
+            : {
+                lineStart: lineStart ? Number(lineStart) : 0,
+                lineEnd: lineEnd ? Number(lineEnd) : undefined,
+              }),
+        },
+        { cwd, includedFiles, resolvedPath }
+      );
 
-          const content = handleInclude(
-            {
-              filePath: actualPath,
-              ...(region
-                ? { region }
-                : {
-                    lineStart: lineStart ? Number(lineStart) : 0,
-                    lineEnd: lineEnd ? Number(lineEnd) : undefined,
-                  }),
-            },
-            { cwd, includedFiles, resolvedPath }
-          );
-
-          return options.deep && actualPath.endsWith(".md")
-            ? resolveInclude(content, options, {
-                cwd: path.isAbsolute(actualPath)
-                  ? path.dirname(actualPath)
-                  : cwd
-                  ? path.resolve(cwd, path.dirname(actualPath))
-                  : null,
-                includedFiles,
-              })
-            : content;
-        }
-      }
-
-      return line;
-    })
-    .join("\n");
+      return options.deep && actualPath.endsWith(".md")
+        ? resolveInclude(content, options, {
+            cwd: path.isAbsolute(actualPath)
+              ? path.dirname(actualPath)
+              : cwd
+              ? path.resolve(cwd, path.dirname(actualPath))
+              : null,
+            includedFiles,
+          })
+        : content;
+    }
+  );
 
 export const createIncludeCoreRule =
   (options: Required<MarkdownItIncludeOptions>): RuleCore =>

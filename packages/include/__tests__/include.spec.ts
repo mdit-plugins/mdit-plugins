@@ -20,18 +20,21 @@ const md = MarkdownIt({ html: true })
   .use(container, { name: "tip" });
 
 describe("include", () => {
-  it("should not be parsed as import markdown syntax", () => {
+  it("should be parsed as import markdown syntax", () => {
     const source = [
-      "@inc",
-      "@include(",
-      "@include",
-      "@include(./foo.js",
-      "@include(/path/to/foo.js",
-      "@inlude(/path/to/foo.js)",
-      "@include(./foo.md",
-      "@include(/path/to/foo.md",
-      "@include(/path/to/foo.md",
-      "@include(./foo.js",
+      "<!-- @include: /path/to/foo.js -->",
+      "<!-- @include:/path/to/foo.js -->",
+      "<!--@include:/path/to/foo.js-->",
+      "<!-- @include: /path/to/foo.js#region -->",
+      "<!-- @include: /path/to/foo.js#region-2 -->",
+      "<!-- @include: /path/to/foo.js{9-} -->",
+      "<!-- @include: /path/to/foo.js{-10} -->",
+      "<!-- @include: /path/to/foo.js{1-10} -->",
+      `\
+<!--
+  @include:/path/to/foo.js
+-->
+`,
     ];
 
     const env: IncludeEnv = {
@@ -40,15 +43,43 @@ describe("include", () => {
     const rendered = md.render(source.join("\n\n"), env);
 
     expect(rendered).toEqual(
-      source.map((item) => `<p>${item}</p>`).join("\n") + "\n"
+      source.map(() => "<p>File not found</p>").join("\n") + "\n"
     );
+    expect(env.includedFiles).toEqual([
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+      "/path/to/foo.js",
+    ]);
+  });
+  it("should not be parsed as import markdown syntax", () => {
+    const source = [
+      "<!-- @inc -->",
+      "<!-- @include: -->",
+      "<!-- @include a.js -->",
+      "<!-- @include : /path/to/foo.js -->",
+      "<!-- @inlude:/path/to/foo.js -->",
+      "<!-- @inlude: /path/to/foo.js ->",
+    ];
+
+    const env: IncludeEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render(source.join("\n\n"), env);
+
+    expect(rendered).toEqual(source.map((item) => item).join("\n"));
     expect(env.includedFiles).toEqual([]);
   });
 
   describe("should include file content correctly", () => {
     it("should import all lines", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
 `;
 
       const expected = `\
@@ -72,13 +103,13 @@ describe("include", () => {
 
     it("should import partial lines", () => {
       const source = [
-        `@include(${mdFixturePathRelative}{1-13})`,
-        `@include(${mdFixturePathRelative}{1-8})`,
-        `@include(${mdFixturePathRelative}{9-13})`,
-        `@include(${mdFixturePathRelative}{9-})`,
-        `@include(${mdFixturePathRelative}{-8})`,
-        `@include(${mdFixturePathRelative}{1-})`,
-        `@include(${mdFixturePathRelative}{-13})`,
+        `<!-- @include: ${mdFixturePathRelative}{1-13} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{1-8} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{9-13} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{9-} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{-8} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{1-} -->`,
+        `<!-- @include: ${mdFixturePathRelative}{-13} -->`,
       ];
 
       const expected = [
@@ -145,7 +176,7 @@ describe("include", () => {
     });
 
     it("should import snippet", () => {
-      const source = `@include(${mdFixturePathRelative}#snippet)`;
+      const source = `<!-- @include: ${mdFixturePathRelative}#snippet -->`;
 
       const expected = `\
 <p>Contents containing <strong>bolded text</strong> and some markdown enhance features:</p>
@@ -164,8 +195,8 @@ describe("include", () => {
   describe("path resolving", () => {
     it("should resolve relative path according to filePath", () => {
       const source = `\
-@include(/foo.md)
-@include(./bar.md)
+<!-- @include: /foo.md -->
+<!-- @include: ./bar.md -->
 `;
       const expected = `\
 <p>File not found</p>
@@ -186,8 +217,8 @@ describe("include", () => {
 
     it("should resolve absolute path ", () => {
       const source = `\
-@include(/foo.md)
-@include(${mdFixturePath})
+<!-- @include: /foo.md -->
+<!-- @include: ${mdFixturePath} -->
 `;
       const expected = `\
 <p>File not found</p>
@@ -211,7 +242,7 @@ describe("include", () => {
 
     it("should not resolve relative path if filePath is not provided", () => {
       const source = `\
-@include(./bar.md)
+<!-- @include: ./bar.md -->
 `;
       const expected = `\
 <p>Error when resolving path</p>
@@ -228,7 +259,7 @@ describe("include", () => {
 
     it("should handle import path correctly", () => {
       const source = `\
-@include(@fixtures/include.md)
+<!-- @include: @fixtures/include.md -->
 `;
       const expected = `\
 <h2>Heading 2</h2>
@@ -264,7 +295,7 @@ describe("include", () => {
     it("should terminate paragraph", () => {
       const source = `\
 foo
-@include(/path/to/foo.md)
+<!-- @include: /path/to/foo.md -->
 `;
       const expected = `\
 <p>foo</p>
@@ -283,7 +314,7 @@ foo
     it("should terminate blockquote", () => {
       const source = `\
 > foo
-@include(/path/to/foo.md)
+<!-- @include: /path/to/foo.md -->
 `;
       const expected = `\
 <blockquote>
@@ -304,7 +335,7 @@ foo
     it("should terminate comment", () => {
       const source = `\
 <!-- comment -->
-@include(/path/to/foo.md)
+<!-- @include: /path/to/foo.md -->
 `;
       const expected = `\
 <!-- comment -->
@@ -322,7 +353,7 @@ foo
 
     it("should support deep import", () => {
       const source1 = `\
-@include(${mdFixtureDeepIncludeRelative})
+<!-- @include: ${mdFixtureDeepIncludeRelative} -->
 `;
       const expected1 = `\
 <h3>Heading 3</h3>
@@ -336,7 +367,7 @@ foo
 `;
 
       const source2 = `\
-@include(${mdFixtureDeepIncludePath})
+<!-- @include: ${mdFixtureDeepIncludePath} -->
 `;
       const expected2 = `\
 <h3>Heading 3</h3>
@@ -386,7 +417,7 @@ foo
 
     it("should resolve the relative path of link/image in the include md file", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
 `;
 
       const expected = `\
@@ -405,7 +436,7 @@ foo
 
     it("should turn off resolve the relative path of link in the include md file", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
   `;
 
       const expected = `<p><img src="./__fixtures__/relative/a.jpg" alt="Image1">
@@ -427,7 +458,7 @@ foo
 
     it("should turn off resolve the relative path of image in the include md file", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
   `;
 
       const expected = `<p><img src="./a.jpg" alt="Image1">
@@ -449,7 +480,7 @@ foo
 
     it("should turn off resolve the relative path of image/link in the include md file", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
   `;
 
       const expected = `<p><img src="./a.jpg" alt="Image1">
@@ -472,7 +503,7 @@ foo
 
     it("should deeply resolve the relative path of link/image in the include md file", () => {
       const source = `\
-@include(${mdFixtureDeepIncludeRelative})
+<!-- @include: ${mdFixtureDeepIncludeRelative} -->
 `;
 
       const expected = `\
@@ -499,7 +530,7 @@ foo
 
     it("should resolve the correct relative path of link/image after the include md file", () => {
       const source = `\
-@include(${mdFixturePathRelative})
+<!-- @include: ${mdFixturePathRelative} -->
 [B](./b.md)
 `;
 
