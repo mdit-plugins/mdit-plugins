@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.3.0...v0.4.0) (2023-03-26)
+
+### ⚠ BREAKING CHANGES
+
+- **include:** you should use `<!-- @include :path -->` now
+
+### Features
+
+- **include:** update include syntax ([fe5b2d8](https://github.com/mdit-plugins/mdit-plugins/commit/fe5b2d8962536019cf8f2641d43d033089b40605))
+
 ## [0.3.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.2.4...v0.3.0) (2023-02-17)
 
 ### ⚠ BREAKING CHANGES
