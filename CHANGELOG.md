@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.0...v0.4.1) (2023-03-29)
+
+### Features
+
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+
 ## [0.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.3.0...v0.4.0) (2023-03-26)
 
 ### ⚠ BREAKING CHANGES
