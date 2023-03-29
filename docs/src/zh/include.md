@@ -22,7 +22,7 @@ const mdIt = MarkdownIt().use(include, {
   currentPath: (env) => env.filePath,
 });
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -38,7 +38,7 @@ const mdIt = MarkdownIt().use(include, {
   currentPath: (env) => env.filePath,
 });
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -79,17 +79,17 @@ mdIt.use(include, {
 
 ## 语法
 
-使用 `@include(filename)` 导入文件。
+使用 `<!-- @include: filename -->` 导入文件。
 
 如果要部分导入文件，你可以指定导入的行数
 
-- `@include(filename{start-end})`
-- `@include(filename{start-})`
-- `@include(filename{-end})`
+- `<!-- @include: filename{start-end} -->`
+- `<!-- @include: filename{start-} -->`
+- `<!-- @include: filename{-end} -->`
 
 同时你也可以导入文件区域:
 
-- `@include(filename#region)`
+- `<!-- @include: filename#region -->`
 
 :::: info 文件区域
 
@@ -161,7 +161,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md)", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -179,7 +179,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md)", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -341,16 +341,16 @@ namespace HelloWorldApp {
 
 ::: tip 嵌套与转义
 
-- 你可以在选项中设置 `deep: true` 让插件递归处理导入 Markdown 文件的 `@include()` 语法。
-- 你可以通过在 `\` 转义 `@`
+- 你可以在选项中设置 `deep: true` 让插件递归处理导入 Markdown 文件的 `<!-- @include:  -->` 语法。
+- 你可以通过在 `<-- @include -->` 语法之前添加零宽空格 (`U+200B` or `&#8203;`) 来转义:
 
   ```md
-  \@include(./demo.snippet.md)
+  &#8203;<!-- @include: ./demo.snippet.md -->
   ```
 
   会被渲染为
 
-  \@include(./demo.snippet.md)
+  &#8203;<!-- @include: ./demo.snippet.md -->
 
 :::
 
@@ -397,17 +397,17 @@ interface MarkdownItIncludeOptions {
 
 ## 示例
 
-`@include(./demo.snippet.md)`:
+`<!-- @include: ./demo.snippet.md -->`:
 
-@include(./demo.snippet.md)
+<!-- @include: ./demo.snippet.md -->
 
-`@include(./demo.snippet.md{9-13})`:
+`<!-- @include: ./demo.snippet.md{9-13} -->`:
 
-@include(./demo.snippet.md{9-13})
+<!-- @include: ./demo.snippet.md{9-13} -->
 
-`@include(./demo.snippet.md#snippet)`:
+`<!-- @include: ./demo.snippet.md#snippet -->`:
 
-@include(./demo.snippet.md#snippet)
+<!-- @include: ./demo.snippet.md#snippet -->
 
 :::: details demo.snippet.md 的内容
 

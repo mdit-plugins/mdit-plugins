@@ -22,7 +22,7 @@ const mdIt = MarkdownIt().use(include, {
   currentPath: (env) => env.filePath,
 });
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -38,7 +38,7 @@ const mdIt = MarkdownIt().use(include, {
   currentPath: (env) => env.filePath,
 });
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -79,17 +79,17 @@ Moreover, the plugin support `deep` function, which will handle nested `@include
 
 ## Syntax
 
-Use `@include(filename)` to include a file.
+Use `<!-- @include: filename -->` to include a file.
 
 To partially import the file, you can specify the range of lines to be included:
 
-- `@include(filename{start-end})`
-- `@include(filename{start-})`
-- `@include(filename{-end})`
+- `<!-- @include: filename{start-end} -->`
+- `<!-- @include: filename{start-} -->`
+- `<!-- @include: filename{-end} -->`
 
 Also you can include file region:
 
-- `@include(filename#region)`
+- `<!-- @include: filename#region -->`
 
 :::: info File region
 
@@ -161,7 +161,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -179,7 +179,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("@include(./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -341,17 +341,17 @@ namespace HelloWorldApp {
 
 ::: tip Nesting and Escaping
 
-- Nesting is supported by setting `deep: true` in the options, the plugin recursively process the `@include()` syntax for imported Markdown files.
+- Nesting is supported by setting `deep: true` in the options, the plugin recursively process the `<!-- @include: -->` syntax for imported Markdown files.
 
-- You can escape `@` by `\`
+- Escaping can be done by adding zeo-width space (`U+200B` or `&#8203;`) before `<!-- @include: -->` syntax:
 
   ```md
-  \@include(./demo.snippet.md)
+  &#8203;<!-- @include: ./demo.snippet.md -->
   ```
 
   will be
 
-  \@include(./demo.snippet.md)
+  &#8203;<!-- @include: ./demo.snippet.md -->
 
 :::
 
@@ -398,17 +398,17 @@ interface MarkdownItIncludeOptions {
 
 ## Demo
 
-`@include(./demo.snippet.md)`:
+`<!-- @include: ./demo.snippet.md-->`:
 
-@include(./demo.snippet.md)
+<!-- @include: ./demo.snippet.md -->
 
-`@include(./demo.snippet.md{9-13})`:
+`<!-- @include: ./demo.snippet.md{9-13} -->`:
 
-@include(./demo.snippet.md{9-13})
+<!-- @include: ./demo.snippet.md{9-13} -->
 
-`@include(./demo.snippet.md#snippet)`:
+`<!-- @include: ./demo.snippet.md#snippet -->`:
 
-@include(./demo.snippet.md#snippet)
+<!-- @include: ./demo.snippet.md#snippet -->
 
 :::: details Contents of demo.snippet.md
 

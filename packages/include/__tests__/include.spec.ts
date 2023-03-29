@@ -57,6 +57,7 @@ describe("include", () => {
       "/path/to/foo.js",
     ]);
   });
+
   it("should not be parsed as import markdown syntax", () => {
     const source = [
       "<!-- @inc -->",
@@ -64,7 +65,7 @@ describe("include", () => {
       "<!-- @include a.js -->",
       "<!-- @include : /path/to/foo.js -->",
       "<!-- @inlude:/path/to/foo.js -->",
-      "<!-- @inlude: /path/to/foo.js ->",
+      "<!-- @include: /path/to/foo.js ->",
     ];
 
     const env: IncludeEnv = {
@@ -73,6 +74,23 @@ describe("include", () => {
     const rendered = md.render(source.join("\n\n"), env);
 
     expect(rendered).toEqual(source.map((item) => item).join("\n"));
+    expect(env.includedFiles).toEqual([]);
+  });
+
+  it("should be preserved", () => {
+    const source = [
+      "Word <!-- @include: /path/to/foo.js -->",
+      "<!-- @include: /path/to/foo.js --> word",
+      "In text <!-- @include: /path/to/foo.js --> in text",
+      "`<!-- @include: /path/to/foo.js -->`",
+    ];
+
+    const env: IncludeEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render(source.join("\n\n"), env);
+
+    expect(rendered).toMatch(/<!-- @include: .* -->/);
     expect(env.includedFiles).toEqual([]);
   });
 

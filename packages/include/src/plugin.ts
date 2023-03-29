@@ -41,7 +41,7 @@ const REGIONS_RE = [
 
 // regexp to match the import syntax
 const INCLUDE_RE =
-  /<!--\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-->/g;
+  /^( *)<!--\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-->\s*$/gm;
 
 const testLine = (
   line: string,
@@ -146,6 +146,7 @@ export const resolveInclude = (
     INCLUDE_RE,
     (
       _,
+      indent: string,
       includePath: string,
       region?: string,
       lineStart?: number,
@@ -167,16 +168,21 @@ export const resolveInclude = (
         { cwd, includedFiles, resolvedPath }
       );
 
-      return options.deep && actualPath.endsWith(".md")
-        ? resolveInclude(content, options, {
-            cwd: path.isAbsolute(actualPath)
-              ? path.dirname(actualPath)
-              : cwd
-              ? path.resolve(cwd, path.dirname(actualPath))
-              : null,
-            includedFiles,
-          })
-        : content;
+      return (
+        options.deep && actualPath.endsWith(".md")
+          ? resolveInclude(content, options, {
+              cwd: path.isAbsolute(actualPath)
+                ? path.dirname(actualPath)
+                : cwd
+                ? path.resolve(cwd, path.dirname(actualPath))
+                : null,
+              includedFiles,
+            })
+          : content
+      )
+        .split("\n")
+        .map((line) => indent + line)
+        .join("\n");
     }
   );
 
