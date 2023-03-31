@@ -12,7 +12,11 @@ const mdFixtureDeepIncludePath = path.resolve(
   __dirname,
   mdFixtureDeepIncludeRelative
 );
-
+const mdFixtureSimpleIncludePathRelative = "./__fixtures__/simpleInclude.md";
+const mdFixtureSimpleIncludePath = path.resolve(
+  __dirname,
+  mdFixtureSimpleIncludePathRelative
+);
 const md = MarkdownIt({ html: true })
   .use(include, {
     currentPath: (env: IncludeEnv) => env["filePath"] as string,
@@ -110,6 +114,14 @@ describe("include", () => {
 </div>
 `;
 
+      const simpleSource = `\
+<!-- @include: ${mdFixtureSimpleIncludePathRelative} -->
+`;
+
+      const simpleExpected = `\
+<p>ABC</p>
+`;
+
       const env: IncludeEnv = {
         filePath: __filename,
       };
@@ -117,6 +129,14 @@ describe("include", () => {
 
       expect(rendered).toEqual(expected);
       expect(env.includedFiles).toEqual([mdFixturePath]);
+
+      const env2: IncludeEnv = {
+        filePath: __filename,
+      };
+      const simpleRendered = md.render(simpleSource, env2);
+
+      expect(simpleRendered).toEqual(simpleExpected);
+      expect(env2.includedFiles).toEqual([mdFixtureSimpleIncludePath]);
     });
 
     it("should import partial lines", () => {

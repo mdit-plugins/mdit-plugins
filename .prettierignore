@@ -3,6 +3,7 @@
 
 # Dist files
 packages/*/lib/**
+packages/include/__tests__/__fixtures__/simpleInclude.md
 
 # Test Coverage
 coverage/
@@ -11,6 +12,5 @@ coverage/
 **/.vuepress/.cache/**
 **/.vuepress/.temp/**
 **/.vuepress/dist/**
-
 # pnpm lock file
 pnpm-lock.yaml
