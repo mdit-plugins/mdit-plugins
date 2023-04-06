@@ -60,9 +60,10 @@ interface MarkdownItTexOptions {
    *
    * @param content Text content
    * @param displayMode whether is display mode
+   * @param env MarkdownIt environment
    * @returns render result
    */
-  render: (content: string, displayMode: boolean) => string;
+  render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 }
 ```
 

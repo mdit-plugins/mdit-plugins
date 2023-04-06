@@ -1,6 +1,20 @@
 import { type KatexOptions } from "katex";
 
-export interface MarkdownItKatexOptions extends KatexOptions {
+export type KatexLogger<MarkdownItEnv = unknown> = (
+  errorCode:
+    | "unknownSymbol"
+    | "unicodeTextInMathMode"
+    | "mathVsTextUnits"
+    | "commentAtEnd"
+    | "htmlExtension"
+    | "newLineInDisplayMode",
+  errorMsg: string,
+  token: string,
+  env: MarkdownItEnv
+) => "error" | "warn" | "ignore" | void;
+
+export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
+  extends KatexOptions {
   /**
    * Whether enable mhchem extension
    *
@@ -9,4 +23,11 @@ export interface MarkdownItKatexOptions extends KatexOptions {
    * @default false
    */
   mhchem?: boolean;
+
+  /**
+   * Error logger
+   *
+   * 错误日志记录器
+   */
+  logger?: KatexLogger<MarkdownItEnv>;
 }

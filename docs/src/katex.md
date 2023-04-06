@@ -85,6 +85,37 @@ $$
 $$
 ```
 
+## Options
+
+```ts
+type KatexLogger<MarkdownItEnv = unknown> = (
+  errorCode:
+    | "unknownSymbol"
+    | "unicodeTextInMathMode"
+    | "mathVsTextUnits"
+    | "commentAtEnd"
+    | "htmlExtension"
+    | "newLineInDisplayMode",
+  errorMsg: string,
+  token: string,
+  env: MarkdownItEnv
+) => "error" | "warn" | "ignore" | void;
+
+interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
+  /**
+   * Whether enable mhchem extension
+   *
+   * @default false
+   */
+  mhchem?: boolean;
+
+  /**
+   * Error logger
+   */
+  logger?: KatexLogger<MarkdownItEnv>;
+}
+```
+
 ## Support List
 
 - [KaTeX Support Features](https://katex.org/docs/supported.html)

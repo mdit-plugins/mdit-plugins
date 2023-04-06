@@ -184,8 +184,8 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.renderer.rules["math_inline"] = (tokens, index): string =>
-    render(tokens[index].content, false);
-  md.renderer.rules["math_block"] = (tokens, index): string =>
-    render(tokens[index].content, true);
+  md.renderer.rules["math_inline"] = (tokens, index, _options, env): string =>
+    render(tokens[index].content, false, env);
+  md.renderer.rules["math_block"] = (tokens, index, _options, env): string =>
+    render(tokens[index].content, true, env);
 };
