@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.4.1...v0.4.2) (2023-04-06)
+
+### Features
+
+- **katex:** support logger option ([9850d5e](https://github.com/Mister-Hope/mdit-plugins/commit/9850d5eecbc2e4415e8736284a955ff636fdcf42))
+
 ## [0.4.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.0...v0.4.1) (2023-03-29)
 
 ### Features
