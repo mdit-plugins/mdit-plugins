@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.2...v0.4.3) (2023-04-07)
+
+### Bug Fixes
+
+- **katex:** fix token types ([6cb0a5b](https://github.com/mdit-plugins/mdit-plugins/commit/6cb0a5be013cb7c87b3fc8261a0625d2549f6cb7))
+
 ## [0.4.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.4.1...v0.4.2) (2023-04-06)
 
 ### Features
