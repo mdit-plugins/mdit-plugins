@@ -4,7 +4,7 @@ import { tex } from "@mdit/plugin-tex";
 import Katex, { type KatexOptions as OriginalKatexOptions } from "katex";
 import type MarkdownIt from "markdown-it";
 
-import { type MarkdownItKatexOptions } from "./options.js";
+import { type KatexToken, type MarkdownItKatexOptions } from "./options.js";
 import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
@@ -63,7 +63,7 @@ export const katex = <MarkdownItEnv = unknown>(
                   | "htmlExtension"
                   | "newLineInDisplayMode",
                 errorMsg: string,
-                token: string
+                token: KatexToken
               ): string => {
                 logger(errorCode, errorMsg, token, env);
 

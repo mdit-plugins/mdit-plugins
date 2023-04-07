@@ -1,5 +1,29 @@
 import { type KatexOptions } from "katex";
 
+interface KatexCatcodes {
+  [key: string]: number;
+}
+
+interface KatexLexerInterFace {
+  input: string;
+  tokenRegex: RegExp;
+  settings: Required<KatexOptions>;
+  catcodes: KatexCatcodes;
+}
+
+interface KatexSourceLocation {
+  start: number;
+  end: number;
+  lexer: KatexLexerInterFace;
+}
+
+export interface KatexToken {
+  text: string;
+  loc: KatexSourceLocation;
+  noexpand: boolean | undefined;
+  treatAsRelax: boolean | undefined;
+}
+
 export type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
     | "unknownSymbol"
@@ -9,7 +33,7 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: string,
+  token: KatexToken,
   env: MarkdownItEnv
 ) => "error" | "warn" | "ignore" | void;
 

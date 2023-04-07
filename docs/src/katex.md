@@ -88,6 +88,30 @@ $$
 ## Options
 
 ```ts
+interface KatexCatcodes {
+  [key: string]: number;
+}
+
+interface KatexLexerInterFace {
+  input: string;
+  tokenRegex: RegExp;
+  settings: Required<KatexOptions>;
+  catcodes: KatexCatcodes;
+}
+
+interface KatexSourceLocation {
+  start: number;
+  end: number;
+  lexer: KatexLexerInterFace;
+}
+
+interface KatexToken {
+  text: string;
+  loc: KatexSourceLocation;
+  noexpand: boolean | undefined;
+  treatAsRelax: boolean | undefined;
+}
+
 type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
     | "unknownSymbol"
@@ -97,7 +121,7 @@ type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: string,
+  token: KatexToken,
   env: MarkdownItEnv
 ) => "error" | "warn" | "ignore" | void;
 
