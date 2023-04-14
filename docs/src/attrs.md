@@ -58,13 +58,13 @@ If you want a image with class "full-width", you can write:
 Also, other attrs are supported, so:
 
 ```md
-A paragraph with some text. {#p .a .b attrs=center customize-attr="content with spaces"}
+A paragraph with some text. {#p .a .b align=center customize-attr="content with spaces"}
 ```
 
 will be rendered into:
 
 ```html
-<p id="p" class="a b" attrs="center" customize-attr="content with spaces">
+<p id="p" class="a b" align="center" customize-attr="content with spaces">
   A paragraph with some text.
 </p>
 ```
