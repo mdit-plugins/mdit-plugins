@@ -39,7 +39,7 @@ mdIt.render("![image](https://example.com/image.png#light)");
 
 :::
 
-## 语法
+## 格式
 
 GFM 支持通过 ID 后缀标记图片，使图片仅在特定模式下显示。
 

@@ -41,7 +41,7 @@ mdIt.render("$E=mc^2$");
 
 ::::
 
-## 语法
+## 格式
 
 你应该在行内使用 `$tex expression$`，在块中使用 `$$tex expression$$`。
 

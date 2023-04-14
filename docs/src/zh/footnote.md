@@ -35,7 +35,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 :::
 
-## 语法
+## 格式
 
 - 在 Markdown 中使用 `[^锚点文字]` 来定义脚注。
 

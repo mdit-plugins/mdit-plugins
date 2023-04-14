@@ -39,7 +39,7 @@ mdIt.render("# Heading 🎉{#heading}");
 
 :::
 
-## 语法
+## 格式
 
 你可以使用语法 `{attrs}` 来为 Markdown 元素添加属性。
 
@@ -134,7 +134,7 @@ interface MarkdownItAttrsOptions {
 
 > 所有的 class 都使用 `margin: 4px;padding: 4px;border: 1px solid red;` 进行显示以展示效果。
 
-### Inline
+### 行内元素 (inline)
 
 包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.inline-emphasis} 和 **加粗**{.inline-bold}。
 
@@ -142,7 +142,7 @@ interface MarkdownItAttrsOptions {
 包含 `行内代码`{.inline-code} 和 ![favicon](/favicon.ico){.image} 的文字，也支持 _强调_{.inline-emphasis} 和 **加粗**{.inline-bold}。
 ```
 
-### Block
+### 块级元素 (block)
 
 块级元素 {.block}
 
@@ -150,7 +150,7 @@ interface MarkdownItAttrsOptions {
 块级元素 {.block}
 ```
 
-### Fence
+### 代码块 (fence)
 
 ```js {.fence}
 const a = 1;
@@ -162,7 +162,7 @@ const a = 1;
 ```
 ````
 
-### Table
+### 表格 (table)
 
 | 表格 |
 | ---- |
@@ -178,7 +178,7 @@ const a = 1;
 {.table}
 ```
 
-### List
+### 列表 (list)
 
 - 列表内容{.list-item}
 
@@ -196,7 +196,7 @@ const a = 1;
 {.list-wrapper}
 ```
 
-### Horizontal
+### 水平线 (hr)
 
 --- {.horizontal}
 
@@ -204,7 +204,7 @@ const a = 1;
 --- {.horizontal}
 ```
 
-### Softbreak
+### 换行 (softbreak)
 
 一行换行的文字  
 {.break}

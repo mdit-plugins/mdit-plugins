@@ -67,6 +67,54 @@ interface MarkdownItTexOptions {
 }
 ```
 
+## 格式
+
+- 内联模式：`$xxx$`
+
+- 显示模式：
+
+  ```md
+  $$xxx$$
+
+  $$
+  xxx
+  $$
+  ```
+
+::: tip 转义
+
+可以通过在 `$` 字符之前使用 `\` 或在 `$` 字符前后添加空格来完成转义：
+
+- $a=1$ 是一个 TeX 方程，而 $a=1$ 和 \$a=1$ 不是。
+
+```MD
+- $a=1$ 是一个 TeX 方程，而 $a=1$ 和 \$a=1$ 不是。
+```
+
+:::
+
+## 案例
+
+### 行内语法
+
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+
+```md
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+```
+
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
+$$
+
+```md
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
+$$
+```
+
 ## TeX 教程
 
 ### 运算符

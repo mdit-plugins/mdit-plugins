@@ -51,6 +51,32 @@ mdIt.render("$E=mc^2$");
 
 This plugin registers markdown rules for $\TeX$. It will replace the $\TeX$ tokens with the result of `render` function.
 
+## Syntax
+
+- Inline mode: `$xxx$`
+
+- Display mode:
+
+  ```md
+  $$xxx$$
+
+  $$
+  xxx
+  $$
+  ```
+
+::: tip Escaping
+
+Escaping can be done by using `\` before the `$` character, or adding space both before and after the `$` character:
+
+- The $a=1$ is a TeX equation, while $ a=1 $ and \$a=1$ is not.
+
+```md
+- The $a=1$ is a TeX equation, while $ a=1 $ and \$a=1$ is not.
+```
+
+:::
+
 ## Options
 
 ```ts
@@ -65,6 +91,26 @@ interface MarkdownItTexOptions {
    */
   render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 }
+```
+
+## Demo
+
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+
+```md
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+```
+
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
+$$
+
+```md
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
+$$
 ```
 
 ## Tex Tutorial

@@ -35,7 +35,7 @@ mdIt.render("VuePress Theme Hope is ==powerful==.");
 
 :::
 
-## 语法
+## 格式
 
 使用 `== ==` 进行标记。
 

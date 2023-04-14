@@ -61,7 +61,7 @@ const style = generateMathjaxStyle(mathjaxInstance);
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
 - 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
 
-## 语法
+## 格式
 
 你应该在行内使用 `$tex expression$`，在块中使用 `$$tex expression$$`。
 

@@ -39,7 +39,7 @@ mdIt.render("![image](https://example.com/image.png)");
 
 :::
 
-## 语法
+## 格式
 
 有时，你可能希望为图像添加描述，并将其单独展示在上下文中，所以我们提供了此插件
 

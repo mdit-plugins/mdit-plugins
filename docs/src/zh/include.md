@@ -77,7 +77,7 @@ mdIt.use(include, {
 
 此外，该插件支持 `deep` 功能，如果此选项设置为 `true`，它将处理包含文件中嵌套的 `@include`。
 
-## 语法
+## 格式
 
 使用 `<!-- @include: filename -->` 导入文件。
 

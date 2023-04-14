@@ -134,7 +134,7 @@ interface MarkdownItAttrsOptions {
 
 > ALl class are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
 
-### Inline
+### Inline (inline)
 
 Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.inline-emphasis} and **bold**{.inline-bold}.
 
@@ -142,7 +142,7 @@ Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also
 Text with `inline code`{.inline-code} and ![favicon](/favicon.ico){.image}, also supporting _emphasis_{.inline-emphasis} and **bold**{.inline-bold}.
 ```
 
-### Block
+### Block (block)
 
 block content {.block}
 
@@ -150,7 +150,7 @@ block content {.block}
 block content {.block}
 ```
 
-### Fence
+### Fence (fence)
 
 ```js {.fence}
 const a = 1;
@@ -162,7 +162,7 @@ const a = 1;
 ```
 ````
 
-### Table
+### Table (table)
 
 | Table   |
 | ------- |
@@ -178,7 +178,7 @@ const a = 1;
 {.table}
 ```
 
-### List
+### List (list)
 
 - list item{.list-item}
 
@@ -196,7 +196,7 @@ const a = 1;
 {.list-wrapper}
 ```
 
-### Horizontal
+### Horizontal (hr)
 
 --- {.horizontal}
 
@@ -204,7 +204,7 @@ const a = 1;
 --- {.horizontal}
 ```
 
-### Softbreak
+### Softbreak (softbreak)
 
 A line with break  
 {.break}
