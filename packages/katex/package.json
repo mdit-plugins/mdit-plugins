@@ -43,7 +43,7 @@
     "@mdit/plugin-tex": "workspace:*",
     "@types/katex": "^0.16.0",
     "@types/markdown-it": "^12.2.3",
-    "katex": "^0.16.4",
+    "katex": "^0.16.6",
     "markdown-it": "^13.0.1"
   },
   "publishConfig": {
