@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28)
+
+### Bug Fixes
+
+- **include:** fix wrong path ([27c8873](https://github.com/mdit-plugins/mdit-plugins/commit/27c88733742cf730b944f263aec4d52275e59061))
+
 ## [0.4.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.2...v0.4.3) (2023-04-07)
 
 ### Bug Fixes
