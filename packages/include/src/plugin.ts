@@ -275,7 +275,11 @@ const resolveRelatedLink = (
         includedPaths[length - 1]
       );
 
-      token.attrs![attrIndex][1] = `.${path.sep}${path.join(includeDir, url)}`;
+      const resolvedPath = path.join(includeDir, url);
+
+      token.attrs![attrIndex][1] = resolvedPath.startsWith(".")
+        ? resolvedPath
+        : `./${resolvedPath}`;
     }
   }
 };
