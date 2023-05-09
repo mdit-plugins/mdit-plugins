@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-figure",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "figure plugin for MarkdownIt",
   "keywords": [
     "markdownit",

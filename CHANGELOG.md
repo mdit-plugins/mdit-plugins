@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.4...v0.4.5) (2023-05-09)
+
 ## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28)
 
 ### Bug Fixes
