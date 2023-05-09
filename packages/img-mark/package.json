@@ -26,7 +26,12 @@
   "main": "lib/index.cjs",
   "types": "lib/index.d.ts",
   "exports": {
-    ".": "./lib/index.mjs",
+    ".": {
+      "type": "./lib/index.mts",
+      "require": "./lib/index.cjs",
+      "import": "./lib/index.mjs",
+      "default": "./lib/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [

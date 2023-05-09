@@ -39,7 +39,12 @@ files.forEach((pkgName) => {
       types: "lib/index.d.ts",
       exports: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".": "./lib/index.mjs",
+        ".": {
+          type: "./lib/index.mts",
+          require: "./lib/index.cjs",
+          import: "./lib/index.mjs",
+          default: "./lib/index.mjs",
+        },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "./package.json": "./package.json",
       },
