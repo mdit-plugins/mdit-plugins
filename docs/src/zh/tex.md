@@ -56,6 +56,13 @@ mdIt.render("$E=mc^2$");
 ```ts
 interface MarkdownItTexOptions {
   /**
+   * 是否将解析的数学语言 fence 块转换为显示模式数学
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
    * Tex 渲染函数
    *
    * @param content 文本内容

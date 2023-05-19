@@ -82,6 +82,13 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 ```ts
 interface MarkdownItTexOptions {
   /**
+   * Whether parsed fence block with math language to display mode math
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
    * Tex Render function
    *
    * @param content Text content

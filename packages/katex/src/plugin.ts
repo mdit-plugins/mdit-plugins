@@ -41,6 +41,7 @@ export const katex = <MarkdownItEnv = unknown>(
   options: MarkdownItKatexOptions<MarkdownItEnv> = {}
 ): void => {
   const {
+    mathFence = false,
     mhchem = false,
     logger = (errorCode: string): string =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
@@ -50,6 +51,7 @@ export const katex = <MarkdownItEnv = unknown>(
   if (mhchem) require("katex/contrib/mhchem");
 
   md.use(tex, {
+    mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
       const katexOptions = {
         ...(typeof logger === "function"

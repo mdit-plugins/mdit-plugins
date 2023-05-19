@@ -174,10 +174,25 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
 };
 
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
-  const { render } = options || {};
+  const { mathFence = false, render } = options || {};
 
   if (typeof render !== "function")
     throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
+
+  // Handle ```math blocks
+  if (mathFence) {
+    const fence = md.renderer.rules.fence;
+
+    md.renderer.rules.fence = (...args): string => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const [tokens, index, , env] = args;
+      const { content, info } = tokens[index];
+
+      if (info.trim() === "math") return render(content, true, env);
+
+      return fence!(...args);
+    };
+  }
 
   md.inline.ruler.after("escape", "math_inline", inlineTex);
   md.block.ruler.after("blockquote", "math_block", blockTex, {

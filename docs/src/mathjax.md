@@ -53,7 +53,50 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 ::::
 
-This plugin is a bit different from other plugins. It requires you to create a Mathjax instance first, and then pass it to the plugin.
+This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
+
+You can set the following options:
+
+```ts
+interface MarkdownItMathjaxOptions {
+  /**
+   * Output syntax
+   *
+   * @default 'svg'
+   */
+
+  output?: "chtml" | "svg";
+
+  /**
+   * Whether parsed fence block with math language to display mode math
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
+   * Enable A11y
+   *
+   * @default true
+   */
+  a11y?: boolean;
+
+  /**
+   * TeX input options
+   */
+  tex?: MathJaxTexInputOptions;
+
+  /**
+   * Common HTML output options
+   */
+  chtml?: MathjaxCommonHTMLOutputOptions;
+
+  /**
+   * SVG output options
+   */
+  svg?: MathjaxSVGOutputOptions;
+}
+```
 
 The instance holds render content of each calls, so you should:
 
@@ -105,4 +148,4 @@ $$
 
 ## Cookbook
 
-- [$\TeX$ Cookbook](tex.md#cookbook)
+- [$\TeX$ Cookbook](tex.md#tex-tutorial)

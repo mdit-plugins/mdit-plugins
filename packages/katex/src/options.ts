@@ -40,6 +40,15 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
 export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   extends KatexOptions {
   /**
+   * Whether parsed fence block with math language to display mode math
+   *
+   * 是否将解析的数学语言 fence 块转换为显示模式数学
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
    * Whether enable mhchem extension
    *
    * 是否启用 mhchem 扩展

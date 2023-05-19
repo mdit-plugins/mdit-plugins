@@ -7,7 +7,12 @@ import { createRequire } from "node:module";
 import { tex } from "@mdit/plugin-tex";
 import { type PluginWithOptions } from "markdown-it";
 import { AssistiveMmlHandler } from "mathjax-full/js/a11y/assistive-mml.js";
-import { type LiteElement } from "mathjax-full/js/adaptors/lite/Element.js";
+import { LiteDocument } from "mathjax-full/js/adaptors/lite/Document.js";
+import {
+  type LiteElement,
+  type LiteNode,
+} from "mathjax-full/js/adaptors/lite/Element.js";
+import { LiteText } from "mathjax-full/js/adaptors/lite/Text.js";
 import {
   type LiteAdaptor,
   liteAdaptor,
@@ -70,6 +75,10 @@ export interface MathjaxInstance {
   documentOptions: DocumentOptions;
 
   /**
+   * Whether parsed fence block with math language to display mode math
+   */
+  mathFence?: boolean;
+  /**
    * Clear style cache
    */
   clearStyle: () => void;
@@ -95,7 +104,8 @@ export const createMathjaxInstance = (
 
   const handler = RegisterHTMLHandler(adaptor);
 
-  if (options.a11y !== false) AssistiveMmlHandler(handler);
+  if (options.a11y !== false)
+    AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const { OutputJax, InputJax } = documentOptions;
 
@@ -124,6 +134,7 @@ export const createMathjaxInstance = (
   return {
     adaptor,
     documentOptions,
+    mathFence: options.mathFence ?? false,
     clearStyle,
     reset,
     outputStyle,
@@ -131,9 +142,10 @@ export const createMathjaxInstance = (
 };
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
-  const { adaptor, documentOptions } = options!;
+  const { adaptor, documentOptions, mathFence } = options!;
 
   md.use(tex, {
+    mathFence,
     render: (content, displayMode) => {
       /* eslint-disable */
       const mathDocument = MathJax.document(content, documentOptions).convert(

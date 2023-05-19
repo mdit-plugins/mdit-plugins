@@ -127,6 +127,13 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 
 interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
   /**
+   * 是否将解析的数学语言 fence 块转换为显示模式数学
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
    * 是否启用 mhchem 扩展
    *
    * @default false

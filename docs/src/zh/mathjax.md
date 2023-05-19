@@ -53,7 +53,50 @@ const style = generateMathjaxStyle(mathjaxInstance);
 
 ::::
 
-这个插件与其他插件有点不同。 它要求你先创建一个 Mathjax 实例，然后将其传递给插件。
+这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。
+
+你可以设置如下选项:
+
+```ts
+interface MarkdownItMathjaxOptions {
+  /**
+   * 输出格式
+   *
+   * @default 'svg'
+   */
+
+  output?: "chtml" | "svg";
+
+  /**
+   * 是否将解析的数学语言 fence 块转换为显示模式数学
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
+   * 是否启用无障碍
+   *
+   * @default true
+   */
+  a11y?: boolean;
+
+  /**
+   * TeX 输入选项
+   */
+  tex?: MathJaxTexInputOptions;
+
+  /**
+   * 通用 HTML 输出选项
+   */
+  chtml?: MathjaxCommonHTMLOutputOptions;
+
+  /**
+   * SVG 输出选项
+   */
+  svg?: MathjaxSVGOutputOptions;
+}
+```
 
 该实例包含每个调用的渲染内容，因此您应该：
 
@@ -105,4 +148,4 @@ $$
 
 ## Cookbook
 
-- [$\TeX$ Cookbook](tex.md#cookbook)
+- [$\TeX$ Cookbook](tex.md#tex-教程)

@@ -16,6 +16,15 @@ export interface MarkdownItMathjaxOptions {
   output?: "chtml" | "svg";
 
   /**
+   * Whether parsed fence block with math language to display mode math
+   *
+   * 是否将解析的数学语言 fence 块转换为显示模式数学
+   *
+   * @default false
+   */
+  mathFence?: boolean;
+
+  /**
    * Enable A11y
    *
    * 是否启用无障碍

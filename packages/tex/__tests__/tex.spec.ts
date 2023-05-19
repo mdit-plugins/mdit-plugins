@@ -8,7 +8,10 @@ const render = (content: string, displayMode: boolean): string =>
     ? `<p>{Tex content: ${content}}</p>`
     : `{Tex content: ${content}}`;
 
-const markdownIt = MarkdownIt({ linkify: true }).use(tex, { render });
+const markdownIt = MarkdownIt({ linkify: true }).use(tex, {
+  mathFence: true,
+  render,
+});
 
 it("render option should be required", () => {
   expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrowError();
@@ -81,5 +84,26 @@ $$</p>\n`);
     expect(markdownIt.render(`All $$ a = 1 $$ is true.`)).toEqual(
       "<p>All $$ a = 1 $$ is true.</p>\n"
     );
+  });
+});
+
+describe("math fence", () => {
+  it("Should render", () => {
+    expect(
+      markdownIt.render(`\
+\`\`\`math
+a=1
+\`\`\`\
+`)
+    ).toEqual("<p>{Tex content: a=1\n}</p>");
+
+    expect(
+      markdownIt.render(`
+\`\`\`math
+a = 1 \\\\
+b = 2
+\`\`\`\
+`)
+    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2\n}</p>");
   });
 });
