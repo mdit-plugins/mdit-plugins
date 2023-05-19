@@ -142,7 +142,7 @@ export const createMathjaxInstance = (
 };
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
-  const { adaptor, documentOptions, mathFence } = options!;
+  const { adaptor, documentOptions, mathFence = false } = options!;
 
   md.use(tex, {
     mathFence,
