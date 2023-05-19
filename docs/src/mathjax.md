@@ -13,7 +13,7 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 
 <!-- more -->
 
-## Usage
+## Usage <Badge text="Node.js runtime only" />
 
 :::: code-tabs#language
 

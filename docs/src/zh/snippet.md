@@ -7,7 +7,7 @@ icon: context
 
 <!-- more -->
 
-## 使用
+## 使用 <Badge text="仅限 Node.js 环境" />
 
 ::: code-tabs#language
 

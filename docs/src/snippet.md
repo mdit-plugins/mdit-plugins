@@ -7,7 +7,7 @@ Plugin to import code snippets in markdown.
 
 <!-- more -->
 
-## Usage
+## Usage <Badge text="Node.js runtime only" />
 
 ::: code-tabs#language
 

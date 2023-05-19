@@ -7,7 +7,7 @@ Plugin to include other files in markdown.
 
 <!-- more -->
 
-## Usage
+## Usage <Badge text="Node.js runtime only" />
 
 ::: code-tabs#language
 
