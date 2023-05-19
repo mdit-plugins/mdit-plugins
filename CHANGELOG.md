@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.5...v0.4.6) (2023-05-19)
+
+### Features
+
+- **tex:** support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68267f66f14272fcdc446222ab29e32a548))
+
 ## [0.4.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.4...v0.4.5) (2023-05-09)
 
 ## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28)
