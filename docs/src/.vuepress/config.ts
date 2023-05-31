@@ -1,11 +1,12 @@
 import { container } from "@mdit/plugin-container";
 import { snippet } from "@mdit/plugin-snippet";
+import { type MarkdownEnv } from "@vuepress/markdown";
 import { getDirname, path } from "@vuepress/utils";
+import { cut } from "nodejs-jieba";
 import { defineUserConfig } from "vuepress";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
-import theme from "./theme.js";
 
-import type { MarkdownEnv } from "@vuepress/markdown";
+import theme from "./theme.js";
 
 const __dirname = getDirname(import.meta.url);
 
@@ -67,5 +68,13 @@ export default defineUserConfig({
 
   theme,
 
-  plugins: [searchProPlugin({ indexContent: true })],
+  plugins: [
+    searchProPlugin({
+      indexContent: true,
+      indexOptions: {
+        tokenize: (text, fieldName) =>
+          fieldName === "id" ? [text] : cut(text, true),
+      },
+    }),
+  ],
 });
