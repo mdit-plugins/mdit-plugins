@@ -20,13 +20,13 @@ files.forEach((pkgName) => {
       version,
       description: desc,
       keywords: ["markdownit", "markdown-it", "markdown-it-plugin", pkgName],
-      homepage: `https://github.com/Mister-Hope//mdit-plugins/packages/${pkgName}#readme`,
+      homepage: `https://mdit-plugins/mdit-plugins/packages/${pkgName}#readme`,
       bugs: {
-        url: "https://github.com/Mister-Hope//mdit-plugins/issues",
+        url: "https://mdit-plugins/mdit-plugins/issues",
       },
       repository: {
         type: "git",
-        url: "git+https://github.com/Mister-Hope//mdit-plugins.git",
+        url: "git+https://github.com/mdit-plugins/mdit-plugins.git",
         directory: `packages/${pkgName}`,
       },
       license: "MIT",

@@ -4,20 +4,9 @@
 
 stylize plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/stylize.html) | [文档](https://mdit-plugins.github.io/zh/stylize.html)
+
 ## Install / 安装
-
-```bash
-# pnpm
-pnpm add -D @mdit/plugin-stylize
-# npm
-npm i -D @mdit/plugin-stylize
-# yarn
-yarn add -D @mdit/plugin-stylize
-```
-
----
-
-## 安装
 
 ```bash
 # pnpm

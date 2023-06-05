@@ -7,7 +7,7 @@ icon: tex
 
 ::: note
 
-[@mdit/plugin-katex](katex.md) 和 [@mdit/plugin-mathjax](mathjax.md) 基于此插件构建。
+此插件面向开发者，如果你正在寻找一个开箱即用的方案，请尝试 [@mdit/plugin-katex](katex.md) 和 [@mdit/plugin-mathjax](mathjax.md) ，它们基于此插件构建。
 
 :::
 

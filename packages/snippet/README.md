@@ -2,7 +2,9 @@
 
 [![Version](https://img.shields.io/npm/v/@mdit/plugin-snippet.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-snippet.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-snippet?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-snippet)
 
-snippet plugin for MarkdownIt.
+Snippet plugin for MarkdownIt.
+
+## [Docs](https://mdit-plugins.github.io/snippet.html) | [文档](https://mdit-plugins.github.io/zh/snippet.html)
 
 ## Install / 安装
 

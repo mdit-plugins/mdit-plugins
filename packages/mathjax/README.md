@@ -4,6 +4,8 @@
 
 mathjax plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/mathjax.html) | [文档](https://mdit-plugins.github.io/zh/mathjax.html)
+
 ## Install / 安装
 
 ```bash

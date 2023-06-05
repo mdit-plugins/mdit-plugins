@@ -7,7 +7,9 @@ Plugins for $\TeX$ grammar support.
 
 ::: note
 
-[@mdit/plugin-katex](katex.md) and [@mdit/plugin-mathjax](mathjax.md) are based on this plugin.
+This plugin is facing developers.
+
+If you are looking for an out of box solution, you should try [@mdit/plugin-katex](katex.md) and [@mdit/plugin-mathjax](mathjax.md), which are based on this plugin.
 
 :::
 

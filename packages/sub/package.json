@@ -6,15 +6,16 @@
     "markdownit",
     "markdown-it",
     "markdown-it-plugin",
-    "sub"
+    "sub",
+    "subscript"
   ],
-  "homepage": "https://github.com/Mister-Hope//mdit-plugins/packages/sub#readme",
+  "homepage": "https://mdit-plugins.github.io/sub.html",
   "bugs": {
-    "url": "https://github.com/Mister-Hope//mdit-plugins/issues"
+    "url": "https://mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mister-Hope//mdit-plugins.git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
     "directory": "packages/sub"
   },
   "license": "MIT",

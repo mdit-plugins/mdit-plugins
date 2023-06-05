@@ -2,7 +2,9 @@
 
 [![Version](https://img.shields.io/npm/v/@mdit/plugin-img-size.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-img-size.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-img-size?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-img-size)
 
-img-size plugin for MarkdownIt.
+Image size plugin for MarkdownIt.
+
+## [Docs](https://mdit-plugins.github.io/img-size.html) | [文档](https://mdit-plugins.github.io/zh/img-size.html)
 
 ## Install / 安装
 

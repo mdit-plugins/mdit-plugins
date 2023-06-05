@@ -4,6 +4,8 @@
 
 uml plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/uml.html) | [文档](https://mdit-plugins.github.io/zh/uml.html)
+
 ## Install / 安装
 
 ```bash

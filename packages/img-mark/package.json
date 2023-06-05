@@ -8,13 +8,13 @@
     "markdown-it-plugin",
     "img-mark"
   ],
-  "homepage": "https://github.com/Mister-Hope//mdit-plugins/packages/img-mark#readme",
+  "homepage": "https://mdit-plugins.github.io/img-mark.html",
   "bugs": {
-    "url": "https://github.com/Mister-Hope//mdit-plugins/issues"
+    "url": "https://mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mister-Hope//mdit-plugins.git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
     "directory": "packages/img-mark"
   },
   "license": "MIT",
