@@ -494,7 +494,7 @@ const describeTestsWithOptions = (
       }
     );
 
-    it(replaceDelimiters("should support blockquotes", options), () => {
+    it(replaceDelimiters("should support blockquote", options), () => {
       const src = "> quote\n{.c}";
       const expected = '<blockquote class="c">\n<p>quote</p>\n</blockquote>\n';
 
@@ -631,7 +631,7 @@ const describeTestsWithOptions = (
     );
 
     it(
-      replaceDelimiters("should do nothing with empty classname {.}", options),
+      replaceDelimiters("should do nothing with empty className {.}", options),
       () => {
         const src = "text {.}";
         const expected = "<p>text {.}</p>\n";

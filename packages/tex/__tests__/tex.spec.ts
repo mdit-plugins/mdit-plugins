@@ -105,5 +105,16 @@ b = 2
 \`\`\`\
 `)
     ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2\n}</p>");
+
+    expect(
+      markdownIt.render(`
+\`\`\`js
+const a = 1;
+\`\`\`\
+`)
+    ).toEqual(`\
+<pre><code class="language-js">const a = 1;
+</code></pre>
+`);
   });
 });
