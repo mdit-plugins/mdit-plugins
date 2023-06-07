@@ -180,3 +180,38 @@ $$
     global.console.warn = originalWarn;
   });
 });
+
+it("Should support custom logger", () => {
+  const logger1 = vi.fn();
+
+  const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
+    logger: logger1,
+  });
+
+  markdownIt1.render(`$$中文$$`);
+
+  markdownIt1.render(`
+$$
+中文
+$$
+`);
+
+  expect(logger1).toHaveBeenCalledTimes(4);
+
+  const logger2 = vi.fn();
+
+  const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
+    logger: logger1,
+  });
+
+  markdownIt2.render(`$$中文$$`);
+
+  markdownIt2.render(`
+$$
+a = 1\\\\
+b = 2
+$$
+`);
+
+  expect(logger2).toHaveBeenCalledTimes(4);
+});
