@@ -1,5 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Should work with mhchem 1`] = `
+"<p class='katex-block'><span class=\\"katex-display\\"><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\" display=\\"block\\"><semantics><mrow><mstyle mathcolor=\\"#cc0000\\"><mtext>\\\\ce</mtext></mstyle><mrow><mi>H</mi><mn>2</mn><mi>O</mi></mrow></mrow><annotation encoding=\\"application/x-tex\\">
+\\\\ce{H2O}
+</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:1em;vertical-align:-0.25em;\\"></span><span class=\\"mord text\\" style=\\"color:#cc0000;\\"><span class=\\"mord\\" style=\\"color:#cc0000;\\">\\\\ce</span></span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.08125em;\\">H</span><span class=\\"mord\\">2</span><span class=\\"mord mathnormal\\" style=\\"margin-right:0.02778em;\\">O</span></span></span></span></span></span></p>
+"
+`;
+
 exports[`block katex > Should not output warnings when content has line breaks 1`] = `
 "<p class='katex-block'><span class=\\"katex-display\\"><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\" display=\\"block\\"><semantics><mtable rowspacing=\\"0.25em\\" columnalign=\\"right left right left\\" columnspacing=\\"0em\\"><mtr><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mn>10</mn></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>2</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mn>13</mn></mstyle></mtd><mtd><mstyle scriptlevel=\\"0\\" displaystyle=\\"true\\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>4</mn></mrow></mstyle></mtd></mtr></mtable><annotation encoding=\\"application/x-tex\\">
 \\\\begin{alignedat}{2}

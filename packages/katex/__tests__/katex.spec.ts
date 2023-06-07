@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { katex } from "../src/index.js";
 
@@ -12,6 +12,11 @@ const markdownItMathML = MarkdownIt({ linkify: true }).use(katex, {
 });
 const markdownItWithError = MarkdownIt({ linkify: true }).use(katex, {
   throwOnError: true,
+});
+
+beforeEach(() => {
+  vi.unstubAllGlobals();
+  vi.resetModules();
 });
 
 const examples = [
@@ -181,6 +186,33 @@ $$
   });
 });
 
+describe("Default logger", () => {
+  it("Should not give warnings about new lines", () => {
+    const mockConsole = {
+      warn: vi.fn(),
+    };
+
+    vi.stubGlobal("console", mockConsole);
+
+    markdownIt.render(`
+$$
+a = 1\\\\
+b = 2
+$$
+`);
+
+    expect(mockConsole.warn).toHaveBeenCalledTimes(0);
+
+    markdownIt.render(`
+$$
+中文
+$$
+`);
+
+    expect(mockConsole.warn).toHaveBeenCalledTimes(2);
+  });
+});
+
 it("Should support custom logger", () => {
   const logger1 = vi.fn();
 
@@ -201,10 +233,8 @@ $$
   const logger2 = vi.fn();
 
   const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
-    logger: logger1,
+    logger: logger2,
   });
-
-  markdownIt2.render(`$$中文$$`);
 
   markdownIt2.render(`
 $$
@@ -213,5 +243,12 @@ b = 2
 $$
 `);
 
-  expect(logger2).toHaveBeenCalledTimes(4);
+  expect(logger2).toHaveBeenCalledTimes(1);
+});
+it("Should work with mhchem", () => {
+  const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
+    mhchem: true,
+  });
+
+  expect(markdownItMhchem.render(`$$\\ce{H2O}$$`)).toMatchSnapshot();
 });

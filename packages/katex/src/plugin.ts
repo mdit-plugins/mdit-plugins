@@ -54,25 +54,17 @@ export const katex = <MarkdownItEnv = unknown>(
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
       const katexOptions = {
-        ...(typeof logger === "function"
-          ? {
-              strict: (
-                errorCode:
-                  | "unknownSymbol"
-                  | "unicodeTextInMathMode"
-                  | "mathVsTextUnits"
-                  | "commentAtEnd"
-                  | "htmlExtension"
-                  | "newLineInDisplayMode",
-                errorMsg: string,
-                token: KatexToken
-              ): string => {
-                logger(errorCode, errorMsg, token, env);
-
-                return "ignore";
-              },
-            }
-          : {}),
+        strict: (
+          errorCode:
+            | "unknownSymbol"
+            | "unicodeTextInMathMode"
+            | "mathVsTextUnits"
+            | "commentAtEnd"
+            | "htmlExtension"
+            | "newLineInDisplayMode",
+          errorMsg: string,
+          token: KatexToken
+        ): string => logger(errorCode, errorMsg, token, env) ?? "ignore",
         throwOnError: false,
         ...userOptions,
       };
