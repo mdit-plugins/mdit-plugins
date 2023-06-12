@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.7...v0.4.8) (2023-06-12)
+
+### Features
+
+- **katex:** improve test coverage ([f545bea](https://github.com/mdit-plugins/mdit-plugins/commit/f545bea55b7297ac9fc880b64156abca28c56f08))
+
 ## [0.4.7](https://github.com/Mister-Hope/mdit-plugins/compare/v0.4.6...v0.4.7) (2023-06-05)
 
 ## [0.4.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.5...v0.4.6) (2023-05-19)

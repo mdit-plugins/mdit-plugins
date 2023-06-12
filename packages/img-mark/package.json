@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-img-mark",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "img-mark plugin for MarkdownIt",
   "keywords": [
     "markdownit",
