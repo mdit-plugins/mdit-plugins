@@ -16,5 +16,6 @@
     "tasklist",
     "treeshake",
     "vuepress"
-  ]
+  ],
+  "prettier.prettierPath": "./node_modules/prettier"
 }

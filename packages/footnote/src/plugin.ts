@@ -89,13 +89,16 @@ const renderFootnoteBlockOpen: Renderer.RenderRule = (
   _index,
   options
 ): string =>
-  `${
-    options.xhtmlOut
-      ? '<hr class="footnotes-sep" />\n'
-      : '<hr class="footnotes-sep">\n'
-  }<section class="footnotes">\n<ol class="footnotes-list">\n`;
+  `\
+<hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
+<section class="footnotes">
+<ol class="footnotes-list">
+`;
 
-const renderFootnoteBlockClose = (): string => "</ol>\n</section>\n";
+const renderFootnoteBlockClose = (): string => `\
+</ol>
+</section>
+`;
 
 const renderFootnoteOpen: Renderer.RenderRule = (
   tokens: FootNoteToken[],
@@ -120,8 +123,8 @@ const renderFootnoteAnchor: Renderer.RenderRule = (
   options,
   env: FootNoteEnv,
   self
-): string => {
-  return ` <a href="#footnote-ref${self.rules["footnoteAnchorName"]!(
+): string =>
+  ` <a href="#footnote-ref${self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
@@ -131,7 +134,6 @@ const renderFootnoteAnchor: Renderer.RenderRule = (
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
   }" class="footnote-backref">\u21a9\uFE0E</a>`;
-};
 
 // Process footnote block definition
 const footnoteDef: RuleBlock = (
