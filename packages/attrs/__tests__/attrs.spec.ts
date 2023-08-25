@@ -7,7 +7,7 @@ import { type MarkdownItAttrsOptions, attrs } from "../src/index.js";
 
 const replaceDelimiters = (
   text: string,
-  options: Required<MarkdownItAttrsOptions>
+  options: Required<MarkdownItAttrsOptions>,
 ): string => text.replace(/{/g, options.left).replace(/}/g, options.right);
 
 describe("markdown-it-attrs", () => {
@@ -17,20 +17,20 @@ describe("markdown-it-attrs", () => {
     });
 
     expect(markdownIt.render("text {.some-class #some-id attr=allowed}")).toBe(
-      '<p class="some-class" attr="allowed">text</p>\n'
+      '<p class="some-class" attr="allowed">text</p>\n',
     );
   });
 });
 
 const describeTestsWithOptions = (
   options: Required<MarkdownItAttrsOptions>,
-  postText: string
+  postText: string,
 ): void => {
   describe("markdown-it-attrs.utils" + postText, () => {
     it(
       replaceDelimiters(
         "should parse {.class ..css-module #id key=val .class.with.dot}",
-        options
+        options,
       ),
       () => {
         const src = "{.red ..mod #head key=val .class.with.dot}";
@@ -43,9 +43,9 @@ const describeTestsWithOptions = (
         ];
 
         expect(getAttrs(replaceDelimiters(src, options), 0, options)).toEqual(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -55,9 +55,9 @@ const describeTestsWithOptions = (
         const expected = [["link", "/some/page/in/app/id=1"]];
 
         expect(getAttrs(replaceDelimiters(src, options), 0, options)).toEqual(
-          expected
+          expected,
         );
-      }
+      },
     );
   });
 
@@ -67,31 +67,31 @@ const describeTestsWithOptions = (
     it(
       replaceDelimiters(
         "should add attributes when {} in end of last inline",
-        options
+        options,
       ),
       () => {
         const src = "some text {with=attrs}";
         const expected = '<p with="attrs">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should not add attributes when it has too many delimiters {{}}",
-        options
+        options,
       ),
       () => {
         const src = "some text {{with=attrs}}";
         const expected = "<p>some text {{with=attrs}}</p>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
@@ -101,30 +101,30 @@ const describeTestsWithOptions = (
         const expected = '<p with="attrs">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should add classes with {.class} dot notation",
-        options
+        options,
       ),
       () => {
         const src = "some text {.green}";
         const expected = '<p class="green">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should add css-modules with {..css-module} double dot notation",
-        options
+        options,
       ),
       () => {
         const src = "some text {..green}";
@@ -132,30 +132,30 @@ const describeTestsWithOptions = (
 
         expect(
           markdownIt.render(replaceDelimiters(src, options)),
-          expected
+          expected,
         ).toBe(expected);
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should add identifiers with {#id} hashtag notation",
-        options
+        options,
       ),
       () => {
         const src = "some text {#section2}";
         const expected = '<p id="section2">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should support classes, css-modules, identifiers and attributes in same {}",
-        options
+        options,
       ),
       () => {
         const src = "some text {attr=lorem .class ..css-module #id}";
@@ -163,45 +163,45 @@ const describeTestsWithOptions = (
           '<p attr="lorem" class="class" css-module="css-module" id="id">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         'should support attributes inside " {attr="lorem ipsum"}',
-        options
+        options,
       ),
       () => {
         const src = 'some text {attr="lorem ipsum"}';
         const expected = '<p attr="lorem ipsum">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         'should add classes in same class attribute {.c1 .c2} -> class="c1 c2"',
-        options
+        options,
       ),
       () => {
         const src = "some text {.c1 .c2}";
         const expected = '<p class="c1 c2">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         'should add css-modules in same css-modules attribute {..c1 ..c2} -> css-module="c1 c2"',
-        options
+        options,
       ),
       () => {
         const src = "some text {..c1 ..c2}";
@@ -209,24 +209,24 @@ const describeTestsWithOptions = (
 
         expect(
           markdownIt.render(replaceDelimiters(src, options)),
-          expected
+          expected,
         ).toBe(expected);
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         'should add nested css-modules {..c1.c2} -> css-module="c1.c2"',
-        options
+        options,
       ),
       () => {
         const src = "some text {..c1.c2}";
         const expected = '<p css-module="c1.c2">some text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(replaceDelimiters("should support empty inline tokens", options), () => {
@@ -251,15 +251,15 @@ const describeTestsWithOptions = (
 
         expect(
           markdownIt.render(replaceDelimiters(src, options)),
-          expected
+          expected,
         ).toBe(expected);
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should not add classes to inline elements with too many {{}}",
-        options
+        options,
       ),
       () => {
         const src = "paragraph **bold**{{.red}} asdf";
@@ -267,9 +267,9 @@ const describeTestsWithOptions = (
           "<p>paragraph <strong>bold</strong>{{.red}} asdf</p>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(replaceDelimiters("should only remove last {}", options), () => {
@@ -330,9 +330,9 @@ const describeTestsWithOptions = (
 `;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -342,9 +342,9 @@ const describeTestsWithOptions = (
         const expected = '<p>bla <code class="c">click()</code></p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -359,9 +359,9 @@ const describeTestsWithOptions = (
 `;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(replaceDelimiters("should not create empty attributes", options), () => {
@@ -369,14 +369,14 @@ const describeTestsWithOptions = (
       const expected = '<p class="red">text</p>\n';
 
       expect(markdownIt.render(replaceDelimiters(src, options)), expected).toBe(
-        expected
+        expected,
       );
     });
 
     it(
       replaceDelimiters(
         "should add attributes to ul when below last bullet point",
-        options
+        options,
       ),
       () => {
         const src = "- item1\n- item2\n{.red}";
@@ -384,15 +384,15 @@ const describeTestsWithOptions = (
           '<ul class="red">\n<li>item1</li>\n<li>item2</li>\n</ul>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should add classes for both last list item and ul",
-        options
+        options,
       ),
       () => {
         const src = "- item{.red}\n{.blue}";
@@ -404,9 +404,9 @@ const describeTestsWithOptions = (
 `;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -421,15 +421,15 @@ const describeTestsWithOptions = (
 `;
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         'should ignore non-text "attr-like" text after a "soft-break"',
-        options
+        options,
       ),
       () => {
         const src = "- item\n*{.blue}*";
@@ -441,7 +441,7 @@ const describeTestsWithOptions = (
 `;
 
         expect(markdownIt.render(src)).toBe(expected);
-      }
+      },
     );
 
     it(replaceDelimiters("should work with ordered lists", options), () => {
@@ -465,9 +465,9 @@ const describeTestsWithOptions = (
         expect(
           markdownIt
             .set({ typographer: true })
-            .render(replaceDelimiters(src, options))
+            .render(replaceDelimiters(src, options)),
         ).toBe(expected);
-      }
+      },
     );
 
     it(replaceDelimiters("should support code blocks", options), () => {
@@ -481,7 +481,7 @@ const describeTestsWithOptions = (
     it(
       replaceDelimiters(
         "should support code blocks with language defined",
-        options
+        options,
       ),
       () => {
         const src = "```python {.c a=1 #ii}\nfor i in range(10):\n```";
@@ -489,9 +489,9 @@ const describeTestsWithOptions = (
           '<pre><code class="c language-python" a="1" id="ii">for i in range(10):\n</code></pre>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(replaceDelimiters("should support blockquote", options), () => {
@@ -565,15 +565,15 @@ const describeTestsWithOptions = (
         const expected = "<p>paragraph <code>code{.red}</code></p>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should not apply inside item lists with trailing `code{.red}`",
-        options
+        options,
       ),
       () => {
         const src = "- item with trailing `code = {.red}`";
@@ -581,15 +581,15 @@ const describeTestsWithOptions = (
           "<ul>\n<li>item with trailing <code>code = {.red}</code></li>\n</ul>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should not apply inside item lists with trailing non-text, eg *{.red}*",
-        options
+        options,
       ),
       () => {
         const src = "- item with trailing *{.red}*";
@@ -597,15 +597,15 @@ const describeTestsWithOptions = (
           "<ul>\n<li>item with trailing <em>{.red}</em></li>\n</ul>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
       replaceDelimiters(
         "should work with multiple inline code blocks in same paragraph",
-        options
+        options,
       ),
       () => {
         const src = "bla `click()`{.c} blah `release()`{.cpp}";
@@ -613,9 +613,9 @@ const describeTestsWithOptions = (
           '<p>bla <code class="c">click()</code> blah <code class="cpp">release()</code></p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -625,9 +625,9 @@ const describeTestsWithOptions = (
         const expected = '<p 1="">text</p>\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it(
@@ -637,9 +637,9 @@ const describeTestsWithOptions = (
         const expected = "<p>text {.}</p>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
@@ -649,9 +649,9 @@ const describeTestsWithOptions = (
         const expected = "<p>text {#}</p>\n";
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          replaceDelimiters(expected, options)
+          replaceDelimiters(expected, options),
         );
-      }
+      },
     );
 
     it(
@@ -661,9 +661,9 @@ const describeTestsWithOptions = (
         const expected = '<hr id="id">\n';
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
 
     it("should restrict attributes by allowed (string)", () => {
@@ -676,7 +676,7 @@ const describeTestsWithOptions = (
       const expected = '<p class="some-class" id="some-id">text</p>\n';
 
       expect(
-        markdownItWithOptions.render(replaceDelimiters(src, options))
+        markdownItWithOptions.render(replaceDelimiters(src, options)),
       ).toBe(expected);
     });
 
@@ -690,7 +690,7 @@ const describeTestsWithOptions = (
       const expected = '<p class="some-class" attr="allowed">text</p>\n';
 
       expect(
-        markdownItWithOptions.render(replaceDelimiters(src, options))
+        markdownItWithOptions.render(replaceDelimiters(src, options)),
       ).toBe(expected);
     });
 
@@ -704,19 +704,19 @@ const describeTestsWithOptions = (
     it(
       replaceDelimiters(
         "should not crash on {#ids} in front of list items",
-        options
+        options,
       ),
       () => {
         const src = "- {#ids} [link](./link)";
         const expected = replaceDelimiters(
           '<ul>\n<li>{#ids} <a href="./link">link</a></li>\n</ul>\n',
-          options
+          options,
         );
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected
+          expected,
         );
-      }
+      },
     );
   });
 };
@@ -728,7 +728,7 @@ describeTestsWithOptions(
     allowed: [],
     rule: "all",
   },
-  ""
+  "",
 );
 
 describeTestsWithOptions(
@@ -738,7 +738,7 @@ describeTestsWithOptions(
     allowed: [],
     rule: "all",
   },
-  " with [ ] delimiters"
+  " with [ ] delimiters",
 );
 
 describeTestsWithOptions(
@@ -748,13 +748,13 @@ describeTestsWithOptions(
     allowed: [],
     rule: "all",
   },
-  " with [[ ]] delimiters"
+  " with [[ ]] delimiters",
 );
 
 it("should work with katex plugin", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(attrs).use(katex);
 
   expect(markdownIt.render("$a^{3}$")).toBe(
-    '<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">a^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></p>\n'
+    '<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">a^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></p>\n',
   );
 });

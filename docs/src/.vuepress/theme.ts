@@ -2,7 +2,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 
 export default hopeTheme(
   {
-    hostname: "https://mdit-plugins.mrhope.site",
+    hostname: "https://mdit-plugins.mister-hope.com",
 
     logo: "/logo.svg",
     repo: "mdit-plugins/mdit-plugins",
@@ -62,5 +62,5 @@ export default hopeTheme(
       },
     },
   },
-  { custom: true }
+  { custom: true },
 );

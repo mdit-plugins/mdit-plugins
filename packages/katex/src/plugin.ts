@@ -16,7 +16,7 @@ const katexInline = (tex: string, options: OriginalKatexOptions): string => {
     if (options.throwOnError) console.warn(error);
 
     return `<span class='katex-error' title='${escapeHtml(
-      (error as Error).toString()
+      (error as Error).toString(),
     )}'>${escapeHtml(tex)}</span>`;
   }
 };
@@ -31,14 +31,14 @@ const katexBlock = (tex: string, options: OriginalKatexOptions): string => {
     if (options.throwOnError) console.warn(error);
 
     return `<p class='katex-block katex-error' title='${escapeHtml(
-      (error as Error).toString()
+      (error as Error).toString(),
     )}'>${escapeHtml(tex)}</p>\n`;
   }
 };
 
 export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
-  options: MarkdownItKatexOptions<MarkdownItEnv> = {}
+  options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
   const {
     mathFence = false,
@@ -63,7 +63,7 @@ export const katex = <MarkdownItEnv = unknown>(
             | "htmlExtension"
             | "newLineInDisplayMode",
           errorMsg: string,
-          token: KatexToken
+          token: KatexToken,
         ): string => logger(errorCode, errorMsg, token, env) ?? "ignore",
         throwOnError: false,
         ...userOptions,

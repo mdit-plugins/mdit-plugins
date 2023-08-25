@@ -13,14 +13,14 @@ describe("Task list", () => {
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
-`)
+`),
     ).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
 -   [ ] unchecked todo item 1
 -   [x] todo item 2
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -34,7 +34,7 @@ describe("Task list", () => {
    * [x] nested checked item 4
 2. bar
 3. spam
-`)
+`),
     ).toMatchSnapshot();
 
     expect(
@@ -44,7 +44,7 @@ describe("Task list", () => {
   - [ ] nested unchecked item 2
   - [x] nested checked item 3
   - [X] nested checked item 4
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -55,7 +55,7 @@ describe("Task list", () => {
 2. [ ] unchecked ordered 2
 3. [x] checked ordered 3
 4. [ ] unchecked ordered 4
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -67,7 +67,7 @@ describe("Task list", () => {
 - [ x] not a todo item 3
 - [x ] not a todo item 4
 - [ x ] not a todo item 5
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -82,7 +82,7 @@ describe("Task list", () => {
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -108,7 +108,7 @@ Some content
   - [ ] unchecked item 2
   - [ ] unchecked item 3
   - [x] checked item 4
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -123,7 +123,7 @@ Some content
 - [ ] unchecked **item 2**
 - [ ] _unchecked_ item 3
 - [x] ~~checked item 4~~
-`)
+`),
     ).toMatchSnapshot();
   });
 });

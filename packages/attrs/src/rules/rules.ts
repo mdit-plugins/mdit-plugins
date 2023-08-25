@@ -49,7 +49,7 @@ const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     token.info = `${removeDelimiter(
       token.info,
       options.left,
-      options.right
+      options.right,
     )} ${lineNumber}`;
   },
 });
@@ -122,12 +122,12 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       const attrs = getAttrs(content, 0, options);
       const openingToken = getMatchingOpeningToken(
         tokens[index].children!,
-        childIndex - 1
+        childIndex - 1,
       );
 
       addAttrs(attrs, openingToken);
       token.content = content.slice(
-        content.indexOf(options.right) + options.right.length
+        content.indexOf(options.right) + options.right.length,
       );
     },
   },
@@ -286,7 +286,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       const attrs = getAttrs(
         content,
         content.lastIndexOf(options.left),
-        options
+        options,
       );
 
       addAttrs(attrs, tokens[index - 2]);
@@ -357,9 +357,9 @@ const getHrRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
         content.match(
           new RegExp(
             `^ {0,3}[-*_]{3,} ?${escapeRegExp(options.left)}[^${escapeRegExp(
-              options.right
-            )}]`
-          )
+              options.right,
+            )}]`,
+          ),
         ) !== null,
     },
     {

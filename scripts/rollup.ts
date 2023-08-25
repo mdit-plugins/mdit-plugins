@@ -24,7 +24,7 @@ export const rollupTypescript = (
     resolve = false,
     output = {},
     inlineDynamicImports = false,
-  }: RollupTypescriptOptions = {}
+  }: RollupTypescriptOptions = {},
 ): RollupOptions[] => [
   {
     input: `./src/${filePath}.ts`,

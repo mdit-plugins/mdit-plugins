@@ -73,7 +73,7 @@ describe("snippet", () => {
       expect(rendered).toMatchSnapshot();
       expect(env.snippetFiles?.length).toBe(1);
       expect(env.snippetFiles?.[0]).toContain(
-        path.join(fixturesPath, "example.")
+        path.join(fixturesPath, "example."),
       );
     });
   });
@@ -102,7 +102,7 @@ describe("snippet", () => {
       expect(rendered).toMatchSnapshot();
       expect(env.snippetFiles?.length).toBe(1);
       expect(env.snippetFiles?.[0]).toContain(
-        path.join(fixturesPath, "example.")
+        path.join(fixturesPath, "example."),
       );
     });
   });

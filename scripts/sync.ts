@@ -19,7 +19,7 @@ export const sync = (): Promise<void[]> => {
             new URL(
               `https://registry-direct.npmmirror.com/${
                 content["name"] as string
-              }/sync?sync_upstream=true`
+              }/sync?sync_upstream=true`,
             ),
             {
               method: "PUT",
@@ -27,7 +27,7 @@ export const sync = (): Promise<void[]> => {
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "Content-Length": 0,
               },
-            }
+            },
           );
 
           req.write("");
@@ -37,8 +37,8 @@ export const sync = (): Promise<void[]> => {
           });
 
           req.end();
-        })
-    )
+        }),
+    ),
   );
 
   return Promise.all(promises);

@@ -15,7 +15,7 @@ import { type MarkdownItTexOptions } from "./options.js";
  */
 const isValidDelim = (
   state: StateInline,
-  pos: number
+  pos: number,
 ): { canOpen: boolean; canClose: boolean } => {
   const prevChar = pos > 0 ? state.src.charAt(pos - 1) : "";
   const nextChar = pos + 1 <= state.posMax ? state.src.charAt(pos + 1) : "";

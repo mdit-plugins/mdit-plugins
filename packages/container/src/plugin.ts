@@ -21,7 +21,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
       index: number,
       options: Options,
       _env: unknown,
-      slf: Renderer
+      slf: Renderer,
     ): string => {
       // add a class to the opening tag
       tokens[index].attrJoin("class", name);
@@ -33,9 +33,9 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
       index: number,
       options: Options,
       _env: unknown,
-      slf: Renderer
+      slf: Renderer,
     ): string => slf.renderToken(tokens, index, options),
-  } = { name: "" }
+  } = { name: "" },
 ) => {
   const MIN_MARKER_NUM = 3;
   const markerStart = marker[0];

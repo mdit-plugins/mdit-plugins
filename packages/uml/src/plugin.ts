@@ -15,7 +15,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
 
       return `<div class="${type}" title="${info}">${content}</div>`;
     },
-  }
+  },
 ) => {
   const OPEN_MARKER = `@${open}`;
   const CLOSE_MARKER = `@${close}`;

@@ -69,7 +69,7 @@ export interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -80,7 +80,7 @@ export interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -92,7 +92,7 @@ export interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -103,6 +103,6 @@ export interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 }

@@ -13,7 +13,7 @@ import { type ImgSizeEnv } from "./types.js";
 const parseNumber = (
   str: string,
   pos: number,
-  max: number
+  max: number,
 ): { ok: boolean; pos: number; value: string } => {
   let char: string;
   const start = pos;
@@ -38,7 +38,7 @@ const parseNumber = (
 const parseImageSize = (
   str: string,
   pos: number,
-  max: number
+  max: number,
 ): { ok: boolean; pos: number; width: string; height: string } => {
   const result = {
     ok: false,

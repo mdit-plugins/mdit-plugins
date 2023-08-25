@@ -6,7 +6,7 @@ export const hasDelimiters =
   (
     where: "start" | "end" | "only",
     left: string,
-    right: string
+    right: string,
   ): ((content: string) => boolean) =>
   (content: string): boolean => {
     const leftLength = left.length;
@@ -76,12 +76,12 @@ export const hasDelimiters =
 export const removeDelimiter = (
   str: string,
   left: string,
-  right: string
+  right: string,
 ): string => {
   const start = escapeRegExp(left);
   const end = escapeRegExp(right);
   const pos = str.search(
-    new RegExp(`[ \\n]?${start}[^${start}${end}]+${end}$`)
+    new RegExp(`[ \\n]?${start}[^${start}${end}]+${end}$`),
   );
 
   return pos !== -1 ? str.slice(0, pos) : str;
@@ -89,7 +89,7 @@ export const removeDelimiter = (
 
 export const getMatchingOpeningToken = (
   tokens: Token[],
-  index: number
+  index: number,
 ): Token | null => {
   if (tokens[index].type === "softbreak") return null;
 

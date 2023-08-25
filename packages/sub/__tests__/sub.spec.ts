@@ -21,25 +21,25 @@ describe("subscript", () => {
 
   it("Should render when spaces are escaped", () => {
     expect(markdownIt.render(`~foo\\ bar\\ baz~`)).toEqual(
-      "<p><sub>foo bar baz</sub></p>\n"
+      "<p><sub>foo bar baz</sub></p>\n",
     );
     expect(markdownIt.render(`~\\ foo\\ ~`)).toEqual(
-      "<p><sub> foo </sub></p>\n"
+      "<p><sub> foo </sub></p>\n",
     );
   });
 
   it("Should handle multiple '\\'", () => {
     expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual(
-      "<p><sub>foo\\\\ bar</sub></p>\n"
+      "<p><sub>foo\\\\ bar</sub></p>\n",
     );
     expect(markdownIt.render(`~foo\\\\\\\\ bar~`)).toEqual(
-      "<p>~foo\\\\ bar~</p>\n"
+      "<p>~foo\\\\ bar~</p>\n",
     );
   });
 
   it("Should work with other marker", () => {
     expect(markdownIt.render(`**~foo~ bar**`)).toEqual(
-      "<p><strong><sub>foo</sub> bar</strong></p>\n"
+      "<p><strong><sub>foo</sub> bar</strong></p>\n",
     );
 
     expect(markdownIt.render(`*~f`)).toEqual("<p>*~f</p>\n");

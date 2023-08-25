@@ -11,8 +11,8 @@ describe("dedent", () => {
           "fn main() {",
           '  println!("Hello");',
           "}",
-        ].join("\n")
-      )
+        ].join("\n"),
+      ),
     ).toMatchInlineSnapshot(`
         "fn main() {
           println!(\\"Hello\\");
@@ -28,8 +28,8 @@ describe("dedent", () => {
           "    let a = {",
           "        value: 42",
           "    };",
-        ].join("\n")
-      )
+        ].join("\n"),
+      ),
     ).toMatchInlineSnapshot(`
         "let a = {
             value: 42
@@ -49,8 +49,8 @@ describe("dedent", () => {
           "	let a = {",
           "		value: 42",
           "	};",
-        ].join("\n")
-      )
+        ].join("\n"),
+      ),
     ).toMatchInlineSnapshot(`
         "let a = {
         	value: 42

@@ -7,7 +7,7 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   {
     light = ["gh-light-mode-only", "light"],
     dark = ["gh-dark-mode-only", "dark"],
-  } = {}
+  } = {},
 ): void => {
   const originalImageRender = md.renderer.rules.image!;
 

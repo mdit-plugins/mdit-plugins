@@ -102,7 +102,7 @@ mdIt.use(include, {
 @tab HTML
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />

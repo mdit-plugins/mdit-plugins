@@ -14,7 +14,7 @@ export const ID_MARKER = "#";
 export const getAttrs = (
   str: string,
   start: number,
-  { left, right, allowed }: Required<Omit<MarkdownItAttrsOptions, "rule">>
+  { left, right, allowed }: Required<Omit<MarkdownItAttrsOptions, "rule">>,
 ): Attr[] => {
   let key = "";
   let value = "";
@@ -100,8 +100,8 @@ export const getAttrs = (
   return allowed.length
     ? attrs.filter(([attr]) =>
         allowed.some((item) =>
-          item instanceof RegExp ? item.test(attr) : item === attr
-        )
+          item instanceof RegExp ? item.test(attr) : item === attr,
+        ),
       )
     : attrs;
 };

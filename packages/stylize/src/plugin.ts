@@ -9,7 +9,7 @@ import {
 const scanTokens = (
   tokens: Token[],
   config: MarkdownItStylizeConfig[],
-  skipContents: string[] = []
+  skipContents: string[] = [],
 ): void => {
   for (let index = 1, len = tokens.length; index < len - 1; index++) {
     const token = tokens[index];
@@ -19,7 +19,7 @@ const scanTokens = (
     if (type !== "text" || skipContents.includes(content)) continue;
 
     const configItem = config.find(({ matcher }) =>
-      typeof matcher === "string" ? matcher === content : matcher.test(content)
+      typeof matcher === "string" ? matcher === content : matcher.test(content),
     );
     const tokenPrev = tokens[index - 1];
     const tokenNext = tokens[index + 1];
@@ -50,7 +50,7 @@ const scanTokens = (
 
 export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (
   md,
-  options = {}
+  options = {},
 ) => {
   if (options.config?.length == 0) return;
 

@@ -90,7 +90,7 @@ const getTabRule =
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
     const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
-      info.replace(/^:active/, "")
+      info.replace(/^:active/, ""),
     )!;
 
     openToken.block = true;
@@ -106,7 +106,7 @@ const getTabRule =
     state.md.block.tokenize(
       state,
       startLine + 1,
-      nextLine + (autoClosed ? 0 : 1)
+      nextLine + (autoClosed ? 0 : 1),
     );
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
@@ -220,7 +220,7 @@ const getTabsRule =
     state.md.block.tokenize(
       state,
       startLine + 1,
-      nextLine - (autoClosed ? 1 : 0)
+      nextLine - (autoClosed ? 1 : 0),
     );
 
     store.state = originalState;
@@ -334,7 +334,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       index: number,
       _options: Options,
       _env: unknown,
-      self: Renderer
+      self: Renderer,
     ): string => {
       const { active, data } = info;
       const token = tokens[index];
@@ -349,7 +349,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === index ? " active" : ""
           }" data-tab="${index}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === index ? " data-active" : ""
-          }>${escapeHtml(title)}</button>`
+          }>${escapeHtml(title)}</button>`,
       );
 
       return `\
@@ -370,13 +370,13 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       index: number,
       _options: Options,
       _env: unknown,
-      self: Renderer
+      self: Renderer,
     ): string => {
       const token = tokens[index];
 
       token.attrJoin(
         "class",
-        `${name}-tab-content${info.isActive ? " active" : ""}`
+        `${name}-tab-content${info.isActive ? " active" : ""}`,
       );
       token.attrSet("data-index", info.index.toString());
       if (info.id) token.attrSet("data-id", info.id.toString());
@@ -404,7 +404,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     index,
     options,
     env,
-    self
+    self,
   ): string => {
     const info = tabsDataGetter(tokens, index);
 

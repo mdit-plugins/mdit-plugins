@@ -125,7 +125,7 @@ interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -136,7 +136,7 @@ interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -148,7 +148,7 @@ interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 
   /**
@@ -159,7 +159,7 @@ interface MarkdownItTabOptions {
     index: number,
     options: Options,
     env: unknown,
-    self: Renderer
+    self: Renderer,
   ) => string;
 }
 ```

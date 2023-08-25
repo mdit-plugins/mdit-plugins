@@ -64,6 +64,6 @@ export interface MarkdownItStylizeOptions {
    */
   localConfigGetter?: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    env?: any
+    env?: any,
   ) => MarkdownItStylizeConfig[] | null;
 }

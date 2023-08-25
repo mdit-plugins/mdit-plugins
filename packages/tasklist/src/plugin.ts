@@ -37,7 +37,7 @@ const generateCheckbox = (
   {
     checkboxClass,
     disabled,
-  }: Required<Pick<MarkdownItTaskListOptions, "checkboxClass" | "disabled">>
+  }: Required<Pick<MarkdownItTaskListOptions, "checkboxClass" | "disabled">>,
 ): Token => {
   const checkbox = new Token("checkbox_input", "input", 0);
 
@@ -77,7 +77,7 @@ const addCheckBox = (
     checkboxClass,
     label,
     labelClass,
-  }: Required<Omit<MarkdownItTaskListOptions, "containerClass" | "itemClass">>
+  }: Required<Omit<MarkdownItTaskListOptions, "containerClass" | "itemClass">>,
 ): void => {
   const id = `task-item-${state.env.tasklists++}`;
 
@@ -93,7 +93,7 @@ const addCheckBox = (
   }
   // checkbox
   token.children.unshift(
-    generateCheckbox(token, id, { checkboxClass, disabled })
+    generateCheckbox(token, id, { checkboxClass, disabled }),
   );
 };
 
@@ -106,7 +106,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
     itemClass = "task-list-item",
     checkboxClass = "task-list-item-checkbox",
     labelClass = "task-list-item-label",
-  } = {}
+  } = {},
 ) => {
   md.core.ruler.after(
     "inline",
@@ -128,11 +128,11 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
           setTokenAttr(
             tokens[getParentTokenIndex(tokens, i - 2)],
             "class",
-            containerClass
+            containerClass,
           );
         }
 
       return true;
-    }
+    },
   );
 };

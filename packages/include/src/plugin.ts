@@ -47,7 +47,7 @@ const testLine = (
   line: string,
   regexp: RegExp,
   regionName: string,
-  end = false
+  end = false,
 ): boolean => {
   const [full, tag, name] = regexp.exec(line.trim()) || [];
 
@@ -55,13 +55,13 @@ const testLine = (
     full &&
       tag &&
       name === regionName &&
-      tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
+      tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
   );
 };
 
 const findRegion = (
   lines: string[],
-  regionName: string
+  regionName: string,
 ): { lineStart: number; lineEnd: number } | null => {
   let regexp = null;
   let lineStart = -1;
@@ -83,7 +83,7 @@ const findRegion = (
 
 export const handleInclude = (
   info: ImportFileInfo,
-  { cwd, includedFiles, resolvedPath }: IncludeInfo
+  { cwd, includedFiles, resolvedPath }: IncludeInfo,
 ): string => {
   const { filePath } = info;
   let realPath = filePath;
@@ -93,7 +93,7 @@ export const handleInclude = (
     // according to the markdown filePath
     if (!cwd) {
       console.error(
-        `[@mdit/plugin-include]: Error when resolving path: ${filePath}`
+        `[@mdit/plugin-include]: Error when resolving path: ${filePath}`,
       );
 
       return "\nError when resolving path\n";
@@ -140,7 +140,7 @@ export const handleInclude = (
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
-  { cwd, includedFiles }: IncludeInfo
+  { cwd, includedFiles }: IncludeInfo,
 ): string =>
   content.replace(
     INCLUDE_RE,
@@ -150,7 +150,7 @@ export const resolveInclude = (
       includePath: string,
       region?: string,
       lineStart?: number,
-      lineEnd?: number
+      lineEnd?: number,
     ) => {
       const actualPath = options.resolvePath(includePath, cwd);
       const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
@@ -165,7 +165,7 @@ export const resolveInclude = (
                 lineEnd: lineEnd ? Number(lineEnd) : undefined,
               }),
         },
-        { cwd, includedFiles, resolvedPath }
+        { cwd, includedFiles, resolvedPath },
       );
 
       return (
@@ -183,7 +183,7 @@ export const resolveInclude = (
         .split("\n")
         .map((line) => indent + line)
         .join("\n");
-    }
+    },
   );
 
 export const createIncludeCoreRule =
@@ -261,7 +261,7 @@ const resolveRelatedLink = (
   attr: string,
   token: Token,
   filePath: string,
-  includedPaths?: string[]
+  includedPaths?: string[],
 ): void => {
   const attrIndex = token.attrIndex(attr);
   const url = token.attrs?.[attrIndex][1];
@@ -272,7 +272,7 @@ const resolveRelatedLink = (
     if (length) {
       const includeDir = path.relative(
         path.dirname(filePath),
-        includedPaths[length - 1]
+        includedPaths[length - 1],
       );
 
       const resolvedPath = path.join(includeDir, url);
@@ -286,7 +286,7 @@ const resolveRelatedLink = (
 
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
   md,
-  options
+  options,
 ): void => {
   const {
     currentPath,
@@ -309,7 +309,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       deep,
       resolveLinkPath,
       resolveImagePath,
-    })
+    }),
   );
 
   if (resolveImagePath || resolveLinkPath) {
@@ -324,7 +324,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       tokens,
       index,
       _options,
-      env: IncludeEnv
+      env: IncludeEnv,
     ): string => {
       const token = tokens[index];
       const includedPaths = (env.includedPaths ??= []);
@@ -338,14 +338,14 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       _tokens,
       _index,
       _options,
-      env: IncludeEnv
+      env: IncludeEnv,
     ): string => {
       const includedPaths = env.includedPaths;
 
       if (Array.isArray(includedPaths)) includedPaths.pop();
       else
         console.error(
-          `[@mdit/plugin-include]: include_pop failed, no include_push.`
+          `[@mdit/plugin-include]: include_pop failed, no include_push.`,
         );
 
       return "";
@@ -359,7 +359,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         index,
         options,
         env: IncludeEnv,
-        self
+        self,
       ): string => {
         const token = tokens[index];
         const path = currentPath(env);
@@ -382,7 +382,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         index,
         options,
         env: IncludeEnv,
-        self
+        self,
       ): string => {
         const token = tokens[index];
         const path = currentPath(env);

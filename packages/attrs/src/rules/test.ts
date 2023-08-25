@@ -10,7 +10,7 @@ import { getElements, isArrayOfFunctions, isArrayOfObjects } from "../utils.js";
 export const testRule = (
   tokens: Token[],
   index: number,
-  rule: RuleSet
+  rule: RuleSet,
 ): { match: boolean; position: null | number } => {
   const res = {
     match: false,
@@ -42,7 +42,7 @@ export const testRule = (
       if (childTests?.every((tt) => tt.position !== undefined)) {
         // positions instead of shifts, do not loop all children
         match = childTests.every(
-          (tt) => testRule(children, tt.position!, tt).match
+          (tt) => testRule(children, tt.position!, tt).match,
         );
 
         if (match) {
@@ -87,7 +87,7 @@ export const testRule = (
       case "object":
         if (isArrayOfFunctions(ruleDetail)) {
           const r = ruleDetail.every((tt) =>
-            (tt as (key: unknown) => boolean)(token[key])
+            (tt as (key: unknown) => boolean)(token[key]),
           );
 
           if (r === false) return res;
@@ -100,7 +100,7 @@ export const testRule = (
       // fall through for objects !== arrays of functions
       default:
         throw new Error(
-          `Unknown type of pattern test (key: ${key}). Test should be of type boolean, number, string, function or array of functions.`
+          `Unknown type of pattern test (key: ${key}). Test should be of type boolean, number, string, function or array of functions.`,
         );
     }
   }

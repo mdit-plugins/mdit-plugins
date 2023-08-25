@@ -30,7 +30,7 @@ A **bold** text.
 
       expect(result).toMatchSnapshot();
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>'
+        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
       );
       expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
     });
@@ -66,10 +66,10 @@ A **bold** text 2.
 
       expect(result).toMatchSnapshot();
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>'
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
       );
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>'
+        '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
       );
       expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
       expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
@@ -102,7 +102,7 @@ A **bold** text.
         expect(result).toMatchSnapshot();
         expect(result).toContain('data-id="event');
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -133,7 +133,7 @@ A **bold** text.
         expect(result).toMatchSnapshot();
         expect(result).toContain('data-id="id with space');
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -166,7 +166,7 @@ A **bold** text.
         expect(result).toMatchSnapshot();
         expect(result).toContain('data-id="id');
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -197,7 +197,7 @@ A **bold** text.
         expect(result).toMatchSnapshot();
         expect(result).toContain('data-id="id with space');
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -227,7 +227,7 @@ A **bold** text.
 
         expect(result).toMatchSnapshot();
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -257,7 +257,7 @@ A **bold** text.
 
         expect(result).toMatchSnapshot();
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
       });
@@ -295,10 +295,10 @@ A **bold** text 2.
 
         expect(result).toMatchSnapshot();
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
         );
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>'
+          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
         expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
@@ -341,13 +341,13 @@ A **bold** text 3.
 
         expect(result).toMatchSnapshot();
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
         );
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>'
+          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
         );
         expect(result).toContain(
-          '<button type="button" class="tabs-tab-button" data-tab="2">test3</button>'
+          '<button type="button" class="tabs-tab-button" data-tab="2">test3</button>',
         );
         expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
         expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
@@ -383,7 +383,7 @@ A **bold** text.
 
       expect(result).toMatchSnapshot();
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>'
+        '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
       );
       expect(result).not.contain("bala bala");
       expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
@@ -448,19 +448,19 @@ A **bold** text 4.
 
       expect(result).toMatchSnapshot();
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>'
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
       );
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>'
+        '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
       );
       expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
       expect(result).toContain(
-        "<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>"
+        "<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>",
       );
 
       expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
       expect(result).toContain(
-        "<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>"
+        "<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>",
       );
     });
   });

@@ -6,7 +6,7 @@ import { footnote } from "../src/index.js";
 describe("footnote", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(footnote);
   const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(
-    footnote
+    footnote,
   );
 
   it("Pandoc example", () => {
@@ -31,8 +31,8 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        {}
-      )
+        {},
+      ),
     ).toMatchSnapshot();
   });
 
@@ -58,8 +58,8 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        {}
-      )
+        {},
+      ),
     ).toMatchSnapshot();
   });
 
@@ -71,7 +71,7 @@ isn’t indented.
 [^1]: foo
 [^2]: bar
 [^3]: baz
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -82,7 +82,7 @@ isn’t indented.
 
 > [^foo]: bar
 baz
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -93,7 +93,7 @@ baz
 
 [^foo
 ]: bar baz
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -103,7 +103,7 @@ baz
 foo[^1] bar[^2].
 
 [^1]:[^2]: baz
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -113,7 +113,7 @@ foo[^1] bar[^2].
 Here is an inline note.^[Inline notes are easier to write, since
 you don’t have to pick an identifier and move down to type the
 note.]
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -127,7 +127,7 @@ note.]
 [^xxxxx] [^xxxxx]
 
 [^xxxxx]: foo
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -141,7 +141,7 @@ note.]
 
 [^yyyyy]: foo
     ---
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -153,7 +153,7 @@ note.]
 [^xxxxx]:       foo
 
 [^yyyyy]:        foo
-`)
+`),
     ).toMatchSnapshot();
 
     expect(
@@ -161,7 +161,7 @@ note.]
 [^xxxxx]
 
 [^xxxxx]:		foo
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -171,7 +171,7 @@ note.]
 [^__proto__]
 
 [^__proto__]: blah
-`)
+`),
     ).toMatchSnapshot();
 
     expect(
@@ -179,13 +179,13 @@ note.]
 [^hasOwnProperty]
 
 [^hasOwnProperty]: blah
-`)
+`),
     ).toMatchSnapshot();
   });
 
   it("Should allow links in inline footnotes", () => {
     expect(
-      markdownIt.render(`Example^[this is another example https://github.com]`)
+      markdownIt.render(`Example^[this is another example https://github.com]`),
     ).toMatchSnapshot();
   });
 
@@ -211,8 +211,8 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        { docId: "test-doc-id" }
-      )
+        { docId: "test-doc-id" },
+      ),
     ).toMatchSnapshot();
   });
 });

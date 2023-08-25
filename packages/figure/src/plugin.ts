@@ -24,7 +24,7 @@ const getCaption = (image: Token): string => {
 
 export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
   md,
-  options = {}
+  options = {},
 ) => {
   md.core.ruler.before("linkify", "figure", (state) => {
     // do not process first and last token
@@ -91,7 +91,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
       token.children.push(new state.Token("figcaption_open", "figcaption", 1));
       token.children.push(...(captionContent.children || []));
       token.children.push(
-        new state.Token("figcaption_close", "figcaption", -1)
+        new state.Token("figcaption_close", "figcaption", -1),
       );
 
       if (options.focusable !== false) image.attrPush(["tabindex", "0"]);

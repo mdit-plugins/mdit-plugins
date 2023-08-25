@@ -27,7 +27,7 @@ const testLine = (
   line: string,
   regexp: RegExp,
   regionName: string,
-  end = false
+  end = false,
 ): boolean => {
   const [full, tag, name] = regexp.exec(line.trim()) || [];
 
@@ -35,13 +35,13 @@ const testLine = (
     full &&
       tag &&
       name === regionName &&
-      tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
+      tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
   );
 };
 
 const findRegion = (
   lines: string[],
-  regionName: string
+  regionName: string,
 ): { start: number; end: number; regexp: RegExp } | null => {
   let regexp: RegExp | null = null;
   let start = -1;
@@ -103,7 +103,7 @@ const getSnippetRule =
         SNIPPET_RE.exec(
           path.isAbsolute(resolvedPath)
             ? resolvedPath
-            : path.join(cwd, resolvedPath)
+            : path.join(cwd, resolvedPath),
         ) || []
       ).slice(1);
 
@@ -124,7 +124,7 @@ const getSnippetRule =
 
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
   md,
-  options
+  options,
 ) => {
   const { currentPath, resolvePath = (path: string): string => path } =
     options || {};
@@ -135,7 +135,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
   md.block.ruler.before(
     "fence",
     "snippet",
-    getSnippetRule({ currentPath, resolvePath })
+    getSnippetRule({ currentPath, resolvePath }),
   );
 
   const fence = md.renderer.rules.fence!;
@@ -145,7 +145,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     index: number,
     options: Options,
     env: SnippetEnv,
-    self: Renderer
+    self: Renderer,
   ): string => {
     const token = tokens[index];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -168,7 +168,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
               lines
                 .slice(region.start, region.end)
                 .filter((line: string) => !region.regexp.test(line.trim()))
-                .join("\n")
+                .join("\n"),
             );
         }
 

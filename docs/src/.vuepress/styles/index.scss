@@ -21,8 +21,10 @@ $hint-dark-icon: '<svg viewBox="0 0 12 16"><path fill="#e6f6e6" fill-rule="eveno
 
 .custom-container.hint {
   position: relative;
-  transition: background var(--color-transition),
-    border-color var(--color-transition), color var(--color-transition);
+  transition:
+    background var(--color-transition),
+    border-color var(--color-transition),
+    color var(--color-transition);
   margin: 1rem 0;
   padding: 0.25rem 1rem;
   border-left-width: 0.3rem;

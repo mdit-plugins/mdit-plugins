@@ -7,7 +7,7 @@ export const align: PluginSimple = (md) => {
       container(md, {
         name,
         openRender: () => `<div style="text-align:${name}">\n`,
-      })
-    )
+      }),
+    ),
   );
 };

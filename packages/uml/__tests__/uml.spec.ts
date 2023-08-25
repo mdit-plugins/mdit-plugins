@@ -14,7 +14,7 @@ describe("uml", () => {
 abc
 
 @end
-    `)
+    `),
     ).toMatchSnapshot();
   });
 
@@ -28,7 +28,7 @@ abc
 Text with **bold** and \`code\`.
 
 @end
-    `)
+    `),
     ).toMatchSnapshot();
   });
 
@@ -54,7 +54,7 @@ abc
 def
 
 @testend
-`)
+`),
     ).toMatchSnapshot();
   });
 });

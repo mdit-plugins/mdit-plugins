@@ -37,7 +37,7 @@ const renderFootnoteAnchorName: Renderer.RenderRule = (
   tokens: FootNoteToken[],
   index,
   _options,
-  env: FootNoteEnv
+  env: FootNoteEnv,
 ): string =>
   `${
     // prefix
@@ -49,7 +49,7 @@ const renderFootnoteAnchorName: Renderer.RenderRule = (
 
 const renderFootnoteCaption: Renderer.RenderRule = (
   tokens: FootNoteToken[],
-  index
+  index,
 ): string =>
   `[${
     // number
@@ -61,33 +61,33 @@ const renderFootnoteRef: Renderer.RenderRule = (
   index,
   options,
   env: FootNoteEnv,
-  self
+  self,
 ): string => {
   const id = self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
     env,
-    self
+    self,
   );
   const caption = self.rules["footnoteCaption"]!(
     tokens,
     index,
     options,
     env,
-    self
+    self,
   );
 
   return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
     tokens,
-    index
+    index,
   )}" /></sup>`;
 };
 
 const renderFootnoteBlockOpen: Renderer.RenderRule = (
   _tokens: FootNoteToken[],
   _index,
-  options
+  options,
 ): string =>
   `\
 <hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
@@ -105,14 +105,14 @@ const renderFootnoteOpen: Renderer.RenderRule = (
   index,
   options,
   env: FootNoteEnv,
-  self
+  self,
 ): string =>
   `<li id="footnote${self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
     env,
-    self
+    self,
   )}${getIDSuffix(tokens, index)}" class="footnote-item">`;
 
 const renderFootnoteClose = (): string => "</li>\n";
@@ -122,14 +122,14 @@ const renderFootnoteAnchor: Renderer.RenderRule = (
   index,
   options,
   env: FootNoteEnv,
-  self
+  self,
 ): string =>
   ` <a href="#footnote-ref${self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
     env,
-    self
+    self,
   )}${
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
@@ -140,7 +140,7 @@ const footnoteDef: RuleBlock = (
   state: FootNoteStateBlock,
   startLine,
   endLine,
-  silent
+  silent,
 ) => {
   let pos;
   let token;
@@ -263,7 +263,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
       state.src.slice(labelStart, labelEnd),
       state.md,
       state.env,
-      (tokens = [])
+      (tokens = []),
     );
 
     token = state.push("footnoteRef", "", 0);

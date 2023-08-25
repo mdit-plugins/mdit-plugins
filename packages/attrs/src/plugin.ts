@@ -10,7 +10,7 @@ import { getRules, testRule } from "./rules/index.js";
 
 export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   md,
-  { left = "{", right = "}", allowed = [], rule = "all" } = {}
+  { left = "{", right = "}", allowed = [], rule = "all" } = {},
 ) => {
   const rules = getRules({
     left,

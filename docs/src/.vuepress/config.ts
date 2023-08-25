@@ -58,7 +58,7 @@ export default defineUserConfig({
           return path.resolve(
             __dirname,
             "snippets",
-            filePath.replace("@snippets/", "")
+            filePath.replace("@snippets/", ""),
           );
 
         return path.join(cwd, filePath);

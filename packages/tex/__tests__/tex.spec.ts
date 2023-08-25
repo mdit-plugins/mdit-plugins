@@ -21,7 +21,7 @@ describe("inline katex", () => {
   it("Should render", () => {
     expect(markdownIt.render(`$a=1$`)).toEqual("<p>{Tex content: a=1}</p>\n");
     expect(markdownIt.render(`A tex equation $a=1$ inline.`)).toEqual(
-      "<p>A tex equation {Tex content: a=1} inline.</p>\n"
+      "<p>A tex equation {Tex content: a=1} inline.</p>\n",
     );
   });
 
@@ -44,7 +44,7 @@ describe("inline katex", () => {
 
   it("Should not render when the ending tag is followed by number", () => {
     expect(markdownIt.render(`Of course $1 = $1`)).toEqual(
-      "<p>Of course $1 = $1</p>\n"
+      "<p>Of course $1 = $1</p>\n",
     );
   });
 });
@@ -52,7 +52,7 @@ describe("inline katex", () => {
 describe("block katex", () => {
   it("Should render", () => {
     expect(markdownIt.render(`$$a=1$$`)).toEqual(
-      "<p>{Tex content: \na=1\n}</p>"
+      "<p>{Tex content: \na=1\n}</p>",
     );
 
     expect(
@@ -61,7 +61,7 @@ $$
 a = 1 \\\\
 b = 2
 $$
-`)
+`),
     ).toEqual("<p>{Tex content: \na = 1 \\\\\nb = 2\n}</p>");
   });
 
@@ -72,7 +72,7 @@ $$
 \\$\\$
 a = 1
 \\$\\$
-`)
+`),
     ).toEqual(`<p>$$
 a = 1
 $$</p>\n`);
@@ -82,7 +82,7 @@ $$</p>\n`);
     expect(markdownIt.render(`$$ a = 1 $$`)).toMatchSnapshot();
 
     expect(markdownIt.render(`All $$ a = 1 $$ is true.`)).toEqual(
-      "<p>All $$ a = 1 $$ is true.</p>\n"
+      "<p>All $$ a = 1 $$ is true.</p>\n",
     );
   });
 });
@@ -94,7 +94,7 @@ describe("math fence", () => {
 \`\`\`math
 a=1
 \`\`\`\
-`)
+`),
     ).toEqual("<p>{Tex content: a=1\n}</p>");
 
     expect(
@@ -103,7 +103,7 @@ a=1
 a = 1 \\\\
 b = 2
 \`\`\`\
-`)
+`),
     ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2\n}</p>");
 
     expect(
@@ -111,7 +111,7 @@ b = 2
 \`\`\`js
 const a = 1;
 \`\`\`\
-`)
+`),
     ).toEqual(`\
 <pre><code class="language-js">const a = 1;
 </code></pre>

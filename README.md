@@ -5,7 +5,7 @@
 <h1 align="center">markdown-it plugin collections</h1>
 <h4 align="center">Some awesome markdown-it plugin written in typescript✨</h4>
 
-[![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mrhope.site)
+[![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 [![License](https://img.shields.io/npm/l/@mdit/plugin-align.svg?style=for-the-badge)](https://github.com/mdit-plugins/mdit-plugins/blob/main/LICENSE)
 [![Open in Visual Studio Code](https://img.shields.io/badge/-open%20in%20vscode-blue?style=for-the-badge&logo=visualstudiocode)](https://open.vscode.dev/mdit-plugins/mdit-plugins)
 

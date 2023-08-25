@@ -12,7 +12,7 @@ describe("container", () => {
     });
 
     expect(markdownIt.render("::: spoiler\n*content*\n:::\n")).toBe(
-      "<details><summary>click me</summary>\n<p><em>content</em></p>\n</details>\n"
+      "<details><summary>click me</summary>\n<p><em>content</em></p>\n</details>\n",
     );
   });
 
@@ -23,7 +23,7 @@ describe("container", () => {
     });
 
     expect(markdownIt.render("->->-> spoiler\n*content*\n->->->\n")).toBe(
-      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n'
+      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
     );
   });
 
@@ -34,11 +34,11 @@ describe("container", () => {
     });
 
     expect(markdownIt.render("``` spoiler\n*content*\n```\n")).toBe(
-      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n'
+      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
     );
 
     expect(markdownIt.render("\n``` not spoiler\n*content*\n```\n")).toBe(
-      '<pre><code class="language-not">*content*\n</code></pre>\n'
+      '<pre><code class="language-not">*content*\n</code></pre>\n',
     );
   });
 
@@ -50,7 +50,7 @@ describe("container", () => {
       });
 
       expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe(
-        "<p>:::foo\nbar\n:::</p>\n"
+        "<p>:::foo\nbar\n:::</p>\n",
       );
     });
 
@@ -61,7 +61,7 @@ describe("container", () => {
       });
 
       expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe(
-        '<div class="name">\n<p>bar</p>\n</div>\n'
+        '<div class="name">\n<p>bar</p>\n</div>\n',
       );
     });
 
@@ -98,11 +98,11 @@ describe("container", () => {
       });
 
       expect(markdownIt.render(":::\nfoo\n:::\n")).toBe(
-        "<p>:::\nfoo\n:::</p>\n"
+        "<p>:::\nfoo\n:::</p>\n",
       );
 
       expect(markdownIt.render("::::\nfoo\n::::\n")).toBe(
-        '<div class="name">\n<p>foo</p>\n</div>\n'
+        '<div class="name">\n<p>foo</p>\n</div>\n',
       );
     });
   });

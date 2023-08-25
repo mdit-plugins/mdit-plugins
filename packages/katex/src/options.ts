@@ -34,7 +34,7 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
     | "newLineInDisplayMode",
   errorMsg: string,
   token: KatexToken,
-  env: MarkdownItEnv
+  env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | void;
 
 export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>

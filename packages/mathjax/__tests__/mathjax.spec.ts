@@ -13,26 +13,26 @@ describe("Inline mathjax", () => {
   it("Should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
 
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
       expect(
-        markdownIt.render(`A tex equation $${example}$ inline.`)
+        markdownIt.render(`A tex equation $${example}$ inline.`),
       ).toMatchSnapshot();
 
       expect(markdownIt.render(`$${example}$`)).toMatch(
-        /<svg .*>[\s\S]*<\/svg>/
+        /<svg .*>[\s\S]*<\/svg>/,
       );
       expect(markdownIt.render(`$${example}$`)).toMatch(
-        /<mjx-container .*>.*<\/mjx-container>/
+        /<mjx-container .*>.*<\/mjx-container>/,
       );
       expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<svg .*>[\s\S]*<\/svg>/
+        /<svg .*>[\s\S]*<\/svg>/,
       );
       expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<mjx-container .*>.*<\/mjx-container>/
+        /<mjx-container .*>.*<\/mjx-container>/,
       );
     });
   });
@@ -42,27 +42,27 @@ describe("Inline mathjax", () => {
       mathjax,
       createMathjaxInstance({
         output: "chtml",
-      })
+      }),
     );
 
     examples.forEach((example) => {
       expect(markdownItHTML.render(`$${example}$`)).toMatchSnapshot();
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatchSnapshot();
 
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
-        /<mjx-container .*>.*<\/mjx-container>/
+        /<mjx-container .*>.*<\/mjx-container>/,
       );
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
-        /<mjx-math .*>[\s\S]*<\/mjx-math>/
+        /<mjx-math .*>[\s\S]*<\/mjx-math>/,
       );
 
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatch(/<mjx-math .*>[\s\S]*<\/mjx-math>/);
     });
   });
@@ -70,27 +70,27 @@ describe("Inline mathjax", () => {
   it("Should output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({
         output: "chtml",
-      })
+      }),
     );
 
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/
+        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
       expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/
+        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/
+        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
     });
   });
@@ -98,28 +98,28 @@ describe("Inline mathjax", () => {
   it("Should not output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({ a11y: false })
+      createMathjaxInstance({ a11y: false }),
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({
         a11y: false,
         output: "chtml",
-      })
+      }),
     );
 
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).not.toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/
+        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
       expect(
-        markdownIt.render(`A tex equation $${example}$ inline.`)
+        markdownIt.render(`A tex equation $${example}$ inline.`),
       ).not.toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
       expect(markdownItHTML.render(`$${example}$`)).not.toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/
+        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).not.toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
     });
   });
@@ -127,7 +127,7 @@ describe("Inline mathjax", () => {
   it("Should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
 
     expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
@@ -138,7 +138,7 @@ describe("Block mathjax", () => {
   it("Should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
@@ -148,14 +148,14 @@ describe("Block mathjax", () => {
 $$
 \\frac{a}{b}
 $$
-`)
+`),
     ).toMatchSnapshot();
   });
 
   it("Should output HTML", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({ output: "chtml" })
+      createMathjaxInstance({ output: "chtml" }),
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
@@ -165,14 +165,14 @@ $$
 $$
 \\frac{a}{b}
 $$
-`)
+`),
     ).toMatchSnapshot();
   });
 
   it("Should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
 
     expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
@@ -182,14 +182,14 @@ $$
 $$
 \\fra{a}{b}
 $$
-`)
+`),
     ).toMatchSnapshot();
   });
 
   it("Should not output warnings when content has line breaks", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({})
+      createMathjaxInstance({}),
     );
 
     expect(
@@ -200,7 +200,7 @@ $$
     3&x+&13&y = 4
 \\end{alignedat}
 $$    
-`)
+`),
     ).toMatchSnapshot();
   });
 });
@@ -210,13 +210,13 @@ describe("Generating Style", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      mathjaxInstance
+      mathjaxInstance,
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
-      "style"
+      "style",
     );
   });
 
@@ -224,13 +224,13 @@ describe("Generating Style", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      mathjaxInstance
+      mathjaxInstance,
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
-      "style"
+      "style",
     );
   });
 });
@@ -240,21 +240,21 @@ describe("Check label result pre page", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      mathjaxInstance
+      mathjaxInstance,
     );
 
     expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
-      "content1"
+      "content1",
     );
 
     mathjaxInstance.reset();
 
     expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
-      "content2"
+      "content2",
     );
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
-      "style"
+      "style",
     );
   });
 
@@ -262,21 +262,21 @@ describe("Check label result pre page", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      mathjaxInstance
+      mathjaxInstance,
     );
 
     expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
-      "content1"
+      "content1",
     );
 
     mathjaxInstance.reset();
 
     expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot(
-      "content2"
+      "content2",
     );
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot(
-      "style"
+      "style",
     );
   });
 });

@@ -21,31 +21,31 @@ describe("superscript", () => {
 
   it("Should render when spaces are escaped", () => {
     expect(markdownIt.render(`^foo\\ bar\\ baz^`)).toEqual(
-      "<p><sup>foo bar baz</sup></p>\n"
+      "<p><sup>foo bar baz</sup></p>\n",
     );
     expect(markdownIt.render(`^\\ foo\\ ^`)).toEqual(
-      "<p><sup> foo </sup></p>\n"
+      "<p><sup> foo </sup></p>\n",
     );
   });
 
   it("Should render when having other symbols", () => {
     expect(markdownIt.render(`^foo~bar^baz^bar~foo^`)).toEqual(
-      "<p><sup>foo~bar</sup>baz<sup>bar~foo</sup></p>\n"
+      "<p><sup>foo~bar</sup>baz<sup>bar~foo</sup></p>\n",
     );
   });
 
   it("Should handle multiple '\\'", () => {
     expect(markdownIt.render(`^foo\\\\\\\\\\\\\\ bar^`)).toEqual(
-      "<p><sup>foo\\\\\\ bar</sup></p>\n"
+      "<p><sup>foo\\\\\\ bar</sup></p>\n",
     );
     expect(markdownIt.render(`^foo\\\\\\\\\\\\ bar^`)).toEqual(
-      "<p>^foo\\\\\\ bar^</p>\n"
+      "<p>^foo\\\\\\ bar^</p>\n",
     );
   });
 
   it("Should work with other marker", () => {
     expect(markdownIt.render(`**^foo^ bar**`)).toEqual(
-      "<p><strong><sup>foo</sup> bar</strong></p>\n"
+      "<p><strong><sup>foo</sup> bar</strong></p>\n",
     );
 
     expect(markdownIt.render(`*^f`)).toEqual("<p>*^f</p>\n");

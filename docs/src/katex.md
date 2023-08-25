@@ -122,7 +122,7 @@ type KatexLogger<MarkdownItEnv = unknown> = (
     | "newLineInDisplayMode",
   errorMsg: string,
   token: KatexToken,
-  env: MarkdownItEnv
+  env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | void;
 
 interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {

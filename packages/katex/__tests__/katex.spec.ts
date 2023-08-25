@@ -29,14 +29,14 @@ describe("inline katex", () => {
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
       expect(
-        markdownIt.render(`A tex equation $${example}$ inline.`)
+        markdownIt.render(`A tex equation $${example}$ inline.`),
       ).toMatchSnapshot();
 
       expect(markdownIt.render(`$${example}$`)).toMatch(
-        /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/
+        /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
       expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/
+        /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
     });
   });
@@ -45,16 +45,16 @@ describe("inline katex", () => {
     examples.forEach((example) => {
       expect(markdownItHTML.render(`$${example}$`)).toMatchSnapshot();
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatchSnapshot();
 
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
-        /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/
+        /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
       expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`)
+        markdownItHTML.render(`A tex equation $${example}$ inline.`),
       ).toMatch(
-        /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/
+        /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
     });
   });
@@ -63,13 +63,13 @@ describe("inline katex", () => {
     examples.forEach((example) => {
       expect(markdownItMathML.render(`$${example}$`)).toMatchSnapshot();
       expect(markdownItMathML.render(`$${example}$`)).toMatch(
-        /<span class="katex"><math .*>[.\n]*<\/math><\/span>/
+        /<span class="katex"><math .*>[.\n]*<\/math><\/span>/,
       );
       expect(
-        markdownItMathML.render(`A tex equation $${example}$ inline.`)
+        markdownItMathML.render(`A tex equation $${example}$ inline.`),
       ).toMatchSnapshot();
       expect(
-        markdownItMathML.render(`A tex equation $${example}$ inline.`)
+        markdownItMathML.render(`A tex equation $${example}$ inline.`),
       ).toMatch(/<span class="katex"><math .*>[.\n]*<\/math><\/span>/);
     });
   });
@@ -85,7 +85,7 @@ describe("inline katex", () => {
     global.console.warn = vi.fn();
 
     expect(markdownItWithError.render("$\\fra{a}{b}$")).toEqual(
-      "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n"
+      "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
     );
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -101,10 +101,10 @@ describe("block katex", () => {
       expect(markdownIt.render(`$$\n${example}\n$$`)).toMatchSnapshot();
 
       expect(markdownIt.render(`$$${example}$$`)).toMatch(
-        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/
+        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
       expect(markdownIt.render(`$$\n${example}\n$$`)).toMatch(
-        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/
+        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
     });
   });
@@ -115,10 +115,10 @@ describe("block katex", () => {
       expect(markdownItHTML.render(`$$\n${example}\n$$`)).toMatchSnapshot();
 
       expect(markdownItHTML.render(`$$${example}$$`)).toMatch(
-        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/
+        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
       expect(markdownItHTML.render(`$$\n${example}\n$$`)).toMatch(
-        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/
+        /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
     });
   });
@@ -127,11 +127,11 @@ describe("block katex", () => {
     examples.forEach((example) => {
       expect(markdownItMathML.render(`$$${example}$$`)).toMatchSnapshot();
       expect(markdownItMathML.render(`$$${example}$$`)).toMatch(
-        /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/
+        /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/,
       );
       expect(markdownItMathML.render(`$$\n${example}\n$$`)).toMatchSnapshot();
       expect(markdownItMathML.render(`$$\n${example}\n$$`)).toMatch(
-        /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/
+        /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/,
       );
     });
   });
@@ -144,7 +144,7 @@ describe("block katex", () => {
 $$
 \\fra{a}{b}
 $$
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -157,7 +157,7 @@ $$
     3&x+&13&y = 4
 \\end{alignedat}
 $$    
-`)
+`),
     ).toMatchSnapshot();
   });
 
@@ -167,7 +167,7 @@ $$
 
     global.console.warn = vi.fn();
     expect(markdownItWithError.render("$$\\fra{a}{b}$$")).toMatch(
-      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/
+      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
 
     expect(
@@ -175,9 +175,9 @@ $$
 $$
 \\fra{a}{b}
 $$
-`)
+`),
     ).toMatch(
-      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/
+      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
 
     // eslint-disable-next-line @typescript-eslint/unbound-method

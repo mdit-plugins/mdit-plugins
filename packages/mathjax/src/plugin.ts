@@ -36,7 +36,7 @@ export interface DocumentOptions {
 }
 
 export const getDocumentOptions = (
-  options: MarkdownItMathjaxOptions
+  options: MarkdownItMathjaxOptions,
 ): DocumentOptions => ({
   InputJax: new TeX<LiteElement, string, HTMLElement>({
     packages: AllPackages,
@@ -47,8 +47,8 @@ export const getDocumentOptions = (
       ? new CHTML<LiteElement, string, HTMLElement>({
           fontURL: path.dirname(
             createRequire(import.meta.url).resolve(
-              "mathjax-full/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff"
-            )
+              "mathjax-full/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff",
+            ),
           ),
           adaptiveCSS: true,
           ...options.chtml,
@@ -97,7 +97,7 @@ export interface MathjaxInstance {
 }
 
 export const createMathjaxInstance = (
-  options: MarkdownItMathjaxOptions = {}
+  options: MarkdownItMathjaxOptions = {},
 ): MathjaxInstance | null => {
   const documentOptions = getDocumentOptions(options);
   const adaptor = liteAdaptor();
@@ -122,8 +122,8 @@ export const createMathjaxInstance = (
     const style = adaptor.innerHTML(
       documentOptions.OutputJax.styleSheet(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        MathJax.document("", documentOptions)
-      )
+        MathJax.document("", documentOptions),
+      ),
     );
 
     clearStyle();
@@ -150,7 +150,7 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
       /* eslint-disable */
       const mathDocument = MathJax.document(content, documentOptions).convert(
         content,
-        { display: displayMode }
+        { display: displayMode },
       );
       return adaptor.outerHTML(mathDocument);
     },

@@ -33,7 +33,7 @@ files.forEach((pkgName) => {
       author: {
         name: "Mr.Hope",
         email: "mister-hope@outlook.com",
-        url: "https://mrhope.site",
+        url: "https://mister-hope.com",
       },
       main: "lib/index.cjs",
       types: "lib/index.d.ts",
@@ -88,6 +88,6 @@ npm i -D @mdit/plugin-${pkgName}
 # yarn
 yarn add -D @mdit/plugin-${pkgName}
 \`\`\`
-`
+`,
     );
 });

@@ -55,7 +55,7 @@ const tokenize: RuleInline = (state, silent) => {
  */
 const postProcess = (
   state: StateInline,
-  delimiters: StateInline.Delimiter[]
+  delimiters: StateInline.Delimiter[],
 ): void => {
   let token;
   const loneMarkers = [];
