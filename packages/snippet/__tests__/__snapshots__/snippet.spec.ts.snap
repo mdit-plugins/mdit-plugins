@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`snippet > should import all lines 1`] = `
-"<pre><code class=\\"language-html\\">&lt;!DOCTYPE html&gt;
+"<pre><code class=\\"language-html\\">&lt;!doctype html&gt;
 &lt;html lang=&quot;zh-CN&quot;&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot; /&gt;
