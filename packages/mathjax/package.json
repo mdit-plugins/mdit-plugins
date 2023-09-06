@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^13.0.0",
+    "@types/markdown-it": "^13.0.1",
     "mathjax-full": "^3.2.2",
     "markdown-it": "^13.0.1",
     "upath": "^2.0.1"

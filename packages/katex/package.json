@@ -47,7 +47,7 @@
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
     "@types/katex": "^0.16.2",
-    "@types/markdown-it": "^13.0.0",
+    "@types/markdown-it": "^13.0.1",
     "katex": "^0.16.8",
     "markdown-it": "^13.0.1"
   },
