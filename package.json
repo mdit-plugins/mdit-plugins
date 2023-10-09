@@ -25,64 +25,6 @@
     "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/sync.ts",
     "test": "vitest --coverage"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-git"
-    }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "17.7.1",
-    "@commitlint/config-conventional": "17.7.0",
-    "@rollup/plugin-commonjs": "25.0.4",
-    "@rollup/plugin-node-resolve": "15.2.1",
-    "@types/inquirer": "9.0.3",
-    "@types/node": "20.5.9",
-    "@typescript-eslint/eslint-plugin": "6.6.0",
-    "@typescript-eslint/parser": "6.6.0",
-    "@vitest/coverage-v8": "0.34.3",
-    "@vue/eslint-config-typescript": "11.0.3",
-    "bumpp": "9.2.0",
-    "commit-and-tag-version": "11.2.3",
-    "commitizen": "4.3.0",
-    "cross-env": "7.0.3",
-    "cz-git": "1.7.1",
-    "esbuild": "0.19.2",
-    "eslint": "8.48.0",
-    "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-import": "2.28.1",
-    "eslint-plugin-prettier": "5.0.0",
-    "eslint-plugin-vue": "9.17.0",
-    "execa": "8.0.1",
-    "husky": "8.0.3",
-    "inquirer": "9.2.10",
-    "markdownlint-cli": "0.35.0",
-    "nano-staged": "0.8.0",
-    "ora": "7.0.1",
-    "picocolors": "1.0.0",
-    "prettier": "3.0.3",
-    "rimraf": "5.0.1",
-    "rollup": "3.28.1",
-    "rollup-plugin-dts": "6.0.1",
-    "rollup-plugin-esbuild": "5.0.0",
-    "sort-package-json": "2.5.1",
-    "tslib": "2.6.2",
-    "tsx": "3.12.8",
-    "typescript": "5.2.2",
-    "vitest": "0.34.3"
-  },
-  "packageManager": "pnpm@8.7.1",
-  "engines": {
-    "node": ">=16",
-    "npm": ">=8",
-    "pnpm": ">=8"
-  },
-  "commit-and-tag-version": {
-    "skip": {
-      "bump": true,
-      "commit": true,
-      "tag": true
-    }
-  },
   "nano-staged": {
     "*.{js,ts}": [
       "eslint --fix",
@@ -98,6 +40,64 @@
     "package.json": [
       "sort-package-json"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.7.2",
+    "@commitlint/config-conventional": "17.7.0",
+    "@rollup/plugin-commonjs": "25.0.5",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@types/inquirer": "9.0.4",
+    "@types/node": "20.8.4",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
+    "@typescript-eslint/parser": "6.7.5",
+    "@vitest/coverage-v8": "0.34.6",
+    "@vue/eslint-config-typescript": "12.0.0",
+    "bumpp": "9.2.0",
+    "commit-and-tag-version": "11.3.0",
+    "commitizen": "4.3.0",
+    "cross-env": "7.0.3",
+    "cz-git": "1.7.1",
+    "esbuild": "0.19.4",
+    "eslint": "8.51.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-import": "2.28.1",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-plugin-vue": "9.17.0",
+    "execa": "8.0.1",
+    "husky": "8.0.3",
+    "inquirer": "9.2.11",
+    "markdownlint-cli": "0.37.0",
+    "nano-staged": "0.8.0",
+    "ora": "7.0.1",
+    "picocolors": "1.0.0",
+    "prettier": "3.0.3",
+    "rimraf": "5.0.5",
+    "rollup": "4.0.2",
+    "rollup-plugin-dts": "6.1.0",
+    "rollup-plugin-esbuild": "6.1.0",
+    "sort-package-json": "2.6.0",
+    "tslib": "2.6.2",
+    "tsx": "3.13.0",
+    "typescript": "5.2.2",
+    "vitest": "0.34.6"
+  },
+  "packageManager": "pnpm@8.9.0",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=8",
+    "pnpm": ">=8"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "bump": true,
+      "commit": true,
+      "tag": true
+    }
   },
   "pnpm": {
     "overrides": {

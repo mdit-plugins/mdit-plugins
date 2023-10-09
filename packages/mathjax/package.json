@@ -38,7 +38,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
@@ -46,9 +46,9 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^13.0.1",
+    "@types/markdown-it": "^13.0.2",
     "mathjax-full": "^3.2.2",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^13.0.2",
     "upath": "^2.0.1"
   },
   "publishConfig": {

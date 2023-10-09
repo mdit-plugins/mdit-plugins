@@ -39,15 +39,15 @@
     "lib"
   ],
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@types/markdown-it": "^13.0.1",
-    "markdown-it": "^13.0.1"
+    "@types/markdown-it": "^13.0.2",
+    "markdown-it": "^13.0.2"
   },
   "publishConfig": {
     "access": "public"

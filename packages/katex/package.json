@@ -38,7 +38,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
@@ -46,10 +46,10 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/katex": "^0.16.2",
-    "@types/markdown-it": "^13.0.1",
-    "katex": "^0.16.8",
-    "markdown-it": "^13.0.1"
+    "@types/katex": "^0.16.3",
+    "@types/markdown-it": "^13.0.2",
+    "katex": "^0.16.9",
+    "markdown-it": "^13.0.2"
   },
   "publishConfig": {
     "access": "public"
