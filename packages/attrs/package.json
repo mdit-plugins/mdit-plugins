@@ -45,11 +45,19 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@types/markdown-it": "^13.0.2",
+    "@types/markdown-it": "^13.0.2"
+  },
+  "peerDependencies": {
     "markdown-it": "^13.0.2"
   },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
   "devDependencies": {
-    "@mdit/plugin-katex": "workspace:*"
+    "@mdit/plugin-katex": "workspace:*",
+    "markdown-it": "13.0.2"
   },
   "publishConfig": {
     "access": "public"

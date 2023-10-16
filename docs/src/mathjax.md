@@ -3,7 +3,7 @@ title: "@mdit/plugin-mathjax"
 icon: tex
 ---
 
-Plugins to render math expressions with Mathjax.
+Plugins to render math expressions with Mathjax, you should install `mathjax-full` as peer dependency.
 
 ::: note
 

@@ -3,7 +3,7 @@ title: "@mdit/plugin-katex"
 icon: tex
 ---
 
-Plugins to render math expressions with KaTeX.
+Plugins to render math expressions with KaTeX, you should install `katex` as peer dependency.
 
 ::: note
 

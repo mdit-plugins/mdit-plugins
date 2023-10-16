@@ -47,9 +47,19 @@
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
     "@types/katex": "^0.16.3",
-    "@types/markdown-it": "^13.0.2",
-    "katex": "^0.16.9",
-    "markdown-it": "^13.0.2"
+    "@types/markdown-it": "^13.0.2"
+  },
+  "peerDependencies": {
+    "markdown-it": "^13.0.2",
+    "katex": "^0.16.9"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    },
+    "katex": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
