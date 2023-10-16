@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.4.8...v0.5.0) (2023-10-16)
+
+### Features
+
+- drop node14 and node 16 ([cd50145](https://github.com/Mister-Hope/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/Mister-Hope/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+
 ## [0.4.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.7...v0.4.8) (2023-06-12)
 
 ### Features

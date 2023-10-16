@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-uml",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "description": "uml plugin for MarkdownIt",
   "keywords": [
     "markdownit",
