@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.5.1...v0.5.2) (2023-10-24)
+
+### Bug Fixes
+
+- **mathjax:** remove exports ([787a88f](https://github.com/Mister-Hope/mdit-plugins/commit/787a88f4591529537c4d12d0bd26089f70a72296))
+
 ## [0.5.1](https://github.com/Mister-Hope/mdit-plugins/compare/v0.5.0...v0.5.1) (2023-10-24)
 
 ### Bug Fixes
