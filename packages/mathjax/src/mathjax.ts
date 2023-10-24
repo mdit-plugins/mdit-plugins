@@ -2,11 +2,6 @@ import { type MmlNode } from "mathjax-full/js/core/MmlTree/MmlNode.js";
 import type TexError from "mathjax-full/js/input/tex/TexError.js";
 import { type TeX } from "mathjax-full/js/input/tex.js";
 
-export { mathjax as Mathjax } from "mathjax-full/js/mathjax.js";
-export { TeX } from "mathjax-full/js/input/tex.js";
-export { CHTML } from "mathjax-full/js/output/chtml.js";
-export { SVG } from "mathjax-full/js/output/svg.js";
-
 export interface MathJaxTexInputOptions {
   /**
    * extensions to use
