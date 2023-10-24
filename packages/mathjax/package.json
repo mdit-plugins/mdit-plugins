@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^13.0.2",
+    "@types/markdown-it": "^13.0.5",
     "upath": "^2.0.1"
   },
   "peerDependencies": {
@@ -60,6 +60,9 @@
     "mathjax-full": {
       "optional": true
     }
+  },
+  "devDependencies": {
+    "mathjax-full": "3.2.2"
   },
   "publishConfig": {
     "access": "public"

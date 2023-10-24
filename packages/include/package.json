@@ -42,7 +42,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@types/markdown-it": "^13.0.2",
+    "@types/markdown-it": "^13.0.5",
     "upath": "^2.0.1"
   },
   "peerDependencies": {

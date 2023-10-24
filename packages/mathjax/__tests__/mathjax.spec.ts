@@ -2,7 +2,6 @@ import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { createMathjaxInstance, mathjax } from "../src/index.js";
-import {} from "../src/plugin.js";
 
 const examples = [
   "a=1",
