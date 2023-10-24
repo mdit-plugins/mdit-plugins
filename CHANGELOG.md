@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/Mister-Hope/mdit-plugins/compare/v0.5.0...v0.5.1) (2023-10-24)
+
+### Bug Fixes
+
+- fix tex optional deps ([fbfc6a4](https://github.com/Mister-Hope/mdit-plugins/commit/fbfc6a4cfea5105c26a0f292ae822aaddb95eea4))
+
 ## [0.5.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.4.8...v0.5.0) (2023-10-16)
 
 ### Features
