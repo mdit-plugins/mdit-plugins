@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.1...v0.6.2) (2023-11-02)
+
+### Bug Fixes
+
+- **demo:** fix code trim ([99323fa](https://github.com/Mister-Hope/mdit-plugins/commit/99323fae6edea4e13115c2db1fa40add41952085))
+
 ## [0.6.1](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.0...v0.6.1) (2023-11-02)
 
 ### Bug Fixes
