@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.2...v0.6.3) (2023-11-02)
+
+### Features
+
+- **include:** support frontmatter ([462497f](https://github.com/Mister-Hope/mdit-plugins/commit/462497fba6e8966ecb870d5e737d64574aa4bb9f))
+
 ## [0.6.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.1...v0.6.2) (2023-11-02)
 
 ### Bug Fixes

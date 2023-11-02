@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-tex",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "tex plugin for MarkdownIt",
   "keywords": [
     "markdownit",
