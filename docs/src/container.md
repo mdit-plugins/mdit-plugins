@@ -9,7 +9,7 @@ Plugin for creating block-level custom containers.
 
 ## Usage
 
-::: code-tabs#language
+:::: code-tabs#language
 
 @tab TS
 
@@ -22,7 +22,13 @@ const mdIt = MarkdownIt().use(container, {
   name: "warning",
 });
 
-mdIt.render("# Heading 🎉{#heading}");
+mdIt.render(`
+::: warning
+
+Warning Text
+
+:::
+`);
 ```
 
 @tab JS
@@ -36,10 +42,16 @@ const mdIt = MarkdownIt().use(container, {
   name: "warning",
 });
 
-mdIt.render("# Heading 🎉{#heading}");
-```
+mdIt.render(`
+::: warning
+
+Warning Text
 
 :::
+`);
+```
+
+::::
 
 ## Syntax
 

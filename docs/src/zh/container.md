@@ -9,7 +9,7 @@ icon: box
 
 ## 使用
 
-::: code-tabs#language
+:::: code-tabs#language
 
 @tab TS
 
@@ -22,12 +22,18 @@ const mdIt = MarkdownIt().use(container, {
   name: "warning",
 });
 
-mdIt.render("# Heading 🎉{#heading}");
+mdIt.render(`
+::: warning
+
+Warning Text
+
+:::
+`);
 ```
 
 @tab JS
 
-```js
+````js
 const MarkdownIt = require("markdown-it");
 const { container } = require("@mdit/plugin-container");
 
@@ -36,10 +42,16 @@ const mdIt = MarkdownIt().use(container, {
   name: "warning",
 });
 
-mdIt.render("# Heading 🎉{#heading}");
-```
+mdIt.render(`
+::: warning
+
+Warning Text
 
 :::
+`);
+```
+
+::::
 
 ## 格式
 
@@ -49,7 +61,7 @@ mdIt.render("# Heading 🎉{#heading}");
 ::: warning
 _here be dragons_
 :::
-```
+````
 
 并指定它们应该如何呈现。如果没有定义渲染器，将创建带有容器名称 class 的 `<div>`：
 
