@@ -58,6 +58,26 @@ ${mdContent}
 </details>
 `,
     );
+
+    expect(
+      markdownIt.render(`
+::: md-demo Title text
+
+${mdContent}
+
+:::
+`),
+    ).toBe(
+      `<details><summary>Title text</summary>
+<h1>Heading 1</h1>
+<p>Content text.</p>
+<pre><code class="language-js">const a = 1;
+</code></pre>
+<pre><code class="language-md">${mdContent}
+</code></pre>
+</details>
+`,
+    );
   });
 
   it("beforeContent", () => {
@@ -91,7 +111,6 @@ ${mdContent}
         tokens[index].type = "fence";
         tokens[index].info = "md";
         tokens[index].markup = "```";
-        console.log(tokens[index]);
 
         return `</div></summary>\n${self.rules.fence!(
           tokens,

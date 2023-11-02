@@ -114,7 +114,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
       codeToken.content = state
         .getLines(startLine + 1, nextLine, indent, true)
-        .replace(/^(\n\r?)+/, "\n")
+        .replace(/^(\n\r?)+/, "")
         .replace(/(\n\r?)+$/, "\n");
       codeToken.map = [startLine, state.line];
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
