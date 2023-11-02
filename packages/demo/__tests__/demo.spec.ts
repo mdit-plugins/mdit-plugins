@@ -24,7 +24,31 @@ ${mdContent}
 :::
 `),
     ).toBe(
-      `<details><summary>demo Title text</summary>
+      `<details><summary>Title text</summary>
+<h1>Heading 1</h1>
+<p>Content text.</p>
+<pre><code class="language-js">const a = 1;
+</code></pre>
+<pre><code class="language-md">${mdContent}
+</code></pre>
+</details>
+`,
+    );
+  });
+
+  it("customize name", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+      name: "md-demo",
+    });
+
+    expect(
+      markdownIt.render(`
+::: md-demo Title text
+${mdContent}
+:::
+`),
+    ).toBe(
+      `<details><summary>Title text</summary>
 <h1>Heading 1</h1>
 <p>Content text.</p>
 <pre><code class="language-js">const a = 1;
@@ -48,7 +72,7 @@ ${mdContent}
 :::
 `),
     ).toBe(
-      `<details><summary>demo Title text</summary>
+      `<details><summary>Title text</summary>
 <pre><code class="language-md">${mdContent}
 </code></pre>
 <h1>Heading 1</h1>

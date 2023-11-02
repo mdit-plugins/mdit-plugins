@@ -7,6 +7,7 @@ import { MarkdownItDemoOptions } from "./options.js";
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
   {
+    name = "demo",
     openRender = (tokens: Token[], index: number): string =>
       `<details><summary>${tokens[index].info.trim()}</summary>\n`,
     closeRender = (): string => "</details>\n",
@@ -36,6 +37,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const markup = state.src.slice(start, pos);
     const params = state.src.slice(pos, max);
+
+    if (params.trim().split(" ", 2)[0] !== name) return false;
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
@@ -92,11 +95,12 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;
 
+    const title = params.trim().slice(name.length).trim();
     const openToken = state.push("demo_open", "div", 1);
 
     openToken.markup = markup;
     openToken.block = true;
-    openToken.info = params;
+    openToken.info = title;
     openToken.map = [startLine, nextLine];
 
     const pushCodeToken = (): void => {
@@ -113,6 +117,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .replace(/^(\n\r?)+/, "\n")
         .replace(/(\n\r?)+$/, "\n");
       codeToken.map = [startLine, state.line];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      (codeToken.meta ??= {}).title = title;
       if (!codeRender) codeToken.info = "md";
     };
 
@@ -126,7 +132,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     closeToken.markup = state.src.slice(start, pos);
     closeToken.block = true;
-    closeToken.info = params;
+    closeToken.info = title;
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;

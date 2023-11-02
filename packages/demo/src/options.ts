@@ -2,6 +2,15 @@ import { type RenderRule } from "markdown-it/lib/renderer.js";
 
 export interface MarkdownItDemoOptions {
   /**
+   * Container name
+   *
+   * 容器名称
+   *
+   * @default "demo"
+   */
+  name?: string;
+
+  /**
    * Whether code is displayed before result
    *
    * 代码是否显示在内容前

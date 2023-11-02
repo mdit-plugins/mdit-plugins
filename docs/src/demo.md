@@ -66,6 +66,13 @@ The syntax is the same as [container](./container.md), except that the correspon
 ```ts
 interface MarkdownItDemoOptions {
   /**
+   * Container name
+   *
+   * @default "demo"
+   */
+  name?: string;
+
+  /**
    * Whether code is displayed before result
    *
    * @default true

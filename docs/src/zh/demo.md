@@ -66,6 +66,13 @@ Text
 ```ts
 interface MarkdownItDemoOptions {
   /**
+   * 容器名称
+   *
+   * @default "demo"
+   */
+  name?: string;
+
+  /**
    * 代码是否显示在内容前
    *
    * @default true
