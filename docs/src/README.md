@@ -19,6 +19,11 @@ features:
     details: Creating block-level custom containers
     link: /container.html
 
+  - title: Demo
+    icon: creative
+    details: Display snippets and render result both
+    link: /demo.html
+
   - title: figure
     icon: pic
     details: Generating figures with captions from images

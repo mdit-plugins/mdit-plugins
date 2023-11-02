@@ -1,4 +1,5 @@
 import { container } from "@mdit/plugin-container";
+import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
 import { type MarkdownEnv } from "@vuepress/markdown";
 import { getDirname, path } from "@vuepress/utils";
@@ -35,6 +36,8 @@ export default defineUserConfig({
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
+    md.use(demo);
+
     md.use(container, {
       name: "hint",
       openRender: (tokens, index, _options): string => {

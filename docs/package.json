@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdit/plugin-container": "workspace:*",
+    "@mdit/plugin-demo": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@vuepress/client": "2.0.0-beta.67",
     "@vuepress/markdown": "2.0.0-beta.67",

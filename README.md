@@ -29,6 +29,7 @@ This repo contains the following plugins:
 - @mdit/plugin-align
 - @mdit/plugin-attrs
 - @mdit/plugin-container
+- @mdit/plugin-demo
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
 - @mdit/plugin-img-lazyload

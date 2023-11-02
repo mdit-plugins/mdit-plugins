@@ -19,6 +19,11 @@ features:
     details: 创建块级自定义容器
     link: /zh/container.html
 
+  - title: Demo
+    icon: creative
+    details: 同时展示片段和渲染结果
+    link: /zh/demo.html
+
   - title: figure
     icon: pic
     details: 生成带有标题的图片

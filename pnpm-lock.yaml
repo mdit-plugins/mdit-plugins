@@ -8,6 +8,7 @@ overrides:
   '@mdit/plugin-align': workspace:*
   '@mdit/plugin-attrs': workspace:*
   '@mdit/plugin-container': workspace:*
+  '@mdit/plugin-demo': workspace:*
   '@mdit/plugin-figure': workspace:*
   '@mdit/plugin-footnote': workspace:*
   '@mdit/plugin-img-lazyload': workspace:*
@@ -148,6 +149,9 @@ importers:
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../packages/container
+      '@mdit/plugin-demo':
+        specifier: workspace:*
+        version: link:../packages/demo
       '@mdit/plugin-snippet':
         specifier: workspace:*
         version: link:../packages/snippet
@@ -209,6 +213,15 @@ importers:
         version: 13.0.2
 
   packages/container:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^13.0.5
+        version: 13.0.5
+      markdown-it:
+        specifier: ^13.0.2
+        version: 13.0.2
+
+  packages/demo:
     dependencies:
       '@types/markdown-it':
         specifier: ^13.0.5

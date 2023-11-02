@@ -104,6 +104,7 @@
       "@mdit/plugin-align": "workspace:*",
       "@mdit/plugin-attrs": "workspace:*",
       "@mdit/plugin-container": "workspace:*",
+      "@mdit/plugin-demo": "workspace:*",
       "@mdit/plugin-figure": "workspace:*",
       "@mdit/plugin-footnote": "workspace:*",
       "@mdit/plugin-img-lazyload": "workspace:*",

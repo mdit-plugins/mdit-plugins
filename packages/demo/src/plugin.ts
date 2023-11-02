@@ -1,0 +1,144 @@
+import { type PluginWithOptions } from "markdown-it";
+import { type RuleBlock } from "markdown-it/lib/parser_block.js";
+import type Token from "markdown-it/lib/token.js";
+
+import { MarkdownItDemoOptions } from "./options.js";
+
+export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
+  md,
+  {
+    openRender = (tokens: Token[], index: number): string =>
+      `<details><summary>${tokens[index].info.trim()}</summary>\n`,
+    closeRender = (): string => "</details>\n",
+    codeRender,
+    beforeContent = false,
+  } = {},
+) => {
+  const MIN_MARKER_NUM = 3;
+
+  const demo: RuleBlock = (state, startLine, endLine, silent) => {
+    let start = state.bMarks[startLine] + state.tShift[startLine];
+    let max = state.eMarks[startLine];
+
+    if (":" !== state.src[start]) return false;
+
+    let pos = start + 1;
+
+    // Check out the rest of the marker string
+    while (pos <= max) {
+      if (":" !== state.src[pos]) break;
+      pos += 1;
+    }
+
+    const markerCount = pos - start;
+
+    if (markerCount < MIN_MARKER_NUM) return false;
+
+    const markup = state.src.slice(start, pos);
+    const params = state.src.slice(pos, max);
+
+    // Since start is found, we can report success here in validation mode
+    if (silent) return true;
+
+    let nextLine = startLine;
+    let autoClosed = false;
+
+    // Search for the end of the block
+    while (
+      // unclosed block should be auto closed by end of document.
+      // also block seems to be auto closed by end of parent
+      nextLine < endLine
+    ) {
+      nextLine += 1;
+      start = state.bMarks[nextLine] + state.tShift[nextLine];
+      max = state.eMarks[nextLine];
+
+      if (start < max && state.sCount[nextLine] < state.blkIndent)
+        // non-empty line with negative indent should stop the list:
+        // - ```
+        //  test
+        break;
+
+      if (
+        // match start
+        ":" === state.src[start] &&
+        // closing fence should be indented less than 4 spaces
+        state.sCount[nextLine] - state.blkIndent < 4
+      ) {
+        // check rest of marker
+        for (pos = start + 1; pos <= max; pos++)
+          if (":" !== state.src[pos]) break;
+
+        // closing code fence must be at least as long as the opening one
+        if (Math.floor(pos - start) >= markerCount) {
+          // make sure tail has spaces only
+          pos = state.skipSpaces(pos);
+
+          if (pos >= max) {
+            // found!
+            autoClosed = true;
+            break;
+          }
+        }
+      }
+    }
+
+    const oldParent = state.parentType;
+    const oldLineMax = state.lineMax;
+
+    // @ts-expect-error
+    state.parentType = "container";
+
+    // this will prevent lazy continuations from ever going past our end marker
+    state.lineMax = nextLine;
+
+    const openToken = state.push("demo_open", "div", 1);
+
+    openToken.markup = markup;
+    openToken.block = true;
+    openToken.info = params;
+    openToken.map = [startLine, nextLine];
+
+    const pushCodeToken = (): void => {
+      const codeToken = state.push(
+        codeRender ? "demo_code" : "fence",
+        "code",
+        0,
+      );
+
+      const indent = state.sCount[startLine];
+
+      codeToken.content = state
+        .getLines(startLine + 1, nextLine, indent, true)
+        .replace(/^(\n\r?)+/, "\n")
+        .replace(/(\n\r?)+$/, "\n");
+      codeToken.map = [startLine, state.line];
+      if (!codeRender) codeToken.info = "md";
+    };
+
+    if (beforeContent) pushCodeToken();
+
+    state.md.block.tokenize(state, startLine + 1, nextLine);
+
+    if (!beforeContent) pushCodeToken();
+
+    const closeToken = state.push(`demo_close`, "div", -1);
+
+    closeToken.markup = state.src.slice(start, pos);
+    closeToken.block = true;
+    closeToken.info = params;
+
+    state.parentType = oldParent;
+    state.lineMax = oldLineMax;
+    state.line = nextLine + (autoClosed ? 1 : 0);
+
+    return true;
+  };
+
+  md.block.ruler.before("fence", "demo", demo, {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
+  md.renderer.rules["demo_open"] = openRender;
+  md.renderer.rules["demo_close"] = closeRender;
+  if (codeRender) md.renderer.rules["demo_code"] = codeRender;
+};
