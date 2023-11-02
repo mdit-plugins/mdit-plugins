@@ -17,6 +17,11 @@ const mdFixtureSimpleIncludePath = path.resolve(
   __dirname,
   mdFixtureSimpleIncludePathRelative,
 );
+const mdFixtureFrontmatterPathRelative = "./__fixtures__/frontmatter.md";
+const mdFixtureFrontmatterPath = path.resolve(
+  __dirname,
+  mdFixtureFrontmatterPathRelative,
+);
 const md = MarkdownIt({ html: true })
   .use(include, {
     currentPath: (env: IncludeEnv) => env["filePath"] as string,
@@ -585,6 +590,43 @@ foo
 
       expect(rendered).toEqual(expected);
       expect(env.includedFiles).toEqual([mdFixturePath]);
+    });
+  });
+
+  it("Should ignore frontmatter", () => {
+    const cases = [
+      [
+        `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative} -->
+[B](./b.md)
+`,
+        `\
+<p>Content 1</p>
+<p>Content 2</p>
+<p><a href="./b.md">B</a></p>
+`,
+      ],
+      [
+        `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{-5} -->
+[B](./b.md)
+`,
+        `\
+<p>Content 1</p>
+<p><a href="./b.md">B</a></p>
+`,
+      ],
+    ];
+
+    cases.forEach(([source, expected]) => {
+      const env: IncludeEnv = {
+        filePath: __filename + "1",
+      };
+
+      const rendered = md.render(source, env);
+
+      expect(rendered).toEqual(expected);
+      expect(env.includedFiles).toEqual([mdFixtureFrontmatterPath]);
     });
   });
 });

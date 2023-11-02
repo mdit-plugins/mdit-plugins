@@ -12,8 +12,8 @@ import { NEWLINES_RE, dedent } from "./utils.js";
 
 interface ImportFileLineInfo {
   filePath: string;
-  lineStart: number;
-  lineEnd: number | undefined;
+  lineStart?: number;
+  lineEnd?: number;
 }
 
 interface ImportFileRegionInfo {
@@ -117,14 +117,27 @@ export const handleInclude = (
   const lines = fileContent.replace(NEWLINES_RE, "\n").split("\n");
   let results: string[] = [];
 
+  // is region
   if ("region" in info) {
     const region = findRegion(lines, info.region);
 
     if (region) results = lines.slice(region.lineStart, region.lineEnd);
-  } else {
+  }
+  // is file
+  else {
     const { lineStart, lineEnd } = info;
 
-    results = lines.slice(lineStart ? lineStart - 1 : lineStart, lineEnd);
+    if (lineStart) {
+      results = lines.slice(lineStart - 1, lineEnd);
+    } else if (lines[0] === "---") {
+      const endLineIndex = lines.findIndex(
+        (line, index) => index !== 0 && line === "---",
+      );
+
+      results = lines.slice(Math.max(endLineIndex + 1, 1), lineEnd);
+    } else {
+      results = lines.slice(0, lineEnd);
+    }
   }
 
   if (resolvedPath && realPath.endsWith(".md")) {
@@ -149,8 +162,8 @@ export const resolveInclude = (
       indent: string,
       includePath: string,
       region?: string,
-      lineStart?: number,
-      lineEnd?: number,
+      lineStart?: string,
+      lineEnd?: string,
     ) => {
       const actualPath = options.resolvePath(includePath, cwd);
       const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
@@ -161,8 +174,8 @@ export const resolveInclude = (
           ...(region
             ? { region }
             : {
-                lineStart: lineStart ? Number(lineStart) : 0,
-                lineEnd: lineEnd ? Number(lineEnd) : undefined,
+                ...(lineStart ? { lineStart: Number(lineStart) } : {}),
+                ...(lineEnd ? { lineEnd: Number(lineEnd) } : {}),
               }),
         },
         { cwd, includedFiles, resolvedPath },
