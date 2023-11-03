@@ -40,8 +40,10 @@ const REGIONS_RE = [
 ];
 
 // regexp to match the import syntax
+const INCLUDE_COMMENT_RE =
+  /^( *)<!-{2,}\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-{2,}>\s*$/gm;
 const INCLUDE_RE =
-  /^( *)<!--\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-->\s*$/gm;
+  /^( *)@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*$/gm;
 
 const testLine = (
   line: string,
@@ -156,7 +158,7 @@ export const resolveInclude = (
   { cwd, includedFiles }: IncludeInfo,
 ): string =>
   content.replace(
-    INCLUDE_RE,
+    options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE,
     (
       _,
       indent: string,
@@ -307,6 +309,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     deep = false,
     resolveLinkPath = true,
     resolveImagePath = true,
+    useComment = true,
   } = options || {};
 
   if (typeof currentPath !== "function")
@@ -322,6 +325,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       deep,
       resolveLinkPath,
       resolveImagePath,
+      useComment,
     }),
   );
 

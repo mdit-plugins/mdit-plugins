@@ -31,6 +31,15 @@ export interface MarkdownItIncludeOptions {
   deep?: boolean;
 
   /**
+   * Whether use `<!-- @include: xxx -->` instead of `@include: xxx` to include files
+   *
+   * 是否使用 `<!-- @include: xxx -->` 代替 `@include: xxx` 导入文件
+   *
+   * @default true
+   */
+  useComment?: boolean;
+
+  /**
    * Whether resolve the image related path in the included Markdown file
    *
    * 是否解析包含的 Markdown 文件的里的相对图像路径

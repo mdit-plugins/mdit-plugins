@@ -381,6 +381,13 @@ interface MarkdownItIncludeOptions {
   deep?: boolean;
 
   /**
+   * Whether use `<!-- @include: xxx -->` instead of `@include: xxx` to include files
+   *
+   * @default true
+   */
+  useComment?: boolean;
+
+  /**
    * Whether resolve the image related path in the included Markdown file
    *
    * @default true

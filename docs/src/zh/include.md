@@ -380,6 +380,13 @@ interface MarkdownItIncludeOptions {
   deep?: boolean;
 
   /**
+   * 是否使用 `<!-- @include: xxx -->` 代替 `@include: xxx` 导入文件
+   *
+   * @default true
+   */
+  useComment?: boolean;
+
+  /**
    * 是否解析包含的 Markdown 文件的里的相对图像路径
    *
    * @default true
