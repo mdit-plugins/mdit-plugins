@@ -16,7 +16,7 @@
 [![code cov](https://codecov.io/gh/mdit-plugins/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/mdit-plugins/mdit-plugins)
 ![Test](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/test.yml/badge.svg)
 
-## [English Docs](https://mister-hope.github.io/mdit-plugins/) | [中文文档](https://mister-hope.github.io/mdit-plugins/zh/)
+## [English Docs](https://mdit-plugins.github.io/) | [中文文档](https://mdit-plugins.github.io/zh/)
 
 ## Contact
 
