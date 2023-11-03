@@ -55,6 +55,7 @@ export const katex = <MarkdownItEnv = unknown>(
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
   const {
+    allowInlineWithSpace = false,
     mathFence = false,
     mhchem = false,
     logger = (errorCode: string): string =>
@@ -68,6 +69,7 @@ export const katex = <MarkdownItEnv = unknown>(
     if (mhchem) require("katex/contrib/mhchem");
 
     md.use(tex, {
+      allowInlineWithSpace,
       mathFence,
       render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
         const katexOptions = {

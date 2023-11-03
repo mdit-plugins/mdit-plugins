@@ -68,6 +68,15 @@ interface MarkdownItMathjaxOptions {
   output?: "chtml" | "svg";
 
   /**
+   * 是否允许两端带空格的内联数学
+   *
+   * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
+   *
+   * @default false
+   */
+  allowInlineWithSpace?: boolean;
+
+  /**
    * 是否将解析的数学语言 fence 块转换为显示模式数学
    *
    * @default false

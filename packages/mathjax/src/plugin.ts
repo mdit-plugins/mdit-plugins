@@ -82,7 +82,10 @@ export const getDocumentOptions = (
 /**
  * Mathjax instance
  */
-export interface MathjaxInstance {
+export interface MathjaxInstance
+  extends Required<
+    Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "mathFence">
+  > {
   /**
    * Mathjax adaptor
    */
@@ -92,11 +95,6 @@ export interface MathjaxInstance {
    * Mathjax document options
    */
   documentOptions: DocumentOptions;
-
-  /**
-   * Whether parsed fence block with math language to display mode math
-   */
-  mathFence?: boolean;
 
   /**
    * Clear style cache
@@ -172,6 +170,7 @@ export const createMathjaxInstance = (
   return {
     adaptor,
     documentOptions,
+    allowInlineWithSpace: options.allowInlineWithSpace ?? false,
     mathFence: options.mathFence ?? false,
     clearStyle,
     reset,
@@ -183,9 +182,11 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
   const { mathjax } = <typeof import("mathjax-full/js/mathjax.js")>(
     require("mathjax-full/js/mathjax.js")
   );
-  const { adaptor, documentOptions, mathFence = false } = options!;
+  const { allowInlineWithSpace, adaptor, documentOptions, mathFence } =
+    options!;
 
   md.use(tex, {
+    allowInlineWithSpace,
     mathFence,
     render: (content, displayMode) => {
       const mathDocument = <LiteElement>(

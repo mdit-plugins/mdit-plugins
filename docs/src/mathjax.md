@@ -68,6 +68,15 @@ interface MarkdownItMathjaxOptions {
   output?: "chtml" | "svg";
 
   /**
+   * Whether to allow inline math with spaces on ends
+   *
+   * @description NOT recommended to set this to true, because it will likely break the default usage of $
+   *
+   * @default false
+   */
+  allowInlineWithSpace?: boolean;
+
+  /**
    * Whether parsed fence block with math language to display mode math
    *
    * @default false
