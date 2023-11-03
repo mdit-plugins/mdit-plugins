@@ -36,15 +36,16 @@ describe("inline katex", () => {
 
   it("Should not render when having spaces", () => {
     expect(markdownIt.render(`$ a = 1 $`)).toEqual("<p>$ a = 1 $</p>\n");
-  });
-
-  it("Should not render when the first one is after a character", () => {
-    expect(markdownIt.render(`The next$a = 1$ won’t work`)).toMatchSnapshot();
+    expect(markdownIt.render(`$a = 1 $`)).toEqual("<p>$a = 1 $</p>\n");
+    expect(markdownIt.render(`$ a = 1$`)).toEqual("<p>$ a = 1$</p>\n");
   });
 
   it("Should not render when the ending tag is followed by number", () => {
     expect(markdownIt.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",
+    );
+    expect(markdownIt.render(`Of course $a = $a`)).toEqual(
+      "<p>Of course $a = $a</p>\n",
     );
   });
 });
