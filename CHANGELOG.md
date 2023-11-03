@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.4...v0.6.5) (2023-11-03)
+
+### Features
+
+- add allowInlineWithSpace options for katex and mathjax ([911cdf2](https://github.com/Mister-Hope/mdit-plugins/commit/911cdf219bea6252248e5416602628399e62fed6))
+- **tex:** add allowInlineWithSpace for tex ([e6d9878](https://github.com/Mister-Hope/mdit-plugins/commit/e6d98787ee94463cb2ff5425dda4c4dcab273adf))
+
 ## [0.6.4](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.3...v0.6.4) (2023-11-03)
 
 ### Features
