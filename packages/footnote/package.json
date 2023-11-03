@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-footnote",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "footnote plugin for MarkdownIt",
   "keywords": [
     "markdownit",

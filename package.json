@@ -1,6 +1,6 @@
 {
   "name": "@mdit/root",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "private": true,
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",

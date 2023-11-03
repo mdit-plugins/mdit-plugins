@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.3...v0.6.4) (2023-11-03)
+
+### Features
+
+- **include:** add useComment option ([f1222ba](https://github.com/Mister-Hope/mdit-plugins/commit/f1222bafc138f4e615df931d0750631df96b1e80))
+
 ## [0.6.3](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.2...v0.6.3) (2023-11-02)
 
 ### Features
