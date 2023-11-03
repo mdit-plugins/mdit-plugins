@@ -99,6 +99,15 @@ interface MarkdownItTexOptions {
    * @returns render result
    */
   render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
+
+  /**
+   * Whether to allow inline math with spaces on ends
+   *
+   * @description NOT recommended to set this to true, because it will likely break the default usage of $
+   *
+   * @default false
+   */
+  allowInlineWithSpace?: boolean;
 }
 ```
 

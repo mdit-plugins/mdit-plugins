@@ -5,10 +5,15 @@ import { tex } from "../src/index.js";
 
 const render = (content: string, displayMode: boolean): string =>
   displayMode
-    ? `<p>{Tex content: ${content}}</p>`
-    : `{Tex content: ${content}}`;
+    ? `<p>{Tex content: ${content.trim()}}</p>`
+    : `{Tex content: ${content.trim()}}`;
 
 const markdownIt = MarkdownIt({ linkify: true }).use(tex, {
+  mathFence: true,
+  render,
+});
+const markdownItAllowSpace = MarkdownIt({ linkify: true }).use(tex, {
+  allowInlineWithSpace: true,
   mathFence: true,
   render,
 });
@@ -17,11 +22,18 @@ it("render option should be required", () => {
   expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrowError();
 });
 
-describe("inline katex", () => {
+describe("inline katex default", () => {
   it("Should render", () => {
     expect(markdownIt.render(`$a=1$`)).toEqual("<p>{Tex content: a=1}</p>\n");
     expect(markdownIt.render(`A tex equation $a=1$ inline.`)).toEqual(
       "<p>A tex equation {Tex content: a=1} inline.</p>\n",
+    );
+    expect(
+      markdownIt.render(
+        `A tex equation $a=1$ $b=2$ inline with $1 hot dogs and $c=3$.`,
+      ),
+    ).toEqual(
+      "<p>A tex equation {Tex content: a=1} {Tex content: b=2} inline with $1 hot dogs and {Tex content: c=3}.</p>\n",
     );
   });
 
@@ -44,17 +56,75 @@ describe("inline katex", () => {
     expect(markdownIt.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",
     );
-    expect(markdownIt.render(`Of course $a = $a`)).toEqual(
-      "<p>Of course $a = $a</p>\n",
+    expect(markdownIt.render(`Of course $1=$1`)).toEqual(
+      "<p>Of course $1=$1</p>\n",
+    );
+  });
+});
+
+describe("inline katex with space", () => {
+  it("Should render", () => {
+    expect(markdownItAllowSpace.render(`$a=1$`)).toEqual(
+      "<p>{Tex content: a=1}</p>\n",
+    );
+    expect(markdownItAllowSpace.render(`$ a = 1 $`)).toEqual(
+      "<p>{Tex content: a = 1}</p>\n",
+    );
+    expect(markdownItAllowSpace.render(`$a = 1 $`)).toEqual(
+      "<p>{Tex content: a = 1}</p>\n",
+    );
+    expect(markdownItAllowSpace.render(`$ a = 1$`)).toEqual(
+      "<p>{Tex content: a = 1}</p>\n",
+    );
+    expect(markdownItAllowSpace.render(`A tex equation $a=1$ inline.`)).toEqual(
+      "<p>A tex equation {Tex content: a=1} inline.</p>\n",
+    );
+    expect(
+      markdownItAllowSpace.render(`A tex equation $ a=1 $ inline.`),
+    ).toEqual("<p>A tex equation {Tex content: a=1} inline.</p>\n");
+    // WARNING: With allowInlineWithSpace, you have to escape `$` to avoid problems
+    expect(
+      markdownItAllowSpace.render(
+        `A tex equation $a=1$ $b=2$ inline with \\$1 hot dogs and $c=3$.`,
+      ),
+    ).toEqual(
+      "<p>A tex equation {Tex content: a=1} {Tex content: b=2} inline with $1 hot dogs and {Tex content: c=3}.</p>\n",
+    );
+    // WARNING: With allowInlineWithSpace, you have to escape `$` to avoid problems
+    expect(
+      markdownItAllowSpace.render(
+        `A tex equation $ a=1 $ $ b=2 $ inline with \\$1 hot dogs and $ c=3 $.`,
+      ),
+    ).toEqual(
+      "<p>A tex equation {Tex content: a=1} {Tex content: b=2} inline with $1 hot dogs and {Tex content: c=3}.</p>\n",
+    );
+  });
+
+  it("Should not render when no close marker", () => {
+    expect(markdownItAllowSpace.render("$a = 1")).toEqual("<p>$a = 1</p>\n");
+  });
+
+  it("Should not render when escape", () => {
+    expect(markdownItAllowSpace.render(`Of course $1 = $1`)).toEqual(
+      "<p>Of course $1 = $1</p>\n",
+    );
+    expect(markdownItAllowSpace.render(`Of course $1=$1`)).toEqual(
+      "<p>Of course $1=$1</p>\n",
+    );
+  });
+
+  it("Should render when having spaces", () => {});
+
+  it("Should not render when the ending tag is followed by number", () => {
+    expect(markdownItAllowSpace.render(`Of course $1 = $1`)).toEqual(
+      "<p>Of course $1 = $1</p>\n",
     );
   });
 });
 
 describe("block katex", () => {
   it("Should render", () => {
-    expect(markdownIt.render(`$$a=1$$`)).toEqual(
-      "<p>{Tex content: \na=1\n}</p>",
-    );
+    expect(markdownIt.render(`$$a=1$$`)).toEqual("<p>{Tex content: a=1}</p>");
 
     expect(
       markdownIt.render(`
@@ -63,7 +133,7 @@ a = 1 \\\\
 b = 2
 $$
 `),
-    ).toEqual("<p>{Tex content: \na = 1 \\\\\nb = 2\n}</p>");
+    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
   });
 
   it("Should not render when escape", () => {
@@ -96,7 +166,7 @@ describe("math fence", () => {
 a=1
 \`\`\`\
 `),
-    ).toEqual("<p>{Tex content: a=1\n}</p>");
+    ).toEqual("<p>{Tex content: a=1}</p>");
 
     expect(
       markdownIt.render(`
@@ -105,7 +175,7 @@ a = 1 \\\\
 b = 2
 \`\`\`\
 `),
-    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2\n}</p>");
+    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
 
     expect(
       markdownIt.render(`

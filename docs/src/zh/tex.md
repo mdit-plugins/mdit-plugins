@@ -71,6 +71,15 @@ interface MarkdownItTexOptions {
    * @returns 渲染结果
    */
   render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
+
+  /**
+   * 是否允许两端带空格的内联数学
+   *
+   * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
+   *
+   * @default false
+   */
+  allowInlineWithSpace?: boolean;
 }
 ```
 

@@ -16,104 +16,105 @@ import { type MarkdownItTexOptions } from "./options.js";
 const isValidDelim = (
   state: StateInline,
   pos: number,
+  allowInlineWithSpace: boolean,
 ): { canOpen: boolean; canClose: boolean } => {
   const prevChar = pos > 0 ? state.src.charAt(pos - 1) : "";
   const nextChar = pos + 1 <= state.posMax ? state.src.charAt(pos + 1) : "";
 
   return {
-    canOpen: nextChar !== " " && nextChar !== "\t",
+    canOpen: allowInlineWithSpace || (nextChar !== " " && nextChar !== "\t"),
 
     /*
      * Check non-whitespace conditions for opening and closing, and
      * check that closing delimiter isn’t followed by a number
      */
-    canClose: !(
-      prevChar === " " ||
-      prevChar === "\t" ||
-      /[0-9]/u.exec(nextChar)
-    ),
+    canClose:
+      !/[0-9]/u.exec(nextChar) &&
+      (allowInlineWithSpace || (prevChar !== " " && prevChar !== "\t")),
   };
 };
 
-const inlineTex: RuleInline = (state, silent) => {
-  let match;
-  let pos;
-  let res;
-  let token;
+const getInlineTex =
+  (allowInlineWithSpace: boolean): RuleInline =>
+  (state, silent) => {
+    let match;
+    let pos;
+    let res;
+    let token;
 
-  if (state.src[state.pos] !== "$") return false;
+    if (state.src[state.pos] !== "$") return false;
 
-  res = isValidDelim(state, state.pos);
-  if (!res.canOpen) {
-    if (!silent) state.pending += "$";
+    res = isValidDelim(state, state.pos, allowInlineWithSpace);
+    if (!res.canOpen) {
+      if (!silent) state.pending += "$";
 
-    state.pos += 1;
+      state.pos += 1;
 
-    return true;
-  }
+      return true;
+    }
 
-  /*
-   * First check for and bypass all properly escaped delimiters
-   * This loop will assume that the first leading backtick can not
-   * be the first character in state.src, which is known since
-   * we have found an opening delimiter already.
-   */
-  const start = state.pos + 1;
-
-  match = start;
-  while ((match = state.src.indexOf("$", match)) !== -1) {
     /*
-     * Found potential $, look for escapes, pos will point to
-     * first non escape when complete
+     * First check for and bypass all properly escaped delimiters
+     * This loop will assume that the first leading backtick can not
+     * be the first character in state.src, which is known since
+     * we have found an opening delimiter already.
      */
-    pos = match - 1;
-    while (state.src[pos] === "\\") pos -= 1;
+    const start = state.pos + 1;
 
-    // Even number of escapes, potential closing delimiter found
-    if ((match - pos) % 2 === 1) break;
+    match = start;
+    while ((match = state.src.indexOf("$", match)) !== -1) {
+      /*
+       * Found potential $, look for escapes, pos will point to
+       * first non escape when complete
+       */
+      pos = match - 1;
+      while (state.src[pos] === "\\") pos -= 1;
 
-    match += 1;
-  }
+      // Even number of escapes, potential closing delimiter found
+      if ((match - pos) % 2 === 1) break;
 
-  // No closing delimiter found.  Consume $ and continue.
-  if (match === -1) {
-    if (!silent) state.pending += "$";
+      match += 1;
+    }
 
-    state.pos = start;
+    // No closing delimiter found.  Consume $ and continue.
+    if (match === -1) {
+      if (!silent) state.pending += "$";
+
+      state.pos = start;
+
+      return true;
+    }
+
+    // Check if we have empty content, ie: $$.  Do not parse.
+    if (match - start === 0) {
+      if (!silent) state.pending += "$$";
+
+      state.pos = start + 1;
+
+      return true;
+    }
+
+    // Check for valid closing delimiter
+    res = isValidDelim(state, match, allowInlineWithSpace);
+
+    if (!res.canClose) {
+      if (!silent) state.pending += "$";
+
+      state.pos = start;
+
+      return true;
+    }
+
+    if (!silent) {
+      token = state.push("math_inline", "math", 0);
+      token.markup = "$";
+      token.content = state.src.slice(start, match);
+    }
+
+    state.pos = match + 1;
 
     return true;
-  }
-
-  // Check if we have empty content, ie: $$.  Do not parse.
-  if (match - start === 0) {
-    if (!silent) state.pending += "$$";
-
-    state.pos = start + 1;
-
-    return true;
-  }
-
-  // Check for valid closing delimiter
-  res = isValidDelim(state, match);
-
-  if (!res.canClose) {
-    if (!silent) state.pending += "$";
-
-    state.pos = start;
-
-    return true;
-  }
-
-  if (!silent) {
-    token = state.push("math_inline", "math", 0);
-    token.markup = "$";
-    token.content = state.src.slice(start, match);
-  }
-
-  state.pos = match + 1;
-
-  return true;
-};
+  };
 
 const blockTex: RuleBlock = (state, start, end, silent) => {
   let firstLine;
@@ -174,7 +175,11 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
 };
 
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
-  const { mathFence = false, render } = options || {};
+  const {
+    allowInlineWithSpace = false,
+    mathFence = false,
+    render,
+  } = options || {};
 
   if (typeof render !== "function")
     throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
@@ -194,7 +199,11 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     };
   }
 
-  md.inline.ruler.after("escape", "math_inline", inlineTex);
+  md.inline.ruler.after(
+    "escape",
+    "math_inline",
+    getInlineTex(allowInlineWithSpace),
+  );
   md.block.ruler.after("blockquote", "math_block", blockTex, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
