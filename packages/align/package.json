@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@mdit/plugin-container": "workspace:*",
-    "@types/markdown-it": "^13.0.5"
+    "@types/markdown-it": "^13.0.6"
   },
   "peerDependencies": {
     "markdown-it": "^13.0.2"

@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/katex": "^0.16.5",
-    "@types/markdown-it": "^13.0.5"
+    "@types/katex": "^0.16.6",
+    "@types/markdown-it": "^13.0.6"
   },
   "peerDependencies": {
     "markdown-it": "^13.0.2",
