@@ -215,15 +215,16 @@ export const createIncludeCoreRule =
   };
 
 const SYNTAX_PUSH_RE = /^@include-push\(([^)]*?)\)$/;
-const SYNTAX_POP_RE = /^@include-pop\(\)$/;
 
 const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
-  const pos = state.bMarks[startLine] + state.tShift[startLine];
+  const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
-  const content = state.src.slice(pos, max);
-  let result: boolean = content.startsWith("@include-push");
 
-  if (result) {
+  if (state.src.charAt(start) !== "@") return false;
+
+  const content = state.src.slice(start, max);
+
+  if (content.startsWith("@include-push")) {
     // check if it’s matched the syntax
     const match = content.match(SYNTAX_PUSH_RE);
 
@@ -238,38 +239,34 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
       token.map = [startLine, state.line];
       token.info = includePath;
       token.markup = "include_push";
-    } else {
-      result = false;
+
+      return true;
     }
   }
 
-  return result;
+  return false;
 };
 
 const includePopRule: RuleBlock = (state, startLine, _, silent): boolean => {
-  const pos = state.bMarks[startLine] + state.tShift[startLine];
+  const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
-  const content = state.src.slice(pos, max);
-  let result: boolean = content.startsWith("@include-pop");
 
-  if (result) {
-    const match = content.match(SYNTAX_POP_RE);
+  if (state.src.charAt(start) !== "@") return false;
 
-    if (match) {
-      if (silent) return true;
+  if (state.src.slice(start, max) === "@include-pop()") {
+    if (silent) return true;
 
-      state.line = startLine + 1;
+    state.line = startLine + 1;
 
-      const token = state.push("include_pop", "", 0);
+    const token = state.push("include_pop", "", 0);
 
-      token.map = [startLine, state.line];
-      token.markup = "include_pop";
-    } else {
-      result = false;
-    }
+    token.map = [startLine, state.line];
+    token.markup = "include_pop";
+
+    return true;
   }
 
-  return result;
+  return false;
 };
 
 const resolveRelatedLink = (
@@ -292,9 +289,8 @@ const resolveRelatedLink = (
 
       const resolvedPath = path.join(includeDir, url);
 
-      token.attrs![attrIndex][1] = resolvedPath.startsWith(".")
-        ? resolvedPath
-        : `./${resolvedPath}`;
+      token.attrs![attrIndex][1] =
+        resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
     }
   }
 };
