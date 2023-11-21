@@ -438,9 +438,9 @@ export const getRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => {
     options.rule === false
       ? []
       : Array.isArray(options.rule)
-      ? // user specific rules
-        options.rule.filter((item) => availableRules.includes(item))
-      : availableRules;
+        ? // user specific rules
+          options.rule.filter((item) => availableRules.includes(item))
+        : availableRules;
 
   const rules: Rule[] = [];
 
