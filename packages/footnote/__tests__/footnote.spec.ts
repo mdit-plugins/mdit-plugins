@@ -36,7 +36,7 @@ isn’t indented.
     ).toMatchSnapshot();
   });
 
-  it("Should support xhtml output", () => {
+  it("should support xhtml output", () => {
     expect(
       markdownItXHTML.render(
         `
@@ -63,7 +63,7 @@ isn’t indented.
     ).toMatchSnapshot();
   });
 
-  it("Should terminate each other", () => {
+  it("should terminate each other", () => {
     expect(
       markdownIt.render(`
 [^1][^2][^3]
@@ -107,7 +107,7 @@ foo[^1] bar[^2].
     ).toMatchSnapshot();
   });
 
-  it("Should support inline note", () => {
+  it("should support inline note", () => {
     expect(
       markdownIt.render(`
 Here is an inline note.^[Inline notes are easier to write, since
@@ -165,7 +165,7 @@ note.]
     ).toMatchSnapshot();
   });
 
-  it("Should contain Security", () => {
+  it("should contain Security", () => {
     expect(
       markdownIt.render(`
 [^__proto__]
@@ -183,7 +183,7 @@ note.]
     ).toMatchSnapshot();
   });
 
-  it("Should allow links in inline footnotes", () => {
+  it("should allow links in inline footnotes", () => {
     expect(
       markdownIt.render(`Example^[this is another example https://github.com]`),
     ).toMatchSnapshot();

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { imgMark } from "../src/index.js";
 
-describe("Img Mark", () => {
+describe("imgMark", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(imgMark);
   const markdownItWithCustomOptions = MarkdownIt({ linkify: true }).use(
     imgMark,
@@ -13,7 +13,7 @@ describe("Img Mark", () => {
     },
   );
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image"></p>\n',
     );
@@ -34,7 +34,7 @@ describe("Img Mark", () => {
     );
   });
 
-  it("Should support options", () => {
+  it("should support options", () => {
     expect(
       markdownItWithCustomOptions.render(`![image](/logo.svg#lightmode)`),
     ).toEqual(
@@ -48,7 +48,7 @@ describe("Img Mark", () => {
     );
   });
 
-  it("Should not be effected by title", () => {
+  it("should not be effected by title", () => {
     expect(markdownIt.render(`![image](/logo.svg#light "title")`)).toEqual(
       '<p><img src="/logo.svg" alt="image" title="title" data-mode="lightmode-only"></p>\n',
     );

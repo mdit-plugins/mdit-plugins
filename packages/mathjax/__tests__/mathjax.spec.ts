@@ -8,8 +8,8 @@ const examples = [
   `\\frac {\\partial^r} {\\partial \\omega^r} \\left(\\frac {y^{\\omega}} {\\omega}\\right) = \\left(\\frac {y^{\\omega}} {\\omega}\\right) \\left\\{(\\log y)^r + \\sum_{i=1}^r \\frac {(-1)^ Ir \\cdots (r-i+1) (\\log y)^{ri}} {\\omega^i} \\right\\}`,
 ];
 
-describe("Inline mathjax", () => {
-  it("Should output SVG", () => {
+describe("inline mathjax", () => {
+  it("should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -36,7 +36,7 @@ describe("Inline mathjax", () => {
     });
   });
 
-  it("Should output HTML", () => {
+  it("should output HTML", () => {
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({
@@ -66,7 +66,7 @@ describe("Inline mathjax", () => {
     });
   });
 
-  it("Should output A11y", () => {
+  it("should output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -94,7 +94,7 @@ describe("Inline mathjax", () => {
     });
   });
 
-  it("Should not output A11y", () => {
+  it("should not output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({ a11y: false }),
@@ -123,7 +123,7 @@ describe("Inline mathjax", () => {
     });
   });
 
-  it("Should not render error msg when content is wrong", () => {
+  it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -133,8 +133,8 @@ describe("Inline mathjax", () => {
   });
 });
 
-describe("Block mathjax", () => {
-  it("Should output SVG", () => {
+describe("block mathjax", () => {
+  it("should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -151,7 +151,7 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("Should output HTML", () => {
+  it("should output HTML", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({ output: "chtml" }),
@@ -168,7 +168,7 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("Should not render error msg when content is wrong", () => {
+  it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -185,7 +185,7 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("Should not output warnings when content has line breaks", () => {
+  it("should not output warnings when content has line breaks", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({}),
@@ -204,8 +204,8 @@ $$
   });
 });
 
-describe("Generating Style", () => {
-  it("Should generate correct CSS with svg", () => {
+describe("generating Style", () => {
+  it("should generate correct CSS with svg", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
@@ -219,7 +219,7 @@ describe("Generating Style", () => {
     );
   });
 
-  it("Should generate correct CSS with HTML", () => {
+  it("should generate correct CSS with HTML", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
@@ -234,8 +234,8 @@ describe("Generating Style", () => {
   });
 });
 
-describe("Check label result pre page", () => {
-  it("Should generate correct label and CSS with svg", () => {
+describe("check label result pre page", () => {
+  it("should generate correct label and CSS with svg", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
@@ -257,7 +257,7 @@ describe("Check label result pre page", () => {
     );
   });
 
-  it("Should generate correct label and CSS with HTML", () => {
+  it("should generate correct label and CSS with HTML", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,

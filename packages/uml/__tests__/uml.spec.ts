@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { uml } from "../src/index.js";
 
 describe("uml", () => {
-  it("Should render without options", () => {
+  it("should render without options", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
     expect(
@@ -18,7 +18,7 @@ abc
     ).toMatchSnapshot();
   });
 
-  it("Should keep content as is", () => {
+  it("should keep content as is", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
     expect(
@@ -32,7 +32,7 @@ Text with **bold** and \`code\`.
     ).toMatchSnapshot();
   });
 
-  it("Should render with options", () => {
+  it("should render with options", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
       name: "test",
       open: "teststart",

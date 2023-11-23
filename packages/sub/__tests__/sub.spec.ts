@@ -6,20 +6,20 @@ import { sub } from "../src/index.js";
 describe("subscript", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(sub);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`~test~`)).toEqual("<p><sub>test</sub></p>\n");
   });
 
-  it("Should not render when escape", () => {
+  it("should not render when escape", () => {
     expect(markdownIt.render(`~foo\\~`)).toEqual("<p>~foo~</p>\n");
     expect(markdownIt.render(`\\~foo~`)).toEqual("<p>~foo~</p>\n");
   });
 
-  it("Should not render when having spaces", () => {
+  it("should not render when having spaces", () => {
     expect(markdownIt.render(`~foo bar~`)).toEqual("<p>~foo bar~</p>\n");
   });
 
-  it("Should render when spaces are escaped", () => {
+  it("should render when spaces are escaped", () => {
     expect(markdownIt.render(`~foo\\ bar\\ baz~`)).toEqual(
       "<p><sub>foo bar baz</sub></p>\n",
     );
@@ -28,7 +28,7 @@ describe("subscript", () => {
     );
   });
 
-  it("Should handle multiple '\\'", () => {
+  it("should handle multiple '\\'", () => {
     expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual(
       "<p><sub>foo\\\\ bar</sub></p>\n",
     );
@@ -37,7 +37,7 @@ describe("subscript", () => {
     );
   });
 
-  it("Should work with other marker", () => {
+  it("should work with other marker", () => {
     expect(markdownIt.render(`**~foo~ bar**`)).toEqual(
       "<p><strong><sub>foo</sub> bar</strong></p>\n",
     );

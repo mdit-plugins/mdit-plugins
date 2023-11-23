@@ -3,22 +3,22 @@ import { describe, expect, it } from "vitest";
 
 import { figure } from "../src/index.js";
 
-describe("Figure", () => {
+describe("figure", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(figure);
 
-  it("Should use alt it no title is found", () => {
+  it("should use alt it no title is found", () => {
     expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
       '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
     );
   });
 
-  it("Should use title and remove original title on image", () => {
+  it("should use title and remove original title on image", () => {
     expect(markdownIt.render(`![image](/logo.svg "A image")`)).toEqual(
       '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption></figure>\n',
     );
   });
 
-  it("Should not change inline image", () => {
+  it("should not change inline image", () => {
     expect(
       markdownIt.render(`A ![image](/logo.svg "A image") in text`),
     ).toEqual(
@@ -26,7 +26,7 @@ describe("Figure", () => {
     );
   });
 
-  it("Should support image with links", () => {
+  it("should support image with links", () => {
     expect(
       markdownIt.render(`[![image](/logo.svg)](https://example.com)`),
     ).toEqual(

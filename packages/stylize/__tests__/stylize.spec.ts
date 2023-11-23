@@ -52,7 +52,7 @@ describe("stylize", () => {
 
   const markdownIt = MarkdownIt({ linkify: true }).use(stylize, options);
 
-  it("Should render MUST", () => {
+  it("should render MUST", () => {
     expect(markdownIt.render(`**MUST**`)).toEqual(
       '<p><strong class="badge tip">MUST</strong></p>\n',
     );
@@ -61,28 +61,28 @@ describe("stylize", () => {
     );
   });
 
-  it("Should render SHOULD", () => {
+  it("should render SHOULD", () => {
     expect(markdownIt.render(`**SHOULD**`)).toEqual(
       '<p><strong title="should">SHOULD</strong></p>\n',
     );
     expect(markdownIt.render(`*SHOULD*`)).toEqual("<p><em>SHOULD</em></p>\n");
   });
 
-  it("Should render MAY", () => {
+  it("should render MAY", () => {
     expect(markdownIt.render(`**MAY**`)).toEqual(
       "<p><strong>MAY</strong></p>\n",
     );
     expect(markdownIt.render(`*MAY*`)).toEqual("<p><em>MAY:)</em></p>\n");
   });
 
-  it("Should render NOT", () => {
+  it("should render NOT", () => {
     expect(markdownIt.render(`**NOT**`)).toEqual(
       "<p><strong>NOT</strong></p>\n",
     );
     expect(markdownIt.render(`*NOT*`)).toEqual("<p><em>MUST_NOT</em></p>\n");
   });
 
-  it("Should render LINEs with MUST", () => {
+  it("should render LINEs with MUST", () => {
     expect(
       markdownIt.render(
         "**MUST** at the beginning of the line\n\n" +
@@ -102,7 +102,7 @@ describe("stylize", () => {
     );
   });
 
-  it("Should render Complex with SHOULD", () => {
+  it("should render Complex with SHOULD", () => {
     expect(
       markdownIt.render(
         "`**MUST**` in inline code should be rendered as is.\n\n" +
@@ -118,7 +118,7 @@ describe("stylize", () => {
     );
   });
 
-  it("Should support local config", () => {
+  it("should support local config", () => {
     expect(
       markdownIt.render(`**SHOULD**/**MUST**`, {
         stylize: [

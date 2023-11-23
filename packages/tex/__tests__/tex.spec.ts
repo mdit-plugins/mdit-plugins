@@ -23,7 +23,7 @@ it("render option should be required", () => {
 });
 
 describe("inline katex default", () => {
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`$a=1$`)).toEqual("<p>{Tex content: a=1}</p>\n");
     expect(markdownIt.render(`A tex equation $a=1$ inline.`)).toEqual(
       "<p>A tex equation {Tex content: a=1} inline.</p>\n",
@@ -37,22 +37,22 @@ describe("inline katex default", () => {
     );
   });
 
-  it("Should not render when no close marker", () => {
+  it("should not render when no close marker", () => {
     expect(markdownIt.render("$a = 1")).toEqual("<p>$a = 1</p>\n");
   });
 
-  it("Should not render when escape", () => {
+  it("should not render when escape", () => {
     expect(markdownIt.render("$a = 1\\$")).toEqual("<p>$a = 1$</p>\n");
     expect(markdownIt.render("\\$a = 1$")).toEqual("<p>$a = 1$</p>\n");
   });
 
-  it("Should not render when having spaces", () => {
+  it("should not render when having spaces", () => {
     expect(markdownIt.render(`$ a = 1 $`)).toEqual("<p>$ a = 1 $</p>\n");
     expect(markdownIt.render(`$a = 1 $`)).toEqual("<p>$a = 1 $</p>\n");
     expect(markdownIt.render(`$ a = 1$`)).toEqual("<p>$ a = 1$</p>\n");
   });
 
-  it("Should not render when the ending tag is followed by number", () => {
+  it("should not render when the ending tag is followed by number", () => {
     expect(markdownIt.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",
     );
@@ -63,7 +63,7 @@ describe("inline katex default", () => {
 });
 
 describe("inline katex with space", () => {
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownItAllowSpace.render(`$a=1$`)).toEqual(
       "<p>{Tex content: a=1}</p>\n",
     );
@@ -100,11 +100,11 @@ describe("inline katex with space", () => {
     );
   });
 
-  it("Should not render when no close marker", () => {
+  it("should not render when no close marker", () => {
     expect(markdownItAllowSpace.render("$a = 1")).toEqual("<p>$a = 1</p>\n");
   });
 
-  it("Should not render when escape", () => {
+  it("should not render when escape", () => {
     expect(markdownItAllowSpace.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",
     );
@@ -113,9 +113,9 @@ describe("inline katex with space", () => {
     );
   });
 
-  it("Should render when having spaces", () => {});
+  it("should render when having spaces", () => {});
 
-  it("Should not render when the ending tag is followed by number", () => {
+  it("should not render when the ending tag is followed by number", () => {
     expect(markdownItAllowSpace.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",
     );
@@ -123,7 +123,7 @@ describe("inline katex with space", () => {
 });
 
 describe("block katex", () => {
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`$$a=1$$`)).toEqual("<p>{Tex content: a=1}</p>");
 
     expect(
@@ -136,7 +136,7 @@ $$
     ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
   });
 
-  it("Should not render when escape", () => {
+  it("should not render when escape", () => {
     expect(markdownIt.render("\\$\\$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
     expect(
       markdownIt.render(`
@@ -149,7 +149,7 @@ a = 1
 $$</p>\n`);
   });
 
-  it("Should render when having spaces", () => {
+  it("should render when having spaces", () => {
     expect(markdownIt.render(`$$ a = 1 $$`)).toMatchSnapshot();
 
     expect(markdownIt.render(`All $$ a = 1 $$ is true.`)).toEqual(
@@ -159,7 +159,7 @@ $$</p>\n`);
 });
 
 describe("math fence", () => {
-  it("Should render", () => {
+  it("should render", () => {
     expect(
       markdownIt.render(`\
 \`\`\`math

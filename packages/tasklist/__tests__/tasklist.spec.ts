@@ -6,7 +6,7 @@ import { tasklist } from "../src/index.js";
 describe("Task list", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(
       markdownIt.render(`
 - [ ] unchecked item 1
@@ -24,7 +24,7 @@ describe("Task list", () => {
     ).toMatchSnapshot();
   });
 
-  it("Should render nested list", () => {
+  it("should render nested list", () => {
     expect(
       markdownIt.render(`
 1. foo
@@ -48,7 +48,7 @@ describe("Task list", () => {
     ).toMatchSnapshot();
   });
 
-  it("Should render ordered list", () => {
+  it("should render ordered list", () => {
     expect(
       markdownIt.render(`
 1. [x] checked ordered 1
@@ -59,7 +59,7 @@ describe("Task list", () => {
     ).toMatchSnapshot();
   });
 
-  it("Should not render", () => {
+  it("should not render", () => {
     expect(
       markdownIt.render(`
 - [ ]
@@ -71,7 +71,7 @@ describe("Task list", () => {
     ).toMatchSnapshot();
   });
 
-  it("Should not render label", () => {
+  it("should not render label", () => {
     const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
       label: false,
     });
@@ -86,7 +86,7 @@ describe("Task list", () => {
     ).toMatchSnapshot();
   });
 
-  it("Should increase id", () => {
+  it("should increase id", () => {
     const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
       label: false,
     });
@@ -112,7 +112,7 @@ Some content
     ).toMatchSnapshot();
   });
 
-  it("Should render with items containing other markdown syntax", () => {
+  it("should render with items containing other markdown syntax", () => {
     const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
       label: false,
     });

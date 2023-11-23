@@ -675,7 +675,7 @@ foo
         });
       });
 
-      it("Should ignore frontmatter", () => {
+      it("should ignore frontmatter", () => {
         const cases = [
           [
             `\

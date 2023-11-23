@@ -6,7 +6,7 @@ import { tab } from "../src/index.js";
 describe("tab", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(tab);
 
-  it("Should render single block", () => {
+  it("should render single block", () => {
     const sources = [
       `
 ::: tabs
@@ -36,7 +36,7 @@ A **bold** text.
     });
   });
 
-  it("Should render multiple block", () => {
+  it("should render multiple block", () => {
     const sources = [
       `
 ::: tabs
@@ -265,7 +265,7 @@ A **bold** text.
   });
 
   describe("active", () => {
-    it("Should handle :active", () => {
+    it("should handle :active", () => {
       const source = [
         `
 ::: tabs
@@ -305,7 +305,7 @@ A **bold** text 2.
       });
     });
 
-    it("Should resolve first :active", () => {
+    it("should resolve first :active", () => {
       const source = [
         `
 ::: tabs
@@ -390,7 +390,7 @@ A **bold** text.
     });
   });
 
-  it("Should work with multiple instance", () => {
+  it("should work with multiple instance", () => {
     const markdownItWithMultipleInstance = MarkdownIt({ linkify: true })
       .use(tab)
       .use(tab, {

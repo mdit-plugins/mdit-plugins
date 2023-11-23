@@ -6,20 +6,20 @@ import { sup } from "../src/index.js";
 describe("superscript", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(sup);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`^test^`)).toEqual("<p><sup>test</sup></p>\n");
   });
 
-  it("Should not render when escape", () => {
+  it("should not render when escape", () => {
     expect(markdownIt.render(`^foo\\^`)).toEqual("<p>^foo^</p>\n");
     expect(markdownIt.render(`\\^foo^`)).toEqual("<p>^foo^</p>\n");
   });
 
-  it("Should not render when having spaces", () => {
+  it("should not render when having spaces", () => {
     expect(markdownIt.render(`2^4 + 3^5`)).toEqual("<p>2^4 + 3^5</p>\n");
   });
 
-  it("Should render when spaces are escaped", () => {
+  it("should render when spaces are escaped", () => {
     expect(markdownIt.render(`^foo\\ bar\\ baz^`)).toEqual(
       "<p><sup>foo bar baz</sup></p>\n",
     );
@@ -28,13 +28,13 @@ describe("superscript", () => {
     );
   });
 
-  it("Should render when having other symbols", () => {
+  it("should render when having other symbols", () => {
     expect(markdownIt.render(`^foo~bar^baz^bar~foo^`)).toEqual(
       "<p><sup>foo~bar</sup>baz<sup>bar~foo</sup></p>\n",
     );
   });
 
-  it("Should handle multiple '\\'", () => {
+  it("should handle multiple '\\'", () => {
     expect(markdownIt.render(`^foo\\\\\\\\\\\\\\ bar^`)).toEqual(
       "<p><sup>foo\\\\\\ bar</sup></p>\n",
     );
@@ -43,7 +43,7 @@ describe("superscript", () => {
     );
   });
 
-  it("Should work with other marker", () => {
+  it("should work with other marker", () => {
     expect(markdownIt.render(`**^foo^ bar**`)).toEqual(
       "<p><strong><sup>foo</sup> bar</strong></p>\n",
     );

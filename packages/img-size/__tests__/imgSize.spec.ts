@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 
 import { imgSize, obsidianImageSize } from "../src/index.js";
 
-describe("Img Size", () => {
+describe("imgSize", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(imgSize);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image"></p>\n',
     );
@@ -24,7 +24,7 @@ describe("Img Size", () => {
     );
   });
 
-  it("Should not render", () => {
+  it("should not render", () => {
     expect(markdownIt.render(`![image](/logo.svg =abcxdef)`)).toEqual(
       "<p>![image](/logo.svg =abcxdef)</p>\n",
     );
@@ -96,7 +96,7 @@ describe("Img Size", () => {
 describe("Obsidian image Size", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImageSize);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`![](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt=""></p>\n',
     );
@@ -114,7 +114,7 @@ describe("Obsidian image Size", () => {
     );
   });
 
-  it("Should not render", () => {
+  it("should not render", () => {
     expect(markdownIt.render(`![image|abcxdef](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image|abcxdef"></p>\n',
     );

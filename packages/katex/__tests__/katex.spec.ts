@@ -25,7 +25,7 @@ const examples = [
 ];
 
 describe("inline katex", () => {
-  it("Should output htmlAndMathML", () => {
+  it("should output htmlAndMathML", () => {
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
       expect(
@@ -41,7 +41,7 @@ describe("inline katex", () => {
     });
   });
 
-  it("Should output HTML", () => {
+  it("should output HTML", () => {
     examples.forEach((example) => {
       expect(markdownItHTML.render(`$${example}$`)).toMatchSnapshot();
       expect(
@@ -59,7 +59,7 @@ describe("inline katex", () => {
     });
   });
 
-  it("Should output MathML", () => {
+  it("should output MathML", () => {
     examples.forEach((example) => {
       expect(markdownItMathML.render(`$${example}$`)).toMatchSnapshot();
       expect(markdownItMathML.render(`$${example}$`)).toMatch(
@@ -74,11 +74,11 @@ describe("inline katex", () => {
     });
   });
 
-  it("Should not render error msg when content is wrong", () => {
+  it("should not render error msg when content is wrong", () => {
     expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
   });
 
-  it("Should render error msg when content is wrong", () => {
+  it("should render error msg when content is wrong", () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const originalWarn = global.console.warn;
 
@@ -95,7 +95,7 @@ describe("inline katex", () => {
 });
 
 describe("block katex", () => {
-  it("Should output htmlAndMathML", () => {
+  it("should output htmlAndMathML", () => {
     examples.forEach((example) => {
       expect(markdownIt.render(`$$${example}$$`)).toMatchSnapshot();
       expect(markdownIt.render(`$$\n${example}\n$$`)).toMatchSnapshot();
@@ -109,7 +109,7 @@ describe("block katex", () => {
     });
   });
 
-  it("Should output HTML", () => {
+  it("should output HTML", () => {
     examples.forEach((example) => {
       expect(markdownItHTML.render(`$$${example}$$`)).toMatchSnapshot();
       expect(markdownItHTML.render(`$$\n${example}\n$$`)).toMatchSnapshot();
@@ -123,7 +123,7 @@ describe("block katex", () => {
     });
   });
 
-  it("Should output MathML", () => {
+  it("should output MathML", () => {
     examples.forEach((example) => {
       expect(markdownItMathML.render(`$$${example}$$`)).toMatchSnapshot();
       expect(markdownItMathML.render(`$$${example}$$`)).toMatch(
@@ -136,7 +136,7 @@ describe("block katex", () => {
     });
   });
 
-  it("Should not render error msg when content is wrong", () => {
+  it("should not render error msg when content is wrong", () => {
     expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
 
     expect(
@@ -148,7 +148,7 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("Should not output warnings when content has line breaks", () => {
+  it("should not output warnings when content has line breaks", () => {
     expect(
       markdownIt.render(`
 $$
@@ -161,7 +161,7 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("Should render error msg when content is wrong", () => {
+  it("should render error msg when content is wrong", () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const originalWarn = global.console.warn;
 
@@ -186,8 +186,8 @@ $$
   });
 });
 
-describe("Default logger", () => {
-  it("Should not give warnings about new lines", () => {
+describe("default logger", () => {
+  it("should not give warnings about new lines", () => {
     const mockConsole = {
       warn: vi.fn(),
     };
@@ -213,7 +213,7 @@ $$
   });
 });
 
-it("Should support custom logger", () => {
+it("should support custom logger", () => {
   const logger1 = vi.fn();
 
   const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
@@ -245,7 +245,7 @@ $$
 
   expect(logger2).toHaveBeenCalledTimes(1);
 });
-it("Should work with mhchem", () => {
+it("should work with mhchem", () => {
   const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
     mhchem: true,
   });

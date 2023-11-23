@@ -6,7 +6,7 @@ import { mark } from "../src/index.js";
 describe("mark", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(mark);
 
-  it("Should render", () => {
+  it("should render", () => {
     expect(markdownIt.render(`==Mark==`)).toEqual("<p><mark>Mark</mark></p>\n");
   });
 
@@ -28,7 +28,7 @@ describe("mark", () => {
     );
   });
 
-  it("Should handle multiple '='", () => {
+  it("should handle multiple '='", () => {
     expect(markdownIt.render(`x ===foo===`)).toEqual(
       "<p>x =<mark>foo</mark>=</p>\n",
     );
@@ -61,7 +61,7 @@ describe("mark", () => {
     );
   });
 
-  it("Should not render a whitespace or newline between text and '=='", () => {
+  it("should not render a whitespace or newline between text and '=='", () => {
     expect(markdownIt.render("foo == bar == baz")).toEqual(
       `<p>foo == bar == baz</p>\n`,
     );
