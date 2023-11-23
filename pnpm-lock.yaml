@@ -248,6 +248,15 @@ importers:
         specifier: ^13.0.2
         version: 13.0.2
 
+  packages/hints:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^13.0.7
+        version: 13.0.7
+      markdown-it:
+        specifier: ^13.0.2
+        version: 13.0.2
+
   packages/img-lazyload:
     dependencies:
       '@types/markdown-it':
@@ -9787,7 +9796,7 @@ packages:
     hasBin: true
     peerDependencies:
       '@vuepress/client': 2.0.0-rc.0
-      vue: 3.3.8
+      vue: ^3.3.4
     dependencies:
       '@vuepress/bundler-vite': 2.0.0-rc.0(@types/node@20.9.3)(typescript@5.3.2)
       '@vuepress/cli': 2.0.0-rc.0(typescript@5.3.2)
