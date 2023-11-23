@@ -2,6 +2,7 @@
  * Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures
  */
 import { type PluginWithOptions } from "markdown-it";
+import { type RuleCore } from "markdown-it/lib/parser_core.js";
 import type Token from "markdown-it/lib/token.js";
 
 import { type MarkdownItFigureOptions } from "./options.js";
@@ -26,7 +27,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
   md,
   options = {},
 ) => {
-  md.core.ruler.before("linkify", "figure", (state) => {
+  const figureRule: RuleCore = (state) => {
     // do not process first and last token
     for (
       let index = 1, { length } = state.tokens;
@@ -96,5 +97,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
 
       if (options.focusable !== false) image.attrPush(["tabindex", "0"]);
     }
-  });
+  };
+
+  md.core.ruler.before("linkify", "figure", figureRule);
 };

@@ -1,4 +1,5 @@
 import { type PluginWithOptions } from "markdown-it";
+import { type RuleCore } from "markdown-it/lib/parser_core.js";
 import type Token from "markdown-it/lib/token.js";
 
 import {
@@ -54,7 +55,7 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (
 ) => {
   if (options.config?.length == 0) return;
 
-  md.core.ruler.push("stylize_tag", ({ env, tokens }) => {
+  const stylizeRule: RuleCore = ({ env, tokens }) => {
     const localConfig = options.localConfigGetter?.(env) ?? [];
 
     tokens.forEach(({ type, children }) => {
@@ -65,5 +66,7 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (
           ...(options.config ?? []),
         ]);
     });
-  });
+  };
+
+  md.core.ruler.push("stylize_tag", stylizeRule);
 };

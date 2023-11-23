@@ -201,19 +201,6 @@ export const resolveInclude = (
     },
   );
 
-export const createIncludeCoreRule =
-  (options: Required<MarkdownItIncludeOptions>): RuleCore =>
-  (state): void => {
-    const env = <IncludeEnv>state.env;
-    const includedFiles = env.includedFiles || (env.includedFiles = []);
-    const currentPath = options.currentPath(env);
-
-    state.src = resolveInclude(state.src, options, {
-      cwd: currentPath ? path.dirname(currentPath) : null,
-      includedFiles,
-    });
-  };
-
 const SYNTAX_PUSH_RE = /^@include-push\(([^)]*?)\)$/;
 
 const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
@@ -311,19 +298,30 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
   if (typeof currentPath !== "function")
     return console.error('[@mdit/plugin-include]: "currentPath" is required');
 
+  const includeRule: RuleCore = (state): void => {
+    const env = <IncludeEnv>state.env;
+    const includedFiles = env.includedFiles || (env.includedFiles = []);
+    const filePath = currentPath(env);
+
+    state.src = resolveInclude(
+      state.src,
+      {
+        currentPath,
+        resolvePath,
+        deep,
+        resolveLinkPath,
+        resolveImagePath,
+        useComment,
+      },
+      {
+        cwd: filePath ? path.dirname(filePath) : null,
+        includedFiles,
+      },
+    );
+  };
+
   // add md_import core rule
-  md.core.ruler.after(
-    "normalize",
-    "md_import",
-    createIncludeCoreRule({
-      currentPath,
-      resolvePath,
-      deep,
-      resolveLinkPath,
-      resolveImagePath,
-      useComment,
-    }),
-  );
+  md.core.ruler.after("normalize", "md_import", includeRule);
 
   if (resolveImagePath || resolveLinkPath) {
     md.block.ruler.before("table", "md_include_push", includePushRule, {
@@ -386,7 +384,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
 
     if (resolveLinkPath) {
       const defaultLinkRenderer =
-        md.renderer.rules["link_open"] ||
+        md.renderer.rules["link_open"] ??
         ((tokens, index, options, _env, self): string =>
           self.renderToken(tokens, index, options));
 
