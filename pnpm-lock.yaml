@@ -186,6 +186,15 @@ importers:
         specifier: 2.0.0-rc.0
         version: 2.0.0-rc.0(@types/js-yaml@4.0.9)(mathjax-full@3.2.2)(typescript@5.3.2)(vuepress@2.0.0-rc.0)
 
+  packages/alert:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^13.0.7
+        version: 13.0.7
+      markdown-it:
+        specifier: ^13.0.2
+        version: 13.0.2
+
   packages/align:
     dependencies:
       '@mdit/plugin-container':
@@ -240,15 +249,6 @@ importers:
         version: 13.0.2
 
   packages/footnote:
-    dependencies:
-      '@types/markdown-it':
-        specifier: ^13.0.7
-        version: 13.0.7
-      markdown-it:
-        specifier: ^13.0.2
-        version: 13.0.2
-
-  packages/hints:
     dependencies:
       '@types/markdown-it':
         specifier: ^13.0.7
@@ -705,6 +705,7 @@ packages:
   /@babel/highlight@7.23.4:
     resolution: {integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==}
     engines: {node: '>=6.9.0'}
+    requiresBuild: true
     dependencies:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
