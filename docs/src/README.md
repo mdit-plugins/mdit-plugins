@@ -4,6 +4,11 @@ icon: home
 home: true
 heroImage: /logo.svg
 features:
+  - title: alert
+    icon: bell
+    details: GFM alerts
+    link: /alert.html
+
   - title: align
     icon: align
     details: Align contents

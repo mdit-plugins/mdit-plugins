@@ -3,26 +3,11 @@ import { describe, expect, it } from "vitest";
 
 import { alert } from "../src/index.js";
 
-const markdownItDefault = new MarkdownIt();
 const markdownIt = new MarkdownIt().use(alert);
-const markdownItCustom = new MarkdownIt().use(alert, {
-  openRender: (tokens, index) =>
-    `<div class="${tokens[index].markup}-alert">\n`,
-  titleRender: (tokens, index) => {
-    const token = tokens[index];
-    const title = {
-      important: "重要",
-      note: "注",
-      tip: "提示",
-      warning: "注意",
-      caution: "警告",
-    }[token.content];
 
-    return `<p class="${token.markup}-alert-title">${title}</p>\n`;
-  },
-});
+it("should not break blockquote", () => {
+  const markdownItDefault = new MarkdownIt();
 
-it("blockquote should work", () => {
   const testCases = [
     [
       "> test",
@@ -91,7 +76,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -103,7 +88,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-note">
-<p class="markdown-alert-title">note</p>
+<p class="markdown-alert-title">Note</p>
 <p>This is a note</p>
 </div>
 `,
@@ -115,7 +100,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-tip">
-<p class="markdown-alert-title">tip</p>
+<p class="markdown-alert-title">Tip</p>
 <p>This is a tip note</p>
 </div>
 `,
@@ -127,7 +112,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-warning">
-<p class="markdown-alert-title">warning</p>
+<p class="markdown-alert-title">Warning</p>
 <p>This is a warning note</p>
 </div>
 `,
@@ -139,7 +124,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-caution">
-<p class="markdown-alert-title">caution</p>
+<p class="markdown-alert-title">Caution</p>
 <p>This is a caution note</p>
 </div>
 `,
@@ -160,7 +145,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -172,7 +157,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -184,7 +169,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -208,7 +193,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -226,7 +211,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -248,7 +233,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -260,7 +245,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -272,7 +257,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -287,7 +272,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -305,7 +290,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -318,7 +303,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -330,7 +315,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -342,7 +327,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -354,7 +339,7 @@ describe("hint", () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">important</p>
+<p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -429,6 +414,141 @@ This is an important note</p>
 </blockquote>
 `,
       ],
+      [
+        `\
+> \\[!Important]
+> This is an important note
+`,
+        `\
+<blockquote>
+<p>[!Important]
+This is an important note</p>
+</blockquote>
+`,
+      ],
+      [
+        `\
+> [\\!Important]
+> This is an important note
+`,
+        `\
+<blockquote>
+<p>[!Important]
+This is an important note</p>
+</blockquote>
+`,
+      ],
+      [
+        `\
+> [!Important\\]
+> This is an important note
+`,
+        `\
+<blockquote>
+<p>[!Important]
+This is an important note</p>
+</blockquote>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownIt.render(input)).toEqual(output);
+    });
+  });
+
+  it("should not render in deep", () => {
+    const testCases = [
+      [
+        `\
+- > [!Warning]
+  > This is a warning
+`,
+        `\
+<ul>
+<li>
+<blockquote>
+<p>[!Warning]
+This is a warning</p>
+</blockquote>
+</li>
+</ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownIt.render(input)).toEqual(output);
+    });
+  });
+
+  it("should not support nesting", () => {
+    const testCases = [
+      [
+        `\
+> [!Warning]
+> This is a warning
+> > [!Note]
+> > This is a note
+`,
+        `\
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>This is a warning</p>
+<blockquote>
+<p>[!Note]
+This is a note</p>
+</blockquote>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownIt.render(input)).toEqual(output);
+    });
+  });
+
+  it("should render in deep and support nesting", () => {
+    const markdownItCustom = new MarkdownIt().use(alert, {
+      deep: true,
+    });
+
+    const testCases = [
+      [
+        `\
+- > [!Warning]
+  > This is a warning
+`,
+        `\
+<ul>
+<li>
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>This is a warning</p>
+</div>
+</li>
+</ul>
+`,
+      ],
+      [
+        `\
+> [!Warning]
+> This is a warning
+> > [!Note]
+> > This is a note
+`,
+        `\
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>This is a warning</p>
+<div class="markdown-alert markdown-alert-note">
+<p class="markdown-alert-title">Note</p>
+<p>This is a note</p>
+</div>
+</div>
+`,
+      ],
     ];
 
     testCases.forEach(([input, output]) => {
@@ -437,6 +557,23 @@ This is an important note</p>
   });
 
   it("should support customize options", () => {
+    const markdownItCustom = new MarkdownIt().use(alert, {
+      openRender: (tokens, index) =>
+        `<div class="${tokens[index].markup}-alert">\n`,
+      titleRender: (tokens, index) => {
+        const token = tokens[index];
+        const title = {
+          important: "重要",
+          note: "注",
+          tip: "提示",
+          warning: "注意",
+          caution: "警告",
+        }[token.markup];
+
+        return `<p class="${token.markup}-alert-title">${title}</p>\n`;
+      },
+    });
+
     const testCases = [
       [
         `\
