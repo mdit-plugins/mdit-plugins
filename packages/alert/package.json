@@ -1,5 +1,5 @@
 {
-  "name": "@mdit/plugin-hints",
+  "name": "@mdit/plugin-alert",
   "version": "0.6.5",
   "description": "hints plugin for MarkdownIt",
   "keywords": [

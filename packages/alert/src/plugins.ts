@@ -6,7 +6,7 @@ import { MarkdownItHintOptions } from "./options";
 
 const HINT_REGEXP = /^>\s{0,4}\[!(tip|warning|caution|important|note)\]\s*$/i;
 
-const hintRule: RuleBlock = (state, startLine, endLine, silent) => {
+const alertRule: RuleBlock = (state, startLine, endLine, silent) => {
   let pos = state.bMarks[startLine] + state.tShift[startLine];
   let max = state.eMarks[startLine];
   const oldLineMax = state.lineMax;
@@ -32,11 +32,11 @@ const hintRule: RuleBlock = (state, startLine, endLine, silent) => {
   const oldSCount = [];
   const oldTShift = [];
 
-  const terminatorRules = state.md.block.ruler.getRules("hint");
+  const terminatorRules = state.md.block.ruler.getRules("alert");
   const oldParentType = state.parentType;
 
   // @ts-expect-error
-  state.parentType = "hint";
+  state.parentType = "alert";
 
   // Search the end of the block
   //
@@ -196,22 +196,22 @@ const hintRule: RuleBlock = (state, startLine, endLine, silent) => {
   const titleLines: [number, number] = [startLine, startLine + 1];
   const contentLines: [number, number] = [startLine + 1, 0];
 
-  const openToken = state.push("hint_open", "div", 1);
+  const openToken = state.push("alert_open", "div", 1);
 
   openToken.markup = type;
-  openToken.attrJoin("class", `${type}-hint`);
+  openToken.attrJoin("class", `markdown-alert markdown-alert-${type}`);
   openToken.map = contentLines;
 
-  const titleToken = state.push("hint_title", "", 0);
+  const titleToken = state.push("alert_title", "", 0);
 
-  titleToken.attrJoin("class", `${type}-hint-title`);
+  titleToken.attrJoin("class", `markdown-alert-title`);
   titleToken.markup = type;
   titleToken.content = type;
   titleToken.map = titleLines;
 
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
-  const closeToken = state.push("hint_close", "div", -1);
+  const closeToken = state.push("alert_close", "div", -1);
 
   closeToken.markup = match[1];
 
@@ -232,25 +232,24 @@ const hintRule: RuleBlock = (state, startLine, endLine, silent) => {
   return true;
 };
 
-export const hint: PluginWithOptions<MarkdownItHintOptions> = (
+export const alert: PluginWithOptions<MarkdownItHintOptions> = (
   md,
   options = {},
 ) => {
-  md.block.ruler.before("blockquote", "hint", hintRule, {
+  md.block.ruler.before("blockquote", "alert", alertRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  if (options.hintOpenRender)
-    md.renderer.rules["hint_open"] = options.hintOpenRender;
+  if (options.openRender) md.renderer.rules["alert_open"] = options.openRender;
 
-  if (options.hintCloseRender)
-    md.renderer.rules["hint_close"] = options.hintCloseRender;
+  if (options.closeRender)
+    md.renderer.rules["alert_close"] = options.closeRender;
 
-  md.renderer.rules["hint_title"] =
-    options.hintTitleRender ||
+  md.renderer.rules["alert_title"] =
+    options.titleRender ||
     ((tokens, index): string => {
       const token = tokens[index];
 
-      return `<p class="${token.markup}-hint-title">${token.content}</p>\n`;
+      return `<p class="markdown-alert-title">${token.content}</p>\n`;
     });
 };

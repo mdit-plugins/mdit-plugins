@@ -1,14 +1,14 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { hint } from "../src/index.js";
+import { alert } from "../src/index.js";
 
 const markdownItDefault = new MarkdownIt();
-const markdownIt = new MarkdownIt().use(hint);
-const markdownItCustom = new MarkdownIt().use(hint, {
-  hintOpenRender: (tokens, index) =>
-    `<div class="hint ${tokens[index].markup}-hint">\n`,
-  hintTitleRender: (tokens, index) => {
+const markdownIt = new MarkdownIt().use(alert);
+const markdownItCustom = new MarkdownIt().use(alert, {
+  openRender: (tokens, index) =>
+    `<div class="${tokens[index].markup}-alert">\n`,
+  titleRender: (tokens, index) => {
     const token = tokens[index];
     const title = {
       important: "重要",
@@ -18,7 +18,7 @@ const markdownItCustom = new MarkdownIt().use(hint, {
       caution: "警告",
     }[token.content];
 
-    return `<p class="hint ${token.markup}-hint-title">${title}</p>\n`;
+    return `<p class="${token.markup}-alert-title">${title}</p>\n`;
   },
 });
 
@@ -90,8 +90,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -102,8 +102,8 @@ describe("hint", () => {
 > This is a note
 `,
         `\
-<div class="note-hint">
-<p class="note-hint-title">note</p>
+<div class="markdown-alert markdown-alert-note">
+<p class="markdown-alert-title">note</p>
 <p>This is a note</p>
 </div>
 `,
@@ -114,8 +114,8 @@ describe("hint", () => {
 > This is a tip note
 `,
         `\
-<div class="tip-hint">
-<p class="tip-hint-title">tip</p>
+<div class="markdown-alert markdown-alert-tip">
+<p class="markdown-alert-title">tip</p>
 <p>This is a tip note</p>
 </div>
 `,
@@ -126,8 +126,8 @@ describe("hint", () => {
 > This is a warning note
 `,
         `\
-<div class="warning-hint">
-<p class="warning-hint-title">warning</p>
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">warning</p>
 <p>This is a warning note</p>
 </div>
 `,
@@ -138,8 +138,8 @@ describe("hint", () => {
 > This is a caution note
 `,
         `\
-<div class="caution-hint">
-<p class="caution-hint-title">caution</p>
+<div class="markdown-alert markdown-alert-caution">
+<p class="markdown-alert-title">caution</p>
 <p>This is a caution note</p>
 </div>
 `,
@@ -159,8 +159,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -171,8 +171,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -183,8 +183,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -207,8 +207,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -225,8 +225,8 @@ describe("hint", () => {
 >This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -247,8 +247,8 @@ describe("hint", () => {
 >This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -259,8 +259,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -271,8 +271,8 @@ describe("hint", () => {
 >This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -286,8 +286,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -304,8 +304,8 @@ describe("hint", () => {
 >This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 <p>This is an important note</p>
 </div>
@@ -317,8 +317,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -329,8 +329,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -341,8 +341,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -353,8 +353,8 @@ describe("hint", () => {
 > This is an important note
 `,
         `\
-<div class="important-hint">
-<p class="important-hint-title">important</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">important</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -444,8 +444,8 @@ This is an important note</p>
 > This is an important note
 `,
         `\
-<div class="hint important-hint">
-<p class="hint important-hint-title">重要</p>
+<div class="important-alert">
+<p class="important-alert-title">重要</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -456,8 +456,8 @@ This is an important note</p>
 > This is a note
 `,
         `\
-<div class="hint note-hint">
-<p class="hint note-hint-title">注</p>
+<div class="note-alert">
+<p class="note-alert-title">注</p>
 <p>This is a note</p>
 </div>
 `,
@@ -468,8 +468,8 @@ This is an important note</p>
 > This is a tip note
 `,
         `\
-<div class="hint tip-hint">
-<p class="hint tip-hint-title">提示</p>
+<div class="tip-alert">
+<p class="tip-alert-title">提示</p>
 <p>This is a tip note</p>
 </div>
 `,
@@ -480,8 +480,8 @@ This is an important note</p>
 > This is a warning note
 `,
         `\
-<div class="hint warning-hint">
-<p class="hint warning-hint-title">注意</p>
+<div class="warning-alert">
+<p class="warning-alert-title">注意</p>
 <p>This is a warning note</p>
 </div>
 `,
@@ -492,8 +492,8 @@ This is an important note</p>
 > This is a caution note
 `,
         `\
-<div class="hint caution-hint">
-<p class="hint caution-hint-title">警告</p>
+<div class="caution-alert">
+<p class="caution-alert-title">警告</p>
 <p>This is a caution note</p>
 </div>
 `,
