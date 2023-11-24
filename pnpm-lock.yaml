@@ -146,6 +146,9 @@ importers:
 
   docs:
     dependencies:
+      '@mdit/plugin-alert':
+        specifier: workspace:*
+        version: link:../packages/alert
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../packages/container

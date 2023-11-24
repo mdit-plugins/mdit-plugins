@@ -1,3 +1,4 @@
+import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
 import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
@@ -36,6 +37,7 @@ export default defineUserConfig({
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
+    md.use(alert, { deep: true });
     md.use(demo);
 
     md.use(container, {

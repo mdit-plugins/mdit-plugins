@@ -5,7 +5,7 @@ home: true
 heroImage: /logo.svg
 features:
   - title: alert
-    icon: bell
+    icon: warn
     details: GFM 警示
     link: ./alert.html
 
