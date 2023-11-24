@@ -26,6 +26,7 @@ We recommend you to contact using [issues](https://github.com/mdit-plugins/mdit-
 
 This repo contains the following plugins:
 
+- @mdit/plugin-alert
 - @mdit/plugin-align
 - @mdit/plugin-attrs
 - @mdit/plugin-container
