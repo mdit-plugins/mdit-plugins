@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.5...v0.7.0) (2023-11-24)
+
+### Features
+
+- add alert plugin ([#34](https://github.com/Mister-Hope/mdit-plugins/issues/34)) ([d7c9c01](https://github.com/Mister-Hope/mdit-plugins/commit/d7c9c01f1d6ebac0baf2f10c32f19af13907d929))
+
+### Performance Improvements
+
+- **include:** improve performance ([2fcbb68](https://github.com/Mister-Hope/mdit-plugins/commit/2fcbb686ed40ce7b4121639d642befb47a9970c7))
+
 ## [0.6.5](https://github.com/Mister-Hope/mdit-plugins/compare/v0.6.4...v0.6.5) (2023-11-03)
 
 ### Features
