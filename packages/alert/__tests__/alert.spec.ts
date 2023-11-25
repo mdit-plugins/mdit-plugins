@@ -351,6 +351,68 @@ describe("hint", () => {
     });
   });
 
+  it("should work with other content", () => {
+    const original = `
+# Title
+
+> [!important]
+> This is an important note
+
+Paragraph text.
+
+> [!important]
+> This is an important note
+
+---
+
+> [!important]
+> This is an important note
+
+- list item
+
+> [!important]
+> This is an important note
+
+1. list item
+
+> [!important]
+> This is an important note
+
+`;
+
+    expect(markdownIt.render(original)).toEqual(`\
+<h1>Title</h1>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+<p>Paragraph text.</p>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+<hr>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+<ul>
+<li>list item</li>
+</ul>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+<ol>
+<li>list item</li>
+</ol>
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+`);
+  });
+
   it("should not render", () => {
     const testCases = [
       [
