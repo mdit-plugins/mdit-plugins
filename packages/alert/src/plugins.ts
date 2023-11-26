@@ -20,8 +20,6 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) return false;
 
-    console.log(state.parentType, state.level);
-
     // check whether it's at first level
     if (state.level !== 0 && !deep) return false;
 
