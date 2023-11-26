@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.2...v0.7.3) (2023-11-26)
+
+### Features
+
+- add vPre option ([bebdd5c](https://github.com/Mister-Hope/mdit-plugins/commit/bebdd5c96013da5605c3926978f7812f3ecc3249))
+
 ## [0.7.2](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.1...v0.7.2) (2023-11-26)
 
 ### Bug Fixes
