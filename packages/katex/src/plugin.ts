@@ -16,16 +16,23 @@ const katexInline = (
   tex: string,
   katex: typeof Katex,
   options: OriginalKatexOptions,
+  vPre: boolean,
 ): string => {
   try {
-    return katex.renderToString(tex, {
+    const result = katex.renderToString(tex, {
       ...options,
       displayMode: false,
     });
+
+    return vPre
+      ? result.replace(/ class="katex"/g, ' v-pre class="katex"')
+      : result;
   } catch (error) {
     if (options.throwOnError) console.warn(error);
 
-    return `<span class='katex-error' title='${escapeHtml(
+    return `<span ${
+      vPre ? "v-pre " : ""
+    }class='katex-error' title='${escapeHtml(
       (error as Error).toString(),
     )}'>${escapeHtml(tex)}</span>`;
   }
@@ -35,16 +42,21 @@ const katexBlock = (
   tex: string,
   katex: typeof Katex,
   options: OriginalKatexOptions,
+  vPre: boolean,
 ): string => {
   try {
-    return `<p class='katex-block'>${katex.renderToString(tex, {
+    return `<p ${
+      vPre ? "v-pre " : ""
+    }class='katex-block'>${katex.renderToString(tex, {
       ...options,
       displayMode: true,
     })}</p>\n`;
   } catch (error) {
     if (options.throwOnError) console.warn(error);
 
-    return `<p class='katex-block katex-error' title='${escapeHtml(
+    return `<p ${
+      vPre ? "v-pre " : ""
+    }class='katex-block katex-error' title='${escapeHtml(
       (error as Error).toString(),
     )}'>${escapeHtml(tex)}</p>\n`;
   }
@@ -60,6 +72,7 @@ export const katex = <MarkdownItEnv = unknown>(
     mhchem = false,
     logger = (errorCode: string): string =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
+    vPre = false,
     ...userOptions
   } = options;
 
@@ -89,8 +102,8 @@ export const katex = <MarkdownItEnv = unknown>(
         };
 
         return displayMode
-          ? katexBlock(content, katex, katexOptions)
-          : katexInline(content, katex, katexOptions);
+          ? katexBlock(content, katex, katexOptions, vPre)
+          : katexInline(content, katex, katexOptions, vPre);
       },
     });
   } catch (err) {

@@ -47,4 +47,11 @@ export interface MarkdownItMathjaxOptions
    * SVG 输出选项
    */
   svg?: MathjaxSVGOutputOptions;
+
+  /**
+   * @private This is an undocumented option, use at your own risk
+   *
+   * @default false
+   */
+  vPre?: boolean;
 }

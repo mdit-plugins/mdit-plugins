@@ -56,4 +56,11 @@ export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
    * 错误日志记录器
    */
   logger?: KatexLogger<MarkdownItEnv>;
+
+  /**
+   * @private This is an undocumented option, use at your own risk
+   *
+   * @default false
+   */
+  vPre?: boolean;
 }

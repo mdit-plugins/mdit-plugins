@@ -245,10 +245,20 @@ $$
 
   expect(logger2).toHaveBeenCalledTimes(1);
 });
+
 it("should work with mhchem", () => {
   const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
     mhchem: true,
   });
 
   expect(markdownItMhchem.render(`$$\\ce{H2O}$$`)).toMatchSnapshot();
+});
+
+it("should work with v-pre", () => {
+  const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
+    vPre: true,
+  });
+
+  expect(markdownItMhchem.render(`$$a=1$$`)).toContain(" v-pre ");
+  expect(markdownItMhchem.render(`$a=1$`)).toContain(" v-pre ");
 });

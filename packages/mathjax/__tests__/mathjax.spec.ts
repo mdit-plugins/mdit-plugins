@@ -279,3 +279,14 @@ describe("check label result pre page", () => {
     );
   });
 });
+
+it("should work with v-pre", () => {
+  const mathjaxInstance = createMathjaxInstance({ vPre: true })!;
+  const markdownIt = MarkdownIt({ linkify: true }).use(
+    mathjax,
+    mathjaxInstance,
+  );
+
+  expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
+  expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
+});

@@ -112,6 +112,11 @@ export interface MathjaxInstance
    * Reset tex (including labels)
    */
   reset: () => void;
+
+  /**
+   * @private
+   */
+  vPre: boolean;
 }
 
 export const createMathjaxInstance = (
@@ -175,15 +180,16 @@ export const createMathjaxInstance = (
     clearStyle,
     reset,
     outputStyle,
+    vPre: options.vPre ?? false,
   };
 };
 
-export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
+export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
   const { mathjax } = <typeof import("mathjax-full/js/mathjax.js")>(
     require("mathjax-full/js/mathjax.js")
   );
-  const { allowInlineWithSpace, adaptor, documentOptions, mathFence } =
-    options!;
+  const { allowInlineWithSpace, adaptor, documentOptions, mathFence, vPre } =
+    instance!;
 
   md.use(tex, {
     allowInlineWithSpace,
@@ -195,7 +201,11 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, options) => {
         })
       );
 
-      return adaptor.outerHTML(mathDocument);
+      const result = adaptor.outerHTML(mathDocument);
+
+      return vPre
+        ? result.replace(/^<mjx-container/, "<mjx-container v-pre")
+        : result;
     },
   });
 };
