@@ -112,10 +112,13 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
       const indent = state.sCount[startLine];
 
-      codeToken.content = state
-        .getLines(startLine + 1, nextLine, indent, true)
-        .replace(/^(\n\r?)+/, "")
-        .replace(/(\n\r?)+$/, "\n");
+      codeToken.content = state.src
+        .split(/\n\r?/)
+        .slice(startLine + 1, nextLine)
+        .map((line) => line.substring(indent))
+        .join("\n")
+        .replace(/^\n+/, "")
+        .replace(/\n*$/, "\n");
       codeToken.map = [startLine, state.line];
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (codeToken.meta ??= {}).title = title;

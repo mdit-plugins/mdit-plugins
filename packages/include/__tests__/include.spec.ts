@@ -206,7 +206,8 @@ describe("include", () => {
 `;
 
         const simpleExpected = `\
-<p>ABC</p>
+<h1>ABC</h1>
+<p>DEF</p>
 `;
 
         const env: IncludeEnv = {
