@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.3...v0.7.4) (2023-11-28)
+
+### Bug Fixes
+
+- **demo:** fix source getting ([5860029](https://github.com/mdit-plugins/mdit-plugins/commit/5860029945ca460f83edbf388a408b7dafbd7970))
+
 ## [0.7.3](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.2...v0.7.3) (2023-11-26)
 
 ### Features

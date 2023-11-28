@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-container",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "container plugin for MarkdownIt",
   "keywords": [
     "markdownit",
