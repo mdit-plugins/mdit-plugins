@@ -230,26 +230,14 @@ ${alertContent}
       })
       .use(demo);
 
-    expect(
-      markdownItInclude.render(`
+    const result = markdownItInclude.render(`
 ::: demo Title text
 ${importContent}
 :::
-`),
-    ).toBe(
-      `\
-<details><summary>Title text</summary>
-<h1>ABC</h1>
-<p>DEF</p>
-<pre><code class="language-md">@include-push(/home/mister-hope/projects/mdit-plugins/packages/include/__tests__/__fixtures__)
-# ABC
+`);
 
-DEF
-
-@include-pop()
-</code></pre>
-</details>
-`,
+    expect(result).toMatch(
+      /<details><summary>Title text<\/summary>\n<h1>ABC<\/h1>\n<p>DEF<\/p>\n<pre><code class="language-md">@include-push\(.*\/packages\/include\/__tests__\/__fixtures__\)\n# ABC\n\nDEF\n\n@include-pop\(\)\n<\/code><\/pre>\n<\/details>\n/,
     );
 
     expect(
@@ -262,25 +250,8 @@ DEF
 
   :::
 `),
-    ).toBe(
-      `\
-<ul>
-<li>
-<p>list</p>
-<details><summary>Title text</summary>
-<h1>ABC</h1>
-<p>DEF</p>
-<pre><code class="language-md">@include-push(/home/mister-hope/projects/mdit-plugins/packages/include/__tests__/__fixtures__)
-# ABC
-
-DEF
-
-@include-pop()
-</code></pre>
-</details>
-</li>
-</ul>
-`,
+    ).toMatch(
+      /<ul>\n<li>\n<p>list<\/p>\n<details><summary>Title text<\/summary>\n<h1>ABC<\/h1>\n<p>DEF<\/p>\n<pre><code class="language-md">@include-push\(.*?\/packages\/include\/__tests__\/__fixtures__\)\n# ABC\n\nDEF\n\n@include-pop\(\)\n<\/code><\/pre>\n<\/details>\n<\/li>\n<\/ul>\n/,
     );
   });
 });
