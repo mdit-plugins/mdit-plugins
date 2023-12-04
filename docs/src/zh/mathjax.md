@@ -21,34 +21,26 @@ icon: tex
 
 ```ts
 import MarkdownIt from "markdown-it";
-import {
-  createMathjaxInstance,
-  mathjax,
-  generateMathjaxStyle,
-} from "@mdit/plugin-mathjax";
+import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 
 const mathjaxInstance = createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
-const style = generateMathjaxStyle(mathjaxInstance);
+const style = mathjaxInstance.outputStyle();
 ```
 
 @tab JS
 
 ```js
 const MarkdownIt = require("markdown-it");
-const {
-  createMathjaxInstance,
-  mathjax,
-  generateMathjaxStyle,
-} = require("@mdit/plugin-mathjax");
+const { createMathjaxInstance, mathjax } = require("@mdit/plugin-mathjax");
 
 const mathjaxInstance = createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
-const style = generateMathjaxStyle(mathjaxInstance);
+const style = mathjaxInstance.outputStyle();
 ```
 
 ::::
