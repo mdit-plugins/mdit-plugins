@@ -60,7 +60,7 @@ export interface MathJaxTexInputOptions {
    *
    * @default "0.8em"
    */
-  tagIndent: "0.8em";
+  tagIndent?: "0.8em";
 
   /**
    * use label name rather than tag for ids
