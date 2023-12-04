@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-tasklist",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "tasklist plugin for MarkdownIt",
   "keywords": [
     "markdownit",

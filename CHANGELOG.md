@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.5](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.4...v0.7.5) (2023-12-04)
+
+### Bug Fixes
+
+- **mathjax:** fix tex type issue ([e856e90](https://github.com/Mister-Hope/mdit-plugins/commit/e856e900d77616bea64a9f1952bf36a268779cdc))
+
 ## [0.7.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.3...v0.7.4) (2023-11-28)
 
 ### Bug Fixes
