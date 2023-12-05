@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`snippet > should import all lines 1`] = `
-"<pre><code class=\\"language-html\\">&lt;!doctype html&gt;
+"<pre><code class="language-html">&lt;!doctype html&gt;
 &lt;html lang=&quot;zh-CN&quot;&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot; /&gt;
@@ -31,7 +31,7 @@ exports[`snippet > should import all lines 1`] = `
 `;
 
 exports[`snippet > should import all lines 2`] = `
-"<pre><code class=\\"language-md\\">## Hello world
+"<pre><code class="language-md">## Hello world
 
 &lt;!-- #region snippet --&gt;
 
@@ -50,7 +50,7 @@ cupiditate sequi.
 `;
 
 exports[`snippet > should import all lines 3`] = `
-"<pre><code class=\\"language-js\\">const MarkdownIt = require(&quot;markdown-it&quot;);
+"<pre><code class="language-js">const MarkdownIt = require(&quot;markdown-it&quot;);
 const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
 
 // #region snippet
@@ -68,7 +68,7 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
 `;
 
 exports[`snippet > should import all lines 4`] = `
-"<pre><code class=\\"language-ts\\">import MarkdownIt from &quot;markdown-it&quot;;
+"<pre><code class="language-ts">import MarkdownIt from &quot;markdown-it&quot;;
 import { snippet } from &quot;@mdit/plugin-snippet&quot;;
 
 // #region snippet
@@ -86,7 +86,7 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.ts&quot;, {
 `;
 
 exports[`snippet > should import all lines 5`] = `
-"<pre><code class=\\"language-css\\">html,
+"<pre><code class="language-css">html,
 body {
   margin: 0;
   padding: 0;
@@ -106,7 +106,7 @@ h2 {
 `;
 
 exports[`snippet > should import all lines 6`] = `
-"<pre><code class=\\"language-scss\\">html,
+"<pre><code class="language-scss">html,
 body {
   margin: 0;
   padding: 0;
@@ -127,7 +127,7 @@ h2 {
 `;
 
 exports[`snippet > should import all lines 7`] = `
-"<pre><code class=\\"language-less\\">html,
+"<pre><code class="language-less">html,
 body {
   margin: 0;
   padding: 0;
@@ -148,7 +148,7 @@ h2 {
 `;
 
 exports[`snippet > should import all lines 8`] = `
-"<pre><code class=\\"language-cs\\">using System;
+"<pre><code class="language-cs">using System;
 
 namespace HelloWorldApp {
 
@@ -173,7 +173,7 @@ namespace HelloWorldApp {
 `;
 
 exports[`snippet > should import all lines 9`] = `
-"<pre><code class=\\"language-java\\">public class HelloWorld {
+"<pre><code class="language-java">public class HelloWorld {
   // #region snippet
   public static void main(String args[]){
     System.out.println(&quot;Hello World&quot;);
@@ -185,7 +185,7 @@ exports[`snippet > should import all lines 9`] = `
 `;
 
 exports[`snippet > should import all lines 10`] = `
-"<pre><code class=\\"language-py\\">class MyClass:
+"<pre><code class="language-py">class MyClass:
     msg = &quot;world&quot;
 
     #region snippet
@@ -200,7 +200,7 @@ exports[`snippet > should import all lines 10`] = `
 `;
 
 exports[`snippet > should import all lines 11`] = `
-"<pre><code class=\\"language-vb\\">Imports System
+"<pre><code class="language-vb">Imports System
 
 Module Module1
    # Region snippet
@@ -278,7 +278,7 @@ exports[`snippet > should not parse code block 8`] = `
 `;
 
 exports[`snippet > should support region 1`] = `
-"<pre><code class=\\"language-html\\">&lt;p&gt;
+"<pre><code class="language-html">&lt;p&gt;
   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi,
   repellendus. Voluptatibus alias cupiditate at, fuga tenetur error officiis
   provident quisquam autem, porro facere! Neque quibusdam animi quaerat
@@ -288,7 +288,7 @@ exports[`snippet > should support region 1`] = `
 `;
 
 exports[`snippet > should support region 2`] = `
-"<pre><code class=\\"language-md\\">
+"<pre><code class="language-md">
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
 inventore iure quo aut doloremque, ipsum ab voluptatem ipsa, velit laborum
 illo quae omnis reiciendis hic, ut dolorem non debitis in!
@@ -297,7 +297,7 @@ illo quae omnis reiciendis hic, ut dolorem non debitis in!
 `;
 
 exports[`snippet > should support region 3`] = `
-"<pre><code class=\\"language-js\\">const mdIt = MarkdownIt().use(snippet, {
+"<pre><code class="language-js">const mdIt = MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
 });</code></pre>
@@ -305,7 +305,7 @@ exports[`snippet > should support region 3`] = `
 `;
 
 exports[`snippet > should support region 4`] = `
-"<pre><code class=\\"language-ts\\">const mdIt = MarkdownIt().use(snippet, {
+"<pre><code class="language-ts">const mdIt = MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
 });</code></pre>
@@ -313,14 +313,14 @@ exports[`snippet > should support region 4`] = `
 `;
 
 exports[`snippet > should support region 5`] = `
-"<pre><code class=\\"language-css\\">h1 {
+"<pre><code class="language-css">h1 {
   font-size: 1.5rem;
 }</code></pre>
 "
 `;
 
 exports[`snippet > should support region 6`] = `
-"<pre><code class=\\"language-scss\\">h1 {
+"<pre><code class="language-scss">h1 {
   font-size: 1.5rem;
 }
 </code></pre>
@@ -328,7 +328,7 @@ exports[`snippet > should support region 6`] = `
 `;
 
 exports[`snippet > should support region 7`] = `
-"<pre><code class=\\"language-less\\">h1 {
+"<pre><code class="language-less">h1 {
   font-size: 1.5rem;
 }
 </code></pre>
@@ -336,7 +336,7 @@ exports[`snippet > should support region 7`] = `
 `;
 
 exports[`snippet > should support region 8`] = `
-"<pre><code class=\\"language-cs\\">static void Main(string[] args) {
+"<pre><code class="language-cs">static void Main(string[] args) {
 
     // statement
     // printing Hello World!
@@ -350,14 +350,14 @@ exports[`snippet > should support region 8`] = `
 `;
 
 exports[`snippet > should support region 9`] = `
-"<pre><code class=\\"language-java\\">public static void main(String args[]){
+"<pre><code class="language-java">public static void main(String args[]){
   System.out.println(&quot;Hello World&quot;);
 }</code></pre>
 "
 `;
 
 exports[`snippet > should support region 10`] = `
-"<pre><code class=\\"language-py\\">class MyClass:
+"<pre><code class="language-py">class MyClass:
     msg = &quot;world&quot;
 
     #region snippet
@@ -372,7 +372,7 @@ exports[`snippet > should support region 10`] = `
 `;
 
 exports[`snippet > should support region 11`] = `
-"<pre><code class=\\"language-vb\\">Imports System
+"<pre><code class="language-vb">Imports System
 
 Module Module1
    # Region snippet

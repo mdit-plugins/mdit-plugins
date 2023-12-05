@@ -14,10 +14,10 @@ describe("dedent", () => {
         ].join("\n"),
       ),
     ).toMatchInlineSnapshot(`
-        "fn main() {
-          println!(\\"Hello\\");
-        }"
-      `);
+      "fn main() {
+        println!("Hello");
+      }"
+    `);
   });
 
   it("when 4-level is minimal, remove 4 spaces", () => {
