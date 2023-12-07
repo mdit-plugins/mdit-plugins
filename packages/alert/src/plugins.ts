@@ -4,7 +4,7 @@ import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 
 import { MarkdownItAlertOptions } from "./options";
 
-const HINT_REGEXP = /^>\s{0,4}\[!(.*)\]\s*$/i;
+const HINT_REGEXP = /^>(?:(?: {0,3})| {0,2}\t {0,1})\[!(.*)\]\s*$/i;
 
 export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   md,

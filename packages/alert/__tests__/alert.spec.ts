@@ -58,6 +58,49 @@ test</p>
 </blockquote>
 `,
     ],
+    [
+      ">	  foo",
+      `\
+<blockquote>
+<pre><code>foo
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      ">   	foo",
+      `\
+<blockquote>
+<pre><code>  foo
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      ">				foo",
+      `\
+<blockquote>
+<pre><code>  		foo
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      ">  	 foo",
+      `\
+<blockquote>
+<p>foo</p>
+</blockquote>
+`,
+    ],
+    [
+      ">  	 foo",
+      `\
+<blockquote>
+<p>foo</p>
+</blockquote>
+`,
+    ],
   ];
 
   testCases.forEach(([input, output]) => {
@@ -224,7 +267,7 @@ describe("hint", () => {
     });
   });
 
-  it("should handle spaces", () => {
+  it("should handle spaces and tabs", () => {
     const testCases = [
       [
         `\
@@ -322,7 +365,7 @@ describe("hint", () => {
       ],
       [
         `\
->    [!Important]
+>   [!Important]
 > This is an important note
 `,
         `\
@@ -336,6 +379,30 @@ describe("hint", () => {
         `\
 > [!Important]                      
 > This is an important note
+`,
+        `\
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+`,
+      ],
+      [
+        `\
+>	[!Important]                      
+>	This is an important note
+`,
+        `\
+<div class="markdown-alert markdown-alert-important">
+<p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
+</div>
+`,
+      ],
+      [
+        `\
+>	 [!Important]
+>	 This is an important note
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
@@ -473,6 +540,58 @@ This is an important note</p>
 <pre><code>[!Important]
 </code></pre>
 <p>This is an important note</p>
+</blockquote>
+`,
+      ],
+      [
+        `\
+>	  [!Important]
+>	  This is an important note
+`,
+        `\
+<blockquote>
+<pre><code>[!Important]
+This is an important note
+</code></pre>
+</blockquote>
+`,
+      ],
+      [
+        `\
+>	   [!Important]
+>	   This is an important note
+`,
+        `\
+<blockquote>
+<pre><code> [!Important]
+ This is an important note
+</code></pre>
+</blockquote>
+`,
+      ],
+      [
+        `\
+>				[!Important]
+> This is an important note
+`,
+        `\
+<blockquote>
+<pre><code>  		[!Important]
+</code></pre>
+<p>This is an important note</p>
+</blockquote>
+`,
+      ],
+      [
+        `\
+>				[!Important]
+>				This is an important note
+`,
+        `\
+<blockquote>
+<pre><code>  		[!Important]
+  		This is an important note
+</code></pre>
 </blockquote>
 `,
       ],
