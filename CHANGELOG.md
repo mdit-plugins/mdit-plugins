@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.6](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.5...v0.7.6) (2023-12-07)
+
+### Bug Fixes
+
+- **alert:** correct alert detecting ([9946286](https://github.com/Mister-Hope/mdit-plugins/commit/994628639883d2a9897aac73d8c212b60fe95748))
+
 ## [0.7.5](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.4...v0.7.5) (2023-12-04)
 
 ### Bug Fixes
