@@ -4,7 +4,7 @@
 
 import { type PluginWithOptions } from "markdown-it";
 import type StateCore from "markdown-it/lib/rules_core/state_core.js";
-import Token from "markdown-it/lib/token.js";
+import Token from "markdown-it/lib/token.mjs";
 
 import { type MarkdownItTaskListOptions } from "./options.js";
 import { type TaskListEnv } from "./types.js";

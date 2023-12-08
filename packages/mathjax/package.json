@@ -50,7 +50,7 @@
     "upath": "^2.0.1"
   },
   "peerDependencies": {
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.0.0",
     "mathjax-full": "^3.2.2"
   },
   "peerDependenciesMeta": {

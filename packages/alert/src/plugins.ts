@@ -1,5 +1,4 @@
 import { type PluginWithOptions } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.js";
 import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 
 import { MarkdownItAlertOptions } from "./options";
@@ -90,7 +89,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
         // Case 1: line is not inside the blockquote, and this line is empty.
         break;
 
-      if (state.src.charCodeAt(pos++) === 0x3e /* > */ && !isOutdented) {
+      if (state.src.charAt(pos++) === ">" && !isOutdented) {
         let spaceAfterMarker: boolean;
         // This line is inside the blockquote.
 
@@ -98,14 +97,14 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
         let initial = state.sCount[nextLine] + 1;
 
         // skip one optional space after '>'
-        if (state.src.charCodeAt(pos) === 0x20 /* space */) {
+        if (state.src.charAt(pos) === " ") {
           // ' >   test '
           //     ^ -- position start of line here:
           pos++;
           initial++;
           adjustTab = false;
           spaceAfterMarker = true;
-        } else if (state.src.charCodeAt(pos) === 0x09 /* tab */) {
+        } else if (state.src.charAt(pos) === "\t") {
           spaceAfterMarker = true;
 
           if ((state.bsCount[nextLine] + initial) % 4 === 3) {
@@ -130,14 +129,13 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
         state.bMarks[nextLine] = pos;
 
         while (pos < max) {
-          const ch = state.src.charCodeAt(pos);
+          const ch = state.src.charAt(pos);
 
-          if (isSpace(ch))
-            if (ch === 0x09)
-              offset +=
-                4 -
-                ((offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4);
-            else offset++;
+          if (ch === "\t")
+            offset +=
+              4 -
+              ((offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4);
+          else if (ch === " ") offset++;
           else break;
 
           pos++;

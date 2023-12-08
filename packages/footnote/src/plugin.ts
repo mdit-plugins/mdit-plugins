@@ -3,14 +3,14 @@
  */
 
 import { type PluginSimple } from "markdown-it";
-import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label.js";
+import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label.mjs";
 import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 import { type RuleInline } from "markdown-it/lib/parser_inline.js";
 import type Renderer from "markdown-it/lib/renderer.js";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.js";
 import type StateCore from "markdown-it/lib/rules_core/state_core.js";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
-import Token from "markdown-it/lib/token.js";
+import Token from "markdown-it/lib/token.mjs";
 
 import { type FootNoteEnv, type FootNoteToken } from "./types.js";
 
