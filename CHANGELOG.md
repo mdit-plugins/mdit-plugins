@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.6...v0.8.0) (2023-12-08)
+
+### Features
+
+- support markdown-it v14 ([ac32cf1](https://github.com/Mister-Hope/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+
 ## [0.7.6](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.5...v0.7.6) (2023-12-07)
 
 ### Bug Fixes
