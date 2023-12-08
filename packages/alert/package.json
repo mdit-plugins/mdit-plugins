@@ -1,21 +1,21 @@
 {
   "name": "@mdit/plugin-alert",
   "version": "0.8.0",
-  "description": "hints plugin for MarkdownIt",
+  "description": "alert plugin for MarkdownIt",
   "keywords": [
     "markdownit",
     "markdown-it",
     "markdown-it-plugin",
-    "hints"
+    "alert"
   ],
-  "homepage": "https://mdit-plugins/mdit-plugins/packages/hints#readme",
+  "homepage": "https://mdit-plugins/mdit-plugins/packages/alert#readme",
   "bugs": {
     "url": "https://mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/hints"
+    "directory": "packages/alert"
   },
   "license": "MIT",
   "author": {
