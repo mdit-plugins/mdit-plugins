@@ -50,7 +50,7 @@
     "@types/markdown-it": "^13.0.7"
   },
   "peerDependencies": {
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^13.0.2 || ^14.0.0",
     "katex": "^0.16.9"
   },
   "peerDependenciesMeta": {

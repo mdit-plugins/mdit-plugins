@@ -1,5 +1,4 @@
 import { type PluginWithOptions } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.js";
 import { type RuleBlock } from "markdown-it/lib/parser_block.js";
 
 import { MarkdownItAlertOptions } from "./options";
@@ -132,12 +131,11 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
         while (pos < max) {
           const ch = state.src.charCodeAt(pos);
 
-          if (isSpace(ch))
-            if (ch === 0x09)
-              offset +=
-                4 -
-                ((offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4);
-            else offset++;
+          if (ch === 0x09)
+            offset +=
+              4 -
+              ((offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4);
+          else if (ch === 0x20) offset++;
           else break;
 
           pos++;
