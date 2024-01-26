@@ -37,7 +37,7 @@
     "*.{json,yml}": [
       "prettier --write"
     ],
-    "package.json": [
+    "**/package.json": [
       "sort-package-json"
     ]
   },
