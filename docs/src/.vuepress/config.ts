@@ -2,17 +2,17 @@ import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
 import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
-import { type MarkdownEnv } from "@vuepress/markdown";
-import { getDirname, path } from "@vuepress/utils";
 import { cut } from "nodejs-jieba";
-import { defineUserConfig } from "vuepress";
+import { type UserConfig, defineUserConfig } from "vuepress";
+import { type MarkdownEnv } from "vuepress/markdown";
+import { getDirname, path } from "vuepress/utils";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
 
 import theme from "./theme.js";
 
 const __dirname = getDirname(import.meta.url);
 
-export default defineUserConfig({
+export default <UserConfig>defineUserConfig({
   base: "/",
 
   locales: {
