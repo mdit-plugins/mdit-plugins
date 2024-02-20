@@ -11,3 +11,6 @@ coverage/
 **/.vuepress/.cache/**
 **/.vuepress/.temp/**
 **/.vuepress/dist/**
+
+# npm config file
+.npmrc

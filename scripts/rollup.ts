@@ -50,7 +50,7 @@ export const rollupTypescript = (
       ...(resolve ? [nodeResolve({ preferBuiltins: true }), commonjs()] : []),
       esbuild({ charset: "utf8", minify: isProduction, target: "node18" }),
     ],
-    external,
+    external: [/^markdown-it/, ...external],
     treeshake: {
       preset: "smallest",
     },
