@@ -14,49 +14,49 @@ Plugin to support superscript.
 @tab TS
 
 ```ts
-import MarkdownIt from "supdown-it";
+import MarkdownIt from "markdown-it";
 import { sup } from "@mdit/plugin-sup";
 
 const mdIt = MarkdownIt().use(sup);
 
-mdIt.render("H~2~O");
+mdIt.render("19^th^");
 ```
 
 @tab JS
 
 ```js
-const MarkdownIt = require("supdown-it");
+const MarkdownIt = require("markdown-it");
 const { sup } = require("@mdit/plugin-sup");
 
 const mdIt = MarkdownIt().use(sup);
 
-mdIt.render("H~2~O");
+mdIt.render("19^th^");
 ```
 
 :::
 
 ## Syntax
 
-Use `~ ~` to mark the superscript.
+Use `^ ^` to mark the superscript.
 
 ::: tip Escaping
 
 - You can use `\` to escape `^`:
 
   ```md
-  H\~2~O
+  19\^th^
   ```
 
   will be
 
-  H\~2~O
+  19\^th^
 
 :::
 
 ## Demo
 
-H~2~O
+19^th^
 
 ```md
-H~2~O
+19^th^
 ```
