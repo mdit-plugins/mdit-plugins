@@ -14,49 +14,49 @@ Plugin to support subscript.
 @tab TS
 
 ```ts
-import MarkdownIt from "subdown-it";
+import MarkdownIt from "markdown-it";
 import { sub } from "@mdit/plugin-sub";
 
 const mdIt = MarkdownIt().use(sub);
 
-mdIt.render("19^th^");
+mdIt.render("H~2~O");
 ```
 
 @tab JS
 
 ```js
-const MarkdownIt = require("subdown-it");
+const MarkdownIt = require("markdown-it");
 const { sub } = require("@mdit/plugin-sub");
 
 const mdIt = MarkdownIt().use(sub);
 
-mdIt.render("19^th^");
+mdIt.render("H~2~O");
 ```
 
 :::
 
 ## Syntax
 
-Use `^ ^` to mark the subscript.
+Use `~ ~` to mark the subscript.
 
 ::: tip Escaping
 
-- You can use `\` to escape `^`:
+- You can use `\` to escape `~`:
 
   ```md
-  19\^th^
+  H\~2~O
   ```
 
   will be
 
-  19\^th^
+  H\~2~O
 
 :::
 
 ## Demo
 
-19^th^
+H~2~O
 
 ```md
-19^th^
+H~2~O
 ```

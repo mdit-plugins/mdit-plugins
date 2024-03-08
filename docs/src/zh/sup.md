@@ -14,38 +14,24 @@ icon: superscript
 @tab TS
 
 ```ts
-import MarkdownIt from "supdown-it";
+import MarkdownIt from "markdown-it";
 import { sup } from "@mdit/plugin-sup";
 
 const mdIt = MarkdownIt().use(sup);
 
-mdIt.render("H~2~O");
+mdIt.render("19^th^");
 ```
 
 @tab JS
 
 ```js
-const MarkdownIt = require("supdown-it");
+const MarkdownIt = require("markdown-it");
 const { sup } = require("@mdit/plugin-sup");
 
 const mdIt = MarkdownIt().use(sup);
 
-mdIt.render("H~2~O");
+mdIt.render("19^th^");
 ```
-
-:::
-
-::: tip 转义
-
-- 你可以使用 `\` 来转义 `~`:
-
-  ```md
-  H\~2~O
-  ```
-
-  会被渲染为
-
-  H\~2~O
 
 :::
 
@@ -53,10 +39,24 @@ mdIt.render("H~2~O");
 
 使用 `^ ^` 进行下角标标注。
 
+::: tip 转义
+
+- 你可以使用 `\` 来转义 `^`:
+
+  ```md
+  19\^th^
+  ```
+
+  会被渲染为
+
+  19\^th^
+
+:::
+
 ## 示例
 
-H~2~O
+19^th^
 
 ```md
-H~2~O
+19^th^
 ```
