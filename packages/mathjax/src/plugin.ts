@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
@@ -6,77 +5,88 @@
 import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";
-import { type PluginWithOptions } from "markdown-it";
-import { type LiteDocument } from "mathjax-full/js/adaptors/lite/Document.js";
-import {
-  type LiteElement,
-  type LiteNode,
+import type { PluginWithOptions } from "markdown-it";
+import type { LiteDocument } from "mathjax-full/js/adaptors/lite/Document.js";
+import type {
+  LiteElement,
+  LiteNode,
 } from "mathjax-full/js/adaptors/lite/Element.js";
-import { type LiteText } from "mathjax-full/js/adaptors/lite/Text.js";
-import { type LiteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
-import { type MathDocument } from "mathjax-full/js/core/MathDocument.js";
-import { type TeX } from "mathjax-full/js/input/tex.js";
-import { type CHTML } from "mathjax-full/js/output/chtml.js";
-import { type SVG } from "mathjax-full/js/output/svg.js";
+import type { LiteText } from "mathjax-full/js/adaptors/lite/Text.js";
+import type { LiteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
+import type { MathDocument } from "mathjax-full/js/core/MathDocument.js";
+import type { TeX as TeXType } from "mathjax-full/js/input/tex.js";
+import type { CHTML as CHTMLType } from "mathjax-full/js/output/chtml.js";
+import type { SVG as SVGType } from "mathjax-full/js/output/svg.js";
 import path from "upath";
 
-import { type MarkdownItMathjaxOptions } from "./options.js";
+import type { MarkdownItMathjaxOptions } from "./options.js";
 
 const require = createRequire(import.meta.url);
 
+let isMathJaxFullInstalled = true;
+let mathjaxLib: typeof import("mathjax-full/js/mathjax.js").mathjax;
+let AllPackages: typeof import("mathjax-full/js/input/tex/AllPackages.js").AllPackages;
+let TeX: typeof import("mathjax-full/js/input/tex.js").TeX;
+let CHTML: typeof import("mathjax-full/js/output/chtml.js").CHTML;
+let SVG: typeof import("mathjax-full/js/output/svg.js").SVG;
+let liteAdaptor: typeof import("mathjax-full/js/adaptors/liteAdaptor.js").liteAdaptor;
+let RegisterHTMLHandler: typeof import("mathjax-full/js/handlers/html.js").RegisterHTMLHandler;
+let AssistiveMmlHandler: typeof import("mathjax-full/js/a11y/assistive-mml.js").AssistiveMmlHandler;
+
+try {
+  ({ mathjax: mathjaxLib } = await import("mathjax-full/js/mathjax.js"));
+  ({ AllPackages } = await import("mathjax-full/js/input/tex/AllPackages.js"));
+  ({ TeX } = await import("mathjax-full/js/input/tex.js"));
+  ({ CHTML } = await import("mathjax-full/js/output/chtml.js"));
+  ({ SVG } = await import("mathjax-full/js/output/svg.js"));
+  ({ liteAdaptor } = await import("mathjax-full/js/adaptors/liteAdaptor.js"));
+  ({ RegisterHTMLHandler } = await import("mathjax-full/js/handlers/html.js"));
+  ({ AssistiveMmlHandler } = await import(
+    "mathjax-full/js/a11y/assistive-mml.js"
+  ));
+} catch (err) {
+  isMathJaxFullInstalled = false;
+}
+
 export interface DocumentOptions {
-  InputJax: TeX<LiteElement, string, HTMLElement>;
+  InputJax: TeXType<LiteElement, string, HTMLElement>;
   OutputJax:
-    | CHTML<LiteElement, string, HTMLElement>
-    | SVG<LiteElement, string, HTMLElement>;
+    | CHTMLType<LiteElement, string, HTMLElement>
+    | SVGType<LiteElement, string, HTMLElement>;
   enableAssistiveMml: boolean;
 }
 
 export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
 ): DocumentOptions | null => {
-  try {
-    const { AllPackages } = <
-      typeof import("mathjax-full/js/input/tex/AllPackages.js")
-    >require("mathjax-full/js/input/tex/AllPackages.js");
-
-    const { TeX } = <typeof import("mathjax-full/js/input/tex.js")>(
-      require("mathjax-full/js/input/tex.js")
-    );
-    const { CHTML } = <typeof import("mathjax-full/js/output/chtml.js")>(
-      require("mathjax-full/js/output/chtml.js")
-    );
-    const { SVG } = <typeof import("mathjax-full/js/output/svg.js")>(
-      require("mathjax-full/js/output/svg.js")
-    );
-
-    return {
-      InputJax: new TeX<LiteElement, string, HTMLElement>({
-        packages: AllPackages,
-        ...options.tex,
-      }),
-      OutputJax:
-        options.output === "chtml"
-          ? new CHTML<LiteElement, string, HTMLElement>({
-              fontURL: path.dirname(
-                require.resolve(
-                  "mathjax-full/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff",
-                ),
-              ),
-              adaptiveCSS: true,
-              ...options.chtml,
-            })
-          : new SVG<LiteElement, string, HTMLElement>({
-              fontCache: "none",
-              ...options.svg,
-            }),
-      enableAssistiveMml: options.a11y !== false,
-    };
-  } catch (err) {
+  if (!isMathJaxFullInstalled) {
     console.error('[@mdit/mathjax] "mathjax-full" is not installed!');
 
     return null;
   }
+
+  return {
+    InputJax: new TeX<LiteElement, string, HTMLElement>({
+      packages: AllPackages,
+      ...options.tex,
+    }),
+    OutputJax:
+      options.output === "chtml"
+        ? new CHTML<LiteElement, string, HTMLElement>({
+            fontURL: path.dirname(
+              require.resolve(
+                "mathjax-full/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff",
+              ),
+            ),
+            adaptiveCSS: true,
+            ...options.chtml,
+          })
+        : new SVG<LiteElement, string, HTMLElement>({
+            fontCache: "none",
+            ...options.svg,
+          }),
+    enableAssistiveMml: options.a11y !== false,
+  };
 };
 
 /**
@@ -128,26 +138,11 @@ export const createMathjaxInstance = (
 
   const { OutputJax, InputJax } = documentOptions;
 
-  const { CHTML } = <typeof import("mathjax-full/js/output/chtml.js")>(
-    require("mathjax-full/js/output/chtml.js")
-  );
-  const adaptor = (<typeof import("mathjax-full/js/adaptors/liteAdaptor.js")>(
-    require("mathjax-full/js/adaptors/liteAdaptor.js")
-  )).liteAdaptor();
-  const registerHTMLHandler = (<
-    typeof import("mathjax-full/js/handlers/html.js")
-  >require("mathjax-full/js/handlers/html.js")).RegisterHTMLHandler;
-  const assistiveMmlHandler = (<
-    typeof import("mathjax-full/js/a11y/assistive-mml.js")
-  >require("mathjax-full/js/a11y/assistive-mml.js")).AssistiveMmlHandler;
-  const { mathjax } = <typeof import("mathjax-full/js/mathjax.js")>(
-    require("mathjax-full/js/mathjax.js")
-  );
-
-  const handler = registerHTMLHandler(adaptor);
+  const adaptor = liteAdaptor();
+  const handler = RegisterHTMLHandler(adaptor);
 
   if (options.a11y !== false)
-    assistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+    AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {
     // clear style cache
@@ -162,7 +157,7 @@ export const createMathjaxInstance = (
     const style = adaptor.innerHTML(
       OutputJax.styleSheet(
         <MathDocument<LiteElement, string, HTMLElement>>(
-          mathjax.document("", documentOptions)
+          mathjaxLib.document("", documentOptions)
         ),
       ),
     );
@@ -185,9 +180,6 @@ export const createMathjaxInstance = (
 };
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
-  const { mathjax } = <typeof import("mathjax-full/js/mathjax.js")>(
-    require("mathjax-full/js/mathjax.js")
-  );
   const { allowInlineWithSpace, adaptor, documentOptions, mathFence, vPre } =
     instance!;
 
@@ -196,7 +188,7 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
     mathFence,
     render: (content, displayMode) => {
       const mathDocument = <LiteElement>(
-        mathjax.document(content, documentOptions).convert(content, {
+        mathjaxLib.document(content, documentOptions).convert(content, {
           display: displayMode,
         })
       );

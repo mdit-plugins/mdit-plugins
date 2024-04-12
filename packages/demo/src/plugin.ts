@@ -1,6 +1,6 @@
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import type Token from "markdown-it/lib/token.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 import { MarkdownItDemoOptions } from "./options.js";
 

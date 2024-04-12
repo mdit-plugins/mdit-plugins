@@ -1,13 +1,13 @@
 import fs from "node:fs";
 
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import { type RuleCore } from "markdown-it/lib/parser_core.js";
-import type Token from "markdown-it/lib/token.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 import path from "upath";
 
-import { type MarkdownItIncludeOptions } from "./options.js";
-import { type IncludeEnv } from "./types.js";
+import type { MarkdownItIncludeOptions } from "./options.js";
+import type { IncludeEnv } from "./types.js";
 import { NEWLINES_RE, dedent } from "./utils.js";
 
 interface ImportFileLineInfo {

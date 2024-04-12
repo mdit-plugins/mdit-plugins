@@ -104,10 +104,10 @@ rules:
 
   import/consistent-type-specifier-style:
     - error
-    - prefer-inline
+    - prefer-top-level
 
   import/dynamic-import-chunkname:
-    - error
+    - off
 
   import/first:
     - error
@@ -124,7 +124,7 @@ rules:
   import/no-duplicates:
     - error
     - considerQueryString: true
-      prefer-inline: true
+      prefer-inline: false
 
   import/no-named-default:
     - error
@@ -153,7 +153,7 @@ rules:
       newlines-between: always
 
   no-duplicate-imports:
-    - error
+    - off
 
   no-unmodified-loop-condition:
     - error

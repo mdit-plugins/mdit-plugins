@@ -1,4 +1,4 @@
-import { type SnippetEnv } from "./types.js";
+import type { SnippetEnv } from "./types.js";
 
 export interface MarkdownItSnippetOptions {
   /**

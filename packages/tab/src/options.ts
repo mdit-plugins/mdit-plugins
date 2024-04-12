@@ -1,6 +1,6 @@
-import { type Options } from "markdown-it";
-import type Renderer from "markdown-it/lib/renderer.js";
-import type Token from "markdown-it/lib/token.js";
+import type { Options } from "markdown-it";
+import type Renderer from "markdown-it/lib/renderer.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 export interface MarkdownItTabData {
   /**

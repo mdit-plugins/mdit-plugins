@@ -2,12 +2,12 @@
  * Forked and modified from https://github.com/markdown-it/markdown-it-container/blob/master/index.js
  */
 
-import { type Options, type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import type Renderer from "markdown-it/lib/renderer.js";
-import type Token from "markdown-it/lib/token.js";
+import type { Options, PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type Renderer from "markdown-it/lib/renderer.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
-import { type MarkdownItContainerOptions } from "./options.js";
+import type { MarkdownItContainerOptions } from "./options.js";
 
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (
   md,

@@ -24,16 +24,15 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "type": "module",
   "exports": {
     ".": {
-      "type": "./lib/index.mts",
-      "require": "./lib/index.cjs",
-      "import": "./lib/index.mjs",
-      "default": "./lib/index.mjs"
+      "type": "./lib/index.ts",
+      "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "lib/index.cjs",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib"
@@ -43,10 +42,10 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@types/markdown-it": "^13.0.7"
+    "@types/markdown-it": "^14.0.0"
   },
   "peerDependencies": {
-    "markdown-it": "^14.0.0"
+    "markdown-it": "^14.1.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

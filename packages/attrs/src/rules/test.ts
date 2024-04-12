@@ -1,6 +1,6 @@
-import type Token from "markdown-it/lib/token.js";
+import type Token from "markdown-it/lib/token.mjs";
 
-import { type RuleSet } from "./types.js";
+import type { RuleSet } from "./types.js";
 import { getElements, isArrayOfFunctions, isArrayOfObjects } from "../utils.js";
 
 /**

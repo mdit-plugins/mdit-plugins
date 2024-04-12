@@ -35,19 +35,18 @@ files.forEach((pkgName) => {
         email: "mister-hope@outlook.com",
         url: "https://mister-hope.com",
       },
-      main: "lib/index.cjs",
-      types: "lib/index.d.ts",
+      type: "module",
       exports: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".": {
-          type: "./lib/index.mts",
-          require: "./lib/index.cjs",
-          import: "./lib/index.mjs",
-          default: "./lib/index.mjs",
+          type: "./lib/index.ts",
+          default: "./lib/index.js",
         },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "./package.json": "./package.json",
       },
+      main: "lib/index.js",
+      types: "lib/index.d.ts",
       files: ["lib"],
       scripts: {
         build: "rollup -c rollup.config.ts --configPlugin esbuild",
@@ -57,7 +56,7 @@ files.forEach((pkgName) => {
         "@types/markdown-it": "^13.0.7",
       },
       peerDependencies: {
-        "markdown-it": "^14.0.0",
+        "markdown-it": "^14.1.0",
       },
       peerDependenciesMeta: {
         "markdown-it": {

@@ -1,13 +1,13 @@
-import { type Rule } from "./types.js";
+import type { Rule } from "./types.js";
 import { addAttrs, getAttrs } from "../attrs.js";
 import {
   getMatchingOpeningToken,
   hasDelimiters,
   removeDelimiter,
 } from "../helper.js";
-import {
-  type MarkdownItAttrRuleName,
-  type MarkdownItAttrsOptions,
+import type {
+  MarkdownItAttrRuleName,
+  MarkdownItAttrsOptions,
 } from "../options.js";
 import { escapeRegExp } from "../utils.js";
 

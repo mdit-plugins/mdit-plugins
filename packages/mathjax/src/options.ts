@@ -1,9 +1,9 @@
-import { type MarkdownItTexOptions } from "@mdit/plugin-tex";
+import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
 
-import {
-  type MathJaxTexInputOptions,
-  type MathjaxCommonHTMLOutputOptions,
-  type MathjaxSVGOutputOptions,
+import type {
+  MathJaxTexInputOptions,
+  MathjaxCommonHTMLOutputOptions,
+  MathjaxSVGOutputOptions,
 } from "./mathjax.js";
 
 export interface MarkdownItMathjaxOptions

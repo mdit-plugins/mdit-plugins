@@ -1,10 +1,10 @@
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleCore } from "markdown-it/lib/parser_core.js";
-import type Token from "markdown-it/lib/token.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
-import {
-  type MarkdownItStylizeConfig,
-  type MarkdownItStylizeOptions,
+import type {
+  MarkdownItStylizeConfig,
+  MarkdownItStylizeOptions,
 } from "./options.js";
 
 const scanTokens = (

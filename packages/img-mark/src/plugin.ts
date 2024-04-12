@@ -1,6 +1,6 @@
-import { type PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "markdown-it";
 
-import { type MarkdownItImgMarkOptions } from "./options.js";
+import type { MarkdownItImgMarkOptions } from "./options.js";
 
 export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,

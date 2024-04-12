@@ -3,7 +3,8 @@ import MarkdownIt from "markdown-it";
 import path from "upath";
 import { describe, expect, it } from "vitest";
 
-import { type IncludeEnv, include } from "../src/index.js";
+import type { IncludeEnv } from "../src/index.js";
+import { include } from "../src/index.js";
 
 const mdFixturePathRelative = "./__fixtures__/include.md";
 const mdFixturePath = path.resolve(__dirname, mdFixturePathRelative);

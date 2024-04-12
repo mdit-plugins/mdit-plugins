@@ -13,13 +13,13 @@
     "@mdit/plugin-container": "workspace:*",
     "@mdit/plugin-demo": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
-    "@vuepress/bundler-vite": "2.0.0-rc.8",
+    "@vuepress/bundler-vite": "2.0.0-rc.9",
     "mathjax-full": "3.2.2",
     "nodejs-jieba": "0.1.2",
     "vue": "3.4.21",
-    "vuepress": "2.0.0-rc.8",
-    "vuepress-plugin-search-pro": "2.0.0-rc.28",
-    "vuepress-shared": "2.0.0-rc.28",
-    "vuepress-theme-hope": "2.0.0-rc.28"
+    "vuepress": "2.0.0-rc.9",
+    "vuepress-plugin-search-pro": "2.0.0-rc.36",
+    "vuepress-shared": "2.0.0-rc.36",
+    "vuepress-theme-hope": "2.0.0-rc.36"
   }
 }

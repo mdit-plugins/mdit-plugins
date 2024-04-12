@@ -2,10 +2,10 @@
  * Forked and modified from https://github.com/arve0/markdown-it-attrs/
  */
 
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleCore } from "markdown-it/lib/parser_core.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
-import { type MarkdownItAttrsOptions } from "./options.js";
+import type { MarkdownItAttrsOptions } from "./options.js";
 import { getRules, testRule } from "./rules/index.js";
 
 export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (

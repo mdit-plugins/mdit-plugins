@@ -1,13 +1,13 @@
 import fs from "node:fs";
 
-import { type Options, type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import type Renderer from "markdown-it/lib/renderer.js";
-import type Token from "markdown-it/lib/token.js";
+import type { Options, PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type Renderer from "markdown-it/lib/renderer.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 import path from "upath";
 
-import { type MarkdownItSnippetOptions } from "./options.js";
-import { type SnippetEnv } from "./types.js";
+import type { MarkdownItSnippetOptions } from "./options.js";
+import type { SnippetEnv } from "./types.js";
 import { NEWLINES_RE, dedent } from "./utils.js";
 
 const REGIONS_RE = [

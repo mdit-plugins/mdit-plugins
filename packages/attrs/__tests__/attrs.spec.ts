@@ -3,7 +3,8 @@ import MarkdownIt from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
 import { getAttrs } from "../src/attrs.js";
-import { type MarkdownItAttrsOptions, attrs } from "../src/index.js";
+import type { MarkdownItAttrsOptions } from "../src/index.js";
+import { attrs } from "../src/index.js";
 
 const replaceDelimiters = (
   text: string,

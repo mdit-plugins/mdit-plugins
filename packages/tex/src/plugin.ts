@@ -2,12 +2,12 @@
  * Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js
  */
 
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import { type RuleInline } from "markdown-it/lib/parser_inline.js";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 
-import { type MarkdownItTexOptions } from "./options.js";
+import type { MarkdownItTexOptions } from "./options.js";
 
 /*
  * Test if potential opening or closing delimiter

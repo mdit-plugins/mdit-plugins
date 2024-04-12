@@ -1,6 +1,6 @@
-import type Token from "markdown-it/lib/token.js";
+import type Token from "markdown-it/lib/token.mjs";
 
-import { type MarkdownItAttrsOptions } from "./options.js";
+import type { MarkdownItAttrsOptions } from "./options.js";
 
 export type Attr = [key: string, value: string];
 

@@ -1,5 +1,5 @@
-import { type PluginWithOptions } from "markdown-it";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
+import type { PluginWithOptions } from "markdown-it";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
 import { MarkdownItAlertOptions } from "./options";
 

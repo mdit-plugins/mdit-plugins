@@ -2,11 +2,11 @@
  * Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js
  */
 
-import { type PluginSimple } from "markdown-it";
-import { type RuleInline } from "markdown-it/lib/parser_inline.js";
-import type Token from "markdown-it/lib/token.js";
+import type { PluginSimple } from "markdown-it";
+import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
-import { type ImgSizeEnv } from "./types.js";
+import type { ImgSizeEnv } from "./types.js";
 
 // Parse image size
 //

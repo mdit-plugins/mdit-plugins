@@ -2,17 +2,18 @@
  * Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.js
  */
 
-import { type PluginSimple } from "markdown-it";
+import type { PluginSimple } from "markdown-it";
 import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label.mjs";
-import { type RuleBlock } from "markdown-it/lib/parser_block.js";
-import { type RuleInline } from "markdown-it/lib/parser_inline.js";
-import type Renderer from "markdown-it/lib/renderer.js";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.js";
-import type StateCore from "markdown-it/lib/rules_core/state_core.js";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
+import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { ParentType } from "markdown-it/lib/rules_block/state_block.mjs";
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
+import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
+import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 import Token from "markdown-it/lib/token.mjs";
 
-import { type FootNoteEnv, type FootNoteToken } from "./types.js";
+import type { FootNoteEnv, FootNoteToken } from "./types.js";
 
 interface FootNoteStateBlock extends StateBlock {
   tokens: FootNoteToken[];
@@ -33,7 +34,7 @@ const getIDSuffix = (tokens: FootNoteToken[], index: number): string =>
   // add suffix when multiple id was found
   tokens[index].meta.subId > 0 ? `:${tokens[index].meta.subId}` : "";
 
-const renderFootnoteAnchorName: Renderer.RenderRule = (
+const renderFootnoteAnchorName: RenderRule = (
   tokens: FootNoteToken[],
   index,
   _options,
@@ -47,7 +48,7 @@ const renderFootnoteAnchorName: Renderer.RenderRule = (
     (tokens[index].meta.id + 1).toString()
   }`;
 
-const renderFootnoteCaption: Renderer.RenderRule = (
+const renderFootnoteCaption: RenderRule = (
   tokens: FootNoteToken[],
   index,
 ): string =>
@@ -56,7 +57,7 @@ const renderFootnoteCaption: Renderer.RenderRule = (
     (tokens[index].meta.id + 1).toString()
   }${getIDSuffix(tokens, index)}]`;
 
-const renderFootnoteRef: Renderer.RenderRule = (
+const renderFootnoteRef: RenderRule = (
   tokens: FootNoteToken[],
   index,
   options,
@@ -84,7 +85,7 @@ const renderFootnoteRef: Renderer.RenderRule = (
   )}" /></sup>`;
 };
 
-const renderFootnoteBlockOpen: Renderer.RenderRule = (
+const renderFootnoteBlockOpen: RenderRule = (
   _tokens: FootNoteToken[],
   _index,
   options,
@@ -100,7 +101,7 @@ const renderFootnoteBlockClose = (): string => `\
 </section>
 `;
 
-const renderFootnoteOpen: Renderer.RenderRule = (
+const renderFootnoteOpen: RenderRule = (
   tokens: FootNoteToken[],
   index,
   options,
@@ -117,7 +118,7 @@ const renderFootnoteOpen: Renderer.RenderRule = (
 
 const renderFootnoteClose = (): string => "</li>\n";
 
-const renderFootnoteAnchor: Renderer.RenderRule = (
+const renderFootnoteAnchor: RenderRule = (
   tokens: FootNoteToken[],
   index,
   options,
@@ -210,7 +211,7 @@ const footnoteDef: RuleBlock = (
 
   state.bMarks[startLine] = posAfterColon;
   state.blkIndent += 4;
-  state.parentType = "footnote" as unknown as StateBlock.ParentType;
+  state.parentType = "footnote" as unknown as ParentType;
 
   if (state.sCount[startLine] < state.blkIndent)
     state.sCount[startLine] += state.blkIndent;

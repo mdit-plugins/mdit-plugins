@@ -1,5 +1,5 @@
-import { type MarkdownItTexOptions } from "@mdit/plugin-tex";
-import { type KatexOptions } from "katex";
+import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
+import type { KatexOptions } from "katex";
 
 interface KatexCatcodes {
   [key: string]: number;

@@ -2,8 +2,8 @@
  * Forked from https://github.com/markdown-it/markdown-it-sup/blob/master/index.js
  */
 
-import { type PluginSimple } from "markdown-it";
-import { type RuleInline } from "markdown-it/lib/parser_inline.js";
+import type { PluginSimple } from "markdown-it";
+import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 
 import { UNESCAPE_RE } from "./utils.js";
 
