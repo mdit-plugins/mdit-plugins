@@ -79,7 +79,7 @@ export const testRule = (
         break;
 
       case "function":
-        // @ts-ignore
+        // @ts-expect-error: ruleDetail is a function
         if (!ruleDetail(token[key])) return res;
 
         break;

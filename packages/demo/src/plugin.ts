@@ -89,8 +89,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
 
-    // @ts-expect-error
-    state.parentType = "container";
+    // @ts-expect-error We are creating a new type called "demo"
+    state.parentType = "demo";
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;

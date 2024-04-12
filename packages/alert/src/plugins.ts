@@ -46,7 +46,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     const oldParentType = state.parentType;
     const terminatorRules = state.md.block.ruler.getRules("alert");
 
-    // @ts-expect-error
+    // @ts-expect-error: We are creating a new type called "alert"
     state.parentType = "alert";
 
     // Search the end of the block

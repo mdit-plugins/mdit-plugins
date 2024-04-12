@@ -119,7 +119,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
 
-    // @ts-expect-error
+    // @ts-expect-error: We are creating a new type called "container"
     state.parentType = "container";
 
     // this will prevent lazy continuations from ever going past our end marker

@@ -81,7 +81,7 @@ const getTabRule =
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
 
-    // @ts-expect-error
+    // @ts-expect-error: We are creating a new type called "tab"
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
@@ -199,7 +199,7 @@ const getTabsRule =
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
 
-    // @ts-expect-error
+    // @ts-expect-error: We are creating a new type called "${name}_tabs"
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker

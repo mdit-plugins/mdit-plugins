@@ -53,7 +53,7 @@ files.forEach((pkgName) => {
         clean: "rimraf ./lib",
       },
       dependencies: {
-        "@types/markdown-it": "^13.0.7",
+        "@types/markdown-it": "^14.0.0",
       },
       peerDependencies: {
         "markdown-it": "^14.1.0",
