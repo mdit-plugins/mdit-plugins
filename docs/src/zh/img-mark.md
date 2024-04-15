@@ -51,7 +51,7 @@ GFM 支持通过 ID 后缀标记图片，使图片仅在特定模式下显示。
 
 如果你正在生成页面并通过 DOM 控制暗黑模式，你应该使用:
 
-```CSS
+```css
 lightmode-selector {
   img[data-mode="darkmode-only"] {
     display: none !important;
@@ -67,7 +67,7 @@ darkmode-selector {
 
 如果页面主题模式是基于用户偏好的，你应该使用:
 
-```CSS
+```css
 @media (prefers-color-scheme: light) {
   img[data-mode="darkmode-only"] {
     display: none !important;
