@@ -149,7 +149,9 @@ interface MarkdownItAlertOptions {
 }
 ```
 
-## 案例
+## 示例
+
+::: md-demo 示例
 
 > [!note]
 > 注释文字
@@ -165,6 +167,8 @@ interface MarkdownItAlertOptions {
 
 > [!caution]
 > 警告文字
+
+:::
 
 <!-- markdownlint-enable MD028 -->
 

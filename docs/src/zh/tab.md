@@ -166,7 +166,7 @@ interface MarkdownItTabOptions {
 
 ## 示例
 
-一个水果选项卡列表:
+:::: md-demo 一个水果选项卡列表
 
 ::: tabs#fruit
 
@@ -180,21 +180,9 @@ Banana
 
 :::
 
-```md
-::: tabs#fruit
+::::
 
-@tab apple#apple
-
-Apple
-
-@tab banana#banana
-
-Banana
-
-:::
-```
-
-另一个水果选项卡列表:
+:::: md-demo 另一个水果选项卡列表
 
 ::: tabs#fruit
 
@@ -212,25 +200,9 @@ Orange
 
 :::
 
-```md
-::: tabs#fruit
+::::
 
-@tab apple
-
-Apple
-
-@tab banana
-
-Banana
-
-@tab orange
-
-Orange
-
-:::
-```
-
-一个没有绑定 id 的水果选项卡列表:
+:::: md-demo 一个没有绑定 id 的水果选项卡列表
 
 ::: tabs
 
@@ -248,20 +220,4 @@ Orange
 
 :::
 
-```md
-::: tabs
-
-@tab apple
-
-Apple
-
-@tab banana
-
-Banana
-
-@tab orange
-
-Orange
-
-:::
-```
+::::

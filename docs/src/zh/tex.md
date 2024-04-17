@@ -109,7 +109,7 @@ interface MarkdownItTexOptions {
 
 :::
 
-## 案例
+## 示例
 
 ### 行内语法
 
@@ -174,7 +174,7 @@ $$
 
 :::
 
-::: tip 案例
+::: tip 示例
 
 $\sqrt{x}$, $\frac{1}{2}$.
 

@@ -55,8 +55,4 @@ Use `~ ~` to mark the subscript.
 
 ## Demo
 
-H~2~O
-
-```md
-H~2~O
-```
+`H~2~O`: H~2~O

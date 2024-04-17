@@ -35,11 +35,11 @@ mdIt.render("![image](https://example.com/image.png =300x200)");
 
 :::
 
-## Syntax
+## 语法
 
-You can use `=widthxheight` to specify the image size at the end of image link.
+你可以在图片链接末尾使用 `=widthxheight` 来指定图片尺寸。
 
-Both `width` and `height` should be number which means size in pixels, and both of them are optional. The whole marker should be separated with spaces from the image link.
+`width` 和 `height` 都应该为数字并意味着像素单位的尺寸，并且它们两者都是可选的。整个标记应该通过空格与图片链接相分割。
 
 ```md
 ![Alt](/example.png =200x300)
@@ -48,7 +48,7 @@ Both `width` and `height` should be number which means size in pixels, and both 
 ![Alt](/example.bmp =x300)
 ```
 
-will be parsed as:
+会被解析为
 
 ```html
 <img src="/example.png" width="200" height="300" />
@@ -56,14 +56,12 @@ will be parsed as:
 <img src="/example.bmp" height="300" />
 ```
 
-## Demo
+## 示例
+
+::: md-demo 示例
 
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
 
-```md
-![Logo](/logo.svg "Markdown" =200x200)
-![Logo](/logo.svg "Markdown" =150x)
-![Logo](/logo.svg "Markdown" =x100)
-```
+:::

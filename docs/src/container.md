@@ -154,7 +154,7 @@ interface MarkdownItContainerOptions {
 
 ### Hint container
 
-With some styles and:
+With the following code and some styles:
 
 ```js
 md.use(container, {
@@ -169,9 +169,8 @@ md.use(container, {
 });
 ```
 
-You can write a hint like this:
+:::: md-demo You can write a hint like this:
 
-```md
 ::: hint Here is a Hint
 :::
 
@@ -185,19 +184,5 @@ Here is a **hint** for you!
 - Hint 2
 
 :::
-```
 
-::: hint Here is a hint
-
-:::
-
-::: hint
-
-Here is a **hint** for you!
-
-- Hint 1
-  - Hint 1.1
-  - Hint 1.2
-- Hint 2
-
-:::
+::::

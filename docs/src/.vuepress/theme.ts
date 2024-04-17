@@ -47,6 +47,7 @@ export default hopeTheme(
         align: true,
         attrs: true,
         codetabs: true,
+        demo: true,
         figure: true,
         footnote: true,
         imgLazyload: true,

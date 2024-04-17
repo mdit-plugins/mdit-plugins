@@ -41,8 +41,8 @@ mdIt.render("VuePress Theme Hope is ==powerful==.");
 
 ## 示例
 
+::: md-demo 示例
+
 VuePress Theme Hope ==十分强大==。
 
-```md
-VuePress Theme Hope ==十分强大==。
-```
+:::

@@ -1,6 +1,6 @@
 import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
-import { demo } from "@mdit/plugin-demo";
+// import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
 import { cut } from "nodejs-jieba";
 import { type UserConfig, defineUserConfig } from "vuepress";
@@ -38,7 +38,7 @@ export default <UserConfig>defineUserConfig({
 
   extendsMarkdown: (md) => {
     md.use(alert, { deep: true });
-    md.use(demo);
+    // md.use(demo);
 
     md.use(container, {
       name: "hint",

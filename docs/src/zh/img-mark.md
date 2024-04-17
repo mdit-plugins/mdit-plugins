@@ -105,21 +105,15 @@ interface MarkdownItImgMarkOptions {
 
 ## 示例
 
+::: md-demo 示例
+
 ![GitHub Light](/github-light.png#gh-dark-mode-only)
 ![GitHub Dark](/github-dark.png#gh-light-mode-only)
 
 ![GitHub Light](/github-light.png#dark)
 ![GitHub Dark](/github-dark.png#light)
 
-<AppearanceSwitch /> (尝试切换主题模式)
-
-```md
-![GitHub Light](/github-light.png#gh-dark-mode-only)
-![GitHub Dark](/github-dark.png#gh-light-mode-only)
-
-![GitHub Light](/github-light.png#dark)
-![GitHub Dark](/github-dark.png#light)
-```
+:::
 
 <script setup lang="ts">
 import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"

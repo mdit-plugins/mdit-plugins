@@ -151,6 +151,8 @@ interface MarkdownItAlertOptions {
 
 ## Demo
 
+::: md-demo Demo
+
 > [!note]
 > This is note text
 
@@ -165,6 +167,8 @@ interface MarkdownItAlertOptions {
 
 > [!caution]
 > This is caution text
+
+:::
 
 <!-- markdownlint-enable MD028 -->
 

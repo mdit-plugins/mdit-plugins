@@ -58,12 +58,10 @@ will be parsed as:
 
 ## Demo
 
+::: md-demo Demo
+
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
 
-```md
-![Logo](/logo.svg "Markdown" =200x200)
-![Logo](/logo.svg "Markdown" =150x)
-![Logo](/logo.svg "Markdown" =x100)
-```
+:::

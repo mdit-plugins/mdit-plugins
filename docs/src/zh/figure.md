@@ -60,6 +60,8 @@ interface MarkdownItFigureOptions {
 
 ## 示例
 
+::: md-demo 示例
+
 ![Logo](/favicon.ico)
 
 [![Logo](/favicon.ico)](https://commonmark.org/)
@@ -68,12 +70,4 @@ interface MarkdownItFigureOptions {
 
 [![Logo](/favicon.ico "Markdown")](https://commonmark.org/)
 
-```md
-![Logo](/favicon.ico)
-
-[![Logo](/favicon.ico)](https://commonmark.org/)
-
-![Logo](/favicon.ico "Markdown")
-
-[![Logo](/favicon.ico "Markdown")](https://commonmark.org/)
-```
+:::

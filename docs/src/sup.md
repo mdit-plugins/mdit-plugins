@@ -55,8 +55,4 @@ Use `^ ^` to mark the superscript.
 
 ## Demo
 
-19^th^
-
-```md
-19^th^
-```
+`19^th^`: 19^th^
