@@ -12,6 +12,7 @@
     "markdownit",
     "mdit",
     "mhchem",
+    "plantuml",
     "softbreak",
     "tasklist",
     "treeshake",

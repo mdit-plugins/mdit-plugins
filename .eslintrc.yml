@@ -21,7 +21,7 @@ parserOptions:
 ignorePatterns:
   - "**/node_modules/**"
   - "coverage/**"
-  - "packages/*/lib/**"
+  - "packages/**/lib/**"
   - "!**/.vuepress/**"
   - "**/.vuepress/.cache/**"
   - "**/.vuepress/.temp/**"

@@ -24,7 +24,7 @@ features:
     details: Creating block-level custom containers
     link: /container.html
 
-  - title: Demo
+  - title: demo
     icon: creative
     details: Display snippets and render result both
     link: /demo.html
@@ -64,25 +64,30 @@ features:
     details: Render math expressions with KaTeX
     link: /katex.html
 
-  - title: mathjax
-    icon: tex
-    details: Render math expressions with Mathjax
-    link: /mathjax.html
-
   - title: mark
     icon: write
     details: Mark and highlight contents
     link: /mark.html
 
-  - title: stylize
-    icon: style
-    details: Stylizing tokens
-    link: /stylize.html
+  - title: mathjax
+    icon: tex
+    details: Render math expressions with Mathjax
+    link: /mathjax.html
+
+  - title: plantuml
+    icon: diagram
+    details: Add plantuml diagram support
+    link: ./plantuml.html
 
   - title: snippet
     icon: context
     details: Import code snippets in markdown
     link: /snippet.html
+
+  - title: stylize
+    icon: style
+    details: Stylizing tokens
+    link: /stylize.html
 
   - title: sub
     icon: subscript

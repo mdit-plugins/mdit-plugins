@@ -12,6 +12,7 @@
     "@mdit/plugin-alert": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
     "@mdit/plugin-demo": "workspace:*",
+    "@mdit/plugin-plantuml": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.9",
     "mathjax-full": "3.2.2",

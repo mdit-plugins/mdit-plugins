@@ -146,6 +146,9 @@ importers:
       '@mdit/plugin-demo':
         specifier: workspace:*
         version: link:../packages/demo
+      '@mdit/plugin-plantuml':
+        specifier: workspace:*
+        version: link:../packages/plantuml
       '@mdit/plugin-snippet':
         specifier: workspace:*
         version: link:../packages/snippet
@@ -334,6 +337,18 @@ importers:
       mathjax-full:
         specifier: 3.2.2
         version: 3.2.2
+
+  packages/plantuml:
+    dependencies:
+      '@mdit/plugin-uml':
+        specifier: workspace:*
+        version: link:../uml
+      '@types/markdown-it':
+        specifier: ^14.0.1
+        version: 14.0.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
 
   packages/snippet:
     dependencies:
@@ -5257,7 +5272,7 @@ snapshots:
 
   '@types/markdown-it-emoji@2.0.5':
     dependencies:
-      '@types/markdown-it': 13.0.7
+      '@types/markdown-it': 14.0.1
 
   '@types/markdown-it@13.0.7':
     dependencies:

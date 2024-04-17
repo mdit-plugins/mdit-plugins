@@ -1,6 +1,7 @@
 import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
+import { plantuml } from "@mdit/plugin-plantuml";
 import { snippet } from "@mdit/plugin-snippet";
 import { cut } from "nodejs-jieba";
 import { type UserConfig, defineUserConfig } from "vuepress";
@@ -69,6 +70,7 @@ export default <UserConfig>defineUserConfig({
         return path.join(cwd, filePath);
       },
     });
+    md.use(plantuml);
   },
 
   theme,

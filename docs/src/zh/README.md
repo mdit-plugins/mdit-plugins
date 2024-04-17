@@ -24,7 +24,7 @@ features:
     details: 创建块级自定义容器
     link: ./container.html
 
-  - title: Demo
+  - title: demo
     icon: creative
     details: 同时展示片段和渲染结果
     link: ./demo.html
@@ -64,25 +64,30 @@ features:
     details: 使用 KaTeX 呈现数学表达式
     link: ./katex.html
 
-  - title: mathjax
-    icon: tex
-    details: 使用 MathJax 呈现数学表达式
-    link: ./mathjax.html
-
   - title: mark
     icon: write
     details: 标记和突出显示内容
     link: ./mark.html
 
-  - title: stylize
-    icon: style
-    details: 样式化文字
-    link: ./stylize.html
+  - title: mathjax
+    icon: tex
+    details: 使用 MathJax 呈现数学表达式
+    link: ./mathjax.html
+
+  - title: plantuml
+    icon: diagram
+    details: 添加 Plantuml 图表支持
+    link: ./plantuml.html
 
   - title: snippet
     icon: context
     details: 在 Markdown 中导入代码片段
     link: ./snippet.html
+
+  - title: stylize
+    icon: style
+    details: 样式化文字
+    link: ./stylize.html
 
   - title: sub
     icon: subscript
