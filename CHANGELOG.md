@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
+
+### Features
+
+- add plantuml plugin ([3551afb](https://github.com/mdit-plugins/mdit-plugins/commit/3551afbd37ebfe3ac1f5a4edf6545c1af2367d8f))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+
 ## [0.8.0](https://github.com/Mister-Hope/mdit-plugins/compare/v0.7.6...v0.8.0) (2023-12-08)
 
 ### Features
