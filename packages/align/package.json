@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@mdit/plugin-container": "workspace:*",
-    "@types/markdown-it": "^14.0.0"
+    "@types/markdown-it": "^14.0.1"
   },
   "devDependencies": {
     "markdown-it": "14.1.0"
