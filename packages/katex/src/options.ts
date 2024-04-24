@@ -1,9 +1,7 @@
 import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
 import type { KatexOptions } from "katex";
 
-interface KatexCatcodes {
-  [key: string]: number;
-}
+type KatexCatcodes = Record<string, number>;
 
 interface KatexLexerInterFace {
   input: string;

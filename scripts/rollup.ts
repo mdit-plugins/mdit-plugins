@@ -45,7 +45,7 @@ export const rollupTypescript = (
   },
   ...(enableDts
     ? [
-        <RollupOptions>{
+        {
           input: `./src/${filePath}.ts`,
           output: [{ file: `./lib/${filePath}.d.ts`, format: "esm" }],
           plugins: [
@@ -59,7 +59,7 @@ export const rollupTypescript = (
           treeshake: {
             preset: "smallest",
           },
-        },
+        } as RollupOptions,
       ]
     : []),
 ];

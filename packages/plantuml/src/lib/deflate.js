@@ -126,112 +126,21 @@ var zip_deflate_data;
 var zip_deflate_pos;
 
 /* constant tables */
-var zip_extra_lbits = new Array(
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  1,
-  1,
-  1,
-  1,
-  2,
-  2,
-  2,
-  2,
-  3,
-  3,
-  3,
-  3,
-  4,
-  4,
-  4,
-  4,
-  5,
-  5,
-  5,
-  5,
-  0,
-);
-var zip_extra_dbits = new Array(
-  0,
-  0,
-  0,
-  0,
-  1,
-  1,
-  2,
-  2,
-  3,
-  3,
-  4,
-  4,
-  5,
-  5,
-  6,
-  6,
-  7,
-  7,
-  8,
-  8,
-  9,
-  9,
-  10,
-  10,
-  11,
-  11,
-  12,
-  12,
-  13,
-  13,
-);
-var zip_extra_blbits = new Array(
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  2,
-  3,
-  7,
-);
-var zip_bl_order = new Array(
-  16,
-  17,
-  18,
-  0,
-  8,
-  7,
-  9,
-  6,
-  10,
-  5,
-  11,
-  4,
-  12,
-  3,
-  13,
-  2,
-  14,
-  1,
-  15,
-);
-var zip_configuration_table = new Array(
+var zip_extra_lbits = [
+  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5,
+  5, 5, 0,
+];
+var zip_extra_dbits = [
+  0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11,
+  11, 12, 12, 13, 13,
+];
+var zip_extra_blbits = [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7,
+];
+var zip_bl_order = [
+  16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15,
+];
+var zip_configuration_table = [
   new zip_DeflateConfiguration(0, 0, 0, 0),
   new zip_DeflateConfiguration(4, 4, 8, 4),
   new zip_DeflateConfiguration(4, 5, 16, 8),
@@ -242,7 +151,7 @@ var zip_configuration_table = new Array(
   new zip_DeflateConfiguration(8, 32, 128, 256),
   new zip_DeflateConfiguration(32, 128, 258, 1024),
   new zip_DeflateConfiguration(32, 258, 258, 4096),
-);
+];
 
 /* objects (deflate) */
 
@@ -337,31 +246,6 @@ function zip_deflate_start(level) {
   zip_base_length = new Array(zip_LENGTH_CODES);
   zip_base_dist = new Array(zip_D_CODES);
   zip_flag_buf = new Array(parseInt(zip_LIT_BUFSIZE / 8));
-}
-
-function zip_deflate_end() {
-  zip_free_queue = zip_qhead = zip_qtail = null;
-  zip_outbuf = null;
-  zip_window = null;
-  zip_d_buf = null;
-  zip_l_buf = null;
-  zip_prev = null;
-  zip_dyn_ltree = null;
-  zip_dyn_dtree = null;
-  zip_static_ltree = null;
-  zip_static_dtree = null;
-  zip_bl_tree = null;
-  zip_l_desc = null;
-  zip_d_desc = null;
-  zip_bl_desc = null;
-  zip_bl_count = null;
-  zip_heap = null;
-  zip_depth = null;
-  zip_length_code = null;
-  zip_dist_code = null;
-  zip_base_length = null;
-  zip_base_dist = null;
-  zip_flag_buf = null;
 }
 
 function zip_reuse_queue(p) {
@@ -468,6 +352,7 @@ function zip_read_buff(buff, offset, n) {
   for (i = 0; i < n && zip_deflate_pos < zip_deflate_data.length; i++) {
     buff[offset + i] = zip_deflate_data.charCodeAt(zip_deflate_pos++) & 0xff;
   }
+
   return i;
 }
 
@@ -503,6 +388,7 @@ function zip_lm_init() {
   if (zip_lookahead <= 0) {
     zip_eofile = true;
     zip_lookahead = 0;
+
     return;
   }
   zip_eofile = false;
@@ -584,7 +470,9 @@ function zip_longest_match(cur_match) {
     /* We check for insufficient lookahead only every 8th comparison;
      * the 256th check will be made at strstart+258.
      */
-    do {} while (
+    do {
+      // nothing
+    } while (
       zip_window[++scanp] == zip_window[++matchp] &&
       zip_window[++scanp] == zip_window[++matchp] &&
       zip_window[++scanp] == zip_window[++matchp] &&
@@ -914,6 +802,7 @@ function zip_deflate_internal(buff, off, buff_size) {
     if (zip_lookahead == 0) {
       // empty
       zip_complete = true;
+
       return 0;
     }
   }
@@ -939,6 +828,7 @@ function zip_deflate_internal(buff, off, buff_size) {
     zip_flush_block(1);
     zip_complete = true;
   }
+
   return n + zip_qcopy(buff, n + off, buff_size - n);
 }
 
@@ -986,6 +876,7 @@ function zip_qcopy(buff, off, buff_size) {
       zip_outcnt = zip_outoff = 0;
     }
   }
+
   return n;
 }
 
@@ -1717,6 +1608,7 @@ function zip_ct_tally(
       return true;
     }
   }
+
   return (
     zip_last_lit == zip_LIT_BUFSIZE - 1 || zip_last_dist == zip_DIST_BUFSIZE
   );
@@ -1821,6 +1713,7 @@ function zip_bi_reverse(
     code >>= 1;
     res <<= 1;
   } while (--len > 0);
+
   return res >> 1;
 }
 
@@ -1874,6 +1767,7 @@ export function zip_deflate(str, level) {
     }
   }
   zip_deflate_data = null; // G.C.
+
   return out;
 }
 
@@ -1892,6 +1786,7 @@ export function encode64(data) {
       );
     }
   }
+
   return r;
 }
 
@@ -1905,6 +1800,7 @@ function append3bytes(b1, b2, b3) {
   r += encode6bit(c2 & 0x3f);
   r += encode6bit(c3 & 0x3f);
   r += encode6bit(c4 & 0x3f);
+
   return r;
 }
 
@@ -1927,5 +1823,6 @@ function encode6bit(b) {
   if (b == 1) {
     return "_";
   }
+
   return "?";
 }

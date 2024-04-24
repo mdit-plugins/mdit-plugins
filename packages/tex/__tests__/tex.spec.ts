@@ -113,8 +113,6 @@ describe("inline katex with space", () => {
     );
   });
 
-  it("should render when having spaces", () => {});
-
   it("should not render when the ending tag is followed by number", () => {
     expect(markdownItAllowSpace.render(`Of course $1 = $1`)).toEqual(
       "<p>Of course $1 = $1</p>\n",

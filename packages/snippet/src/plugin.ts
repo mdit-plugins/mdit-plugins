@@ -29,7 +29,7 @@ const testLine = (
   regionName: string,
   end = false,
 ): boolean => {
-  const [full, tag, name] = regexp.exec(line.trim()) || [];
+  const [full, tag, name] = regexp.exec(line.trim()) ?? [];
 
   return Boolean(
     full &&
@@ -67,7 +67,7 @@ const getSnippetRule =
     resolvePath,
   }: Required<MarkdownItSnippetOptions>): RuleBlock =>
   (state, startLine, _endLine, silent) => {
-    const env = <SnippetEnv>state.env;
+    const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
@@ -99,13 +99,11 @@ const getSnippetRule =
     const resolvedPath = resolvePath(state.src.slice(start, end).trim(), cwd);
 
     const [filename = "", extension = "", region = "", lines = "", lang = ""] =
-      (
-        SNIPPET_RE.exec(
-          path.isAbsolute(resolvedPath)
-            ? resolvedPath
-            : path.join(cwd, resolvedPath),
-        ) || []
-      ).slice(1);
+      SNIPPET_RE.exec(
+        path.isAbsolute(resolvedPath)
+          ? resolvedPath
+          : path.join(cwd, resolvedPath),
+      )?.slice(1) ?? [];
 
     state.line = startLine + 1;
 
@@ -127,7 +125,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
   options,
 ) => {
   const { currentPath, resolvePath = (path: string): string => path } =
-    options || {};
+    options ?? {};
 
   if (typeof currentPath !== "function")
     return console.error('[@mdit/plugin-snippet]: "currentPath" is required');
@@ -152,7 +150,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     const meta: Record<string, unknown> =
       typeof token.meta === "object" ? token.meta ?? {} : {};
     const [src, regionName] = meta["src"]
-      ? (<string>meta["src"]).split("#")
+      ? (meta["src"] as string).split("#")
       : [""];
 
     if (src)

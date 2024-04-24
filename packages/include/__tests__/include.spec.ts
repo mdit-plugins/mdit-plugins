@@ -342,7 +342,7 @@ describe("include", () => {
         ]);
       });
 
-      it("should resolve absolute path ", () => {
+      it("should resolve absolute path", () => {
         const source = `\
 <!-- @include: /foo.md -->
 <!-- @include: ${mdFixturePath} -->

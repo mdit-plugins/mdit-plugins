@@ -8,7 +8,7 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { MarkdownItFigureOptions } from "./options.js";
 
 const removeAttribute = (token: Token, attribute: string): void => {
-  token.attrs = (token.attrs || []).filter(([key]) => key !== attribute);
+  token.attrs = token.attrs?.filter(([key]) => key !== attribute) ?? null;
 };
 
 const getCaption = (image: Token): string => {
@@ -90,7 +90,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
       const [captionContent] = md.parseInline(figCaption, state.env);
 
       token.children.push(new state.Token("figcaption_open", "figcaption", 1));
-      token.children.push(...(captionContent.children || []));
+      token.children.push(...(captionContent.children ?? []));
       token.children.push(
         new state.Token("figcaption_close", "figcaption", -1),
       );

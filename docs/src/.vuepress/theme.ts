@@ -56,6 +56,7 @@ export default hopeTheme(
         include: true,
         mark: true,
         mathjax: true,
+        plantuml: true,
         sub: true,
         sup: true,
         tabs: true,

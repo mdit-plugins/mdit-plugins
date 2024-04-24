@@ -47,7 +47,7 @@ describe("stylize", () => {
       },
     ],
     localConfigGetter: (env) =>
-      (env.stylize as MarkdownItStylizeConfig[] | undefined) || null,
+      (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
   };
 
   const markdownIt = MarkdownIt({ linkify: true }).use(stylize, options);

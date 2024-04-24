@@ -34,7 +34,7 @@ const scanTokens = (
       const result = configItem.replacer({
         tag: tokenPrev.tag,
         content: token.content,
-        attrs: Object.fromEntries(tokenPrev.attrs || []),
+        attrs: Object.fromEntries(tokenPrev.attrs ?? []),
       });
 
       if (result) {

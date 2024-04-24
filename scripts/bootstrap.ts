@@ -8,7 +8,7 @@ const packagesDir = resolve(process.cwd(), "packages");
 const files = readdirSync(packagesDir);
 
 files.forEach((pkgName) => {
-  if (pkgName.charAt(0) === ".") return;
+  if (pkgName.startsWith(".")) return;
 
   const desc = `${pkgName} plugin for MarkdownIt`;
   const pkgPath = join(packagesDir, pkgName, "package.json");
@@ -53,6 +53,7 @@ files.forEach((pkgName) => {
         clean: "rimraf ./lib",
       },
       dependencies: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "@types/markdown-it": "^14.0.0",
       },
       peerDependencies: {

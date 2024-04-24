@@ -25,7 +25,7 @@ const parseNumber = (
 
   char = str.charAt(pos);
 
-  while ((pos < max && char.match(/\d/)) || char === "%")
+  while ((pos < max && /\d/.test(char)) || char === "%")
     char = str.charAt(++pos);
 
   result.ok = true;
@@ -85,7 +85,7 @@ const parseImageSize = (
 };
 
 const imgSizeRule: RuleInline = (state, silent) => {
-  const env = <ImgSizeEnv>state.env;
+  const env = state.env as ImgSizeEnv;
   const oldPos = state.pos;
   const max = state.posMax;
 
@@ -231,7 +231,7 @@ const imgSizeRule: RuleInline = (state, silent) => {
     }
 
     href = ref.href;
-    title = ref.title || "";
+    title = ref.title ?? "";
   }
 
   //
@@ -249,10 +249,10 @@ const imgSizeRule: RuleInline = (state, silent) => {
 
     const token = state.push("image", "img", 0);
 
-    token.attrs = <[string, string][]>[
+    token.attrs = [
       ["src", href],
       ["alt", ""],
-    ];
+    ] as [string, string][];
     if (title) token.attrs.push(["title", title]);
     if (width !== "") token.attrs.push(["width", width]);
     if (height !== "") token.attrs.push(["height", height]);

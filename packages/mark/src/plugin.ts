@@ -119,9 +119,7 @@ export const mark: PluginSimple = (md) => {
 
     postProcess(state, state.delimiters);
 
-    for (let curr = 0; curr < tokensMeta.length; curr++) {
-      const tokenMeta = tokensMeta[curr];
-
+    for (const tokenMeta of tokensMeta) {
       if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters);
     }
 

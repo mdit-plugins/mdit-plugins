@@ -1,5 +1,5 @@
-const MarkdownIt = require("markdown-it");
 const { snippet } = require("@mdit/plugin-snippet");
+const MarkdownIt = require("markdown-it");
 
 // #region snippet
 const mdIt = MarkdownIt().use(snippet, {

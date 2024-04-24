@@ -175,14 +175,14 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
 };
 
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
+  if (typeof options?.render !== "function")
+    throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
+
   const {
     allowInlineWithSpace = false,
     mathFence = false,
     render,
-  } = options || {};
-
-  if (typeof render !== "function")
-    throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
+  } = options ?? {};
 
   // Handle ```math blocks
   if (mathFence) {

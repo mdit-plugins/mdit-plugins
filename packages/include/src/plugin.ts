@@ -51,7 +51,7 @@ const testLine = (
   regionName: string,
   end = false,
 ): boolean => {
-  const [full, tag, name] = regexp.exec(line.trim()) || [];
+  const [full, tag, name] = regexp.exec(line.trim()) ?? [];
 
   return Boolean(
     full &&
@@ -265,7 +265,7 @@ const resolveRelatedLink = (
   const attrIndex = token.attrIndex(attr);
   const url = token.attrs?.[attrIndex][1];
 
-  if (url?.startsWith(".") && Array.isArray(includedPaths)) {
+  if (url?.[0] === "." && Array.isArray(includedPaths)) {
     const { length } = includedPaths;
 
     if (length) {
@@ -277,7 +277,7 @@ const resolveRelatedLink = (
       const resolvedPath = path.join(includeDir, url);
 
       token.attrs![attrIndex][1] =
-        resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
+        resolvedPath?.[0] === "." ? resolvedPath : `./${resolvedPath}`;
     }
   }
 };
@@ -293,14 +293,14 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     resolveLinkPath = true,
     resolveImagePath = true,
     useComment = true,
-  } = options || {};
+  } = options ?? {};
 
   if (typeof currentPath !== "function")
     return console.error('[@mdit/plugin-include]: "currentPath" is required');
 
   const includeRule: RuleCore = (state): void => {
-    const env = <IncludeEnv>state.env;
-    const includedFiles = env.includedFiles || (env.includedFiles = []);
+    const env = state.env as IncludeEnv;
+    const includedFiles = (env.includedFiles ??= []);
     const filePath = currentPath(env);
 
     state.src = resolveInclude(

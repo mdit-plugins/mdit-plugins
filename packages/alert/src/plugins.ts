@@ -1,7 +1,7 @@
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
-import { MarkdownItAlertOptions } from "./options";
+import type { MarkdownItAlertOptions } from "./options.js";
 
 const HINT_REGEXP = /^>(?:(?: {0,3})| {0,2}\t {0,1})\[!(.*)\]\s*$/i;
 
@@ -161,8 +161,8 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       // Case 3: another tag found.
       let terminate = false;
 
-      for (let i = 0; i < terminatorRules.length; i++)
-        if (terminatorRules[i](state, nextLine, endLine, true)) {
+      for (const terminatorRule of terminatorRules)
+        if (terminatorRule(state, nextLine, endLine, true)) {
           terminate = true;
           break;
         }
@@ -250,7 +250,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   if (closeRender) md.renderer.rules["alert_close"] = closeRender;
 
   md.renderer.rules["alert_title"] =
-    titleRender ||
+    titleRender ??
     ((tokens, index): string => {
       const token = tokens[index];
 

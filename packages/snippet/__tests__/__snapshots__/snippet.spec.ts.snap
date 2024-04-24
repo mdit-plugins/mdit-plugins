@@ -50,8 +50,8 @@ cupiditate sequi.
 `;
 
 exports[`snippet > should import all lines 3`] = `
-"<pre><code class="language-js">const MarkdownIt = require(&quot;markdown-it&quot;);
-const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
 
 // #region snippet
 const mdIt = MarkdownIt().use(snippet, {
@@ -68,8 +68,8 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
 `;
 
 exports[`snippet > should import all lines 4`] = `
-"<pre><code class="language-ts">import MarkdownIt from &quot;markdown-it&quot;;
-import { snippet } from &quot;@mdit/plugin-snippet&quot;;
+"<pre><code class="language-ts">import { snippet } from &quot;@mdit/plugin-snippet&quot;;
+import MarkdownIt from &quot;markdown-it&quot;;
 
 // #region snippet
 const mdIt = MarkdownIt().use(snippet, {

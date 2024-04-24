@@ -1,3 +1,4 @@
+/* eslint-disable vitest/valid-title */
 import { katex } from "@mdit/plugin-katex";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
@@ -131,10 +132,9 @@ const describeTestsWithOptions = (
         const src = "some text {..green}";
         const expected = '<p css-module="green">some text</p>\n';
 
-        expect(
-          markdownIt.render(replaceDelimiters(src, options)),
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected,
-        ).toBe(expected);
+        );
       },
     );
 
@@ -208,10 +208,9 @@ const describeTestsWithOptions = (
         const src = "some text {..c1 ..c2}";
         const expected = '<p css-module="c1 c2">some text</p>\n';
 
-        expect(
-          markdownIt.render(replaceDelimiters(src, options)),
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected,
-        ).toBe(expected);
+        );
       },
     );
 
@@ -250,10 +249,9 @@ const describeTestsWithOptions = (
         const expected =
           '<p>paragraph <strong class="red">bold</strong> asdf</p>\n';
 
-        expect(
-          markdownIt.render(replaceDelimiters(src, options)),
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
           expected,
-        ).toBe(expected);
+        );
       },
     );
 
@@ -369,9 +367,7 @@ const describeTestsWithOptions = (
       const src = "text { .red }";
       const expected = '<p class="red">text</p>\n';
 
-      expect(markdownIt.render(replaceDelimiters(src, options)), expected).toBe(
-        expected,
-      );
+      expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
 
     it(

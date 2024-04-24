@@ -47,7 +47,7 @@ export const testRule = (
 
         if (match) {
           // we may need position of child in transform
-          const j = childTests[childTests.length - 1]?.position || 0;
+          const j = childTests[childTests.length - 1]?.position ?? 0;
 
           res.position = j >= 0 ? j : children.length + j;
         }

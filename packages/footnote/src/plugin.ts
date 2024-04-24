@@ -294,7 +294,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   // should be at least 4 chars - "[^x]"
   if (start + 3 > max) return false;
 
-  if (!state.env.footnotes || !state.env.footnotes.refs) return false;
+  if (!state.env.footnotes?.refs) return false;
   if (state.src.charAt(start) !== "[") return false;
 
   if (state.src.charAt(start + 1) !== "^") return false;
@@ -406,7 +406,7 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
 
     if (tokens) state.tokens = state.tokens.concat(tokens);
     if (state.tokens[state.tokens.length - 1].type === "paragraph_close")
-      lastParagraph = state.tokens.pop() || null;
+      lastParagraph = state.tokens.pop() ?? null;
     else lastParagraph = null;
 
     for (let j = 0; j < (Number(list[i].count) > 0 ? list[i].count! : 1); j++) {

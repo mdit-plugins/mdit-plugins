@@ -81,7 +81,7 @@ const addCheckBox = (
 ): void => {
   const id = `task-item-${state.env.tasklists++}`;
 
-  token.children = token.children || [];
+  token.children ??= [];
 
   // remove the checkbox syntax letter
   token.children[0].content = token.children[0].content.slice(3);

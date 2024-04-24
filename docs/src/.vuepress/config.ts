@@ -1,11 +1,10 @@
 import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
-import { plantuml } from "@mdit/plugin-plantuml";
 import { snippet } from "@mdit/plugin-snippet";
 import { cut } from "nodejs-jieba";
-import { type UserConfig, defineUserConfig } from "vuepress";
-import { type MarkdownEnv } from "vuepress/markdown";
+import { defineUserConfig } from "vuepress";
+import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
 
@@ -13,7 +12,7 @@ import theme from "./theme.js";
 
 const __dirname = getDirname(import.meta.url);
 
-export default <UserConfig>defineUserConfig({
+export default defineUserConfig({
   base: "/",
 
   locales: {
@@ -43,11 +42,11 @@ export default <UserConfig>defineUserConfig({
 
     md.use(container, {
       name: "hint",
-      openRender: (tokens, index, _options): string => {
+      openRender: (tokens, index): string => {
         const token = tokens[index];
 
         // resolve info (title)
-        let info = token.info.trim().slice(4).trim();
+        const info = token.info.trim().slice(4).trim();
 
         return `<div class="custom-container hint">\n<p class="custom-container-title">${
           info || "Hint"
@@ -70,7 +69,6 @@ export default <UserConfig>defineUserConfig({
         return path.join(cwd, filePath);
       },
     });
-    md.use(plantuml);
   },
 
   theme,

@@ -2,6 +2,7 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";
@@ -156,9 +157,11 @@ export const createMathjaxInstance = (
   const outputStyle = (): string => {
     const style = adaptor.innerHTML(
       OutputJax.styleSheet(
-        <MathDocument<LiteElement, string, HTMLElement>>(
-          mathjaxLib.document("", documentOptions)
-        ),
+        mathjaxLib.document("", documentOptions) as MathDocument<
+          LiteElement,
+          string,
+          HTMLElement
+        >,
       ),
     );
 
@@ -187,11 +190,11 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
     allowInlineWithSpace,
     mathFence,
     render: (content, displayMode) => {
-      const mathDocument = <LiteElement>(
-        mathjaxLib.document(content, documentOptions).convert(content, {
+      const mathDocument = mathjaxLib
+        .document(content, documentOptions)
+        .convert(content, {
           display: displayMode,
-        })
-      );
+        }) as LiteElement;
 
       const result = adaptor.outerHTML(mathDocument);
 

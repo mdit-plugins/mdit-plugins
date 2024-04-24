@@ -387,7 +387,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     },
 
     tabCloseRenderer = (): string => `</div>`,
-  } = options || {};
+  } = options ?? {};
 
   const tabsDataGetter = getTabsDataGetter(name);
 

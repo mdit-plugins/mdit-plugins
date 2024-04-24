@@ -1,5 +1,5 @@
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = MarkdownIt().use(snippet, {
