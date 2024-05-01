@@ -15,7 +15,7 @@ icon: square-root-variable
 
 ## 使用 <Badge text="仅限 Node.js 环境" />
 
-:::: code-tabs#language
+::: code-tabs#language
 
 @tab TS
 
@@ -39,7 +39,9 @@ const mdIt = MarkdownIt().use(katex);
 mdIt.render("$E=mc^2$");
 ```
 
-::::
+:::
+
+我们也有一个 `@mdit/plugin-katex-slim` 包，其中 `katex` 是可选依赖。
 
 ## 格式
 

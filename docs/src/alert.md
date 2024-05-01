@@ -36,7 +36,6 @@ const mdIt = MarkdownIt().use(alert);
 mdIt.render(`
 > [!warning]
 > Warning Text
-:::
 `);
 ```
 

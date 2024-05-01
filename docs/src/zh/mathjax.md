@@ -15,7 +15,7 @@ icon: square-root-variable
 
 ## 使用 <Badge text="仅限 Node.js 环境" />
 
-:::: code-tabs#language
+::: code-tabs#language
 
 @tab TS
 
@@ -43,7 +43,7 @@ const html = mdIt.render("$E=mc^2$");
 const style = mathjaxInstance.outputStyle();
 ```
 
-::::
+:::
 
 这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。
 
@@ -104,6 +104,8 @@ interface MarkdownItMathjaxOptions {
 - 在不同页面中的每次渲染之前调用 `mathjaxInstance.reset()`，这确保标签之类的项目被重置。
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
 - 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
+
+我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `mathjax-full` 是可选依赖。
 
 ## 格式
 

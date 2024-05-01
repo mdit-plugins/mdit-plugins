@@ -15,7 +15,7 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 
 ## Usage <Badge text="Node.js runtime only" />
 
-:::: code-tabs#language
+::: code-tabs#language
 
 @tab TS
 
@@ -43,7 +43,7 @@ const html = mdIt.render("$E=mc^2$");
 const style = mathjaxInstance.outputStyle();
 ```
 
-::::
+:::
 
 This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
 
@@ -104,6 +104,8 @@ The instance holds render content of each calls, so you should:
 - Call `mathjaxInstance.reset()` before each render in different pages, this ensure things like label are reset.
 - Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
 - Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
+
+We also have a package called `@mdit/plugin-mathjax-slim` which `mathjax-full` is an optional dep.
 
 ## Syntax
 

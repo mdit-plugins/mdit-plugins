@@ -9,7 +9,7 @@ icon: bell
 
 ## 使用
 
-:::: code-tabs#language
+::: code-tabs#language
 
 @tab TS
 
@@ -36,11 +36,10 @@ const mdIt = MarkdownIt().use(alert);
 mdIt.render(`
 > [!warning]
 > 警告文字
-:::
 `);
 ```
 
-::::
+:::
 
 <!-- markdownlint-disable MD028 -->
 

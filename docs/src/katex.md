@@ -15,7 +15,7 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 
 ## Usage <Badge text="Node.js runtime only" />
 
-:::: code-tabs#language
+::: code-tabs#language
 
 @tab TS
 
@@ -39,7 +39,9 @@ const mdIt = MarkdownIt().use(katex);
 mdIt.render("$E=mc^2$");
 ```
 
-::::
+:::
+
+We also have a package called `@mdit/plugin-katex-slim` which `katex` is an optional dep.
 
 ## Syntax
 
