@@ -145,8 +145,8 @@ export const handleInclude = (
   if (resolvedPath && realPath.endsWith(".md")) {
     const dirName = path.dirname(realPath);
 
-    results.unshift(`@include-push(${dirName})`);
-    results.push("@include-pop()");
+    results.unshift(`<!-- #include-env-start: ${dirName} -->`);
+    results.push("<!-- #include-env-end -->");
   }
 
   return dedent(results.join("\n").replace(/\n?$/, "\n"));
@@ -201,17 +201,15 @@ export const resolveInclude = (
     },
   );
 
-const SYNTAX_PUSH_RE = /^@include-push\(([^)]*?)\)$/;
+const SYNTAX_PUSH_RE = /^<!-- #include-env-start: ([^)]*?) -->$/;
 
 const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  if (state.src.charAt(start) !== "@") return false;
-
   const content = state.src.slice(start, max);
 
-  if (content.startsWith("@include-push")) {
+  if (content.startsWith("<!-- #include-env-start: ")) {
     // check if it’s matched the syntax
     const match = content.match(SYNTAX_PUSH_RE);
 
@@ -221,11 +219,11 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
       const [, includePath] = match;
 
       state.line = startLine + 1;
-      const token = state.push("include_push", "", 0);
+      const token = state.push("include_start", "", 0);
 
       token.map = [startLine, state.line];
       token.info = includePath;
-      token.markup = "include_push";
+      token.markup = "include_start";
 
       return true;
     }
@@ -238,17 +236,15 @@ const includePopRule: RuleBlock = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  if (state.src.charAt(start) !== "@") return false;
-
-  if (state.src.slice(start, max) === "@include-pop()") {
+  if (state.src.slice(start, max) === "<!-- #include-env-end -->") {
     if (silent) return true;
 
     state.line = startLine + 1;
 
-    const token = state.push("include_pop", "", 0);
+    const token = state.push("include_end", "", 0);
 
     token.map = [startLine, state.line];
-    token.markup = "include_pop";
+    token.markup = "include_end";
 
     return true;
   }
@@ -324,14 +320,14 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
   md.core.ruler.after("normalize", "md_import", includeRule);
 
   if (resolveImagePath || resolveLinkPath) {
-    md.block.ruler.before("table", "md_include_push", includePushRule, {
+    md.block.ruler.before("table", "md_include_start", includePushRule, {
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
-    md.block.ruler.before("table", "md_include_pop", includePopRule, {
+    md.block.ruler.before("table", "md_include_end", includePopRule, {
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
 
-    md.renderer.rules["include_push"] = (
+    md.renderer.rules["include_start"] = (
       tokens,
       index,
       _options,
@@ -345,7 +341,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       return "";
     };
 
-    md.renderer.rules["include_pop"] = (
+    md.renderer.rules["include_end"] = (
       _tokens,
       _index,
       _options,
@@ -356,7 +352,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       if (Array.isArray(includedPaths)) includedPaths.pop();
       else
         console.error(
-          `[@mdit/plugin-include]: include_pop failed, no include_push.`,
+          `[@mdit/plugin-include]: include_end failed, no include_start.`,
         );
 
       return "";
