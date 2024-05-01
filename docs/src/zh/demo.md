@@ -93,6 +93,11 @@ interface MarkdownItDemoOptions {
    * 代码渲染函数
    */
   codeRender?: RenderRule;
+
+  /**
+   * 内容渲染函数
+   */
+  contentRender?: RenderRule;
 }
 ```
 

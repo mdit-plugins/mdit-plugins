@@ -93,6 +93,11 @@ interface MarkdownItDemoOptions {
    * Code render function
    */
   codeRender?: RenderRule;
+
+  /**
+   * Content render function
+   */
+  contentRender?: RenderRule;
 }
 ```
 
