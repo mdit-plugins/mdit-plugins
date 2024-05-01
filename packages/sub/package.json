@@ -3,7 +3,6 @@
   "version": "0.9.0",
   "description": "sub plugin for MarkdownIt",
   "keywords": [
-    "markdownit",
     "markdown-it",
     "markdown-it-plugin",
     "sub",

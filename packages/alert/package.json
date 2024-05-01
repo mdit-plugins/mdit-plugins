@@ -3,7 +3,6 @@
   "version": "0.9.0",
   "description": "alert plugin for MarkdownIt",
   "keywords": [
-    "markdownit",
     "markdown-it",
     "markdown-it-plugin",
     "alert"

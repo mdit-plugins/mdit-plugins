@@ -19,7 +19,7 @@ files.forEach((pkgName) => {
       name: `@mdit/plugin-${pkgName}`,
       version,
       description: desc,
-      keywords: ["markdownit", "markdown-it", "markdown-it-plugin", pkgName],
+      keywords: ["markdown-it", "markdown-it-plugin", pkgName],
       homepage: `https://mdit-plugins/mdit-plugins/packages/${pkgName}#readme`,
       bugs: {
         url: "https://mdit-plugins/mdit-plugins/issues",
