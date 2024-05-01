@@ -3,7 +3,6 @@ import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";
 import type { KatexOptions as OriginalKatexOptions } from "katex";
-import Katex from "katex";
 import type MarkdownIt from "markdown-it";
 
 import type { KatexToken, MarkdownItKatexOptions } from "./options.js";
@@ -11,13 +10,23 @@ import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
 
+let isKatexInstalled = true;
+let katexLib: typeof import("katex");
+
+try {
+  katexLib = (await import("katex"))
+    .default as unknown as typeof import("katex");
+} catch (err) {
+  isKatexInstalled = false;
+}
+
 const katexInline = (
   tex: string,
   options: OriginalKatexOptions,
   vPre: boolean,
 ): string => {
   try {
-    const result = Katex.renderToString(tex, {
+    const result = katexLib.renderToString(tex, {
       ...options,
       displayMode: false,
     });
@@ -42,7 +51,7 @@ const katexBlock = (
   vPre: boolean,
 ): string => {
   try {
-    return `<p ${vPre ? "v-pre " : ""}class='katex-block'>${Katex.renderToString(
+    return `<p ${vPre ? "v-pre " : ""}class='katex-block'>${katexLib.renderToString(
       tex,
       {
         ...options,
@@ -64,6 +73,12 @@ export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
+  if (!isKatexInstalled) {
+    console.error('[@mdit/plugin-katex]: "katex" not installed!');
+
+    return;
+  }
+
   const {
     allowInlineWithSpace = false,
     mathFence = false,

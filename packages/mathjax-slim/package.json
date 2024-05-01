@@ -1,21 +1,21 @@
 {
-  "name": "@mdit/plugin-katex",
+  "name": "@mdit/plugin-mathjax-slim",
   "version": "0.9.0",
-  "description": "katex plugin for MarkdownIt",
+  "description": "mathjax plugin for MarkdownIt",
   "keywords": [
     "markdownit",
     "markdown-it",
     "markdown-it-plugin",
-    "katex"
+    "mathjax"
   ],
-  "homepage": "https://mdit-plugins.github.io/katex.html",
+  "homepage": "https://mdit-plugins.github.io/mathjax.html",
   "bugs": {
     "url": "https://mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/katex"
+    "directory": "packages/mathjax"
   },
   "license": "MIT",
   "author": {
@@ -42,15 +42,21 @@
   },
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "@types/katex": "^0.16.7",
     "@types/markdown-it": "^14.0.1",
-    "katex": "0.16.10"
+    "upath": "^2.0.1"
+  },
+  "devDependencies": {
+    "mathjax-full": "3.2.2"
   },
   "peerDependencies": {
-    "markdown-it": "^14.1.0"
+    "markdown-it": "^14.1.0",
+    "mathjax-full": "^3.2.2"
   },
   "peerDependenciesMeta": {
     "markdown-it": {
+      "optional": true
+    },
+    "mathjax-full": {
       "optional": true
     }
   },

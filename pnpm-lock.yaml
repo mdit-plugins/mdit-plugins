@@ -201,7 +201,7 @@ importers:
     devDependencies:
       '@mdit/plugin-katex':
         specifier: workspace:*
-        version: link:../katex
+        version: link:../katex-slim
       markdown-it:
         specifier: 14.1.0
         version: 14.1.0
@@ -296,6 +296,24 @@ importers:
       '@types/markdown-it':
         specifier: ^14.0.1
         version: 14.0.1
+      katex:
+        specifier: 0.16.10
+        version: 0.16.10
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
+  packages/katex-slim:
+    dependencies:
+      '@mdit/plugin-tex':
+        specifier: workspace:*
+        version: link:../tex
+      '@types/katex':
+        specifier: ^0.16.7
+        version: 0.16.7
+      '@types/markdown-it':
+        specifier: ^14.0.1
+        version: 14.0.1
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -314,6 +332,24 @@ importers:
         version: 14.1.0
 
   packages/mathjax:
+    dependencies:
+      '@mdit/plugin-tex':
+        specifier: workspace:*
+        version: link:../tex
+      '@types/markdown-it':
+        specifier: ^14.0.1
+        version: 14.0.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+      mathjax-full:
+        specifier: 3.2.2
+        version: 3.2.2
+      upath:
+        specifier: ^2.0.1
+        version: 2.0.1
+
+  packages/mathjax-slim:
     dependencies:
       '@mdit/plugin-tex':
         specifier: workspace:*
@@ -5111,7 +5147,7 @@ snapshots:
 
   '@types/markdown-it-emoji@2.0.5':
     dependencies:
-      '@types/markdown-it': 13.0.7
+      '@types/markdown-it': 14.0.1
 
   '@types/markdown-it@13.0.7':
     dependencies:
@@ -8961,7 +8997,7 @@ snapshots:
       '@mdit/plugin-img-mark': link:packages/img-mark
       '@mdit/plugin-img-size': link:packages/img-size
       '@mdit/plugin-include': link:packages/include
-      '@mdit/plugin-katex': link:packages/katex
+      '@mdit/plugin-katex': link:packages/katex-slim
       '@mdit/plugin-mark': link:packages/mark
       '@mdit/plugin-mathjax': link:packages/mathjax
       '@mdit/plugin-plantuml': 0.9.0(markdown-it@14.1.0)
