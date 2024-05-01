@@ -35,21 +35,7 @@ mdIt.render("VuePress Theme Hope is !!powerful!!.");
 
 :::
 
-You should also add these styles:
-
-```css
-.spoiler {
-  background-color: currentColor;
-  border-radius: 0.2em;
-  transition: background ease 0.5s;
-  cursor: help;
-}
-
-.spoiler:hover,
-.spoiler:focus {
-  background-color: transparent;
-}
-```
+With the default options, you can import `@mdit/plugin-spoiler/style` to apply styles.
 
 ## Syntax
 

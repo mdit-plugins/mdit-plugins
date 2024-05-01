@@ -1,0 +1,11 @@
+.spoiler {
+  background-color: currentColor;
+  border-radius: 0.2em;
+  transition: background ease 0.5s;
+  cursor: help;
+}
+
+.spoiler:hover,
+.spoiler:focus {
+  background-color: transparent;
+}

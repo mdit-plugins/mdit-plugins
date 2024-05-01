@@ -35,21 +35,7 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 
 :::
 
-你还需要添加下列样式:
-
-```css
-.spoiler {
-  background-color: currentColor;
-  border-radius: 0.2em;
-  transition: background ease 0.5s;
-  cursor: help;
-}
-
-.spoiler:hover,
-.spoiler:focus {
-  background-color: transparent;
-}
-```
+在使用默认选项的情况下，你可以导入 `@mdit/plugin-spoiler/style` 以应用相应样式。
 
 ## 格式
 

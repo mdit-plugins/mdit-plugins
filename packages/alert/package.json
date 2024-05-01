@@ -29,12 +29,14 @@
       "type": "./lib/index.ts",
       "default": "./lib/index.js"
     },
+    "./style": "./alert.css",
     "./package.json": "./package.json"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "alert.css"
   ],
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
