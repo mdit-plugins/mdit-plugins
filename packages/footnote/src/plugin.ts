@@ -3,7 +3,6 @@
  */
 
 import type { PluginSimple } from "markdown-it";
-import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type { RenderRule } from "markdown-it/lib/renderer.mjs";
@@ -11,7 +10,7 @@ import type { ParentType } from "markdown-it/lib/rules_block/state_block.mjs";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
-import Token from "markdown-it/lib/token.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 import type { FootNoteEnv, FootNoteToken } from "./types.js";
 
@@ -64,14 +63,14 @@ const renderFootnoteRef: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string => {
-  const id = self.rules["footnoteAnchorName"]!(
+  const id = self.rules["footnote_anchorName"]!(
     tokens,
     index,
     options,
     env,
     self,
   );
-  const caption = self.rules["footnoteCaption"]!(
+  const caption = self.rules["footnote_caption"]!(
     tokens,
     index,
     options,
@@ -108,7 +107,7 @@ const renderFootnoteOpen: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
-  `<li id="footnote${self.rules["footnoteAnchorName"]!(
+  `<li id="footnote${self.rules["footnote_anchorName"]!(
     tokens,
     index,
     options,
@@ -125,7 +124,7 @@ const renderFootnoteAnchor: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
-  ` <a href="#footnote-ref${self.rules["footnoteAnchorName"]!(
+  ` <a href="#footnote-ref${self.rules["footnote_anchorName"]!(
     tokens,
     index,
     options,
@@ -176,7 +175,7 @@ const footnoteDef: RuleBlock = (
 
   state.env.footnotes.refs[`:${label}`] = -1;
 
-  token = new Token("footnoteReferenceOpen", "", 1);
+  token = new state.Token("footnote_reference_open", "", 1);
   token.meta = { label };
   token.level = state.level++;
   state.tokens.push(token);
@@ -224,7 +223,7 @@ const footnoteDef: RuleBlock = (
   state.sCount[startLine] = oldSCount;
   state.bMarks[startLine] = oldBMark;
 
-  token = new Token("footnoteReferenceClose", "", -1);
+  token = new state.Token("footnote_reference_close", "", -1);
   token.level = --state.level;
   state.tokens.push(token);
 
@@ -245,7 +244,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
   if (state.src.charAt(start + 1) !== "[") return false;
 
   const labelStart = start + 2;
-  const labelEnd = parseLinkLabel(state, start + 1);
+  const labelEnd = state.md.helpers.parseLinkLabel(state, start + 1);
 
   // parser failed to find ']', so it’s not a valid note
   if (labelEnd < 0) return false;
@@ -267,7 +266,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
       (tokens = []),
     );
 
-    token = state.push("footnoteRef", "", 0);
+    token = state.push("footnote_ref", "", 0);
     token.meta = { id: footnoteId };
 
     state.env.footnotes.list[footnoteId] = {
@@ -330,7 +329,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     state.env.footnotes.list[footnoteId].count =
       state.env.footnotes.list[footnoteId].count! + 1;
 
-    token = state.push("footnoteRef", "", 0);
+    token = state.push("footnote_ref", "", 0);
     token.meta = { id: footnoteId, subId: footnoteSubId, label };
   }
 
@@ -343,7 +342,6 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 // Glue footnote tokens to end of token stream
 const footnoteTail = (state: FootNoteStateCore): boolean => {
   let lastParagraph: FootNoteToken | null;
-  let token: Token;
   let tokens: Token[];
   let current: Token[];
   let currentLabel: string;
@@ -353,14 +351,14 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
   if (!state.env.footnotes) return false;
 
   state.tokens = state.tokens.filter((stateToken) => {
-    if (stateToken.type === "footnoteReferenceOpen") {
+    if (stateToken.type === "footnote_reference_open") {
       insideRef = true;
       current = [];
       currentLabel = stateToken.meta.label;
 
       return false;
     }
-    if (stateToken.type === "footnoteReferenceClose") {
+    if (stateToken.type === "footnote_reference_close") {
       insideRef = false;
       // prepend ':' to avoid conflict with Object.prototype members
       refTokens[`:${currentLabel}`] = current;
@@ -375,29 +373,34 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
   if (!state.env.footnotes.list) return false;
   const { list } = state.env.footnotes;
 
-  token = new Token("footnoteBlockOpen", "", 1);
-  state.tokens.push(token);
+  const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
+
+  state.tokens.push(footnoteBlockOpenToken);
 
   for (let i = 0, { length } = list; i < length; i++) {
-    token = new Token("footnoteOpen", "", 1);
-    token.meta = { id: i, label: list[i].label };
-    state.tokens.push(token);
+    const footnoteOpenToken = new state.Token("footnote_open", "", 1);
+
+    footnoteOpenToken.meta = { id: i, label: list[i].label };
+    state.tokens.push(footnoteOpenToken);
 
     if (list[i].tokens) {
       tokens = [];
 
-      token = new Token("paragraph_open", "p", 1);
-      token.block = true;
-      tokens.push(token);
+      const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
 
-      token = new Token("inline", "", 0);
-      token.children = list[i].tokens!;
-      token.content = list[i].content!;
-      tokens.push(token);
+      paragraphOpenToken.block = true;
+      tokens.push(paragraphOpenToken);
 
-      token = new Token("paragraph_close", "p", -1);
-      token.block = true;
-      tokens.push(token);
+      const inlineToken = new state.Token("inline", "", 0);
+
+      inlineToken.children = list[i].tokens!;
+      inlineToken.content = list[i].content!;
+      tokens.push(inlineToken);
+
+      const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
+
+      paragraphCloseToken.block = true;
+      tokens.push(paragraphCloseToken);
     } else if (list[i].label) {
       tokens = refTokens[`:${list[i].label!}`];
     } else {
@@ -410,40 +413,39 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
     else lastParagraph = null;
 
     for (let j = 0; j < (Number(list[i].count) > 0 ? list[i].count! : 1); j++) {
-      token = new Token("footnoteAnchor", "", 0);
-      token.meta = { id: i, subId: j, label: list[i].label };
-      state.tokens.push(token);
+      const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
+
+      footnoteAnchorToken.meta = { id: i, subId: j, label: list[i].label };
+      state.tokens.push(footnoteAnchorToken);
     }
 
     if (lastParagraph) state.tokens.push(lastParagraph);
 
-    token = new Token("footnoteClose", "", -1);
-    state.tokens.push(token);
+    state.tokens.push(new state.Token("footnote_close", "", -1));
   }
 
-  token = new Token("footnoteBlockClose", "", -1);
-  state.tokens.push(token);
+  state.tokens.push(new state.Token("footnote_block_close", "", -1));
 
   return true;
 };
 
 export const footnote: PluginSimple = (md) => {
-  md.renderer.rules["footnoteRef"] = renderFootnoteRef;
-  md.renderer.rules["footnoteBlockOpen"] = renderFootnoteBlockOpen;
-  md.renderer.rules["footnoteBlockClose"] = renderFootnoteBlockClose;
-  md.renderer.rules["footnoteOpen"] = renderFootnoteOpen;
-  md.renderer.rules["footnoteClose"] = renderFootnoteClose;
-  md.renderer.rules["footnoteAnchor"] = renderFootnoteAnchor;
+  md.renderer.rules["footnote_ref"] = renderFootnoteRef;
+  md.renderer.rules["footnote_block_open"] = renderFootnoteBlockOpen;
+  md.renderer.rules["footnote_block_close"] = renderFootnoteBlockClose;
+  md.renderer.rules["footnote_open"] = renderFootnoteOpen;
+  md.renderer.rules["footnote_close"] = renderFootnoteClose;
+  md.renderer.rules["footnote_anchor"] = renderFootnoteAnchor;
 
   // helpers (only used in other rules, no tokens are attached to those)
   // helpers (only used in other rules, no tokens are attached to those)
-  md.renderer.rules["footnoteCaption"] = renderFootnoteCaption;
-  md.renderer.rules["footnoteAnchorName"] = renderFootnoteAnchorName;
+  md.renderer.rules["footnote_caption"] = renderFootnoteCaption;
+  md.renderer.rules["footnote_anchorName"] = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],
   });
   md.inline.ruler.after("image", "footnoteInline", footnoteInline);
-  md.inline.ruler.after("footnoteInline", "footnoteRef", footnoteRef);
+  md.inline.ruler.after("footnoteInline", "footnote_ref", footnoteRef);
   md.core.ruler.after("inline", "footnoteTail", footnoteTail);
 };

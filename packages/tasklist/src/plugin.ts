@@ -3,8 +3,9 @@
  */
 
 import type { PluginWithOptions } from "markdown-it";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
-import Token from "markdown-it/lib/token.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
 import type { TaskListEnv } from "./types.js";
@@ -19,6 +20,7 @@ import {
 interface TaskListStateCore extends StateCore {
   env: TaskListEnv;
 }
+
 // The leading whitespace in a list item (token.content) is already trimmed off by markdown-it.
 // The regex below checks for '[ ] ' or '[x] ' or '[X] ' at the start of the string token.content,
 // where the space is either a normal space or a non-breaking space (character 160 = \u00A0).
@@ -31,72 +33,6 @@ const isTaskListItem = (tokens: Token[], index: number): boolean =>
   isListItemToken(tokens[index - 2]) &&
   startsWithTodoMarkdown(tokens[index]);
 
-const generateCheckbox = (
-  token: Token,
-  id: string,
-  {
-    checkboxClass,
-    disabled,
-  }: Required<Pick<MarkdownItTaskListOptions, "checkboxClass" | "disabled">>,
-): Token => {
-  const checkbox = new Token("checkbox_input", "input", 0);
-
-  checkbox.attrs = [
-    ["type", "checkbox"],
-    ["class", checkboxClass],
-    ["id", id],
-  ];
-
-  // if token.content starts with '[x] ' or '[X] '
-  if (/^\[[xX]\][ \u00A0]/.test(token.content))
-    checkbox.attrs.push(["checked", "checked"]);
-
-  if (disabled) checkbox.attrs.push(["disabled", "disabled"]);
-
-  return checkbox;
-};
-
-const beginLabel = (id: string, labelClass: string): Token => {
-  const label = new Token("label_open", "label", 1);
-
-  label.attrs = [
-    ["class", labelClass],
-    ["for", id],
-  ];
-
-  return label;
-};
-
-const endLabel = (): Token => new Token("label_close", "label", -1);
-
-const addCheckBox = (
-  token: Token,
-  state: TaskListStateCore,
-  {
-    disabled,
-    checkboxClass,
-    label,
-    labelClass,
-  }: Required<Omit<MarkdownItTaskListOptions, "containerClass" | "itemClass">>,
-): void => {
-  const id = `task-item-${state.env.tasklists++}`;
-
-  token.children ??= [];
-
-  // remove the checkbox syntax letter
-  token.children[0].content = token.children[0].content.slice(3);
-
-  if (label) {
-    // add label
-    token.children.unshift(beginLabel(id, labelClass));
-    token.children.push(endLabel());
-  }
-  // checkbox
-  token.children.unshift(
-    generateCheckbox(token, id, { checkboxClass, disabled }),
-  );
-};
-
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   md,
   {
@@ -108,31 +44,62 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
     labelClass = "task-list-item-label",
   } = {},
 ) => {
-  md.core.ruler.after(
-    "inline",
-    "github-task-lists",
-    (state: TaskListStateCore) => {
-      const tokens = state.tokens;
+  const taskListRule: RuleCore = (state: TaskListStateCore) => {
+    const tokens = state.tokens;
 
-      if (!state.env.tasklists) state.env.tasklists = 0;
+    if (!state.env.tasklists) state.env.tasklists = 0;
 
-      for (let i = 2; i < tokens.length; i++)
-        if (isTaskListItem(tokens, i)) {
-          addCheckBox(tokens[i], state, {
-            disabled,
-            label,
-            checkboxClass,
-            labelClass,
-          });
-          setTokenAttr(tokens[i - 2], "class", itemClass);
-          setTokenAttr(
-            tokens[getParentTokenIndex(tokens, i - 2)],
-            "class",
-            containerClass,
-          );
+    for (let i = 2; i < tokens.length; i++)
+      if (isTaskListItem(tokens, i)) {
+        const token = tokens[i];
+
+        token.children ??= [];
+
+        // remove the checkbox syntax letter
+        token.children[0].content = token.children[0].content.slice(3);
+
+        const id = `task-item-${state.env.tasklists++}`;
+
+        if (label) {
+          // add label
+          const labelToken = new state.Token("label_open", "label", 1);
+
+          labelToken.attrs = [
+            ["class", labelClass],
+            ["for", id],
+          ];
+
+          token.children.unshift(labelToken);
+          token.children.push(new state.Token("label_close", "label", -1));
         }
 
-      return true;
-    },
-  );
+        const checkboxToken = new state.Token("checkbox_input", "input", 0);
+
+        checkboxToken.attrs = [
+          ["type", "checkbox"],
+          ["class", checkboxClass],
+          ["id", id],
+        ];
+
+        // if token.content starts with '[x] ' or '[X] '
+        if (/^\[[xX]\][ \u00A0]/.test(token.content))
+          checkboxToken.attrs.push(["checked", "checked"]);
+
+        if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
+
+        // checkbox
+        token.children.unshift(checkboxToken);
+
+        setTokenAttr(tokens[i - 2], "class", itemClass);
+        setTokenAttr(
+          tokens[getParentTokenIndex(tokens, i - 2)],
+          "class",
+          containerClass,
+        );
+      }
+
+    return true;
+  };
+
+  md.core.ruler.after("inline", "task_list", taskListRule);
 };
