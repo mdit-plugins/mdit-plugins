@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-demo"
-icon: creative
+icon: lightbulb
 ---
 
 用于同时展示片段渲染和片段代码。

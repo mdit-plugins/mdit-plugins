@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tex"
-icon: tex
+icon: square-root-variable
 ---
 
 提供 $\TeX$ 语法支持的插件。

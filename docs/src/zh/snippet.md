@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-snippet"
-icon: context
+icon: file-lines
 ---
 
 用于在 Markdown 中导入代码片段的插件。

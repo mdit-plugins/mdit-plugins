@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-mathjax"
-icon: tex
+icon: square-root-variable
 ---
 
 Plugins to render math expressions with Mathjax, you should install `mathjax-full` as peer dependency.

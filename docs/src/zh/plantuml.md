@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-plantuml"
-icon: context
+icon: diagram-project
 ---
 
 支持 plant uml 的插件，基于 [@mdit/plugin-uml](uml.md)。

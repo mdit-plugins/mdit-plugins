@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-snippet"
-icon: context
+icon: file-lines
 ---
 
 Plugin to import code snippets in markdown.

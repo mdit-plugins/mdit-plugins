@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-footnote"
-icon: quote
+icon: quote-left
 ---
 
 支持页脚的插件。

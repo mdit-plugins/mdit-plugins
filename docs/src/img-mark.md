@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-mark"
-icon: contrast
+icon: circle-half-stroke
 ---
 
 Plugins to mark images by ID suffix for theme mode.

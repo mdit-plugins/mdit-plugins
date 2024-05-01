@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tasklist"
-icon: check
+icon: square-check
 ---
 
 提供任务列表支持的插件。

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-demo"
-icon: creative
+icon: lightbulb
 ---
 
 Display snippet render result and code at the same time.
@@ -61,7 +61,7 @@ With this plugin, you can quickly display a Markdown snippet and its correspondi
 
 The syntax is the same as [container](./container.md), except that the corresponding `name` is `demo`.
 
-## 选项
+## Options
 
 ```ts
 interface MarkdownItDemoOptions {

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tab"
-icon: tab
+icon: table-columns
 ---
 
 Plugin for creating block-level custom tabs.

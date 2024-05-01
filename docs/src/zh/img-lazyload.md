@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-lazyload"
-icon: load
+icon: spinner
 ---
 
 为图片添加懒加载功能的插件。

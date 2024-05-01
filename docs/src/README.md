@@ -5,117 +5,122 @@ home: true
 heroImage: /logo.svg
 features:
   - title: alert
-    icon: warn
+    icon: bell
     details: GFM alerts
-    link: /alert.html
+    link: ./alert.html
 
   - title: align
-    icon: align
+    icon: align-center
     details: Align contents
-    link: /align.html
+    link: ./align.html
 
   - title: attrs
-    icon: object
+    icon: code
     details: Add attrs to Markdown content
-    link: /attrs.html
+    link: ./attrs.html
 
   - title: container
-    icon: box
+    icon: box-open
     details: Creating block-level custom containers
-    link: /container.html
+    link: ./container.html
 
   - title: demo
-    icon: creative
+    icon: lightbulb
     details: Display snippets and render result both
-    link: /demo.html
+    link: ./demo.html
 
   - title: figure
-    icon: pic
+    icon: image
     details: Generating figures with captions from images
-    link: /figure.html
+    link: ./figure.html
 
   - title: footnote
-    icon: quote
+    icon: quote-left
     details: Support footnotes
-    link: /footnote.html
+    link: ./footnote.html
 
   - title: img-lazyload
-    icon: load
+    icon: spinner
     details: Add lazy loading for images
-    link: /img-lazyload.html
+    link: ./img-lazyload.html
 
   - title: img-mark
-    icon: contrast
+    icon: circle-half-stroke
     details: Mark images by ID suffix for theme mode
-    link: /img-mark.html
+    link: ./img-mark.html
 
   - title: img-size
-    icon: resize
+    icon: up-right-and-down-left-from-center
     details: Support setting size for images
-    link: /img-size.html
+    link: ./img-size.html
 
   - title: include
     icon: at
     details: Include other files in markdown
-    link: /include.html
+    link: ./include.html
 
   - title: katex
-    icon: tex
+    icon: square-root-variable
     details: Render math expressions with KaTeX
-    link: /katex.html
+    link: ./katex.html
 
   - title: mark
-    icon: write
+    icon: highlighter
     details: Mark and highlight contents
-    link: /mark.html
+    link: ./mark.html
 
   - title: mathjax
-    icon: tex
+    icon: square-root-variable
     details: Render math expressions with Mathjax
-    link: /mathjax.html
+    link: ./mathjax.html
 
   - title: plantuml
-    icon: diagram
+    icon: diagram-project
     details: Add plantuml diagram support
     link: ./plantuml.html
 
   - title: snippet
-    icon: context
+    icon: file-lines
     details: Import code snippets in markdown
-    link: /snippet.html
+    link: ./snippet.html
+
+  - title: spoiler
+    icon: eraser
+    details: Hiding contents
+    link: ./spoiler.html
 
   - title: stylize
-    icon: style
+    icon: wand-magic-sparkles
     details: Stylizing tokens
-    link: /stylize.html
+    link: ./stylize.html
 
   - title: sub
     icon: subscript
     details: Support subscript
-    link: /sub.html
+    link: ./sub.html
 
   - title: sup
     icon: superscript
     details: Support superscript
-    link: /sup.html
+    link: ./sup.html
 
   - title: tab
-    icon: tab
+    icon: table-columns
     details: Creating block-level custom tabs
-    link: /tab.html
+    link: ./tab.html
 
   - title: tasklist
-    icon: check
+    icon: square-check
     details: Support tasklist
-    link: /tasklist.html
+    link: ./tasklist.html
 
   - title: tex
-    icon: tex
+    icon: square-root-variable
     details: TeX grammar support
-    link: /tex.html
+    link: ./tex.html
 
   - title: uml
-    icon: context
+    icon: file-lines
     details: Support splitting contents from context
-    link: /uml.html
+    link: ./uml.html
 ---

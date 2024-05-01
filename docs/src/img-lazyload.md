@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-lazyload"
-icon: load
+icon: spinner
 ---
 
 Plugin to add lazy loading for images.

@@ -9,18 +9,16 @@
     "docs:dev": "vuepress-vite dev src"
   },
   "dependencies": {
-    "@mdit/plugin-alert": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
-    "@mdit/plugin-demo": "workspace:*",
-    "@mdit/plugin-plantuml": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
+    "@mdit/plugin-spoiler": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.9",
     "mathjax-full": "3.2.2",
     "nodejs-jieba": "0.1.2",
-    "vue": "3.4.23",
+    "vue": "3.4.26",
     "vuepress": "2.0.0-rc.9",
-    "vuepress-plugin-search-pro": "2.0.0-rc.37",
-    "vuepress-shared": "2.0.0-rc.37",
-    "vuepress-theme-hope": "2.0.0-rc.37"
+    "vuepress-plugin-search-pro": "2.0.0-rc.38",
+    "vuepress-shared": "2.0.0-rc.38",
+    "vuepress-theme-hope": "2.0.0-rc.38"
   }
 }

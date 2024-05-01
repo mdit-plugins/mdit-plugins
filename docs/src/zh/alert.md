@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-alert"
-icon: warn
+icon: bell
 ---
 
 支持 GFM 风格的警告语法。([参考](https://github.com/orgs/community/discussions/16925))

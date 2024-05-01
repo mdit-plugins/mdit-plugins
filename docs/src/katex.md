@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-katex"
-icon: tex
+icon: square-root-variable
 ---
 
 Plugins to render math expressions with KaTeX, you should install `katex` as peer dependency.

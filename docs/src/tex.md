@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tex"
-icon: tex
+icon: square-root-variable
 ---
 
 Plugins for $\TeX$ grammar support.

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-attrs"
-icon: object
+icon: code
 ---
 
 用于向 Markdown 内容添加属性的插件。

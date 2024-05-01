@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-align"
-icon: align
+icon: align-center
 ---
 
 用于控制内容对齐方式的插件。

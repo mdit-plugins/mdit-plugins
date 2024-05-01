@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-mark"
-icon: contrast
+icon: circle-half-stroke
 ---
 
 为主题模式通过 ID 后缀标记图像的插件。

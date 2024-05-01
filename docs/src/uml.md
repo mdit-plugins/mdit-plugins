@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-uml"
-icon: context
+icon: file-lines
 ---
 
 Plugin to support splitting contents from context.

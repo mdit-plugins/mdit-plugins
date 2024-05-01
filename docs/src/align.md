@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-align"
-icon: align
+icon: align-center
 ---
 
 Plugin to align contents.

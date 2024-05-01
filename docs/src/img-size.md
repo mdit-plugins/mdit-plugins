@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-size"
-icon: resize
+icon: up-right-and-down-left-from-center
 ---
 
 Plugins to support setting size for images.

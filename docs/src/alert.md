@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-alert"
-icon: warn
+icon: bell
 ---
 
 Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/discussions/16925))

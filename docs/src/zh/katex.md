@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-katex"
-icon: tex
+icon: square-root-variable
 ---
 
 使用 KaTeX 呈现数学表达式的插件，你应该将 `katex` 安装为 peer 依赖。

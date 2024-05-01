@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-container"
-icon: box
+icon: box-open
 ---
 
 用于创建块级自定义容器的插件。

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-container"
-icon: box
+icon: box-open
 ---
 
 Plugin for creating block-level custom containers.

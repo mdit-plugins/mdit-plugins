@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-img-size"
-icon: resize
+icon: up-right-and-down-left-from-center
 ---
 
 支持设置图片尺寸的插件。

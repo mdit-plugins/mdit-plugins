@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-stylize"
-icon: style
+icon: wand-magic-sparkles
 ---
 
 样式化插件。

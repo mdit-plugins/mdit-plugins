@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-mark"
-icon: write
+icon: highlighter
 ---
 
 Plugins to mark and highlight contents.

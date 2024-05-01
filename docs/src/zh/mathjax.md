@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-mathjax"
-icon: tex
+icon: square-root-variable
 ---
 
 使用 Mathjax 呈现数学表达式的插件，你应该将 `mathjax-full` 安装为 peer 依赖。

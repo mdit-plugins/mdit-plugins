@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-plantuml"
-icon: context
+icon: diagram-project
 ---
 
 Plugin to support plant uml base on [@mdit/plugin-uml](uml.md).

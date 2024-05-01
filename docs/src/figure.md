@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-figure"
-icon: pic
+icon: image
 ---
 
 Plugin for generating figures with captions from images.

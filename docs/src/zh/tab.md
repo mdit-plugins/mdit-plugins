@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tab"
-icon: tab
+icon: table-columns
 ---
 
 用于创建块级自定义选项卡的插件。

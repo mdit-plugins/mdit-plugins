@@ -9,8 +9,8 @@ export default hopeTheme(
     docsDir: "docs/src",
     docsBranch: "main",
 
+    iconAssets: "fontawesome",
     pageInfo: false,
-
     contributors: false,
 
     locales: {
@@ -32,8 +32,6 @@ export default hopeTheme(
       },
     },
 
-    iconAssets: "//at.alicdn.com/t/c/font_2410206_s76eeqysx0t.css",
-
     plugins: {
       comment: {
         provider: "Giscus",
@@ -44,6 +42,7 @@ export default hopeTheme(
       },
 
       mdEnhance: {
+        alert: true,
         align: true,
         attrs: true,
         codetabs: true,

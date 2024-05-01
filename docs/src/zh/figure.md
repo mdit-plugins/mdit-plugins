@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-figure"
-icon: pic
+icon: image
 ---
 
 生成带有标题的图片插件。

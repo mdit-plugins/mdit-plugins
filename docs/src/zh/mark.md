@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-mark"
-icon: write
+icon: highlighter
 ---
 
 用于标记和突出显示内容的插件。
@@ -19,7 +19,7 @@ import { mark } from "@mdit/plugin-mark";
 
 const mdIt = MarkdownIt().use(mark);
 
-mdIt.render("VuePress Theme Hope is ==powerful==.");
+mdIt.render("VuePress Theme Hope ==十分强大==。");
 ```
 
 @tab JS
@@ -30,7 +30,7 @@ const { mark } = require("@mdit/plugin-mark");
 
 const mdIt = MarkdownIt().use(mark);
 
-mdIt.render("VuePress Theme Hope is ==powerful==.");
+mdIt.render("VuePress Theme Hope ==十分强大==。");
 ```
 
 :::

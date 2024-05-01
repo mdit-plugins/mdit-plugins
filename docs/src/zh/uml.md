@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-uml"
-icon: context
+icon: file-lines
 ---
 
 支持从上下文中拆分内容的插件。

@@ -1,7 +1,7 @@
-import { alert } from "@mdit/plugin-alert";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
+import { spoiler } from "@mdit/plugin-spoiler";
 import { cut } from "nodejs-jieba";
 import { defineUserConfig } from "vuepress";
 import type { MarkdownEnv } from "vuepress/markdown";
@@ -37,9 +37,6 @@ export default defineUserConfig({
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
-    md.use(alert, { deep: true });
-    // md.use(demo);
-
     md.use(container, {
       name: "hint",
       openRender: (tokens, index): string => {
@@ -68,6 +65,12 @@ export default defineUserConfig({
 
         return path.join(cwd, filePath);
       },
+    });
+    md.use(spoiler, {
+      attrs: [
+        ["class", "spoiler"],
+        ["tabindex", "-1"],
+      ],
     });
   },
 
