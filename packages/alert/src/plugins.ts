@@ -16,11 +16,13 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   } = {},
 ) => {
   const alertRule: RuleBlock = (state, startLine, endLine, silent) => {
-    // if it's indented more than 3 spaces, it should be a code block
-    if (state.sCount[startLine] - state.blkIndent >= 4) return false;
-
-    // check whether it's at first level
-    if (state.level !== 0 && !deep) return false;
+    if (
+      // if it's indented more than 3 spaces, it should be a code block
+      state.sCount[startLine] - state.blkIndent >= 4 ||
+      // check whether it's at first level
+      (state.level !== 0 && !deep)
+    )
+      return false;
 
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -246,7 +248,6 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   });
 
   if (openRender) md.renderer.rules["alert_open"] = openRender;
-
   if (closeRender) md.renderer.rules["alert_close"] = closeRender;
 
   md.renderer.rules["alert_title"] =

@@ -46,7 +46,7 @@ const getTabRule =
       // also block seems to be auto closed by end of parent
       nextLine < endLine
     ) {
-      nextLine += 1;
+      nextLine++;
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 
@@ -136,7 +136,7 @@ const getTabsRule =
     // Check out the rest of the marker string
     while (pos <= max) {
       if (state.src[pos] !== ":") break;
-      pos += 1;
+      pos++;
     }
 
     const markerCount = pos - start;
@@ -162,7 +162,7 @@ const getTabsRule =
       // also block seems to be auto closed by end of parent
       nextLine < endLine
     ) {
-      nextLine += 1;
+      nextLine++;
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 
@@ -251,7 +251,7 @@ const getTabsDataGetter =
 
       if (block) {
         if (type === `${name}_tabs_open`) {
-          nestingDepth += 1;
+          nestingDepth++;
           continue;
         }
 
@@ -259,7 +259,7 @@ const getTabsDataGetter =
           if (nestingDepth === 0) {
             break;
           } else {
-            nestingDepth -= 1;
+            nestingDepth--;
             continue;
           }
 

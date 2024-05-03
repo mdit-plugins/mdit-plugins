@@ -44,7 +44,7 @@ export const getAttrs = (
     if (char === CLASS_MARKER && key === "") {
       if (str.charAt(index + 1) === CLASS_MARKER) {
         key = "css-module";
-        index += 1;
+        index++;
       } else {
         key = "class";
       }

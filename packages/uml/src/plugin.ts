@@ -21,8 +21,6 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
   const CLOSE_MARKER = `@${close}`;
 
   const umlRule: RuleBlock = (state, startLine, endLine, silent) => {
-    let i;
-    let autoClosed = false;
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
 
@@ -32,16 +30,19 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
      */
     if (state.src.charAt(start) !== "@") return false;
 
-    // Check out the rest of the marker string
-    for (i = 0; i < OPEN_MARKER.length; ++i)
-      if (OPEN_MARKER[i] !== state.src[start + i]) return false;
+    let index;
 
-    const markup = state.src.slice(start, start + i);
-    const params = state.src.slice(start + i, max);
+    // Check out the rest of the marker string
+    for (index = 0; index < OPEN_MARKER.length; ++index)
+      if (OPEN_MARKER[index] !== state.src[start + index]) return false;
+
+    const markup = state.src.slice(start, start + index);
+    const params = state.src.slice(start + index, max);
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
+    let autoClosed = false;
     let nextLine = startLine;
 
     // Search for the end of the block
@@ -71,8 +72,8 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       ) {
         let closeMarkerMatched = true;
 
-        for (i = 0; i < CLOSE_MARKER.length; ++i)
-          if (CLOSE_MARKER[i] !== state.src[start + i]) {
+        for (index = 0; index < CLOSE_MARKER.length; ++index)
+          if (CLOSE_MARKER[index] !== state.src[start + index]) {
             closeMarkerMatched = false;
             break;
           }
@@ -80,7 +81,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
         if (
           closeMarkerMatched &&
           // make sure tail has spaces only
-          state.skipSpaces(start + i) >= max
+          state.skipSpaces(start + index) >= max
         ) {
           // found!
           autoClosed = true;
@@ -88,7 +89,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
         }
       }
 
-      nextLine += 1;
+      nextLine++;
     }
 
     const contents = state.src
@@ -96,13 +97,13 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       .slice(startLine + 1, nextLine)
       .join("\n");
 
-    const token = state.push(name, "fence", 0);
+    const umlToken = state.push(name, "uml", 0);
 
-    token.block = true;
-    token.info = params;
-    token.content = contents;
-    token.map = [startLine, nextLine];
-    token.markup = markup;
+    umlToken.block = true;
+    umlToken.info = params;
+    umlToken.content = contents;
+    umlToken.map = [startLine, nextLine];
+    umlToken.markup = markup;
 
     state.line = nextLine + (autoClosed ? 1 : 0);
 

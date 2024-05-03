@@ -171,7 +171,7 @@ const footnoteDef: RuleBlock = (
     return false;
 
   if (silent) return true;
-  pos += 1;
+  pos++;
 
   (state.env.footnotes ??= {}).refs ??= {};
 
@@ -203,10 +203,10 @@ const footnoteDef: RuleBlock = (
     const char = state.src.charAt(pos);
 
     if (char === "\t") offset += 4 - (offset % 4);
-    else if (char === " ") offset += 1;
+    else if (char === " ") offset++;
     else break;
 
-    pos += 1;
+    pos++;
   }
 
   state.tShift[startLine] = pos - posAfterColon;
@@ -303,8 +303,8 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   let pos = start + 2;
 
   while (pos < max) {
-    if (state.src.charAt(pos) === " ") return false;
-    if (state.src.charAt(pos) === "\n") return false;
+    if (state.src.charAt(pos) === " " || state.src.charAt(pos) === "\n")
+      return false;
     if (state.src.charAt(pos) === "]") break;
     pos++;
   }
@@ -316,7 +316,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   )
     return false;
 
-  pos += 1;
+  pos++;
 
   const label = state.src.slice(start + 2, pos - 1);
 
@@ -359,7 +359,9 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
   let currentLabel: string;
   let insideRef = false;
 
-  if (!state.env.footnotes) return false;
+  if (!state.env.footnotes?.list) return false;
+
+  const { list } = state.env.footnotes;
 
   state.tokens = state.tokens.filter((stateToken) => {
     if (stateToken.type === "footnote_reference_open") {
@@ -369,6 +371,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 
       return false;
     }
+
     if (stateToken.type === "footnote_reference_close") {
       insideRef = false;
       // prepend ':' to avoid conflict with Object.prototype members
@@ -380,10 +383,6 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 
     return !insideRef;
   });
-
-  const { list } = state.env.footnotes;
-
-  if (!list) return false;
 
   const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
 

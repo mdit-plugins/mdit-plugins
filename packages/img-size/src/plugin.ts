@@ -51,7 +51,7 @@ const parseImageSize = (
 
   if (str.charAt(pos) !== "=") return result;
 
-  pos += 1;
+  pos++;
 
   // size must follow = without any white spaces as follows
   // (1) =300x200
@@ -69,7 +69,7 @@ const parseImageSize = (
   // next character must be 'x'
   if (str.charAt(pos) !== "x") return result;
 
-  pos += 1;
+  pos++;
 
   // parse height
   const height = parseNumber(str, pos, max);
@@ -89,8 +89,11 @@ const imgSizeRule: RuleInline = (state, silent) => {
   const oldPos = state.pos;
   const max = state.posMax;
 
-  if (state.src.charAt(state.pos) !== "!") return false;
-  if (state.src.charAt(state.pos + 1) !== "[") return false;
+  if (
+    state.src.charAt(state.pos) !== "!" ||
+    state.src.charAt(state.pos + 1) !== "["
+  )
+    return false;
 
   const labelStart = state.pos + 2;
   const labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);
@@ -113,11 +116,12 @@ const imgSizeRule: RuleInline = (state, silent) => {
 
     // [link](  <href>  "title"  )
     //        ^^ skipping these spaces
-    pos += 1;
+    pos++;
 
-    for (; pos < max; pos++) {
+    while (pos < max) {
       char = state.src.charAt(pos);
       if (char !== " " && char !== "\t") break;
+      pos++;
     }
 
     if (pos >= max) return false;
@@ -191,7 +195,7 @@ const imgSizeRule: RuleInline = (state, silent) => {
 
       return false;
     }
-    pos += 1;
+    pos++;
   } else {
     let label = "";
 
@@ -254,8 +258,8 @@ const imgSizeRule: RuleInline = (state, silent) => {
       ["alt", ""],
     ] as [string, string][];
     if (title) token.attrs.push(["title", title]);
-    if (width !== "") token.attrs.push(["width", width]);
-    if (height !== "") token.attrs.push(["height", height]);
+    if (width) token.attrs.push(["width", width]);
+    if (height) token.attrs.push(["height", height]);
 
     token.children = tokens;
     token.content = content;

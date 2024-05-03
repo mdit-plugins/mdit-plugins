@@ -8,17 +8,20 @@ import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import { UNESCAPE_RE } from "./utils.js";
 
 const subscriptRender: RuleInline = (state, silent) => {
-  let found;
-  let token;
   const max = state.posMax;
   const start = state.pos;
 
-  if (state.src.charAt(start) !== "~") return false;
-
-  if (silent) return false; // don’t run any pairs in validation mode
-  if (start + 2 >= max) return false;
+  if (
+    state.src.charAt(start) !== "~" ||
+    // don’t run any pairs in validation mode
+    silent ||
+    start + 2 >= max
+  )
+    return false;
 
   state.pos = start + 1;
+
+  let found = false;
 
   while (state.pos < max) {
     if (state.src.charAt(state.pos) === "~") {
@@ -49,14 +52,17 @@ const subscriptRender: RuleInline = (state, silent) => {
   state.pos = start + 1;
 
   // Earlier we checked !silent, but this implementation does not need it
-  token = state.push("sub_open", "sub", 1);
-  token.markup = "~";
+  const openToken = state.push("sub_open", "sub", 1);
 
-  token = state.push("text", "", 0);
-  token.content = content.replace(UNESCAPE_RE, "$1");
+  openToken.markup = "~";
 
-  token = state.push("sub_close", "sub", -1);
-  token.markup = "~";
+  const textToken = state.push("text", "", 0);
+
+  textToken.content = content.replace(UNESCAPE_RE, "$1");
+
+  const closeToken = state.push("sub_close", "sub", -1);
+
+  closeToken.markup = "~";
 
   state.pos = state.posMax + 1;
   state.posMax = max;

@@ -42,7 +42,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
             pattern.name === "inline nesting 0"
           )
             // retry, may be several inline attributes
-            ruleIndex -= 1;
+            ruleIndex--;
         }
       }
   };

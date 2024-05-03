@@ -48,7 +48,7 @@ const getInlineTex =
     if (!res.canOpen) {
       if (!silent) state.pending += "$";
 
-      state.pos += 1;
+      state.pos++;
 
       return true;
     }
@@ -68,12 +68,12 @@ const getInlineTex =
        * first non escape when complete
        */
       pos = match - 1;
-      while (state.src[pos] === "\\") pos -= 1;
+      while (state.src[pos] === "\\") pos--;
 
       // Even number of escapes, potential closing delimiter found
       if ((match - pos) % 2 === 1) break;
 
-      match += 1;
+      match++;
     }
 
     // No closing delimiter found.  Consume $ and continue.
@@ -117,11 +117,6 @@ const getInlineTex =
   };
 
 const blockTex: RuleBlock = (state, start, end, silent) => {
-  let firstLine;
-  let lastLine;
-  let next;
-  let lastPos;
-  let found = false;
   let pos = state.bMarks[start] + state.tShift[start];
   let max = state.eMarks[start];
 
@@ -130,9 +125,11 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
   if (state.src.slice(pos, pos + 2) !== "$$") return false;
 
   pos += 2;
-  firstLine = state.src.slice(pos, max);
+  let firstLine = state.src.slice(pos, max);
 
   if (silent) return true;
+
+  let found = false;
 
   if (firstLine.trim().endsWith("$$")) {
     // Single line expression
@@ -140,8 +137,11 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
     found = true;
   }
 
-  for (next = start; !found; ) {
-    next += 1;
+  let next = start;
+  let lastLine: string | null = null;
+
+  while (!found) {
+    next++;
 
     if (next >= end) break;
 
@@ -153,8 +153,10 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
       break;
 
     if (state.src.slice(pos, max).trim().endsWith("$$")) {
-      lastPos = state.src.slice(0, max).lastIndexOf("$$");
-      lastLine = state.src.slice(pos, lastPos);
+      lastLine = state.src.slice(
+        pos,
+        state.src.slice(0, max).lastIndexOf("$$"),
+      );
       found = true;
     }
   }
@@ -167,7 +169,7 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
   token.content =
     (firstLine?.trim() ? `\n${firstLine}\n` : "\n") +
     state.getLines(start + 1, next, state.tShift[start], true) +
-    (lastLine?.trim() ? lastLine : "");
+    (lastLine?.trim() ?? "");
   token.map = [start, state.line];
   token.markup = "$$";
 

@@ -22,14 +22,14 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
 
-    if (":" !== state.src[start]) return false;
+    if (state.src.charAt(start) !== ":") return false;
 
     let pos = start + 1;
 
     // Check out the rest of the marker string
     while (pos <= max) {
-      if (":" !== state.src[pos]) break;
-      pos += 1;
+      if (state.src.charAt(pos) !== ":") break;
+      pos++;
     }
 
     const markerCount = pos - start;
@@ -53,7 +53,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       // also block seems to be auto closed by end of parent
       nextLine < endLine
     ) {
-      nextLine += 1;
+      nextLine++;
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 

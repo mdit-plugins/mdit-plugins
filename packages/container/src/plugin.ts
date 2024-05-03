@@ -55,7 +55,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
     // Check out the rest of the marker string
     while (pos <= max) {
       if (marker[(pos - start) % markerLength] !== state.src[pos]) break;
-      pos += 1;
+      pos++;
     }
 
     const markerCount = Math.floor((pos - start) / markerLength);
@@ -81,7 +81,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
       // also block seems to be auto closed by end of parent
       nextLine < endLine
     ) {
-      nextLine += 1;
+      nextLine++;
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 

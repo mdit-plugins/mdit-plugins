@@ -45,25 +45,25 @@ export const abbr: PluginSimple = (md) => {
     let pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
-    if (pos + 2 >= max) return false;
-    if (state.src.charAt(pos++) !== "*") return false;
-    if (state.src.charAt(pos++) !== "[") return false;
+    if (
+      pos + 2 >= max ||
+      state.src.charAt(pos++) !== "*" ||
+      state.src.charAt(pos++) !== "["
+    )
+      return false;
 
     const labelStart = pos;
 
-    for (; pos < max; pos++) {
+    while (pos < max) {
       const ch = state.src.charAt(pos);
 
       if (ch === "[") return false;
-
       if (ch === "]") {
         labelEnd = pos;
         break;
       }
-
-      if (ch === "\\") {
-        pos++;
-      }
+      if (ch === "\\") pos++;
+      pos++;
     }
 
     if (labelEnd < 0 || state.src.charAt(labelEnd + 1) !== ":") return false;
@@ -72,13 +72,10 @@ export const abbr: PluginSimple = (md) => {
     const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");
     const title = state.src.slice(labelEnd + 2, max).trim();
 
-    if (label.length === 0) return false;
-    if (title.length === 0) return false;
-
-    state.env.abbreviations ??= {};
+    if (!label.length || !title.length) return false;
 
     // prepend ':' to avoid conflict with Object.prototype members
-    state.env.abbreviations[":" + label] ??= title;
+    (state.env.abbreviations ??= {})[":" + label] ??= title;
 
     state.line = startLine + 1;
 
@@ -110,8 +107,8 @@ export const abbr: PluginSimple = (md) => {
       let children = blockToken.children!;
 
       // We scan from the end, to keep position when new tags added.
-      for (let i = children.length - 1; i >= 0; i--) {
-        const currentToken = children[i];
+      for (let index = children.length - 1; index >= 0; index--) {
+        const currentToken = children[index];
 
         if (currentToken.type !== "text") continue;
 
@@ -165,7 +162,7 @@ export const abbr: PluginSimple = (md) => {
         }
 
         // replace current node
-        blockToken.children = children = arrayReplaceAt(children, i, nodes);
+        blockToken.children = children = arrayReplaceAt(children, index, nodes);
       }
     }
   };

@@ -21,16 +21,17 @@ const tokenize: RuleInline = (state, silent) => {
   let { length } = scanned;
 
   if (length < 2) return false;
-  let token;
 
   if (length % 2) {
-    token = state.push("text", "", 0);
+    const token = state.push("text", "", 0);
+
     token.content = marker;
-    length -= 1;
+    length--;
   }
 
   for (let i = 0; i < length; i += 2) {
-    token = state.push("text", "", 0);
+    const token = state.push("text", "", 0);
+
     token.content = `${marker}${marker}`;
 
     if (scanned.can_open || scanned.can_close)
@@ -100,9 +101,9 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
     let j = i + 1;
 
     while (j < state.tokens.length && state.tokens[j].type === "mark_close")
-      j += 1;
+      j++;
 
-    j -= 1;
+    j--;
 
     if (i !== j) {
       token = state.tokens[j];
