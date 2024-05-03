@@ -1,5 +1,5 @@
 /**
- * Forked from https://github.com/markdown-it/markdown-it-sup/blob/master/index.js
+ * Forked from https://github.com/markdown-it/markdown-it-sup/blob/master/index.mjs
  */
 
 import type { PluginSimple } from "markdown-it";
