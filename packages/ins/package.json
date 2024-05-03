@@ -1,5 +1,5 @@
 {
-  "name": "@mdit/plugin-insert",
+  "name": "@mdit/plugin-ins",
   "version": "0.9.0",
   "description": "insert plugin for MarkdownIt",
   "keywords": [
@@ -7,14 +7,14 @@
     "markdown-it-plugin",
     "insert"
   ],
-  "homepage": "https://mdit-plugins.github.io/mark.html",
+  "homepage": "https://mdit-plugins.github.io/ins.html",
   "bugs": {
     "url": "https://mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/insert"
+    "directory": "packages/ins"
   },
   "license": "MIT",
   "author": {

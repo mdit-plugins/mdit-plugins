@@ -112,7 +112,7 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
   }
 };
 
-export const insert: PluginSimple = (md) => {
+export const ins: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "ins", tokenize);
   md.inline.ruler2.before("emphasis", "ins", (state) => {
     postProcess(state, state.delimiters);

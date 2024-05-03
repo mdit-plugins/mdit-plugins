@@ -143,9 +143,9 @@ importers:
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../packages/container
-      '@mdit/plugin-insert':
+      '@mdit/plugin-ins':
         specifier: workspace:*
-        version: link:../packages/insert
+        version: link:../packages/ins
       '@mdit/plugin-ruby':
         specifier: workspace:*
         version: link:../packages/ruby
@@ -303,7 +303,7 @@ importers:
         specifier: workspace:*
         version: link:../container
 
-  packages/insert:
+  packages/ins:
     dependencies:
       '@types/markdown-it':
         specifier: ^14.0.1

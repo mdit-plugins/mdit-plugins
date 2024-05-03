@@ -1,9 +1,9 @@
 import MarkdownIt from "markdown-it";
 import { expect, it } from "vitest";
 
-import { insert } from "../src/index.js";
+import { ins } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(insert);
+const markdownIt = MarkdownIt({ linkify: true }).use(ins);
 
 it("should render", () => {
   expect(markdownIt.render(`++Insert++`)).toEqual(`<p><ins>Insert</ins></p>\n`);

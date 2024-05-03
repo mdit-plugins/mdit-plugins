@@ -11,7 +11,7 @@
   "dependencies": {
     "@mdit/plugin-abbr": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
-    "@mdit/plugin-insert": "workspace:*",
+    "@mdit/plugin-ins": "workspace:*",
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@mdit/plugin-spoiler": "workspace:*",

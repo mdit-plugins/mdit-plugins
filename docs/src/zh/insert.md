@@ -1,5 +1,5 @@
 ---
-title: "@mdit/plugin-insert"
+title: "@mdit/plugin-ins"
 icon: square-plus
 ---
 
@@ -14,10 +14,10 @@ icon: square-plus
 @tab TS
 
 ```ts
-import MarkdownIt from "insertdown-it";
-import { insert } from "@mdit/plugin-insert";
+import MarkdownIt from "markdown-it";
+import { ins } from "@mdit/plugin-ins";
 
-const mdIt = MarkdownIt().use(insert);
+const mdIt = MarkdownIt().use(ins);
 
 mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 ```
@@ -25,10 +25,10 @@ mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 @tab JS
 
 ```js
-const MarkdownIt = require("insertdown-it");
-const { insert } = require("@mdit/plugin-insert");
+const MarkdownIt = require("markdown-it");
+const { ins } = require("@mdit/plugin-ins");
 
-const mdIt = MarkdownIt().use(insert);
+const mdIt = MarkdownIt().use(ins);
 
 mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 ```
@@ -37,7 +37,7 @@ mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 
 ## 格式
 
-使用 `++ ++` 进行标记。
+使用 `++ ++` 插入 `<ins>` 标签。
 
 ## 示例
 

@@ -1,5 +1,5 @@
 ---
-title: "@mdit/plugin-insert"
+title: "@mdit/plugin-ins"
 icon: square-plus
 ---
 
@@ -14,10 +14,10 @@ Plugins to add insert tag support.
 @tab TS
 
 ```ts
-import MarkdownIt from "insertdown-it";
-import { insert } from "@mdit/plugin-insert";
+import MarkdownIt from "markdown-it";
+import { ins } from "@mdit/plugin-ins";
 
-const mdIt = MarkdownIt().use(insert);
+const mdIt = MarkdownIt().use(ins);
 
 mdIt.render("VuePress Theme Hope is ++very++ powerful.");
 ```
@@ -25,10 +25,10 @@ mdIt.render("VuePress Theme Hope is ++very++ powerful.");
 @tab JS
 
 ```js
-const MarkdownIt = require("insertdown-it");
-const { insert } = require("@mdit/plugin-insert");
+const MarkdownIt = require("markdown-it");
+const { ins } = require("@mdit/plugin-ins");
 
-const mdIt = MarkdownIt().use(insert);
+const mdIt = MarkdownIt().use(ins);
 
 mdIt.render("VuePress Theme Hope is ++very++ powerful.");
 ```
@@ -37,7 +37,7 @@ mdIt.render("VuePress Theme Hope is ++very++ powerful.");
 
 ## Syntax
 
-Use `++ ++` to insert.
+Use `++ ++` to add `<ins>` tag.
 
 ## Demo
 
