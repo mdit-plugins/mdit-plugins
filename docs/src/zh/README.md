@@ -89,6 +89,11 @@ features:
     details: 添加 Plantuml 图表支持
     link: ./plantuml.html
 
+  - title: ruby
+    icon: paperclip
+    details: 添加 ruby 标签支持
+    link: ./ruby.html
+
   - title: snippet
     icon: file-lines
     details: 在 Markdown 中导入代码片段

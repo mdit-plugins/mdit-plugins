@@ -2,6 +2,7 @@ import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
 import { insert } from "@mdit/plugin-insert";
+import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
 import { spoiler } from "@mdit/plugin-spoiler";
 import { cut } from "nodejs-jieba";
@@ -54,6 +55,7 @@ export default defineUserConfig({
       },
     });
     md.use(insert);
+    md.use(ruby);
     md.use(snippet, {
       currentPath: (env: MarkdownEnv) => env.filePath,
 

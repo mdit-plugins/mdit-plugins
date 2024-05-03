@@ -89,6 +89,11 @@ features:
     details: Add plantuml diagram support
     link: ./plantuml.html
 
+  - title: ruby
+    icon: paperclip
+    details: Add ruby tag support
+    link: ./ruby.html
+
   - title: snippet
     icon: file-lines
     details: Import code snippets in markdown
