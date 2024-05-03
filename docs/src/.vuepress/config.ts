@@ -1,3 +1,4 @@
+import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
 import { snippet } from "@mdit/plugin-snippet";
@@ -37,6 +38,7 @@ export default defineUserConfig({
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
+    md.use(abbr);
     md.use(container, {
       name: "hint",
       openRender: (tokens, index): string => {

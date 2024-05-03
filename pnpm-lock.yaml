@@ -137,6 +137,9 @@ importers:
 
   docs:
     dependencies:
+      '@mdit/plugin-abbr':
+        specifier: workspace:*
+        version: link:../packages/abbr
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../packages/container
@@ -170,6 +173,15 @@ importers:
       vuepress-theme-hope:
         specifier: 2.0.0-rc.38
         version: 2.0.0-rc.38(katex@0.16.10)(markdown-it@14.1.0)(mathjax-full@3.2.2)(nodejs-jieba@0.1.2(encoding@0.1.13))(typescript@5.4.5)(vuepress-plugin-search-pro@2.0.0-rc.38(typescript@5.4.5)(vuepress@2.0.0-rc.9(@vuepress/bundler-vite@2.0.0-rc.9(@types/node@20.12.7)(jiti@1.21.0)(sass@1.76.0)(typescript@5.4.5))(typescript@5.4.5)(vue@3.4.26(typescript@5.4.5))))(vuepress@2.0.0-rc.9(@vuepress/bundler-vite@2.0.0-rc.9(@types/node@20.12.7)(jiti@1.21.0)(sass@1.76.0)(typescript@5.4.5))(typescript@5.4.5)(vue@3.4.26(typescript@5.4.5)))
+
+  packages/abbr:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.0.0
+        version: 14.0.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
 
   packages/alert:
     dependencies:

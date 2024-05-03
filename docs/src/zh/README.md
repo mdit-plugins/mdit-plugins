@@ -4,6 +4,11 @@ icon: home
 home: true
 heroImage: /logo.svg
 features:
+  - title: abbr
+    icon: book
+    details: 缩写词
+    link: ./abbr.html
+
   - title: alert
     icon: bell
     details: GFM 警示

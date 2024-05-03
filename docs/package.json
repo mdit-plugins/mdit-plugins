@@ -9,6 +9,7 @@
     "docs:dev": "vuepress-vite dev src"
   },
   "dependencies": {
+    "@mdit/plugin-abbr": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@mdit/plugin-spoiler": "workspace:*",
