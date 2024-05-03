@@ -7,7 +7,7 @@ icon: book
 
 <!-- more -->
 
-## Usage
+## 使用
 
 ::: code-tabs#language
 
