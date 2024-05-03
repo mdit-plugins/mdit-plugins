@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-mathjax-slim",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "mathjax plugin for MarkdownIt",
   "keywords": [
     "markdown-it",

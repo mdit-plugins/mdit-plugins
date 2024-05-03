@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
+
+### Features
+
+- add abbr plugin ([45fdfcb](https://github.com/mdit-plugins/mdit-plugins/commit/45fdfcb932717a6ffa85fce89cec662dd5892288))
+- add insert plugin ([fcf0fa7](https://github.com/mdit-plugins/mdit-plugins/commit/fcf0fa7b69eaa61172fce2cd3f0a2c237a388a33))
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
+- add ruby plugin ([9f9b70a](https://github.com/mdit-plugins/mdit-plugins/commit/9f9b70a7bc87fa9bd76a5b82263e06b356ee4170))
+- add spoiler plugin ([1b2e7b9](https://github.com/mdit-plugins/mdit-plugins/commit/1b2e7b943b5152b03976070368bc2100f9f2e768))
+- add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92cfb0833e3dbf3f75777f4f0fbc98219cca))
+- **demo:** add contentRender option ([349440b](https://github.com/mdit-plugins/mdit-plugins/commit/349440b37cf6d2a2717b7e9135b9312858b2541b))
+
 ## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
 
 ### Features
