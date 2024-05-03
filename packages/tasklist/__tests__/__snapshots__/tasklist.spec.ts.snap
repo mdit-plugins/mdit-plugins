@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Task list > should increase id 1`] = `
+exports[`should increase id 1`] = `
 "<ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"> unchecked item 1</li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"> unchecked item 2</li>
@@ -24,7 +24,7 @@ exports[`Task list > should increase id 1`] = `
 "
 `;
 
-exports[`Task list > should not render 1`] = `
+exports[`should not render 1`] = `
 "<ul>
 <li>[ ]</li>
 <li>[  ] not a todo item 2</li>
@@ -35,7 +35,7 @@ exports[`Task list > should not render 1`] = `
 "
 `;
 
-exports[`Task list > should not render label 1`] = `
+exports[`should not render label 1`] = `
 "<ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"> unchecked item 1</li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"> unchecked item 2</li>
@@ -45,7 +45,7 @@ exports[`Task list > should not render label 1`] = `
 "
 `;
 
-exports[`Task list > should render 1`] = `
+exports[`should render 1`] = `
 "<ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> unchecked item 1</label></li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> unchecked item 2</label></li>
@@ -55,7 +55,7 @@ exports[`Task list > should render 1`] = `
 "
 `;
 
-exports[`Task list > should render 2`] = `
+exports[`should render 2`] = `
 "<ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> unchecked todo item 1</label></li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> todo item 2</label></li>
@@ -63,7 +63,7 @@ exports[`Task list > should render 2`] = `
 "
 `;
 
-exports[`Task list > should render nested list 1`] = `
+exports[`should render nested list 1`] = `
 "<ol>
 <li>foo
 <ul class="task-list-container">
@@ -79,7 +79,7 @@ exports[`Task list > should render nested list 1`] = `
 "
 `;
 
-exports[`Task list > should render nested list 2`] = `
+exports[`should render nested list 2`] = `
 "<ul>
 <li>foo
 <ul class="task-list-container">
@@ -93,7 +93,7 @@ exports[`Task list > should render nested list 2`] = `
 "
 `;
 
-exports[`Task list > should render ordered list 1`] = `
+exports[`should render ordered list 1`] = `
 "<ol class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> checked ordered 1</label></li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> unchecked ordered 2</label></li>
@@ -103,7 +103,7 @@ exports[`Task list > should render ordered list 1`] = `
 "
 `;
 
-exports[`Task list > should render with items containing other markdown syntax 1`] = `
+exports[`should render with items containing other markdown syntax 1`] = `
 "<ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"> unchecked <a href="https://example.com">link</a></li>
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"> unchecked <strong>item 2</strong></li>

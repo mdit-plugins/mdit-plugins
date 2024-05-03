@@ -1,18 +1,17 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 
 import { footnote } from "../src/index.js";
 
-describe("footnote", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(footnote);
-  const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(
-    footnote,
-  );
+const markdownIt = MarkdownIt({ linkify: true }).use(footnote);
+const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(
+  footnote,
+);
 
-  it("Pandoc example", () => {
-    expect(
-      markdownIt.render(
-        `
+it("Pandoc example", () => {
+  expect(
+    markdownIt.render(
+      `
 Here is a footnote reference,[^1] and another.[^long-note]
 
 [^1]: Here is the footnote.
@@ -31,15 +30,15 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        {},
-      ),
-    ).toMatchSnapshot();
-  });
+      {},
+    ),
+  ).toMatchSnapshot();
+});
 
-  it("should support xhtml output", () => {
-    expect(
-      markdownItXHTML.render(
-        `
+it("should support xhtml output", () => {
+  expect(
+    markdownItXHTML.render(
+      `
 Here is a footnote reference,[^1] and another.[^long-note]
 
 [^1]: Here is the footnote.
@@ -58,82 +57,82 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        {},
-      ),
-    ).toMatchSnapshot();
-  });
+      {},
+    ),
+  ).toMatchSnapshot();
+});
 
-  it("should terminate each other", () => {
-    expect(
-      markdownIt.render(`
+it("should terminate each other", () => {
+  expect(
+    markdownIt.render(`
 [^1][^2][^3]
 
 [^1]: foo
 [^2]: bar
 [^3]: baz
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Can inside blockquotes, and are lazy", () => {
-    expect(
-      markdownIt.render(`
+it("Can inside blockquotes, and are lazy", () => {
+  expect(
+    markdownIt.render(`
 [^foo]
 
 > [^foo]: bar
 baz
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Label cannot contain spaces or newlines", () => {
-    expect(
-      markdownIt.render(`
+it("Label cannot contain spaces or newlines", () => {
+  expect(
+    markdownIt.render(`
 [^ foo]: bar baz
 
 [^foo
 ]: bar baz
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Nested footnotes", () => {
-    expect(
-      markdownIt.render(`
+it("Nested footnotes", () => {
+  expect(
+    markdownIt.render(`
 foo[^1] bar[^2].
 
 [^1]:[^2]: baz
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should support inline note", () => {
-    expect(
-      markdownIt.render(`
+it("should support inline note", () => {
+  expect(
+    markdownIt.render(`
 Here is an inline note.^[Inline notes are easier to write, since
 you don’t have to pick an identifier and move down to type the
 note.]
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Can have arbitrary markup", () => {
-    expect(markdownIt.render(`foo^[ *bar* ]`)).toMatchSnapshot();
-  });
+it("Can have arbitrary markup", () => {
+  expect(markdownIt.render(`foo^[ *bar* ]`)).toMatchSnapshot();
+});
 
-  it("Duplicate footnotes should have suffix", () => {
-    expect(
-      markdownIt.render(`
+it("Duplicate footnotes should have suffix", () => {
+  expect(
+    markdownIt.render(`
 [^xxxxx] [^xxxxx]
 
 [^xxxxx]: foo
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Indent", () => {
-    expect(
-      markdownIt.render(`
+it("Indent", () => {
+  expect(
+    markdownIt.render(`
 [^xxxxx] [^yyyyy]
 
 [^xxxxx]: foo
@@ -142,57 +141,57 @@ note.]
 [^yyyyy]: foo
     ---
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("Indents for the first line", () => {
-    expect(
-      markdownIt.render(`
+it("Indents for the first line", () => {
+  expect(
+    markdownIt.render(`
 [^xxxxx] [^yyyyy]
 
 [^xxxxx]:       foo
 
 [^yyyyy]:        foo
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 [^xxxxx]
 
 [^xxxxx]:		foo
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should contain Security", () => {
-    expect(
-      markdownIt.render(`
+it("should contain Security", () => {
+  expect(
+    markdownIt.render(`
 [^__proto__]
 
 [^__proto__]: blah
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 [^hasOwnProperty]
 
 [^hasOwnProperty]: blah
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should allow links in inline footnotes", () => {
-    expect(
-      markdownIt.render(`Example^[this is another example https://github.com]`),
-    ).toMatchSnapshot();
-  });
+it("should allow links in inline footnotes", () => {
+  expect(
+    markdownIt.render(`Example^[this is another example https://github.com]`),
+  ).toMatchSnapshot();
+});
 
-  it("custom docId in env", () => {
-    expect(
-      markdownIt.render(
-        `
+it("custom docId in env", () => {
+  expect(
+    markdownIt.render(
+      `
 Here is a footnote reference,[^1] and another.[^long-note]
 
 [^1]: Here is the footnote.
@@ -211,8 +210,7 @@ belong to the previous footnote.
 This paragraph won’t be part of the note, because it
 isn’t indented.
 `,
-        { docId: "test-doc-id" },
-      ),
-    ).toMatchSnapshot();
-  });
+      { docId: "test-doc-id" },
+    ),
+  ).toMatchSnapshot();
 });

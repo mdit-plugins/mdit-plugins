@@ -1,32 +1,31 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 
 import { tasklist } from "../src/index.js";
 
-describe("Task list", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
+const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
 
-  it("should render", () => {
-    expect(
-      markdownIt.render(`
+it("should render", () => {
+  expect(
+    markdownIt.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 -   [ ] unchecked todo item 1
 -   [x] todo item 2
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should render nested list", () => {
-    expect(
-      markdownIt.render(`
+it("should render nested list", () => {
+  expect(
+    markdownIt.render(`
 1. foo
    * [ ] nested unchecked item 1
    * not a todo item 2
@@ -35,64 +34,64 @@ describe("Task list", () => {
 2. bar
 3. spam
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 - foo
   - [ ] nested unchecked item 1
   - [ ] nested unchecked item 2
   - [x] nested checked item 3
   - [X] nested checked item 4
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should render ordered list", () => {
-    expect(
-      markdownIt.render(`
+it("should render ordered list", () => {
+  expect(
+    markdownIt.render(`
 1. [x] checked ordered 1
 2. [ ] unchecked ordered 2
 3. [x] checked ordered 3
 4. [ ] unchecked ordered 4
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should not render", () => {
-    expect(
-      markdownIt.render(`
+it("should not render", () => {
+  expect(
+    markdownIt.render(`
 - [ ]
 - [  ] not a todo item 2
 - [ x] not a todo item 3
 - [x ] not a todo item 4
 - [ x ] not a todo item 5
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
+});
+
+it("should not render label", () => {
+  const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
+    label: false,
   });
 
-  it("should not render label", () => {
-    const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
-      label: false,
-    });
-
-    expect(
-      markdownItWithOutLabel.render(`
+  expect(
+    markdownItWithOutLabel.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
+});
+
+it("should increase id", () => {
+  const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
+    label: false,
   });
 
-  it("should increase id", () => {
-    const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
-      label: false,
-    });
-
-    expect(
-      markdownItWithOutLabel.render(`
+  expect(
+    markdownItWithOutLabel.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
@@ -109,21 +108,20 @@ Some content
   - [ ] unchecked item 3
   - [x] checked item 4
 `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
+});
+
+it("should render with items containing other markdown syntax", () => {
+  const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
+    label: false,
   });
 
-  it("should render with items containing other markdown syntax", () => {
-    const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
-      label: false,
-    });
-
-    expect(
-      markdownItWithOutLabel.render(`
+  expect(
+    markdownItWithOutLabel.render(`
 - [ ] unchecked [link](https://example.com)
 - [ ] unchecked **item 2**
 - [ ] _unchecked_ item 3
 - [x] ~~checked item 4~~
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
 });

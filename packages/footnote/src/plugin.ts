@@ -4,6 +4,7 @@
 
 import type { PluginSimple } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type { RenderRule } from "markdown-it/lib/renderer.mjs";
 import type { ParentType } from "markdown-it/lib/rules_block/state_block.mjs";
@@ -142,43 +143,46 @@ const footnoteDef: RuleBlock = (
   endLine,
   silent,
 ) => {
-  let pos;
-  let token;
-  let offset;
-  let ch;
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  // line should be at least 5 chars - "[^x]:"
-  if (start + 4 > max) return false;
+  if (
+    // line should be at least 5 chars - "[^x]:"
+    start + 4 > max ||
+    state.src.charAt(start) !== "[" ||
+    state.src.charAt(start + 1) !== "^"
+  )
+    return false;
 
-  if (state.src.charAt(start) !== "[") return false;
+  let pos = start + 2;
 
-  if (state.src.charAt(start + 1) !== "^") return false;
-
-  for (pos = start + 2; pos < max; pos++) {
+  while (pos < max) {
     if (state.src.charAt(pos) === " ") return false;
     if (state.src.charAt(pos) === "]") break;
+    pos++;
   }
 
-  // no empty footnote labels
-  if (pos === start + 2) return false;
-
-  if (pos + 1 >= max || state.src.charAt(++pos) !== ":") return false;
+  if (
+    // empty footnote label
+    pos === start + 2 ||
+    pos + 1 >= max ||
+    state.src.charAt(++pos) !== ":"
+  )
+    return false;
 
   if (silent) return true;
   pos += 1;
 
-  if (!state.env.footnotes) state.env.footnotes = {};
-  if (!state.env.footnotes.refs) state.env.footnotes.refs = {};
+  (state.env.footnotes ??= {}).refs ??= {};
+
   const label = state.src.slice(start + 2, pos - 2);
 
   state.env.footnotes.refs[`:${label}`] = -1;
 
-  token = new state.Token("footnote_reference_open", "", 1);
-  token.meta = { label };
-  token.level = state.level++;
-  state.tokens.push(token);
+  const referenceOpenToken = state.push("footnote_reference_open", "", 1);
+
+  referenceOpenToken.meta = { label };
+  referenceOpenToken.level = state.level++;
 
   const oldBMark = state.bMarks[startLine];
   const oldTShift = state.tShift[startLine];
@@ -190,16 +194,16 @@ const footnoteDef: RuleBlock = (
     pos -
     (state.bMarks[startLine] + state.tShift[startLine]);
 
-  offset =
+  let offset =
     state.sCount[startLine] +
     pos -
     (state.bMarks[startLine] + state.tShift[startLine]);
 
   while (pos < max) {
-    ch = state.src.charAt(pos);
+    const char = state.src.charAt(pos);
 
-    if (ch === "\t") offset += 4 - (offset % 4);
-    else if (ch === " ") offset += 1;
+    if (char === "\t") offset += 4 - (offset % 4);
+    else if (char === " ") offset += 1;
     else break;
 
     pos += 1;
@@ -223,31 +227,31 @@ const footnoteDef: RuleBlock = (
   state.sCount[startLine] = oldSCount;
   state.bMarks[startLine] = oldBMark;
 
-  token = new state.Token("footnote_reference_close", "", -1);
-  token.level = --state.level;
-  state.tokens.push(token);
+  const referenceCloseToken = state.push("footnote_reference_close", "", -1);
+
+  referenceCloseToken.level = --state.level;
 
   return true;
 };
 
 // Process inline footnotes (^[...])
 const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
-  let footnoteId;
-  let token;
-  let tokens: Token[];
   const max = state.posMax;
   const start = state.pos;
 
-  if (start + 2 >= max) return false;
-  if (state.src.charAt(start) !== "^") return false;
+  if (
+    start + 2 >= max ||
+    state.src.charAt(start) !== "^" ||
+    state.src.charAt(start + 1) !== "["
+  )
+    return false;
 
-  if (state.src.charAt(start + 1) !== "[") return false;
-
-  const labelStart = start + 2;
   const labelEnd = state.md.helpers.parseLinkLabel(state, start + 1);
 
   // parser failed to find ']', so it’s not a valid note
   if (labelEnd < 0) return false;
+
+  const labelStart = start + 2;
 
   /*
    * We found the end of the link, and know for a fact it’s a valid link;
@@ -255,19 +259,20 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
    *
    */
   if (!silent) {
-    if (!state.env.footnotes) state.env.footnotes = {};
-    if (!state.env.footnotes.list) state.env.footnotes.list = [];
-    footnoteId = state.env.footnotes.list.length;
+    const list = ((state.env.footnotes ??= {}).list ??= []);
+    const footnoteId = list.length;
+    const tokens: Token[] = [];
 
     state.md.inline.parse(
       state.src.slice(labelStart, labelEnd),
       state.md,
       state.env,
-      (tokens = []),
+      tokens,
     );
 
-    token = state.push("footnote_ref", "", 0);
-    token.meta = { id: footnoteId };
+    const refToken = state.push("footnote_ref", "", 0);
+
+    refToken.meta = { id: footnoteId };
 
     state.env.footnotes.list[footnoteId] = {
       content: state.src.slice(labelStart, labelEnd),
@@ -283,29 +288,33 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
 
 // Process footnote references ([^...])
 const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
-  let pos;
-  let footnoteId;
-  let footnoteSubId;
-  let token;
-  const max = state.posMax;
   const start = state.pos;
+  const max = state.posMax;
 
-  // should be at least 4 chars - "[^x]"
-  if (start + 3 > max) return false;
+  if (
+    // should be at least 4 chars - "[^x]"
+    start + 3 > max ||
+    !state.env.footnotes?.refs ||
+    state.src.charAt(start) !== "[" ||
+    state.src.charAt(start + 1) !== "^"
+  )
+    return false;
 
-  if (!state.env.footnotes?.refs) return false;
-  if (state.src.charAt(start) !== "[") return false;
+  let pos = start + 2;
 
-  if (state.src.charAt(start + 1) !== "^") return false;
-
-  for (pos = start + 2; pos < max; pos++) {
+  while (pos < max) {
     if (state.src.charAt(pos) === " ") return false;
     if (state.src.charAt(pos) === "\n") return false;
     if (state.src.charAt(pos) === "]") break;
+    pos++;
   }
 
-  if (pos === start + 2) return false; // no empty footnote labels
-  if (pos >= max) return false;
+  if (
+    //  empty footnote labels
+    pos === start + 2 ||
+    pos >= max
+  )
+    return false;
 
   pos += 1;
 
@@ -315,22 +324,25 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     return false;
 
   if (!silent) {
-    if (!state.env.footnotes.list) state.env.footnotes.list = [];
+    const list = (state.env.footnotes.list ??= []);
+    const { refs } = state.env.footnotes;
+    let footnoteId: number;
 
-    if (state.env.footnotes.refs[`:${label}`] < 0) {
-      footnoteId = state.env.footnotes.list.length;
-      state.env.footnotes.list[footnoteId] = { label, count: 0 };
-      state.env.footnotes.refs[`:${label}`] = footnoteId;
+    if (refs[`:${label}`] < 0) {
+      footnoteId = list.length;
+      list[footnoteId] = { label, count: 0 };
+      refs[`:${label}`] = footnoteId;
     } else {
-      footnoteId = state.env.footnotes.refs[`:${label}`];
+      footnoteId = refs[`:${label}`];
     }
 
-    footnoteSubId = state.env.footnotes.list[footnoteId].count!;
-    state.env.footnotes.list[footnoteId].count =
-      state.env.footnotes.list[footnoteId].count! + 1;
+    const subId = list[footnoteId].count!;
 
-    token = state.push("footnote_ref", "", 0);
-    token.meta = { id: footnoteId, subId: footnoteSubId, label };
+    list[footnoteId].count = list[footnoteId].count! + 1;
+
+    const refToken = state.push("footnote_ref", "", 0);
+
+    refToken.meta = { id: footnoteId, subId, label };
   }
 
   state.pos = pos;
@@ -340,13 +352,12 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 };
 
 // Glue footnote tokens to end of token stream
-const footnoteTail = (state: FootNoteStateCore): boolean => {
-  let lastParagraph: FootNoteToken | null;
-  let tokens: Token[];
+const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
+  const refTokens: Record<string, Token[]> = {};
+
   let current: Token[];
   let currentLabel: string;
   let insideRef = false;
-  const refTokens: Record<string, Token[]> = {};
 
   if (!state.env.footnotes) return false;
 
@@ -370,8 +381,9 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
     return !insideRef;
   });
 
-  if (!state.env.footnotes.list) return false;
   const { list } = state.env.footnotes;
+
+  if (!list) return false;
 
   const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
 
@@ -383,31 +395,29 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
     footnoteOpenToken.meta = { id: i, label: list[i].label };
     state.tokens.push(footnoteOpenToken);
 
-    if (list[i].tokens) {
-      tokens = [];
+    let lastParagraph: FootNoteToken | null;
 
+    if (list[i].tokens) {
       const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
 
       paragraphOpenToken.block = true;
-      tokens.push(paragraphOpenToken);
 
       const inlineToken = new state.Token("inline", "", 0);
 
       inlineToken.children = list[i].tokens!;
       inlineToken.content = list[i].content!;
-      tokens.push(inlineToken);
 
       const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
 
       paragraphCloseToken.block = true;
-      tokens.push(paragraphCloseToken);
+
+      state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
     } else if (list[i].label) {
-      tokens = refTokens[`:${list[i].label!}`];
-    } else {
-      tokens = [];
+      const tokens = refTokens[`:${list[i].label!}`];
+
+      if (tokens) state.tokens.push(...tokens);
     }
 
-    if (tokens) state.tokens = state.tokens.concat(tokens);
     if (state.tokens[state.tokens.length - 1].type === "paragraph_close")
       lastParagraph = state.tokens.pop() ?? null;
     else lastParagraph = null;

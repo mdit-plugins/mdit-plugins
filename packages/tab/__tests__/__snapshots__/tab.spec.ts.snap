@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`tab > Should support tab id > id with escape # 1`] = `
+exports[`Should support tab id > id with escape # 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
@@ -12,7 +12,7 @@ exports[`tab > Should support tab id > id with escape # 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > id with escape # 2`] = `
+exports[`Should support tab id > id with escape # 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
@@ -24,7 +24,7 @@ exports[`tab > Should support tab id > id with escape # 2`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > id with multiple # 1`] = `
+exports[`Should support tab id > id with multiple # 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
@@ -36,7 +36,7 @@ exports[`tab > Should support tab id > id with multiple # 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > id with multiple # 2`] = `
+exports[`Should support tab id > id with multiple # 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
@@ -48,7 +48,7 @@ exports[`tab > Should support tab id > id with multiple # 2`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > id with space 1`] = `
+exports[`Should support tab id > id with space 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
@@ -60,7 +60,7 @@ exports[`tab > Should support tab id > id with space 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > id with space 2`] = `
+exports[`Should support tab id > id with space 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
@@ -72,7 +72,7 @@ exports[`tab > Should support tab id > id with space 2`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > simple id 1`] = `
+exports[`Should support tab id > simple id 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
@@ -84,7 +84,7 @@ exports[`tab > Should support tab id > simple id 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tab id > simple id 2`] = `
+exports[`Should support tab id > simple id 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
@@ -96,7 +96,7 @@ exports[`tab > Should support tab id > simple id 2`] = `
 </div>"
 `;
 
-exports[`tab > Should support tabs id > id with space 1`] = `
+exports[`Should support tabs id > id with space 1`] = `
 "<div class="tabs-tabs-wrapper" data-id="id with space">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -108,7 +108,7 @@ exports[`tab > Should support tabs id > id with space 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tabs id > id with space 2`] = `
+exports[`Should support tabs id > id with space 2`] = `
 "<div class="tabs-tabs-wrapper" data-id="id with space">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -120,7 +120,7 @@ exports[`tab > Should support tabs id > id with space 2`] = `
 </div>"
 `;
 
-exports[`tab > Should support tabs id > simple id 1`] = `
+exports[`Should support tabs id > simple id 1`] = `
 "<div class="tabs-tabs-wrapper" data-id="event">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -132,7 +132,7 @@ exports[`tab > Should support tabs id > simple id 1`] = `
 </div>"
 `;
 
-exports[`tab > Should support tabs id > simple id 2`] = `
+exports[`Should support tabs id > simple id 2`] = `
 "<div class="tabs-tabs-wrapper" data-id="event">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -144,7 +144,7 @@ exports[`tab > Should support tabs id > simple id 2`] = `
 </div>"
 `;
 
-exports[`tab > active > should handle :active 1`] = `
+exports[`active > should handle :active 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -158,7 +158,7 @@ exports[`tab > active > should handle :active 1`] = `
 </div>"
 `;
 
-exports[`tab > active > should handle :active 2`] = `
+exports[`active > should handle :active 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -172,7 +172,7 @@ exports[`tab > active > should handle :active 2`] = `
 </div>"
 `;
 
-exports[`tab > active > should resolve first :active 1`] = `
+exports[`active > should resolve first :active 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -188,7 +188,7 @@ exports[`tab > active > should resolve first :active 1`] = `
 </div>"
 `;
 
-exports[`tab > active > should resolve first :active 2`] = `
+exports[`active > should resolve first :active 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -204,7 +204,7 @@ exports[`tab > active > should resolve first :active 2`] = `
 </div>"
 `;
 
-exports[`tab > should ignore items before first @tab 1`] = `
+exports[`should ignore items before first @tab 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
@@ -216,7 +216,7 @@ exports[`tab > should ignore items before first @tab 1`] = `
 </div>"
 `;
 
-exports[`tab > should ignore items before first @tab 2`] = `
+exports[`should ignore items before first @tab 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
@@ -228,7 +228,7 @@ exports[`tab > should ignore items before first @tab 2`] = `
 </div>"
 `;
 
-exports[`tab > should render multiple block 1`] = `
+exports[`should render multiple block 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -242,7 +242,7 @@ exports[`tab > should render multiple block 1`] = `
 </div>"
 `;
 
-exports[`tab > should render multiple block 2`] = `
+exports[`should render multiple block 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -256,7 +256,7 @@ exports[`tab > should render multiple block 2`] = `
 </div>"
 `;
 
-exports[`tab > should render single block 1`] = `
+exports[`should render single block 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -268,7 +268,7 @@ exports[`tab > should render single block 1`] = `
 </div>"
 `;
 
-exports[`tab > should render single block 2`] = `
+exports[`should render single block 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
@@ -280,7 +280,7 @@ exports[`tab > should render single block 2`] = `
 </div>"
 `;
 
-exports[`tab > should work with multiple instance 1`] = `
+exports[`should work with multiple instance 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
@@ -296,7 +296,7 @@ exports[`tab > should work with multiple instance 1`] = `
 </TestTab></TestTabs>"
 `;
 
-exports[`tab > should work with multiple instance 2`] = `
+exports[`should work with multiple instance 2`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test1</button>

@@ -1,42 +1,38 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 
 import { figure } from "../src/index.js";
 
-describe("figure", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(figure);
+const markdownIt = MarkdownIt({ linkify: true }).use(figure);
 
-  it("should use alt it no title is found", () => {
-    expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
-      '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
-    );
-  });
+it("should use alt it no title is found", () => {
+  expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
+    '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
+  );
+});
 
-  it("should use title and remove original title on image", () => {
-    expect(markdownIt.render(`![image](/logo.svg "A image")`)).toEqual(
-      '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption></figure>\n',
-    );
-  });
+it("should use title and remove original title on image", () => {
+  expect(markdownIt.render(`![image](/logo.svg "A image")`)).toEqual(
+    '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption></figure>\n',
+  );
+});
 
-  it("should not change inline image", () => {
-    expect(
-      markdownIt.render(`A ![image](/logo.svg "A image") in text`),
-    ).toEqual(
-      '<p>A <img src="/logo.svg" alt="image" title="A image"> in text</p>\n',
-    );
-  });
+it("should not change inline image", () => {
+  expect(markdownIt.render(`A ![image](/logo.svg "A image") in text`)).toEqual(
+    '<p>A <img src="/logo.svg" alt="image" title="A image"> in text</p>\n',
+  );
+});
 
-  it("should support image with links", () => {
-    expect(
-      markdownIt.render(`[![image](/logo.svg)](https://example.com)`),
-    ).toEqual(
-      '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>image</figcaption></figure>\n',
-    );
+it("should support image with links", () => {
+  expect(
+    markdownIt.render(`[![image](/logo.svg)](https://example.com)`),
+  ).toEqual(
+    '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>image</figcaption></figure>\n',
+  );
 
-    expect(
-      markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`),
-    ).toEqual(
-      '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>A image</figcaption></figure>\n',
-    );
-  });
+  expect(
+    markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`),
+  ).toEqual(
+    '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>A image</figcaption></figure>\n',
+  );
 });

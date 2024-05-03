@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`snippet > should import all lines 1`] = `
+exports[`should import all lines 1`] = `
 "<pre><code class="language-html">&lt;!doctype html&gt;
 &lt;html lang=&quot;zh-CN&quot;&gt;
   &lt;head&gt;
@@ -30,7 +30,7 @@ exports[`snippet > should import all lines 1`] = `
 "
 `;
 
-exports[`snippet > should import all lines 2`] = `
+exports[`should import all lines 2`] = `
 "<pre><code class="language-md">## Hello world
 
 &lt;!-- #region snippet --&gt;
@@ -49,7 +49,7 @@ cupiditate sequi.
 "
 `;
 
-exports[`snippet > should import all lines 3`] = `
+exports[`should import all lines 3`] = `
 "<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
 const MarkdownIt = require(&quot;markdown-it&quot;);
 
@@ -67,7 +67,7 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
 "
 `;
 
-exports[`snippet > should import all lines 4`] = `
+exports[`should import all lines 4`] = `
 "<pre><code class="language-ts">import { snippet } from &quot;@mdit/plugin-snippet&quot;;
 import MarkdownIt from &quot;markdown-it&quot;;
 
@@ -85,7 +85,7 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.ts&quot;, {
 "
 `;
 
-exports[`snippet > should import all lines 5`] = `
+exports[`should import all lines 5`] = `
 "<pre><code class="language-css">html,
 body {
   margin: 0;
@@ -105,7 +105,7 @@ h2 {
 "
 `;
 
-exports[`snippet > should import all lines 6`] = `
+exports[`should import all lines 6`] = `
 "<pre><code class="language-scss">html,
 body {
   margin: 0;
@@ -126,7 +126,7 @@ h2 {
 "
 `;
 
-exports[`snippet > should import all lines 7`] = `
+exports[`should import all lines 7`] = `
 "<pre><code class="language-less">html,
 body {
   margin: 0;
@@ -147,7 +147,7 @@ h2 {
 "
 `;
 
-exports[`snippet > should import all lines 8`] = `
+exports[`should import all lines 8`] = `
 "<pre><code class="language-cs">using System;
 
 namespace HelloWorldApp {
@@ -172,7 +172,7 @@ namespace HelloWorldApp {
 "
 `;
 
-exports[`snippet > should import all lines 9`] = `
+exports[`should import all lines 9`] = `
 "<pre><code class="language-java">public class HelloWorld {
   // #region snippet
   public static void main(String args[]){
@@ -184,7 +184,7 @@ exports[`snippet > should import all lines 9`] = `
 "
 `;
 
-exports[`snippet > should import all lines 10`] = `
+exports[`should import all lines 10`] = `
 "<pre><code class="language-py">class MyClass:
     msg = &quot;world&quot;
 
@@ -199,7 +199,7 @@ exports[`snippet > should import all lines 10`] = `
 "
 `;
 
-exports[`snippet > should import all lines 11`] = `
+exports[`should import all lines 11`] = `
 "<pre><code class="language-vb">Imports System
 
 Module Module1
@@ -215,7 +215,7 @@ End Module
 "
 `;
 
-exports[`snippet > should not be parsed as snippet markdown syntax 1`] = `
+exports[`should not be parsed as snippet markdown syntax 1`] = `
 "<blockquote>
 <blockquote>
 <blockquote></blockquote>
@@ -229,55 +229,55 @@ exports[`snippet > should not be parsed as snippet markdown syntax 1`] = `
 "
 `;
 
-exports[`snippet > should not parse code block 1`] = `
+exports[`should not parse code block 1`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md#snippet{1-3}
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 2`] = `
+exports[`should not parse code block 2`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 3`] = `
+exports[`should not parse code block 3`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md#snippet
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 4`] = `
+exports[`should not parse code block 4`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md{1-3}
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 5`] = `
+exports[`should not parse code block 5`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md#snippet{1-3}
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 6`] = `
+exports[`should not parse code block 6`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 7`] = `
+exports[`should not parse code block 7`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md#snippet
 </code></pre>
 "
 `;
 
-exports[`snippet > should not parse code block 8`] = `
+exports[`should not parse code block 8`] = `
 "<pre><code>&lt;&lt;&lt; not-exisit.md{1-3}
 </code></pre>
 "
 `;
 
-exports[`snippet > should support region 1`] = `
+exports[`should support region 1`] = `
 "<pre><code class="language-html">&lt;p&gt;
   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi,
   repellendus. Voluptatibus alias cupiditate at, fuga tenetur error officiis
@@ -287,7 +287,7 @@ exports[`snippet > should support region 1`] = `
 "
 `;
 
-exports[`snippet > should support region 2`] = `
+exports[`should support region 2`] = `
 "<pre><code class="language-md">
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
 inventore iure quo aut doloremque, ipsum ab voluptatem ipsa, velit laborum
@@ -296,7 +296,7 @@ illo quae omnis reiciendis hic, ut dolorem non debitis in!
 "
 `;
 
-exports[`snippet > should support region 3`] = `
+exports[`should support region 3`] = `
 "<pre><code class="language-js">const mdIt = MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
@@ -304,7 +304,7 @@ exports[`snippet > should support region 3`] = `
 "
 `;
 
-exports[`snippet > should support region 4`] = `
+exports[`should support region 4`] = `
 "<pre><code class="language-ts">const mdIt = MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
@@ -312,14 +312,14 @@ exports[`snippet > should support region 4`] = `
 "
 `;
 
-exports[`snippet > should support region 5`] = `
+exports[`should support region 5`] = `
 "<pre><code class="language-css">h1 {
   font-size: 1.5rem;
 }</code></pre>
 "
 `;
 
-exports[`snippet > should support region 6`] = `
+exports[`should support region 6`] = `
 "<pre><code class="language-scss">h1 {
   font-size: 1.5rem;
 }
@@ -327,7 +327,7 @@ exports[`snippet > should support region 6`] = `
 "
 `;
 
-exports[`snippet > should support region 7`] = `
+exports[`should support region 7`] = `
 "<pre><code class="language-less">h1 {
   font-size: 1.5rem;
 }
@@ -335,7 +335,7 @@ exports[`snippet > should support region 7`] = `
 "
 `;
 
-exports[`snippet > should support region 8`] = `
+exports[`should support region 8`] = `
 "<pre><code class="language-cs">static void Main(string[] args) {
 
     // statement
@@ -349,14 +349,14 @@ exports[`snippet > should support region 8`] = `
 "
 `;
 
-exports[`snippet > should support region 9`] = `
+exports[`should support region 9`] = `
 "<pre><code class="language-java">public static void main(String args[]){
   System.out.println(&quot;Hello World&quot;);
 }</code></pre>
 "
 `;
 
-exports[`snippet > should support region 10`] = `
+exports[`should support region 10`] = `
 "<pre><code class="language-py">class MyClass:
     msg = &quot;world&quot;
 
@@ -371,7 +371,7 @@ exports[`snippet > should support region 10`] = `
 "
 `;
 
-exports[`snippet > should support region 11`] = `
+exports[`should support region 11`] = `
 "<pre><code class="language-vb">Imports System
 
 Module Module1

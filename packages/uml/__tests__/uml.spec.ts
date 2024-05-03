@@ -1,52 +1,51 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 
 import { uml } from "../src/index.js";
 
-describe("uml", () => {
-  it("should render without options", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+it("should render without options", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 @start
 
 abc
 
 @end
     `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
+});
 
-  it("should keep content as is", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+it("should keep content as is", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 @start
 
 Text with **bold** and \`code\`.
 
 @end
     `),
-    ).toMatchSnapshot();
+  ).toMatchSnapshot();
+});
+
+it("should render with options", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
+    name: "test",
+    open: "teststart",
+    close: "testend",
+    render: (tokens, index): string => {
+      const token = tokens[index];
+      const { content, info, type } = token;
+
+      return `<Test class="${type}" title="${info}">${content}</Test>`;
+    },
   });
 
-  it("should render with options", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
-      name: "test",
-      open: "teststart",
-      close: "testend",
-      render: (tokens, index): string => {
-        const token = tokens[index];
-        const { content, info, type } = token;
-
-        return `<Test class="${type}" title="${info}">${content}</Test>`;
-      },
-    });
-
-    expect(
-      markdownIt.render(`
+  expect(
+    markdownIt.render(`
 @teststart
 
 abc
@@ -55,6 +54,5 @@ def
 
 @testend
 `),
-    ).toMatchSnapshot();
-  });
+  ).toMatchSnapshot();
 });
