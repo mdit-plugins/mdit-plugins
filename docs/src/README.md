@@ -64,6 +64,11 @@ features:
     details: Include other files in markdown
     link: ./include.html
 
+  - title: insert
+    icon: square-plus
+    details: Ins tag support
+    link: ./insert.html
+
   - title: katex
     icon: square-root-variable
     details: Render math expressions with KaTeX
