@@ -26,6 +26,7 @@ We recommend you to contact using [issues](https://github.com/mdit-plugins/mdit-
 
 This repo contains the following plugins:
 
+- @mdit/plugin-abbr
 - @mdit/plugin-alert
 - @mdit/plugin-align
 - @mdit/plugin-attrs
@@ -37,10 +38,16 @@ This repo contains the following plugins:
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
 - @mdit/plugin-include
+- @mdit/plugin-ins
 - @mdit/plugin-katex
-- @mdit/plugin-mathjax
+- @mdit/plugin-katex-slim
 - @mdit/plugin-mark
+- @mdit/plugin-mathjax
+- @mdit/plugin-mathjax-slim
+- @mdit/plugin-plantuml
+- @mdit/plugin-ruby
 - @mdit/plugin-snippet
+- @mdit/plugin-spoiler
 - @mdit/plugin-stylize
 - @mdit/plugin-sub
 - @mdit/plugin-sup
