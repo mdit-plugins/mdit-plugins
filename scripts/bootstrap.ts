@@ -54,7 +54,7 @@ files.forEach((pkgName) => {
       },
       dependencies: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "@types/markdown-it": "^14.0.0",
+        "@types/markdown-it": "^14.1.1",
       },
       peerDependencies: {
         "markdown-it": "^14.1.0",

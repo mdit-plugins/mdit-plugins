@@ -27,10 +27,8 @@ export const abbr: PluginSimple = (md) => {
   // you can check character classes here:
   // http://www.unicode.org/Public/UNIDATA/UnicodeData.txt
   const OTHER_CHARS = " \r\n$+<=>^`|~";
-  // @ts-expect-error: The lib is incomplete
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const UNICODE_PUNCTUATION_REGEXP = (lib.ucmicro.P as RegExp).source;
-  // @ts-expect-error: The lib is incomplete
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
