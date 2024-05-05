@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05)
+
+### Bug Fixes
+
+- **demo:** fix contentRender ([cfffb20](https://github.com/mdit-plugins/mdit-plugins/commit/cfffb20983b788f8f747cc6e1880fe6e427b9092))
+
 ## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
 
 ### Features
