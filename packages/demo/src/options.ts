@@ -41,9 +41,16 @@ export interface MarkdownItDemoOptions {
   codeRender?: RenderRule;
 
   /**
-   * Content render function
+   * Content open tag render function
    *
-   * 内容渲染函数
+   * 内容开始标签渲染函数
    */
-  contentRender?: RenderRule;
+  contentOpenRender?: RenderRule;
+
+  /**
+   * Content close tag render function
+   *
+   * 内容结束标签渲染函数
+   */
+  contentCloseRender?: RenderRule;
 }

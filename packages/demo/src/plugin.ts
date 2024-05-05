@@ -12,7 +12,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       `<details><summary>${tokens[index].info.trim()}</summary>\n`,
     closeRender = (): string => "</details>\n",
     codeRender,
-    contentRender,
+    contentOpenRender,
+    contentCloseRender,
     beforeContent = false,
   } = {},
 ) => {
@@ -161,5 +162,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.renderer.rules["demo_open"] = openRender;
   md.renderer.rules["demo_close"] = closeRender;
   if (codeRender) md.renderer.rules["demo_code"] = codeRender;
-  if (contentRender) md.renderer.rules["demo_content"] = contentRender;
+  if (contentOpenRender)
+    md.renderer.rules["demo_content_open"] = contentOpenRender;
+  if (contentCloseRender)
+    md.renderer.rules["demo_content_close"] = contentCloseRender;
 };

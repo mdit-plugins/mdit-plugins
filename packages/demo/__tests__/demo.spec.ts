@@ -175,6 +175,8 @@ it("customRender", () => {
         self,
       )}`;
     },
+    contentOpenRender: () => "",
+    contentCloseRender: () => "",
   });
 
   expect(
@@ -186,12 +188,10 @@ ${mdContent}
   ).toBe(
     `\
 <details><summary>
-<div class="demo-content">
 <h1>Heading 1</h1>
 <p>Content text.</p>
 <pre><code class="language-js">const a = 1;
 </code></pre>
-</div>
 </summary>
 <pre><code class="language-md">${mdContent}
 </code></pre>
