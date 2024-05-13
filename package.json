@@ -25,20 +25,10 @@
     "test": "vitest --coverage"
   },
   "nano-staged": {
-    "*.{js,ts}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.md": [
-      "markdownlint-cli2",
-      "prettier --write"
-    ],
-    "*.{json,yml}": [
-      "prettier --write"
-    ],
-    "**/package.json": [
-      "sort-package-json"
-    ]
+    "**/*": "prettier --write --ignore-unknown",
+    "*.{js,ts}": "eslint --fix",
+    "*.md": "markdownlint-cli2 --fix",
+    "package.json": "sort-package-json"
   },
   "config": {
     "commitizen": {
