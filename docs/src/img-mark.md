@@ -90,14 +90,14 @@ interface MarkdownItImgMarkOptions {
   /**
    * lightmode only ids
    *
-   * @default ["gh-light-mode-only", "light"]
+   * @default ["light"]
    */
   light?: string[];
 
   /**
    * darkmode only ids
    *
-   * @default ["gh-dark-mode-only", "dark"]
+   * @default ["dark"]
    */
   dark?: string[];
 }
@@ -106,9 +106,6 @@ interface MarkdownItImgMarkOptions {
 ## Demo
 
 ::: md-demo Demo
-
-![GitHub Light](/github-light.png#gh-dark-mode-only)
-![GitHub Dark](/github-dark.png#gh-light-mode-only)
 
 ![GitHub Light](/github-light.png#dark)
 ![GitHub Dark](/github-dark.png#light)

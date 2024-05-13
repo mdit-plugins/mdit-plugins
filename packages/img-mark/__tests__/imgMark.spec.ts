@@ -14,14 +14,6 @@ it("should render", () => {
     '<p><img src="/logo.svg" alt="image"></p>\n',
   );
 
-  expect(markdownIt.render(`![image](/logo.svg#gh-light-mode-only)`)).toEqual(
-    '<p><img src="/logo.svg" alt="image" data-mode="lightmode-only"></p>\n',
-  );
-
-  expect(markdownIt.render(`![image](/logo.svg#gh-dark-mode-only)`)).toEqual(
-    '<p><img src="/logo.svg" alt="image" data-mode="darkmode-only"></p>\n',
-  );
-
   expect(markdownIt.render(`![image](/logo.svg#light)`)).toEqual(
     '<p><img src="/logo.svg" alt="image" data-mode="lightmode-only"></p>\n',
   );
