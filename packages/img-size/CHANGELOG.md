@@ -1,3 +1,18 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+
+### ⚠ BREAKING CHANGES
+
+- **img-size:** unify plugin export name
+
+### ✨ Features
+
+- **img-size:** unify plugin export name ([1e08784](https://github.com/mdit-plugins/mdit-plugins/commit/1e0878469977d9459081f77cee16c2ddb11b1c09))
+
 ## 0.10.1 (2024-05-05)
 
 - chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))

@@ -1,6 +1,19 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+
+### ⚠ BREAKING CHANGES
+
+- **img-mark:** remove gh- classes as it's no longer supported by gfm
+- **img-size:** unify plugin export name
+
+### ✨ Features
+
+- **img-mark:** remove gh- classes as it's no longer supported by gfm ([8cf3ba9](https://github.com/mdit-plugins/mdit-plugins/commit/8cf3ba9da23d37fb97ae88c84960511f3f5ef70e))
+- **img-size:** unify plugin export name ([1e08784](https://github.com/mdit-plugins/mdit-plugins/commit/1e0878469977d9459081f77cee16c2ddb11b1c09))
 
 ## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05)
 
