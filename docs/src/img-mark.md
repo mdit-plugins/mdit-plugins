@@ -115,8 +115,8 @@ interface MarkdownItImgMarkOptions {
 
 :::
 
-<AppearanceSwitch /> (Try to toggle theme mode)
+<ColorModeSwitch /> (Try to toggle theme mode)
 
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
+import ColorModeSwitch from "@theme-hope/modules/outlook/components/ColorModeSwitch"
 </script>

@@ -12,7 +12,7 @@ export default {
       allow_different_nesting: true,
     },
     MD033: {
-      allowed_elements: ["style", "script", "AppearanceSwitch", "Badge"],
+      allowed_elements: ["style", "script", "ColorModeSwitch", "Badge"],
     },
     MD035: {
       style: "---",
