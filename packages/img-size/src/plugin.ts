@@ -275,7 +275,7 @@ export const imgSize: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "image", imgSizeRule);
 };
 
-export const obsidianImageSize: PluginSimple = (md) => {
+export const obsidianImgSize: PluginSimple = (md) => {
   const originalImageRender = md.renderer.rules.image!;
 
   md.renderer.rules.image = (tokens, index, options, env, self): string => {
