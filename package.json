@@ -1,6 +1,5 @@
 {
   "name": "@mdit/root",
-  "version": "0.10.1",
   "private": true,
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
@@ -19,9 +18,10 @@
     "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
     "packages:update": "pnpm up -r",
     "prepare": "husky",
-    "release": "pnpm clean && pnpm build && pnpm release:bump && pnpm publish -r && pnpm release:sync",
-    "release:bump": "bumpp -r --execute=\"pnpm commit-and-tag-version && git add CHANGELOG.md\" --commit \"chore(release): publish v%s\" --all --tag --push",
+    "release": "pnpm clean && pnpm build && pnpm release:version && pnpm release:publish && pnpm release:sync",
+    "release:publish": "lerna publish from-package --yes",
     "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/sync.ts",
+    "release:version": "lerna version",
     "test": "vitest --coverage"
   },
   "nano-staged": {
@@ -48,12 +48,12 @@
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
+    "@lerna-lite/cli": "3.3.3",
+    "@lerna-lite/publish": "3.3.3",
     "@types/inquirer": "9.0.7",
     "@types/node": "20.12.11",
     "@vitest/coverage-v8": "1.6.0",
-    "bumpp": "9.4.1",
-    "commit-and-tag-version": "12.4.1",
-    "commitizen": "4.3.0",
+    "conventional-changelog-conventionalcommits": "8.0.0",
     "cross-env": "7.0.3",
     "cz-git": "1.9.1",
     "esbuild": "0.21.2",
@@ -76,9 +76,9 @@
     "typescript": "5.4.5",
     "vitest": "1.6.0"
   },
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.1",
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=18.19.0"
   },
   "pnpm": {
     "overrides": {
