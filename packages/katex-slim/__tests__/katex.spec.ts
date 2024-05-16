@@ -254,11 +254,12 @@ it("should work with mhchem", () => {
   expect(markdownItMhchem.render(`$$\\ce{H2O}$$`)).toMatchSnapshot();
 });
 
-it("should work with v-pre", () => {
-  const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
-    vPre: true,
+it("should work with transformer", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
+    transformer: (content: string) =>
+      content.replace(/^(<[a-z]+ )/g, "$1v-pre "),
   });
 
-  expect(markdownItMhchem.render(`$$a=1$$`)).toContain(" v-pre ");
-  expect(markdownItMhchem.render(`$a=1$`)).toContain(" v-pre ");
+  expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
+  expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
 });

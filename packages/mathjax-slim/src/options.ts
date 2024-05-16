@@ -6,6 +6,8 @@ import type {
   MathjaxSVGOutputOptions,
 } from "./mathjax.js";
 
+export type TeXTransformer = (content: string, displayMode: boolean) => string;
+
 export interface MarkdownItMathjaxOptions
   extends Pick<MarkdownItTexOptions, "allowInlineWithSpace" | "mathFence"> {
   /**
@@ -49,9 +51,9 @@ export interface MarkdownItMathjaxOptions
   svg?: MathjaxSVGOutputOptions;
 
   /**
-   * @private This is an undocumented option, use at your own risk
+   * transformer on output content
    *
-   * @default false
+   * 输出内容的转换器
    */
-  vPre?: boolean;
+  transformer?: TeXTransformer;
 }

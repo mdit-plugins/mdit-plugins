@@ -280,8 +280,11 @@ describe("check label result pre page", () => {
   });
 });
 
-it("should work with v-pre", () => {
-  const mathjaxInstance = createMathjaxInstance({ vPre: true })!;
+it("should work with transformer", () => {
+  const mathjaxInstance = createMathjaxInstance({
+    transformer: (content: string) =>
+      content.replace(/^(<[a-z-]+ )/g, "$1v-pre "),
+  })!;
   const markdownIt = MarkdownIt({ linkify: true }).use(
     mathjax,
     mathjaxInstance,
