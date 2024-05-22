@@ -95,7 +95,6 @@ export const dl: PluginSimple = (md) => {
     // Thus, there is two loops here, and label is
     // needed to break out of the second one
     //
-    /* eslint no-labels:0,block-scoped-var:0 */
     OUTER: for (;;) {
       let prevEmptyEnd = false;
 
