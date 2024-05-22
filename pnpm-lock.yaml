@@ -126,6 +126,9 @@ importers:
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../packages/container
+      '@mdit/plugin-dl':
+        specifier: workspace:*
+        version: link:../packages/dl
       '@mdit/plugin-ins':
         specifier: workspace:*
         version: link:../packages/ins

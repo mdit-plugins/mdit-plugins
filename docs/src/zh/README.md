@@ -29,6 +29,11 @@ features:
     details: 创建块级自定义容器
     link: ./container.html
 
+  - title: dl
+    icon: list-check
+    details: 定义列表
+    link: ./dl.html
+
   - title: demo
     icon: lightbulb
     details: 同时展示片段和渲染结果
