@@ -34,6 +34,11 @@ features:
     details: Display snippets and render result both
     link: ./demo.html
 
+  - title: dl
+    icon: list-check
+    details: Definition lists
+    link: ./dl.html
+
   - title: figure
     icon: image
     details: Generating figures with captions from images

@@ -1,6 +1,7 @@
 import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 // import { demo } from "@mdit/plugin-demo";
+import { dl } from "@mdit/plugin-dl";
 import { ins } from "@mdit/plugin-ins";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
@@ -51,6 +52,7 @@ export default defineUserConfig({
         }</p>\n`;
       },
     });
+    md.use(dl);
     md.use(ins);
     md.use(ruby);
     md.use(snippet, {
