@@ -222,6 +222,15 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
 
+  packages/dl:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.1
+        version: 14.1.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/figure:
     dependencies:
       '@types/markdown-it':
@@ -5794,7 +5803,7 @@ snapshots:
 
   '@types/markdown-it-emoji@2.0.5':
     dependencies:
-      '@types/markdown-it': 13.0.8
+      '@types/markdown-it': 14.1.1
 
   '@types/markdown-it@13.0.8':
     dependencies:
