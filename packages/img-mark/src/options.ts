@@ -4,7 +4,7 @@ export interface MarkdownItImgMarkOptions {
    *
    * 日间模式 ID
    *
-   * @default ["gh-light-mode-only", "light"]
+   * @default ["light"]
    */
   light?: string[];
 
@@ -13,7 +13,7 @@ export interface MarkdownItImgMarkOptions {
    *
    * 夜间模式 ID
    *
-   * @default ["gh-dark-mode-only", "dark"]
+   * @default ["dark"]
    */
   dark?: string[];
 }

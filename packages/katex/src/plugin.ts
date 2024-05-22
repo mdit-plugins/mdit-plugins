@@ -6,7 +6,11 @@ import type { KatexOptions as OriginalKatexOptions } from "katex";
 import Katex from "katex";
 import type MarkdownIt from "markdown-it";
 
-import type { KatexToken, MarkdownItKatexOptions } from "./options.js";
+import type {
+  KatexToken,
+  MarkdownItKatexOptions,
+  TeXTransformer,
+} from "./options.js";
 import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
@@ -14,50 +18,47 @@ const require = createRequire(import.meta.url);
 const katexInline = (
   tex: string,
   options: OriginalKatexOptions,
-  vPre: boolean,
+  transformer?: TeXTransformer,
 ): string => {
+  let result: string;
+
   try {
-    const result = Katex.renderToString(tex, {
+    result = Katex.renderToString(tex, {
       ...options,
       displayMode: false,
     });
-
-    return vPre
-      ? result.replace(/ class="katex"/g, ' v-pre class="katex"')
-      : result;
   } catch (error) {
     if (options.throwOnError) console.warn(error);
 
-    return `<span ${
-      vPre ? "v-pre " : ""
-    }class='katex-error' title='${escapeHtml(
+    result = `<span class='katex-error' title='${escapeHtml(
       (error as Error).toString(),
     )}'>${escapeHtml(tex)}</span>`;
   }
+
+  return transformer?.(result, false) ?? result;
 };
 
 const katexBlock = (
   tex: string,
   options: OriginalKatexOptions,
-  vPre: boolean,
+  transformer?: TeXTransformer,
 ): string => {
+  let result: string;
+
   try {
-    return `<p ${vPre ? "v-pre " : ""}class='katex-block'>${Katex.renderToString(
-      tex,
-      {
-        ...options,
-        displayMode: true,
-      },
-    )}</p>\n`;
+    result = `<p class='katex-block'>${Katex.renderToString(tex, {
+      ...options,
+      displayMode: true,
+    })}</p>\n`;
   } catch (error) {
     if (options.throwOnError) console.warn(error);
 
-    return `<p ${
-      vPre ? "v-pre " : ""
-    }class='katex-block katex-error' title='${escapeHtml(
+    result = `<p class='katex-block katex-error' title='${escapeHtml(
       (error as Error).toString(),
     )}'>${escapeHtml(tex)}</p>\n`;
   }
+
+  return transformer?.(result, true) ?? result;
 };
 
 export const katex = <MarkdownItEnv = unknown>(
@@ -70,7 +71,7 @@ export const katex = <MarkdownItEnv = unknown>(
     mhchem = false,
     logger = (errorCode: string): string =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
-    vPre = false,
+    transformer,
     ...userOptions
   } = options;
 
@@ -97,8 +98,8 @@ export const katex = <MarkdownItEnv = unknown>(
       };
 
       return displayMode
-        ? katexBlock(content, katexOptions, vPre)
-        : katexInline(content, katexOptions, vPre);
+        ? katexBlock(content, katexOptions, transformer)
+        : katexInline(content, katexOptions, transformer);
     },
   });
 };

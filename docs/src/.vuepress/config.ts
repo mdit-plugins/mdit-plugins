@@ -4,12 +4,9 @@ import { container } from "@mdit/plugin-container";
 import { ins } from "@mdit/plugin-ins";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
-import { spoiler } from "@mdit/plugin-spoiler";
-import { cut } from "nodejs-jieba";
 import { defineUserConfig } from "vuepress";
 import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
-import { searchProPlugin } from "vuepress-plugin-search-pro";
 
 import theme from "./theme.js";
 
@@ -71,23 +68,7 @@ export default defineUserConfig({
         return path.join(cwd, filePath);
       },
     });
-    md.use(spoiler, {
-      attrs: [
-        ["class", "spoiler"],
-        ["tabindex", "-1"],
-      ],
-    });
   },
 
   theme,
-
-  plugins: [
-    searchProPlugin({
-      indexContent: true,
-      indexOptions: {
-        tokenize: (text, fieldName) =>
-          fieldName === "id" ? [text] : cut(text, true),
-      },
-    }),
-  ],
 });

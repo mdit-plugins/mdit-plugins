@@ -90,14 +90,14 @@ interface MarkdownItImgMarkOptions {
   /**
    * lightmode only ids
    *
-   * @default ["gh-light-mode-only", "light"]
+   * @default ["light"]
    */
   light?: string[];
 
   /**
    * darkmode only ids
    *
-   * @default ["gh-dark-mode-only", "dark"]
+   * @default ["dark"]
    */
   dark?: string[];
 }
@@ -107,16 +107,13 @@ interface MarkdownItImgMarkOptions {
 
 ::: md-demo Demo
 
-![GitHub Light](/github-light.png#gh-dark-mode-only)
-![GitHub Dark](/github-dark.png#gh-light-mode-only)
-
 ![GitHub Light](/github-light.png#dark)
 ![GitHub Dark](/github-dark.png#light)
 
 :::
 
-<AppearanceSwitch /> (Try to toggle theme mode)
+<ColorModeSwitch /> (Try to toggle theme mode)
 
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
+import ColorModeSwitch from "@theme-hope/modules/outlook/components/ColorModeSwitch"
 </script>

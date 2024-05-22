@@ -36,6 +36,8 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | void;
 
+export type TeXTransformer = (content: string, displayMode: boolean) => string;
+
 export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   extends KatexOptions,
     Pick<MarkdownItTexOptions, "allowInlineWithSpace" | "mathFence"> {
@@ -56,9 +58,9 @@ export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   logger?: KatexLogger<MarkdownItEnv>;
 
   /**
-   * @private This is an undocumented option, use at your own risk
+   * transformer on output content
    *
-   * @default false
+   * 输出内容的转换器
    */
-  vPre?: boolean;
+  transformer?: TeXTransformer;
 }

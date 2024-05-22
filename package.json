@@ -1,6 +1,5 @@
 {
   "name": "@mdit/root",
-  "version": "0.9.0",
   "private": true,
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
@@ -19,26 +18,17 @@
     "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
     "packages:update": "pnpm up -r",
     "prepare": "husky",
-    "release": "pnpm clean && pnpm build && pnpm release:bump && pnpm publish -r && pnpm release:sync",
-    "release:bump": "bumpp -r --execute=\"pnpm commit-and-tag-version && git add CHANGELOG.md\" --commit \"chore(release): publish v%s\" --all --tag --push",
+    "release": "pnpm clean && pnpm build && pnpm release:version && pnpm release:publish && pnpm release:sync",
+    "release:publish": "lerna publish from-package --yes",
     "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/sync.ts",
+    "release:version": "lerna version",
     "test": "vitest --coverage"
   },
   "nano-staged": {
-    "*.{js,ts}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.md": [
-      "markdownlint-cli2",
-      "prettier --write"
-    ],
-    "*.{json,yml}": [
-      "prettier --write"
-    ],
-    "**/package.json": [
-      "sort-package-json"
-    ]
+    "**/*": "prettier --write --ignore-unknown",
+    "*.{js,ts}": "eslint --fix",
+    "*.md": "markdownlint-cli2 --fix",
+    "package.json": "sort-package-json"
   },
   "config": {
     "commitizen": {
@@ -48,22 +38,17 @@
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
+    "@lerna-lite/cli": "3.3.3",
+    "@lerna-lite/publish": "3.3.3",
     "@types/inquirer": "9.0.7",
-    "@types/node": "20.12.7",
-    "@vitest/coverage-v8": "1.5.3",
-    "@vue/eslint-config-typescript": "13.0.0",
-    "bumpp": "9.4.1",
-    "commit-and-tag-version": "12.4.1",
-    "commitizen": "4.3.0",
+    "@types/node": "20.12.11",
+    "@vitest/coverage-v8": "1.6.0",
+    "conventional-changelog-conventionalcommits": "8.0.0",
     "cross-env": "7.0.3",
     "cz-git": "1.9.1",
-    "esbuild": "0.20.2",
+    "esbuild": "0.21.2",
     "eslint": "8.57.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-prettier": "5.1.3",
-    "eslint-plugin-vitest": "0.5.4",
-    "globals": "15.1.0",
+    "eslint-config-mister-hope": "0.1.0",
     "husky": "9.0.11",
     "inquirer": "9.2.20",
     "markdownlint-cli2": "0.13.0",
@@ -71,20 +56,19 @@
     "ora": "8.0.1",
     "picocolors": "1.0.0",
     "prettier": "3.2.5",
-    "rimraf": "5.0.5",
+    "rimraf": "5.0.7",
     "rollup": "4.17.2",
     "rollup-plugin-dts": "6.1.0",
     "rollup-plugin-esbuild": "6.1.1",
     "sort-package-json": "2.10.0",
     "tslib": "2.6.2",
-    "tsx": "4.8.2",
+    "tsx": "4.10.2",
     "typescript": "5.4.5",
-    "typescript-eslint": "7.8.0",
-    "vitest": "1.5.3"
+    "vitest": "1.6.0"
   },
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.1",
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=18.19.0"
   },
   "pnpm": {
     "overrides": {
@@ -101,6 +85,7 @@
       "@mdit/plugin-katex": "workspace:*",
       "@mdit/plugin-mark": "workspace:*",
       "@mdit/plugin-mathjax": "workspace:*",
+      "@mdit/plugin-spoiler": "workspace:*",
       "@mdit/plugin-stylize": "workspace:*",
       "@mdit/plugin-sub": "workspace:*",
       "@mdit/plugin-sup": "workspace:*",

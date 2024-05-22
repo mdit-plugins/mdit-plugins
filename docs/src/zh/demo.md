@@ -95,9 +95,14 @@ interface MarkdownItDemoOptions {
   codeRender?: RenderRule;
 
   /**
-   * 内容渲染函数
+   * 内容开始标签渲染函数
    */
-  contentRender?: RenderRule;
+  contentOpenRender?: RenderRule;
+
+  /**
+   * 内容结束标签渲染函数
+   */
+  contentCloseRender?: RenderRule;
 }
 ```
 

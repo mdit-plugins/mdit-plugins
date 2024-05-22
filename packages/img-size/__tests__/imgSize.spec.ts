@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { imgSize, obsidianImageSize } from "../src/index.js";
+import { imgSize, obsidianImgSize } from "../src/index.js";
 
 describe("imgSize", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(imgSize);
@@ -94,7 +94,7 @@ describe("imgSize", () => {
 });
 
 describe("Obsidian image Size", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImageSize);
+  const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImgSize);
 
   it("should render", () => {
     expect(markdownIt.render(`![](/logo.svg)`)).toEqual(

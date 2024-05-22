@@ -25,7 +25,7 @@ import { CHTML } from "mathjax-full/js/output/chtml.js";
 import { SVG } from "mathjax-full/js/output/svg.js";
 import path from "upath";
 
-import type { MarkdownItMathjaxOptions } from "./options.js";
+import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 
 const require = createRequire(import.meta.url);
 
@@ -97,9 +97,9 @@ export interface MathjaxInstance
   reset: () => void;
 
   /**
-   * @private
+   * Output content transformer
    */
-  vPre: boolean;
+  transformer: TeXTransformer | null;
 }
 
 export const createMathjaxInstance = (
@@ -150,13 +150,18 @@ export const createMathjaxInstance = (
     clearStyle,
     reset,
     outputStyle,
-    vPre: options.vPre ?? false,
+    transformer: options.transformer ?? null,
   };
 };
 
 export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
-  const { allowInlineWithSpace, adaptor, documentOptions, mathFence, vPre } =
-    instance!;
+  const {
+    allowInlineWithSpace,
+    adaptor,
+    documentOptions,
+    mathFence,
+    transformer,
+  } = instance!;
 
   md.use(tex, {
     allowInlineWithSpace,
@@ -170,9 +175,7 @@ export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
 
       const result = adaptor.outerHTML(mathDocument);
 
-      return vPre
-        ? result.replace(/^<mjx-container/, "<mjx-container v-pre")
-        : result;
+      return transformer?.(result, displayMode) ?? result;
     },
   });
 };

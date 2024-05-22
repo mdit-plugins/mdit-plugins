@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { version } from "../package.json";
+import { version } from "../lerna.json";
 
 const packagesDir = resolve(process.cwd(), "packages");
 
@@ -54,7 +54,7 @@ files.forEach((pkgName) => {
       },
       dependencies: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "@types/markdown-it": "^14.0.0",
+        "@types/markdown-it": "^14.1.1",
       },
       peerDependencies: {
         "markdown-it": "^14.1.0",

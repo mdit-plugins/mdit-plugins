@@ -1,6 +1,43 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16)
+
+### ✨ Features
+
+- add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
+
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+
+### ⚠ BREAKING CHANGES
+
+- **img-mark:** remove gh- classes as it's no longer supported by gfm
+- **img-size:** unify plugin export name
+
+### ✨ Features
+
+- **img-mark:** remove gh- classes as it's no longer supported by gfm ([8cf3ba9](https://github.com/mdit-plugins/mdit-plugins/commit/8cf3ba9da23d37fb97ae88c84960511f3f5ef70e))
+- **img-size:** unify plugin export name ([1e08784](https://github.com/mdit-plugins/mdit-plugins/commit/1e0878469977d9459081f77cee16c2ddb11b1c09))
+
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05)
+
+### Bug Fixes
+
+- **demo:** fix contentRender ([cfffb20](https://github.com/mdit-plugins/mdit-plugins/commit/cfffb20983b788f8f747cc6e1880fe6e427b9092))
+
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
+
+### Features
+
+- add abbr plugin ([45fdfcb](https://github.com/mdit-plugins/mdit-plugins/commit/45fdfcb932717a6ffa85fce89cec662dd5892288))
+- add insert plugin ([fcf0fa7](https://github.com/mdit-plugins/mdit-plugins/commit/fcf0fa7b69eaa61172fce2cd3f0a2c237a388a33))
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
+- add ruby plugin ([9f9b70a](https://github.com/mdit-plugins/mdit-plugins/commit/9f9b70a7bc87fa9bd76a5b82263e06b356ee4170))
+- add spoiler plugin ([1b2e7b9](https://github.com/mdit-plugins/mdit-plugins/commit/1b2e7b943b5152b03976070368bc2100f9f2e768))
+- add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92cfb0833e3dbf3f75777f4f0fbc98219cca))
+- **demo:** add contentRender option ([349440b](https://github.com/mdit-plugins/mdit-plugins/commit/349440b37cf6d2a2717b7e9135b9312858b2541b))
 
 ## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
 
