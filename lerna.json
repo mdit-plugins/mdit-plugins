@@ -7,6 +7,10 @@
       "conventionalCommits": true,
       "exact": true,
       "message": "chore(release): publish v%v"
+    },
+    "publish": {
+      "graphType": "all",
+      "removePackageFields": ["devDependencies", "scripts"]
     }
   },
   "changelogPreset": {
