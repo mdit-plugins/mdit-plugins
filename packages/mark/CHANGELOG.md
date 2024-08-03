@@ -1,7 +1,8 @@
-# Change Log
+## [0.13.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.12.0...v0.13.0) (2024-08-03)
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+### ✨ Features
+
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
 
 ## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16)
 
