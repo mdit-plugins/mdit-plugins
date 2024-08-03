@@ -2,7 +2,6 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
-/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";

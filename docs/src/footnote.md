@@ -51,6 +51,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
   Footnote 1 link[^first].
 
   [^first]: Footnote can reference [^second].
+
   [^second]: Other footnote.
   ```
 

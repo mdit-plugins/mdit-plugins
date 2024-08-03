@@ -20,7 +20,7 @@ let katexLib: typeof import("katex");
 try {
   katexLib = (await import("katex"))
     .default as unknown as typeof import("katex");
-} catch (err) {
+} catch {
   isKatexInstalled = false;
 }
 

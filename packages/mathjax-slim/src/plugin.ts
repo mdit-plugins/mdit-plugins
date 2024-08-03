@@ -45,7 +45,7 @@ try {
   ({ AssistiveMmlHandler } = await import(
     "mathjax-full/js/a11y/assistive-mml.js"
   ));
-} catch (err) {
+} catch {
   isMathJaxFullInstalled = false;
 }
 

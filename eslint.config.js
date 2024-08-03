@@ -3,6 +3,7 @@ import hopeConfig, {
   config,
   globals,
   tsParser,
+  // eslint-disable-next-line import-x/no-unresolved
 } from "eslint-config-mister-hope";
 
 export default config(
@@ -27,7 +28,9 @@ export default config(
       parserOptions: {
         parser: tsParser,
         tsconfigDirName: import.meta.dirname,
-        project: "./tsconfig.json",
+        projectService: {
+          allowDefaultProject: [".markdownlint-cli2.mjs", "eslint.config.js"],
+        },
         extraFileExtensions: [".vue"],
       },
     },

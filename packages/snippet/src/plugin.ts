@@ -148,7 +148,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     const token = tokens[index];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const meta: Record<string, unknown> =
-      typeof token.meta === "object" ? token.meta ?? {} : {};
+      typeof token.meta === "object" ? (token.meta ?? {}) : {};
     const [src, regionName] = meta["src"]
       ? (meta["src"] as string).split("#")
       : [""];

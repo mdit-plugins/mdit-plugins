@@ -44,7 +44,7 @@ export const hasDelimiters =
             : content.indexOf(right, rightDelimiterMinimumShift);
         // check if next character is not one of the delimiters
         nextChar = content.charAt(end + rightLength);
-        if (nextChar && right.indexOf(nextChar) !== -1) end = -1;
+        if (nextChar && right.includes(nextChar)) end = -1;
         break;
 
       case "end":

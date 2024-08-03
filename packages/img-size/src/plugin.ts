@@ -59,7 +59,7 @@ const parseImageSize = (
   // (3) =x200
   const char = str.charAt(pos);
 
-  if (char !== "x" && !char.match(/\d/)) return result;
+  if (char !== "x" && !/\d/.test(char)) return result;
 
   // parse width
   const width = parseNumber(str, pos, max);

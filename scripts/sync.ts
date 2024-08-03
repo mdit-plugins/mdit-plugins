@@ -9,7 +9,6 @@ const packages = readdirSync(packagesDir);
 
 export const sync = (): Promise<void[]> => {
   const promises = packages.map((packageName) =>
-    // eslint-disable-next-line import/dynamic-import-chunkname
     import(`../packages/${packageName}/package.json`, {
       assert: { type: "json" },
     }).then(

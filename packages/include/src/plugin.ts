@@ -211,7 +211,7 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
 
   if (content.startsWith("<!-- #include-env-start: ")) {
     // check if it’s matched the syntax
-    const match = content.match(SYNTAX_PUSH_RE);
+    const match = SYNTAX_PUSH_RE.exec(content);
 
     if (match) {
       if (silent) return true;

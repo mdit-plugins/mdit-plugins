@@ -4,10 +4,5 @@
     "module": "ESNext",
     "baseUrl": "./"
   },
-  "include": [
-    "**/*.ts",
-    "**/.vuepress/**/*.ts",
-    ".markdownlint-cli2.mjs",
-    "eslint.config.js"
-  ]
+  "include": ["**/*.ts", "**/.vuepress/**/*.ts"]
 }

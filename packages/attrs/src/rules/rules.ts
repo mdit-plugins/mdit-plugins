@@ -35,7 +35,7 @@ const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     let lineNumber = "";
 
     // special handler for VuePress line number
-    const results = token.info.match(/{(?:[\d,-]+)}/);
+    const results = /{(?:[\d,-]+)}/.exec(token.info);
 
     if (results) {
       token.info = token.info.replace(results[0], "");
@@ -354,13 +354,11 @@ const getHrRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
       type: "inline",
       children: (children) => children.length === 1,
       content: (content) =>
-        content.match(
-          new RegExp(
-            `^ {0,3}[-*_]{3,} ?${escapeRegExp(options.left)}[^${escapeRegExp(
-              options.right,
-            )}]`,
-          ),
-        ) !== null,
+        new RegExp(
+          `^ {0,3}[-*_]{3,} ?${escapeRegExp(options.left)}[^${escapeRegExp(
+            options.right,
+          )}]`,
+        ).test(content),
     },
     {
       shift: 2,

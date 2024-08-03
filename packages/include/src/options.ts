@@ -8,7 +8,7 @@ export interface MarkdownItIncludeOptions {
    *
    * @default (path) => path
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   currentPath: (env: IncludeEnv) => string;
 
   /**
@@ -18,7 +18,7 @@ export interface MarkdownItIncludeOptions {
    *
    * @default (path) => path
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   resolvePath?: (path: string, cwd: string | null) => string;
 
   /**

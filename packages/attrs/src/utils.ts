@@ -12,7 +12,7 @@ export const getElements = <T>(arr: T[], amount: number): T =>
 export const escapeRegExp = (regexp: string): string =>
   regexp.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const isArrayOfFunctions = (arr: unknown): arr is Function[] =>
   Array.isArray(arr) &&
   Boolean(arr.length) &&

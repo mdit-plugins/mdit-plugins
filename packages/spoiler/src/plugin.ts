@@ -40,7 +40,6 @@ const tokenize: RuleInline = (state, silent) => {
       state.delimiters.push({
         marker: 0x21,
         length: 0, // disable "rule of 3" length checks meant for emphasis
-        jump: i / 2, // 1 delimiter = 2 characters
         token: state.tokens.length - 1,
         end: -1,
         open: scanned.can_open,
