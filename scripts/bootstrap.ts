@@ -20,9 +20,9 @@ files.forEach((pkgName) => {
       version,
       description: desc,
       keywords: ["markdown-it", "markdown-it-plugin", pkgName],
-      homepage: `https://mdit-plugins/mdit-plugins/packages/${pkgName}#readme`,
+      homepage: `https://github.com/mdit-plugins/mdit-plugins/packages/${pkgName}#readme`,
       bugs: {
-        url: "https://mdit-plugins/mdit-plugins/issues",
+        url: "https://github.com/mdit-plugins/mdit-plugins/issues",
       },
       repository: {
         type: "git",
