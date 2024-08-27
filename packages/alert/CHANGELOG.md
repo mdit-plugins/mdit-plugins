@@ -1,3 +1,9 @@
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+
+### 🐛 Bug Fixes
+
+- **alert:** fix style, close [#45](https://github.com/mdit-plugins/mdit-plugins/issues/45) ([bc83f16](https://github.com/mdit-plugins/mdit-plugins/commit/bc83f16132211af6668a786f2c73f3cc320db0a2))
+
 ## [0.13.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.12.0...v0.13.0) (2024-08-03)
 
 ### ✨ Features

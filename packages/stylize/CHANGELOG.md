@@ -1,3 +1,7 @@
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+
+**Note:** Version bump only for package @mdit/plugin-stylize
+
 ## [0.13.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.12.0...v0.13.0) (2024-08-03)
 
 ### ✨ Features
