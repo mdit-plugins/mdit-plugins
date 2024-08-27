@@ -17,7 +17,7 @@
     "@vuepress/bundler-vite": "2.0.0-rc.14",
     "mathjax-full": "3.2.2",
     "nodejs-jieba": "0.1.2",
-    "vue": "3.4.35",
+    "vue": "3.4.38",
     "vuepress": "2.0.0-rc.14",
     "vuepress-plugin-search-pro": "2.0.0-rc.52",
     "vuepress-shared": "2.0.0-rc.52",
