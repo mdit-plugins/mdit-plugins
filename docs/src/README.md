@@ -143,4 +143,9 @@ features:
     icon: file-lines
     details: Support splitting contents from context
     link: ./uml.html
+
+head:
+  - - meta
+    - name: google-site-verification
+      content: qG3soux9jAKB4Q_DYf7yj1p5cEIuib6yG4zDhpmv2_E
 ---

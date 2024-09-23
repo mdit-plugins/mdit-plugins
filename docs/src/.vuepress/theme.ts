@@ -2,7 +2,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 
 export default hopeTheme(
   {
-    hostname: "https://mdit-plugins.mister-hope.com",
+    hostname: "https://mdit-plugins.github.io",
 
     logo: "/logo.svg",
     repo: "mdit-plugins/mdit-plugins",
@@ -41,29 +41,44 @@ export default hopeTheme(
         categoryId: "DIC_kwDOIr2YG84CTTf-",
       },
 
+      markdownHint: { alert: true },
+
+      markdownImage: {
+        figure: true,
+        lazyload: true,
+        mark: true,
+        size: true,
+      },
+
+      markdownMath: {
+        type: "mathjax",
+      },
+
+      markdownTab: true,
+
       mdEnhance: {
-        alert: true,
         align: true,
         attrs: true,
-        codetabs: true,
         demo: true,
-        figure: true,
         footnote: true,
-        imgLazyload: true,
-        imgMark: true,
-        imgSize: true,
         include: true,
         mark: true,
-        mathjax: true,
         plantuml: true,
         spoiler: true,
         sub: true,
         sup: true,
-        tabs: true,
         tasklist: true,
       },
 
       searchPro: true,
+
+      shiki: {
+        lineNumbers: 10,
+        themes: {
+          light: "one-light",
+          dark: "one-dark-pro",
+        },
+      },
     },
   },
   { custom: true },
