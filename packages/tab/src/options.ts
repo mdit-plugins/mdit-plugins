@@ -1,5 +1,6 @@
 import type { Options } from "markdown-it";
 import type Renderer from "markdown-it/lib/renderer.mjs";
+import type { RenderRule } from "markdown-it/lib/renderer.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 export interface MarkdownItTabData {
@@ -68,20 +69,15 @@ export interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    env: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    env: any,
     self: Renderer,
   ) => string;
 
   /**
    * Tabs close renderer
    */
-  tabsCloseRenderer?: (
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: unknown,
-    self: Renderer,
-  ) => string;
+  tabsCloseRenderer?: RenderRule;
 
   /**
    * tab open renderer
@@ -91,18 +87,13 @@ export interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    env: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    env: any,
     self: Renderer,
   ) => string;
 
   /**
    * tab close renderer
    */
-  tabCloseRenderer?: (
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: unknown,
-    self: Renderer,
-  ) => string;
+  tabCloseRenderer?: RenderRule;
 }

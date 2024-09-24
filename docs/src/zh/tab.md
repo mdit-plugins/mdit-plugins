@@ -124,20 +124,14 @@ interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    env: unknown,
+    env: any,
     self: Renderer,
   ) => string;
 
   /**
    * Tabs close renderer
    */
-  tabsCloseRenderer?: (
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: unknown,
-    self: Renderer,
-  ) => string;
+  tabsCloseRenderer?: RenderRule;
 
   /**
    * tab open renderer
@@ -147,20 +141,14 @@ interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    env: unknown,
+    env: any,
     self: Renderer,
   ) => string;
 
   /**
    * tab close renderer
    */
-  tabCloseRenderer?: (
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: unknown,
-    self: Renderer,
-  ) => string;
+  tabCloseRenderer?: RenderRule;
 }
 ```
 
