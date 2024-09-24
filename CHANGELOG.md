@@ -1,3 +1,9 @@
+## <small>0.13.2 (2024-09-24)</small>
+
+- fix(tab): fix options ([edb3546](https://github.com/mdit-plugins/mdit-plugins/commit/edb3546))
+- chore: bump deps ([a96870b](https://github.com/mdit-plugins/mdit-plugins/commit/a96870b))
+- chore: update deps ([667d59d](https://github.com/mdit-plugins/mdit-plugins/commit/667d59d))
+
 ## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
 
 ### 🐛 Bug Fixes
