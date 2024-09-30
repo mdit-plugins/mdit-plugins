@@ -74,10 +74,6 @@ export default hopeTheme(
 
       shiki: {
         lineNumbers: 10,
-        themes: {
-          light: "one-light",
-          dark: "one-dark-pro",
-        },
       },
     },
   },
