@@ -41,7 +41,7 @@
     "@lerna-lite/cli": "3.9.2",
     "@lerna-lite/publish": "3.9.2",
     "@types/node": "22.7.4",
-    "@vitest/coverage-v8": "2.1.1",
+    "@vitest/coverage-v8": "2.1.2",
     "conventional-changelog-conventionalcommits": "8.0.0",
     "cross-env": "7.0.3",
     "cz-git": "1.10.0",
@@ -60,7 +60,7 @@
     "tslib": "2.7.0",
     "tsx": "4.19.1",
     "typescript": "5.6.2",
-    "vitest": "2.1.1"
+    "vitest": "2.1.2"
   },
   "packageManager": "pnpm@9.11.0",
   "engines": {
