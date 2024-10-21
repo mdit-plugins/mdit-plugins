@@ -69,10 +69,10 @@ features:
     details: 在 Markdown 中包含其他文件
     link: ./include.html
 
-  - title: insert
+  - title: ins
     icon: square-plus
     details: 插入标签支持
-    link: ./insert.html
+    link: ./ins.html
 
   - title: katex
     icon: square-root-variable

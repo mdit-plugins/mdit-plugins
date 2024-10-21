@@ -69,10 +69,10 @@ features:
     details: Include other files in markdown
     link: ./include.html
 
-  - title: insert
+  - title: ins
     icon: square-plus
     details: Ins tag support
-    link: ./insert.html
+    link: ./ins.html
 
   - title: katex
     icon: square-root-variable
