@@ -41,6 +41,12 @@ export default hopeTheme(
         categoryId: "DIC_kwDOIr2YG84CTTf-",
       },
 
+      docsearch: {
+        appId: "SIZGZ1FGFU",
+        apiKey: "0ee82673983c6cd1b9c8d93fbfbe61eb",
+        indexName: `mdit-pluginsio`,
+      },
+
       markdownHint: { alert: true },
 
       markdownImage: {
@@ -69,8 +75,6 @@ export default hopeTheme(
         sup: true,
         tasklist: true,
       },
-
-      searchPro: true,
 
       shiki: {
         lineNumbers: 10,
