@@ -1,3 +1,12 @@
+## <small>0.13.3 (2024-10-24)</small>
+
+- docs: fix broken links ([a30b4b6](https://github.com/mdit-plugins/mdit-plugins/commit/a30b4b6))
+- docs: use docsearch ([ec2008b](https://github.com/mdit-plugins/mdit-plugins/commit/ec2008b))
+- chore: bump deps ([4f312fc](https://github.com/mdit-plugins/mdit-plugins/commit/4f312fc))
+- chore: bump deps ([034deeb](https://github.com/mdit-plugins/mdit-plugins/commit/034deeb))
+- chore(deps): update vitest monorepo to v2.1.3 ([36cda0e](https://github.com/mdit-plugins/mdit-plugins/commit/36cda0e))
+- chore(stylize): improve option style ([d3f0ee9](https://github.com/mdit-plugins/mdit-plugins/commit/d3f0ee9))
+
 ## <small>0.13.2 (2024-09-24)</small>
 
 - fix(tab): fix options ([edb3546](https://github.com/mdit-plugins/mdit-plugins/commit/edb3546))

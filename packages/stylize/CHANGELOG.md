@@ -1,3 +1,7 @@
+## <small>0.13.3 (2024-10-24)</small>
+
+- chore(stylize): improve option style ([d3f0ee9](https://github.com/mdit-plugins/mdit-plugins/commit/d3f0ee9))
+
 ## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
 
 **Note:** Version bump only for package @mdit/plugin-stylize
