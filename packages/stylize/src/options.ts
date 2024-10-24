@@ -40,7 +40,7 @@ export interface MarkdownItStylizeConfig {
     attrs: Record<string, string>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     env?: any;
-  }) => MarkdownItStylizeResult | void;
+  }) => MarkdownItStylizeResult | null | undefined | void;
 }
 
 export interface MarkdownItStylizeOptions {
