@@ -1,4 +1,4 @@
-## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-spoiler
 
@@ -8,25 +8,21 @@
 
 - use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
 
-## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16)
+## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16))
 
 **Note:** Version bump only for package @mdit/plugin-spoiler
 
-## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13))
 
 **Note:** Version bump only for package @mdit/plugin-spoiler
 
-## 0.10.1 (2024-05-05)
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05))
 
-- chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))
-- chore(release): publish v0.10.1 ([8957ccc](https://github.com/mdit-plugins/mdit-plugins/commit/8957ccc))
+**Note:** Version bump only for package @mdit/plugin-spoiler
 
-## 0.10.0 (2024-05-03)
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
 
-- chore: remove markdownit keywords ([acabc16](https://github.com/mdit-plugins/mdit-plugins/commit/acabc16))
-- chore: rename ins plugin ([480732e](https://github.com/mdit-plugins/mdit-plugins/commit/480732e))
-- chore: tweaks ([26a4ff5](https://github.com/mdit-plugins/mdit-plugins/commit/26a4ff5))
-- chore: update ([84e8cd4](https://github.com/mdit-plugins/mdit-plugins/commit/84e8cd4))
-- chore(release): publish v0.10.0 ([e03be42](https://github.com/mdit-plugins/mdit-plugins/commit/e03be42))
-- feat: add spoiler plugin ([1b2e7b9](https://github.com/mdit-plugins/mdit-plugins/commit/1b2e7b9))
-- feat: add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92c))
+### ✨ Features
+
+- add spoiler plugin ([1b2e7b9](https://github.com/mdit-plugins/mdit-plugins/commit/1b2e7b943b5152b03976070368bc2100f9f2e768))
+- add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92cfb0833e3dbf3f75777f4f0fbc98219cca))

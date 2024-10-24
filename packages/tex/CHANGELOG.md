@@ -1,4 +1,4 @@
-## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-tex
 
@@ -8,191 +8,177 @@
 
 - use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
 
-## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16)
+## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16))
 
 **Note:** Version bump only for package @mdit/plugin-tex
 
-## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13))
 
 **Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.10.1 (2024-05-05)
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05))
 
-- chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))
-- chore(release): publish v0.10.1 ([8957ccc](https://github.com/mdit-plugins/mdit-plugins/commit/8957ccc))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.10.0 (2024-05-03)
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03))
 
-- chore: remove markdownit keywords ([acabc16](https://github.com/mdit-plugins/mdit-plugins/commit/acabc16))
-- chore: tweaks ([26a4ff5](https://github.com/mdit-plugins/mdit-plugins/commit/26a4ff5))
-- chore: use eslint flat config ([663131f](https://github.com/mdit-plugins/mdit-plugins/commit/663131f))
-- chore(release): publish v0.10.0 ([e03be42](https://github.com/mdit-plugins/mdit-plugins/commit/e03be42))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.9.0 (2024-04-17)
+## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
 
-- chore: update deps ([b23d02a](https://github.com/mdit-plugins/mdit-plugins/commit/b23d02a))
-- chore: update deps ([0b172dc](https://github.com/mdit-plugins/mdit-plugins/commit/0b172dc))
-- chore(release): publish v0.9.0 ([2c2798d](https://github.com/mdit-plugins/mdit-plugins/commit/2c2798d))
-- feat: update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22))
+### ✨ Features
 
-## 0.8.0 (2023-12-08)
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
 
-- chore(release): publish v0.8.0 ([4c525bd](https://github.com/mdit-plugins/mdit-plugins/commit/4c525bd))
-- feat: support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf1))
+## [0.8.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.6...v0.8.0) (2023-12-08)
 
-## 0.7.6 (2023-12-07)
+### ✨ Features
 
-- chore(release): publish v0.7.6 ([d4d5e4f](https://github.com/mdit-plugins/mdit-plugins/commit/d4d5e4f))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
 
-## 0.7.5 (2023-12-04)
+## [0.7.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.5...v0.7.6) (2023-12-07))
 
-- chore(release): publish v0.7.5 ([aa448a1](https://github.com/mdit-plugins/mdit-plugins/commit/aa448a1))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.7.4 (2023-11-28)
+## [0.7.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.4...v0.7.5) (2023-12-04))
 
-- chore(release): publish v0.7.4 ([7dc0611](https://github.com/mdit-plugins/mdit-plugins/commit/7dc0611))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.7.3 (2023-11-26)
+## [0.7.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.3...v0.7.4) (2023-11-28))
 
-- chore(release): publish v0.7.3 ([2bd1289](https://github.com/mdit-plugins/mdit-plugins/commit/2bd1289))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.7.2 (2023-11-26)
+## [0.7.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.2...v0.7.3) (2023-11-26))
 
-- chore(release): publish v0.7.2 ([5d31b94](https://github.com/mdit-plugins/mdit-plugins/commit/5d31b94))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.7.1 (2023-11-25)
+## [0.7.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.1...v0.7.2) (2023-11-26))
 
-- chore(release): publish v0.7.1 ([fa200f0](https://github.com/mdit-plugins/mdit-plugins/commit/fa200f0))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.7.0 (2023-11-24)
+## [0.7.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.0...v0.7.1) (2023-11-25))
 
-- chore: update deps ([c52aa3e](https://github.com/mdit-plugins/mdit-plugins/commit/c52aa3e))
-- chore: update deps ([d02504c](https://github.com/mdit-plugins/mdit-plugins/commit/d02504c))
-- chore(release): publish v0.7.0 ([8055b0f](https://github.com/mdit-plugins/mdit-plugins/commit/8055b0f))
-- test: update tests ([2e1a83c](https://github.com/mdit-plugins/mdit-plugins/commit/2e1a83c))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.6.5 (2023-11-03)
+## [0.7.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.5...v0.7.0) (2023-11-24))
 
-- chore(release): publish v0.6.5 ([ab63c7a](https://github.com/mdit-plugins/mdit-plugins/commit/ab63c7a))
-- feat(tex): add allowInlineWithSpace for tex ([e6d9878](https://github.com/mdit-plugins/mdit-plugins/commit/e6d9878))
-- test(tex): update test ([5b9b59b](https://github.com/mdit-plugins/mdit-plugins/commit/5b9b59b))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.6.4 (2023-11-03)
+## [0.6.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.4...v0.6.5) (2023-11-03)
 
-- chore(release): publish v0.6.4 ([18ddb0f](https://github.com/mdit-plugins/mdit-plugins/commit/18ddb0f))
+### ✨ Features
 
-## 0.6.3 (2023-11-02)
+- **tex:** add allowInlineWithSpace for tex ([e6d9878](https://github.com/mdit-plugins/mdit-plugins/commit/e6d98787ee94463cb2ff5425dda4c4dcab273adf))
 
-- chore(release): publish v0.6.3 ([9e1ae02](https://github.com/mdit-plugins/mdit-plugins/commit/9e1ae02))
+## [0.6.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.3...v0.6.4) (2023-11-03))
 
-## 0.6.2 (2023-11-02)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.6.2 ([151a095](https://github.com/mdit-plugins/mdit-plugins/commit/151a095))
+## [0.6.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.2...v0.6.3) (2023-11-02))
 
-## 0.6.1 (2023-11-02)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.6.1 ([9a33636](https://github.com/mdit-plugins/mdit-plugins/commit/9a33636))
+## [0.6.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.1...v0.6.2) (2023-11-02))
 
-## 0.6.0 (2023-11-02)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.6.0 ([eb571db](https://github.com/mdit-plugins/mdit-plugins/commit/eb571db))
+## [0.6.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.0...v0.6.1) (2023-11-02))
 
-## 0.5.2 (2023-10-24)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.5.2 ([ff34cbe](https://github.com/mdit-plugins/mdit-plugins/commit/ff34cbe))
+## [0.6.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.2...v0.6.0) (2023-11-02))
 
-## 0.5.1 (2023-10-24)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore: update deps ([deff17c](https://github.com/mdit-plugins/mdit-plugins/commit/deff17c))
-- chore(release): publish v0.5.1 ([5960a4f](https://github.com/mdit-plugins/mdit-plugins/commit/5960a4f))
+## [0.5.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.1...v0.5.2) (2023-10-24))
 
-## 0.5.0 (2023-10-16)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore: update deps ([5e915a8](https://github.com/mdit-plugins/mdit-plugins/commit/5e915a8))
-- chore: update deps ([0035668](https://github.com/mdit-plugins/mdit-plugins/commit/0035668))
-- chore(release): publish v0.5.0 ([e4556a2](https://github.com/mdit-plugins/mdit-plugins/commit/e4556a2))
-- feat: drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145))
-- feat: make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d0))
+## [0.5.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.0...v0.5.1) (2023-10-24))
 
-## 0.4.8 (2023-06-12)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.4.8 ([857eb81](https://github.com/mdit-plugins/mdit-plugins/commit/857eb81))
-- test: improve coverage ([842c257](https://github.com/mdit-plugins/mdit-plugins/commit/842c257))
+## [0.5.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.8...v0.5.0) (2023-10-16)
 
-## 0.4.7 (2023-06-05)
+### ✨ Features
 
-- chore(release): publish v0.4.7 ([532a79d](https://github.com/mdit-plugins/mdit-plugins/commit/532a79d))
-- docs: update docs ([457f389](https://github.com/mdit-plugins/mdit-plugins/commit/457f389))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
 
-## 0.4.6 (2023-05-19)
+## [0.4.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.7...v0.4.8) (2023-06-12))
 
-- chore(release): publish v0.4.6 ([328568b](https://github.com/mdit-plugins/mdit-plugins/commit/328568b))
-- feat(tex): support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.4.5 (2023-05-09)
+## [0.4.7](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.6...v0.4.7) (2023-06-05))
 
-- chore: update exports ([8191d81](https://github.com/mdit-plugins/mdit-plugins/commit/8191d81))
-- chore(release): publish v0.4.5 ([495bdf3](https://github.com/mdit-plugins/mdit-plugins/commit/495bdf3))
+**Note:** Version bump only for package @mdit/plugin-tex
 
-## 0.4.4 (2023-04-28)
+## [0.4.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.5...v0.4.6) (2023-05-19)
 
-- chore(release): publish v0.4.4 ([a725230](https://github.com/mdit-plugins/mdit-plugins/commit/a725230))
+### ✨ Features
 
-## 0.4.3 (2023-04-07)
+- **tex:** support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68267f66f14272fcdc446222ab29e32a548))
 
-- chore(release): publish v0.4.3 ([55804d4](https://github.com/mdit-plugins/mdit-plugins/commit/55804d4))
+## [0.4.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.4...v0.4.5) (2023-05-09))
 
-## 0.4.2 (2023-04-06)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.4.2 ([25def24](https://github.com/mdit-plugins/mdit-plugins/commit/25def24))
-- feat(katex): support logger option ([9850d5e](https://github.com/mdit-plugins/mdit-plugins/commit/9850d5e))
+## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28))
 
-## 0.4.1 (2023-03-29)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.4.1 ([10943c8](https://github.com/mdit-plugins/mdit-plugins/commit/10943c8))
-- feat(include): improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3))
+## [0.4.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.2...v0.4.3) (2023-04-07))
 
-## 0.4.0 (2023-03-26)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.4.0 ([cca4d31](https://github.com/mdit-plugins/mdit-plugins/commit/cca4d31))
+## [0.4.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.1...v0.4.2) (2023-04-06)
 
-## 0.3.0 (2023-02-17)
+### ✨ Features
 
-- chore(release): publish v0.3.0 ([97bdf3c](https://github.com/mdit-plugins/mdit-plugins/commit/97bdf3c))
+- **katex:** support logger option ([9850d5e](https://github.com/mdit-plugins/mdit-plugins/commit/9850d5eecbc2e4415e8736284a955ff636fdcf42))
 
-## 0.2.4 (2023-02-16)
+## [0.4.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.0...v0.4.1) (2023-03-29)
 
-- chore(release): publish v0.2.4 ([d34b395](https://github.com/mdit-plugins/mdit-plugins/commit/d34b395))
-- style: update linter ([5752d1d](https://github.com/mdit-plugins/mdit-plugins/commit/5752d1d))
+### ✨ Features
 
-## 0.2.3 (2023-01-01)
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
 
-- chore(release): publish v0.2.3 ([578c378](https://github.com/mdit-plugins/mdit-plugins/commit/578c378))
-- test: improve coverage ([17bab7a](https://github.com/mdit-plugins/mdit-plugins/commit/17bab7a))
-- feat(tex): throw error when render function is missing ([0ce0efa](https://github.com/mdit-plugins/mdit-plugins/commit/0ce0efa))
+## [0.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.3.0...v0.4.0) (2023-03-26))
 
-## 0.2.2 (2022-12-29)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.2.2 ([c584263](https://github.com/mdit-plugins/mdit-plugins/commit/c584263))
+## [0.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.4...v0.3.0) (2023-02-17))
 
-## 0.2.1 (2022-12-29)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.2.1 ([f1f6dd2](https://github.com/mdit-plugins/mdit-plugins/commit/f1f6dd2))
+## [0.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.3...v0.2.4) (2023-02-16))
 
-## 0.2.0 (2022-12-29)
+**Note:** Version bump only for package @mdit/plugin-tex
 
-- chore(release): publish v0.2.0 ([59c7786](https://github.com/mdit-plugins/mdit-plugins/commit/59c7786))
+## [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.2...v0.2.3) (2023-01-01)
 
-## 0.1.0 (2022-12-28)
+### ✨ Features
 
-- chore: add engine in package.json ([c31a79f](https://github.com/mdit-plugins/mdit-plugins/commit/c31a79f))
-- chore(release): publish v0.1.0 ([12da773](https://github.com/mdit-plugins/mdit-plugins/commit/12da773))
+- **tex:** throw error when render function is missing ([0ce0efa](https://github.com/mdit-plugins/mdit-plugins/commit/0ce0efa8b626ffabf3f81429eb9c7f082ee0a858))
 
-## 0.1.0-alpha.1 (2022-12-28)
+## [0.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.1...v0.2.2) (2022-12-29))
 
-- chore: improve js docs ([f9c2a98](https://github.com/mdit-plugins/mdit-plugins/commit/f9c2a98))
-- chore: tweaks ([8c73e80](https://github.com/mdit-plugins/mdit-plugins/commit/8c73e80))
-- chore: update badge ([0360841](https://github.com/mdit-plugins/mdit-plugins/commit/0360841))
-- chore(release): publish v0.1.0-alpha.1 ([63270b7](https://github.com/mdit-plugins/mdit-plugins/commit/63270b7))
-- docs: update readme ([1f8651c](https://github.com/mdit-plugins/mdit-plugins/commit/1f8651c))
-- feat: add packages ([e713f59](https://github.com/mdit-plugins/mdit-plugins/commit/e713f59))
+**Note:** Version bump only for package @mdit/plugin-tex
+
+## [0.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.0...v0.2.1) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-tex
+
+## [0.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0...v0.2.0) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-tex
+
+## [0.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0-alpha.1...v0.1.0) (2022-12-28))
+
+**Note:** Version bump only for package @mdit/plugin-tex
+
+## [0.1.0-alpha.1](https://github.com/mdit-plugins/mdit-plugins/compare/e713f59b76ecf7335fa4fee7e5028c66479df2f9...v0.1.0-alpha.1) (2022-12-28)
+
+### ✨ Features
+
+- add packages ([e713f59](https://github.com/mdit-plugins/mdit-plugins/commit/e713f59b76ecf7335fa4fee7e5028c66479df2f9))

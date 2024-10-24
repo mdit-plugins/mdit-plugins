@@ -1,4 +1,4 @@
-## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-mathjax
 
@@ -14,192 +14,191 @@
 
 - add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
 
-## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13))
 
 **Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.10.1 (2024-05-05)
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05))
 
-- chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))
-- chore(release): publish v0.10.1 ([8957ccc](https://github.com/mdit-plugins/mdit-plugins/commit/8957ccc))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.10.0 (2024-05-03)
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
 
-- chore: remove markdownit keywords ([acabc16](https://github.com/mdit-plugins/mdit-plugins/commit/acabc16))
-- chore: use eslint flat config ([663131f](https://github.com/mdit-plugins/mdit-plugins/commit/663131f))
-- chore(release): publish v0.10.0 ([e03be42](https://github.com/mdit-plugins/mdit-plugins/commit/e03be42))
-- feat: add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226))
+### ✨ Features
 
-## 0.9.0 (2024-04-17)
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
 
-- chore: update deps ([b23d02a](https://github.com/mdit-plugins/mdit-plugins/commit/b23d02a))
-- chore: update deps ([0b172dc](https://github.com/mdit-plugins/mdit-plugins/commit/0b172dc))
-- chore(release): publish v0.9.0 ([2c2798d](https://github.com/mdit-plugins/mdit-plugins/commit/2c2798d))
-- feat: update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22))
+## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
 
-## 0.8.0 (2023-12-08)
+### ✨ Features
 
-- chore(release): publish v0.8.0 ([4c525bd](https://github.com/mdit-plugins/mdit-plugins/commit/4c525bd))
-- feat: support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf1))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
 
-## 0.7.6 (2023-12-07)
+## [0.8.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.6...v0.8.0) (2023-12-08)
 
-- chore: update deps ([e38c414](https://github.com/mdit-plugins/mdit-plugins/commit/e38c414))
-- chore(release): publish v0.7.6 ([d4d5e4f](https://github.com/mdit-plugins/mdit-plugins/commit/d4d5e4f))
+### ✨ Features
 
-## 0.7.5 (2023-12-04)
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
 
-- chore(release): publish v0.7.5 ([aa448a1](https://github.com/mdit-plugins/mdit-plugins/commit/aa448a1))
-- fix(mathjax): fix tex type issue ([e856e90](https://github.com/mdit-plugins/mdit-plugins/commit/e856e90))
+## [0.7.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.5...v0.7.6) (2023-12-07))
 
-## 0.7.4 (2023-11-28)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.7.4 ([7dc0611](https://github.com/mdit-plugins/mdit-plugins/commit/7dc0611))
+## [0.7.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.4...v0.7.5) (2023-12-04)
 
-## 0.7.3 (2023-11-26)
+### 🐛 Bug Fixes
 
-- chore(release): publish v0.7.3 ([2bd1289](https://github.com/mdit-plugins/mdit-plugins/commit/2bd1289))
-- feat: add vPre option ([bebdd5c](https://github.com/mdit-plugins/mdit-plugins/commit/bebdd5c))
+- **mathjax:** fix tex type issue ([e856e90](https://github.com/mdit-plugins/mdit-plugins/commit/e856e900d77616bea64a9f1952bf36a268779cdc))
 
-## 0.7.2 (2023-11-26)
+## [0.7.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.3...v0.7.4) (2023-11-28))
 
-- chore(release): publish v0.7.2 ([5d31b94](https://github.com/mdit-plugins/mdit-plugins/commit/5d31b94))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.7.1 (2023-11-25)
+## [0.7.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.2...v0.7.3) (2023-11-26)
 
-- chore(release): publish v0.7.1 ([fa200f0](https://github.com/mdit-plugins/mdit-plugins/commit/fa200f0))
+### ✨ Features
 
-## 0.7.0 (2023-11-24)
+- add vPre option ([bebdd5c](https://github.com/mdit-plugins/mdit-plugins/commit/bebdd5c96013da5605c3926978f7812f3ecc3249))
 
-- chore: update deps ([c52aa3e](https://github.com/mdit-plugins/mdit-plugins/commit/c52aa3e))
-- chore: update deps ([d02504c](https://github.com/mdit-plugins/mdit-plugins/commit/d02504c))
-- chore(release): publish v0.7.0 ([8055b0f](https://github.com/mdit-plugins/mdit-plugins/commit/8055b0f))
-- test: update tests ([2e1a83c](https://github.com/mdit-plugins/mdit-plugins/commit/2e1a83c))
+## [0.7.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.1...v0.7.2) (2023-11-26))
 
-## 0.6.5 (2023-11-03)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.6.5 ([ab63c7a](https://github.com/mdit-plugins/mdit-plugins/commit/ab63c7a))
-- feat: add allowInlineWithSpace options for katex and mathjax ([911cdf2](https://github.com/mdit-plugins/mdit-plugins/commit/911cdf2))
+## [0.7.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.0...v0.7.1) (2023-11-25))
 
-## 0.6.4 (2023-11-03)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.6.4 ([18ddb0f](https://github.com/mdit-plugins/mdit-plugins/commit/18ddb0f))
+## [0.7.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.5...v0.7.0) (2023-11-24))
 
-## 0.6.3 (2023-11-02)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.6.3 ([9e1ae02](https://github.com/mdit-plugins/mdit-plugins/commit/9e1ae02))
+## [0.6.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.4...v0.6.5) (2023-11-03)
 
-## 0.6.2 (2023-11-02)
+### ✨ Features
 
-- chore(release): publish v0.6.2 ([151a095](https://github.com/mdit-plugins/mdit-plugins/commit/151a095))
+- add allowInlineWithSpace options for katex and mathjax ([911cdf2](https://github.com/mdit-plugins/mdit-plugins/commit/911cdf219bea6252248e5416602628399e62fed6))
 
-## 0.6.1 (2023-11-02)
+## [0.6.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.3...v0.6.4) (2023-11-03))
 
-- chore(release): publish v0.6.1 ([9a33636](https://github.com/mdit-plugins/mdit-plugins/commit/9a33636))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.6.0 (2023-11-02)
+## [0.6.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.2...v0.6.3) (2023-11-02))
 
-- chore(release): publish v0.6.0 ([eb571db](https://github.com/mdit-plugins/mdit-plugins/commit/eb571db))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.5.2 (2023-10-24)
+## [0.6.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.1...v0.6.2) (2023-11-02))
 
-- chore(release): publish v0.5.2 ([ff34cbe](https://github.com/mdit-plugins/mdit-plugins/commit/ff34cbe))
-- fix(mathjax): remove exports ([787a88f](https://github.com/mdit-plugins/mdit-plugins/commit/787a88f))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.5.1 (2023-10-24)
+## [0.6.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.0...v0.6.1) (2023-11-02))
 
-- chore: update deps ([deff17c](https://github.com/mdit-plugins/mdit-plugins/commit/deff17c))
-- chore(release): publish v0.5.1 ([5960a4f](https://github.com/mdit-plugins/mdit-plugins/commit/5960a4f))
-- fix: fix tex optional deps ([fbfc6a4](https://github.com/mdit-plugins/mdit-plugins/commit/fbfc6a4))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.5.0 (2023-10-16)
+## [0.6.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.2...v0.6.0) (2023-11-02))
 
-- chore: update deps ([5e915a8](https://github.com/mdit-plugins/mdit-plugins/commit/5e915a8))
-- chore: update deps ([0035668](https://github.com/mdit-plugins/mdit-plugins/commit/0035668))
-- chore(release): publish v0.5.0 ([e4556a2](https://github.com/mdit-plugins/mdit-plugins/commit/e4556a2))
-- feat: drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145))
-- feat: make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d0))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.4.8 (2023-06-12)
+## [0.5.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.1...v0.5.2) (2023-10-24)
 
-- chore(release): publish v0.4.8 ([857eb81](https://github.com/mdit-plugins/mdit-plugins/commit/857eb81))
+### 🐛 Bug Fixes
 
-## 0.4.7 (2023-06-05)
+- **mathjax:** remove exports ([787a88f](https://github.com/mdit-plugins/mdit-plugins/commit/787a88f4591529537c4d12d0bd26089f70a72296))
 
-- chore(release): publish v0.4.7 ([532a79d](https://github.com/mdit-plugins/mdit-plugins/commit/532a79d))
-- docs: update docs ([457f389](https://github.com/mdit-plugins/mdit-plugins/commit/457f389))
+## [0.5.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.0...v0.5.1) (2023-10-24)
 
-## 0.4.6 (2023-05-19)
+### 🐛 Bug Fixes
 
-- chore(mathjax): fix types ([e05c8ea](https://github.com/mdit-plugins/mdit-plugins/commit/e05c8ea))
-- chore(release): publish v0.4.6 ([328568b](https://github.com/mdit-plugins/mdit-plugins/commit/328568b))
-- feat(tex): support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68))
+- fix tex optional deps ([fbfc6a4](https://github.com/mdit-plugins/mdit-plugins/commit/fbfc6a4cfea5105c26a0f292ae822aaddb95eea4))
 
-## 0.4.5 (2023-05-09)
+## [0.5.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.8...v0.5.0) (2023-10-16)
 
-- chore: update exports ([8191d81](https://github.com/mdit-plugins/mdit-plugins/commit/8191d81))
-- chore(release): publish v0.4.5 ([495bdf3](https://github.com/mdit-plugins/mdit-plugins/commit/495bdf3))
+### ✨ Features
 
-## 0.4.4 (2023-04-28)
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
 
-- chore(release): publish v0.4.4 ([a725230](https://github.com/mdit-plugins/mdit-plugins/commit/a725230))
+## [0.4.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.7...v0.4.8) (2023-06-12))
 
-## 0.4.3 (2023-04-07)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.4.3 ([55804d4](https://github.com/mdit-plugins/mdit-plugins/commit/55804d4))
+## [0.4.7](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.6...v0.4.7) (2023-06-05))
 
-## 0.4.2 (2023-04-06)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.4.2 ([25def24](https://github.com/mdit-plugins/mdit-plugins/commit/25def24))
+## [0.4.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.5...v0.4.6) (2023-05-19)
 
-## 0.4.1 (2023-03-29)
+### ✨ Features
 
-- chore(release): publish v0.4.1 ([10943c8](https://github.com/mdit-plugins/mdit-plugins/commit/10943c8))
-- feat(include): improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3))
+- **tex:** support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68267f66f14272fcdc446222ab29e32a548))
 
-## 0.4.0 (2023-03-26)
+## [0.4.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.4...v0.4.5) (2023-05-09))
 
-- chore(release): publish v0.4.0 ([cca4d31](https://github.com/mdit-plugins/mdit-plugins/commit/cca4d31))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.3.0 (2023-02-17)
+## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28))
 
-- chore(release): publish v0.3.0 ([97bdf3c](https://github.com/mdit-plugins/mdit-plugins/commit/97bdf3c))
-- feat(mathjax): add outputStyle method and remove generateMathjaxStyle ([6fa0408](https://github.com/mdit-plugins/mdit-plugins/commit/6fa0408))
-- fix(mathjax): add reset method to clear label between pages, close #25 ([d580f1b](https://github.com/mdit-plugins/mdit-plugins/commit/d580f1b)), closes [#25](https://github.com/mdit-plugins/mdit-plugins/issues/25)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-### BREAKING CHANGE
+## [0.4.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.2...v0.4.3) (2023-04-07))
 
-- add outputStyle method and remove generateMathjaxStyle
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.2.4 (2023-02-16)
+## [0.4.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.1...v0.4.2) (2023-04-06))
 
-- chore(release): publish v0.2.4 ([d34b395](https://github.com/mdit-plugins/mdit-plugins/commit/d34b395))
-- style: update linter ([5752d1d](https://github.com/mdit-plugins/mdit-plugins/commit/5752d1d))
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-## 0.2.3 (2023-01-01)
+## [0.4.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.0...v0.4.1) (2023-03-29)
 
-- chore(release): publish v0.2.3 ([578c378](https://github.com/mdit-plugins/mdit-plugins/commit/578c378))
+### ✨ Features
 
-## 0.2.2 (2022-12-29)
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
 
-- chore(release): publish v0.2.2 ([c584263](https://github.com/mdit-plugins/mdit-plugins/commit/c584263))
+## [0.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.3.0...v0.4.0) (2023-03-26))
 
-## 0.2.1 (2022-12-29)
+**Note:** Version bump only for package @mdit/plugin-mathjax
 
-- chore(release): publish v0.2.1 ([f1f6dd2](https://github.com/mdit-plugins/mdit-plugins/commit/f1f6dd2))
+## [0.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.4...v0.3.0) (2023-02-17)
 
-## 0.2.0 (2022-12-29)
+### ⚠ BREAKING CHANGES
 
-- chore(release): publish v0.2.0 ([59c7786](https://github.com/mdit-plugins/mdit-plugins/commit/59c7786))
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle
 
-## 0.1.0 (2022-12-28)
+### ✨ Features
 
-- chore: add engine in package.json ([c31a79f](https://github.com/mdit-plugins/mdit-plugins/commit/c31a79f))
-- chore(release): publish v0.1.0 ([12da773](https://github.com/mdit-plugins/mdit-plugins/commit/12da773))
-- feat(mathjax): update api ([f092805](https://github.com/mdit-plugins/mdit-plugins/commit/f092805))
-- test: update snapshots ([691b86f](https://github.com/mdit-plugins/mdit-plugins/commit/691b86f))
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle ([6fa0408](https://github.com/mdit-plugins/mdit-plugins/commit/6fa0408f5dd250b107d5dc0a22dca8b47ff7d6cd))
 
-## 0.1.0-alpha.1 (2022-12-28)
+### 🐛 Bug Fixes
 
-- chore(release): publish v0.1.0-alpha.1 ([63270b7](https://github.com/mdit-plugins/mdit-plugins/commit/63270b7))
-- feat: add mathjax plugin ([60f5e4a](https://github.com/mdit-plugins/mdit-plugins/commit/60f5e4a))
+- **mathjax:** add reset method to clear label between pages, close [#25](https://github.com/mdit-plugins/mdit-plugins/issues/25) ([d580f1b](https://github.com/mdit-plugins/mdit-plugins/commit/d580f1b4055c1b65c0ed025b2135191251204065))
+
+## [0.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.3...v0.2.4) (2023-02-16))
+
+**Note:** Version bump only for package @mdit/plugin-mathjax
+
+## [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.2...v0.2.3) (2023-01-01))
+
+**Note:** Version bump only for package @mdit/plugin-mathjax
+
+## [0.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.1...v0.2.2) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-mathjax
+
+## [0.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.0...v0.2.1) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-mathjax
+
+## [0.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0...v0.2.0) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-mathjax
+
+## [0.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0-alpha.1...v0.1.0) (2022-12-28)
+
+### ✨ Features
+
+- **mathjax:** update api ([f092805](https://github.com/mdit-plugins/mdit-plugins/commit/f092805e448b67302065ff92914bf8f056fa5e06))
+
+## [0.1.0-alpha.1](https://github.com/mdit-plugins/mdit-plugins/compare/60f5e4a7a017a29a11554c4da15c542dba4a933d...v0.1.0-alpha.1) (2022-12-28)
+
+### ✨ Features
+
+- add mathjax plugin ([60f5e4a](https://github.com/mdit-plugins/mdit-plugins/commit/60f5e4a7a017a29a11554c4da15c542dba4a933d))

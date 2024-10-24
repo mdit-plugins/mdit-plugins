@@ -1,4 +1,4 @@
-## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-include
 
@@ -8,200 +8,191 @@
 
 - use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
 
-## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16)
+## [0.12.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.11.0...v0.12.0) (2024-05-16))
 
 **Note:** Version bump only for package @mdit/plugin-include
 
-## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13))
 
 **Note:** Version bump only for package @mdit/plugin-include
 
-## 0.10.1 (2024-05-05)
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05))
 
-- chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))
-- chore(release): publish v0.10.1 ([8957ccc](https://github.com/mdit-plugins/mdit-plugins/commit/8957ccc))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.10.0 (2024-05-03)
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03))
 
-- chore: remove markdownit keywords ([acabc16](https://github.com/mdit-plugins/mdit-plugins/commit/acabc16))
-- chore: tweaks ([94da5bc](https://github.com/mdit-plugins/mdit-plugins/commit/94da5bc))
-- chore: use eslint flat config ([663131f](https://github.com/mdit-plugins/mdit-plugins/commit/663131f))
-- chore(include): use comment to get dir env ([e9fd54f](https://github.com/mdit-plugins/mdit-plugins/commit/e9fd54f))
-- chore(release): publish v0.10.0 ([e03be42](https://github.com/mdit-plugins/mdit-plugins/commit/e03be42))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.9.0 (2024-04-17)
+## [0.9.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.8.0...v0.9.0) (2024-04-17)
 
-- chore: update deps ([b23d02a](https://github.com/mdit-plugins/mdit-plugins/commit/b23d02a))
-- chore: update deps ([0b172dc](https://github.com/mdit-plugins/mdit-plugins/commit/0b172dc))
-- chore(release): publish v0.9.0 ([2c2798d](https://github.com/mdit-plugins/mdit-plugins/commit/2c2798d))
-- feat: update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22))
+### ✨ Features
 
-## 0.8.0 (2023-12-08)
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
 
-- chore(release): publish v0.8.0 ([4c525bd](https://github.com/mdit-plugins/mdit-plugins/commit/4c525bd))
-- feat: support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf1))
+## [0.8.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.6...v0.8.0) (2023-12-08)
 
-## 0.7.6 (2023-12-07)
+### ✨ Features
 
-- chore: update deps ([e38c414](https://github.com/mdit-plugins/mdit-plugins/commit/e38c414))
-- chore(release): publish v0.7.6 ([d4d5e4f](https://github.com/mdit-plugins/mdit-plugins/commit/d4d5e4f))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
 
-## 0.7.5 (2023-12-04)
+## [0.7.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.5...v0.7.6) (2023-12-07))
 
-- chore(release): publish v0.7.5 ([aa448a1](https://github.com/mdit-plugins/mdit-plugins/commit/aa448a1))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.7.4 (2023-11-28)
+## [0.7.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.4...v0.7.5) (2023-12-04))
 
-- chore(release): publish v0.7.4 ([7dc0611](https://github.com/mdit-plugins/mdit-plugins/commit/7dc0611))
-- fix(demo): fix source getting ([5860029](https://github.com/mdit-plugins/mdit-plugins/commit/5860029))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.7.3 (2023-11-26)
+## [0.7.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.3...v0.7.4) (2023-11-28)
 
-- chore(release): publish v0.7.3 ([2bd1289](https://github.com/mdit-plugins/mdit-plugins/commit/2bd1289))
+### 🐛 Bug Fixes
 
-## 0.7.2 (2023-11-26)
+- **demo:** fix source getting ([5860029](https://github.com/mdit-plugins/mdit-plugins/commit/5860029945ca460f83edbf388a408b7dafbd7970))
 
-- chore(release): publish v0.7.2 ([5d31b94](https://github.com/mdit-plugins/mdit-plugins/commit/5d31b94))
+## [0.7.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.2...v0.7.3) (2023-11-26))
 
-## 0.7.1 (2023-11-25)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.7.1 ([fa200f0](https://github.com/mdit-plugins/mdit-plugins/commit/fa200f0))
+## [0.7.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.1...v0.7.2) (2023-11-26))
 
-## 0.7.0 (2023-11-24)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore: tweaks ([77ddf0d](https://github.com/mdit-plugins/mdit-plugins/commit/77ddf0d))
-- chore: update deps ([c52aa3e](https://github.com/mdit-plugins/mdit-plugins/commit/c52aa3e))
-- chore: update deps ([d02504c](https://github.com/mdit-plugins/mdit-plugins/commit/d02504c))
-- chore(release): publish v0.7.0 ([8055b0f](https://github.com/mdit-plugins/mdit-plugins/commit/8055b0f))
-- test: update tests ([2e1a83c](https://github.com/mdit-plugins/mdit-plugins/commit/2e1a83c))
-- style: fix linter ([b08d296](https://github.com/mdit-plugins/mdit-plugins/commit/b08d296))
-- perf(include): improve performance ([2fcbb68](https://github.com/mdit-plugins/mdit-plugins/commit/2fcbb68))
+## [0.7.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.7.0...v0.7.1) (2023-11-25))
 
-## 0.6.5 (2023-11-03)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.6.5 ([ab63c7a](https://github.com/mdit-plugins/mdit-plugins/commit/ab63c7a))
+## [0.7.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.5...v0.7.0) (2023-11-24)
 
-## 0.6.4 (2023-11-03)
+### 🚀 Performance Improvements
 
-- chore(release): publish v0.6.4 ([18ddb0f](https://github.com/mdit-plugins/mdit-plugins/commit/18ddb0f))
-- feat(include): add useComment option ([f1222ba](https://github.com/mdit-plugins/mdit-plugins/commit/f1222ba))
+- **include:** improve performance ([2fcbb68](https://github.com/mdit-plugins/mdit-plugins/commit/2fcbb686ed40ce7b4121639d642befb47a9970c7))
 
-## 0.6.3 (2023-11-02)
+## [0.6.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.4...v0.6.5) (2023-11-03))
 
-- chore(release): publish v0.6.3 ([9e1ae02](https://github.com/mdit-plugins/mdit-plugins/commit/9e1ae02))
-- feat(include): support frontmatter ([462497f](https://github.com/mdit-plugins/mdit-plugins/commit/462497f))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.6.2 (2023-11-02)
+## [0.6.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.3...v0.6.4) (2023-11-03)
 
-- chore(release): publish v0.6.2 ([151a095](https://github.com/mdit-plugins/mdit-plugins/commit/151a095))
+### ✨ Features
 
-## 0.6.1 (2023-11-02)
+- **include:** add useComment option ([f1222ba](https://github.com/mdit-plugins/mdit-plugins/commit/f1222bafc138f4e615df931d0750631df96b1e80))
 
-- chore(release): publish v0.6.1 ([9a33636](https://github.com/mdit-plugins/mdit-plugins/commit/9a33636))
+## [0.6.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.2...v0.6.3) (2023-11-02)
 
-## 0.6.0 (2023-11-02)
+### ✨ Features
 
-- chore(release): publish v0.6.0 ([eb571db](https://github.com/mdit-plugins/mdit-plugins/commit/eb571db))
+- **include:** support frontmatter ([462497f](https://github.com/mdit-plugins/mdit-plugins/commit/462497fba6e8966ecb870d5e737d64574aa4bb9f))
 
-## 0.5.2 (2023-10-24)
+## [0.6.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.1...v0.6.2) (2023-11-02))
 
-- chore(release): publish v0.5.2 ([ff34cbe](https://github.com/mdit-plugins/mdit-plugins/commit/ff34cbe))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.5.1 (2023-10-24)
+## [0.6.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.6.0...v0.6.1) (2023-11-02))
 
-- chore: update deps ([deff17c](https://github.com/mdit-plugins/mdit-plugins/commit/deff17c))
-- chore(release): publish v0.5.1 ([5960a4f](https://github.com/mdit-plugins/mdit-plugins/commit/5960a4f))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.5.0 (2023-10-16)
+## [0.6.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.2...v0.6.0) (2023-11-02))
 
-- chore: update deps ([5e915a8](https://github.com/mdit-plugins/mdit-plugins/commit/5e915a8))
-- chore: update deps ([0035668](https://github.com/mdit-plugins/mdit-plugins/commit/0035668))
-- chore(release): publish v0.5.0 ([e4556a2](https://github.com/mdit-plugins/mdit-plugins/commit/e4556a2))
-- feat: drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145))
-- feat: make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d0))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.4.8 (2023-06-12)
+## [0.5.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.1...v0.5.2) (2023-10-24))
 
-- chore(release): publish v0.4.8 ([857eb81](https://github.com/mdit-plugins/mdit-plugins/commit/857eb81))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.4.7 (2023-06-05)
+## [0.5.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.5.0...v0.5.1) (2023-10-24))
 
-- chore(release): publish v0.4.7 ([532a79d](https://github.com/mdit-plugins/mdit-plugins/commit/532a79d))
-- docs: update docs ([457f389](https://github.com/mdit-plugins/mdit-plugins/commit/457f389))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.4.6 (2023-05-19)
+## [0.5.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.8...v0.5.0) (2023-10-16)
 
-- chore(release): publish v0.4.6 ([328568b](https://github.com/mdit-plugins/mdit-plugins/commit/328568b))
+### ✨ Features
 
-## 0.4.5 (2023-05-09)
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
 
-- chore: update exports ([8191d81](https://github.com/mdit-plugins/mdit-plugins/commit/8191d81))
-- chore(release): publish v0.4.5 ([495bdf3](https://github.com/mdit-plugins/mdit-plugins/commit/495bdf3))
+## [0.4.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.7...v0.4.8) (2023-06-12))
 
-## 0.4.4 (2023-04-28)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.4.4 ([a725230](https://github.com/mdit-plugins/mdit-plugins/commit/a725230))
-- fix(include): fix wrong path ([27c8873](https://github.com/mdit-plugins/mdit-plugins/commit/27c8873))
+## [0.4.7](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.6...v0.4.7) (2023-06-05))
 
-## 0.4.3 (2023-04-07)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.4.3 ([55804d4](https://github.com/mdit-plugins/mdit-plugins/commit/55804d4))
+## [0.4.6](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.5...v0.4.6) (2023-05-19))
 
-## 0.4.2 (2023-04-06)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.4.2 ([25def24](https://github.com/mdit-plugins/mdit-plugins/commit/25def24))
-- test(include): add tests ([f98f0e0](https://github.com/mdit-plugins/mdit-plugins/commit/f98f0e0))
+## [0.4.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.4...v0.4.5) (2023-05-09))
 
-## 0.4.1 (2023-03-29)
+**Note:** Version bump only for package @mdit/plugin-include
 
-- chore(release): publish v0.4.1 ([10943c8](https://github.com/mdit-plugins/mdit-plugins/commit/10943c8))
-- feat(include): improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3))
+## [0.4.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.3...v0.4.4) (2023-04-28)
 
-## 0.4.0 (2023-03-26)
+### 🐛 Bug Fixes
 
-- chore(release): publish v0.4.0 ([cca4d31](https://github.com/mdit-plugins/mdit-plugins/commit/cca4d31))
-- feat(include): update include syntax ([fe5b2d8](https://github.com/mdit-plugins/mdit-plugins/commit/fe5b2d8))
+- **include:** fix wrong path ([27c8873](https://github.com/mdit-plugins/mdit-plugins/commit/27c88733742cf730b944f263aec4d52275e59061))
 
-### BREAKING CHANGE
+## [0.4.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.2...v0.4.3) (2023-04-07))
 
-- you should use `<!-- @include :path -->` now
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.3.0 (2023-02-17)
+## [0.4.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.1...v0.4.2) (2023-04-06))
 
-- chore(release): publish v0.3.0 ([97bdf3c](https://github.com/mdit-plugins/mdit-plugins/commit/97bdf3c))
+**Note:** Version bump only for package @mdit/plugin-include
 
-## 0.2.4 (2023-02-16)
+## [0.4.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.4.0...v0.4.1) (2023-03-29)
 
-- chore(release): publish v0.2.4 ([d34b395](https://github.com/mdit-plugins/mdit-plugins/commit/d34b395))
-- style: update linter ([5752d1d](https://github.com/mdit-plugins/mdit-plugins/commit/5752d1d))
+### ✨ Features
 
-## 0.2.3 (2023-01-01)
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
 
-- chore(release): publish v0.2.3 ([578c378](https://github.com/mdit-plugins/mdit-plugins/commit/578c378))
-- test(include): add test for dedent ([d713d42](https://github.com/mdit-plugins/mdit-plugins/commit/d713d42))
-- fix(include): fix dedent single line file ([f84216f](https://github.com/mdit-plugins/mdit-plugins/commit/f84216f))
-- fix(include): improve option types and fix error hint ([30dc191](https://github.com/mdit-plugins/mdit-plugins/commit/30dc191))
+## [0.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.3.0...v0.4.0) (2023-03-26)
 
-## 0.2.2 (2022-12-29)
+### ⚠ BREAKING CHANGES
 
-- chore(release): publish v0.2.2 ([c584263](https://github.com/mdit-plugins/mdit-plugins/commit/c584263))
+- **include:** you should use `<!-- @include :path -->` now
 
-## 0.2.1 (2022-12-29)
+### ✨ Features
 
-- chore(release): publish v0.2.1 ([f1f6dd2](https://github.com/mdit-plugins/mdit-plugins/commit/f1f6dd2))
+- **include:** update include syntax ([fe5b2d8](https://github.com/mdit-plugins/mdit-plugins/commit/fe5b2d8962536019cf8f2641d43d033089b40605))
 
-## 0.2.0 (2022-12-29)
+## [0.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.4...v0.3.0) (2023-02-17))
 
-- chore(release): publish v0.2.0 ([59c7786](https://github.com/mdit-plugins/mdit-plugins/commit/59c7786))
-- docs: add include ([2b13b4e](https://github.com/mdit-plugins/mdit-plugins/commit/2b13b4e))
-- feat(include): update options ([7ccf4b9](https://github.com/mdit-plugins/mdit-plugins/commit/7ccf4b9))
+**Note:** Version bump only for package @mdit/plugin-include
 
-### BREAKING CHANGE
+## [0.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.3...v0.2.4) (2023-02-16))
 
-- rename `getCurrentPath` to `currentPath`
+**Note:** Version bump only for package @mdit/plugin-include
+
+## [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.2...v0.2.3) (2023-01-01)
+
+### 🐛 Bug Fixes
+
+- **include:** fix dedent single line file ([f84216f](https://github.com/mdit-plugins/mdit-plugins/commit/f84216fdfb64efd36ed2ee31c2ced182a2f13eb5))
+- **include:** improve option types and fix error hint ([30dc191](https://github.com/mdit-plugins/mdit-plugins/commit/30dc1915496d3c4afc0c1203b7548dad800b1dc8))
+
+## [0.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.1...v0.2.2) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-include
+
+## [0.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.2.0...v0.2.1) (2022-12-29))
+
+**Note:** Version bump only for package @mdit/plugin-include
+
+## [0.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0...v0.2.0) (2022-12-29)
+
+### ⚠ BREAKING CHANGES
+
+- **include:** rename `getCurrentPath` to `currentPath`
   rename `getPath` to `resolvePath`
 
-## 0.1.0 (2022-12-28)
+### ✨ Features
 
-- chore(release): publish v0.1.0 ([12da773](https://github.com/mdit-plugins/mdit-plugins/commit/12da773))
-- feat: add include plugin ([1e22cdc](https://github.com/mdit-plugins/mdit-plugins/commit/1e22cdc))
+- **include:** update options ([7ccf4b9](https://github.com/mdit-plugins/mdit-plugins/commit/7ccf4b9d60a0337c503a8aae1c9f314363970f83))
+
+## [0.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.1.0-alpha.1...v0.1.0) (2022-12-28)
+
+### ✨ Features
+
+- add include plugin ([1e22cdc](https://github.com/mdit-plugins/mdit-plugins/commit/1e22cdc644a1046178517424c20ab29a9bfb96ed))

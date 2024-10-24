@@ -3,7 +3,6 @@ import hopeConfig, {
   config,
   globals,
   tsParser,
-  // eslint-disable-next-line import-x/no-unresolved
 } from "eslint-config-mister-hope";
 
 export default config(

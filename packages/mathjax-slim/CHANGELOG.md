@@ -1,4 +1,4 @@
-## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27)
+## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-mathjax-slim
 
@@ -14,17 +14,16 @@
 
 - add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
 
-## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13)
+## [0.11.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.1...v0.11.0) (2024-05-13))
 
 **Note:** Version bump only for package @mdit/plugin-mathjax-slim
 
-## 0.10.1 (2024-05-05)
+## [0.10.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.10.0...v0.10.1) (2024-05-05))
 
-- chore: bump deps ([0fc99b8](https://github.com/mdit-plugins/mdit-plugins/commit/0fc99b8))
-- chore(release): publish v0.10.1 ([8957ccc](https://github.com/mdit-plugins/mdit-plugins/commit/8957ccc))
+**Note:** Version bump only for package @mdit/plugin-mathjax-slim
 
-## 0.10.0 (2024-05-03)
+## [0.10.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.9.0...v0.10.0) (2024-05-03)
 
-- chore: remove markdownit keywords ([acabc16](https://github.com/mdit-plugins/mdit-plugins/commit/acabc16))
-- chore(release): publish v0.10.0 ([e03be42](https://github.com/mdit-plugins/mdit-plugins/commit/e03be42))
-- feat: add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226))
+### ✨ Features
+
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
