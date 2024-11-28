@@ -1,3 +1,13 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.14.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.3...v0.14.0) (2024-11-28)
+
+### 🐛 Bug Fixes
+
+- **uml:** dedent content ([fa78679](https://github.com/mdit-plugins/mdit-plugins/commit/fa78679c529978aaee299e12364d08c210b42e27))
+
 ## [0.13.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.0...v0.13.1) (2024-08-27))
 
 **Note:** Version bump only for package @mdit/plugin-uml
