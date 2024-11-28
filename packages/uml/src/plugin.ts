@@ -1,3 +1,4 @@
+import { dedent } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
@@ -101,7 +102,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
 
     umlToken.block = true;
     umlToken.info = params;
-    umlToken.content = contents;
+    umlToken.content = dedent(contents);
     umlToken.map = [startLine, nextLine];
     umlToken.markup = markup;
 

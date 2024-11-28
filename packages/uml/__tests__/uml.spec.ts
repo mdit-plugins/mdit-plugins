@@ -14,7 +14,65 @@ abc
 
 @end
     `),
-  ).toMatchSnapshot();
+  ).toEqual(`\
+<div class="uml" title="">
+abc
+</div>\
+`);
+
+  expect(
+    markdownIt.render(`
+- @start
+
+  abc
+
+  def
+
+ghi
+    `),
+  ).toEqual(`\
+<ul>
+<li>
+<div class="uml" title="">
+abc
+
+def
+</div></li>
+</ul>
+<p>ghi</p>
+`);
+});
+
+it("should not render", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+
+  expect(
+    markdownIt.render(`
+start
+
+abc
+
+end
+    `),
+  ).toEqual(`\
+<p>start</p>
+<p>abc</p>
+<p>end</p>
+`);
+
+  expect(
+    markdownIt.render(`
+@star
+
+abc
+
+@end
+    `),
+  ).toEqual(`\
+<p>@star</p>
+<p>abc</p>
+<p>@end</p>
+`);
 });
 
 it("should keep content as is", () => {
@@ -28,7 +86,11 @@ Text with **bold** and \`code\`.
 
 @end
     `),
-  ).toMatchSnapshot();
+  ).toEqual(`\
+<div class="uml" title="">
+Text with **bold** and \`code\`.
+</div>\
+`);
 });
 
 it("should render with options", () => {
@@ -54,5 +116,11 @@ def
 
 @testend
 `),
-  ).toMatchSnapshot();
+  ).toEqual(`\
+<Test class="test" title="">
+abc
+
+def
+</Test>\
+`);
 });
