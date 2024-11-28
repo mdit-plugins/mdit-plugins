@@ -27,7 +27,7 @@ const mdFixtureFrontmatterPath = path.resolve(
 describe("directive", () => {
   const md = MarkdownIt({ html: true })
     .use(include, {
-      currentPath: (env: IncludeEnv) => env["filePath"] as string,
+      currentPath: (env: IncludeEnv) => env.filePath as string,
       useComment: false,
     })
     .use(container, { name: "tip" });
@@ -107,7 +107,7 @@ describe("directive", () => {
 describe("comment", () => {
   const md = MarkdownIt({ html: true })
     .use(include, {
-      currentPath: (env: IncludeEnv) => env["filePath"] as string,
+      currentPath: (env: IncludeEnv) => env.filePath as string,
     })
     .use(container, { name: "tip" });
 
@@ -400,7 +400,7 @@ describe("comment", () => {
 
     const mdWithOptions = MarkdownIt({ html: true })
       .use(include, {
-        currentPath: (env: IncludeEnv) => env["filePath"] as string,
+        currentPath: (env: IncludeEnv) => env.filePath as string,
         resolvePath: (str: string): string =>
           str.replace(/^@fixtures/, path.resolve(__dirname, "./__fixtures__")),
       })
@@ -505,7 +505,7 @@ foo
 
       const mdWithOptions = MarkdownIt({ html: true })
         .use(include, {
-          currentPath: (env: IncludeEnv) => env["filePath"] as string,
+          currentPath: (env: IncludeEnv) => env.filePath as string,
           deep: true,
         })
         .use(container, { name: "tip" });
@@ -569,7 +569,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env["filePath"] as string,
+          currentPath: (env: IncludeEnv) => env.filePath as string,
           resolveLinkPath: false,
         });
         const rendered = mdWithOptions.render(source, env);
@@ -591,7 +591,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env["filePath"] as string,
+          currentPath: (env: IncludeEnv) => env.filePath as string,
           resolveImagePath: false,
         });
         const rendered = mdWithOptions.render(source, env);
@@ -613,7 +613,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env["filePath"] as string,
+          currentPath: (env: IncludeEnv) => env.filePath as string,
           resolveImagePath: false,
           resolveLinkPath: false,
         });
@@ -638,7 +638,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env["filePath"] as string,
+          currentPath: (env: IncludeEnv) => env.filePath as string,
           deep: true,
         });
         const rendered = mdWithOptions.render(source, env);

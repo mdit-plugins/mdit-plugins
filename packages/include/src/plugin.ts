@@ -327,7 +327,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
 
-    md.renderer.rules["include_start"] = (
+    md.renderer.rules.include_start = (
       tokens,
       index,
       _options,
@@ -341,7 +341,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       return "";
     };
 
-    md.renderer.rules["include_end"] = (
+    md.renderer.rules.include_end = (
       _tokens,
       _index,
       _options,
@@ -380,11 +380,11 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
 
     if (resolveLinkPath) {
       const defaultLinkRenderer =
-        md.renderer.rules["link_open"] ??
+        md.renderer.rules.link_open ??
         ((tokens, index, options, _env, self): string =>
           self.renderToken(tokens, index, options));
 
-      md.renderer.rules["link_open"] = (
+      md.renderer.rules.link_open = (
         tokens,
         index,
         options,

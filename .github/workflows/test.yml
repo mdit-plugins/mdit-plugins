@@ -37,6 +37,7 @@ jobs:
 
       - name: Build project
         env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run build
 
@@ -51,7 +52,14 @@ jobs:
         run: pnpm run test
 
       - name: Upload coverage
-        if: github.ref == 'refs/heads/main' && matrix.node-version == '22'
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && matrix.node-version == '22' }}
         uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && matrix.node-version == '22' }}
+        uses: codecov/test-results-action@v1
+        with:
+          file: ./coverage/test-report.junit.xml
           token: ${{ secrets.CODECOV_TOKEN }}

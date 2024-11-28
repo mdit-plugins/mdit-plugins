@@ -6,7 +6,7 @@ import type { SnippetEnv } from "../src/index.js";
 import { snippet } from "../src/index.js";
 
 const md = MarkdownIt({ html: true }).use(snippet, {
-  currentPath: (env: SnippetEnv) => env["filePath"] as string,
+  currentPath: (env: SnippetEnv) => env.filePath as string,
 });
 
 const fixturesRelative = "./__fixtures__/";

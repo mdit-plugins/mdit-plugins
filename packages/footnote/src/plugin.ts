@@ -64,14 +64,8 @@ const renderFootnoteRef: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string => {
-  const id = self.rules["footnote_anchorName"]!(
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  );
-  const caption = self.rules["footnote_caption"]!(
+  const id = self.rules.footnote_anchorName!(tokens, index, options, env, self);
+  const caption = self.rules.footnote_caption!(
     tokens,
     index,
     options,
@@ -108,7 +102,7 @@ const renderFootnoteOpen: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
-  `<li id="footnote${self.rules["footnote_anchorName"]!(
+  `<li id="footnote${self.rules.footnote_anchorName!(
     tokens,
     index,
     options,
@@ -125,7 +119,7 @@ const renderFootnoteAnchor: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
-  ` <a href="#footnote-ref${self.rules["footnote_anchorName"]!(
+  ` <a href="#footnote-ref${self.rules.footnote_anchorName!(
     tokens,
     index,
     options,
@@ -439,17 +433,17 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 };
 
 export const footnote: PluginSimple = (md) => {
-  md.renderer.rules["footnote_ref"] = renderFootnoteRef;
-  md.renderer.rules["footnote_block_open"] = renderFootnoteBlockOpen;
-  md.renderer.rules["footnote_block_close"] = renderFootnoteBlockClose;
-  md.renderer.rules["footnote_open"] = renderFootnoteOpen;
-  md.renderer.rules["footnote_close"] = renderFootnoteClose;
-  md.renderer.rules["footnote_anchor"] = renderFootnoteAnchor;
+  md.renderer.rules.footnote_ref = renderFootnoteRef;
+  md.renderer.rules.footnote_block_open = renderFootnoteBlockOpen;
+  md.renderer.rules.footnote_block_close = renderFootnoteBlockClose;
+  md.renderer.rules.footnote_open = renderFootnoteOpen;
+  md.renderer.rules.footnote_close = renderFootnoteClose;
+  md.renderer.rules.footnote_anchor = renderFootnoteAnchor;
 
   // helpers (only used in other rules, no tokens are attached to those)
   // helpers (only used in other rules, no tokens are attached to those)
-  md.renderer.rules["footnote_caption"] = renderFootnoteCaption;
-  md.renderer.rules["footnote_anchorName"] = renderFootnoteAnchorName;
+  md.renderer.rules.footnote_caption = renderFootnoteCaption;
+  md.renderer.rules.footnote_anchorName = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],

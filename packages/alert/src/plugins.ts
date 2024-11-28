@@ -247,10 +247,10 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  if (openRender) md.renderer.rules["alert_open"] = openRender;
-  if (closeRender) md.renderer.rules["alert_close"] = closeRender;
+  if (openRender) md.renderer.rules.alert_open = openRender;
+  if (closeRender) md.renderer.rules.alert_close = closeRender;
 
-  md.renderer.rules["alert_title"] =
+  md.renderer.rules.alert_title =
     titleRender ??
     ((tokens, index): string => {
       const token = tokens[index];

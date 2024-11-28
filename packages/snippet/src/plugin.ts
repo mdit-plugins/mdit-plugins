@@ -149,9 +149,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const meta: Record<string, unknown> =
       typeof token.meta === "object" ? (token.meta ?? {}) : {};
-    const [src, regionName] = meta["src"]
-      ? (meta["src"] as string).split("#")
-      : [""];
+    const [src, regionName] = meta.src ? (meta.src as string).split("#") : [""];
 
     if (src)
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {

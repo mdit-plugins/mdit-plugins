@@ -159,11 +159,11 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.block.ruler.before("fence", "demo", demoRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules["demo_open"] = openRender;
-  md.renderer.rules["demo_close"] = closeRender;
-  if (codeRender) md.renderer.rules["demo_code"] = codeRender;
+  md.renderer.rules.demo_open = openRender;
+  md.renderer.rules.demo_close = closeRender;
+  if (codeRender) md.renderer.rules.demo_code = codeRender;
   if (contentOpenRender)
-    md.renderer.rules["demo_content_open"] = contentOpenRender;
+    md.renderer.rules.demo_content_open = contentOpenRender;
   if (contentCloseRender)
-    md.renderer.rules["demo_content_close"] = contentCloseRender;
+    md.renderer.rules.demo_content_close = contentCloseRender;
 };

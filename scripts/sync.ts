@@ -15,7 +15,7 @@ export const sync = (): Promise<void[]> => {
       ({ default: content }: { default: Record<string, unknown> }) =>
         new Promise<void>((resolve) => {
           const req = request(
-            new URL(`https://npmmirror.com/sync/${content["name"] as string}/`),
+            new URL(`https://npmmirror.com/sync/${content.name as string}/`),
           );
 
           req.write("");

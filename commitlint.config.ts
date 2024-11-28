@@ -23,7 +23,7 @@ export default defineConfig({
     "scope-enum": [2, "always", ["release", ...packages]],
   },
   prompt: {
-    defaultScope: scopeComplete,
+    defaultScope: scopeComplete ?? "",
     customScopesAlign: !scopeComplete ? "top" : "bottom",
     allowCustomIssuePrefix: false,
     allowEmptyIssuePrefix: false,
