@@ -23,6 +23,24 @@ const a = 1;
 \`\`\`\
 `;
 
+const renderContent = `\
+<h1>Heading 1</h1>
+<p>Content text.</p>
+<pre><code class="language-js">const a = 1;
+</code></pre>\
+`;
+
+const demoContent = `\
+<div class="demo-content">
+${renderContent}
+</div>\
+`;
+
+const codeContent = `\
+<pre><code class="language-md">${escapeHtml(mdContent)}
+</code></pre>\
+`;
+
 it("default", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo);
 
@@ -35,14 +53,8 @@ ${mdContent}
   ).toBe(
     `\
 <details><summary>Title text</summary>
-<div class="demo-content">
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
-</div>
-<pre><code class="language-md">${mdContent}
-</code></pre>
+${demoContent}
+${codeContent}
 </details>
 `,
   );
@@ -67,14 +79,8 @@ ${mdContent}
 <li>
 <p>list</p>
 <details><summary>Title text</summary>
-<div class="demo-content">
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
-</div>
-<pre><code class="language-md">${mdContent}
-</code></pre>
+${demoContent}
+${codeContent}
 </details>
 </li>
 </ul>
@@ -82,7 +88,7 @@ ${mdContent}
   );
 });
 
-it("customize name", () => {
+it("customize container name", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
     name: "md-demo",
   });
@@ -93,20 +99,12 @@ it("customize name", () => {
 ${mdContent}
 :::
 `),
-  ).toBe(
-    `\
+  ).toBe(`\
 <details><summary>Title text</summary>
-<div class="demo-content">
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
-</div>
-<pre><code class="language-md">${mdContent}
-</code></pre>
+${demoContent}
+${codeContent}
 </details>
-`,
-  );
+`);
 
   expect(
     markdownIt.render(`
@@ -116,20 +114,12 @@ ${mdContent}
 
 :::
 `),
-  ).toBe(
-    `\
+  ).toBe(`\
 <details><summary>Title text</summary>
-<div class="demo-content">
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
-</div>
-<pre><code class="language-md">${mdContent}
-</code></pre>
+${demoContent}
+${codeContent}
 </details>
-`,
-  );
+`);
 });
 
 it("beforeContent", () => {
@@ -146,14 +136,8 @@ ${mdContent}
   ).toBe(
     `\
 <details><summary>Title text</summary>
-<pre><code class="language-md">${mdContent}
-</code></pre>
-<div class="demo-content">
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
-</div>
+${codeContent}
+${demoContent}
 </details>
 `,
   );
@@ -188,13 +172,9 @@ ${mdContent}
   ).toBe(
     `\
 <details><summary>
-<h1>Heading 1</h1>
-<p>Content text.</p>
-<pre><code class="language-js">const a = 1;
-</code></pre>
+${renderContent}
 </summary>
-<pre><code class="language-md">${mdContent}
-</code></pre>
+${codeContent}
 </details>
 `,
   );

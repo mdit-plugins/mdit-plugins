@@ -4,6 +4,8 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItDemoOptions } from "./options.js";
 
+const MIN_MARKER_NUM = 3;
+
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
   {
@@ -17,9 +19,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     beforeContent = false,
   } = {},
 ) => {
-  const MIN_MARKER_NUM = 3;
-
-  const demo: RuleBlock = (state, startLine, endLine, silent) => {
+  const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
 
@@ -156,7 +156,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     return true;
   };
 
-  md.block.ruler.before("fence", "demo", demo, {
+  md.block.ruler.before("fence", "demo", demoRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
   md.renderer.rules["demo_open"] = openRender;
