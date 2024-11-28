@@ -2,10 +2,9 @@
  * Forked from https://github.com/markdown-it/markdown-it-sub/blob/master/index.mjs
  */
 
+import { UNESCAPE_RE } from "@mdit/helper";
 import type { PluginSimple } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-
-import { UNESCAPE_RE } from "./utils.js";
 
 const subscriptRender: RuleInline = (state, silent) => {
   const max = state.posMax;

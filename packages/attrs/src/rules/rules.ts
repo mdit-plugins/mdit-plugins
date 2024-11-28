@@ -1,3 +1,5 @@
+import { escapeRegExp } from "@mdit/helper";
+
 import type { Rule } from "./types.js";
 import { addAttrs, getAttrs } from "../attrs.js";
 import {
@@ -9,7 +11,6 @@ import type {
   MarkdownItAttrRuleName,
   MarkdownItAttrsOptions,
 } from "../options.js";
-import { escapeRegExp } from "../utils.js";
 
 const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
   /**

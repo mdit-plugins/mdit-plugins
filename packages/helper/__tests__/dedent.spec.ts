@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 
-import { dedent } from "../src/utils.js";
+import { dedent } from "../src/index.js";
 
 it("when 0-level is minimal, do not remove spaces", () => {
   expect(

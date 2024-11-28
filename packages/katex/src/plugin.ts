@@ -1,5 +1,6 @@
 import { createRequire } from "node:module";
 
+import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
 import type { KatexOptions as OriginalKatexOptions } from "katex";
 import Katex from "katex";
@@ -10,7 +11,6 @@ import type {
   MarkdownItKatexOptions,
   TeXTransformer,
 } from "./options.js";
-import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
 
@@ -22,6 +22,7 @@ const katexInline = (
   let result: string;
 
   try {
+    // eslint-disable-next-line import-x/no-named-as-default-member
     result = Katex.renderToString(tex, {
       ...options,
       displayMode: false,
@@ -45,6 +46,7 @@ const katexBlock = (
   let result: string;
 
   try {
+    // eslint-disable-next-line import-x/no-named-as-default-member
     result = `<p class='katex-block'>${Katex.renderToString(tex, {
       ...options,
       displayMode: true,

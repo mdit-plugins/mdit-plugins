@@ -1,5 +1,6 @@
 import fs from "node:fs";
 
+import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
@@ -8,7 +9,6 @@ import path from "upath";
 
 import type { MarkdownItIncludeOptions } from "./options.js";
 import type { IncludeEnv } from "./types.js";
-import { NEWLINES_RE, dedent } from "./utils.js";
 
 interface ImportFileLineInfo {
   filePath: string;
@@ -116,7 +116,7 @@ export const handleInclude = (
   // read file content
   const fileContent = fs.readFileSync(realPath).toString();
 
-  const lines = fileContent.replace(NEWLINES_RE, "\n").split("\n");
+  const lines = fileContent.replace(NEWLINE_RE, "\n").split("\n");
   let results: string[] = [];
 
   // is region

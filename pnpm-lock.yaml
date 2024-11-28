@@ -187,6 +187,9 @@ importers:
 
   packages/attrs:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -243,6 +246,15 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
 
+  packages/helper:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/img-lazyload:
     dependencies:
       '@types/markdown-it':
@@ -272,6 +284,9 @@ importers:
 
   packages/include:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -297,6 +312,9 @@ importers:
 
   packages/katex:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../tex
@@ -315,6 +333,9 @@ importers:
 
   packages/katex-slim:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../tex
@@ -401,6 +422,9 @@ importers:
 
   packages/snippet:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -431,6 +455,9 @@ importers:
 
   packages/sub:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -440,6 +467,9 @@ importers:
 
   packages/sup:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -449,6 +479,9 @@ importers:
 
   packages/tab:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2

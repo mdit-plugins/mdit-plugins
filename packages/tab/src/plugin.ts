@@ -1,3 +1,4 @@
+import { escapeHtml } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
@@ -8,7 +9,6 @@ import type {
   MarkdownItTabInfo,
   MarkdownItTabOptions,
 } from "./options";
-import { escapeHtml } from "./utils.js";
 
 const TAB_MARKER = `@tab`;
 

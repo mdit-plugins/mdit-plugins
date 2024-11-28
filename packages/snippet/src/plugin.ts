@@ -1,5 +1,6 @@
 import fs from "node:fs";
 
+import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
@@ -8,7 +9,6 @@ import path from "upath";
 
 import type { MarkdownItSnippetOptions } from "./options.js";
 import type { SnippetEnv } from "./types.js";
-import { NEWLINES_RE, dedent } from "./utils.js";
 
 const REGIONS_RE = [
   /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
@@ -158,7 +158,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
         let content = fs.readFileSync(src, "utf8");
 
         if (regionName) {
-          const lines = content.split(NEWLINES_RE);
+          const lines = content.split(NEWLINE_RE);
           const region = findRegion(lines, regionName);
 
           if (region)

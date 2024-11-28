@@ -5,13 +5,6 @@
 export const getElements = <T>(arr: T[], amount: number): T =>
   amount >= 0 ? arr[amount] : arr[arr.length + amount];
 
-/**
- * Escapes special characters in string s such that the string
- * can be used in `new RegExp`. For example "[" becomes "\\[".
- */
-export const escapeRegExp = (regexp: string): string =>
-  regexp.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const isArrayOfFunctions = (arr: unknown): arr is Function[] =>
   Array.isArray(arr) &&

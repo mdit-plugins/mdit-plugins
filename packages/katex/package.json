@@ -40,6 +40,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "@mdit/helper": "workspace:*",
     "@mdit/plugin-tex": "workspace:*",
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^14.1.2",

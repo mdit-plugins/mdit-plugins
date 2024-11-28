@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { createRequire } from "node:module";
 
+import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
 import type { KatexOptions as OriginalKatexOptions } from "katex";
 import type MarkdownIt from "markdown-it";
@@ -10,7 +11,6 @@ import type {
   MarkdownItKatexOptions,
   TeXTransformer,
 } from "./options.js";
-import { escapeHtml } from "./utils.js";
 
 const require = createRequire(import.meta.url);
 

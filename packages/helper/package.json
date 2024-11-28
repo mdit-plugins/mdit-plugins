@@ -1,20 +1,19 @@
 {
-  "name": "@mdit/plugin-attrs",
+  "name": "@mdit/helper",
   "version": "0.13.1",
-  "description": "attrs plugin for MarkdownIt",
+  "description": "Helper functions for MarkdownIt plugins",
   "keywords": [
     "markdown-it",
-    "markdown-it-plugin",
-    "attrs"
+    "helper"
   ],
-  "homepage": "https://mdit-plugins.github.io/attrs.html",
+  "homepage": "https://mdit-plugins.github.io/",
   "bugs": {
     "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/attrs"
+    "directory": "packages/helper"
   },
   "license": "MIT",
   "author": {
@@ -40,12 +39,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2"
-  },
-  "devDependencies": {
-    "@mdit/plugin-katex": "workspace:*",
-    "markdown-it": "14.1.0"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"

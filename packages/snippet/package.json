@@ -41,6 +41,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2",
     "upath": "^2.0.1"
   },
