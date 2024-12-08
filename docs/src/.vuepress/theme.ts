@@ -32,6 +32,34 @@ export default hopeTheme(
       },
     },
 
+    markdown: {
+      align: true,
+      alert: true,
+      attrs: true,
+      codeTabs: true,
+      demo: true,
+      figure: true,
+      footnote: true,
+      imgLazyload: true,
+      highlighter: {
+        type: "shiki",
+        lineNumbers: 10,
+      },
+      imgMark: true,
+      imgSize: true,
+      include: true,
+      math: {
+        type: "mathjax",
+      },
+      mark: true,
+      plantuml: true,
+      spoiler: true,
+      sub: true,
+      sup: true,
+      tabs: true,
+      tasklist: true,
+    },
+
     plugins: {
       comment: {
         provider: "Giscus",
@@ -45,39 +73,6 @@ export default hopeTheme(
         appId: "SIZGZ1FGFU",
         apiKey: "0ee82673983c6cd1b9c8d93fbfbe61eb",
         indexName: `mdit-pluginsio`,
-      },
-
-      markdownHint: { alert: true },
-
-      markdownImage: {
-        figure: true,
-        lazyload: true,
-        mark: true,
-        size: true,
-      },
-
-      markdownMath: {
-        type: "mathjax",
-      },
-
-      markdownTab: true,
-
-      mdEnhance: {
-        align: true,
-        attrs: true,
-        demo: true,
-        footnote: true,
-        include: true,
-        mark: true,
-        plantuml: true,
-        spoiler: true,
-        sub: true,
-        sup: true,
-        tasklist: true,
-      },
-
-      shiki: {
-        lineNumbers: 10,
       },
     },
   },
