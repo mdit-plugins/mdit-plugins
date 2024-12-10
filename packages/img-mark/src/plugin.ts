@@ -6,6 +6,7 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,
   { light = ["light"], dark = ["dark"] } = {},
 ): void => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const originalImageRender = md.renderer.rules.image!;
 
   md.renderer.rules.image = (tokens, index, options, env, self): string => {

@@ -9,6 +9,7 @@ export const setTokenAttr = (
   const attr: [string, string] = [name, value];
 
   if (index < 0) token.attrPush(attr);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   else token.attrs![index] = attr;
 };
 

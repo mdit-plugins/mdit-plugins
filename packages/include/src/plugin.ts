@@ -272,8 +272,9 @@ const resolveRelatedLink = (
 
       const resolvedPath = path.join(includeDir, url);
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       token.attrs![attrIndex][1] =
-        resolvedPath?.[0] === "." ? resolvedPath : `./${resolvedPath}`;
+        resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
     }
   }
 };
@@ -359,6 +360,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     };
 
     if (resolveImagePath) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const defaultImageRenderer = md.renderer.rules.image!;
 
       md.renderer.rules.image = (

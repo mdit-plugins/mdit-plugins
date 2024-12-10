@@ -6,7 +6,7 @@
 import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";
-import type { PluginWithOptions } from "markdown-it";
+import type MarkdownIt from "markdown-it";
 import type { LiteDocument } from "mathjax-full/js/adaptors/lite/Document.js";
 import type {
   LiteElement,
@@ -182,15 +182,16 @@ export const createMathjaxInstance = (
   };
 };
 
-export const mathjax: PluginWithOptions<MathjaxInstance> = (md, instance) => {
-  const {
+export const mathjax = (
+  md: MarkdownIt,
+  {
     allowInlineWithSpace,
     adaptor,
     documentOptions,
     mathFence,
     transformer,
-  } = instance!;
-
+  }: MathjaxInstance,
+): void => {
   md.use(tex, {
     allowInlineWithSpace,
     mathFence,

@@ -167,7 +167,7 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
 
   token.block = true;
   token.content =
-    (firstLine?.trim() ? `\n${firstLine}\n` : "\n") +
+    (firstLine.trim() ? `\n${firstLine}\n` : "\n") +
     state.getLines(start + 1, next, state.tShift[start], true) +
     (lastLine?.trim() ?? "");
   token.map = [start, state.line];
@@ -180,11 +180,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (typeof options?.render !== "function")
     throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
 
-  const {
-    allowInlineWithSpace = false,
-    mathFence = false,
-    render,
-  } = options ?? {};
+  const { allowInlineWithSpace = false, mathFence = false, render } = options;
 
   // Handle ```math blocks
   if (mathFence) {
@@ -197,6 +193,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
 
       if (info.trim() === "math") return render(content, true, env);
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return fence!(...args);
     };
   }

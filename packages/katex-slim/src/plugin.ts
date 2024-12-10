@@ -107,7 +107,7 @@ export const katex = <MarkdownItEnv = unknown>(
             | "newLineInDisplayMode",
           errorMsg: string,
           token: KatexToken,
-        ): string => logger(errorCode, errorMsg, token, env) ?? "ignore",
+        ): string => logger(errorCode, errorMsg, token, env) || "ignore",
         throwOnError: false,
         ...userOptions,
       };

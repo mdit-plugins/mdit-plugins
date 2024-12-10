@@ -19,6 +19,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     srcGetter = (content: string): string =>
       `${server}/${format}/${encode64(
         zip_deflate(
+          // eslint-disable-next-line @typescript-eslint/no-deprecated
           unescape(
             encodeURIComponent(`@start${name}\n${content.trim()}\n@end${name}`),
           ),
@@ -52,6 +53,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     });
   } else {
     // Handle ```name  blocks
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const fenceRender = md.renderer.rules.fence!;
 
     md.renderer.rules.fence = (

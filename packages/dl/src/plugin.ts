@@ -160,6 +160,7 @@ export const dl: PluginSimple = (md) => {
         state.md.block.tokenize(state, ddLine, endLine, true);
 
         // If any of list item is tight, mark list as tight
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!state.tight || prevEmptyEnd) tight = false;
 
         // Item become loose if finish with empty line,

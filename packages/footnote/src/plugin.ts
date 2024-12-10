@@ -64,7 +64,9 @@ const renderFootnoteRef: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const id = self.rules.footnote_anchorName!(tokens, index, options, env, self);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const caption = self.rules.footnote_caption!(
     tokens,
     index,
@@ -102,6 +104,7 @@ const renderFootnoteOpen: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   `<li id="footnote${self.rules.footnote_anchorName!(
     tokens,
     index,
@@ -119,6 +122,7 @@ const renderFootnoteAnchor: RenderRule = (
   env: FootNoteEnv,
   self,
 ): string =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ` <a href="#footnote-ref${self.rules.footnote_anchorName!(
     tokens,
     index,
@@ -167,6 +171,7 @@ const footnoteDef: RuleBlock = (
   if (silent) return true;
   pos++;
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   (state.env.footnotes ??= {}).refs ??= {};
 
   const label = state.src.slice(start + 2, pos - 2);
@@ -253,6 +258,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
    *
    */
   if (!silent) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const list = ((state.env.footnotes ??= {}).list ??= []);
     const footnoteId = list.length;
     const tokens: Token[] = [];
@@ -288,6 +294,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   if (
     // should be at least 4 chars - "[^x]"
     start + 3 > max ||
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     !state.env.footnotes?.refs ||
     state.src.charAt(start) !== "[" ||
     state.src.charAt(start + 1) !== "^"
@@ -330,8 +337,10 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
       footnoteId = refs[`:${label}`];
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const subId = list[footnoteId].count!;
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     list[footnoteId].count = list[footnoteId].count! + 1;
 
     const refToken = state.push("footnote_ref", "", 0);
@@ -353,6 +362,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
   let currentLabel: string;
   let insideRef = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!state.env.footnotes?.list) return false;
 
   const { list } = state.env.footnotes;
@@ -382,32 +392,36 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 
   state.tokens.push(footnoteBlockOpenToken);
 
-  for (let i = 0, { length } = list; i < length; i++) {
+  for (let index = 0, { length } = list; index < length; index++) {
     const footnoteOpenToken = new state.Token("footnote_open", "", 1);
 
-    footnoteOpenToken.meta = { id: i, label: list[i].label };
+    footnoteOpenToken.meta = { id: index, label: list[index].label };
     state.tokens.push(footnoteOpenToken);
 
     let lastParagraph: FootNoteToken | null;
 
-    if (list[i].tokens) {
+    if (list[index].tokens) {
       const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
 
       paragraphOpenToken.block = true;
 
       const inlineToken = new state.Token("inline", "", 0);
 
-      inlineToken.children = list[i].tokens!;
-      inlineToken.content = list[i].content!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      inlineToken.children = list[index].tokens!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      inlineToken.content = list[index].content!;
 
       const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
 
       paragraphCloseToken.block = true;
 
       state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
-    } else if (list[i].label) {
-      const tokens = refTokens[`:${list[i].label!}`];
+    } else if (list[index].label) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const tokens = refTokens[`:${list[index].label!}`];
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (tokens) state.tokens.push(...tokens);
     }
 
@@ -415,10 +429,19 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       lastParagraph = state.tokens.pop() ?? null;
     else lastParagraph = null;
 
-    for (let j = 0; j < (Number(list[i].count) > 0 ? list[i].count! : 1); j++) {
+    for (
+      let j = 0;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      j < (Number(list[index].count) > 0 ? list[index].count! : 1);
+      j++
+    ) {
       const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
 
-      footnoteAnchorToken.meta = { id: i, subId: j, label: list[i].label };
+      footnoteAnchorToken.meta = {
+        id: index,
+        subId: j,
+        label: list[index].label,
+      };
       state.tokens.push(footnoteAnchorToken);
     }
 

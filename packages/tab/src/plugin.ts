@@ -89,6 +89,7 @@ const getTabRule =
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
       info.replace(/^:active/, ""),
     )!;

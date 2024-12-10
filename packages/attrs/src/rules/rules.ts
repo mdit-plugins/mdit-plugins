@@ -82,14 +82,17 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       },
     ],
     transform: (tokens, index, childIndex): void => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
 
       const endChar = token.content.indexOf(options.right);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const attrToken = tokens[index].children![childIndex - 1];
       const attrs = getAttrs(token.content, 0, options);
 
       addAttrs(attrs, attrToken);
       if (token.content.length === endChar + options.right.length)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tokens[index].children!.splice(childIndex, 1);
       else token.content = token.content.slice(endChar + options.right.length);
     },
@@ -118,10 +121,12 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       },
     ],
     transform: (tokens, index, childIndex): void => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const { content } = token;
       const attrs = getAttrs(content, 0, options);
       const openingToken = getMatchingOpeningToken(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tokens[index].children!,
         childIndex - 1,
       );
@@ -201,6 +206,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       },
     ],
     transform: (tokens, indx, childIndex): void => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[indx].children![childIndex];
       const attrs = getAttrs(token.content, 0, options);
       let ii = indx - 2;
@@ -213,6 +219,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
         ii--;
 
       addAttrs(attrs, tokens[ii - 1]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       tokens[indx].children = tokens[indx].children!.slice(0, -2);
     },
   },
@@ -282,6 +289,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       },
     ],
     transform: (tokens, index, childIndex): void => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const { content } = token;
       const attrs = getAttrs(
@@ -325,6 +333,7 @@ const getSoftBreakRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     },
   ],
   transform: (tokens, index, childIndex): void => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const token = tokens[index].children![childIndex];
     const attrs = getAttrs(token.content, 0, options);
 
@@ -336,6 +345,7 @@ const getSoftBreakRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     const openingToken = getMatchingOpeningToken(tokens, ii);
 
     addAttrs(attrs, openingToken);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     tokens[index].children = tokens[index].children!.slice(0, -2);
   },
 });
@@ -403,6 +413,7 @@ const getBlockRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     },
   ],
   transform: (tokens, indx, childIndex): void => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const token = tokens[indx].children![childIndex];
     const { content } = token;
     const attrs = getAttrs(content, content.lastIndexOf(options.left), options);

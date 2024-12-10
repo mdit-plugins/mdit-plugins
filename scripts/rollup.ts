@@ -46,7 +46,7 @@ export const rollupTypescript = (
         codecovRollupPlugin({
           enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
           bundleName: basename(cwd()),
-          uploadToken: process.env.CODECOV_TOKEN!,
+          uploadToken: process.env.CODECOV_TOKEN,
         }),
       ],
       external: [/^markdown-it/, ...external],

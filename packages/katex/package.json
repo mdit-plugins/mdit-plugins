@@ -44,7 +44,7 @@
     "@mdit/plugin-tex": "workspace:*",
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^14.1.2",
-    "katex": "0.16.11"
+    "katex": "0.16.15"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"

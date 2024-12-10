@@ -96,6 +96,7 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
    *
    */
   while (loneMarkers.length) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i = loneMarkers.pop()!;
     let j = i + 1;
 
@@ -115,6 +116,7 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
 export const mark: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "mark", tokenize);
   md.inline.ruler2.before("emphasis", "mark", (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const tokensMeta = state.tokens_meta || [];
 
     postProcess(state, state.delimiters);
