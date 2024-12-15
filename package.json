@@ -41,12 +41,12 @@
     "@commitlint/config-conventional": "19.6.0",
     "@lerna-lite/cli": "3.10.1",
     "@lerna-lite/publish": "3.10.1",
-    "@types/node": "22.10.1",
+    "@types/node": "22.10.2",
     "@vitest/coverage-v8": "2.1.8",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cross-env": "7.0.3",
     "cz-git": "1.11.0",
-    "eslint": "9.16.0",
+    "eslint": "9.17.0",
     "eslint-config-mister-hope": "0.4.0-beta.7",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.16.0",
@@ -92,13 +92,6 @@
       "@mdit/plugin-tasklist": "workspace:*",
       "@mdit/plugin-tex": "workspace:*",
       "@mdit/plugin-uml": "workspace:*"
-    }
-  },
-  "commit-and-tag-version": {
-    "skip": {
-      "bump": true,
-      "commit": true,
-      "tag": true
     }
   }
 }
