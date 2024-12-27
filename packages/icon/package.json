@@ -48,5 +48,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/markdown-it-emoji": "^3.0.1",
+    "markdown-it-emoji": "^3.0.0"
   }
 }

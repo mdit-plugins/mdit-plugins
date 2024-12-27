@@ -1,5 +1,7 @@
 export interface IconMeta {
   name: string;
   color?: string;
-  size?: string;
+  width?: string;
+  height?: string;
+  extra?: string;
 }
