@@ -7,7 +7,6 @@
  */
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 
 import type { MarkdownItIconOptions } from "./options.js";
 import type { IconMeta } from "./types.js";
@@ -32,7 +31,7 @@ export function parseIconSize(str: string): [string, string] {
   return [width, height || width] as const;
 }
 
-export function parseIconInfo(info: string): IconMeta {
+export function parseIconContent(info: string): IconMeta {
   let size: [string, string] = ["", ""];
   let color = "";
   const [name, ...extra] = info
@@ -58,30 +57,18 @@ export function parseIconInfo(info: string): IconMeta {
   };
 }
 
-function defaultRender(state: StateInline, info: string): void {
-  const { name, color, width, height, extra } = parseIconInfo(info);
-
-  const icon = state.push("icon_open", "i", 1);
+function defaultRender(content: string): string {
+  const { name, color, width, height, extra } = parseIconContent(content);
   let style = "";
 
   if (color) style += `color:${color};`;
   if (width) style += `width:${width};`;
   if (height) style += `height:${height};`;
 
-  icon.attrs = [["class", `${name}${extra ? ` ${extra}` : ""}`]];
-  if (style) icon.attrs.push(["style", style]);
-
-  icon.markup = "::";
-  icon.content = info;
-
-  const close = state.push("icon_close", "i", -1);
-
-  close.markup = "::";
+  return `<i class="${name}${extra ? ` ${extra}` : ""}"${style ? ` style="${style}"` : ""}></i>`;
 }
 
-function tokenizer({
-  render = defaultRender,
-}: MarkdownItIconOptions): RuleInline {
+function tokenizer(): RuleInline {
   return (state, silent) => {
     let found = false;
     const max = state.posMax;
@@ -140,7 +127,10 @@ function tokenizer({
     state.posMax = state.pos;
     state.pos = start + 2;
 
-    render(state, info);
+    const icon = state.push("icon", "i", 0);
+
+    icon.markup = "::";
+    icon.content = info;
 
     state.pos = state.posMax + 2;
     state.posMax = max;
@@ -151,5 +141,10 @@ function tokenizer({
 
 export const icon: PluginWithOptions<MarkdownItIconOptions> = (
   md,
-  options = {},
-) => md.inline.ruler.before("linkify", "icon", tokenizer(options));
+  { render = defaultRender } = {},
+) => {
+  md.inline.ruler.before("linkify", "icon", tokenizer());
+
+  md.renderer.rules.icon = (tokens, idx, _, env): string =>
+    render(tokens[idx].content, env);
+};

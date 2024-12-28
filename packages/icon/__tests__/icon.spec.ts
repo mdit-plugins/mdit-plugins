@@ -121,12 +121,8 @@ describe("should work with custom render", () => {
   const markdownIt = MarkdownIt()
     .use(emoji as unknown as PluginWithOptions)
     .use(icon, {
-      render(state, info) {
-        const icon = state.push("icon_open", "Icon", 1);
-
-        icon.attrs = [];
-        icon.attrs.push(["icon", info]);
-        state.push("icon_close", "Icon", -1);
+      render(content) {
+        return `<Icon icon="${content}"></Icon>`;
       },
     });
 
