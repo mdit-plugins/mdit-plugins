@@ -43,11 +43,15 @@ export const rollupTypescript = (
       ],
       plugins: [
         esbuild({ charset: "utf8", minify: isProduction, target: "node18" }),
-        codecovRollupPlugin({
-          enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-          bundleName: basename(cwd()),
-          uploadToken: process.env.CODECOV_TOKEN,
-        }),
+        process.env.CODECOV_TOKEN
+          ? [
+              codecovRollupPlugin({
+                enableBundleAnalysis: true,
+                bundleName: basename(cwd()),
+                uploadToken: process.env.CODECOV_TOKEN,
+              }),
+            ]
+          : [],
       ],
       external: [/^markdown-it/, ...external],
       treeshake: {
