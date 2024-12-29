@@ -31,7 +31,7 @@ export function parseIconSize(str: string): [string, string] {
   return [width, height || width] as const;
 }
 
-export function parseIconContent(info: string): IconMeta {
+export const parseIconContent = (info: string): IconMeta => {
   let size: [string, string] = ["", ""];
   let color = "";
   const [name, ...extra] = info
@@ -55,9 +55,9 @@ export function parseIconContent(info: string): IconMeta {
     height: size[1],
     extra: extra.join(" "),
   };
-}
+};
 
-function defaultRender(content: string): string {
+const defaultRender = (content: string): string => {
   const { name, color, width, height, extra } = parseIconContent(content);
   let style = "";
 
@@ -66,84 +66,82 @@ function defaultRender(content: string): string {
   if (height) style += `height:${height};`;
 
   return `<i class="${name}${extra ? ` ${extra}` : ""}"${style ? ` style="${style}"` : ""}></i>`;
-}
+};
 
-function tokenizer(): RuleInline {
-  return (state, silent) => {
-    let found = false;
-    const max = state.posMax;
-    const start = state.pos;
+const iconRule: RuleInline = (state, silent) => {
+  let found = false;
+  const max = state.posMax;
+  const start = state.pos;
 
-    // ::xxx
-    // ^^
+  // ::xxx
+  // ^^
+  if (
+    state.src.charCodeAt(start) !== 0x3a ||
+    state.src.charCodeAt(start + 1) !== 0x3a
+  )
+    return false;
+
+  const next = state.src.charCodeAt(start + 2);
+
+  // :: xxx  |  :::xxx
+  //   ^     |    ^
+  if (next === 0x20 || next === 0x3a) return false;
+
+  if (silent) return false;
+
+  // ::::
+  if (max - start < 5) return false;
+
+  state.pos = start + 2;
+
+  while (state.pos < max) {
+    // ::xxx::
+    //      ^^
     if (
-      state.src.charCodeAt(start) !== 0x3a ||
-      state.src.charCodeAt(start + 1) !== 0x3a
-    )
-      return false;
-
-    const next = state.src.charCodeAt(start + 2);
-
-    // :: xxx  |  :::xxx
-    //   ^     |    ^
-    if (next === 0x20 || next === 0x3a) return false;
-
-    if (silent) return false;
-
-    // ::::
-    if (max - start < 5) return false;
-
-    state.pos = start + 2;
-
-    while (state.pos < max) {
-      // ::xxx::
-      //      ^^
-      if (
-        state.src.charCodeAt(state.pos) === 0x3a &&
-        state.src.charCodeAt(state.pos + 1) === 0x3a
-      ) {
-        found = true;
-        break;
-      }
-
-      state.md.inline.skipToken(state);
-    }
-
-    if (
-      !found ||
-      start + 2 === state.pos ||
-      // ::xxx ::
-      //      ^
-      state.src.charCodeAt(state.pos - 1) === 0x20
+      state.src.charCodeAt(state.pos) === 0x3a &&
+      state.src.charCodeAt(state.pos + 1) === 0x3a
     ) {
-      state.pos = start;
-
-      return false;
+      found = true;
+      break;
     }
 
-    const info = state.src.slice(start + 2, state.pos);
+    state.md.inline.skipToken(state);
+  }
 
-    // found
-    state.posMax = state.pos;
-    state.pos = start + 2;
+  if (
+    !found ||
+    start + 2 === state.pos ||
+    // ::xxx ::
+    //      ^
+    state.src.charCodeAt(state.pos - 1) === 0x20
+  ) {
+    state.pos = start;
 
-    const icon = state.push("icon", "i", 0);
+    return false;
+  }
 
-    icon.markup = "::";
-    icon.content = info;
+  const info = state.src.slice(start + 2, state.pos);
 
-    state.pos = state.posMax + 2;
-    state.posMax = max;
+  // found
+  state.posMax = state.pos;
+  state.pos = start + 2;
 
-    return true;
-  };
-}
+  const icon = state.push("icon", "i", 0);
+
+  icon.markup = "::";
+  icon.content = info;
+
+  state.pos = state.posMax + 2;
+  state.posMax = max;
+
+  return true;
+};
 
 export const icon: PluginWithOptions<MarkdownItIconOptions> = (
   md,
   { render = defaultRender } = {},
 ) => {
-  md.inline.ruler.before("linkify", "icon", tokenizer());
+  md.inline.ruler.before("linkify", "icon", iconRule);
 
   md.renderer.rules.icon = (tokens, idx, _, env): string =>
     render(tokens[idx].content, env);
