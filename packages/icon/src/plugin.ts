@@ -13,7 +13,7 @@ import type { IconMeta } from "./types.js";
 
 const SIZE_RE = /=([^\s]+)/i;
 const COLOR_RE =
-  /\s(#[0-9a-f]{3,8})|\s((?:rgba?|hsla?|hwb|var)\(.*?\))|\/(\w+)/i;
+  /\s(#[0-9a-f]{3,8})|\s((?:rgba?|hsla?|hwb|var)\(.*?\))|\s\/(\w+)/i;
 
 export function parseIconSize(str: string): [string, string] {
   const [width, height] = str
