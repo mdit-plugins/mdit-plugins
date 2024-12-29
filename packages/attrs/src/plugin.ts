@@ -35,6 +35,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         });
 
         if (match) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           pattern.transform(tokens, index, position!);
 
           if (

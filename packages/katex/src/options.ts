@@ -18,7 +18,7 @@ interface KatexSourceLocation {
 
 export interface KatexToken {
   text: string;
-  loc: KatexSourceLocation;
+  loc: KatexSourceLocation | undefined;
   noexpand: boolean | undefined;
   treatAsRelax: boolean | undefined;
 }
@@ -34,7 +34,7 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
   errorMsg: string,
   token: KatexToken,
   env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | void;
+) => "error" | "warn" | "ignore" | boolean | undefined;
 
 export type TeXTransformer = (content: string, displayMode: boolean) => string;
 

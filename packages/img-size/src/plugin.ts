@@ -228,6 +228,7 @@ const imgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(label)];
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!ref) {
       state.pos = oldPos;
 
@@ -276,6 +277,7 @@ export const imgSize: PluginSimple = (md) => {
 };
 
 export const obsidianImgSize: PluginSimple = (md) => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const originalImageRender = md.renderer.rules.image!;
 
   md.renderer.rules.image = (tokens, index, options, env, self): string => {
@@ -290,6 +292,7 @@ export const obsidianImgSize: PluginSimple = (md) => {
         const [, realContent, width, height] = result;
 
         token.content = realContent;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         token.children![0].content = realContent;
         token.attrSet("width", width);
         if (typeof height === "string") token.attrSet("height", height);

@@ -99,10 +99,11 @@ export const abbr: PluginSimple = (md) => {
       "g",
     );
 
-    for (const blockToken of tokens) {
-      if (blockToken.type !== "inline") continue;
+    for (const token of tokens) {
+      if (token.type !== "inline") continue;
 
-      let children = blockToken.children!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      let children = token.children!;
 
       // We scan from the end, to keep position when new tags added.
       for (let index = children.length - 1; index >= 0; index--) {
@@ -160,7 +161,7 @@ export const abbr: PluginSimple = (md) => {
         }
 
         // replace current node
-        blockToken.children = children = arrayReplaceAt(children, index, nodes);
+        token.children = children = arrayReplaceAt(children, index, nodes);
       }
     }
   };

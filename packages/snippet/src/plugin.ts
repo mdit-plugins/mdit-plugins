@@ -136,6 +136,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     getSnippetRule({ currentPath, resolvePath }),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const fence = md.renderer.rules.fence!;
 
   md.renderer.rules.fence = (

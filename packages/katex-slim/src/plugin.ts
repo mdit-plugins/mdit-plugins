@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 
 import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
-import type { KatexOptions as OriginalKatexOptions } from "katex";
+import type { KatexOptions, KatexOptions as OriginalKatexOptions } from "katex";
 import type MarkdownIt from "markdown-it";
 
 import type {
@@ -96,7 +96,8 @@ export const katex = <MarkdownItEnv = unknown>(
     allowInlineWithSpace,
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
-      const katexOptions = {
+      const katexOptions: KatexOptions = {
+        // @ts-expect-error: Type issue upstream
         strict: (
           errorCode:
             | "unknownSymbol"
@@ -107,7 +108,7 @@ export const katex = <MarkdownItEnv = unknown>(
             | "newLineInDisplayMode",
           errorMsg: string,
           token: KatexToken,
-        ): string => logger(errorCode, errorMsg, token, env) ?? "ignore",
+        ) => logger(errorCode, errorMsg, token, env) ?? "ignore",
         throwOnError: false,
         ...userOptions,
       };

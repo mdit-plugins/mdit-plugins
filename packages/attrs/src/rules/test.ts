@@ -17,6 +17,7 @@ export const testRule = (
     position: null as number | null, // position of child
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const ii = rule.shift !== undefined ? index + rule.shift : rule.position!;
 
   // we should never shift to negative indexes (rolling around to back of array)
@@ -25,6 +26,7 @@ export const testRule = (
   // supports negative ii
   const token = getElements(tokens, ii);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (token === undefined) return res;
 
   for (const key of Object.keys(rule) as (keyof typeof rule)[]) {
@@ -37,11 +39,13 @@ export const testRule = (
 
       let match;
       const childTests = rule.children;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const children = token.children!;
 
-      if (childTests?.every((tt) => tt.position !== undefined)) {
+      if (childTests.every((tt) => tt.position !== undefined)) {
         // positions instead of shifts, do not loop all children
         match = childTests.every(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           (tt) => testRule(children, tt.position!, tt).match,
         );
 
@@ -90,7 +94,7 @@ export const testRule = (
             (tt as (key: unknown) => boolean)(token[key]),
           );
 
-          if (r === false) return res;
+          if (!r) return res;
 
           break;
         }

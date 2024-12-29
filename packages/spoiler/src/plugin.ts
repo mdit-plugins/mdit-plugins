@@ -103,6 +103,7 @@ const postProcess = (
    *
    */
   while (loneMarkers.length) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i = loneMarkers.pop()!;
     let j = i + 1;
 
@@ -133,6 +134,7 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
   md.inline.ruler2.before("emphasis", "spoiler", (state) => {
     postProcess(state, state.delimiters, { tag, attrs });
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     for (const tokenMeta of state.tokens_meta ?? []) {
       if (tokenMeta?.delimiters)
         postProcess(state, tokenMeta.delimiters, { tag, attrs });

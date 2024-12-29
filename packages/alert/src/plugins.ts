@@ -158,6 +158,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       }
 
       // Case 2: line is not inside the blockquote, and the last line was empty.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (lastLineEmpty) break;
 
       // Case 3: another tag found.
