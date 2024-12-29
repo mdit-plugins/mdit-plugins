@@ -6,9 +6,13 @@ export default defineConfig({
       include: ["packages/*/src/**/*.ts"],
     },
     include: ["**/*.spec.ts"],
-    reporters: ["junit"],
-    outputFile: {
-      junit: "coverage/test-report.junit.xml",
-    },
+    ...(process.env.CODECOV_TOKEN
+      ? {
+          reporters: ["junit"],
+          outputFile: {
+            junit: "coverage/test-report.junit.xml",
+          },
+        }
+      : {}),
   },
 });
