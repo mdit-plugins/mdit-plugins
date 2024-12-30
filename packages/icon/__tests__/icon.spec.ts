@@ -144,8 +144,18 @@ describe("should not work", () => {
 
   it("should not work with invalid syntax", () => {
     expect(markdownIt.render("::icon-name")).toEqual("<p>::icon-name</p>\n");
+    expect(markdownIt.render("icon-name::")).toEqual("<p>icon-name::</p>\n");
     expect(markdownIt.render(":: icon-name::")).toEqual(
       "<p>:: icon-name::</p>\n",
+    );
+    expect(markdownIt.render("::icon-name ::")).toEqual(
+      "<p>::icon-name ::</p>\n",
+    );
+    expect(markdownIt.render(":: icon-name:::")).toEqual(
+      "<p>:: icon-name:::</p>\n",
+    );
+    expect(markdownIt.render(":::icon-name ::")).toEqual(
+      "<p>:::icon-name ::</p>\n",
     );
     expect(markdownIt.render("::icon-name :::")).toEqual(
       "<p>::icon-name :::</p>\n",
