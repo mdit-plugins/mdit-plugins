@@ -115,6 +115,15 @@ describe("should work with default options", () => {
       '<p><i class="icon-name fa-fw sm" style="color:#ccc;width:24px;height:16px;"></i></p>\n',
     );
   });
+
+  it("Have the same priority as emphases with respect to backticks", () => {
+    expect(markdownIt.render("::`icon::`")).toEqual(
+      `<p>::<code>icon::</code></p>\n`,
+    );
+    expect(markdownIt.render("` :: icon`::")).toEqual(
+      `<p><code> :: icon</code>::</p>\n`,
+    );
+  });
 });
 
 describe("should work with custom render", () => {
