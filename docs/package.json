@@ -15,7 +15,7 @@
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.19",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.67",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.68",
     "mathjax-full": "3.2.2",
     "sass-embedded": "1.83.0",
     "vue": "3.5.13",
