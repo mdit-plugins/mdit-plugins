@@ -137,6 +137,24 @@ describe("should work with custom render", () => {
   });
 });
 
+describe("should work with render: undefined", () => {
+  const markdownIt = MarkdownIt()
+    .use(emoji as unknown as PluginWithOptions)
+    .use(icon, {
+      render: undefined,
+    });
+
+  it("should render", () => {
+    expect(markdownIt.render("::icon-name::")).toEqual(
+      '<p><i class="icon-name"></i></p>\n',
+    );
+
+    expect(markdownIt.render("::icon-name fa-fw sm::")).toEqual(
+      '<p><i class="icon-name fa-fw sm"></i></p>\n',
+    );
+  });
+});
+
 describe("should not work", () => {
   const markdownIt = MarkdownIt()
     .use(emoji as unknown as PluginWithOptions)

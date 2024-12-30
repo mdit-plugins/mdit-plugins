@@ -57,7 +57,7 @@ export const parseIconContent = (info: string): IconMeta => {
   };
 };
 
-const defaultRender = (content: string): string => {
+const defaultIconRender = (content: string): string => {
   const { name, color, width, height, extra } = parseIconContent(content);
   let style = "";
 
@@ -139,7 +139,7 @@ const iconRule: RuleInline = (state, silent) => {
 
 export const icon: PluginWithOptions<MarkdownItIconOptions> = (
   md,
-  { render = defaultRender } = {},
+  { render = defaultIconRender } = {},
 ) => {
   md.inline.ruler.before("linkify", "icon", iconRule);
 
