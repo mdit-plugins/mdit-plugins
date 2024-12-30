@@ -45,7 +45,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "katex": "0.16.18"
+    "katex": "0.16.19"
   },
   "peerDependencies": {
     "katex": "^0.16.9",
