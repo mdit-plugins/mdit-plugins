@@ -5,6 +5,11 @@
   cursor: help;
 }
 
+.spoiler:not(:hover) * {
+  background-color: inherit;
+  color: inherit;
+}
+
 .spoiler:hover,
 .spoiler:focus {
   background-color: transparent;
