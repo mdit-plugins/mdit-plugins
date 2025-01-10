@@ -1,19 +1,30 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":prHourlyLimitNone", ":prConcurrentLimitNone"],
+  "extends": [
+    "config:recommended",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimitNone"
+  ],
   "dependencyDashboard": true,
-  "schedule": ["every weekend"],
+  "schedule": [
+    "every weekend"
+  ],
   "packageRules": [
     {
       "automerge": true,
-      "matchDepTypes": ["devDependencies"]
+      "matchDepTypes": [
+        "devDependencies"
+      ]
     }
   ],
   "lockFileMaintenance": {
     "enabled": true,
     "commitMessageAction": "update lockfile",
     "platformAutomerge": true,
-    "extends": ["group:allNonMajor", "schedule:weekly"]
+    "extends": [
+      "group:allNonMajor",
+      "schedule:weekly"
+    ]
   },
   "vulnerabilityAlerts": {
     "enabled": true
