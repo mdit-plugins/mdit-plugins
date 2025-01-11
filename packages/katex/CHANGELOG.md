@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.14.0...v0.15.0) (2025-01-11)
+
+### 🐛 Bug Fixes
+
+- **deps:** update dependency katex to v0.16.19 ([#69](https://github.com/mdit-plugins/mdit-plugins/issues/69)) ([b6b236c](https://github.com/mdit-plugins/mdit-plugins/commit/b6b236c27e34d8276308f7e961323e3140266f71))
+
 ## [0.14.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.3...v0.14.0) (2024-11-28)
 
 ### ✨ Features

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.14.0...v0.15.0) (2025-01-11)
+
+### ✨ Features
+
+- add plugin-icon ([#74](https://github.com/mdit-plugins/mdit-plugins/issues/74)) ([6fc1c52](https://github.com/mdit-plugins/mdit-plugins/commit/6fc1c529622791d94691134eec5b35dcdabc4a42))
+
+### 🐛 Bug Fixes
+
+- **deps:** update dependency @vuepress/plugin-docsearch to v2.0.0-rc.68 ([#68](https://github.com/mdit-plugins/mdit-plugins/issues/68)) ([2917ac4](https://github.com/mdit-plugins/mdit-plugins/commit/2917ac41e89edd6ad388c117bc91e7b3b08e291a))
+- **deps:** update dependency katex to v0.16.19 ([#69](https://github.com/mdit-plugins/mdit-plugins/issues/69)) ([b6b236c](https://github.com/mdit-plugins/mdit-plugins/commit/b6b236c27e34d8276308f7e961323e3140266f71))
+- **spoiler:** fix styles ([659e87b](https://github.com/mdit-plugins/mdit-plugins/commit/659e87b7314fa681f0a4e38d978724cf5b5728e1))
+
 ## [0.14.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.3...v0.14.0) (2024-11-28)
 
 ### ✨ Features

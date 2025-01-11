@@ -4,10 +4,6 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ## [0.15.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.14.0...v0.15.0) (2025-01-11)
 
-**Note:** Version bump only for package @mdit/helper
-
-## [0.14.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.3...v0.14.0) (2024-11-28)
-
 ### ✨ Features
 
-- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+- add plugin-icon ([#74](https://github.com/mdit-plugins/mdit-plugins/issues/74)) ([6fc1c52](https://github.com/mdit-plugins/mdit-plugins/commit/6fc1c529622791d94691134eec5b35dcdabc4a42))

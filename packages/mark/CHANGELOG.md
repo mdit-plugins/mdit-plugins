@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.14.0...v0.15.0) (2025-01-11)
+
+**Note:** Version bump only for package @mdit/plugin-mark
+
 ## [0.14.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.13.3...v0.14.0) (2024-11-28)
 
 **Note:** Version bump only for package @mdit/plugin-mark
