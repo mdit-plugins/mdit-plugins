@@ -221,6 +221,10 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+    devDependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
 
   packages/dl:
     dependencies:

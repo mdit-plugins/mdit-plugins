@@ -1,17 +1,10 @@
+import { escapeHtml } from "@mdit/helper";
 import MarkdownIt from "markdown-it";
 import { expect, it } from "vitest";
 
 import { alert } from "../../alert/src/index.js";
 import { include } from "../../include/src/plugin.js";
 import { demo } from "../src/index.js";
-
-const escapeHtml = (unsafeHTML: string): string =>
-  unsafeHTML
-    .replace(/&/gu, "&amp;")
-    .replace(/</gu, "&lt;")
-    .replace(/>/gu, "&gt;")
-    .replace(/"/gu, "&quot;")
-    .replace(/'/gu, "&#039;");
 
 const mdContent = `\
 # Heading 1
