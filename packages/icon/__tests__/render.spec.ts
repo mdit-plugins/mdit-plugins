@@ -28,6 +28,9 @@ describe("fontawesomeRender", () => {
   it("should render fontawesome icon with explicit family", () => {
     expect(fontawesomeRender("fas:icon")).toBe('<i class="fas fa-icon"></i>');
     expect(fontawesomeRender("s:icon")).toBe('<i class="fas fa-icon"></i>');
+    expect(fontawesomeRender("solid:icon")).toBe(
+      '<i class="fa-solid fa-icon"></i>',
+    );
     expect(fontawesomeRender("b:icon")).toBe('<i class="fab fa-icon"></i>');
     expect(fontawesomeRender("brands:icon")).toBe(
       '<i class="fa-brands fa-icon"></i>',
@@ -46,6 +49,12 @@ describe("fontawesomeRender", () => {
     );
     expect(fontawesomeRender("icon fa-sm =20 /#f00")).toBe(
       `<i class="fa-icon fa-sm fa-solid" style="font-size:20px;color:#f00"></i>`,
+    );
+    expect(fontawesomeRender("icon fad =20 /#f00")).toBe(
+      `<i class="fa-icon fad fa-solid" style="font-size:20px;color:#f00"></i>`,
+    );
+    expect(fontawesomeRender("icon fass =20 /#f00")).toBe(
+      `<i class="fa-icon fass" style="font-size:20px;color:#f00"></i>`,
     );
   });
 });

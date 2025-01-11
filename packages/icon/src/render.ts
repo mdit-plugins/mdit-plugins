@@ -41,6 +41,8 @@ export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
   // pro only
   "fal",
   "fat",
+  "fass",
+  "fasr",
 ];
 
 export const FONTAWESOME_STYLES_SHORT_ALIAS = [
