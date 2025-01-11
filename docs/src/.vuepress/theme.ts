@@ -9,7 +9,6 @@ export default hopeTheme(
     docsDir: "docs/src",
     docsBranch: "main",
 
-    iconAssets: "fontawesome",
     pageInfo: false,
     contributors: false,
 
@@ -73,6 +72,10 @@ export default hopeTheme(
         appId: "SIZGZ1FGFU",
         apiKey: "0ee82673983c6cd1b9c8d93fbfbe61eb",
         indexName: `mdit-pluginsio`,
+      },
+
+      icon: {
+        assets: "fontawesome",
       },
     },
   },

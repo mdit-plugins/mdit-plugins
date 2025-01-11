@@ -49,6 +49,11 @@ features:
     details: 支持页脚
     link: ./footnote.html
 
+  - title: icon
+    icon: icons
+    details: 添加图标支持
+    link: ./icon.html
+
   - title: img-lazyload
     icon: spinner
     details: 为图片添加懒加载功能

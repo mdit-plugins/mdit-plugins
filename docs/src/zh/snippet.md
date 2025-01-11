@@ -77,7 +77,7 @@ mdIt.use(snippet, {
 
 使用 `<<< filename` 截取代码片段。 如果你想突出显示特定的行，你可以使用 `{lines}` 来做到这一点。
 
-您也可以在末尾使用 `#regionName` 截取文件区域。
+你也可以在末尾使用 `#regionName` 截取文件区域。
 
 例子:
 

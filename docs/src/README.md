@@ -49,6 +49,11 @@ features:
     details: Support footnotes
     link: ./footnote.html
 
+  - title: icon
+    icon: icons
+    details: Add icon support
+    link: ./icon.html
+
   - title: img-lazyload
     icon: spinner
     details: Add lazy loading for images
