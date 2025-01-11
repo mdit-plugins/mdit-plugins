@@ -99,7 +99,7 @@ interface MarkdownItMathjaxOptions {
 }
 ```
 
-该实例包含每个调用的渲染内容，因此您应该：
+该实例包含每个调用的渲染内容，因此你应该：
 
 - 在不同页面中的每次渲染之前调用 `mathjaxInstance.reset()`，这确保标签之类的项目被重置。
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
