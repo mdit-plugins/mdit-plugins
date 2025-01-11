@@ -1,11 +1,3 @@
-export interface Attrs {
-  attrs: Record<string, string>;
-  classes: string[];
-}
-
-const ATTR_REGEXP =
-  /(\w+)=['"]?((?:.(?!['"]?\s+(?:\S+)=|[>'"]))+.)['"]?|(\S+)/g;
-
 const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 
 export const extractSize = <T extends { content: string }>(
@@ -46,6 +38,14 @@ export const extractColor = <T extends { content: string }>(
   return data;
 };
 
+export interface Attrs {
+  attrs: Record<string, string>;
+  classes: string[];
+}
+
+const ATTR_REGEXP =
+  /(\w+)=['"]?((?:.(?!['"]?\s+(?:\S+)=|[>'"]))+.)['"]?|(\S+)/g;
+
 /**
  * Parse attrs string to object
  *
@@ -78,4 +78,12 @@ export const appendStyle = (
   attrs.style = `${style}${style && !style.endsWith(";") ? ";" : ""}${newStyle}`;
 
   return attrs;
+};
+
+export const stringifyAttrs = (attrs: Record<string, string>): string => {
+  const result = Object.entries(attrs)
+    .map(([key, value]) => `${key}="${value}"`)
+    .join(" ");
+
+  return result ? ` ${result}` : "";
 };

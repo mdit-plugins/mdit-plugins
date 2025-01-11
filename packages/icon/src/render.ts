@@ -1,24 +1,33 @@
-import { appendStyle, extractColor, extractSize, parseAttrs } from "./utils.js";
+import {
+  appendStyle,
+  extractColor,
+  extractSize,
+  parseAttrs,
+  stringifyAttrs,
+} from "./utils.js";
 
-export const defaultRender = (content: string): string =>
-  `<i class="${content}"></i>`;
-
-export const iconifyRender = (content: string): string => {
+export const defaultRender = (content: string): string => {
   const result = extractColor(extractSize({ content }));
-
   const { attrs, classes } = parseAttrs(result.content);
 
   if (result.size) appendStyle(attrs, `font-size:${result.size}`);
-
   if (result.color) appendStyle(attrs, `color:${result.color}`);
 
-  const attrEntries = Object.entries(attrs);
+  return `\
+<i icon="${classes.join(" ")}"${stringifyAttrs(attrs)}>\
+</i>`;
+};
 
-  return `<iconify-icon icon="${classes.join(" ")}"${
-    attrEntries.length
-      ? ` ${attrEntries.map(([key, value]) => `${key}="${value}"`).join("")}`
-      : ""
-  }></iconify-icon>`;
+export const iconifyRender = (content: string): string => {
+  const result = extractColor(extractSize({ content }));
+  const { attrs, classes } = parseAttrs(result.content);
+
+  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
+  if (result.color) appendStyle(attrs, `color:${result.color}`);
+
+  return `<iconify-icon icon="${classes.join(" ")}"${stringifyAttrs(
+    attrs,
+  )}></iconify-icon>`;
 };
 
 export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
@@ -83,13 +92,10 @@ export const appendFontawesomePrefix = (icon: string): string =>
 
 export const fontawesomeRender = (content: string): string => {
   const result = extractColor(extractSize({ content }));
-
   const { attrs, classes } = parseAttrs(result.content);
 
   if (result.size) appendStyle(attrs, `font-size:${result.size}`);
   if (result.color) appendStyle(attrs, `color:${result.color}`);
-
-  const attrEntries = Object.entries(attrs);
 
   const finalClasses: string[] = [];
   const iconNameIndex = classes.findIndex((cls) => cls.includes(":"));
@@ -115,9 +121,7 @@ export const fontawesomeRender = (content: string): string => {
     );
   }
 
-  return `<i class="${finalClasses.join(" ")}"${
-    attrEntries.length
-      ? ` ${attrEntries.map(([key, value]) => `${key}="${value}"`).join("")}`
-      : ""
-  }></i>`;
+  return `\
+<i class="${finalClasses.join(" ")}"${stringifyAttrs(attrs)}></i>\
+`;
 };
