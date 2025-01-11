@@ -117,8 +117,7 @@ export const ins: PluginSimple = (md) => {
   md.inline.ruler2.before("emphasis", "ins", (state) => {
     postProcess(state, state.delimiters);
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    for (const tokenMeta of state.tokens_meta ?? []) {
+    for (const tokenMeta of state.tokens_meta) {
       if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters);
     }
 

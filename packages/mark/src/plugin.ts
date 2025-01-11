@@ -116,12 +116,9 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
 export const mark: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "mark", tokenize);
   md.inline.ruler2.before("emphasis", "mark", (state) => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const tokensMeta = state.tokens_meta || [];
-
     postProcess(state, state.delimiters);
 
-    for (const tokenMeta of tokensMeta) {
+    for (const tokenMeta of state.tokens_meta) {
       if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters);
     }
 
