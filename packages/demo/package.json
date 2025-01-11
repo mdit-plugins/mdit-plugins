@@ -50,6 +50,9 @@
       "optional": true
     }
   },
+  "devDependencies": {
+    "@mdit/helper": "workspace:*"
+  },
   "publishConfig": {
     "access": "public"
   }
