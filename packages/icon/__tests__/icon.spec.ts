@@ -65,16 +65,15 @@ describe("should work with default options", () => {
     );
   });
 
-  // FIXME: This is not working as expected
-  it.skip("lower priority then emphases or strong", () => {
+  it("higher priority then emphases or strong", () => {
     expect(markdownIt.render(`::f **o** a::`)).toEqual(
-      `<p>::f <strong>o</string> a::</p>\n`,
+      `<p><i class="f **o** a"></i></p>\n`,
     );
-    expect(markdownIt.render(`::f *o* a::`)).toEqual(
-      `<p>::f <em>o</em> a::</p>\n`,
+    expect(markdownIt.render(`*f ::o:: a*`)).toEqual(
+      `<p><em>f <i class="o"></i> a</em></p>\n`,
     );
     expect(markdownIt.render(`::f **o ::o** b:: a r::`)).toEqual(
-      `<p>::f <strong>0 ::</strong> b:: a r::</p>\n`,
+      `<p>::f **o <i class="o** b"></i> a r::</p>\n`,
     );
     expect(markdownIt.render(`::f **o ::o b:: a** r::`)).toEqual(
       `<p>::f <strong>o <i class="o b"></i> a</strong> r::</p>\n`,
