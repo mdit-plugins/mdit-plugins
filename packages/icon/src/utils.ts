@@ -1,5 +1,8 @@
 const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 
+/**
+ * Extract size from content
+ */
 export const extractSize = <T extends { content: string }>(
   data: T & { size?: string },
 ): T & { size?: string } => {
@@ -20,6 +23,9 @@ export const extractSize = <T extends { content: string }>(
 
 const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
 
+/**
+ * Extract color from content
+ */
 export const extractColor = <T extends { content: string }>(
   data: T & { color?: string },
 ): T & { color?: string } => {
@@ -69,17 +75,27 @@ export const parseAttrs = (content: string): Attrs => {
   return { classes, attrs };
 };
 
+/**
+ * append styles to attrs object
+ *
+ * @param attrs Attrs object
+ * @param styleDefinition new style definition
+ * @returns updated attrs object
+ */
 export const appendStyle = (
   attrs: Record<string, string>,
-  newStyle: string,
+  styleDefinition: string,
 ): Record<string, string> => {
   const { style = "" } = attrs;
 
-  attrs.style = `${style}${style && !style.endsWith(";") ? ";" : ""}${newStyle}`;
+  attrs.style = `${style}${style && !style.endsWith(";") ? ";" : ""}${styleDefinition}`;
 
   return attrs;
 };
 
+/**
+ * Stringify attrs object
+ */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)
     .map(([key, value]) => `${key}="${value}"`)

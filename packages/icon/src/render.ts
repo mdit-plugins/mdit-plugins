@@ -6,6 +6,9 @@ import {
   stringifyAttrs,
 } from "./utils.js";
 
+/**
+ * Default render for icons
+ */
 export const defaultRender = (content: string): string => {
   const result = extractColor(extractSize({ content }));
   const { attrs, classes } = parseAttrs(result.content);
@@ -18,6 +21,9 @@ export const defaultRender = (content: string): string => {
 </i>`;
 };
 
+/**
+ * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
+ */
 export const iconifyRender = (content: string): string => {
   const result = extractColor(extractSize({ content }));
   const { attrs, classes } = parseAttrs(result.content);
@@ -30,6 +36,9 @@ export const iconifyRender = (content: string): string => {
   )}></iconify-icon>`;
 };
 
+/**
+ * Fontawesome families short aliases
+ */
 export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
   // free
   "fas",
@@ -45,6 +54,9 @@ export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
   "fasr",
 ];
 
+/**
+ * Fontawesome styles short aliases
+ */
 export const FONTAWESOME_STYLES_SHORT_ALIAS = [
   // pro only
   "fad",
@@ -52,11 +64,17 @@ export const FONTAWESOME_STYLES_SHORT_ALIAS = [
   "fasr",
 ];
 
+/**
+ * Fontawesome short aliases
+ */
 export const FONTAWESOME_SHORT_ALIAS = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
 ];
 
+/**
+ * Fontawesome families classes
+ */
 export const FONTAWESOME_FAMILIES = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   // free
@@ -71,6 +89,9 @@ export const FONTAWESOME_FAMILIES = [
   "fa-thin",
 ];
 
+/**
+ * Fontawesome styles classes
+ */
 export const FONTAWESOME_STYLES = [
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
   "fa-duotone",
@@ -78,20 +99,35 @@ export const FONTAWESOME_STYLES = [
   "fa-sharp-duotone",
 ];
 
+/**
+ * All fontawesome families and styles classes
+ */
 export const FONTAWESOME_FAMILIES_AND_STYLES = [
   ...FONTAWESOME_FAMILIES,
   ...FONTAWESOME_STYLES,
 ];
 
+/**
+ * Check if a class is a valid fontawesome short alias
+ */
 export const isFontawesomeShortAlias = (cls: string): boolean =>
   FONTAWESOME_SHORT_ALIAS.includes(cls);
 
+/**
+ * Check if a class is a valid fontawesome family
+ */
 export const isFontawesomeFamily = (cls: string): boolean =>
   FONTAWESOME_FAMILIES.includes(cls);
 
+/**
+ * Ensure every class is prefixed with `fa-` or a valid short alias
+ */
 export const appendFontawesomePrefix = (icon: string): string =>
   icon.startsWith("fa-") || isFontawesomeShortAlias(icon) ? icon : `fa-${icon}`;
 
+/**
+ * Render for [fontawesome](https://fontawesome.com/) icons
+ */
 export const fontawesomeRender = (content: string): string => {
   const result = extractColor(extractSize({ content }));
   const { attrs, classes } = parseAttrs(result.content);
@@ -126,4 +162,18 @@ export const fontawesomeRender = (content: string): string => {
   return `\
 <i class="${finalClasses.join(" ")}"${stringifyAttrs(attrs)}></i>\
 `;
+};
+
+/**
+ * Render for [iconfont](https://www.iconfont.cn/) icons
+ */
+export const iconfontRender = (content: string): string => {
+  const result = extractColor(extractSize({ content }));
+  const { attrs, classes } = parseAttrs(result.content);
+
+  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
+  if (result.color) appendStyle(attrs, `color:${result.color}`);
+
+  // add `iconfont` class and `icon-` prefix for first class
+  return `<span class="iconfont icon-${classes.join(" ")}"${stringifyAttrs(attrs)}></span>`;
 };
