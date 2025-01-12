@@ -38,11 +38,15 @@ const katexInline = (
       displayMode: false,
     });
   } catch (error) {
-    if (options.throwOnError) console.warn(error);
-
-    result = `<span class='katex-error' title='${escapeHtml(
-      (error as Error).toString(),
-    )}'>${escapeHtml(tex)}</span>`;
+    /* istanbul ignore else -- @preserve */
+    if (error instanceof katexLib.ParseError) {
+      console.warn(error);
+      result = `<span class='katex-error' title='${escapeHtml(
+        (error as Error).toString(),
+      )}'>${escapeHtml(tex)}</span>`;
+    } else {
+      throw error;
+    }
   }
 
   return transformer?.(result, false) ?? result;
@@ -61,11 +65,15 @@ const katexBlock = (
       displayMode: true,
     })}</p>\n`;
   } catch (error) {
-    if (options.throwOnError) console.warn(error);
-
-    result = `<p class='katex-block katex-error' title='${escapeHtml(
-      (error as Error).toString(),
-    )}'>${escapeHtml(tex)}</p>\n`;
+    /* istanbul ignore else -- @preserve */
+    if (error instanceof katexLib.ParseError) {
+      console.warn(error);
+      result = `<p class='katex-block katex-error' title='${escapeHtml(
+        (error as Error).toString(),
+      )}'>${escapeHtml(tex)}</p>\n`;
+    } else {
+      throw error;
+    }
   }
 
   return transformer?.(result, true) ?? result;

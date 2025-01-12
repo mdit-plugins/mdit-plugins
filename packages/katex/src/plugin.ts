@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
 import type { KatexOptions, KatexOptions as OriginalKatexOptions } from "katex";
-import { renderToString } from "katex";
+import { ParseError, renderToString } from "katex";
 import type MarkdownIt from "markdown-it";
 
 import type {
@@ -27,11 +27,15 @@ const katexInline = (
       displayMode: false,
     });
   } catch (error) {
-    if (options.throwOnError) console.warn(error);
-
-    result = `<span class='katex-error' title='${escapeHtml(
-      (error as Error).toString(),
-    )}'>${escapeHtml(tex)}</span>`;
+    /* istanbul ignore else -- @preserve */
+    if (error instanceof ParseError) {
+      console.warn(error);
+      result = `<span class='katex-error' title='${escapeHtml(
+        (error as Error).toString(),
+      )}'>${escapeHtml(tex)}</span>`;
+    } else {
+      throw error;
+    }
   }
 
   return transformer?.(result, false) ?? result;
@@ -50,11 +54,15 @@ const katexBlock = (
       displayMode: true,
     })}</p>\n`;
   } catch (error) {
-    if (options.throwOnError) console.warn(error);
-
-    result = `<p class='katex-block katex-error' title='${escapeHtml(
-      (error as Error).toString(),
-    )}'>${escapeHtml(tex)}</p>\n`;
+    /* istanbul ignore else -- @preserve */
+    if (error instanceof ParseError) {
+      console.warn(error);
+      result = `<p class='katex-block katex-error' title='${escapeHtml(
+        (error as Error).toString(),
+      )}'>${escapeHtml(tex)}</p>\n`;
+    } else {
+      throw error;
+    }
   }
 
   return transformer?.(result, true) ?? result;
