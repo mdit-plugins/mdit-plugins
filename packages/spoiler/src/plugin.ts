@@ -34,7 +34,7 @@ const tokenize: RuleInline = (state, silent) => {
   for (let i = 0; i < length; i += 2) {
     const token = state.push("text", "", 0);
 
-    token.content = `${marker}${marker}`;
+    token.content = marker + marker;
 
     if (scanned.can_open || scanned.can_close)
       state.delimiters.push({
