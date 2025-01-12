@@ -37,15 +37,11 @@ const isValidDelim = (
 const getInlineTex =
   (allowInlineWithSpace: boolean): RuleInline =>
   (state, silent) => {
-    let match;
-    let pos;
-    let res;
-    let token;
-
     if (state.src[state.pos] !== "$") return false;
 
-    res = isValidDelim(state, state.pos, allowInlineWithSpace);
-    if (!res.canOpen) {
+    let delimState = isValidDelim(state, state.pos, allowInlineWithSpace);
+
+    if (!delimState.canOpen) {
       if (!silent) state.pending += "$";
 
       state.pos++;
@@ -61,7 +57,9 @@ const getInlineTex =
      */
     const start = state.pos + 1;
 
-    match = start;
+    let match = start;
+    let pos: number;
+
     while ((match = state.src.indexOf("$", match)) !== -1) {
       /*
        * Found potential $, look for escapes, pos will point to
@@ -95,9 +93,9 @@ const getInlineTex =
     }
 
     // Check for valid closing delimiter
-    res = isValidDelim(state, match, allowInlineWithSpace);
+    delimState = isValidDelim(state, match, allowInlineWithSpace);
 
-    if (!res.canClose) {
+    if (!delimState.canClose) {
       if (!silent) state.pending += "$";
 
       state.pos = start;
@@ -106,7 +104,8 @@ const getInlineTex =
     }
 
     if (!silent) {
-      token = state.push("math_inline", "math", 0);
+      const token = state.push("math_inline", "math", 0);
+
       token.markup = "$";
       token.content = state.src.slice(start, match);
     }
