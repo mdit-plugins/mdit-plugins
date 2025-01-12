@@ -1,3 +1,3 @@
 export interface TaskListEnv {
-  tasklists: number;
+  tasklistId: number;
 }

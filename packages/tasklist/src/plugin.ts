@@ -47,7 +47,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   const taskListRule: RuleCore = (state: TaskListStateCore) => {
     const tokens = state.tokens;
 
-    if (!state.env.tasklists) state.env.tasklists = 0;
+    state.env.tasklistId ||= 0;
 
     for (let i = 2; i < tokens.length; i++)
       if (isTaskListItem(tokens, i)) {
@@ -58,7 +58,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         // remove the checkbox syntax letter
         token.children[0].content = token.children[0].content.slice(3);
 
-        const id = `task-item-${state.env.tasklists++}`;
+        const id = `task-item-${state.env.tasklistId++}`;
 
         if (label) {
           // add label
