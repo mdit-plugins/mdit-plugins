@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-attrs",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "attrs plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
