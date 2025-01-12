@@ -78,9 +78,7 @@ For the build-in helper and render function usage, see source code and related u
 - [src/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/src/render.ts)
 - [\_\_tests\_\_/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/__tests__/render.ts)
 - [src/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/src/utils.ts)
-- [\_\_tests\_\_/extractColor.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/__tests__/extractColor.ts)
-- [\_\_tests\_\_/extractSize.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/__tests__/extractSize.ts)
-- [\_\_tests\_\_/parseAttrs.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/__tests__/parseAttrs.ts)
+- [\_\_tests\_\_/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/icon/__tests__/utils.ts)
 
 ::: tip Why not markdownit-plugin-emoji?
 

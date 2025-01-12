@@ -19,8 +19,8 @@ describe("escapeHtml", () => {
     expect(escapeHtml('"')).toBe("&quot;");
   });
 
-  it("should escape ' to &#039;", () => {
-    expect(escapeHtml("'")).toBe("&#039;");
+  it("should escape ' to &#39;", () => {
+    expect(escapeHtml("'")).toBe("&#39;");
   });
 
   it("should escape multiple characters", () => {

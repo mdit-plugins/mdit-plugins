@@ -1,3 +1,5 @@
+import { escapeHtml } from "@mdit/helper";
+
 const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 
 /**
@@ -98,7 +100,7 @@ export const appendStyle = (
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)
-    .map(([key, value]) => `${key}="${value}"`)
+    .map(([key, value]) => `${key}="${escapeHtml(value)}"`)
     .join(" ");
 
   return result ? ` ${result}` : "";

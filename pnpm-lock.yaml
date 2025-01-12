@@ -264,6 +264,9 @@ importers:
 
   packages/icon:
     dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
