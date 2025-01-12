@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.0...v0.16.1) (2025-01-12)
+
+### 🐛 Bug Fixes
+
+- **katex:** fix option types ([72eb726](https://github.com/mdit-plugins/mdit-plugins/commit/72eb726c180c0e49460a3da356085c8bf7f0fe31))
+
 ## [0.16.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.15.1...v0.16.0) (2025-01-12)
 
 ### ✨ Features
