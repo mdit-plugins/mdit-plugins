@@ -22,6 +22,17 @@ describe("should work with default options", () => {
     expect(markdownIt.render("xx ::icon-name:: xx")).toEqual(
       `<p>xx <i class="icon-name"></i> xx</p>\n`,
     );
+
+    expect(
+      markdownIt.render(`\
+xx
+::icon-name::
+xx
+`),
+    ).toEqual(`\
+<p>xx
+<i class="icon-name"></i>
+xx</p>\n`);
   });
 
   it("should not render", () => {
