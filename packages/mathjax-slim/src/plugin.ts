@@ -46,6 +46,7 @@ try {
     "mathjax-full/js/a11y/assistive-mml.js"
   ));
 } catch {
+  /* istanbul ignore next -- @preserve */
   isMathJaxFullInstalled = false;
 }
 
@@ -60,6 +61,7 @@ export interface DocumentOptions {
 export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
 ): DocumentOptions | null => {
+  /* istanbul ignore if -- @preserve */
   if (!isMathJaxFullInstalled) {
     console.error('[@mdit/mathjax] "mathjax-full" is not installed!');
 
@@ -135,6 +137,7 @@ export const createMathjaxInstance = (
 ): MathjaxInstance | null => {
   const documentOptions = getDocumentOptions(options);
 
+  /* istanbul ignore if -- @preserve */
   if (!documentOptions) return null;
 
   const { OutputJax, InputJax } = documentOptions;

@@ -75,6 +75,34 @@ A **bold** text 2.
   });
 });
 
+it("should ignore other markers", () => {
+  const sources = [
+    `
+::: tabs
+@tab test1
+A **bold** text 1.
+@tac
+@tab test2
+A **bold** text 2.
+:::
+`,
+  ];
+
+  sources.forEach((item) => {
+    const result = markdownIt.render(item);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(
+      '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+    );
+    expect(result).toContain(
+      '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
+    );
+    expect(result).toContain("<p>A <strong>bold</strong> text 1.\n@tac</p>");
+    expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+  });
+});
+
 describe("Should support tabs id", () => {
   it("simple id", () => {
     const source = [
@@ -461,5 +489,70 @@ A **bold** text 4.
     expect(result).toContain(
       "<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>",
     );
+  });
+});
+
+it("should not render", () => {
+  const source = [
+    `
+:: tabs
+bala bala
+@tab test\\#abc
+A **bold** text.
+::
+`,
+  ];
+
+  source.forEach((item) => {
+    const result = markdownIt.render(item);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain("@tab");
+  });
+});
+
+describe("starting correctly", () => {
+  it("should work with inline tokens ahead", () => {
+    const source = [
+      `
+test
+::: tabs
+bala bala
+@tab test\\#abc
+A **bold** text.
+:::
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(`<p>test</p>`);
+    });
+  });
+});
+
+describe("ending correctly", () => {
+  it("should auto end container when a negative padding text found", () => {
+    const source = [
+      `
+- item 1
+
+  ::: tabs
+  bala bala
+  @tab test\\#abc
+  A **bold** text.
+
+test
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(`<p>test</p>`);
+    });
   });
 });

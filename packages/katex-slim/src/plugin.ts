@@ -21,6 +21,7 @@ try {
   katexLib = (await import("katex"))
     .default as unknown as typeof import("katex");
 } catch {
+  /* istanbul ignore next -- @preserve */
   isKatexInstalled = false;
 }
 
@@ -74,6 +75,7 @@ export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
+  /* istanbul ignore if -- @preserve */
   if (!isKatexInstalled) {
     console.error('[@mdit/plugin-katex]: "katex" not installed!');
 

@@ -12,7 +12,7 @@ describe("inline mathjax", () => {
   it("should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
 
     examples.forEach((example) => {
@@ -69,7 +69,7 @@ describe("inline mathjax", () => {
   it("should output A11y", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
@@ -126,7 +126,7 @@ describe("inline mathjax", () => {
   it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
 
     expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
@@ -137,7 +137,7 @@ describe("block mathjax", () => {
   it("should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
 
     expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
@@ -171,7 +171,7 @@ $$
   it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
 
     expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
@@ -188,7 +188,7 @@ $$
   it("should not output warnings when content has line breaks", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({}),
+      createMathjaxInstance(),
     );
 
     expect(

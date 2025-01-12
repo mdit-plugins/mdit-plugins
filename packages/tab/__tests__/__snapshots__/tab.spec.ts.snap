@@ -204,6 +204,24 @@ exports[`active > should resolve first :active 2`] = `
 </div>"
 `;
 
+exports[`ending correctly > should auto end container when a negative padding text found 1`] = `
+"<ul>
+<li>
+<p>item 1</p>
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div></li>
+</ul>
+<p>test</p>
+"
+`;
+
 exports[`should ignore items before first @tab 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
@@ -226,6 +244,30 @@ exports[`should ignore items before first @tab 2`] = `
 </div>
   </div>
 </div>"
+`;
+
+exports[`should ignore other markers 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.
+@tac</p>
+</div><div class="tabs-tab-content" data-index="1"><p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>"
+`;
+
+exports[`should not render 1`] = `
+"<p>:: tabs
+bala bala
+@tab test#abc
+A <strong>bold</strong> text.
+::</p>
+"
 `;
 
 exports[`should render multiple block 1`] = `
@@ -310,4 +352,17 @@ exports[`should work with multiple instance 2`] = `
 </div><TestTabs><TestTab><p>A <strong>bold</strong> text 3.</p>
 </TestTab><TestTab><p>A <strong>bold</strong> text 4.</p>
 </TestTab></TestTabs>"
+`;
+
+exports[`starting correctly > should work with inline tokens ahead 1`] = `
+"<p>test</p>
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>"
 `;

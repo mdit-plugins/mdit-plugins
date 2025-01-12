@@ -40,6 +40,10 @@ it("when only 1 line is passed, dedent it", () => {
   expect(dedent("    let a = 42;")).toEqual("let a = 42;");
 });
 
+it("dedent empty content", () => {
+  expect(dedent("")).toEqual("");
+});
+
 it("handle tabs as well", () => {
   expect(
     dedent(
@@ -53,6 +57,25 @@ it("handle tabs as well", () => {
   ).toMatchInlineSnapshot(`
         "let a = {
         	value: 42
+        };"
+      `);
+});
+
+it("handle empty lines", () => {
+  expect(
+    dedent(
+      [
+        //
+        "	let a = {",
+        "		value: 42",
+        "",
+        "	};",
+      ].join("\n"),
+    ),
+  ).toMatchInlineSnapshot(`
+        "let a = {
+        	value: 42
+
         };"
       `);
 });

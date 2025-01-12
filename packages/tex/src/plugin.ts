@@ -18,8 +18,8 @@ const isValidDelim = (
   pos: number,
   allowInlineWithSpace: boolean,
 ): { canOpen: boolean; canClose: boolean } => {
-  const prevChar = pos > 0 ? state.src.charAt(pos - 1) : "";
-  const nextChar = pos + 1 <= state.posMax ? state.src.charAt(pos + 1) : "";
+  const prevChar = state.src.charAt(pos - 1);
+  const nextChar = state.src.charAt(pos + 1);
 
   return {
     canOpen: allowInlineWithSpace || (nextChar !== " " && nextChar !== "\t"),

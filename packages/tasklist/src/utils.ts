@@ -19,6 +19,7 @@ export const getParentTokenIndex = (tokens: Token[], index: number): number => {
   for (let i = index - 1; i >= 0; i--)
     if (tokens[i].level === targetLevel) return i;
 
+  /* istanbul ignore next -- @preserve */
   return -1;
 };
 

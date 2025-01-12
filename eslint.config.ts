@@ -1,4 +1,3 @@
-// @ts-check
 import hopeConfig, {
   config,
   globals,
@@ -38,6 +37,7 @@ export default config(
   {
     files: ["**/*.ts"],
     rules: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "@typescript-eslint/naming-convention": [
         "warn",
         {
@@ -98,6 +98,7 @@ export default config(
       globals: globals.node,
     },
     rules: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "@typescript-eslint/no-var-requires": "off",
     },
   },

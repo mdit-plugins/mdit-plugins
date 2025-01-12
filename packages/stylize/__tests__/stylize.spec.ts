@@ -134,3 +134,11 @@ describe("stylize", () => {
     );
   });
 });
+
+it("work with no config", () => {
+  const markdownIt = MarkdownIt().use(stylize);
+
+  expect(markdownIt.render(`**MUST**`)).toEqual(
+    "<p><strong>MUST</strong></p>\n",
+  );
+});

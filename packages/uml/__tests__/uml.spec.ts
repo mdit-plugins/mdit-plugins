@@ -22,6 +22,18 @@ abc
 
   expect(
     markdownIt.render(`
+text.
+@start
+abc
+@end
+    `),
+  ).toEqual(`\
+<p>text.</p>
+<div class="uml" title="">abc</div>\
+`);
+
+  expect(
+    markdownIt.render(`
 - @start
 
   abc
