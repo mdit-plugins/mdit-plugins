@@ -76,6 +76,7 @@
       "@mdit/plugin-demo": "workspace:*",
       "@mdit/plugin-figure": "workspace:*",
       "@mdit/plugin-footnote": "workspace:*",
+      "@mdit/plugin-icon": "workspace:*",
       "@mdit/plugin-img-lazyload": "workspace:*",
       "@mdit/plugin-img-mark": "workspace:*",
       "@mdit/plugin-img-size": "workspace:*",
