@@ -6,11 +6,7 @@ import type { KatexOptions, KatexOptions as OriginalKatexOptions } from "katex";
 import { ParseError, renderToString } from "katex";
 import type MarkdownIt from "markdown-it";
 
-import type {
-  KatexToken,
-  MarkdownItKatexOptions,
-  TeXTransformer,
-} from "./options.js";
+import type { MarkdownItKatexOptions, TeXTransformer } from "./options.js";
 
 const require = createRequire(import.meta.url);
 
@@ -76,7 +72,9 @@ export const katex = <MarkdownItEnv = unknown>(
     allowInlineWithSpace = false,
     mathFence = false,
     mhchem = false,
-    logger = (errorCode: string): string =>
+    logger = (
+      errorCode: string,
+    ): "ignore" | "warn" | "error" | boolean | undefined =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
     transformer,
     ...userOptions
@@ -89,18 +87,8 @@ export const katex = <MarkdownItEnv = unknown>(
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
       const katexOptions: KatexOptions = {
-        // @ts-expect-error: Type issue upstream
-        strict: (
-          errorCode:
-            | "unknownSymbol"
-            | "unicodeTextInMathMode"
-            | "mathVsTextUnits"
-            | "commentAtEnd"
-            | "htmlExtension"
-            | "newLineInDisplayMode",
-          errorMsg: string,
-          token: KatexToken,
-        ) => logger(errorCode, errorMsg, token, env) ?? "ignore",
+        strict: (errorCode, errorMsg, token) =>
+          logger(errorCode, errorMsg, token, env) ?? "ignore",
         throwOnError: false,
         ...userOptions,
       };

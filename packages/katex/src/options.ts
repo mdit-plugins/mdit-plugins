@@ -1,27 +1,5 @@
 import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
-import type { KatexOptions } from "katex";
-
-type KatexCatcodes = Record<string, number>;
-
-interface KatexLexerInterFace {
-  input: string;
-  tokenRegex: RegExp;
-  settings: Required<KatexOptions>;
-  catcodes: KatexCatcodes;
-}
-
-interface KatexSourceLocation {
-  start: number;
-  end: number;
-  lexer: KatexLexerInterFace;
-}
-
-export interface KatexToken {
-  text: string;
-  loc: KatexSourceLocation | undefined;
-  noexpand: boolean | undefined;
-  treatAsRelax: boolean | undefined;
-}
+import type { KatexOptions, Token } from "katex";
 
 export type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
@@ -32,7 +10,7 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: KatexToken,
+  token: Token,
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | boolean | undefined;
 
