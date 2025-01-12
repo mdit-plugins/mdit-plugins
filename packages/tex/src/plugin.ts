@@ -125,51 +125,49 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
   if (state.src.slice(pos, pos + 2) !== "$$") return false;
 
   pos += 2;
-  let firstLine = state.src.slice(pos, max);
+  let firstLine = state.src.slice(pos, max).trim();
 
   if (silent) return true;
 
   let found = false;
 
-  if (firstLine.trim().endsWith("$$")) {
+  if (firstLine.endsWith("$$")) {
     // Single line expression
-    firstLine = firstLine.trim().slice(0, -2);
+    firstLine = firstLine.slice(0, -2);
     found = true;
   }
 
-  let next = start;
-  let lastLine: string | null = null;
+  let current = start;
+  let lastLine = "";
 
   while (!found) {
-    next++;
+    current++;
+    if (current >= end) break;
 
-    if (next >= end) break;
+    pos = state.bMarks[current] + state.tShift[current];
+    max = state.eMarks[current];
 
-    pos = state.bMarks[next] + state.tShift[next];
-    max = state.eMarks[next];
+    // non-empty line with negative indent should stop the list:
+    if (pos < max && state.tShift[current] < state.blkIndent) break;
 
-    if (pos < max && state.tShift[next] < state.blkIndent)
-      // non-empty line with negative indent should stop the list:
-      break;
-
+    // found end marker
     if (state.src.slice(pos, max).trim().endsWith("$$")) {
-      lastLine = state.src.slice(
-        pos,
-        state.src.slice(0, max).lastIndexOf("$$"),
-      );
+      lastLine = state.src
+        .slice(pos, state.src.slice(0, max).lastIndexOf("$$"))
+        .trim();
       found = true;
     }
   }
 
-  state.line = next + 1;
+  state.line = found ? current + 1 : current;
 
   const token = state.push("math_block", "math", 0);
 
   token.block = true;
   token.content =
-    (firstLine.trim() ? `\n${firstLine}\n` : "\n") +
-    state.getLines(start + 1, next, state.tShift[start], true) +
-    (lastLine?.trim() ?? "");
+    (firstLine ? `${firstLine}\n` : "") +
+    state.getLines(start + 1, current, state.tShift[start], true) +
+    (lastLine ? `${lastLine}\n` : "");
   token.map = [start, state.line];
   token.markup = "$$";
 

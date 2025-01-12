@@ -134,6 +134,56 @@ $$
     ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
   });
 
+  it("should startcorrectly", () => {
+    expect(
+      markdownIt.render(`
+test.
+$$a = 1$$
+`),
+    ).toEqual(`\
+<p>test.</p>
+<p>{Tex content: a = 1}</p>\
+`);
+    expect(
+      markdownIt.render(`
+test.
+$$
+a = 1
+$$
+`),
+    ).toEqual(`\
+<p>test.</p>
+<p>{Tex content: a = 1}</p>\
+`);
+  });
+
+  it("should stop correctly", () => {
+    expect(
+      markdownIt.render(`
+$$a = 1
+`),
+    ).toEqual(`\
+<p>{Tex content: a = 1}</p>\
+`);
+
+    expect(
+      markdownIt.render(`
+- test
+
+  $$a = 1
+
+test.
+`),
+    ).toEqual(`\
+<ul>
+<li>
+<p>test</p>
+<p>{Tex content: a = 1}</p></li>
+</ul>
+<p>test.</p>
+`);
+  });
+
   it("should not render when escape", () => {
     expect(markdownIt.render("\\$\\$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
     expect(
