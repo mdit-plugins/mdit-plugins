@@ -60,6 +60,17 @@ it("Have the same priority as emphases with respect to backticks", () => {
   );
 });
 
+it('should not render with single "="', () => {
+  expect(markdownIt.render(`=mark=`)).toEqual(`<p>=mark=</p>\n`);
+});
+
+it("should not render with empty content", () => {
+  expect(markdownIt.render(`====`)).toEqual(`<p>====</p>\n`);
+  expect(markdownIt.render(`==== a`)).toEqual(`<p>==== a</p>\n`);
+  expect(markdownIt.render(`a ====`)).toEqual(`<p>a ====</p>\n`);
+  expect(markdownIt.render(`a ==== a`)).toEqual(`<p>a ==== a</p>\n`);
+});
+
 it("should not render a whitespace or newline between text and '=='", () => {
   expect(markdownIt.render("foo == bar == baz")).toEqual(
     `<p>foo == bar == baz</p>\n`,

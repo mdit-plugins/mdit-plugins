@@ -29,6 +29,17 @@ describe("inline katex default", () => {
       "<p>A tex equation {Tex content: a=1} inline.</p>\n",
     );
     expect(
+      markdownIt.render(`\
+A tex equation
+$a=1$
+inline.\
+`),
+    ).toEqual(`\
+<p>A tex equation
+{Tex content: a=1}
+inline.</p>
+`);
+    expect(
       markdownIt.render(
         `A tex equation $a=1$ $b=2$ inline with $1 hot dogs and $c=3$.`,
       ),
@@ -132,9 +143,25 @@ b = 2
 $$
 `),
     ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
+
+    expect(
+      markdownIt.render(`
+$$a = 1 \\\\
+b = 2
+$$
+`),
+    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
+
+    expect(
+      markdownIt.render(`
+$$
+a = 1 \\\\
+b = 2$$
+`),
+    ).toEqual("<p>{Tex content: a = 1 \\\\\nb = 2}</p>");
   });
 
-  it("should startcorrectly", () => {
+  it("should start correctly", () => {
     expect(
       markdownIt.render(`
 test.
@@ -184,6 +211,14 @@ test.
 `);
   });
 
+  it("should render when having spaces", () => {
+    expect(markdownIt.render(`$$ a = 1 $$`)).toMatchSnapshot();
+
+    expect(markdownIt.render(`All $$ a = 1 $$ is true.`)).toEqual(
+      "<p>All $$ a = 1 $$ is true.</p>\n",
+    );
+  });
+
   it("should not render when escape", () => {
     expect(markdownIt.render("\\$\\$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
     expect(
@@ -195,14 +230,6 @@ a = 1
     ).toEqual(`<p>$$
 a = 1
 $$</p>\n`);
-  });
-
-  it("should render when having spaces", () => {
-    expect(markdownIt.render(`$$ a = 1 $$`)).toMatchSnapshot();
-
-    expect(markdownIt.render(`All $$ a = 1 $$ is true.`)).toEqual(
-      "<p>All $$ a = 1 $$ is true.</p>\n",
-    );
   });
 });
 
@@ -236,4 +263,8 @@ const a = 1;
 </code></pre>
 `);
   });
+});
+
+it("should not render", () => {
+  expect(markdownIt.render(`$`)).toEqual("<p>$</p>\n");
 });

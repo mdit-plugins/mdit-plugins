@@ -45,6 +45,17 @@ describe("stylize", () => {
           if (tag === "em") return { tag, attrs, content: `MUST_${content}` };
         },
       },
+      {
+        matcher: /n't$/,
+        replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
+          if (tag === "em")
+            return {
+              tag: "span",
+              attrs: { ...attrs, style: `color:red;${attrs.style || ""}` },
+              content,
+            };
+        },
+      },
     ],
     localConfigGetter: (env) =>
       (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
@@ -81,8 +92,17 @@ describe("stylize", () => {
     );
     expect(markdownIt.render(`*NOT*`)).toEqual("<p><em>MUST_NOT</em></p>\n");
   });
+  it("should render negative words with red", () => {
+    expect(
+      markdownIt.render(
+        `I _don't_ want to talk him, he _isn't_ a friend of mine.`,
+      ),
+    ).toEqual(`\
+<p>I <span style="color:red;">don't</span> want to talk him, he <span style="color:red;">isn't</span> a friend of mine.</p>
+`);
+  });
 
-  it("should render LINEs with MUST", () => {
+  it("should render lines with MUST", () => {
     expect(
       markdownIt.render(
         "**MUST** at the beginning of the line\n\n" +
@@ -102,7 +122,7 @@ describe("stylize", () => {
     );
   });
 
-  it("should render Complex with SHOULD", () => {
+  it("should render complex with SHOULD", () => {
     expect(
       markdownIt.render(
         "`**MUST**` in inline code should be rendered as is.\n\n" +
@@ -136,9 +156,14 @@ describe("stylize", () => {
 });
 
 it("work with no config", () => {
-  const markdownIt = MarkdownIt().use(stylize);
+  const markdownIt1 = MarkdownIt().use(stylize);
 
-  expect(markdownIt.render(`**MUST**`)).toEqual(
+  expect(markdownIt1.render(`**MUST**`)).toEqual(
+    "<p><strong>MUST</strong></p>\n",
+  );
+  const markdownIt2 = MarkdownIt().use(stylize, { config: [] });
+
+  expect(markdownIt2.render(`**MUST**`)).toEqual(
     "<p><strong>MUST</strong></p>\n",
   );
 });

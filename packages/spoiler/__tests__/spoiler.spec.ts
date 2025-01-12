@@ -54,6 +54,17 @@ describe("spoiler", () => {
     );
   });
 
+  it('should not render with single "!"', () => {
+    expect(markdownIt.render(`!text!`)).toEqual(`<p>!text!</p>\n`);
+  });
+
+  it("should not render with empty content", () => {
+    expect(markdownIt.render(`!!!!`)).toEqual(`<p>!!!!</p>\n`);
+    expect(markdownIt.render(`!!!! a`)).toEqual(`<p>!!!! a</p>\n`);
+    expect(markdownIt.render(`a !!!!`)).toEqual(`<p>a !!!!</p>\n`);
+    expect(markdownIt.render(`a !!!! a`)).toEqual(`<p>a !!!! a</p>\n`);
+  });
+
   it("Have the same priority as emphases with respect to backticks", () => {
     expect(markdownIt.render("!!`code!!`")).toEqual(
       `<p>!!<code>code!!</code></p>\n`,
