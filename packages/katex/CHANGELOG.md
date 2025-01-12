@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.2](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.1...v0.16.2) (2025-01-12)
+
+### 🐛 Bug Fixes
+
+- **katex:** improve logger type ([ba1a42c](https://github.com/mdit-plugins/mdit-plugins/commit/ba1a42cfef0b466b90362f7d090370d5e02a7080))
+
 ## [0.16.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.0...v0.16.1) (2025-01-12)
 
 ### 🐛 Bug Fixes
