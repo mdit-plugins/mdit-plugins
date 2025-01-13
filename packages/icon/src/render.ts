@@ -1,37 +1,29 @@
-import {
-  appendStyle,
-  extractColor,
-  extractSize,
-  parseAttrs,
-  stringifyAttrs,
-} from "./utils.js";
+import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 
 /**
  * Default render for icons
  */
-export const defaultRender = (content: string): string => {
-  const result = extractColor(extractSize({ content }));
-  const { attrs, classes } = parseAttrs(result.content);
+export const defaultRender = (icon: string): string => {
+  const { attrs, content, size, color } = extractInfo({ content: icon });
 
-  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
-  if (result.color) appendStyle(attrs, `color:${result.color}`);
+  if (size) appendStyle(attrs, `font-size:${size}`);
+  if (color) appendStyle(attrs, `color:${color}`);
 
   return `\
-<i icon="${classes.join(" ")}"${stringifyAttrs(attrs)}>\
+<i icon="${content}"${stringifyAttrs(attrs)}>\
 </i>`;
 };
 
 /**
  * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
  */
-export const iconifyRender = (content: string): string => {
-  const result = extractColor(extractSize({ content }));
-  const { attrs, classes } = parseAttrs(result.content);
+export const iconifyRender = (icon: string): string => {
+  const { attrs, content, size, color } = extractInfo({ content: icon });
 
-  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
-  if (result.color) appendStyle(attrs, `color:${result.color}`);
+  if (size) appendStyle(attrs, `font-size:${size}`);
+  if (color) appendStyle(attrs, `color:${color}`);
 
-  return `<iconify-icon icon="${classes.join(" ")}"${stringifyAttrs(
+  return `<iconify-icon icon="${content}"${stringifyAttrs(
     attrs,
   )}></iconify-icon>`;
 };
@@ -128,13 +120,13 @@ export const appendFontawesomePrefix = (icon: string): string =>
 /**
  * Render for [fontawesome](https://fontawesome.com/) icons
  */
-export const fontawesomeRender = (content: string): string => {
-  const result = extractColor(extractSize({ content }));
-  const { attrs, classes } = parseAttrs(result.content);
+export const fontawesomeRender = (icon: string): string => {
+  const { attrs, content, size, color } = extractInfo({ content: icon });
 
-  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
-  if (result.color) appendStyle(attrs, `color:${result.color}`);
+  if (size) appendStyle(attrs, `font-size:${size}`);
+  if (color) appendStyle(attrs, `color:${color}`);
 
+  const classes = content.split(/\s+/);
   const finalClasses: string[] = [];
   const iconNameIndex = classes.findIndex((cls) => cls.includes(":"));
 
@@ -167,13 +159,12 @@ export const fontawesomeRender = (content: string): string => {
 /**
  * Render for [iconfont](https://www.iconfont.cn/) icons
  */
-export const iconfontRender = (content: string): string => {
-  const result = extractColor(extractSize({ content }));
-  const { attrs, classes } = parseAttrs(result.content);
+export const iconfontRender = (icon: string): string => {
+  const { attrs, content, size, color } = extractInfo({ content: icon });
 
-  if (result.size) appendStyle(attrs, `font-size:${result.size}`);
-  if (result.color) appendStyle(attrs, `color:${result.color}`);
+  if (size) appendStyle(attrs, `font-size:${size}`);
+  if (color) appendStyle(attrs, `color:${color}`);
 
   // add `iconfont` class and `icon-` prefix for first class
-  return `<span class="iconfont icon-${classes.join(" ")}"${stringifyAttrs(attrs)}></span>`;
+  return `<span class="iconfont icon-${content}"${stringifyAttrs(attrs)}></span>`;
 };

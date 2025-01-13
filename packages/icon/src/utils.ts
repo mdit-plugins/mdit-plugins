@@ -46,17 +46,52 @@ export const extractColor = <T extends { content: string }>(
   return data;
 };
 
-export interface Attrs {
-  attrs: Record<string, string>;
-  classes: string[];
-}
+export type AttrsInfo = Record<string, string>;
 
 const ATTR_NAME_REGEXP = "[A-z_][a-zA-Z0-9_-]*";
 
 const ATTR_REGEXP = new RegExp(
-  `(${ATTR_NAME_REGEXP})=(['"])((?:.(?!\\2\\s+(?:${ATTR_NAME_REGEXP})=|>|(?<!\\\\)\\2))+.)\\2|(${ATTR_NAME_REGEXP})=(\\S+)|(\\S+)`,
+  `\\b` +
+    // attr name
+    `(?<attr>${ATTR_NAME_REGEXP})` +
+    // =
+    "=" +
+    // attr value, should match on of the following
+    `(?:` +
+    /**
+     * case 1: value with quotes
+     */
+    //   starting quote
+    /**/ `(?<quote>['"])` +
+    //   value capture group
+    /**/ `(?<valueWithQuotes>` +
+    /*  */ `(?:` +
+    //      any character
+    /*    */ `.` +
+    //      negative lookahead for one of the following
+    /*    */ `(?!` +
+    //      case 1: ending and starting another attr
+    /*      */ `\\k<quote>\\s+(?:${ATTR_NAME_REGEXP})=` +
+    /*      */ `|` +
+    //      case 2: an escaped quote
+    /*      */ `(?<!\\\\)\\k<quote>` +
+    /*    */ `)` +
+    /*  */ `)+.` +
+    /**/ `)` +
+    //   ending with same quote
+    /**/ `\\k<quote>` +
+    /**/ "|" +
+    /**
+     * case 2: value without quotes
+     */
+    /**/ "(?<valueWithoutQuotes>\\S+)" +
+    `)` +
+    // optional space
+    `(?:\\s+|$)`,
   "g",
 );
+
+// console.log(ATTR_REGEXP.toString());
 
 /**
  * Parse attrs string to object
@@ -64,27 +99,51 @@ const ATTR_REGEXP = new RegExp(
  * @param attrs
  * @returns
  */
-export const parseAttrs = (content: string): Attrs => {
-  const classes: string[] = [];
-  const attrs: Record<string, string> = {};
+export const extractAttrs = <T extends { content: string }>(
+  data: T & { attrs?: AttrsInfo },
+): T & { attrs: AttrsInfo } => {
+  const attrs: AttrsInfo = {};
 
-  let match;
+  const content = data.content
+    .replace(
+      ATTR_REGEXP,
+      (
+        _,
+        _1,
+        _2,
+        _3,
+        _4,
+        _5,
+        _6,
+        {
+          attr,
+          quote,
+          valueWithQuotes,
+          valueWithoutQuotes,
+        }: {
+          attr: string;
+          quote: string | undefined;
+          valueWithQuotes: string | undefined;
+          valueWithoutQuotes: string | undefined;
+        },
+      ) => {
+        attrs[attr] =
+          valueWithoutQuotes ??
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          valueWithQuotes!.replace(new RegExp(`\\\\${quote}`, "g"), quote!);
 
-  while ((match = ATTR_REGEXP.exec(content)) !== null) {
-    if (match[6]) {
-      classes.push(match[6]);
-    } else if (match[4]) {
-      attrs[match[4]] = match[5];
-    } else {
-      attrs[match[1]] = match[3].replace(
-        new RegExp(`\\\\${match[2]}`, "g"),
-        match[2],
-      );
-    }
-  }
+        return "";
+      },
+    )
+    .trim();
 
-  return { classes, attrs };
+  return { ...data, attrs, content };
 };
+
+export const extractInfo = <T extends { content: string }>(
+  data: T & { attrs?: AttrsInfo; size?: string; color?: string },
+): T & { attrs: AttrsInfo; size?: string; color?: string } =>
+  extractColor(extractSize(extractAttrs(data)));
 
 /**
  * append styles to attrs object

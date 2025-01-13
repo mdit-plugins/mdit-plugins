@@ -2,9 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import {
   appendStyle,
+  extractAttrs,
   extractColor,
+  extractInfo,
   extractSize,
-  parseAttrs,
   stringifyAttrs,
 } from "../src/utils.js";
 
@@ -78,140 +79,220 @@ it("extractSize", () => {
   });
 });
 
-describe("parseAttrs", () => {
+describe("extractAttrs", () => {
   it("Only classes", () => {
-    expect(parseAttrs("class1 class2")).toEqual({
-      classes: ["class1", "class2"],
+    expect(extractAttrs({ content: "class1 class2" })).toEqual({
       attrs: {},
+      content: "class1 class2",
     });
   });
 
   describe("Only attrs", () => {
     it("simple value without quotes", () => {
-      expect(parseAttrs("key1=value1 key2=value2")).toEqual({
-        classes: [],
+      expect(extractAttrs({ content: "key1=value1 key2=value2" })).toEqual({
         attrs: { key1: "value1", key2: "value2" },
+        content: "",
       });
     });
 
     it("complex attribute", () => {
-      expect(parseAttrs(`a11y=true multi-word=complex-value2`)).toEqual({
-        classes: [],
+      expect(
+        extractAttrs({ content: `a11y=true multi-word=complex-value2` }),
+      ).toEqual({
         attrs: { a11y: "true", "multi-word": "complex-value2" },
+        content: "",
       });
     });
 
     it("value with single quotes", () => {
       expect(
-        parseAttrs(
-          `key1='value with space' key2='complex-value2' key3='I am "God"!' key4='I am \\'God\\'!'`,
-        ),
+        extractAttrs({
+          content: `key1='value with space' key2='complex-value2' key3='I am "God"!' key4='I am \\'God\\'!'`,
+        }),
       ).toEqual({
-        classes: [],
         attrs: {
           key1: "value with space",
           key2: "complex-value2",
           key3: 'I am "God"!',
           key4: "I am 'God'!",
         },
+        content: "",
       });
     });
 
     it("value with double quotes", () => {
       expect(
-        parseAttrs(
-          `key1="value with space" key2="complex-value2" key3="I am 'God'!"`,
-        ),
+        extractAttrs({
+          content: `key1="value with space" key2="complex-value2" key3="I am 'God'!"`,
+        }),
       ).toEqual({
-        classes: [],
         attrs: {
           key1: "value with space",
           key2: "complex-value2",
           key3: "I am 'God'!",
         },
+        content: "",
       });
     });
 
-    expect(parseAttrs(`key1="value with space" key2=value2`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value2" },
+    it("value needs encoding", () => {
+      expect(
+        extractAttrs({
+          content: `key1="value with &" key2="value with <tag>" key3="value with =equals"`,
+        }),
+      ).toEqual({
+        attrs: {
+          key1: "value with &",
+          key2: "value with <tag>",
+          key3: "value with =equals",
+        },
+        content: "",
+      });
+
+      expect(
+        extractAttrs({
+          content: `key1="value with &" key2="value with <tag\\>" key3="value with =equals"`,
+        }),
+      ).toEqual({
+        attrs: {
+          key1: "value with &",
+          key2: "value with <tag\\>",
+          key3: "value with =equals",
+        },
+        content: "",
+      });
     });
 
-    expect(parseAttrs(`key1="value with space" key2="value2"`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value2" },
-    });
+    it("value with mixed quotes", () => {
+      expect(
+        extractAttrs({ content: `key1="value with space" key2=value2` }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value2" },
+        content: "",
+      });
 
-    expect(parseAttrs(`key1="value with space" key2='value'`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value" },
-    });
+      expect(
+        extractAttrs({ content: `key1="value with space" key2="value2"` }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value2" },
+        content: "",
+      });
 
-    expect(parseAttrs(`key1='value with space' key2="value"`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value" },
-    });
+      expect(
+        extractAttrs({ content: `key1="value with space" key2='value'` }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value" },
+        content: "",
+      });
 
-    expect(
-      parseAttrs(`key1='value with space' key2="value with space"`),
-    ).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value with space" },
-    });
+      expect(
+        extractAttrs({ content: `key1='value with space' key2="value"` }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value" },
+        content: "",
+      });
 
-    expect(parseAttrs(`key1="value with space" key2="value with &"`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value with &" },
+      expect(
+        extractAttrs({
+          content: `key1='value with space' key2="value with space"`,
+        }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value with space" },
+        content: "",
+      });
+
+      expect(
+        extractAttrs({
+          content: `key1="value with space" key2="value with &"`,
+        }),
+      ).toEqual({
+        attrs: { key1: "value with space", key2: "value with &" },
+        content: "",
+      });
     });
   });
 
   it("Classes and attrs", () => {
-    expect(parseAttrs(`class1 class2 key1=value1 key2=value2`)).toEqual({
-      classes: ["class1", "class2"],
+    expect(
+      extractAttrs({ content: `class1 class2 key1=value1 key2=value2` }),
+    ).toEqual({
       attrs: { key1: "value1", key2: "value2" },
-    });
-
-    expect(parseAttrs(`class1 class2 key1="value1" key2="value2"`)).toEqual({
-      classes: ["class1", "class2"],
-      attrs: { key1: "value1", key2: "value2" },
-    });
-
-    expect(parseAttrs(`class1 class2 key1="value1" key2=value2`)).toEqual({
-      classes: ["class1", "class2"],
-      attrs: { key1: "value1", key2: "value2" },
-    });
-
-    expect(parseAttrs(`class1 class2 key1=value1 key2="value2"`)).toEqual({
-      classes: ["class1", "class2"],
-      attrs: { key1: "value1", key2: "value2" },
+      content: "class1 class2",
     });
 
     expect(
-      parseAttrs(`class1 class2 key1="value with space" key2=value2`),
+      extractAttrs({ content: `class1 class2 key1="value1" key2="value2"` }),
     ).toEqual({
-      classes: ["class1", "class2"],
+      attrs: { key1: "value1", key2: "value2" },
+      content: "class1 class2",
+    });
+
+    expect(
+      extractAttrs({ content: `class1 class2 key1="value1" key2=value2` }),
+    ).toEqual({
+      attrs: { key1: "value1", key2: "value2" },
+      content: "class1 class2",
+    });
+
+    expect(
+      extractAttrs({ content: `class1 class2 key1=value1 key2="value2"` }),
+    ).toEqual({
+      attrs: { key1: "value1", key2: "value2" },
+      content: "class1 class2",
+    });
+
+    expect(
+      extractAttrs({
+        content: `class1 class2 key1="value with space" key2=value2`,
+      }),
+    ).toEqual({
       attrs: { key1: "value with space", key2: "value2" },
+      content: "class1 class2",
     });
 
     expect(
-      parseAttrs(`class1 class2 key1="value with space" key2="value2"`),
+      extractAttrs({
+        content: `class1 class2 key1="value with space" key2="value2"`,
+      }),
     ).toEqual({
-      classes: ["class1", "class2"],
       attrs: { key1: "value with space", key2: "value2" },
+      content: "class1 class2",
     });
 
     expect(
-      parseAttrs(`class1 class2 key1="value with space" key2='value'`),
+      extractAttrs({
+        content: `class1 class2 key1="value with space" key2='value'`,
+      }),
     ).toEqual({
-      classes: ["class1", "class2"],
       attrs: { key1: "value with space", key2: "value" },
+      content: "class1 class2",
     });
 
     expect(
-      parseAttrs(`class1  key1='value with space' key2="value" class2`),
+      extractAttrs({
+        content: `class1 key1='value with space' key2="value" class2`,
+      }),
     ).toEqual({
-      classes: ["class1", "class2"],
       attrs: { key1: "value with space", key2: "value" },
+      content: "class1 class2",
+    });
+  });
+});
+
+describe("extractInfo", () => {
+  it("should extract info", () => {
+    expect(
+      extractInfo({
+        content: `class1 link='https://baidu.com' =size /color text="pi=3.14" class2`,
+      }),
+    ).toEqual({
+      attrs: {
+        link: "https://baidu.com",
+        text: "pi=3.14",
+      },
+      color: "color",
+      content: "class1 class2",
+      size: "size",
     });
   });
 });
