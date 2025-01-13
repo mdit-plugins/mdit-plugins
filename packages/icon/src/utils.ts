@@ -82,7 +82,12 @@ const ATTR_REGEXP = new RegExp(
     /**/ `\\k<quote>` +
     /**/ "|" +
     /**
-     * case 2: value without quotes
+     * case 2: empty values
+     */
+    /**/ `(?<emptyValue>''|"")` +
+    /**/ "|" +
+    /**
+     * case 3: value without quotes
      */
     /**/ "(?<valueWithoutQuotes>\\S+)" +
     `)` +
@@ -115,22 +120,26 @@ export const extractAttrs = <T extends { content: string }>(
         _4,
         _5,
         _6,
+        _7,
         {
           attr,
-          quote,
-          valueWithQuotes,
+          emptyValue,
           valueWithoutQuotes,
+          valueWithQuotes,
+          quote,
         }: {
           attr: string;
-          quote: string | undefined;
-          valueWithQuotes: string | undefined;
+          emptyValue: string | undefined;
           valueWithoutQuotes: string | undefined;
+          valueWithQuotes: string | undefined;
+          quote: string | undefined;
         },
       ) => {
-        attrs[attr] =
-          valueWithoutQuotes ??
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          valueWithQuotes!.replace(new RegExp(`\\\\${quote}`, "g"), quote!);
+        attrs[attr] = emptyValue
+          ? ""
+          : (valueWithoutQuotes ??
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            valueWithQuotes!.replace(new RegExp(`\\\\${quote}`, "g"), quote!));
 
         return "";
       },

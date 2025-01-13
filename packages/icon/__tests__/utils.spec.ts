@@ -210,6 +210,16 @@ describe("extractAttrs", () => {
         content: "",
       });
     });
+
+    it("empty attrs", () => {
+      expect(extractAttrs({ content: `key1="" key2=''` })).toEqual({
+        attrs: {
+          key1: "",
+          key2: "",
+        },
+        content: "",
+      });
+    });
   });
 
   it("Classes and attrs", () => {
