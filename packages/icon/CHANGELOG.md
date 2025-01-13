@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.5](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.4...v0.16.5) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+- **icon:** support attr with empty value ([bf2d284](https://github.com/mdit-plugins/mdit-plugins/commit/bf2d284433d89c6d6ff977a9714f14916ea63d48))
+
 ## [0.16.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.3...v0.16.4) (2025-01-13)
 
 ### 🐛 Bug Fixes
