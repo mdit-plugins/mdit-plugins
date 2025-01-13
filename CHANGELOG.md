@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.4](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.3...v0.16.4) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+- **icon:** fix attr extracting ([a42c837](https://github.com/mdit-plugins/mdit-plugins/commit/a42c8376f0d1cb73cacbb778aab2276b0869c469))
+
 ## [0.16.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.2...v0.16.3) (2025-01-13)
 
 ### 🐛 Bug Fixes
