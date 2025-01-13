@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.3](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.2...v0.16.3) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+- **icon:** fix attr parsing ([bd30db8](https://github.com/mdit-plugins/mdit-plugins/commit/bd30db8bb53d71a478a7e19b089c49efcd2713f1))
+
 ## [0.16.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.15.1...v0.16.0) (2025-01-12)
 
 **Note:** Version bump only for package @mdit/plugin-icon
