@@ -51,8 +51,12 @@ export interface Attrs {
   classes: string[];
 }
 
-const ATTR_REGEXP =
-  /(\w+)=['"]?((?:.(?!['"]?\s+(?:\S+)=|[>'"]))+.)['"]?|(\S+)/g;
+const ATTR_NAME_REGEXP = "[A-z_][a-zA-Z0-9_-]*";
+
+const ATTR_REGEXP = new RegExp(
+  `(${ATTR_NAME_REGEXP})=(['"])((?:.(?!\\2\\s+(?:${ATTR_NAME_REGEXP})=|>|(?<!\\\\)\\2))+.)\\2|(${ATTR_NAME_REGEXP})=(\\S+)|(\\S+)`,
+  "g",
+);
 
 /**
  * Parse attrs string to object
@@ -67,10 +71,15 @@ export const parseAttrs = (content: string): Attrs => {
   let match;
 
   while ((match = ATTR_REGEXP.exec(content)) !== null) {
-    if (match[3]) {
-      classes.push(match[3]);
+    if (match[6]) {
+      classes.push(match[6]);
+    } else if (match[4]) {
+      attrs[match[4]] = match[5];
     } else {
-      attrs[match[1]] = match[2];
+      attrs[match[1]] = match[3].replace(
+        new RegExp(`\\\\${match[2]}`, "g"),
+        match[2],
+      );
     }
   }
 

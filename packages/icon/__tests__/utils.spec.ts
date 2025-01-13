@@ -86,15 +86,50 @@ describe("parseAttrs", () => {
     });
   });
 
-  it("Only attrs", () => {
-    expect(parseAttrs("key1=value1 key2=value2")).toEqual({
-      classes: [],
-      attrs: { key1: "value1", key2: "value2" },
+  describe("Only attrs", () => {
+    it("simple value without quotes", () => {
+      expect(parseAttrs("key1=value1 key2=value2")).toEqual({
+        classes: [],
+        attrs: { key1: "value1", key2: "value2" },
+      });
     });
 
-    expect(parseAttrs(`key1='value with space' key2=value2`)).toEqual({
-      classes: [],
-      attrs: { key1: "value with space", key2: "value2" },
+    it("complex attribute", () => {
+      expect(parseAttrs(`a11y=true multi-word=complex-value2`)).toEqual({
+        classes: [],
+        attrs: { a11y: "true", "multi-word": "complex-value2" },
+      });
+    });
+
+    it("value with single quotes", () => {
+      expect(
+        parseAttrs(
+          `key1='value with space' key2='complex-value2' key3='I am "God"!' key4='I am \\'God\\'!'`,
+        ),
+      ).toEqual({
+        classes: [],
+        attrs: {
+          key1: "value with space",
+          key2: "complex-value2",
+          key3: 'I am "God"!',
+          key4: "I am 'God'!",
+        },
+      });
+    });
+
+    it("value with double quotes", () => {
+      expect(
+        parseAttrs(
+          `key1="value with space" key2="complex-value2" key3="I am 'God'!"`,
+        ),
+      ).toEqual({
+        classes: [],
+        attrs: {
+          key1: "value with space",
+          key2: "complex-value2",
+          key3: "I am 'God'!",
+        },
+      });
     });
 
     expect(parseAttrs(`key1="value with space" key2=value2`)).toEqual({
