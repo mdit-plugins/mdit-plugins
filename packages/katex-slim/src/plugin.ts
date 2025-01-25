@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { createRequire } from "node:module";
 
 import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
@@ -7,8 +6,6 @@ import type { KatexOptions, KatexOptions as OriginalKatexOptions } from "katex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItKatexOptions, TeXTransformer } from "./options.js";
-
-const require = createRequire(import.meta.url);
 
 let isKatexInstalled = true;
 let katexLib: typeof import("katex");
@@ -75,6 +72,10 @@ const katexBlock = (
   return transformer?.(result, true) ?? result;
 };
 
+export const loadMhchem = async (): Promise<void> => {
+  await import("katex/contrib/mhchem");
+};
+
 export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
@@ -89,7 +90,6 @@ export const katex = <MarkdownItEnv = unknown>(
   const {
     allowInlineWithSpace = false,
     mathFence = false,
-    mhchem = false,
     logger = (
       errorCode: string,
     ): "ignore" | "warn" | "error" | boolean | undefined =>
@@ -97,8 +97,6 @@ export const katex = <MarkdownItEnv = unknown>(
     transformer,
     ...userOptions
   } = options;
-
-  if (mhchem) require("katex/contrib/mhchem");
 
   md.use(tex, {
     allowInlineWithSpace,

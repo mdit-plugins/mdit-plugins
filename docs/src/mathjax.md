@@ -3,7 +3,7 @@ title: "@mdit/plugin-mathjax"
 icon: square-root-variable
 ---
 
-Plugins to render math expressions with Mathjax, you should install `mathjax-full` as peer dependency.
+Plugins to render math expressions with Mathjax.
 
 ::: note
 
@@ -105,7 +105,7 @@ The instance holds render content of each calls, so you should:
 - Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
 - Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
 
-We also have a package called `@mdit/plugin-mathjax-slim` which `mathjax-full` is an optional dep.
+We also have a package called `@mdit/plugin-mathjax-slim` which `mathjax-full` is an optional peer dep.
 
 ## Syntax
 

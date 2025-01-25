@@ -3,7 +3,7 @@ title: "@mdit/plugin-mathjax"
 icon: square-root-variable
 ---
 
-使用 Mathjax 呈现数学表达式的插件，你应该将 `mathjax-full` 安装为 peer 依赖。
+使用 Mathjax 呈现数学表达式的插件。
 
 ::: note
 
@@ -105,7 +105,7 @@ interface MarkdownItMathjaxOptions {
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
 - 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
 
-我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `mathjax-full` 是可选依赖。
+我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `mathjax-full` 是可选对等依赖。
 
 ## 格式
 

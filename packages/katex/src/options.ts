@@ -20,15 +20,6 @@ export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   extends KatexOptions,
     Pick<MarkdownItTexOptions, "allowInlineWithSpace" | "mathFence"> {
   /**
-   * Whether enable mhchem extension
-   *
-   * 是否启用 mhchem 扩展
-   *
-   * @default false
-   */
-  mhchem?: boolean;
-
-  /**
    * Error logger
    *
    * 错误日志记录器

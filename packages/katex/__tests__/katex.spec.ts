@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { katex } from "../src/index.js";
+import { katex, loadMhchem } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(katex);
 const markdownItHTML = MarkdownIt({ linkify: true }).use(katex, {
@@ -242,12 +242,15 @@ $$
   expect(logger2).toHaveBeenCalledTimes(1);
 });
 
-it("should work with mhchem", () => {
-  const markdownItMhchem = MarkdownIt({ linkify: true }).use(katex, {
-    mhchem: true,
-  });
+it("should work with mhchem", async () => {
+  const originalResult = markdownIt.render(`$$\\ce{H2O}$$`);
 
-  expect(markdownItMhchem.render(`$$\\ce{H2O}$$`)).toMatchSnapshot();
+  await loadMhchem();
+
+  const newResult = markdownIt.render(`$$\\ce{H2O}$$`);
+
+  expect(newResult).not.equal(originalResult);
+  expect(newResult).toMatchSnapshot();
 });
 
 it("should work with transformer", () => {

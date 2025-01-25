@@ -3,7 +3,7 @@ title: "@mdit/plugin-katex"
 icon: square-root-variable
 ---
 
-Plugins to render math expressions with KaTeX, you should install `katex` as peer dependency.
+Plugins to render math expressions with KaTeX.
 
 ::: note
 
@@ -41,7 +41,7 @@ mdIt.render("$E=mc^2$");
 
 :::
 
-We also have a package called `@mdit/plugin-katex-slim` which `katex` is an optional dep.
+We also have a package called `@mdit/plugin-katex-slim` which `katex` is an optional peer.
 
 ## Syntax
 
@@ -80,33 +80,21 @@ $$
 
 :::
 
+## mhchem extension
+
+If you want to load the `mhchem` extension, you should import `loadMhchem` from `@mdit/plugin-katex`:
+
+```ts
+import { loadMhchem } from "@mdit/plugin-katex";
+
+await loadMhchem();
+```
+
+Since it's async, you should call it in prepare stage as markdown-it rendering is sync.
+
 ## Options
 
 ```ts
-interface KatexCatcodes {
-  [key: string]: number;
-}
-
-interface KatexLexerInterFace {
-  input: string;
-  tokenRegex: RegExp;
-  settings: Required<KatexOptions>;
-  catcodes: KatexCatcodes;
-}
-
-interface KatexSourceLocation {
-  start: number;
-  end: number;
-  lexer: KatexLexerInterFace;
-}
-
-interface KatexToken {
-  text: string;
-  loc: KatexSourceLocation;
-  noexpand: boolean | undefined;
-  treatAsRelax: boolean | undefined;
-}
-
 type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
     | "unknownSymbol"
@@ -116,9 +104,11 @@ type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: KatexToken,
+  token: Token,
   env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | void;
+) => "error" | "warn" | "ignore" | boolean | undefined | void;
+
+type TeXTransformer = (content: string, displayMode: boolean) => string;
 
 interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
   /**
@@ -138,16 +128,14 @@ interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
   mathFence?: boolean;
 
   /**
-   * Whether enable mhchem extension
-   *
-   * @default false
-   */
-  mhchem?: boolean;
-
-  /**
    * Error logger
    */
   logger?: KatexLogger<MarkdownItEnv>;
+
+  /**
+   * transformer on output content
+   */
+  transformer?: TeXTransformer;
 }
 ```
 

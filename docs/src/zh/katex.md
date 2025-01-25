@@ -3,7 +3,7 @@ title: "@mdit/plugin-katex"
 icon: square-root-variable
 ---
 
-使用 KaTeX 呈现数学表达式的插件，你应该将 `katex` 安装为 peer 依赖。
+使用 KaTeX 呈现数学表达式的插件。
 
 ::: note
 
@@ -41,7 +41,7 @@ mdIt.render("$E=mc^2$");
 
 :::
 
-我们也有一个 `@mdit/plugin-katex-slim` 包，其中 `katex` 是可选依赖。
+我们也有一个 `@mdit/plugin-katex-slim` 包，其中 `katex` 是可选对等依赖。
 
 ## 格式
 
@@ -80,33 +80,21 @@ $$
 
 :::
 
+## mhchem extension
+
+如果你想加载 `mhchem` 扩展，你应该从 `@mdit/plugin-katex` 中导入 `loadMhchem`:
+
+```ts
+import { loadMhchem } from "@mdit/plugin-katex";
+
+await loadMhchem();
+```
+
+因为它是异步的，你应该在准备阶段调用它，因为 markdown-it 渲染是同步的。
+
 ## 选项
 
 ```ts
-interface KatexCatcodes {
-  [key: string]: number;
-}
-
-interface KatexLexerInterFace {
-  input: string;
-  tokenRegex: RegExp;
-  settings: Required<KatexOptions>;
-  catcodes: KatexCatcodes;
-}
-
-interface KatexSourceLocation {
-  start: number;
-  end: number;
-  lexer: KatexLexerInterFace;
-}
-
-interface KatexToken {
-  text: string;
-  loc: KatexSourceLocation;
-  noexpand: boolean | undefined;
-  treatAsRelax: boolean | undefined;
-}
-
 type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
     | "unknownSymbol"
@@ -116,9 +104,9 @@ type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: KatexToken,
+  token: Token,
   env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | void;
+) => "error" | "warn" | "ignore" | boolean | undefined | void;
 
 interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
   /**
@@ -138,16 +126,14 @@ interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
   mathFence?: boolean;
 
   /**
-   * 是否启用 mhchem 扩展
-   *
-   * @default false
-   */
-  mhchem?: boolean;
-
-  /**
    * 错误日志记录器
    */
   logger?: KatexLogger<MarkdownItEnv>;
+
+  /**
+   * 输出内容的转换器
+   */
+  transformer?: TeXTransformer;
 }
 ```
 
