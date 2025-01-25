@@ -25,7 +25,6 @@
     },
     "pengzhanbo"
   ],
-  "type": "module",
   "exports": {
     ".": {
       "type": "./lib/index.ts",

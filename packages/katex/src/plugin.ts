@@ -60,8 +60,9 @@ const katexBlock = (
   return transformer?.(result, true) ?? result;
 };
 
-export const loadMhchem = async (): Promise<void> => {
-  await import("katex/contrib/mhchem");
+export const loadMhchem = (): void => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require("katex/contrib/mhchem");
 };
 
 export const katex = <MarkdownItEnv = unknown>(

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { createRequire } from "node:module";
 
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
@@ -22,8 +23,6 @@ import path from "upath";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 
-const require = createRequire(import.meta.url);
-
 let isMathJaxFullInstalled = true;
 let mathjaxLib: typeof import("mathjax-full/js/mathjax.js").mathjax;
 let AllPackages: typeof import("mathjax-full/js/input/tex/AllPackages.js").AllPackages;
@@ -35,16 +34,14 @@ let RegisterHTMLHandler: typeof import("mathjax-full/js/handlers/html.js").Regis
 let AssistiveMmlHandler: typeof import("mathjax-full/js/a11y/assistive-mml.js").AssistiveMmlHandler;
 
 try {
-  ({ mathjax: mathjaxLib } = await import("mathjax-full/js/mathjax.js"));
-  ({ AllPackages } = await import("mathjax-full/js/input/tex/AllPackages.js"));
-  ({ TeX } = await import("mathjax-full/js/input/tex.js"));
-  ({ CHTML } = await import("mathjax-full/js/output/chtml.js"));
-  ({ SVG } = await import("mathjax-full/js/output/svg.js"));
-  ({ liteAdaptor } = await import("mathjax-full/js/adaptors/liteAdaptor.js"));
-  ({ RegisterHTMLHandler } = await import("mathjax-full/js/handlers/html.js"));
-  ({ AssistiveMmlHandler } = await import(
-    "mathjax-full/js/a11y/assistive-mml.js"
-  ));
+  ({ mathjax: mathjaxLib } = require("mathjax-full/js/mathjax.js"));
+  ({ AllPackages } = require("mathjax-full/js/input/tex/AllPackages.js"));
+  ({ TeX } = require("mathjax-full/js/input/tex.js"));
+  ({ CHTML } = require("mathjax-full/js/output/chtml.js"));
+  ({ SVG } = require("mathjax-full/js/output/svg.js"));
+  ({ liteAdaptor } = require("mathjax-full/js/adaptors/liteAdaptor.js"));
+  ({ RegisterHTMLHandler } = require("mathjax-full/js/handlers/html.js"));
+  ({ AssistiveMmlHandler } = require("mathjax-full/js/a11y/assistive-mml.js"));
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxFullInstalled = false;

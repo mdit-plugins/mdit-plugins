@@ -242,10 +242,10 @@ $$
   expect(logger2).toHaveBeenCalledTimes(1);
 });
 
-it("should work with mhchem", async () => {
+it("should work with mhchem", () => {
   const originalResult = markdownIt.render(`$$\\ce{H2O}$$`);
 
-  await loadMhchem();
+  loadMhchem();
 
   const newResult = markdownIt.render(`$$\\ce{H2O}$$`);
 

@@ -1,16 +1,17 @@
 {
   "npmClient": "pnpm",
-  "version": "0.16.6",
+  "version": "0.16.6-cjs",
   "command": {
     "version": {
-      "allowBranch": "main",
-      "conventionalCommits": true,
+      "allowBranch": "cjs",
       "exact": true,
-      "message": "chore(release): publish v%v"
+      "message": "chore(release): publish v%v",
+      "noChangelog": true
     },
     "publish": {
       "graphType": "all",
-      "removePackageFields": ["devDependencies", "scripts"]
+      "removePackageFields": ["devDependencies", "scripts"],
+      "preDistTag": "cjs"
     }
   },
   "changelogPreset": {
