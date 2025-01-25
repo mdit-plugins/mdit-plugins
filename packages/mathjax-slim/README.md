@@ -1,6 +1,6 @@
-# @mdit/plugin-mathjax
+# @mdit/plugin-mathjax-slim
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-mathjax.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-mathjax.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-mathjax?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-mathjax)
+[![Version](https://img.shields.io/npm/v/@mdit/plugin-mathjax-slim.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-mathjax-slim.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-mathjax-slim?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-mathjax-slim)
 
 mathjax plugin for MarkdownIt.
 
@@ -10,9 +10,9 @@ mathjax plugin for MarkdownIt.
 
 ```bash
 # pnpm
-pnpm add -D @mdit/plugin-mathjax
+pnpm add -D @mdit/plugin-mathjax-slim mathjax-full
 # npm
-npm i -D @mdit/plugin-mathjax
+npm i -D @mdit/plugin-mathjax-slim mathjax-full
 # yarn
-yarn add -D @mdit/plugin-mathjax
+yarn add -D @mdit/plugin-mathjax-slim mathjax-full
 ```
