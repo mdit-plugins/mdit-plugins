@@ -12,10 +12,10 @@ overrides:
   '@mdit/plugin-demo': workspace:*
   '@mdit/plugin-figure': workspace:*
   '@mdit/plugin-footnote': workspace:*
+  '@mdit/plugin-icon': workspace:*
   '@mdit/plugin-img-lazyload': workspace:*
   '@mdit/plugin-img-mark': workspace:*
   '@mdit/plugin-img-size': workspace:*
-  '@mdit/plugin-icon': workspace:*
   '@mdit/plugin-include': workspace:*
   '@mdit/plugin-katex-slim': workspace:*
   '@mdit/plugin-mark': workspace:*
@@ -138,7 +138,7 @@ importers:
         version: 2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0)
       '@vuepress/plugin-docsearch':
         specifier: 2.0.0-rc.74
-        version: 2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.2)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
+        version: 2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.3)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       mathjax-full:
         specifier: 3.2.2
         version: 3.2.2
@@ -156,7 +156,7 @@ importers:
         version: 2.0.0-rc.71(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       vuepress-theme-hope:
         specifier: 2.0.0-rc.71
-        version: 2.0.0-rc.71(@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.2)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))))(katex@0.16.21)(mathjax-full@3.2.2)(sass-embedded@1.83.4)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
+        version: 2.0.0-rc.71(@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.3)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))))(katex@0.16.21)(mathjax-full@3.2.2)(sass-embedded@1.83.4)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
 
   packages/abbr:
     dependencies:
@@ -1653,61 +1653,51 @@ packages:
     resolution: {integrity: sha512-3pA7xecItbgOs1A5H58dDvOUEboG5UfpTq3WzAdF54acBbUM+olDJAPkgj1GRJ4ZqE12DZ9/hNS2QZk166v92A==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.32.0':
     resolution: {integrity: sha512-Y7XUZEVISGyge51QbYyYAEHwpGgmRrAxQXO3siyYo2kmaj72USSG8LtlQQgAtlGfxYiOwu+2BdbPjzEpcOpRmQ==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.32.0':
     resolution: {integrity: sha512-r7/OTF5MqeBrZo5omPXcTnjvv1GsrdH8a8RerARvDFiDwFpDVDnJyByYM/nX+mvks8XXsgPUxkwe/ltaX2VH7w==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.32.0':
     resolution: {integrity: sha512-HJbifC9vex9NqnlodV2BHVFNuzKL5OnsV2dvTw6e1dpZKkNjPG6WUq+nhEYV6Hv2Bv++BXkwcyoGlXnPrjAKXw==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-loongarch64-gnu@4.32.0':
     resolution: {integrity: sha512-VAEzZTD63YglFlWwRj3taofmkV1V3xhebDXffon7msNz4b14xKsz7utO6F8F4cqt8K/ktTl9rm88yryvDpsfOw==}
     cpu: [loong64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.32.0':
     resolution: {integrity: sha512-Sts5DST1jXAc9YH/iik1C9QRsLcCoOScf3dfbY5i4kH9RJpKxiTBXqm7qU5O6zTXBTEZry69bGszr3SMgYmMcQ==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.32.0':
     resolution: {integrity: sha512-qhlXeV9AqxIyY9/R1h1hBD6eMvQCO34ZmdYvry/K+/MBs6d1nRFLm6BOiITLVI+nFAAB9kUB6sdJRKyVHXnqZw==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.32.0':
     resolution: {integrity: sha512-8ZGN7ExnV0qjXa155Rsfi6H8M4iBBwNLBM9lcVS+4NcSzOFaNqmt7djlox8pN1lWrRPMRRQ8NeDlozIGx3Omsw==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.32.0':
     resolution: {integrity: sha512-VDzNHtLLI5s7xd/VubyS10mq6TxvZBp+4NRWoW+Hi3tgV05RtVm4qK99+dClwTN1McA6PHwob6DEJ6PlXbY83A==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.32.0':
     resolution: {integrity: sha512-qcb9qYDlkxz9DxJo7SDhWxTWV1gFuwznjbTiov289pASxlfGbaOD54mgbs9+z94VwrXtKTu+2RqwlSTbiOqxGg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.32.0':
     resolution: {integrity: sha512-pFDdotFDMXW2AXVbfdUEfidPAk/OtwE/Hd4eYMTNVVaCQ6Yl8et0meDaKNL63L44Haxv4UExpv9ydSf3aSayDg==}
@@ -4459,8 +4449,8 @@ packages:
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
-  search-insights@2.17.2:
-    resolution: {integrity: sha512-zFNpOpUO+tY2D85KrxJ+aqwnIfdEGi06UH2+xEb+Bp9Mwznmauqc9djbnBibJO5mpfUPPa8st6Sx65+vbeO45g==}
+  search-insights@2.17.3:
+    resolution: {integrity: sha512-RQPdCYTa8A68uM2jwxoY842xDhvx3E5LFL1LxvxCNMev4o5mLuokczhzjAgGwUZBAmOKZknArSxLKmXtIi2AxQ==}
 
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
@@ -5277,19 +5267,19 @@ snapshots:
 
   '@actions/io@1.1.3': {}
 
-  '@algolia/autocomplete-core@1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.2)':
+  '@algolia/autocomplete-core@1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.3)':
     dependencies:
-      '@algolia/autocomplete-plugin-algolia-insights': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.2)
+      '@algolia/autocomplete-plugin-algolia-insights': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.3)
       '@algolia/autocomplete-shared': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
       - search-insights
 
-  '@algolia/autocomplete-plugin-algolia-insights@1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.2)':
+  '@algolia/autocomplete-plugin-algolia-insights@1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.3)':
     dependencies:
       '@algolia/autocomplete-shared': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)
-      search-insights: 2.17.2
+      search-insights: 2.17.3
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
@@ -5615,9 +5605,9 @@ snapshots:
 
   '@docsearch/css@3.8.3': {}
 
-  '@docsearch/js@3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.2)':
+  '@docsearch/js@3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.3)':
     dependencies:
-      '@docsearch/react': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.2)
+      '@docsearch/react': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.3)
       preact: 10.25.4
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -5626,14 +5616,14 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/react@3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.2)':
+  '@docsearch/react@3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.3)':
     dependencies:
-      '@algolia/autocomplete-core': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.2)
+      '@algolia/autocomplete-core': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.17.3)
       '@algolia/autocomplete-preset-algolia': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)
       '@docsearch/css': 3.8.3
       algoliasearch: 5.20.0
     optionalDependencies:
-      search-insights: 2.17.2
+      search-insights: 2.17.3
     transitivePeerDependencies:
       - '@algolia/client-search'
 
@@ -6687,7 +6677,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.10.10
 
   '@types/trusted-types@2.0.7': {}
 
@@ -7096,11 +7086,11 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.2)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))':
+  '@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.3)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))':
     dependencies:
       '@docsearch/css': 3.8.3
-      '@docsearch/js': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.2)
-      '@docsearch/react': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.2)
+      '@docsearch/js': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.3)
+      '@docsearch/react': 3.8.3(@algolia/client-search@5.20.0)(search-insights@2.17.3)
       '@vuepress/helper': 2.0.0-rc.74(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       '@vueuse/core': 12.5.0(typescript@5.7.3)
       ts-debounce: 4.0.0
@@ -9751,7 +9741,7 @@ snapshots:
 
   sax@1.4.1: {}
 
-  search-insights@2.17.2: {}
+  search-insights@2.17.3: {}
 
   section-matter@1.0.0:
     dependencies:
@@ -10287,7 +10277,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  vuepress-theme-hope@2.0.0-rc.71(@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.2)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))))(katex@0.16.21)(mathjax-full@3.2.2)(sass-embedded@1.83.4)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))):
+  vuepress-theme-hope@2.0.0-rc.71(@vuepress/plugin-docsearch@2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.3)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))))(katex@0.16.21)(mathjax-full@3.2.2)(sass-embedded@1.83.4)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))):
     dependencies:
       '@vuepress/helper': 2.0.0-rc.74(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       '@vuepress/plugin-active-header-links': 2.0.0-rc.74(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
@@ -10328,7 +10318,7 @@ snapshots:
       vuepress-plugin-md-enhance: 2.0.0-rc.71(sass-embedded@1.83.4)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       vuepress-shared: 2.0.0-rc.71(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
     optionalDependencies:
-      '@vuepress/plugin-docsearch': 2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.2)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
+      '@vuepress/plugin-docsearch': 2.0.0-rc.74(@algolia/client-search@5.20.0)(search-insights@2.17.3)(typescript@5.7.3)(vuepress@2.0.0-rc.19(@vuepress/bundler-vite@2.0.0-rc.19(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.83.4)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0))(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
       sass-embedded: 1.83.4
     transitivePeerDependencies:
       - '@vue/repl'
