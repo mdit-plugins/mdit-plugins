@@ -75,6 +75,9 @@ export const katex = <MarkdownItEnv = unknown>(
       errorCode: string,
     ): "ignore" | "warn" | "error" | boolean | undefined =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
+    // see https://github.com/vuepress/ecosystem/issues/261
+    // this ensures that `\gdef` works as expected
+    macros = {},
     transformer,
     ...userOptions
   } = options;
@@ -86,6 +89,7 @@ export const katex = <MarkdownItEnv = unknown>(
       const katexOptions: KatexOptions = {
         strict: (errorCode, errorMsg, token) =>
           logger(errorCode, errorMsg, token, env) ?? "ignore",
+        macros,
         throwOnError: false,
         ...userOptions,
       };
