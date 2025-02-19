@@ -1,41 +1,18 @@
-import hopeConfig, {
-  config,
-  globals,
-  tsParser,
-} from "eslint-config-mister-hope";
+import { hope } from "eslint-config-mister-hope";
 
-export default config(
-  ...hopeConfig,
-  {
-    ignores: [
-      "**/node_modules/**",
-      "coverage/**",
-      "packages/*/lib/**",
-      "packages/*/src/lib/**",
-      "**/.vuepress/.cache/",
-      "**/.vuepress/.temp/",
-      "**/.vuepress/dist/",
-      "**/.vuepress/snippets/",
-      "**/__tests__/__fixtures__/**",
-    ],
-  },
-  {
-    languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      parserOptions: {
-        parser: tsParser,
-        tsconfigDirName: import.meta.dirname,
-        projectService: {
-          allowDefaultProject: [".markdownlint-cli2.mjs", "eslint.config.js"],
-        },
-        extraFileExtensions: [".vue"],
+export default hope({
+  ignores: [
+    "packages/*/lib/**",
+    "packages/*/src/lib/**",
+    "**/.vuepress/snippets/",
+    "**/__tests__/__fixtures__/**",
+  ],
+  ts: {
+    parserOptions: {
+      projectService: {
+        allowDefaultProject: [".markdownlint-cli2.mjs", "eslint.config.js"],
       },
     },
-  },
-
-  {
-    files: ["**/*.ts"],
     rules: {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "@typescript-eslint/naming-convention": [
@@ -83,23 +60,7 @@ export default config(
           format: ["PascalCase"],
         },
       ],
+      "no-console": "off",
     },
   },
-  {
-    files: ["scripts/**.ts", "**/gulpfile.js"],
-    languageOptions: {
-      globals: globals.node,
-    },
-  },
-
-  {
-    files: ["**/*.cjs"],
-    languageOptions: {
-      globals: globals.node,
-    },
-    rules: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "@typescript-eslint/no-var-requires": "off",
-    },
-  },
-);
+});
