@@ -1,4 +1,4 @@
-import { hope } from "eslint-config-mister-hope";
+import { defaultNamingConventionRules, hope } from "eslint-config-mister-hope";
 
 export default hope({
   ignores: [
@@ -7,60 +7,51 @@ export default hope({
     "**/.vuepress/snippets/",
     "**/__tests__/__fixtures__/**",
   ],
-  ts: {
+
+  languageOptions: {
     parserOptions: {
       projectService: {
         allowDefaultProject: [".markdownlint-cli2.mjs", "eslint.config.js"],
       },
     },
-    rules: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "@typescript-eslint/naming-convention": [
-        "warn",
-        {
-          selector: "default",
-          format: ["camelCase"],
-          leadingUnderscore: "allowSingleOrDouble",
-          trailingUnderscore: "allow",
+  },
+
+  ts: {
+    "@typescript-eslint/naming-convention": [
+      "warn",
+
+      // allow property starting with `@`
+      {
+        selector: ["property"],
+        filter: {
+          regex: "^@",
+          match: true,
         },
-        {
-          selector: ["variable"],
-          format: ["camelCase", "PascalCase", "UPPER_CASE"],
-          leadingUnderscore: "allowSingleOrDouble",
-          trailingUnderscore: "allowSingleOrDouble",
+        format: null,
+      },
+
+      // allow locales path like `/zh/`
+      {
+        selector: ["property"],
+        filter: {
+          regex: "(?:^@|^/$|^/.*/$)",
+          match: true,
         },
-        {
-          selector: ["parameter"],
-          format: ["camelCase", "PascalCase"],
-          leadingUnderscore: "allow",
-          trailingUnderscore: "allow",
+        format: null,
+      },
+
+      // allow css property like `line-width`
+      {
+        selector: ["property"],
+        filter: {
+          regex: "^[a-z]+(?:-[a-z]+)*?$",
+          match: true,
         },
-        // allow locales path like `/zh/` and css property like `line-width`
-        {
-          selector: ["property"],
-          format: null,
-          custom: {
-            regex: "(^/$|^/.*/$|^[a-z]+(?:-[a-z]+)*?$)",
-            match: true,
-          },
-          filter: "(^/$|^/.*/$|^[a-z]+(?:-[a-z]+)*?$)",
-        },
-        {
-          selector: ["property"],
-          format: ["camelCase", "PascalCase", "UPPER_CASE"],
-          leadingUnderscore: "allow",
-          trailingUnderscore: "allow",
-        },
-        {
-          selector: "import",
-          format: ["PascalCase", "camelCase"],
-        },
-        {
-          selector: "typeLike",
-          format: ["PascalCase"],
-        },
-      ],
-      "no-console": "off",
-    },
+        format: null,
+      },
+
+      ...defaultNamingConventionRules,
+    ],
+    "no-console": "off",
   },
 });
