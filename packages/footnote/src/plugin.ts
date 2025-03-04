@@ -78,7 +78,7 @@ const renderFootnoteRef: RenderRule = (
   return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
     tokens,
     index,
-  )}" /></sup>`;
+  )}"></a></sup>`;
 };
 
 const renderFootnoteBlockOpen: RenderRule = (
