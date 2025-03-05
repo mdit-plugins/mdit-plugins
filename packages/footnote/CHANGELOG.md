@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.7...v0.16.8) (2025-03-05)
+
+### 🐛 Bug Fixes
+
+- **footnote:** stop using self-closing syntax `<a />` as it breaks in some HTML interpreters ([#81](https://github.com/mdit-plugins/mdit-plugins/issues/81)) ([783e25e](https://github.com/mdit-plugins/mdit-plugins/commit/783e25ecab5a4405f1cde22a5298d373a1de5ecf))
+
 ## [0.16.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.15.1...v0.16.0) (2025-01-12)
 
 **Note:** Version bump only for package @mdit/plugin-footnote
