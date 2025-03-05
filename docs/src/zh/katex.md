@@ -80,7 +80,7 @@ $$
 
 :::
 
-## mhchem extension
+## mhchem 扩展
 
 如果你想加载 `mhchem` 扩展，你应该从 `@mdit/plugin-katex` 中导入 `loadMhchem`:
 
