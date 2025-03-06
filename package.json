@@ -42,7 +42,7 @@
     "cross-env": "7.0.3",
     "cz-git": "1.11.1",
     "eslint": "9.21.0",
-    "eslint-config-mister-hope": "0.7.5",
+    "eslint-config-mister-hope": "0.8.1",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.17.2",
     "nano-staged": "0.8.0",
