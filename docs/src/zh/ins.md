@@ -3,7 +3,7 @@ title: "@mdit/plugin-ins"
 icon: square-plus
 ---
 
-用于标记和突出显示内容的插件。
+添加 ins 标签支持的插件。
 
 <!-- more -->
 
