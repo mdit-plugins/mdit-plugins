@@ -101,10 +101,10 @@ interface MarkdownItTexOptions {
 
 可以通过在 `$` 字符之前使用 `\` 或在 `$` 字符前后添加空格来完成转义：
 
-- $a=1$ 是一个 TeX 方程，而 $a=1$ 和 \$a=1$ 不是。
+- $a=1$ 是一个 TeX 方程，而 $ a=1 $ 和 \$a=1$ 不是。
 
 ```MD
-- $a=1$ 是一个 TeX 方程，而 $a=1$ 和 \$a=1$ 不是。
+- $a=1$ 是一个 TeX 方程，而 $ a=1 $ 和 \$a=1$ 不是。
 ```
 
 :::
@@ -113,10 +113,10 @@ interface MarkdownItTexOptions {
 
 ### 行内语法
 
-Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+欧拉公式 $e^{i\pi}+1=0$ 是 $\mathbb{R}^2$ 中一个美丽的公式。
 
 ```md
-Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+欧拉公式 $e^{i\pi}+1=0$ 是 $\mathbb{R}^2$ 中一个美丽的公式。
 ```
 
 $$
@@ -326,10 +326,10 @@ $$
 
 使用 `smallmatrix` 环境，可以生成行内公式的小矩阵。
 
-A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
+一个小矩阵: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 
 ```md
-A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
+一个小矩阵: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 ```
 
 ### 多行公式
