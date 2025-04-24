@@ -41,7 +41,7 @@
     "@lerna-lite/cli": "4.0.0",
     "@lerna-lite/publish": "4.0.0",
     "@types/node": "22.14.0",
-    "@vitest/coverage-istanbul": "3.1.1",
+    "@vitest/coverage-istanbul": "3.1.2",
     "conventional-changelog-conventionalcommits": "8.0.0",
     "cross-env": "7.0.3",
     "eslint": "9.24.0",
@@ -59,7 +59,7 @@
     "tslib": "2.8.1",
     "tsx": "4.19.3",
     "typescript": "5.8.3",
-    "vitest": "3.1.1"
+    "vitest": "3.1.2"
   },
   "packageManager": "pnpm@10.8.0",
   "engines": {
