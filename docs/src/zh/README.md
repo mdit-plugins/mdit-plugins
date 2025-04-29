@@ -69,6 +69,11 @@ features:
     details: 支持设置图片尺寸
     link: ./img-size.html
 
+  - title: obsidian-img-size
+    icon: up-right-and-down-left-from-center
+    details: 支持设置图片尺寸 (obsidian 语法)
+    link: ./obsidian-img-size.html
+
   - title: include
     icon: at
     details: 在 Markdown 中包含其他文件

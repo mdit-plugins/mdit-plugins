@@ -69,6 +69,11 @@ features:
     details: Support setting size for images
     link: ./img-size.html
 
+  - title: obsidian-img-size
+    icon: up-right-and-down-left-from-center
+    details: Support setting size for images (obsidian version)
+    link: ./obsidian-img-size.html
+
   - title: include
     icon: at
     details: Include other files in markdown
