@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.8...v0.17.0) (2025-04-29)
+
+### ⚠ BREAKING CHANGES
+
+- **img-size:** rebuild img size (#96)
+
+### ✨ Features
+
+- **img-size:** rebuild img size ([#96](https://github.com/mdit-plugins/mdit-plugins/issues/96)) ([2354def](https://github.com/mdit-plugins/mdit-plugins/commit/2354def57fcca49aab0f763e77a68d10be5f9485))
+
 ## [0.16.8](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.7...v0.16.8) (2025-03-05)
 
 ### 🐛 Bug Fixes
