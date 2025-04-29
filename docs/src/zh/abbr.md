@@ -57,7 +57,7 @@ The HTML specification is maintained by the W3C.
 
 <!-- prettier-ignore-end -->
 
-::: tip 转移
+::: tip 转义
 
 转义可以通过添加额外的 `\` 以转义 `*` `[` 或 `]` 字符:
 
@@ -65,7 +65,7 @@ The HTML specification is maintained by the W3C.
 \*[文字]: 内容
 ```
 
-will be
+会被渲染为
 
 \*[文字]: 内容
 

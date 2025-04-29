@@ -340,15 +340,15 @@ namespace HelloWorldApp {
 
 ::::
 
-::: tip Escaping
+::: tip 转义
 
-- You can escape `<` by `\`
+- 你可以通过 `\` 来转义 `<`
 
   ```md
   \<<< test.js
   ```
 
-  will be
+  会被渲染为
 
   \<<< test.js
 

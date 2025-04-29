@@ -74,6 +74,21 @@ export default hopeTheme(
         indexName: `mdit-pluginsio`,
       },
 
+      git: {
+        contributors: {
+          avatar: true,
+          info: [
+            {
+              username: "Mister-Hope",
+              alias: "Mr.Hope",
+              email: "mister-hope@outlook.com",
+              emailAlias: "zhangbowang1998@gmail.com",
+            },
+          ],
+        },
+        changelog: true,
+      },
+
       icon: {
         assets: "fontawesome",
       },
