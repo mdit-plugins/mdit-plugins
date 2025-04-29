@@ -45,7 +45,7 @@ mdIt.render("![image](https://example.com/image.png =300x200)");
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
+import { obsidianImgSize } from "@mdit/plugin-img-size";
 
 const mdIt = MarkdownIt().use(obsidianImgSize);
 
@@ -56,7 +56,7 @@ mdIt.render("![image|300x200](https://example.com/image.png)");
 
 ```js
 const MarkdownIt = require("markdown-it");
-const { imgSize, obsidianImgSize } = require("@mdit/plugin-img-size");
+const { obsidianImgSize } = require("@mdit/plugin-img-size");
 
 const mdIt = MarkdownIt().use(obsidianImgSize);
 
