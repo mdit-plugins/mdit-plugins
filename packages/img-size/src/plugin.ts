@@ -294,8 +294,9 @@ export const obsidianImgSize: PluginSimple = (md) => {
         token.content = realContent;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         token.children![0].content = realContent;
-        token.attrSet("width", width);
-        if (typeof height === "string") token.attrSet("height", height);
+        if (width != "0") token.attrSet("width", width);
+        if (typeof height === "string" && height != "0")
+          token.attrSet("height", height);
       }
     }
 

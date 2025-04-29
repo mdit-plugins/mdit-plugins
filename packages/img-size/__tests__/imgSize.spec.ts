@@ -112,6 +112,14 @@ describe("Obsidian image Size", () => {
     expect(markdownIt.render(`![image|200](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
     );
+
+    expect(markdownIt.render(`![image|200x0](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
+    );
+
+    expect(markdownIt.render(`![image|0x200](/logo.svg)`)).toEqual(
+      '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
+    );
   });
 
   it("should not render", () => {
