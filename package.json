@@ -64,33 +64,5 @@
   "packageManager": "pnpm@10.8.0",
   "engines": {
     "node": ">=18.19.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@mdit/plugin-alert": "workspace:*",
-      "@mdit/plugin-align": "workspace:*",
-      "@mdit/plugin-attrs": "workspace:*",
-      "@mdit/plugin-container": "workspace:*",
-      "@mdit/plugin-demo": "workspace:*",
-      "@mdit/plugin-figure": "workspace:*",
-      "@mdit/plugin-footnote": "workspace:*",
-      "@mdit/plugin-icon": "workspace:*",
-      "@mdit/plugin-img-lazyload": "workspace:*",
-      "@mdit/plugin-img-mark": "workspace:*",
-      "@mdit/plugin-img-size": "workspace:*",
-      "@mdit/plugin-include": "workspace:*",
-      "@mdit/plugin-katex-slim": "workspace:*",
-      "@mdit/plugin-mark": "workspace:*",
-      "@mdit/plugin-mathjax-slim": "workspace:*",
-      "@mdit/plugin-plantuml": "workspace:*",
-      "@mdit/plugin-spoiler": "workspace:*",
-      "@mdit/plugin-stylize": "workspace:*",
-      "@mdit/plugin-sub": "workspace:*",
-      "@mdit/plugin-sup": "workspace:*",
-      "@mdit/plugin-tab": "workspace:*",
-      "@mdit/plugin-tasklist": "workspace:*",
-      "@mdit/plugin-tex": "workspace:*",
-      "@mdit/plugin-uml": "workspace:*"
-    }
   }
 }
