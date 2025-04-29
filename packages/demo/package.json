@@ -42,6 +42,9 @@
   "dependencies": {
     "@types/markdown-it": "^14.1.2"
   },
+  "devDependencies": {
+    "@mdit/helper": "workspace:*"
+  },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },
@@ -49,9 +52,6 @@
     "markdown-it": {
       "optional": true
     }
-  },
-  "devDependencies": {
-    "@mdit/helper": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

@@ -46,6 +46,10 @@
     "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
+  "devDependencies": {
+    "@types/markdown-it-emoji": "^3.0.1",
+    "markdown-it-emoji": "^3.0.0"
+  },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },
@@ -56,9 +60,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@types/markdown-it-emoji": "^3.0.1",
-    "markdown-it-emoji": "^3.0.0"
   }
 }
