@@ -68,7 +68,7 @@ mdIt2.render("![image](https://example.com/image.png =300x200)");
 ![Logo|x300](/example.bmp)
 ```
 
-will be parsed as:
+会被解析为
 
 ```html
 <img src="/example.png" width="200" height="300" />
