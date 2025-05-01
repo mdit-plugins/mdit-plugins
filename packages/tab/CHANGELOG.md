@@ -2,6 +2,139 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.18.0 (2025-05-01)
+
+## 0.17.0 (2025-04-29)
+
+## 0.16.0 (2025-01-12)
+
+## 0.15.1 (2025-01-12)
+
+## 0.15.0 (2025-01-11)
+
+## 0.14.0 (2024-11-28)
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+
+## 0.13.2 (2024-09-24)
+
+### 🐛 Bug Fixes
+
+- **tab:** fix options ([edb3546](https://github.com/mdit-plugins/mdit-plugins/commit/edb354619b83477c585c5b82b3b2c33e531bcac3))
+
+## 0.13.1 (2024-08-27)
+
+## 0.13.0 (2024-08-03)
+
+### ✨ Features
+
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+## 0.12.0 (2024-05-16)
+
+## 0.11.0 (2024-05-13)
+
+## 0.10.1 (2024-05-05)
+
+## 0.10.0 (2024-05-03)
+
+## 0.9.0 (2024-04-17)
+
+### ✨ Features
+
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+
+## 0.8.0 (2023-12-08)
+
+### ✨ Features
+
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+
+## 0.7.6 (2023-12-07)
+
+## 0.7.5 (2023-12-04)
+
+## 0.7.4 (2023-11-28)
+
+## 0.7.3 (2023-11-26)
+
+## 0.7.2 (2023-11-26)
+
+## 0.7.1 (2023-11-25)
+
+## 0.7.0 (2023-11-24)
+
+## 0.6.5 (2023-11-03)
+
+## 0.6.4 (2023-11-03)
+
+## 0.6.3 (2023-11-02)
+
+## 0.6.2 (2023-11-02)
+
+## 0.6.1 (2023-11-02)
+
+## 0.6.0 (2023-11-02)
+
+## 0.5.2 (2023-10-24)
+
+## 0.5.1 (2023-10-24)
+
+## 0.5.0 (2023-10-16)
+
+### ✨ Features
+
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+
+## 0.4.8 (2023-06-12)
+
+## 0.4.7 (2023-06-05)
+
+## 0.4.6 (2023-05-19)
+
+## 0.4.5 (2023-05-09)
+
+## 0.4.4 (2023-04-28)
+
+## 0.4.3 (2023-04-07)
+
+## 0.4.2 (2023-04-06)
+
+## 0.4.1 (2023-03-29)
+
+### ✨ Features
+
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+
+## 0.4.0 (2023-03-26)
+
+## 0.3.0 (2023-02-17)
+
+## 0.2.4 (2023-02-16)
+
+## 0.2.3 (2023-01-01)
+
+## 0.2.2 (2022-12-29)
+
+### 🐛 Bug Fixes
+
+- **tab:** fix multiple instance issue ([907130b](https://github.com/mdit-plugins/mdit-plugins/commit/907130bbe621ffed45b85873751b557d3432953e))
+
+## 0.2.1 (2022-12-29)
+
+### ✨ Features
+
+- **tab:** add index information ([356c5a5](https://github.com/mdit-plugins/mdit-plugins/commit/356c5a5296c8c5997bf6b85995fd32f379efbb07))
+
+## 0.2.0 (2022-12-29)
+
+### ✨ Features
+
+- add tab plugin ([96d116a](https://github.com/mdit-plugins/mdit-plugins/commit/96d116a232b363892f095792c12453580bcd490d))
+
 ## [0.17.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.8...v0.17.0) (2025-04-29)
 
 **Note:** Version bump only for package @mdit/plugin-tab

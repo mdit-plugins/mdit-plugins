@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.18.0 (2025-05-01)
+
+## 0.17.0 (2025-04-29)
+
+## 0.16.0 (2025-01-12)
+
+## 0.15.0 (2025-01-11)
+
+## 0.14.0 (2024-11-28)
+
+## 0.13.1 (2024-08-27)
+
+## 0.13.0 (2024-08-03)
+
+### ✨ Features
+
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+## 0.12.0 (2024-05-16)
+
+### ✨ Features
+
+- add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
+
+## 0.11.0 (2024-05-13)
+
+## 0.10.1 (2024-05-05)
+
+## 0.10.0 (2024-05-03)
+
+### ✨ Features
+
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
+
 ## [0.17.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.8...v0.17.0) (2025-04-29)
 
 **Note:** Version bump only for package @mdit/plugin-mathjax-slim

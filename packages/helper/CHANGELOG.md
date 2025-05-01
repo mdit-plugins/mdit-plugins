@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.18.0 (2025-05-01)
+
+## 0.17.0 (2025-04-29)
+
+## 0.16.0 (2025-01-12)
+
+## 0.15.1 (2025-01-12)
+
+### 🐛 Bug Fixes
+
+- **icon:** encode attrs ([1ec7cb2](https://github.com/mdit-plugins/mdit-plugins/commit/1ec7cb2515c280dcded4421b8e17917e9e1f1ab6))
+
+## 0.15.0 (2025-01-11)
+
+## 0.14.0 (2024-11-28)
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+
 ## [0.17.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.8...v0.17.0) (2025-04-29)
 
 **Note:** Version bump only for package @mdit/helper
