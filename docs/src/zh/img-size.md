@@ -77,30 +77,6 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 <img src="/example.bmp" alt="替代文字" height="300" />
 ```
 
-### 旧语法 (已废弃)
-
-::: warning 这种语法可能会在 GitHub 等平台上导致渲染问题。
-
-:::
-
-在图片链接部分的末尾添加 `=widthxheight`，并用空格分隔。
-
-`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
-
-```md
-![替代文字](/example.png =200x300)
-![替代文字](/example.jpg "标题" =200x)
-![替代文字](/example.bmp =x300)
-```
-
-渲染为 ↓
-
-```html
-<img src="/example.png" alt="替代文字" width="200" height="300" />
-<img src="/example.jpg" alt="替代文字" title="标题" width="200" />
-<img src="/example.bmp" alt="替代文字" height="300" />
-```
-
 ### Obsidian 语法
 
 在图片替代文字后面添加 `widthxheight`，并用 `|` 分隔。
@@ -127,6 +103,30 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 - 新语法和 Obsidian 语法都与 Markdown 标准兼容，但新语法更自然。
 
 :::
+
+### 旧语法 (已废弃)
+
+::: warning 这种语法可能会在 GitHub 等平台上导致渲染问题。
+
+:::
+
+在图片链接部分的末尾添加 `=widthxheight`，并用空格分隔。
+
+`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
+
+```md
+![替代文字](/example.png =200x300)
+![替代文字](/example.jpg "标题" =200x)
+![替代文字](/example.bmp =x300)
+```
+
+渲染为 ↓
+
+```html
+<img src="/example.png" alt="替代文字" width="200" height="300" />
+<img src="/example.jpg" alt="替代文字" title="标题" width="200" />
+<img src="/example.bmp" alt="替代文字" height="300" />
+```
 
 ## 示例
 
