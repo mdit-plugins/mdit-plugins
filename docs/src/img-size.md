@@ -15,98 +15,115 @@ Plugins to support setting size for images.
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { legacyImgSize, imgSize } from "@mdit/plugin-img-size";
+import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
-// new grammar (same as obsidian but a little different)
-const mdIt = MarkdownIt().use(imgSize);
+// New syntax
+const mdNew = MarkdownIt().use(imgSize);
+mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
 
-mdIt.render("![image|300x200](https://example.com/image.png)");
+// Obsidian syntax
+const mdObsidian = MarkdownIt().use(obsidianImgSize);
+mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
-// legacy grammar
-const mdIt2 = MarkdownIt().use(legacyImgSize);
-
-mdIt2.render("![image](https://example.com/image.png =300x200)");
+// Legacy syntax
+const mdLegacy = MarkdownIt().use(legacyImgSize);
+mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 
 @tab JS
 
 ```js
 const MarkdownIt = require("markdown-it");
-const { legacyImgSize, imgSize } = require("@mdit/plugin-img-size");
+const {
+  legacyImgSize,
+  imgSize,
+  obsidianImgSize,
+} = require("@mdit/plugin-img-size");
 
-// new grammar (same as obsidian but a little different)
-const mdIt = MarkdownIt().use(imgSize);
+// New syntax
+const mdNew = MarkdownIt().use(imgSize);
+mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
 
-mdIt.render("![image|300x200](https://example.com/image.png)");
+// Obsidian syntax
+const mdObsidian = MarkdownIt().use(obsidianImgSize);
+mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
-// legacy grammar
-const mdIt2 = MarkdownIt().use(legacyImgSize);
-
-mdIt2.render("![image](https://example.com/image.png =300x200)");
+// Legacy syntax
+const mdLegacy = MarkdownIt().use(legacyImgSize);
+mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 
 :::
 
 ## Syntax
 
-You can use `|widthxheight` to specify the image size at the end of image alt.
+### New Syntax
 
-Both `width` and `height` should be number which means size in pixels, and both of them are optional (set `0` to indicate ignore).
+Append `=widthxheight` to image alt text with spaces as separator.
 
-If you want the same behavior as Obsidian, you can pass `{ strict: true }` in plugin options. Now both `width` and `height` are both required to be set (one of them can be `0` to scale with radio according to the other).
+Both `width` and `height` should be numbers as pixels and are optional.
 
 ```md
-![Logo|200x200](/example.png)
-
-![Logo|200x0](/example.jpg)
-![Logo|0x300](/example.bmp)
-
-<!-- These won't work when `strict: true` as obsidian does not support them -->
-
-![Logo|200](/example.jpg)
-![Logo|200x](/example.jpg)
-![Logo|x300](/example.bmp)
+![Alt =200x300](/example.png)
+![Alt =200x](/example.jpg "Title")
+![Alt =x300](/example.bmp)
 ```
 
-will be parsed as:
+Renders as ↓
 
 ```html
-<img src="/example.png" width="200" height="300" />
-
-<img src="/example.jpg" width="200" />
-<img src="/example.bmp" height="300" />
-
-<img src="/example.jpg" width="200" />
-<img src="/example.jpg" width="200" />
-<img src="/example.bmp" height="300" />
+<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.jpg" alt="Alt" title="Title" width="200" />
+<img src="/example.bmp" alt="Alt" height="300" />
 ```
 
-### Legacy Grammar
+### Legacy Syntax (Deprecated)
 
-You can use `=widthxheight` to specify the image size at the end of image link.
+::: warning This may cause rendering issues on platforms like GitHub.
+:::
 
-Both `width` and `height` should be number which means size in pixels, and both of them are optional. The whole marker should be separated with spaces from the image link.
+Append `=widthxheight` at the end of image link section with spaces as separator.
+
+Both `width` and `height` should be numbers as pixels and are optional.
 
 ```md
 ![Alt](/example.png =200x300)
-
-![Alt](/example.jpg "Image title" =200x)
+![Alt](/example.jpg "Title" =200x)
 ![Alt](/example.bmp =x300)
 ```
 
-will be parsed as:
+Renders as ↓
 
 ```html
 <img src="/example.png" width="200" height="300" />
-<img src="/example.jpg" title="Image title" width="200" />
+<img src="/example.jpg" title="TTitle" width="200" />
 <img src="/example.bmp" height="300" />
 ```
 
-::: tip Choosing between 2 Grammars
+### Obsidian Syntax
 
-You shall prefer the Obsidian grammar, as it's not breaking backward compatibility.
+Append `widthxheight` after image alt text and use `|` to separate.
 
-The legacy grammar will break image rendering in environment that doesn't support it, such as GitHub.
+Both `width` and `height` should be numbers as pixels and are required. Setting one of them with `0` to scale by ratio with the other.
+
+```md
+![Alt|200x200](/example.png)
+![Alt|200x0](/example.jpg)
+![Alt|0x300](/example.bmp)
+```
+
+Renders as ↓
+
+```html
+<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.jpg" alt="Alt" width="200" />
+<img src="/example.bmp" alt="Alt" height="300" />
+```
+
+::: tip Choosing between 3 Grammars
+
+- The legacy grammar breaks image rendering in environments that don't support it (e.g.: GitHub)
+- Both the new grammar and the Obsidian grammar are compatible with the Markdown standard, but new grammar is more natural.
 
 :::
 
@@ -114,16 +131,22 @@ The legacy grammar will break image rendering in environment that doesn't suppor
 
 ::: md-demo Demo
 
-<!-- Default grammar -->
+<!-- New Syntax -->
 
-![Logo|200x200](/logo.svg)
-![Logo|150x0](/logo.svg)
-![Logo|0x100](/logo.svg)
+![Logo =200x200](/logo.svg "Markdown")
+![Logo =150x](/logo.svg "Markdown")
+![Logo =x100](/logo.svg "Markdown")
 
-<!-- legacy grammar -->
+<!-- Legacy Syntax -->
 
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
+
+<!-- Obsidian Syntax -->
+
+![Logo|200x200](/logo.svg)
+![Logo|150x0](/logo.svg)
+![Logo|0x100](/logo.svg)
 
 :::

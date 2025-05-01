@@ -15,98 +15,116 @@ icon: up-right-and-down-left-from-center
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { legacyImgSize, imgSize } from "@mdit/plugin-img-size";
+import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
-// 新语法 (与 obsidian 相似但略有不同)
-const mdIt = MarkdownIt().use(imgSize);
+// 新格式
+const mdNew = MarkdownIt().use(imgSize);
+mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
 
-mdIt.render("![image|300x200](https://example.com/image.png)");
+// Obsidian 格式
+const mdObsidian = MarkdownIt().use(obsidianImgSize);
+mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
-// 旧语法
-const mdIt2 = MarkdownIt().use(legacyImgSize);
-
-mdIt2.render("![image](https://example.com/image.png =300x200)");
+// 旧格式
+const mdLegacy = MarkdownIt().use(legacyImgSize);
+mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 
 @tab JS
 
 ```js
 const MarkdownIt = require("markdown-it");
-const { legacyImgSize, imgSize } = require("@mdit/plugin-img-size");
+const {
+  legacyImgSize,
+  imgSize,
+  obsidianImgSize,
+} = require("@mdit/plugin-img-size");
 
-// 新语法 (与 obsidian 相似但略有不同)
-const mdIt = MarkdownIt().use(imgSize);
+// 新格式
+const mdNew = MarkdownIt().use(imgSize);
+mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
 
-mdIt.render("![image|300x200](https://example.com/image.png)");
+// Obsidian 格式
+const mdObsidian = MarkdownIt().use(obsidianImgSize);
+mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
-// 旧语法
-const mdIt2 = MarkdownIt().use(legacyImgSize);
-
-mdIt2.render("![image](https://example.com/image.png =300x200)");
+// 旧格式
+const mdLegacy = MarkdownIt().use(legacyImgSize);
+mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 
 :::
 
 ## 语法
 
-你可以在图片链接末尾使用 `|widthxheight` 来指定图片尺寸。
+### 新语法
 
-`width` 和 `height` 都应该为数字并意味着像素单位的尺寸，并且它们两者都是可选的（设置 `0` 来表示忽略）。
+在图片替代文字后面添加 `=widthxheight`，并用空格分隔。
 
-如果你想要与 Obsidian 相同的行为，你可以在插件选项中传递 `{ strict: true }`。现在 `width` 和 `height` 都必须被设置（其中一个可以是 `0` 来根据另一个按比例缩放）。
-
-```md
-![Logo|200x200](/example.png)
-
-![Logo|200x0](/example.jpg)
-![Logo|0x300](/example.bmp)
-
-<!-- These won't work when `strict: true` as obsidian does not support them -->
-
-![Logo|200](/example.jpg)
-![Logo|200x](/example.jpg)
-![Logo|x300](/example.bmp)
-```
-
-会被解析为
-
-```html
-<img src="/example.png" width="200" height="300" />
-
-<img src="/example.jpg" width="200" />
-<img src="/example.bmp" height="300" />
-
-<img src="/example.jpg" width="200" />
-<img src="/example.jpg" width="200" />
-<img src="/example.bmp" height="300" />
-```
-
-### 旧语法
-
-你可以在图片链接末尾使用 `=widthxheight` 来指定图片尺寸。
-
-`width` 和 `height` 都应该为数字并意味着像素单位的尺寸，并且它们两者都是可选的。整个标记应该通过空格与图片链接相分割。
+`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
 
 ```md
-![Alt](/example.png =200x300)
-
-![Alt](/example.jpg "Image title" =200x)
-![Alt](/example.bmp =x300)
+![替代文字 =200x300](/example.png)
+![替代文字 =200x](/example.jpg "标题")
+![替代文字 =x300](/example.bmp)
 ```
 
-会被解析为
+渲染为 ↓
 
 ```html
-<img src="/example.png" width="200" height="300" />
-<img src="/example.jpg" title="Image title" width="200" />
-<img src="/example.bmp" height="300" />
+<img src="/example.png" alt="替代文字" width="200" height="300" />
+<img src="/example.jpg" alt="替代文字" title="标题" width="200" />
+<img src="/example.bmp" alt="替代文字" height="300" />
 ```
 
-::: tip 从两个语法中选择
+### 旧语法 (已废弃)
 
-你应该选择 Obsidian 语法，因为它不会破坏向后兼容性。
+::: warning 这种语法可能会在 GitHub 等平台上导致渲染问题。
 
-旧语法会在不支持的环境中破坏图片渲染，例如 GitHub。
+:::
+
+在图片链接部分的末尾添加 `=widthxheight`，并用空格分隔。
+
+`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
+
+```md
+![替代文字](/example.png =200x300)
+![替代文字](/example.jpg "标题" =200x)
+![替代文字](/example.bmp =x300)
+```
+
+渲染为 ↓
+
+```html
+<img src="/example.png" alt="替代文字" width="200" height="300" />
+<img src="/example.jpg" alt="替代文字" title="标题" width="200" />
+<img src="/example.bmp" alt="替代文字" height="300" />
+```
+
+### Obsidian 语法
+
+在图片替代文字后面添加 `widthxheight`，并用 `|` 分隔。
+
+`width` 和 `height` 都应该是数字，单位为像素，并且都是必需的。设置其中一个为 `0` 以按比例缩放另一个。
+
+```md
+![Alt|200x200](/example.png)
+![Alt|200x0](/example.jpg)
+![Alt|0x300](/example.bmp)
+```
+
+渲染为 ↓
+
+```html
+<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.jpg" alt="Alt" width="200" />
+<img src="/example.bmp" alt="Alt" height="300" />
+```
+
+::: tip 在三种语法之间选择
+
+- 旧语法在不支持的环境中会导致图片渲染问题（例如：GitHub）
+- 新语法和 Obsidian 语法都与 Markdown 标准兼容，但新语法更自然。
 
 :::
 
@@ -114,9 +132,19 @@ mdIt2.render("![image](https://example.com/image.png =300x200)");
 
 ::: md-demo 示例
 
+<!-- 新语法 -->
+
+![Logo =200x200](/logo.svg "Markdown")
+![Logo =150x](/logo.svg "Markdown")
+![Logo =x100](/logo.svg "Markdown")
+
+<!-- 旧语法 -->
+
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
+
+<!-- Obsidian 语法 -->
 
 ![Logo|200x200](/logo.svg)
 ![Logo|150x0](/logo.svg)
