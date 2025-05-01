@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { legacyImgSize } from "../src/index.js";
 
 describe("legacy image size", () => {
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const markdownIt = MarkdownIt().use(legacyImgSize);
 
   describe("should not break original image syntax", () => {

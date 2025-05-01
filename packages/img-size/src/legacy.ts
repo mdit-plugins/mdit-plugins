@@ -272,6 +272,9 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   return true;
 };
 
+/**
+ * @deprecated Recommended to use `imgSize` instead.
+ */
 export const legacyImgSize: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "image", legacyImgSizeRule);
 };

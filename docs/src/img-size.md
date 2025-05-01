@@ -77,6 +77,26 @@ Renders as ↓
 <img src="/example.bmp" alt="Alt" height="300" />
 ```
 
+### Obsidian Syntax
+
+Append `widthxheight` after image alt text and use `|` to separate.
+
+Both `width` and `height` should be numbers as pixels and are required. Setting one of them with `0` to scale by ratio with the other.
+
+```md
+![Alt|200x200](/example.png)
+![Alt|200x0](/example.jpg)
+![Alt|0x300](/example.bmp)
+```
+
+Renders as ↓
+
+```html
+<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.jpg" alt="Alt" width="200" />
+<img src="/example.bmp" alt="Alt" height="300" />
+```
+
 ### Legacy Syntax (Deprecated)
 
 ::: warning This may cause rendering issues on platforms like GitHub.
@@ -98,26 +118,6 @@ Renders as ↓
 <img src="/example.png" width="200" height="300" />
 <img src="/example.jpg" title="TTitle" width="200" />
 <img src="/example.bmp" height="300" />
-```
-
-### Obsidian Syntax
-
-Append `widthxheight` after image alt text and use `|` to separate.
-
-Both `width` and `height` should be numbers as pixels and are required. Setting one of them with `0` to scale by ratio with the other.
-
-```md
-![Alt|200x200](/example.png)
-![Alt|200x0](/example.jpg)
-![Alt|0x300](/example.bmp)
-```
-
-Renders as ↓
-
-```html
-<img src="/example.png" alt="Alt" width="200" height="300" />
-<img src="/example.jpg" alt="Alt" width="200" />
-<img src="/example.bmp" alt="Alt" height="300" />
 ```
 
 ::: tip Choosing between 3 Grammars
