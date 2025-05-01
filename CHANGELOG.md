@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.17.0...v0.18.0) (2025-05-01)
+
+### ⚠ BREAKING CHANGES
+
+- **img-size:** rebuild img-size syntax
+- **img-size:** restore old img size format and move to alt
+- drop node18
+
+### ✨ Features
+
+- drop node18 ([0f7dd91](https://github.com/mdit-plugins/mdit-plugins/commit/0f7dd9158b865548724b510b13a5d6119dc16849))
+- **img-size:** mark legacyImgSize as deprecated ([0adb063](https://github.com/mdit-plugins/mdit-plugins/commit/0adb0636220a90e2cb7f3bac10312782fcd3e711))
+- **img-size:** rebuild img-size syntax ([196e177](https://github.com/mdit-plugins/mdit-plugins/commit/196e177bb3db0c29f2710ff0d1fee43c839d525c))
+- **img-size:** restore old img size format and move to alt ([da5603b](https://github.com/mdit-plugins/mdit-plugins/commit/da5603b8bd5aa4739f0c6cd926a7f2fac15042a0))
+- **img-size:** split original obsidian img size out and improve unit tests ([6b4dc3b](https://github.com/mdit-plugins/mdit-plugins/commit/6b4dc3b104242fd6de5c7d4f5fde0b2d909464b4))
+
 ## [0.17.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.16.8...v0.17.0) (2025-04-29)
 
 ### ⚠ BREAKING CHANGES
