@@ -84,25 +84,18 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 `width` 和 `height` 都应该是数字，单位为像素，并且都是必需的。设置其中一个为 `0` 以按比例缩放另一个。
 
 ```md
-![Alt|200x200](/example.png)
-![Alt|200x0](/example.jpg)
-![Alt|0x300](/example.bmp)
+![替代文字|200x200](/example.png)
+![替代文字|200x0](/example.jpg)
+![替代文字|0x300](/example.bmp)
 ```
 
 渲染为 ↓
 
 ```html
-<img src="/example.png" alt="Alt" width="200" height="300" />
-<img src="/example.jpg" alt="Alt" width="200" />
-<img src="/example.bmp" alt="Alt" height="300" />
+<img src="/example.png" alt="替代文字" width="200" height="300" />
+<img src="/example.jpg" alt="替代文字" width="200" />
+<img src="/example.bmp" alt="替代文字" height="300" />
 ```
-
-::: tip 在三种语法之间选择
-
-- 旧语法在不支持的环境中会导致图片渲染问题（例如：GitHub）
-- 新语法和 Obsidian 语法都与 Markdown 标准兼容，但新语法更自然。
-
-:::
 
 ### 旧语法 (已废弃)
 
@@ -127,6 +120,13 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 <img src="/example.jpg" alt="替代文字" title="标题" width="200" />
 <img src="/example.bmp" alt="替代文字" height="300" />
 ```
+
+::: tip 在三种语法之间选择
+
+- 旧语法在不支持的环境中会导致图片渲染问题（例如：GitHub）
+- 新语法和 Obsidian 语法都与 Markdown 标准兼容，但新语法更自然。
+
+:::
 
 ## 示例
 
