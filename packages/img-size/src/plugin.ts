@@ -1,15 +1,8 @@
-/**
- * Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js
- */
+import type { PluginSimple } from "markdown-it";
 
-import type { PluginWithOptions } from "markdown-it";
+const IMAGE_SIZE_REGEXP = /^(.*?)\s+=(\d*)\s*(?:x(\d*))?$/;
 
-import type { ImgSizeOptions } from "./options.js";
-
-export const imgSize: PluginWithOptions<ImgSizeOptions> = (
-  md,
-  { strict = false } = {},
-) => {
+export const imgSize: PluginSimple = (md) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const originalImageRender = md.renderer.rules.image!;
 
@@ -19,27 +12,20 @@ export const imgSize: PluginWithOptions<ImgSizeOptions> = (
     const content = token.children?.[0]?.content;
 
     if (content) {
-      const result = /^(.*)\|(\d*)(?:x(\d*))?$/.exec(content);
+      const result = IMAGE_SIZE_REGEXP.exec(content);
 
       if (result) {
         const [, realContent, width, height] = result;
 
-        if (
-          // strict mode and one of width or height is not set
-          (strict && (!width || !height)) ||
-          // both width and height are 0
-          (width === "0" && height === "0")
-        ) {
+        if (!width && !height) {
           return originalImageRender(tokens, index, options, env, self);
         }
 
-        if (!strict || (width && height && (width !== "0" || height !== "0"))) {
-          token.content = realContent;
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          token.children![0].content = realContent;
-          if (width && width !== "0") token.attrSet("width", width);
-          if (height && height !== "0") token.attrSet("height", height);
-        }
+        token.content = realContent.trim();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        token.children![0].content = realContent;
+        if (width) token.attrSet("width", width);
+        if (height) token.attrSet("height", height);
       }
     }
 
