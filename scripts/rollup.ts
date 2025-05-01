@@ -42,7 +42,7 @@ export const rollupTypescript = (
         },
       ],
       plugins: [
-        esbuild({ charset: "utf8", minify: isProduction, target: "node18" }),
+        esbuild({ charset: "utf8", minify: isProduction, target: "node20" }),
         process.env.CODECOV_TOKEN
           ? [
               codecovRollupPlugin({
