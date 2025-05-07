@@ -115,5 +115,5 @@ interface MarkdownItImgMarkOptions {
 <ColorModeSwitch /> (Try to toggle theme mode)
 
 <script setup lang="ts">
-import ColorModeSwitch from "@theme-hope/modules/outlook/components/ColorModeSwitch"
+import { ColorModeSwitch } from "vuepress-theme-hope/client"
 </script>
