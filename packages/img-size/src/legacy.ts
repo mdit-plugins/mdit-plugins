@@ -244,9 +244,6 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   // so all that's left to do is to call tokenizer.
   //
   if (!silent) {
-    state.pos = labelStart;
-    state.posMax = labelEnd;
-
     const content = state.src.slice(labelStart, labelEnd);
     const tokens: Token[] = [];
 
@@ -254,13 +251,15 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
     const token = state.push("image", "img", 0);
 
-    token.attrs = [
+    const attrs: [string, string][] = [
       ["src", href],
       ["alt", ""],
-    ] as [string, string][];
-    if (title) token.attrs.push(["title", title]);
-    if (width) token.attrs.push(["width", width]);
-    if (height) token.attrs.push(["height", height]);
+    ];
+
+    if (title) attrs.push(["title", title]);
+    if (width) attrs.push(["width", width]);
+    if (height) attrs.push(["height", height]);
+    token.attrs = attrs;
 
     token.children = tokens;
     token.content = content;

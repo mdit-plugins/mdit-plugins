@@ -308,6 +308,10 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+    devDependencies:
+      '@mdit/plugin-figure':
+        specifier: workspace:*
+        version: link:../figure
 
   packages/include:
     dependencies:

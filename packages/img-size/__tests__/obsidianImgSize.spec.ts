@@ -1,3 +1,4 @@
+import { figure } from "@mdit/plugin-figure";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
@@ -115,6 +116,20 @@ describe("obsidian image Size", () => {
 
     expect(markdownIt.render(`![image|200×300](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image|200×300"></p>\n',
+    );
+  });
+});
+
+describe("work with figure plugin", () => {
+  const markdownIt1 = MarkdownIt().use(obsidianImgSize).use(figure);
+  const markdownIt2 = MarkdownIt().use(figure).use(obsidianImgSize);
+
+  it("should render with figure", () => {
+    expect(markdownIt1.render(`![image|200x300](/logo.svg)`)).toEqual(
+      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
+    );
+    expect(markdownIt2.render(`![image|200x300](/logo.svg)`)).toEqual(
+      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
     );
   });
 });

@@ -1,3 +1,4 @@
+import { figure } from "@mdit/plugin-figure";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
@@ -160,6 +161,22 @@ describe("legacy image size", () => {
 
     expect(markdownIt.render(`![image](/logo.svg =200×300)`)).toEqual(
       "<p>![image](/logo.svg =200×300)</p>\n",
+    );
+  });
+});
+
+describe("work with figure plugin", () => {
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  const markdownIt1 = MarkdownIt().use(legacyImgSize).use(figure);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  const markdownIt2 = MarkdownIt().use(figure).use(legacyImgSize);
+
+  it("should render with figure", () => {
+    expect(markdownIt1.render(`![image](/logo.svg =200x300)`)).toEqual(
+      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
+    );
+    expect(markdownIt2.render(`![image](/logo.svg =200x300)`)).toEqual(
+      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
     );
   });
 });

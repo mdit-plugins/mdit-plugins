@@ -1,34 +1,181 @@
 import type { PluginSimple } from "markdown-it";
+import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type Token from "markdown-it/lib/token.mjs";
+
+import type { ImgSizeEnv } from "./types.js";
 
 const IMAGE_SIZE_REGEXP = /^(.*?)\s+=(\d*)\s*(?:x(\d*))?$/;
 
-export const imgSize: PluginSimple = (md) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const originalImageRender = md.renderer.rules.image!;
+export const imgSizeRule: RuleInline = (state, silent) => {
+  const env = state.env as ImgSizeEnv;
+  const oldPos = state.pos;
+  const max = state.posMax;
 
-  md.renderer.rules.image = (tokens, index, options, env, self): string => {
-    const token = tokens[index];
+  if (
+    state.src.charAt(state.pos) !== "!" ||
+    state.src.charAt(state.pos + 1) !== "["
+  )
+    return false;
 
-    const content = token.children?.[0]?.content;
+  const labelStart = state.pos + 2;
+  const labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);
 
-    if (content) {
-      const result = IMAGE_SIZE_REGEXP.exec(content);
+  // parser failed to find ']', so it's not a valid link
+  if (labelEnd < 0) return false;
 
-      if (result) {
-        const [, realContent, width, height] = result;
+  let pos = labelEnd + 1;
+  let char: string;
 
-        if (!width && !height) {
-          return originalImageRender(tokens, index, options, env, self);
-        }
+  let href = "";
+  let title = "";
 
-        token.content = realContent.trim();
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        token.children![0].content = realContent;
-        if (width) token.attrSet("width", width);
-        if (height) token.attrSet("height", height);
+  if (pos < max && state.src.charAt(pos) === "(") {
+    //
+    // Inline link
+    //
+
+    // [link](  <href>  "title"  )
+    //        ^^ skipping these spaces
+    pos++;
+
+    while (pos < max) {
+      char = state.src.charAt(pos);
+      if (char !== " " && char !== "\t") break;
+      pos++;
+    }
+
+    if (pos >= max) return false;
+
+    // [link](  <href>  "title"  )
+    //          ^^^^^^ parsing link destination
+    let res;
+
+    res = state.md.helpers.parseLinkDestination(state.src, pos, state.posMax);
+
+    if (res.ok) {
+      href = state.md.normalizeLink(res.str);
+
+      if (state.md.validateLink(href)) pos = res.pos;
+      else href = "";
+    }
+
+    // [link](  <href>  "title"  )
+    //                ^^ skipping these spaces
+    const start = pos;
+
+    for (; pos < max; pos++) {
+      char = state.src.charAt(pos);
+      if (char !== " " && char !== "\t") break;
+    }
+
+    // [link](  <href>  "title"  )
+    //                  ^^^^^^^ parsing link title
+    res = state.md.helpers.parseLinkTitle(state.src, pos, state.posMax);
+
+    if (pos < max && start !== pos && res.ok) {
+      title = res.str;
+      pos = res.pos;
+
+      // [link](  <href>  "title"  )
+      //                         ^^ skipping these spaces
+      for (; pos < max; pos++) {
+        char = state.src.charAt(pos);
+        if (char !== " " && char !== "\t") break;
+      }
+    } else {
+      title = "";
+    }
+
+    if (pos >= max || state.src.charAt(pos) !== ")") {
+      state.pos = oldPos;
+
+      return false;
+    }
+    pos++;
+  } else {
+    let label = "";
+
+    //
+    // Link reference
+    //
+    if (typeof env.references === "undefined") return false;
+
+    // [foo]  [bar]
+    //      ^^ optional whitespace (can include newlines)
+    for (; pos < max; pos++) {
+      char = state.src.charAt(pos);
+      if (char !== " " && char !== "\t") break;
+    }
+
+    if (pos < max && state.src.charAt(pos) === "[") {
+      const start = pos + 1;
+
+      pos = state.md.helpers.parseLinkLabel(state, pos);
+
+      if (pos >= 0) label = state.src.slice(start, pos++);
+      else pos = labelEnd + 1;
+    } else {
+      pos = labelEnd + 1;
+    }
+
+    // covers label === '' and label === undefined
+    // (collapsed reference link and shortcut reference link respectively)
+    if (!label) label = state.src.slice(labelStart, labelEnd);
+
+    const ref = env.references[state.md.utils.normalizeReference(label)];
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!ref) {
+      state.pos = oldPos;
+
+      return false;
+    }
+
+    href = ref.href;
+    title = ref.title ?? "";
+  }
+
+  //
+  // We found the end of the link, and know for a fact it's a valid link;
+  // so all that's left to do is to call tokenizer.
+  //
+  if (!silent) {
+    let content = state.src.slice(labelStart, labelEnd);
+
+    const matches = IMAGE_SIZE_REGEXP.exec(content);
+    const token = state.push("image", "img", 0);
+    const attrs: [string, string][] = [
+      ["src", href],
+      ["alt", ""],
+    ];
+
+    if (title) attrs.push(["title", title]);
+
+    if (matches) {
+      const [, realContent, width, height] = matches;
+
+      if (width || height) {
+        content = realContent.trim();
+        if (width) attrs.push(["width", width]);
+        if (height) attrs.push(["height", height]);
       }
     }
 
-    return originalImageRender(tokens, index, options, env, self);
-  };
+    const tokens: Token[] = [];
+
+    state.md.inline.parse(content, state.md, state.env, tokens);
+
+    token.attrs = attrs;
+    token.children = tokens;
+    token.content = content;
+  }
+
+  state.pos = pos;
+  state.posMax = max;
+
+  return true;
+};
+
+export const imgSize: PluginSimple = (md) => {
+  md.inline.ruler.before("emphasis", "image", imgSizeRule);
 };

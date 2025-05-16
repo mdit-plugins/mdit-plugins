@@ -50,6 +50,9 @@
       "optional": true
     }
   },
+  "devDependencies": {
+    "@mdit/plugin-figure": "workspace:*"
+  },
   "engines": {
     "node": ">= 18"
   },
