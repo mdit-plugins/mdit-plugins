@@ -71,20 +71,116 @@ describe("default image size", () => {
     });
   });
 
-  it("should render with width and height", () => {
-    expect(markdownIt.render(`![image =200x300](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
-    );
+  describe("should render with width and height", () => {
+    it("simple", () => {
+      expect(markdownIt.render(`![image =200x300](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with title", () => {
+      expect(markdownIt.render(`![image =200x300](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with label", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image =200x300][logo]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with label and title", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image =200x300][logo]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+    });
   });
 
-  it("should render with width or height", () => {
-    expect(markdownIt.render(`![image =200x](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-    );
+  describe("should render with width or height", () => {
+    it("simple", () => {
+      expect(markdownIt.render(`![image =200x](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
+      );
 
-    expect(markdownIt.render(`![image =x300](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
-    );
+      expect(markdownIt.render(`![image =x300](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
+      );
+    });
+
+    it("with title", () => {
+      expect(markdownIt.render(`![image =200x](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
+      );
+
+      expect(markdownIt.render(`![image =x300](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
+      );
+    });
+
+    it("with label", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image =200x][logo]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="image" width="200"></p>\n');
+
+      expect(
+        markdownIt.render(
+          `\
+![image =x300][logo]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="image" height="300"></p>\n');
+    });
+
+    it("with label and title", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image =200x][logo]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
+      );
+
+      expect(
+        markdownIt.render(
+          `\
+![image =x300][logo]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
+      );
+    });
   });
 
   it("should not render if width or height is not number", () => {

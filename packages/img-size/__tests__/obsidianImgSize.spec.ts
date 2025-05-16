@@ -7,30 +7,132 @@ import { obsidianImgSize } from "../src/index.js";
 describe("obsidian image Size", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImgSize);
 
-  it("should not break original behavior", () => {
-    expect(markdownIt.render(`![](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt=""></p>\n',
-    );
+  describe("should not break original image syntax", () => {
+    it("simple", () => {
+      expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image"></p>\n',
+      );
 
-    expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image"></p>\n',
-    );
+      expect(markdownIt.render(`![image]( /logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image"></p>\n',
+      );
+
+      expect(markdownIt.render(`![image](data:script)`)).toEqual(
+        "<p>![image](data:script)</p>\n",
+      );
+    });
+
+    it("with title", () => {
+      expect(markdownIt.render(`![image](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
+      );
+    });
+
+    it("with label", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image][logo]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="image"></p>\n');
+
+      expect(
+        markdownIt.render(
+          `\
+![logo] 
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="logo"></p>\n');
+
+      expect(
+        markdownIt.render(
+          `\
+![image][logo 
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual("<p>![image][logo</p>\n");
+    });
+
+    it("with label and title", () => {
+      expect(
+        markdownIt.render(`\
+![image][logo]
+
+[logo]: /logo.svg "title"
+`),
+      ).toEqual('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
+    });
   });
 
-  it("should render with width and height", () => {
-    expect(markdownIt.render(`![image|200x300](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
-    );
+  describe("should render with width and height", () => {
+    it("simple", () => {
+      expect(markdownIt.render(`![image|200x300](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with title", () => {
+      expect(markdownIt.render(`![image|200x300](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with label", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image|200x300][logo]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+      );
+    });
+
+    it("with label and title", () => {
+      expect(
+        markdownIt.render(
+          `\
+![image|200x300][logo]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+    });
   });
 
-  it("should render with width=0 or height=0", () => {
-    expect(markdownIt.render(`![image|200x0](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-    );
+  describe("should render with width=0 or height=0", () => {
+    it("simple", () => {
+      expect(markdownIt.render(`![image|200x0](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
+      );
 
-    expect(markdownIt.render(`![image|0x200](/logo.svg)`)).toEqual(
-      '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
-    );
+      expect(markdownIt.render(`![image|0x200](/logo.svg)`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
+      );
+    });
+
+    it("with title", () => {
+      expect(markdownIt.render(`![image|200x0](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
+      );
+
+      expect(markdownIt.render(`![image|0x200](/logo.svg "title")`)).toEqual(
+        '<p><img src="/logo.svg" alt="image" title="title" height="200"></p>\n',
+      );
+    });
   });
 
   it("should render with width=0 or height =0", () => {
