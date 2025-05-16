@@ -6717,7 +6717,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.15.18
 
   '@types/semver@7.7.0': {}
 
