@@ -96,6 +96,18 @@ describe("default image size", () => {
       ).toEqual(
         '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
       );
+
+      expect(
+        markdownIt.render(
+          `\
+![logo =200x300]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n',
+      );
     });
 
     it("with label and title", () => {
@@ -109,6 +121,18 @@ describe("default image size", () => {
         ),
       ).toEqual(
         '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+
+      expect(
+        markdownIt.render(
+          `\
+![logo =200x300]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n',
       );
     });
   });
@@ -148,12 +172,32 @@ describe("default image size", () => {
       expect(
         markdownIt.render(
           `\
+![logo =200x]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="logo" width="200"></p>\n');
+
+      expect(
+        markdownIt.render(
+          `\
 ![image =x300][logo]
 
 [logo]: /logo.svg
 `,
         ),
       ).toEqual('<p><img src="/logo.svg" alt="image" height="300"></p>\n');
+
+      expect(
+        markdownIt.render(
+          `\
+![logo =x300]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual('<p><img src="/logo.svg" alt="logo" height="300"></p>\n');
     });
 
     it("with label and title", () => {
@@ -172,6 +216,18 @@ describe("default image size", () => {
       expect(
         markdownIt.render(
           `\
+![logo =200x]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" title="title" width="200"></p>\n',
+      );
+
+      expect(
+        markdownIt.render(
+          `\
 ![image =x300][logo]
 
 [logo]: /logo.svg "title"
@@ -179,6 +235,18 @@ describe("default image size", () => {
         ),
       ).toEqual(
         '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
+      );
+
+      expect(
+        markdownIt.render(
+          `\
+![logo =x300]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" title="title" height="300"></p>\n',
       );
     });
   });

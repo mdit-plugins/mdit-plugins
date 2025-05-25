@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { obsidianImgSize } from "../src/index.js";
 
-describe("obsidian image Size", () => {
+describe("obsidian image size", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImgSize);
 
   describe("should not break original image syntax", () => {
@@ -96,6 +96,18 @@ describe("obsidian image Size", () => {
       ).toEqual(
         '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
       );
+
+      expect(
+        markdownIt.render(
+          `\
+![logo|200x300]
+
+[logo]: /logo.svg
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n',
+      );
     });
 
     it("with label and title", () => {
@@ -109,6 +121,18 @@ describe("obsidian image Size", () => {
         ),
       ).toEqual(
         '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+      );
+
+      expect(
+        markdownIt.render(
+          `\
+![logo|200x300]
+
+[logo]: /logo.svg "title"
+`,
+        ),
+      ).toEqual(
+        '<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n',
       );
     });
   });
@@ -184,7 +208,7 @@ describe("obsidian image Size", () => {
       '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
     );
 
-    expect(markdownIt.render(`![ image | 200 x 100 ](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image| 200 x 100 ](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image" width="200" height="100"></p>\n',
     );
   });

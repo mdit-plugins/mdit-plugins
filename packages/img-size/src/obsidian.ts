@@ -4,7 +4,7 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { ImgSizeEnv } from "./types.js";
 
-const OBSIDIAN_IMAGE_SIZE_REGEXP = /^(.*?)\|\s*(\d+)\s*x\s*(\d+)\s*$/;
+const OBSIDIAN_IMAGE_SIZE_REGEXP = /^(.*?)\s*\|\s*(\d+)\s*x\s*(\d+)\s*$/;
 
 export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
@@ -22,6 +22,19 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
   // parser failed to find ']', so it's not a valid link
   if (labelEnd < 0) return false;
+
+  const rawLabel = state.src.slice(labelStart, labelEnd);
+
+  // check if label has img size
+  const matches = OBSIDIAN_IMAGE_SIZE_REGEXP.exec(rawLabel);
+
+  if (!matches) return false;
+
+  const [, label, width, height] = matches;
+  const widthValue = Number(width);
+  const heightValue = Number(height);
+
+  if (!widthValue && !heightValue) return false;
 
   let pos = labelEnd + 1;
   let char: string;
@@ -93,7 +106,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     }
     pos++;
   } else {
-    let label = "";
+    let referenceLabel = "";
 
     //
     // Link reference
@@ -112,7 +125,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
       pos = state.md.helpers.parseLinkLabel(state, pos);
 
-      if (pos >= 0) label = state.src.slice(start, pos++);
+      if (pos >= 0) referenceLabel = state.src.slice(start, pos++);
       else pos = labelEnd + 1;
     } else {
       pos = labelEnd + 1;
@@ -120,9 +133,10 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     // covers label === '' and label === undefined
     // (collapsed reference link and shortcut reference link respectively)
-    if (!label) label = state.src.slice(labelStart, labelEnd);
+    if (!referenceLabel) referenceLabel = label;
 
-    const ref = env.references[state.md.utils.normalizeReference(label)];
+    const ref =
+      env.references[state.md.utils.normalizeReference(referenceLabel)];
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!ref) {
@@ -140,9 +154,6 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   // so all that's left to do is to call tokenizer.
   //
   if (!silent) {
-    let content = state.src.slice(labelStart, labelEnd);
-
-    const matches = OBSIDIAN_IMAGE_SIZE_REGEXP.exec(content);
     const token = state.push("image", "img", 0);
     const attrs: [string, string][] = [
       ["src", href],
@@ -151,26 +162,16 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     if (title) attrs.push(["title", title]);
 
-    if (matches) {
-      const [, realContent, width, height] = matches;
-
-      const widthValue = Number(width);
-      const heightValue = Number(height);
-
-      if (widthValue || heightValue) {
-        content = realContent.trim();
-        if (widthValue) attrs.push(["width", width]);
-        if (heightValue) attrs.push(["height", height]);
-      }
-    }
+    if (widthValue) attrs.push(["width", width]);
+    if (heightValue) attrs.push(["height", height]);
 
     const tokens: Token[] = [];
 
-    state.md.inline.parse(content, state.md, state.env, tokens);
+    state.md.inline.parse(label, state.md, state.env, tokens);
 
     token.attrs = attrs;
     token.children = tokens;
-    token.content = content;
+    token.content = label;
   }
 
   state.pos = pos;
@@ -180,5 +181,5 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 };
 
 export const obsidianImgSize: PluginSimple = (md) => {
-  md.inline.ruler.before("emphasis", "image", obsidianImgSizeRule);
+  md.inline.ruler.before("image", "obsidian-img-size", obsidianImgSizeRule);
 };

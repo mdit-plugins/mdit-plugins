@@ -39,17 +39,10 @@ const parseImageSize = (
   str: string,
   pos: number,
   max: number,
-): { ok: boolean; pos: number; width: string; height: string } => {
-  const result = {
-    ok: false,
-    pos: 0,
-    width: "",
-    height: "",
-  };
+): { pos: number; width: string; height: string } | null => {
+  if (pos >= max) return null;
 
-  if (pos >= max) return result;
-
-  if (str.charAt(pos) !== "=") return result;
+  if (str.charAt(pos) !== "=") return null;
 
   pos++;
 
@@ -59,7 +52,7 @@ const parseImageSize = (
   // (3) =x200
   const char = str.charAt(pos);
 
-  if (char !== "x" && !/\d/.test(char)) return result;
+  if (char !== "x" && !/\d/.test(char)) return null;
 
   // parse width
   const width = parseNumber(str, pos, max);
@@ -67,7 +60,7 @@ const parseImageSize = (
   pos = width.pos;
 
   // next character must be 'x'
-  if (str.charAt(pos) !== "x") return result;
+  if (str.charAt(pos) !== "x") return null;
 
   pos++;
 
@@ -76,12 +69,11 @@ const parseImageSize = (
 
   pos = height.pos;
 
-  result.width = width.value;
-  result.height = height.value;
-  result.pos = pos;
-  result.ok = true;
-
-  return result;
+  return {
+    pos,
+    width: width.value,
+    height: height.value,
+  };
 };
 
 const legacyImgSizeRule: RuleInline = (state, silent) => {
@@ -174,11 +166,10 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
       // there must be at least one white spaces
       // between previous field and the size
       if (char === " ") {
-        res = parseImageSize(state.src, pos, state.posMax);
-        if (res.ok) {
-          width = res.width;
-          height = res.height;
-          pos = res.pos;
+        const sizeInfo = parseImageSize(state.src, pos, state.posMax);
+
+        if (sizeInfo) {
+          ({ width, height, pos } = sizeInfo);
 
           // [link](  <href>  "title" =WxH  )
           //                              ^^ skipping these spaces
