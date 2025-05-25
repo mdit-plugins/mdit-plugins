@@ -436,6 +436,15 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
 
+  packages/preview:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/ruby:
     dependencies:
       '@types/markdown-it':
