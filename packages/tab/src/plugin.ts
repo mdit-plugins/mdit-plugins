@@ -8,7 +8,7 @@ import type {
   MarkdownItTabData,
   MarkdownItTabInfo,
   MarkdownItTabOptions,
-} from "./options";
+} from "./options.js";
 
 const TAB_MARKER = `@tab`;
 
