@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
+
+### ✨ Features
+
+- **img-size:** improve label handling and allow working together, close [#98](https://github.com/mdit-plugins/mdit-plugins/issues/98) ([e918a50](https://github.com/mdit-plugins/mdit-plugins/commit/e918a50f701c7b05e4ef929db15b29d2a5b1333e))
+
 ## [0.18.1](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.0...v0.18.1) (2025-05-16)
 
 ### 🐛 Bug Fixes
