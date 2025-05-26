@@ -52,7 +52,7 @@ const getTabRule =
 
       if (start < max && state.sCount[nextLine] < state.blkIndent)
         // non-empty line with negative indent should stop the list:
-        // - ```
+        // - :::
         //  test
         break;
 
@@ -169,7 +169,7 @@ const getTabsRule =
 
       if (start < max && state.sCount[nextLine] < state.blkIndent)
         // non-empty line with negative indent should stop the list:
-        // - ```
+        // - :::
         //  test
         break;
 
