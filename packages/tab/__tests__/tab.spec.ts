@@ -534,8 +534,16 @@ A **bold** text.
 });
 
 describe("ending correctly", () => {
-  it("should auto end container when a negative padding text found", () => {
+  it("should end container when a negative indent text found", () => {
     const source = [
+      `
+  ::: tabs
+  bala bala
+  @tab test\\#abc
+  A **bold** text.
+
+test
+`,
       `
 - item 1
 
@@ -552,7 +560,82 @@ test
       const result = markdownIt.render(item);
 
       expect(result).toMatchSnapshot();
-      expect(result).toContain(`<p>test</p>`);
+      expect(result).toMatch(/<p>test<\/p>\n$/);
+    });
+  });
+});
+
+describe("nesting", () => {
+  it("should render nested tabs", () => {
+    const source = [
+      `
+:::: tabs
+@tab test1
+
+A text 1.
+
+@tab test2
+  ::: tabs
+  @tab sub-test1
+  A **bold** text 1.
+  @tab:active sub-test2
+  A **bold** text 2.
+  :::
+@tab:active test3
+A **bold** text 3.
+::::
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
+    });
+  });
+
+  it("should support nesting with others", () => {
+    const source = [
+      `
+> :::: tabs
+> @tab test1
+> 
+> A text 1.
+> 
+> @tab test2
+>   ::: tabs
+>   @tab sub-test1
+>   A **bold** text 1.
+>   @tab:active sub-test2
+>   A **bold** text 2.
+>   :::
+> @tab:active test3
+> A **bold** text 3.
+> ::::
+`,
+      `
+- :::: tabs
+  @tab test1
+  
+  A text 1.
+  
+  @tab test2
+    ::: tabs
+    @tab sub-test1
+    A **bold** text 1.
+    @tab:active sub-test2
+    A **bold** text 2.
+    :::
+  @tab:active test3
+  A **bold** text 3.
+  ::::
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
     });
   });
 });

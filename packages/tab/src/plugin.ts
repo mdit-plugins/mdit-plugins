@@ -10,62 +10,66 @@ import type {
   MarkdownItTabOptions,
 } from "./options.js";
 
+const MIN_MARKER_NUM = 3;
 const TAB_MARKER = `@tab`;
+const TAB_MARKER_LENGTH = TAB_MARKER.length;
 
 const getTabRule =
   (name: string, store: { state: string | null }): RuleBlock =>
   (state, startLine, endLine, silent) => {
     if (store.state !== name) return false;
-    let start = state.bMarks[startLine] + state.tShift[startLine];
-    let max = state.eMarks[startLine];
+
+    const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
+    const currentLineMax = state.eMarks[startLine];
+    const currentLineIndent = state.sCount[startLine];
 
     /*
      * Check out the first character quickly,
      * this should filter out most of non-uml blocks
      */
-    if (state.src.charAt(start) !== "@") return false;
-
-    let index;
+    if (state.src.charAt(currentLineStart) !== "@") return false;
 
     // Check out the rest of the marker string
-    for (index = 0; index < TAB_MARKER.length; index++)
-      if (TAB_MARKER[index] !== state.src[start + index]) return false;
+    for (let index = 0; index < TAB_MARKER_LENGTH; index++)
+      if (TAB_MARKER[index] !== state.src[currentLineStart + index])
+        return false;
 
-    const markup = state.src.slice(start, start + index);
-    const info = state.src.slice(start + index, max);
+    const markup = state.src.slice(
+      currentLineStart,
+      currentLineStart + TAB_MARKER_LENGTH,
+    );
+    const info = state.src.slice(
+      currentLineStart + TAB_MARKER_LENGTH,
+      currentLineMax,
+    );
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
-    let nextLine = startLine;
+    let nextLine = startLine + 1;
     let autoClosed = false;
 
     // Search for the end of the block
-    while (
+    for (
+      ;
+      // nextLine should be accessible outside the loop,
       // unclosed block should be auto closed by end of document.
       // also block seems to be auto closed by end of parent
-      nextLine < endLine
+      nextLine < endLine;
+      nextLine++
     ) {
-      nextLine++;
-      start = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-
-      if (start < max && state.sCount[nextLine] < state.blkIndent)
-        // non-empty line with negative indent should stop the list:
-        // - :::
-        //  test
-        break;
+      const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
 
       if (
+        // closing fence should be indented same as opening one
+        state.sCount[nextLine] === currentLineIndent &&
         // match start
-        state.src[start] === "@" &&
-        // marker should not be indented with respect of opening fence
-        state.sCount[nextLine] <= state.sCount[startLine]
+        state.src[nextLineStart] === "@"
       ) {
         let openMakerMatched = true;
 
-        for (index = 0; index < TAB_MARKER.length; index++)
-          if (TAB_MARKER[index] !== state.src[start + index]) {
+        for (let index = 0; index < TAB_MARKER.length; index++)
+          if (TAB_MARKER[index] !== state.src[nextLineStart + index]) {
             openMakerMatched = false;
             break;
           }
@@ -80,12 +84,16 @@ const getTabRule =
 
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
+    const oldBlkIndent = state.blkIndent;
 
     // @ts-expect-error: We are creating a new type called "tab"
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine - (autoClosed ? 1 : 0);
+
+    // this will update the block indent
+    state.blkIndent = currentLineIndent;
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
@@ -117,6 +125,7 @@ const getTabRule =
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
+    state.blkIndent = oldBlkIndent;
     state.line = nextLine + (autoClosed ? 0 : 1);
 
     return true;
@@ -125,27 +134,28 @@ const getTabRule =
 const getTabsRule =
   (name: string, store: { state: string | null }): RuleBlock =>
   (state, startLine, endLine, silent) => {
-    let start = state.bMarks[startLine] + state.tShift[startLine];
-    let max = state.eMarks[startLine];
+    const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
+    const currentLineMax = state.eMarks[startLine];
+    const currentLineIndent = state.sCount[startLine];
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
-    if (state.src[start] !== ":") return false;
+    if (state.src[currentLineStart] !== ":") return false;
 
-    let pos = start + 1;
+    let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
-    while (pos <= max) {
+    while (pos <= currentLineMax) {
       if (state.src[pos] !== ":") break;
       pos++;
     }
 
-    const markerCount = pos - start;
+    const markerCount = pos - currentLineStart;
 
-    if (markerCount < 3) return false;
+    if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.slice(start, pos);
-    const params = state.src.slice(pos, max);
+    const markup = state.src.slice(currentLineStart, pos);
+    const params = state.src.slice(pos, currentLineMax);
 
     const [containerName, id = ""] = params.split("#", 2);
 
@@ -154,41 +164,46 @@ const getTabsRule =
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
-    let nextLine = startLine;
+    let nextLine = startLine + 1;
     let autoClosed = false;
 
     // Search for the end of the block
-    while (
+    for (
+      ;
+      // nextLine should be accessible outside the loop,
       // unclosed block should be auto closed by end of document.
       // also block seems to be auto closed by end of parent
-      nextLine < endLine
+      nextLine < endLine;
+      nextLine++
     ) {
-      nextLine++;
-      start = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
+      const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
+      const nextLineMax = state.eMarks[nextLine];
 
-      if (start < max && state.sCount[nextLine] < state.blkIndent)
+      if (
+        nextLineStart < nextLineMax &&
+        state.sCount[nextLine] < currentLineIndent
+      )
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
 
       if (
+        // closing fence should be indented same as opening one
+        state.sCount[nextLine] === currentLineIndent &&
         // match start
-        state.src[start] === ":" &&
-        // closing fence should be indented less than 4 spaces
-        state.sCount[nextLine] - state.blkIndent < 4
+        ":" === state.src[nextLineStart]
       ) {
         // check rest of marker
-        for (pos = start + 1; pos <= max; pos++)
+        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
           if (state.src[pos] !== ":") break;
 
         // closing code fence must be at least as long as the opening one
-        if (pos - start >= markerCount) {
+        if (pos - nextLineStart >= markerCount) {
           // make sure tail has spaces only
           pos = state.skipSpaces(pos);
 
-          if (pos >= max) {
+          if (pos >= nextLineMax) {
             // found!
             autoClosed = true;
             break;
@@ -199,12 +214,17 @@ const getTabsRule =
 
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
+    const oldBlkIndent = state.blkIndent;
+    const oldState = store.state;
 
     // @ts-expect-error: We are creating a new type called "${name}_tabs"
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine - (autoClosed ? 1 : 0);
+
+    // this will update the block indent
+    state.blkIndent = currentLineIndent;
 
     const openToken = state.push(`${name}_tabs_open`, "", 1);
 
@@ -214,8 +234,6 @@ const getTabsRule =
     openToken.meta = { id: id.trim() };
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    const originalState = store.state;
-
     store.state = name;
 
     state.md.block.tokenize(
@@ -224,15 +242,16 @@ const getTabsRule =
       nextLine - (autoClosed ? 1 : 0),
     );
 
-    store.state = originalState;
+    store.state = oldState;
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
-    closeToken.markup = state.src.slice(start, pos);
+    closeToken.markup = state.src.slice(currentLineStart, pos);
     closeToken.block = true;
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
+    state.blkIndent = oldBlkIndent;
     state.line = nextLine + (autoClosed ? 1 : 0);
 
     return true;
@@ -244,26 +263,32 @@ const getTabsDataGetter =
     const tabData: MarkdownItTabData[] = [];
     let activeIndex = -1;
     let isTabStart = false;
-    let nestingDepth = -1;
+    let nestingDepth = 0;
 
-    for (let i = index; i < tokens.length; i++) {
+    for (
+      // skip the current tabs_open token
+      let i = index + 1;
+      i < tokens.length;
+      i++
+    ) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { block, meta, type, info } = tokens[i];
 
       if (block) {
+        // record the nesting depth of tabs
         if (type === `${name}_tabs_open`) {
           nestingDepth++;
           continue;
         }
 
-        if (type === `${name}_tabs_close`)
-          if (nestingDepth === 0) {
-            break;
-          } else {
-            nestingDepth--;
-            continue;
-          }
+        if (type === `${name}_tabs_close`) {
+          if (nestingDepth === 0) break;
 
+          nestingDepth--;
+          continue;
+        }
+
+        // if we are in a nesting tabs, skip processing
         if (nestingDepth > 0) continue;
 
         if (type === `${name}_tab_open`) {
@@ -358,12 +383,14 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   <div class="${name}-tabs-header">
     ${tabs.join("\n    ")}
   </div>
-  <div class="${name}-tabs-container">\n`;
+  <div class="${name}-tabs-container">
+`;
     },
 
-    tabsCloseRenderer = (): string => `
+    tabsCloseRenderer = (): string => `\
   </div>
-</div>`,
+</div>
+`,
 
     tabOpenRenderer = (
       info: MarkdownItTabData,
@@ -384,10 +411,14 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
       if (info.isActive) token.attrJoin("data-active", "");
 
-      return `<div${self.renderAttrs(tokens[index])}>`;
+      return `\
+<div${self.renderAttrs(tokens[index])}>
+`;
     },
 
-    tabCloseRenderer = (): string => `</div>`,
+    tabCloseRenderer = (): string => `\
+</div>
+`,
   } = options ?? {};
 
   const tabsDataGetter = getTabsDataGetter(name);
