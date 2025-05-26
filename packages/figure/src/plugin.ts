@@ -61,15 +61,10 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
       }
 
       // prev token is paragraph open
-      if (index !== 0 && state.tokens[index - 1].type !== "paragraph_open")
-        continue;
+      if (state.tokens[index - 1].type !== "paragraph_open") continue;
 
       // next token is paragraph close
-      if (
-        index !== length - 1 &&
-        state.tokens[index + 1].type !== "paragraph_close"
-      )
-        continue;
+      if (state.tokens[index + 1].type !== "paragraph_close") continue;
 
       // We have inline token containing an image only.
       // Previous token is paragraph open.
