@@ -125,3 +125,15 @@ it("should give warnings with not exist path", () => {
     expect(env.snippetFiles?.length).toBe(undefined);
   });
 });
+
+it("should throw if currentPath is not a function", () => {
+  expect(() => {
+    MarkdownIt({ html: true }).use(snippet, {
+      currentPath: "not a function",
+    });
+  }).toThrowError('[@mdit/plugin-snippet]: "currentPath" is required');
+
+  expect(() => {
+    MarkdownIt({ html: true }).use(snippet);
+  }).toThrowError('[@mdit/plugin-snippet]: "currentPath" is required');
+});

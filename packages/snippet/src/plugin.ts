@@ -128,7 +128,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     options ?? {};
 
   if (typeof currentPath !== "function")
-    return console.error('[@mdit/plugin-snippet]: "currentPath" is required');
+    throw new Error('[@mdit/plugin-snippet]: "currentPath" is required');
 
   md.block.ruler.before(
     "fence",
