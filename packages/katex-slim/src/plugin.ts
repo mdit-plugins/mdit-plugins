@@ -33,7 +33,7 @@ const katexInline = (
   } catch (error) {
     /* istanbul ignore else -- @preserve */
     if (error instanceof katexLib.ParseError) {
-      console.warn(error);
+      console.error(error);
       result = `<span class='katex-error' title='${escapeHtml(
         (error as Error).toString(),
       )}'>${escapeHtml(tex)}</span>`;
@@ -60,7 +60,7 @@ const katexBlock = (
   } catch (error) {
     /* istanbul ignore else -- @preserve */
     if (error instanceof katexLib.ParseError) {
-      console.warn(error);
+      console.error(error);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
         (error as Error).toString(),
       )}'>${escapeHtml(tex)}</p>\n`;
@@ -81,11 +81,8 @@ export const katex = <MarkdownItEnv = unknown>(
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
   /* istanbul ignore if -- @preserve */
-  if (!isKatexInstalled) {
-    console.error('[@mdit/plugin-katex]: "katex" not installed!');
-
-    return;
-  }
+  if (!isKatexInstalled)
+    throw new Error('[@mdit/plugin-katex]: "katex" not installed!');
 
   const {
     allowInlineWithSpace = false,
