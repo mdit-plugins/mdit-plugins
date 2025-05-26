@@ -3,7 +3,215 @@ import { describe, expect, it, vi } from "vitest";
 
 import { container } from "../src/index.js";
 
+const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+  name: "test",
+});
+
 describe("container", () => {
+  it("simple container", () => {
+    const content = `\
+::: test
+*content*
+:::
+
+`;
+
+    expect(markdownIt.render(content)).toBe(
+      `\
+<div class="test">
+<p><em>content</em></p>
+</div>
+`,
+    );
+  });
+
+  it("should allow block elements in container", () => {
+    const content = `\
+::: test
+### heading
+
+-----------
+:::
+`;
+
+    expect(markdownIt.render(content)).toBe(
+      `\
+<div class="test">
+<h3>heading</h3>
+<hr>
+</div>
+`,
+    );
+  });
+
+  it("should allow longer ending marker to close", () => {
+    const content = `\
+::: test
+test
+::::
+
+::::: test :::::
+  hello world
+::::::::::::::::
+`;
+
+    expect(markdownIt.render(content)).toBe(
+      `\
+<div class="test">
+<p>test</p>
+</div>
+<div class="test">
+<p>hello world</p>
+</div>
+`,
+    );
+  });
+
+  it("support nesting", () => {
+    const content = `
+::::: test
+:::: test
+xxx
+::::
+:::::
+`;
+
+    expect(markdownIt.render(content)).toBe(
+      `\
+<div class="test">
+<div class="test">
+<p>xxx</p>
+</div>
+</div>
+`,
+    );
+  });
+
+  it("wrong syntax", () => {
+    const content = `\
+:::: test
+this block is closed with 5 markers below
+
+::::: test
+auto-closed block
+
+:::::
+::::
+`;
+
+    expect(markdownIt.render(content)).toBe(
+      `\
+<div class="test">
+<p>this block is closed with 5 markers below</p>
+<div class="test">
+<p>auto-closed block</p>
+</div>
+</div>
+<p>::::</p>
+`,
+    );
+  });
+
+  it("ending markers can contain extra indent max to 3", () => {
+    const testCases = [
+      [
+        `\
+::: test
+content
+ :::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+::: test
+content
+  :::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+::: test
+content
+   :::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+ ::: test
+ content
+   :::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+   ::: test
+   content
+    :::
+   :::
+`,
+        `\
+<div class="test">
+<p>content
+:::</p>
+</div>
+`,
+      ],
+      [
+        `\
+    ::: test
+    content
+    :::
+`,
+        `\
+<pre><code>::: test
+content
+:::
+</code></pre>
+`,
+      ],
+      [
+        `\
+  ::: test
+   not a code block
+
+    code block
+  :::
+`,
+        `\
+<div class="test">
+<p>not a code block</p>
+<pre><code>code block
+</code></pre>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
   it("renderer", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",

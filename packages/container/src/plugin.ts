@@ -9,6 +9,8 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
+const MIN_MARKER_NUM = 3;
+
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (
   md,
   {
@@ -37,7 +39,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
     ): string => slf.renderToken(tokens, index, options),
   } = { name: "" },
 ) => {
-  const MIN_MARKER_NUM = 3;
   const markerStart = marker[0];
   const markerLength = marker.length;
 
@@ -87,7 +88,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
 
       if (start < max && state.sCount[nextLine] < state.blkIndent)
         // non-empty line with negative indent should stop the list:
-        // - ```
+        // - :::
         //  test
         break;
 
