@@ -20,66 +20,72 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   } = {},
 ) => {
   const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
-    let start = state.bMarks[startLine] + state.tShift[startLine];
-    let max = state.eMarks[startLine];
+    const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
+    const currentLineMax = state.eMarks[startLine];
+    const currentLineIndent = state.sCount[startLine];
 
-    if (state.src.charAt(start) !== ":") return false;
+    if (state.src.charAt(currentLineStart) !== ":") return false;
 
-    let pos = start + 1;
+    let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
-    while (pos <= max) {
+    while (pos <= currentLineMax) {
       if (state.src.charAt(pos) !== ":") break;
       pos++;
     }
 
-    const markerCount = pos - start;
+    const markerCount = pos - currentLineStart;
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.slice(start, pos);
-    const params = state.src.slice(pos, max);
+    const markup = state.src.slice(currentLineStart, pos);
+    const params = state.src.slice(pos, currentLineMax);
 
     if (params.trim().split(" ", 2)[0] !== name) return false;
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
-    let nextLine = startLine;
+    let nextLine = startLine + 1;
     let autoClosed = false;
 
     // Search for the end of the block
-    while (
+    for (
+      ;
+      // nextLine should be accessible outside the loop,
       // unclosed block should be auto closed by end of document.
       // also block seems to be auto closed by end of parent
-      nextLine < endLine
+      nextLine < endLine;
+      nextLine++
     ) {
-      nextLine++;
-      start = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
+      const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
+      const nextLineMax = state.eMarks[nextLine];
 
-      if (start < max && state.sCount[nextLine] < state.blkIndent)
+      if (
+        nextLineStart < nextLineMax &&
+        state.sCount[nextLine] < currentLineIndent
+      )
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
 
       if (
+        // closing fence should be indented same as opening one
+        state.sCount[nextLine] === currentLineIndent &&
         // match start
-        ":" === state.src[start] &&
-        // closing fence should be indented less than 4 spaces
-        state.sCount[nextLine] - state.blkIndent < 4
+        ":" === state.src[nextLineStart]
       ) {
         // check rest of marker
-        for (pos = start + 1; pos <= max; pos++)
+        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
           if (":" !== state.src[pos]) break;
 
         // closing code fence must be at least as long as the opening one
-        if (Math.floor(pos - start) >= markerCount) {
+        if (pos - nextLineStart >= markerCount) {
           // make sure tail has spaces only
           pos = state.skipSpaces(pos);
 
-          if (pos >= max) {
+          if (pos >= nextLineMax) {
             // found!
             autoClosed = true;
             break;
@@ -90,12 +96,16 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
+    const oldBlkIndent = state.blkIndent;
 
     // @ts-expect-error We are creating a new type called "demo"
     state.parentType = "demo";
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;
+
+    // this will update the block indent
+    state.blkIndent = currentLineIndent;
 
     const title = params.trim().slice(name.length).trim();
     const openToken = state.push("demo_open", "div", 1);
@@ -149,12 +159,13 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const closeToken = state.push(`demo_close`, "div", -1);
 
-    closeToken.markup = state.src.slice(start, pos);
+    closeToken.markup = state.src.slice(currentLineStart, pos);
     closeToken.block = true;
     closeToken.info = title;
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
+    state.blkIndent = oldBlkIndent;
     state.line = nextLine + (autoClosed ? 1 : 0);
 
     return true;

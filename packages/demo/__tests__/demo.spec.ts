@@ -260,3 +260,29 @@ DEF
 `,
   );
 });
+
+it("should not render", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+    name: "md-demo",
+  });
+
+  expect(
+    markdownIt.render(`
+  ::: md-demo Title text
+
+test
+
+  :::
+`),
+  ).toBe(
+    `\
+<details><summary>Title text</summary>
+<div class="demo-content"></div>
+<pre><code class="language-md">
+</code></pre>
+</details>
+<p>test</p>
+<p>:::</p>
+`,
+  );
+});
