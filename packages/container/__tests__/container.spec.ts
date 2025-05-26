@@ -189,6 +189,15 @@ content
 </code></pre>
 `,
       ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("indent shall be calculated with the parent block", () => {
+    const testCases = [
       [
         `\
   ::: test
@@ -205,6 +214,291 @@ content
 </div>
 `,
       ],
+      [
+        `\
+- ::: test
+  text
+
+    text
+  
+      code block
+  :::
+`,
+        `\
+<ul>
+<li>
+<div class="test">
+<p>text</p>
+<p>text</p>
+<pre><code>code block
+</code></pre>
+</div>
+</li>
+</ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("space before name is optional and can be multiple", () => {
+    const testCases = [
+      [
+        `\
+::: test
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+:::test
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+:::  test
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+:::   test
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("allow other params after container name", () => {
+    const testCases = [
+      [
+        `\
+::: test param1 param2
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `
+::: test a=1 b=2
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+::: test with some spaces and special chars !@#$%^&*()
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("ending marker can not contain params", () => {
+    const testCases = [
+      [
+        `\
+::: test
+xxx
+::: arg=123
+`,
+        `\
+<div class="test">
+<p>xxx
+::: arg=123</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("container name must be a exact word", () => {
+    const testCases = [
+      [
+        `\
+::: testtest
+xxx
+:::
+`,
+        `\
+<p>::: testtest
+xxx
+:::</p>
+`,
+      ],
+      [
+        `\
+:::test1
+xxx
+:::
+`,
+        `\
+<p>:::test1
+xxx
+:::</p>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("container should be auto close if it is not closed", () => {
+    const testCases = [
+      [
+        `\
+::: test
+xxx`,
+        `\
+<div class="test">
+<p>xxx</p>
+</div>
+`,
+      ],
+      [
+        `\
+- ::: test
+  xxx
+  yyy
+`,
+        `\
+<ul>
+<li>
+<div class="test">
+<p>xxx
+yyy</p>
+</div>
+</li>
+</ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("container should terminate paragraph", () => {
+    const testCases = [
+      [
+        `\
+blah blah
+::: test
+content
+:::
+`,
+        `\
+<p>blah blah</p>
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("nesting with others", () => {
+    const testCases = [
+      [
+        `\
+- ::: test
+  - xxx
+  :::
+`,
+        `\
+<ul>
+<li>
+<div class="test">
+<ul>
+<li>xxx</li>
+</ul>
+</div>
+</li>
+</ul>
+`,
+      ],
+      [
+        `\
+> ::: test
+> xxx
+>> yyy
+> zzz
+> :::`,
+        `\
+<blockquote>
+<div class="test">
+<p>xxx</p>
+<blockquote>
+<p>yyy
+zzz</p>
+</blockquote>
+</div>
+</blockquote>
+`,
+      ],
     ];
 
     testCases.forEach(([content, expected]) => {
@@ -219,9 +513,16 @@ content
       closeRender: () => "</details>\n",
     });
 
-    expect(markdownIt.render("::: spoiler\n*content*\n:::\n")).toBe(
-      "<details><summary>click me</summary>\n<p><em>content</em></p>\n</details>\n",
-    );
+    const testCases = [
+      [
+        "::: spoiler\n*content*\n:::\n",
+        "<details><summary>click me</summary>\n<p><em>content</em></p>\n</details>\n",
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
   it("2 char marker", () => {
@@ -230,9 +531,16 @@ content
       marker: "->",
     });
 
-    expect(markdownIt.render("->->-> spoiler\n*content*\n->->->\n")).toBe(
-      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
-    );
+    const testCases = [
+      [
+        "->->-> spoiler\n*content*\n->->->\n",
+        '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
   it("marker should not collide with fence", () => {
@@ -241,13 +549,20 @@ content
       marker: "`",
     });
 
-    expect(markdownIt.render("``` spoiler\n*content*\n```\n")).toBe(
-      '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
-    );
+    const testCases = [
+      [
+        "``` spoiler\n*content*\n```\n",
+        '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
+      ],
+      [
+        "\n``` not spoiler\n*content*\n```\n",
+        '<pre><code class="language-not">*content*\n</code></pre>\n',
+      ],
+    ];
 
-    expect(markdownIt.render("\n``` not spoiler\n*content*\n```\n")).toBe(
-      '<pre><code class="language-not">*content*\n</code></pre>\n',
-    );
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
   describe("validator", () => {
@@ -268,9 +583,17 @@ content
         validate: () => true,
       });
 
-      expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe(
-        '<div class="name">\n<p>bar</p>\n</div>\n',
-      );
+      expect(
+        markdownIt.render(`\
+:::foo
+bar
+:::
+`),
+      ).toBe(`\
+<div class="name">
+<p>bar</p>
+</div>
+`);
     });
 
     it("rule should call it", () => {
