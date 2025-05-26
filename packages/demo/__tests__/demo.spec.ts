@@ -205,7 +205,7 @@ ${alertContent}
   );
 });
 
-it.skip("should work with import", () => {
+it("should work with import", () => {
   const importContent = `\
 <!-- @include: ../../include/__tests__/__fixtures__/simpleInclude.md -->
 `;
@@ -216,27 +216,47 @@ it.skip("should work with import", () => {
     })
     .use(demo);
 
-  const result = markdownItInclude.render(`
+  const result1 = markdownItInclude.render(`
 ::: demo Title text
 ${importContent}
 :::
 `);
 
-  expect(result).toMatch(
-    /<details><summary>Title text<\/summary>\n<h1>ABC<\/h1>\n<p>DEF<\/p>\n<pre><code class="language-md">@include-push\(.*\/packages\/include\/__tests__\/__fixtures__\)\n# ABC\n\nDEF\n\n@include-pop\(\)\n<\/code><\/pre>\n<\/details>\n/,
+  const result2 = markdownItInclude.render(`
+::: demo Title text
+
+${importContent}
+
+:::
+`);
+
+  expect(result1).toMatch(
+    `\
+<details><summary>Title text</summary>
+<div class="demo-content">
+<h1>ABC</h1>
+<p>DEF</p>
+</div>
+<pre><code class="language-md"># ABC
+
+DEF
+</code></pre>
+</details>
+`,
   );
 
-  expect(
-    markdownItInclude.render(`
-- list
+  expect(result2).toMatch(
+    `\
+<details><summary>Title text</summary>
+<div class="demo-content">
+<h1>ABC</h1>
+<p>DEF</p>
+</div>
+<pre><code class="language-md"># ABC
 
-  ::: demo Title text
-
-  <!-- @include: ../../include/__tests__/__fixtures__/simpleInclude.md -->
-
-  :::
-`),
-  ).toMatch(
-    /<ul>\n<li>\n<p>list<\/p>\n<details><summary>Title text<\/summary>\n<h1>ABC<\/h1>\n<p>DEF<\/p>\n<pre><code class="language-md">@include-push\(.*?\/packages\/include\/__tests__\/__fixtures__\)\n# ABC\n\nDEF\n\n@include-pop\(\)\n<\/code><\/pre>\n<\/details>\n<\/li>\n<\/ul>\n/,
+DEF
+</code></pre>
+</details>
+`,
   );
 });

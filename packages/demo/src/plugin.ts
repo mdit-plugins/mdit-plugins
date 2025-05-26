@@ -118,6 +118,10 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .split(/\n\r?/)
         .slice(startLine + 1, nextLine)
         .map((line) => line.substring(indent))
+        // this is a workaround to work with include plugin
+        .filter(
+          (line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line),
+        )
         .join("\n")
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
