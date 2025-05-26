@@ -710,3 +710,15 @@ foo
     });
   });
 });
+
+it("should throw if currentPath is not a function", () => {
+  expect(() => {
+    MarkdownIt({ html: true }).use(include, {
+      currentPath: "not a function",
+    });
+  }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+
+  expect(() => {
+    MarkdownIt({ html: true }).use(include);
+  }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+});

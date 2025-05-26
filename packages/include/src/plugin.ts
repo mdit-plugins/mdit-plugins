@@ -292,8 +292,9 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     useComment = true,
   } = options ?? {};
 
-  if (typeof currentPath !== "function")
-    return console.error('[@mdit/plugin-include]: "currentPath" is required');
+  if (typeof currentPath !== "function") {
+    throw new Error('[@mdit/plugin-include]: "currentPath" is required');
+  }
 
   const includeRule: RuleCore = (state): void => {
     const env = state.env as IncludeEnv;
