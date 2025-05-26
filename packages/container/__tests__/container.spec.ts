@@ -9,20 +9,38 @@ const markdownIt = MarkdownIt({ linkify: true }).use(container, {
 
 describe("container", () => {
   it("simple container", () => {
-    const content = `\
+    const testCases = [
+      [
+        `\
 ::: test
 *content*
 :::
-
-`;
-
-    expect(markdownIt.render(content)).toBe(
-      `\
+`,
+        `\
 <div class="test">
 <p><em>content</em></p>
 </div>
 `,
-    );
+      ],
+      [
+        `\
+::: test
+
+*content*
+
+:::
+`,
+        `\
+<div class="test">
+<p><em>content</em></p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
   it("should allow block elements in container", () => {
@@ -112,17 +130,19 @@ auto-closed block
     );
   });
 
-  it("ending markers can contain extra indent max to 3", () => {
+  it("ending markers must be the same indent", () => {
     const testCases = [
       [
         `\
 ::: test
 content
  :::
+:::
 `,
         `\
 <div class="test">
-<p>content</p>
+<p>content
+:::</p>
 </div>
 `,
       ],
@@ -131,10 +151,12 @@ content
 ::: test
 content
   :::
+:::
 `,
         `\
 <div class="test">
-<p>content</p>
+<p>content
+:::</p>
 </div>
 `,
       ],
@@ -143,10 +165,12 @@ content
 ::: test
 content
    :::
+:::
 `,
         `\
 <div class="test">
-<p>content</p>
+<p>content
+:::</p>
 </div>
 `,
       ],
@@ -155,10 +179,12 @@ content
  ::: test
  content
    :::
+ :::
 `,
         `\
 <div class="test">
-<p>content</p>
+<p>content
+:::</p>
 </div>
 `,
       ],
@@ -173,44 +199,6 @@ content
 <div class="test">
 <p>content
 :::</p>
-</div>
-`,
-      ],
-      [
-        `\
-    ::: test
-    content
-    :::
-`,
-        `\
-<pre><code>::: test
-content
-:::
-</code></pre>
-`,
-      ],
-    ];
-
-    testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toBe(expected);
-    });
-  });
-
-  it("indent shall be calculated with the parent block", () => {
-    const testCases = [
-      [
-        `\
-  ::: test
-   not a code block
-
-    code block
-  :::
-`,
-        `\
-<div class="test">
-<p>not a code block</p>
-<pre><code>code block
-</code></pre>
 </div>
 `,
       ],
@@ -235,6 +223,28 @@ content
 </div>
 </li>
 </ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("should not break code fence", () => {
+    const testCases = [
+      [
+        `\
+    ::: test
+    content
+    :::
+`,
+        `\
+<pre><code>::: test
+content
+:::
+</code></pre>
 `,
       ],
     ];
@@ -437,6 +447,33 @@ yyy</p>
     });
   });
 
+  it("should allow empty container", () => {
+    const testCases = [
+      [
+        `\
+::: test
+:::
+`,
+        `\
+<div class="test"></div>
+`,
+      ],
+      [
+        `\
+::: test args
+:::
+`,
+        `\
+<div class="test"></div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
   it("container should terminate paragraph", () => {
     const testCases = [
       [
@@ -451,6 +488,45 @@ content
 <div class="test">
 <p>content</p>
 </div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("negative indent should terminate container", () => {
+    const testCases = [
+      [
+        `\
+ ::: test
+ content
+text
+`,
+
+        `\
+<div class="test">
+<p>content</p>
+</div>
+<p>text</p>
+`,
+      ],
+      [
+        `\
+ ::: test
+ content
+text
+ :::
+`,
+
+        `\
+<div class="test">
+<p>content</p>
+</div>
+<p>text
+:::</p>
 `,
       ],
     ];
@@ -563,6 +639,15 @@ zzz</p>
     testCases.forEach(([content, expected]) => {
       expect(markdownIt.render(content)).toBe(expected);
     });
+  });
+
+  it('should throw if "name" is not provided', () => {
+    expect(() => {
+      MarkdownIt({ linkify: true }).use(container);
+    }).toThrowError("[@mdit/plugin-container]: 'name' option is required.");
+    expect(() => {
+      MarkdownIt({ linkify: true }).use(container, {});
+    }).toThrowError("[@mdit/plugin-container]: 'name' option is required.");
   });
 
   describe("validator", () => {
