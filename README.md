@@ -3,7 +3,7 @@
   <img width="240" src="https://mdit-plugins.github.io/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">markdown-it plugin collections</h1>
-<h4 align="center">Some awesome markdown-it plugin written in typescript✨</h4>
+<h3 align="center">Some awesome markdown-it plugins written in typescript✨</h3>
 
 [![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 [![License](https://img.shields.io/npm/l/@mdit/plugin-align.svg?style=for-the-badge)](https://github.com/mdit-plugins/mdit-plugins/blob/main/LICENSE)
@@ -32,12 +32,13 @@ This repo contains the following plugins:
 - @mdit/plugin-attrs
 - @mdit/plugin-container
 - @mdit/plugin-demo
+- @mdit/plugin-dl
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
+- @mdit/plugin-icon
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
-- @mdit/plugin-icon
 - @mdit/plugin-include
 - @mdit/plugin-ins
 - @mdit/plugin-katex
