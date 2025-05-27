@@ -362,7 +362,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
 
     if (resolveImagePath) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const defaultImageRenderer = md.renderer.rules.image!;
+      const defaultImageRender = md.renderer.rules.image!;
 
       md.renderer.rules.image = (
         tokens,
@@ -377,12 +377,12 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         if (path) resolveRelatedLink("src", token, path, env.includedPaths);
 
         // pass token to default renderer.
-        return defaultImageRenderer(tokens, index, options, env, self);
+        return defaultImageRender(tokens, index, options, env, self);
       };
     }
 
     if (resolveLinkPath) {
-      const defaultLinkRenderer =
+      const defaultLinkRender =
         md.renderer.rules.link_open ??
         ((tokens, index, options, _env, self): string =>
           self.renderToken(tokens, index, options));
@@ -400,7 +400,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
         if (path) resolveRelatedLink("href", token, path, env.includedPaths);
 
         // pass token to default renderer.
-        return defaultLinkRenderer(tokens, index, options, env, self);
+        return defaultLinkRender(tokens, index, options, env, self);
       };
     }
   }
