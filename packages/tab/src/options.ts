@@ -62,9 +62,9 @@ export interface MarkdownItTabOptions {
   name: string;
 
   /**
-   * Tabs open renderer
+   * Tabs open render
    */
-  tabsOpenRenderer?: (
+  openRender?: (
     info: MarkdownItTabInfo,
     tokens: Token[],
     index: number,
@@ -75,14 +75,14 @@ export interface MarkdownItTabOptions {
   ) => string;
 
   /**
-   * Tabs close renderer
+   * Tabs close render
    */
-  tabsCloseRenderer?: RenderRule;
+  closeRender?: RenderRule;
 
   /**
-   * tab open renderer
+   * tab open render
    */
-  tabOpenRenderer?: (
+  tabOpenRender?: (
     data: MarkdownItTabData,
     tokens: Token[],
     index: number,
@@ -93,7 +93,7 @@ export interface MarkdownItTabOptions {
   ) => string;
 
   /**
-   * tab close renderer
+   * tab close render
    */
-  tabCloseRenderer?: RenderRule;
+  tabCloseRender?: RenderRule;
 }

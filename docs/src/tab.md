@@ -51,9 +51,9 @@ Any contents after a `@tab` marker and before container closing marker or new `@
 
 To support global tab switching state, the plugin allows you to add an id suffix in `tabs` container, which will be used as tab id, and Also allows you to add an id suffix in `@tab` marker, which will be used as tab value. So it's possible for you to make all tabs with same id share same switch event.
 
-By default the plugin renders related tabs dom for you, if you want to customize the rendering, you can pass `tabsOpenRenderer`, `tabsCloseRenderer`, `tabOpenRenderer` and `tabCloseRenderer` to the plugin options.
+By default the plugin renders related tabs dom for you, if you want to customize the rendering, you can pass `openRender`, `closeRender`, `tabOpenRender` and `tabCloseRender` to the plugin options.
 
-`tabsOpenRenderer` and `tabOpenRenderer` receives extra information as first args, see [Options](#options) for more details.
+`openRender` and `tabOpenRender` receives extra information as first args, see [Options](#options) for more details.
 
 The plugin doesn't provide any styles, and will not register any events, so that you should add styles and events by yourself.
 
@@ -119,7 +119,7 @@ interface MarkdownItTabOptions {
   /**
    * Tabs open renderer
    */
-  tabsOpenRenderer?: (
+  openRender?: (
     info: MarkdownItTabInfo,
     tokens: Token[],
     index: number,
@@ -131,12 +131,12 @@ interface MarkdownItTabOptions {
   /**
    * Tabs close renderer
    */
-  tabsCloseRenderer?: RenderRule;
+  closeRender?: RenderRule;
 
   /**
    * tab open renderer
    */
-  tabOpenRenderer?: (
+  tabOpenRender?: (
     data: MarkdownItTabData,
     tokens: Token[],
     index: number,
@@ -148,7 +148,7 @@ interface MarkdownItTabOptions {
   /**
    * tab close renderer
    */
-  tabCloseRenderer?: RenderRule;
+  tabCloseRender?: RenderRule;
 }
 ```
 

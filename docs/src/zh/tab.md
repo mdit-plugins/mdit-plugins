@@ -51,9 +51,9 @@ mdIt.render("content");
 
 为了支持全局标签切换状态，该插件允许你在 `tabs` 容器中添加一个 id 后缀，它将用作标签 id，并且还允许你在 `@tab` 标记中添加一个 id 后缀，将被使用作为选项卡值。 因此，你可以让所有具有相同 ID 的选项卡共享相同的切换事件。
 
-默认情况下，插件会为你呈现相关的标签 dom，如果你想自定义呈现，可以将 `tabsOpenRenderer`、`tabsCloseRenderer`、`tabOpenRenderer` 和 `tabCloseRenderer` 传递给插件选项。
+默认情况下，插件会为你呈现相关的标签 dom，如果你想自定义呈现，可以将 `openRender`、`closeRender`、`tabOpenRender` 和 `tabCloseRender` 传递给插件选项。
 
-`tabsOpenRenderer` 和 `tabOpenRenderer` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
+`openRender` 和 `tabOpenRender` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
 
 该插件不提供任何样式，也不会注册任何事件，需要你自行添加样式和事件。
 
@@ -117,9 +117,9 @@ interface MarkdownItTabOptions {
   name: string;
 
   /**
-   * Tabs open renderer
+   * 开始渲染器
    */
-  tabsOpenRenderer?: (
+  openRender?: (
     info: MarkdownItTabInfo,
     tokens: Token[],
     index: number,
@@ -129,14 +129,14 @@ interface MarkdownItTabOptions {
   ) => string;
 
   /**
-   * Tabs close renderer
+   * 结束渲染器
    */
-  tabsCloseRenderer?: RenderRule;
+  closeRender?: RenderRule;
 
   /**
-   * tab open renderer
+   * 选项卡开始渲染器
    */
-  tabOpenRenderer?: (
+  tabOpenRender?: (
     data: MarkdownItTabData,
     tokens: Token[],
     index: number,
@@ -146,9 +146,9 @@ interface MarkdownItTabOptions {
   ) => string;
 
   /**
-   * tab close renderer
+   * 选项卡结束渲染器
    */
-  tabCloseRenderer?: RenderRule;
+  tabCloseRender?: RenderRule;
 }
 ```
 

@@ -421,11 +421,11 @@ it("should work with multiple instance", () => {
   const markdownItWithMultipleInstance = MarkdownIt({ linkify: true })
     .use(tab)
     .use(tab, {
-      name: "test-tabs",
-      tabsOpenRenderer: () => "<TestTabs>",
-      tabsCloseRenderer: () => "</TestTabs>",
-      tabOpenRenderer: () => "<TestTab>",
-      tabCloseRenderer: () => "</TestTab>",
+      name: "test",
+      openRender: () => "<TestTabs>",
+      closeRender: () => "</TestTabs>",
+      tabOpenRender: () => "<TestTab>",
+      tabCloseRender: () => "</TestTab>",
     });
 
   const source = [
@@ -436,7 +436,7 @@ A **bold** text 1.
 @tab:active test2
 A **bold** text 2.
 :::
-::: test-tabs
+::: test
 @tab test3
 A **bold** text 3.
 @tab:active test4
@@ -456,7 +456,7 @@ A **bold** text 2.
 
 :::
 
-::: test-tabs
+::: test
 
 @tab test3
 
