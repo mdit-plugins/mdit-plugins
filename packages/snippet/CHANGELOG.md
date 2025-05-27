@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ⚠ BREAKING CHANGES
+
+- **snippet:** throw if required option not set
+
+### ✨ Features
+
+- **snippet:** throw if required option not set ([24125bb](https://github.com/mdit-plugins/mdit-plugins/commit/24125bbee19d529a3d69d2d0fa72f9687bc4aa25))
+
+### 🐛 Bug Fixes
+
+- **snippet:** support files without ext ([7412023](https://github.com/mdit-plugins/mdit-plugins/commit/7412023242be0671556b74014b2b3a6c6fdf7442))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 **Note:** Version bump only for package @mdit/plugin-snippet

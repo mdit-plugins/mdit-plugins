@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ⚠ BREAKING CHANGES
+
+- **tab:** rename options
+- **demo:** rename beforeContent as showCodeFirst
+- **mathjax-slim:** throw if mathjax-full is not installed
+- **include:** throw if required option not set
+- **snippet:** throw if required option not set
+- **demo:** use stricter container
+- **container:** rebuild container to be stricter
+
+### ✨ Features
+
+- **container:** rebuild container to be stricter ([1c59e98](https://github.com/mdit-plugins/mdit-plugins/commit/1c59e986a14d0699ea36b4040341baa511ea163a))
+- **demo:** rename beforeContent as showCodeFirst ([a9827a3](https://github.com/mdit-plugins/mdit-plugins/commit/a9827a30e8252a7090b3519aac32295501c47ee2))
+- **demo:** use stricter container ([d7cbd1c](https://github.com/mdit-plugins/mdit-plugins/commit/d7cbd1cf17127c95cd8b2bcaad3892faf908edcf))
+- **include:** throw if required option not set ([99c5cf7](https://github.com/mdit-plugins/mdit-plugins/commit/99c5cf762acf671cabe204b584a66f788936f240))
+- **katex:** use console.error ([cabf219](https://github.com/mdit-plugins/mdit-plugins/commit/cabf219ce317263f3301a5cb1921cc511c868fa7))
+- **mathjax-slim:** throw if mathjax-full is not installed ([97818a2](https://github.com/mdit-plugins/mdit-plugins/commit/97818a245e8f3263c5e367f800889c9b327ff445))
+- **snippet:** throw if required option not set ([24125bb](https://github.com/mdit-plugins/mdit-plugins/commit/24125bbee19d529a3d69d2d0fa72f9687bc4aa25))
+- **tab:** make tab container be stricter and improve test coverage ([bf80e1c](https://github.com/mdit-plugins/mdit-plugins/commit/bf80e1c5acb7426dfa556ea16fc7bee789e15b21))
+- **tab:** rename options ([8c2c1de](https://github.com/mdit-plugins/mdit-plugins/commit/8c2c1dea53778952d4e805ce41f2474d8b4856fe))
+
+### 🐛 Bug Fixes
+
+- **demo:** support working with include ([a59236d](https://github.com/mdit-plugins/mdit-plugins/commit/a59236da89d456f6d64e6394ddac71a6b1f4021d))
+- **snippet:** support files without ext ([7412023](https://github.com/mdit-plugins/mdit-plugins/commit/7412023242be0671556b74014b2b3a6c6fdf7442))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 ### ✨ Features

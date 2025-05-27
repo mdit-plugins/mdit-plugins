@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ⚠ BREAKING CHANGES
+
+- **tab:** rename options
+
+### ✨ Features
+
+- **tab:** make tab container be stricter and improve test coverage ([bf80e1c](https://github.com/mdit-plugins/mdit-plugins/commit/bf80e1c5acb7426dfa556ea16fc7bee789e15b21))
+- **tab:** rename options ([8c2c1de](https://github.com/mdit-plugins/mdit-plugins/commit/8c2c1dea53778952d4e805ce41f2474d8b4856fe))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 **Note:** Version bump only for package @mdit/plugin-tab

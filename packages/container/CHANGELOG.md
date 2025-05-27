@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ⚠ BREAKING CHANGES
+
+- **container:** rebuild container to be stricter
+
+### ✨ Features
+
+- **container:** rebuild container to be stricter ([1c59e98](https://github.com/mdit-plugins/mdit-plugins/commit/1c59e986a14d0699ea36b4040341baa511ea163a))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 **Note:** Version bump only for package @mdit/plugin-container

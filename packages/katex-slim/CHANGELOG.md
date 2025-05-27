@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ✨ Features
+
+- **katex:** use console.error ([cabf219](https://github.com/mdit-plugins/mdit-plugins/commit/cabf219ce317263f3301a5cb1921cc511c868fa7))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 **Note:** Version bump only for package @mdit/plugin-katex-slim

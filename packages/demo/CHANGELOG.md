@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
+
+### ⚠ BREAKING CHANGES
+
+- **demo:** rename beforeContent as showCodeFirst
+- **demo:** use stricter container
+
+### ✨ Features
+
+- **demo:** rename beforeContent as showCodeFirst ([a9827a3](https://github.com/mdit-plugins/mdit-plugins/commit/a9827a30e8252a7090b3519aac32295501c47ee2))
+- **demo:** use stricter container ([d7cbd1c](https://github.com/mdit-plugins/mdit-plugins/commit/d7cbd1cf17127c95cd8b2bcaad3892faf908edcf))
+
+### 🐛 Bug Fixes
+
+- **demo:** support working with include ([a59236d](https://github.com/mdit-plugins/mdit-plugins/commit/a59236da89d456f6d64e6394ddac71a6b1f4021d))
+
 ## [0.19.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.18.1...v0.19.0) (2025-05-25)
 
 **Note:** Version bump only for package @mdit/plugin-demo
