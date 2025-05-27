@@ -10,158 +10,214 @@ describe("legacy image size", () => {
 
   describe("should not break original image syntax", () => {
     it("simple", () => {
-      expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image"></p>\n',
-      );
+      const testCases = [
+        [`![image](/logo.svg)`, '<p><img src="/logo.svg" alt="image"></p>\n'],
+        [`![image]( /logo.svg)`, '<p><img src="/logo.svg" alt="image"></p>\n'],
+        [`![image](data:script)`, "<p>![image](data:script)</p>\n"],
+      ];
 
-      expect(markdownIt.render(`![image]( /logo.svg)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image"></p>\n',
-      );
-
-      expect(markdownIt.render(`![image](data:script)`)).toEqual(
-        "<p>![image](data:script)</p>\n",
-      );
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with title", () => {
-      expect(markdownIt.render(`![image](/logo.svg "title")`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg "title")`,
+          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with label", () => {
-      expect(
-        markdownIt.render(
+      const testCases = [
+        [
           `\
 ![image][logo]
 
 [logo]: /logo.svg
 `,
-        ),
-      ).toEqual('<p><img src="/logo.svg" alt="image"></p>\n');
-
-      expect(
-        markdownIt.render(
+          '<p><img src="/logo.svg" alt="image"></p>\n',
+        ],
+        [
           `\
 ![logo] 
 
 [logo]: /logo.svg
 `,
-        ),
-      ).toEqual('<p><img src="/logo.svg" alt="logo"></p>\n');
-
-      expect(
-        markdownIt.render(
+          '<p><img src="/logo.svg" alt="logo"></p>\n',
+        ],
+        [
           `\
 ![image][logo 
 
 [logo]: /logo.svg
 `,
-        ),
-      ).toEqual("<p>![image][logo</p>\n");
+          "<p>![image][logo</p>\n",
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with label and title", () => {
-      expect(
-        markdownIt.render(`\
+      const testCases = [
+        [
+          `\
 ![image][logo]
 
 [logo]: /logo.svg "title"
-`),
-      ).toEqual('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
+`,
+          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
   });
 
   describe("should render with width and height", () => {
     it("simple", () => {
-      expect(markdownIt.render(`![image](/logo.svg =200x300)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg =200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with title", () => {
-      expect(markdownIt.render(`![image](/logo.svg "title" =200x300)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg "title" =200x300)`,
+          '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
   });
 
   describe("should render with width or height", () => {
     it("simple", () => {
-      expect(markdownIt.render(`![image](/logo.svg =200x)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg =200x)`,
+          '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =x300)`,
+          '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
+        ],
+      ];
 
-      expect(markdownIt.render(`![image](/logo.svg =x300)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
-      );
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with title", () => {
-      expect(markdownIt.render(`![image](/logo.svg "title" =200x)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg "title" =200x)`,
+          '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
+        ],
+        [
+          `![image](/logo.svg "title" =x300)`,
+          '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
+        ],
+      ];
 
-      expect(markdownIt.render(`![image](/logo.svg "title" =x300)`)).toEqual(
-        '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
-      );
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
   });
 
   describe("should not render if width or height is not number", () => {
     it("simple", () => {
-      expect(markdownIt.render(`![image](/logo.svg =abcxdef)`)).toEqual(
-        "<p>![image](/logo.svg =abcxdef)</p>\n",
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg =abcxdef)`,
+          "<p>![image](/logo.svg =abcxdef)</p>\n",
+        ],
+        [
+          `![image](/logo.svg =abcx100)`,
+          "<p>![image](/logo.svg =abcx100)</p>\n",
+        ],
+        [
+          `![image](/logo.svg =200xdef)`,
+          "<p>![image](/logo.svg =200xdef)</p>\n",
+        ],
+        [
+          `![image](/logo.svg =12ax300)`,
+          "<p>![image](/logo.svg =12ax300)</p>\n",
+        ],
+        [
+          `![image](/logo.svg =200x12a)`,
+          "<p>![image](/logo.svg =200x12a)</p>\n",
+        ],
+      ];
 
-      expect(markdownIt.render(`![image](/logo.svg =abcx100)`)).toEqual(
-        "<p>![image](/logo.svg =abcx100)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg =200xdef)`)).toEqual(
-        "<p>![image](/logo.svg =200xdef)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg =12ax300)`)).toEqual(
-        "<p>![image](/logo.svg =12ax300)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg =200x12a)`)).toEqual(
-        "<p>![image](/logo.svg =200x12a)</p>\n",
-      );
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
 
     it("with title", () => {
-      expect(markdownIt.render(`![image](/logo.svg "title" =abcxdef)`)).toEqual(
-        "<p>![image](/logo.svg &quot;title&quot; =abcxdef)</p>\n",
-      );
+      const testCases = [
+        [
+          `![image](/logo.svg "title" =abcxdef)`,
+          "<p>![image](/logo.svg &quot;title&quot; =abcxdef)</p>\n",
+        ],
+        [
+          `![image](/logo.svg "title" =abcx100)`,
+          "<p>![image](/logo.svg &quot;title&quot; =abcx100)</p>\n",
+        ],
+        [
+          `![image](/logo.svg "title" =200xdef)`,
+          "<p>![image](/logo.svg &quot;title&quot; =200xdef)</p>\n",
+        ],
+        [
+          `![image](/logo.svg "title" =12ax300)`,
+          "<p>![image](/logo.svg &quot;title&quot; =12ax300)</p>\n",
+        ],
+        [
+          `![image](/logo.svg "title" =200x12a)`,
+          "<p>![image](/logo.svg &quot;title&quot; =200x12a)</p>\n",
+        ],
+      ];
 
-      expect(markdownIt.render(`![image](/logo.svg "title" =abcx100)`)).toEqual(
-        "<p>![image](/logo.svg &quot;title&quot; =abcx100)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg "title" =200xdef)`)).toEqual(
-        "<p>![image](/logo.svg &quot;title&quot; =200xdef)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg "title" =12ax300)`)).toEqual(
-        "<p>![image](/logo.svg &quot;title&quot; =12ax300)</p>\n",
-      );
-
-      expect(markdownIt.render(`![image](/logo.svg "title" =200x12a)`)).toEqual(
-        "<p>![image](/logo.svg &quot;title&quot; =200x12a)</p>\n",
-      );
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toEqual(expected);
+      });
     });
   });
 
   it("should not render with capital X or math times", () => {
-    expect(markdownIt.render(`![image](/logo.svg =200X300)`)).toEqual(
-      "<p>![image](/logo.svg =200X300)</p>\n",
-    );
+    const testCases = [
+      [`![image](/logo.svg =200X300)`, "<p>![image](/logo.svg =200X300)</p>\n"],
+      [`![image](/logo.svg =200×300)`, "<p>![image](/logo.svg =200×300)</p>\n"],
+    ];
 
-    expect(markdownIt.render(`![image](/logo.svg =200×300)`)).toEqual(
-      "<p>![image](/logo.svg =200×300)</p>\n",
-    );
+    testCases.forEach(([input, expected]) => {
+      expect(markdownIt.render(input)).toEqual(expected);
+    });
   });
 });
 
@@ -172,11 +228,16 @@ describe("work with figure plugin", () => {
   const markdownIt2 = MarkdownIt().use(figure).use(legacyImgSize);
 
   it("should render with figure", () => {
-    expect(markdownIt1.render(`![image](/logo.svg =200x300)`)).toEqual(
-      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
-    );
-    expect(markdownIt2.render(`![image](/logo.svg =200x300)`)).toEqual(
-      '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
-    );
+    const testCases = [
+      [
+        `![image](/logo.svg =200x300)`,
+        '<figure><img src="/logo.svg" alt="image" width="200" height="300" tabindex="0"><figcaption>image</figcaption></figure>\n',
+      ],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      expect(markdownIt1.render(input)).toEqual(expected);
+      expect(markdownIt2.render(input)).toEqual(expected);
+    });
   });
 });

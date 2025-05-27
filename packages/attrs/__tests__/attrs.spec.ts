@@ -1,4 +1,3 @@
-/* eslint-disable vitest/valid-title */
 import { katex } from "@mdit/plugin-katex";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it, vi } from "vitest";

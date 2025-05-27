@@ -48,21 +48,17 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
 
     // Search for the end of the block
     while (
-      /*
-       * unclosed block should be auto closed by end of document.
-       * also block seems to be auto closed by end of parent
-       */
+      // unclosed block should be auto closed by end of document.
+      // also block seems to be auto closed by end of parent
       nextLine < endLine
     ) {
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 
       if (start < max && state.sCount[nextLine] < state.blkIndent)
-        /*
-         * non-empty line with negative indent should stop the list:
-         * - ```
-         *  test
-         */
+        // non-empty line with negative indent should stop the list:
+        // - @umlstart
+        //  test
         break;
 
       if (

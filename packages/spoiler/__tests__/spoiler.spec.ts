@@ -13,21 +13,32 @@ describe("spoiler", () => {
   });
 
   it("Can nested", () => {
-    expect(markdownIt.render(`x !!!!foo!! bar!!`)).toEqual(
-      `<p>x <span class="spoiler" tabindex="-1"><span class="spoiler" tabindex="-1">foo</span> bar</span></p>\n`,
-    );
-    expect(markdownIt.render(`x !!foo !!bar!!!!`)).toEqual(
-      `<p>x <span class="spoiler" tabindex="-1">foo <span class="spoiler" tabindex="-1">bar</span></span></p>\n`,
-    );
-    expect(markdownIt.render(`x !!!!foo!!!!`)).toEqual(
-      `<p>x <span class="spoiler" tabindex="-1"><span class="spoiler" tabindex="-1">foo</span></span></p>\n`,
-    );
-    expect(markdownIt.render(`!!foo !!bar!! baz!!`)).toEqual(
-      `<p><span class="spoiler" tabindex="-1">foo <span class="spoiler" tabindex="-1">bar</span> baz</span></p>\n`,
-    );
-    expect(markdownIt.render(`!!f **o !!o b!! a** r!!`)).toEqual(
-      `<p><span class="spoiler" tabindex="-1">f <strong>o <span class="spoiler" tabindex="-1">o b</span> a</strong> r</span></p>\n`,
-    );
+    const testCases = [
+      [
+        `x !!!!foo!! bar!!`,
+        `<p>x <span class="spoiler" tabindex="-1"><span class="spoiler" tabindex="-1">foo</span> bar</span></p>\n`,
+      ],
+      [
+        `x !!foo !!bar!!!!`,
+        `<p>x <span class="spoiler" tabindex="-1">foo <span class="spoiler" tabindex="-1">bar</span></span></p>\n`,
+      ],
+      [
+        `x !!!!foo!!!!`,
+        `<p>x <span class="spoiler" tabindex="-1"><span class="spoiler" tabindex="-1">foo</span></span></p>\n`,
+      ],
+      [
+        `!!foo !!bar!! baz!!`,
+        `<p><span class="spoiler" tabindex="-1">foo <span class="spoiler" tabindex="-1">bar</span> baz</span></p>\n`,
+      ],
+      [
+        `!!f **o !!o b!! a** r!!`,
+        `<p><span class="spoiler" tabindex="-1">f <strong>o <span class="spoiler" tabindex="-1">o b</span> a</strong> r</span></p>\n`,
+      ],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      expect(markdownIt.render(input)).toEqual(expected);
+    });
   });
 
   it("should handle multiple '!'", () => {

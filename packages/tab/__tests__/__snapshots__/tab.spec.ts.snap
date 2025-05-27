@@ -6,10 +6,12 @@ exports[`Should support tab id > id with escape # 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > id with escape # 2`] = `
@@ -18,10 +20,12 @@ exports[`Should support tab id > id with escape # 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > id with multiple # 1`] = `
@@ -30,10 +34,12 @@ exports[`Should support tab id > id with multiple # 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="def"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="def">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > id with multiple # 2`] = `
@@ -42,10 +48,12 @@ exports[`Should support tab id > id with multiple # 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="def"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="def">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > id with space 1`] = `
@@ -54,10 +62,12 @@ exports[`Should support tab id > id with space 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id with space"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="id with space">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > id with space 2`] = `
@@ -66,10 +76,12 @@ exports[`Should support tab id > id with space 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id with space"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="id with space">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > simple id 1`] = `
@@ -78,10 +90,12 @@ exports[`Should support tab id > simple id 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="id">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tab id > simple id 2`] = `
@@ -90,10 +104,12 @@ exports[`Should support tab id > simple id 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0" data-id="id">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tabs id > id with space 1`] = `
@@ -102,10 +118,12 @@ exports[`Should support tabs id > id with space 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tabs id > id with space 2`] = `
@@ -114,10 +132,12 @@ exports[`Should support tabs id > id with space 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tabs id > simple id 1`] = `
@@ -126,10 +146,12 @@ exports[`Should support tabs id > simple id 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`Should support tabs id > simple id 2`] = `
@@ -138,10 +160,12 @@ exports[`Should support tabs id > simple id 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`active > should handle :active 1`] = `
@@ -151,11 +175,15 @@ exports[`active > should handle :active 1`] = `
     <button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`active > should handle :active 2`] = `
@@ -165,11 +193,15 @@ exports[`active > should handle :active 2`] = `
     <button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`active > should resolve first :active 1`] = `
@@ -180,12 +212,18 @@ exports[`active > should resolve first :active 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="2">test3</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
-</div><div class="tabs-tab-content" data-index="2"><p>A <strong>bold</strong> text 3.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+<div class="tabs-tab-content" data-index="2">
+<p>A <strong>bold</strong> text 3.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`active > should resolve first :active 2`] = `
@@ -196,15 +234,36 @@ exports[`active > should resolve first :active 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="2">test3</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
-</div><div class="tabs-tab-content" data-index="2"><p>A <strong>bold</strong> text 3.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+<div class="tabs-tab-content" data-index="2">
+<p>A <strong>bold</strong> text 3.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
-exports[`ending correctly > should auto end container when a negative padding text found 1`] = `
+exports[`ending correctly > should end container when a negative indent text found 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+<p>test</p>
+"
+`;
+
+exports[`ending correctly > should end container when a negative indent text found 2`] = `
 "<ul>
 <li>
 <p>item 1</p>
@@ -213,12 +272,125 @@ exports[`ending correctly > should auto end container when a negative padding te
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div></li>
+</div>
+</li>
 </ul>
 <p>test</p>
+"
+`;
+
+exports[`nesting > should render nested tabs 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+    <button type="button" class="tabs-tab-button active" data-tab="2" data-active>test3</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">sub-test1</button>
+    <button type="button" class="tabs-tab-button active" data-tab="1" data-active>sub-test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+</div>
+<div class="tabs-tab-content active" data-index="2" data-active="">
+<p>A <strong>bold</strong> text 3.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`nesting > should support nesting with others 1`] = `
+"<blockquote>
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+    <button type="button" class="tabs-tab-button active" data-tab="2" data-active>test3</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">sub-test1</button>
+    <button type="button" class="tabs-tab-button active" data-tab="1" data-active>sub-test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+</div>
+<div class="tabs-tab-content active" data-index="2" data-active="">
+<p>A <strong>bold</strong> text 3.</p>
+</div>
+  </div>
+</div>
+</blockquote>
+"
+`;
+
+exports[`nesting > should support nesting with others 2`] = `
+"<ul>
+<li>
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+    <button type="button" class="tabs-tab-button active" data-tab="2" data-active>test3</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">sub-test1</button>
+    <button type="button" class="tabs-tab-button active" data-tab="1" data-active>sub-test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+</div>
+<div class="tabs-tab-content active" data-index="2" data-active="">
+<p>A <strong>bold</strong> text 3.</p>
+</div>
+  </div>
+</div>
+</li>
+</ul>
 "
 `;
 
@@ -228,10 +400,12 @@ exports[`should ignore items before first @tab 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should ignore items before first @tab 2`] = `
@@ -240,10 +414,12 @@ exports[`should ignore items before first @tab 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should ignore other markers 1`] = `
@@ -253,12 +429,16 @@ exports[`should ignore other markers 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.
 @tac</p>
-</div><div class="tabs-tab-content" data-index="1"><p>A <strong>bold</strong> text 2.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should not render 1`] = `
@@ -277,11 +457,15 @@ exports[`should render multiple block 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content" data-index="1"><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should render multiple block 2`] = `
@@ -291,11 +475,15 @@ exports[`should render multiple block 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content" data-index="1"><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should render single block 1`] = `
@@ -304,10 +492,12 @@ exports[`should render single block 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should render single block 2`] = `
@@ -316,10 +506,12 @@ exports[`should render single block 2`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;
 
 exports[`should work with multiple instance 1`] = `
@@ -329,11 +521,15 @@ exports[`should work with multiple instance 1`] = `
     <button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div><TestTabs><TestTab><p>A <strong>bold</strong> text 3.</p>
+</div>
+<TestTabs><TestTab><p>A <strong>bold</strong> text 3.</p>
 </TestTab><TestTab><p>A <strong>bold</strong> text 4.</p>
 </TestTab></TestTabs>"
 `;
@@ -345,11 +541,15 @@ exports[`should work with multiple instance 2`] = `
     <button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text 1.</p>
-</div><div class="tabs-tab-content active" data-index="1" data-active=""><p>A <strong>bold</strong> text 2.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
 </div>
   </div>
-</div><TestTabs><TestTab><p>A <strong>bold</strong> text 3.</p>
+</div>
+<TestTabs><TestTab><p>A <strong>bold</strong> text 3.</p>
 </TestTab><TestTab><p>A <strong>bold</strong> text 4.</p>
 </TestTab></TestTabs>"
 `;
@@ -361,8 +561,10 @@ exports[`starting correctly > should work with inline tokens ahead 1`] = `
     <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
   </div>
   <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0"><p>A <strong>bold</strong> text.</p>
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
 </div>
   </div>
-</div>"
+</div>
+"
 `;

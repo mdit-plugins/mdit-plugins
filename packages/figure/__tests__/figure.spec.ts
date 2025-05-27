@@ -5,6 +5,24 @@ import { figure } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(figure);
 
+it("should ignore unrelated content", () => {
+  expect(
+    markdownIt.render(`\
+This is a **test**.
+
+![image](/logo.svg) test
+
+test ![image](/logo.svg)
+`),
+  ).toEqual(
+    `\
+<p>This is a <strong>test</strong>.</p>
+<p><img src="/logo.svg" alt="image"> test</p>
+<p>test <img src="/logo.svg" alt="image"></p>
+`,
+  );
+});
+
 it("should use alt it no title is found", () => {
   expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
     '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',

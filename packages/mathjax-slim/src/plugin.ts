@@ -60,13 +60,10 @@ export interface DocumentOptions {
 
 export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
-): DocumentOptions | null => {
+): DocumentOptions => {
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxFullInstalled) {
-    console.error('[@mdit/mathjax] "mathjax-full" is not installed!');
-
-    return null;
-  }
+  if (!isMathJaxFullInstalled)
+    throw new Error('[@mdit/mathjax] "mathjax-full" is not installed!');
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
@@ -136,9 +133,6 @@ export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
 ): MathjaxInstance | null => {
   const documentOptions = getDocumentOptions(options);
-
-  /* istanbul ignore if -- @preserve */
-  if (!documentOptions) return null;
 
   const { OutputJax, InputJax } = documentOptions;
 

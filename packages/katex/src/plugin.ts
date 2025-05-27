@@ -21,7 +21,7 @@ const katexInline = (
   } catch (error) {
     /* istanbul ignore else -- @preserve */
     if (error instanceof ParseError) {
-      console.warn(error);
+      console.error(error);
       result = `<span class='katex-error' title='${escapeHtml(
         (error as Error).toString(),
       )}'>${escapeHtml(tex)}</span>`;
@@ -48,7 +48,7 @@ const katexBlock = (
   } catch (error) {
     /* istanbul ignore else -- @preserve */
     if (error instanceof ParseError) {
-      console.warn(error);
+      console.error(error);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
         (error as Error).toString(),
       )}'>${escapeHtml(tex)}</p>\n`;
