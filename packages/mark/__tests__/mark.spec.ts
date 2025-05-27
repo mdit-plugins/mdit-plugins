@@ -10,21 +10,20 @@ it("should render", () => {
 });
 
 it("Can nested", () => {
-  expect(markdownIt.render(`x ====foo== bar==`)).toEqual(
-    "<p>x <mark><mark>foo</mark> bar</mark></p>\n",
-  );
-  expect(markdownIt.render(`x ==foo ==bar====`)).toEqual(
-    "<p>x <mark>foo <mark>bar</mark></mark></p>\n",
-  );
-  expect(markdownIt.render(`x ====foo====`)).toEqual(
-    "<p>x <mark><mark>foo</mark></mark></p>\n",
-  );
-  expect(markdownIt.render(`==foo ==bar== baz==`)).toEqual(
-    "<p><mark>foo <mark>bar</mark> baz</mark></p>\n",
-  );
-  expect(markdownIt.render(`==f **o ==o b== a** r==`)).toEqual(
-    "<p><mark>f <strong>o <mark>o b</mark> a</strong> r</mark></p>\n",
-  );
+  const testCases = [
+    [`x ====foo== bar==`, "<p>x <mark><mark>foo</mark> bar</mark></p>\n"],
+    [`x ==foo ==bar====`, "<p>x <mark>foo <mark>bar</mark></mark></p>\n"],
+    [`x ====foo====`, "<p>x <mark><mark>foo</mark></mark></p>\n"],
+    [`==foo ==bar== baz==`, "<p><mark>foo <mark>bar</mark> baz</mark></p>\n"],
+    [
+      `==f **o ==o b== a** r==`,
+      "<p><mark>f <strong>o <mark>o b</mark> a</strong> r</mark></p>\n",
+    ],
+  ];
+
+  testCases.forEach(([input, expected]) => {
+    expect(markdownIt.render(input)).toEqual(expected);
+  });
 });
 
 it("should handle multiple '='", () => {

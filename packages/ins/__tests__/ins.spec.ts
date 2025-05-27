@@ -10,21 +10,20 @@ it("should render", () => {
 });
 
 it("Can nested", () => {
-  expect(markdownIt.render(`x ++++foo++ bar++`)).toEqual(
-    `<p>x <ins><ins>foo</ins> bar</ins></p>\n`,
-  );
-  expect(markdownIt.render(`x ++foo ++bar++++`)).toEqual(
-    `<p>x <ins>foo <ins>bar</ins></ins></p>\n`,
-  );
-  expect(markdownIt.render(`x ++++foo++++`)).toEqual(
-    `<p>x <ins><ins>foo</ins></ins></p>\n`,
-  );
-  expect(markdownIt.render(`++foo ++bar++ baz++`)).toEqual(
-    `<p><ins>foo <ins>bar</ins> baz</ins></p>\n`,
-  );
-  expect(markdownIt.render(`++f **o ++o b++ a** r++`)).toEqual(
-    `<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n`,
-  );
+  const testCases = [
+    [`x ++++foo++ bar++`, `<p>x <ins><ins>foo</ins> bar</ins></p>\n`],
+    [`x ++foo ++bar++++`, `<p>x <ins>foo <ins>bar</ins></ins></p>\n`],
+    [`x ++++foo++++`, `<p>x <ins><ins>foo</ins></ins></p>\n`],
+    [`++foo ++bar++ baz++`, `<p><ins>foo <ins>bar</ins> baz</ins></p>\n`],
+    [
+      `++f **o ++o b++ a** r++`,
+      `<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n`,
+    ],
+  ];
+
+  testCases.forEach(([input, expected]) => {
+    expect(markdownIt.render(input)).toEqual(expected);
+  });
 });
 
 it("should handle multiple '+'", () => {
