@@ -20,8 +20,9 @@ const REGIONS_RE = [
   /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
 const SNIPPET_CHAR = "<";
-const SNIPPET_RE =
-  /^(.+(?:\.([a-z0-9]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
+const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
+const SNIPPET_META_RE =
+  /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
 
 const testLine = (
   line: string,
@@ -92,28 +93,27 @@ const getSnippetRule =
      *
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
-
     const currentFilePath = currentPath(env);
-    const cwd = currentFilePath ? path.dirname(currentFilePath) : null;
+    const snippetContent = state.src.slice(start, end).trim();
+    const [, snippetPath = snippetContent, snippetMeta = ""] =
+      SNIPPET_RE.exec(snippetContent) ?? [];
+    const [, region = "", lines = "", lang = ""] =
+      SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
-    const resolvedPath = resolvePath(state.src.slice(start, end).trim(), cwd);
-
-    const [filename = "", extension = "", region = "", lines = "", lang = ""] =
-      SNIPPET_RE.exec(
-        path.isAbsolute(resolvedPath)
-          ? resolvedPath
-          : path.join(cwd, resolvedPath),
-      )?.slice(1) ?? [];
+    const cwd = currentFilePath ? path.dirname(currentFilePath) : ".";
+    const resolvedPath = resolvePath(snippetPath.trim(), cwd);
+    const absolutePath = path.resolve(cwd, resolvedPath);
+    const ext = path.extname(absolutePath).slice(1);
 
     state.line = startLine + 1;
 
     const token = state.push("fence", "code", 0);
 
-    token.info = `${lang || extension}${lines ? `{${lines}}` : ""}`;
-
+    token.info = `${lang || ext}${lines ? `{${lines}}` : ""}`;
     token.markup = "```";
     token.meta = {
-      src: path.resolve(filename) + region,
+      src: absolutePath,
+      region,
     };
     token.map = [startLine, startLine + 1];
 
@@ -137,7 +137,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
   );
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const fence = md.renderer.rules.fence!;
+  const originalFence = md.renderer.rules.fence!;
 
   md.renderer.rules.fence = (
     tokens: Token[],
@@ -150,21 +150,21 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const meta: Record<string, unknown> =
       typeof token.meta === "object" ? (token.meta ?? {}) : {};
-    const [src, regionName] = meta.src ? (meta.src as string).split("#") : [""];
+    const { src, region } = meta as { src: string; region: string };
 
     if (src)
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
         let content = fs.readFileSync(src, "utf8");
 
-        if (regionName) {
+        if (region) {
           const lines = content.split(NEWLINE_RE);
-          const region = findRegion(lines, regionName);
+          const regionInfo = findRegion(lines, region);
 
-          if (region)
+          if (regionInfo)
             content = dedent(
               lines
-                .slice(region.start, region.end)
-                .filter((line: string) => !region.regexp.test(line.trim()))
+                .slice(regionInfo.start, regionInfo.end)
+                .filter((line: string) => !regionInfo.regexp.test(line.trim()))
                 .join("\n"),
             );
         }
@@ -177,6 +177,6 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
         token.info = "";
       }
 
-    return fence(tokens, index, options, env, self);
+    return originalFence(tokens, index, options, env, self);
   };
 };

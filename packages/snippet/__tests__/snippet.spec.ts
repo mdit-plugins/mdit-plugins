@@ -51,10 +51,12 @@ it("should not parse code block", () => {
 
 it("should import all lines", () => {
   const source = [
+    "<<< ./__fixtures__/example",
     "<<< ./__fixtures__/example.html",
     "<<< ./__fixtures__/example.md",
     "<<< ./__fixtures__/example.js",
     "<<< ./__fixtures__/example.ts",
+    "<<< ./__fixtures__/example.d.ts",
     "<<< ./__fixtures__/example.css",
     "<<< ./__fixtures__/example.scss",
     "<<< ./__fixtures__/example.less",
@@ -72,18 +74,18 @@ it("should import all lines", () => {
 
     expect(rendered).toMatchSnapshot();
     expect(env.snippetFiles?.length).toBe(1);
-    expect(env.snippetFiles?.[0]).toContain(
-      path.join(fixturesPath, "example."),
-    );
+    expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example"));
   });
 });
 
 it("should support region", () => {
   const source = [
+    "<<< ./__fixtures__/example#snippet",
     "<<< ./__fixtures__/example.html#snippet",
     "<<< ./__fixtures__/example.md#snippet",
     "<<< ./__fixtures__/example.js#snippet",
     "<<< ./__fixtures__/example.ts#snippet",
+    "<<< ./__fixtures__/example.d.ts#snippet",
     "<<< ./__fixtures__/example.css#snippet",
     "<<< ./__fixtures__/example.scss#snippet",
     "<<< ./__fixtures__/example.less#snippet",
@@ -101,9 +103,7 @@ it("should support region", () => {
 
     expect(rendered).toMatchSnapshot();
     expect(env.snippetFiles?.length).toBe(1);
-    expect(env.snippetFiles?.[0]).toContain(
-      path.join(fixturesPath, "example."),
-    );
+    expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example"));
   });
 });
 
