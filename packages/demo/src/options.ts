@@ -17,7 +17,7 @@ export interface MarkdownItDemoOptions {
    *
    * @default false
    */
-  beforeContent?: boolean;
+  showCodeFirst?: boolean;
 
   /**
    * Opening tag render function

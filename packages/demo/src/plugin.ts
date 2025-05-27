@@ -16,7 +16,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     codeRender,
     contentOpenRender,
     contentCloseRender,
-    beforeContent = false,
+    showCodeFirst = false,
   } = {},
 ) => {
   const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
@@ -141,7 +141,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       if (!codeRender) codeToken.info = "md";
     };
 
-    if (beforeContent) pushCodeToken();
+    if (showCodeFirst) pushCodeToken();
 
     const contentOpenToken = state.push("demo_content_open", "div", 1);
 
@@ -155,7 +155,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     contentCloseToken.block = true;
 
-    if (!beforeContent) pushCodeToken();
+    if (!showCodeFirst) pushCodeToken();
 
     const closeToken = state.push(`demo_close`, "div", -1);
 

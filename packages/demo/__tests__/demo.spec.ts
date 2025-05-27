@@ -115,9 +115,9 @@ ${codeContent}
 `);
 });
 
-it("beforeContent", () => {
+it("showCodeFirst", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    beforeContent: true,
+    showCodeFirst: true,
   });
 
   expect(

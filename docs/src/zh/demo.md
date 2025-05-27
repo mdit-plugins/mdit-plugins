@@ -75,9 +75,9 @@ interface MarkdownItDemoOptions {
   /**
    * 代码是否显示在内容前
    *
-   * @default true
+   * @default false
    */
-  beforeContent?: boolean;
+  showCodeFirst?: boolean;
 
   /**
    * 开始标签渲染函数

@@ -75,9 +75,9 @@ interface MarkdownItDemoOptions {
   /**
    * Whether code is displayed before result
    *
-   * @default true
+   * @default false
    */
-  beforeContent?: boolean;
+  showCodeFirst?: boolean;
 
   /**
    * Opening tag render function
