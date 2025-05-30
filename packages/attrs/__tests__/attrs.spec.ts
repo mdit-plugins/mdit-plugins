@@ -11,7 +11,61 @@ const replaceDelimiters = (
   options: Required<MarkdownItAttrsOptions>,
 ): string => text.replace(/{/g, options.left).replace(/}/g, options.right);
 
-describe("markdown-it-attrs", () => {
+describe("rule settings", () => {
+  it("should disable all rules when rule option is false", () => {
+    const markdownIt = MarkdownIt().use(attrs, {
+      rule: false,
+    });
+
+    // None of the attrs should be applied when rules are disabled
+    const src = "text {.class}";
+    const expected = "<p>text {.class}</p>\n";
+
+    expect(markdownIt.render(src)).toBe(expected);
+  });
+
+  it("should only enable specific rules when rule is array", () => {
+    const markdownIt = MarkdownIt().use(attrs, {
+      rule: ["fence", "table"], // Only enable fence and table rules
+    });
+
+    // Code block should work (fence rule enabled)
+    const codeBlockSrc = "```python {.highlight}\nprint('test')\n```";
+
+    expect(markdownIt.render(codeBlockSrc)).toContain(
+      'class="highlight language-python"',
+    );
+
+    // Inline attributes should NOT work (inline rule disabled)
+    const inlineSrc = "text {.class}";
+
+    expect(markdownIt.render(inlineSrc)).toBe("<p>text {.class}</p>\n");
+  });
+
+  it("should filter out invalid rule names", () => {
+    const markdownIt = MarkdownIt().use(attrs, {
+      rule: ["fence", "invalid-rule", "table", "another-invalid"], // Mix of valid and invalid
+    });
+
+    // Should still work for valid rules
+    const codeBlockSrc = "```python {.highlight}\nprint('test')\n```";
+
+    expect(markdownIt.render(codeBlockSrc)).toContain(
+      'class="highlight language-python"',
+    );
+  });
+
+  it("should handle empty rule array", () => {
+    const markdownIt = MarkdownIt().use(attrs, {
+      rule: [], // Empty array should disable all rules
+    });
+
+    const src = "text {.class}";
+    const expected = "<p>text {.class}</p>\n";
+
+    expect(markdownIt.render(src)).toBe(expected);
+  });
+
   it("should not throw when getting only allowed option", () => {
     const markdownIt = MarkdownIt().use(attrs, {
       allowed: [/^(class|attr)$/],
@@ -753,4 +807,29 @@ it("should work with katex plugin", () => {
   expect(markdownIt.render("$a^{3}$")).toBe(
     '<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">a^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></p>\n',
   );
+});
+
+it("should handle VuePress line numbers in code blocks", () => {
+  const markdownIt = MarkdownIt().use(attrs);
+
+  // Test the VuePress line number regex: /{(?:[\d,-]+)}/
+  const src = "```python{1,3-5} {.highlight}\nprint('hello')\n```";
+  const result = markdownIt.render(src);
+
+  expect(result).toContain('class="highlight language-python"');
+  expect(result).toContain('<code class="highlight language-python">');
+
+  // Test various VuePress line number patterns
+  const testCases = [
+    "```js{1} {.class}\nconsole.log('test');\n```",
+    "```js{1,3-5} {.class}\nconsole.log('test');\n```",
+    "```js{1,3-5,7} {.class}\nconsole.log('test');\n```",
+  ];
+
+  testCases.forEach((src) => {
+    const result = markdownIt.render(src);
+
+    expect(result).toContain('class="class language-js"');
+    expect(result).toContain('<code class="class language-js">');
+  });
 });
