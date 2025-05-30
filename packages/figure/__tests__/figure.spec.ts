@@ -3,12 +3,12 @@ import { expect, it } from "vitest";
 
 import { figure } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(figure);
+const markdownIt = MarkdownIt({ html: true, linkify: true }).use(figure);
 
 it("should ignore unrelated content", () => {
   expect(
     markdownIt.render(`\
-This is a **test**.
+test
 
 ![image](/logo.svg) test
 
@@ -16,7 +16,7 @@ test ![image](/logo.svg)
 `),
   ).toEqual(
     `\
-<p>This is a <strong>test</strong>.</p>
+<p>test</p>
 <p><img src="/logo.svg" alt="image"> test</p>
 <p>test <img src="/logo.svg" alt="image"></p>
 `,
@@ -52,5 +52,29 @@ it("should support image with links", () => {
     markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`),
   ).toEqual(
     '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>A image</figcaption></figure>\n',
+  );
+});
+
+it("should not covert existing figure tags to markdown-it-figure", () => {
+  expect(
+    markdownIt.render(`\
+<figure>
+<img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption>
+</figure>
+`),
+  ).toEqual(
+    `<figure>\n<img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption>\n</figure>\n`,
+  );
+
+  expect(
+    markdownIt.render(`\
+<figure>
+
+<img src="/logo.svg" alt="image" tabindex="0">
+
+</figure>
+`),
+  ).toEqual(
+    `<figure>\n<img src="/logo.svg" alt="image" tabindex="0">\n</figure>\n`,
   );
 });
