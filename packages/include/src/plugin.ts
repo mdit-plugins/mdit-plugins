@@ -351,6 +351,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     ): string => {
       const includedPaths = env.includedPaths;
 
+      /* istanbul ignore else -- @preserve */
       if (Array.isArray(includedPaths)) includedPaths.pop();
       else
         console.error(

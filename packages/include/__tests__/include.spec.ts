@@ -316,6 +316,21 @@ describe("comment", () => {
       expect(rendered).toEqual(expected);
       expect(env.includedFiles).toEqual([mdFixturePath]);
     });
+
+    it("should support not existed snippet", () => {
+      const source = `<!-- @include: ${mdFixturePathRelative}#not-exist -->`;
+
+      const expected = `\
+`;
+
+      const env: IncludeEnv = {
+        filePath: __filename,
+      };
+      const rendered = md.render(source, env);
+
+      expect(rendered).toEqual(expected);
+      expect(env.includedFiles).toEqual([mdFixturePath]);
+    });
   });
 
   describe("path resolving", () => {
