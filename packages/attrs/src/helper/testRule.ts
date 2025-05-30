@@ -1,6 +1,6 @@
 import type Token from "markdown-it/lib/token.mjs";
 
-import type { RuleSet, TestFunction } from "./types.js";
+import type { RuleSet, TestFunction } from "../rules/types.js";
 import {
   getArrayItem,
   isArrayOfFunctions,

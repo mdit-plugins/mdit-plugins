@@ -2,14 +2,10 @@ import { katex } from "@mdit/plugin-katex";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
-import { getAttrs } from "../src/attrs.js";
+import { replaceDelimiters } from "./replaceDelimiters.js";
+import { getAttrs } from "../src/helper/getAttrs.js";
 import type { MarkdownItAttrsOptions } from "../src/index.js";
 import { attrs } from "../src/index.js";
-
-const replaceDelimiters = (
-  text: string,
-  options: Required<MarkdownItAttrsOptions>,
-): string => text.replace(/{/g, options.left).replace(/}/g, options.right);
 
 describe("rule settings", () => {
   it("should disable all rules when rule option is false", () => {
