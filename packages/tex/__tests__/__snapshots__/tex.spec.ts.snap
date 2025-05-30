@@ -1,3 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`block katex > should render when having spaces 1`] = `"<p>{Tex content: a = 1}</p>"`;
