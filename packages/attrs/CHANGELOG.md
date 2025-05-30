@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
+
+### ✨ Features
+
+- **attr:** provide browser bundle ([74c0043](https://github.com/mdit-plugins/mdit-plugins/commit/74c00430fd16eb9e17d38de1987f3873154a6462))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+
 ## [0.20.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.19.0...v0.20.0) (2025-05-27)
 
 **Note:** Version bump only for package @mdit/plugin-attrs
