@@ -29,6 +29,36 @@ foo
 <p>*[foo]:
 foo</p>
 `);
+
+  expect(
+    markdownIt.render(`\
+*[[foo]:
+foo
+`),
+  ).toEqual(`\
+<p>*[[foo]:
+foo</p>
+`);
+
+  expect(
+    markdownIt.render(`\
+*[\\foo]:
+foo
+`),
+  ).toEqual(`\
+<p>*[\\foo]:
+foo</p>
+`);
+
+  expect(
+    markdownIt.render(`\
+*[\\foo]
+foo
+`),
+  ).toEqual(`\
+<p>*[\\foo]
+foo</p>
+`);
 });
 
 it("intersecting abbreviations", () => {
