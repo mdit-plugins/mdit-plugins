@@ -39,7 +39,7 @@ files.forEach((pkgName) => {
       exports: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".": {
-          type: "./lib/index.ts",
+          type: "./lib/index.d.ts",
           default: "./lib/index.js",
         },
         // eslint-disable-next-line @typescript-eslint/naming-convention

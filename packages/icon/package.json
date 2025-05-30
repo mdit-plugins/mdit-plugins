@@ -28,7 +28,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "type": "./lib/index.ts",
+      "type": "./lib/index.d.ts",
       "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
