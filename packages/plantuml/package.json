@@ -26,7 +26,7 @@
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
-      "browser": "./lib/browser.ts",
+      "browser": "./lib/browser.js",
       "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
