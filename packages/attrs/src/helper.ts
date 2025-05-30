@@ -1,18 +1,26 @@
 import { escapeRegExp } from "@mdit/helper";
 import type Token from "markdown-it/lib/token.mjs";
 
-export const hasDelimiters =
+import type { MarkdownItAttrsOptions } from "./options.js";
+
+export const CLASS_MARKER = ".";
+export const ID_MARKER = "#";
+
+export type DelimiterChecker = (content: string) => boolean;
+
+export const getDelimiterChecker =
   (
+    { left, right }: Required<MarkdownItAttrsOptions>,
     where: "start" | "end" | "only",
-    left: string,
-    right: string,
-  ): ((content: string) => boolean) =>
+  ): DelimiterChecker =>
   (content: string): boolean => {
     const leftLength = left.length;
     const rightLength = right.length;
     // we need minimum three chars, for example {b}
     const minCurlyLength = leftLength + 1 + rightLength;
+    const rightDelimiterMinimumShift = leftLength + 1;
 
+    // perform a quick check
     if (
       !content ||
       typeof content !== "string" ||
@@ -20,20 +28,18 @@ export const hasDelimiters =
     )
       return false;
 
-    const validCurlyLength = (curly: string): boolean => {
-      const isClass = curly.charAt(leftLength) === ".";
-      const isId = curly.charAt(leftLength) === "#";
-
-      return isClass || isId
+    const validCurlyLength = (curly: string): boolean =>
+      [CLASS_MARKER, ID_MARKER].includes(curly.charAt(leftLength))
         ? curly.length >= minCurlyLength + 1
         : curly.length >= minCurlyLength;
-    };
 
-    let start, end, slice, nextChar;
-    const rightDelimiterMinimumShift = minCurlyLength - rightLength;
+    let start: number;
+    let end: number;
+    let slice: string;
+    let nextChar: string;
 
     switch (where) {
-      case "start":
+      case "start": {
         // first char should be {, } found in char 2 or more
         slice = content.slice(0, leftLength);
         start = slice === left ? 0 : -1;
@@ -45,8 +51,9 @@ export const hasDelimiters =
         nextChar = content.charAt(end + rightLength);
         if (nextChar && right.includes(nextChar)) end = -1;
         break;
+      }
 
-      case "end":
+      case "end": {
         // last char should be }
         start = content.lastIndexOf(left);
         end =
@@ -55,14 +62,23 @@ export const hasDelimiters =
             : content.indexOf(right, start + rightDelimiterMinimumShift);
         end = end === content.length - rightLength ? end : -1;
         break;
+      }
 
-      case "only":
+      case "only": {
         // '{.a}'
         slice = content.slice(0, leftLength);
         start = slice === left ? 0 : -1;
         slice = content.slice(content.length - rightLength);
         end = slice === right ? content.length - rightLength : -1;
         break;
+      }
+
+      default: {
+        throw new Error(
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `Invalid 'where' parameter: ${where}. Expected 'start', 'end', or 'only'.`,
+        );
+      }
     }
 
     return (

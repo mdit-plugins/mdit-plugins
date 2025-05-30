@@ -1,5 +1,6 @@
 import type Token from "markdown-it/lib/token.mjs";
 
+import { CLASS_MARKER, ID_MARKER } from "./helper.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
 
 export type Attr = [key: string, value: string];
@@ -8,8 +9,6 @@ export type Attr = [key: string, value: string];
 export const ALLOWED_KEY_CHARS = /[^\t\n\f />"'=]/;
 export const PAIR_SEPARATOR = " ";
 export const KEY_SEPARATOR = "=";
-export const CLASS_MARKER = ".";
-export const ID_MARKER = "#";
 
 export const getAttrs = (
   str: string,

@@ -579,6 +579,168 @@ const describeTestsWithOptions = (
       expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
     });
 
+    it(
+      replaceDelimiters(
+        "should calculate table's colspan and/or rowspan",
+        options,
+      ),
+      () => {
+        const testCases = [
+          {
+            name: "table with rowspan and colspan",
+            input: `\
+| A | B | C | D |
+| -- | -- | -- | -- |
+| A1 | B1 | C1 | D1 {rowspan=3} |
+| A2 {colspan=2 rowspan=2} | B2 | C2 | D2 |
+| A3 | B3 | C3 |D3 |
+
+{border=1}
+`,
+            expected: `\
+<table border="1">
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>B1</td>
+<td>C1</td>
+<td rowspan="3">D1</td>
+</tr>
+<tr>
+<td colspan="2" rowspan="2">A2</td>
+<td>B2</td>
+</tr>
+<tr>
+<td>C1</td>
+</tr>
+</tbody>
+</table>
+`,
+          },
+          {
+            name: "single column table with colspan",
+            input: `\
+| A |
+| -- |
+| A1 {colspan=3}|
+| A2 |
+| A3 |
+
+{border=2}`,
+            expected: `\
+<table border="2">
+<thead>
+<tr>
+<th>A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="3">A1</td>
+</tr>
+<tr>
+<td>A2</td>
+</tr>
+<tr>
+<td>A3</td>
+</tr>
+</tbody>
+</table>
+`,
+          },
+          {
+            name: "table with rowspan only",
+            input: `\
+| A | B | C |
+| -- | -- | -- |
+| A1 {rowspan=2}| B1 | C1 |
+| A2 {rowspan=2}| B2 | C2 |
+| A3 | B3 | C3 |
+
+{border=3}
+`,
+            expected: `\
+<table border="3">
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="2">1</td>
+<td>11</td>
+<td>111</td>
+</tr>
+<tr>
+<td rowspan="2">2</td>
+<td>22</td>
+</tr>
+<tr>
+<td>3</td>
+<td>33</td>
+</tr>
+</tbody>
+</table>
+`,
+          },
+          {
+            name: "complex table with mixed colspan and rowspan",
+            input: `\
+| A | B | C | D |
+| -- | -- | -- | -- |
+| 1 {colspan=2}| 11 {colspan=3} | 111| 1111 |
+| 2 {rowspan=2} | 22 {colspan=2} | 222 | 2222 |
+| 3 | 33 {colspan=4} | 333 | 3333 |
+
+{border=4}`.trim(),
+            expected: `<table border="4">
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">1</td>
+<td colspan="3">11</td>
+</tr>
+<tr>
+<td rowspan="2">2</td>
+<td colspan="2">22</td>
+<td>222</td>
+</tr>
+<tr>
+<td>3</td>
+<td colspan="2">33</td>
+</tr>
+</tbody>
+</table>
+`,
+          },
+        ];
+
+        testCases.forEach(({ input, expected }) => {
+          expect(markdownIt.render(replaceDelimiters(input, options))).toEqual(
+            expected,
+          );
+        });
+      },
+    );
+
     it(replaceDelimiters("should support nested lists", options), () => {
       const src = `\
 - item

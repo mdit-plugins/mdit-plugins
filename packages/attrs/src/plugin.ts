@@ -40,7 +40,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
 
           if (
             pattern.name === "inline attributes" ||
-            pattern.name === "inline nesting 0"
+            pattern.name === "inline nesting self-close"
           )
             // retry, may be several inline attributes
             ruleIndex--;

@@ -1,10 +1,11 @@
 import { escapeRegExp } from "@mdit/helper";
+// import type Token from "markdown-it/lib/token.mjs";
 
 import type { Rule } from "./types.js";
 import { addAttrs, getAttrs } from "../attrs.js";
 import {
+  getDelimiterChecker,
   getMatchingOpeningToken,
-  hasDelimiters,
   removeDelimiter,
 } from "../helper.js";
 import type {
@@ -28,7 +29,7 @@ const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
     {
       shift: 0,
       block: true,
-      info: hasDelimiters("end", options.left, options.right),
+      info: getDelimiterChecker(options, "end"),
     },
   ],
   transform: (tokens, index): void => {
@@ -43,15 +44,18 @@ const getFenceRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
       lineNumber = results[0];
     }
 
-    const start = token.info.lastIndexOf(options.left);
-    const attrs = getAttrs(token.info, start, options);
+    const attrs = getAttrs(
+      token.info,
+      token.info.lastIndexOf(options.left),
+      options,
+    );
 
     addAttrs(attrs, token);
     token.info = `${removeDelimiter(
       token.info,
       options.left,
       options.right,
-    )} ${lineNumber}`;
+    )} ${lineNumber}`.trim();
   },
 });
 
@@ -63,7 +67,7 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
    * not have a closing tag (nesting: -1)
    */
   {
-    name: "inline nesting 0",
+    name: "inline nesting self-close",
     tests: [
       {
         shift: 0,
@@ -76,12 +80,13 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
           {
             shift: 0,
             type: "text",
-            content: hasDelimiters("start", options.left, options.right),
+            content: getDelimiterChecker(options, "start"),
           },
         ],
       },
     ],
     transform: (tokens, index, childIndex): void => {
+      const rightLength = options.right.length;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
 
@@ -91,10 +96,12 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       const attrs = getAttrs(token.content, 0, options);
 
       addAttrs(attrs, attrToken);
-      if (token.content.length === endChar + options.right.length)
+      if (token.content.length === endChar + rightLength) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tokens[index].children!.splice(childIndex, 1);
-      else token.content = token.content.slice(endChar + options.right.length);
+      } else {
+        token.content = token.content.slice(endChar + rightLength);
+      }
     },
   },
 
@@ -115,7 +122,7 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
           {
             shift: 0,
             type: "text",
-            content: hasDelimiters("start", options.left, options.right),
+            content: getDelimiterChecker(options, "start"),
           },
         ],
       },
@@ -139,43 +146,220 @@ const getInlineRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
   },
 ];
 
-const getTableRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
-  /**
-   * | h1 |
-   * | -- |
-   * | c1 |
-   *
-   * {.c}
-   */
-  name: "table",
-  tests: [
-    {
-      // let this token be i, such that for-loop continues at
-      // next token after tokens.splice
-      shift: 0,
-      type: "table_close",
-    },
-    {
-      shift: 1,
-      type: "paragraph_open",
-    },
-    {
-      shift: 2,
-      type: "inline",
-      content: hasDelimiters("only", options.left, options.right),
-    },
-  ],
-  transform: (tokens, index): void => {
-    const token = tokens[index + 2];
-    const tableOpen = getMatchingOpeningToken(tokens, index);
-    const attrs = getAttrs(token.content, 0, options);
+// /**
+//  * Hidden table's cells and them inline children,
+//  * specially cast inline's content as empty
+//  * to prevent that escapes the table's box model
+//  * @see https://github.com/markdown-it/markdown-it/issues/639
+//  */
+// const hideTable = (token: Token): void => {
+//   token.hidden = true;
+//   token.children?.forEach((childToken) => {
+//     childToken.content = "";
+//     hideTable(childToken);
+//   });
+// };
 
-    // add attributes
-    addAttrs(attrs, tableOpen);
-    // remove <p>{.c}</p>
-    tokens.splice(index + 1, 3);
+const getTableRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
+  {
+    /**
+     * | h1 |
+     * | -- |
+     * | c1 |
+     *
+     * {.c}
+     */
+    name: "table",
+    tests: [
+      {
+        // let this token be i, such that for-loop continues at
+        // next token after tokens.splice
+        shift: 0,
+        type: "table_close",
+      },
+      {
+        shift: 1,
+        type: "paragraph_open",
+      },
+      {
+        shift: 2,
+        type: "inline",
+        content: getDelimiterChecker(options, "only"),
+      },
+    ],
+    transform: (tokens, index): void => {
+      const token = tokens[index + 2];
+      const tableOpen = getMatchingOpeningToken(tokens, index);
+      const attrs = getAttrs(token.content, 0, options);
+
+      // add attributes
+      addAttrs(attrs, tableOpen);
+      // remove <p>{.c}</p>
+      tokens.splice(index + 1, 3);
+    },
   },
-});
+  {
+    /**
+     * | A | B |
+     * | -- | -- |
+     * | 1 | 2 |
+     *
+     * | C | D |
+     * | -- | -- |
+     *
+     * only `| A | B |` sets the colsnum metadata
+     */
+    name: "table thead metadata",
+    tests: [
+      {
+        shift: 0,
+        type: "tr_close",
+      },
+      {
+        shift: 1,
+        type: "thead_close",
+      },
+      {
+        shift: 2,
+        type: "tbody_open",
+      },
+    ],
+    transform: (tokens, index): void => {
+      const trToken = getMatchingOpeningToken(tokens, index);
+      const thToken = tokens[index - 1];
+
+      let colsnum = 0;
+      let currentIndex = index;
+
+      while (--currentIndex) {
+        if (tokens[currentIndex] === trToken) {
+          tokens[currentIndex - 1].meta = {
+            ...(tokens[currentIndex + 2].meta as Record<string, unknown>),
+            colsnum,
+          };
+          break;
+        }
+
+        // Count columns by checking if current token is a table header cell
+        if (
+          tokens[currentIndex].level === thToken.level &&
+          tokens[currentIndex].type === thToken.type
+        ) {
+          colsnum += 1;
+        }
+      }
+
+      tokens[index + 2].meta = {
+        ...(tokens[index + 2].meta as Record<string, unknown>),
+        colsnum,
+      };
+    },
+  },
+  // {
+  //   /**
+  //    * | A | B | C | D |
+  //    * | -- | -- | -- | -- |
+  //    * | 1 | 11 | 111 | 1111 {rowspan=3} |
+  //    * | 2 {colspan=2 rowspan=2} | 22 | 222 | 2222 |
+  //    * | 3 | 33 | 333 | 3333 |
+  //    */
+  //   name: "table tbody calculate",
+  //   tests: [
+  //     {
+  //       shift: 0,
+  //       type: "tbody_close",
+  //       hidden: false,
+  //     },
+  //   ],
+  //   transform: (tokens, index): void => {
+  //     /** index of the tbody beginning */
+  //     let tbodyOpenIndex = index - 2;
+
+  //     while (
+  //       tbodyOpenIndex > 0 &&
+  //       "tbody_open" !== tokens[--tbodyOpenIndex].type
+  //     );
+
+  //     const calc = Number(tokens[tbodyOpenIndex].meta.colsnum) || 0;
+
+  //     if (calc < 2) return;
+
+  //     const level = tokens[index].level + 2;
+
+  //     for (let n = tbodyOpenIndex; n < index; n++) {
+  //       if (tokens[n].level > level) continue;
+
+  //       const token = tokens[n];
+  //       const rows = token.hidden ? 0 : Number(token.attrGet("rowspan")) || 0;
+  //       const cols = token.hidden ? 0 : Number(token.attrGet("colspan")) || 0;
+
+  //       if (rows > 1) {
+  //         let colsnum = calc - (cols > 0 ? cols : 1);
+
+  //         for (let k = n, num = rows; k < index, num > 1; k++) {
+  //           if ("tr_open" == tokens[k].type) {
+  //             tokens[k].meta = Object.assign({}, tokens[k].meta);
+  //             if (tokens[k].meta?.colsnum) {
+  //               colsnum -= 1;
+  //             }
+  //             tokens[k].meta.colsnum = colsnum;
+  //             num--;
+  //           }
+  //         }
+  //       }
+
+  //       if ("tr_open" == token.type && token.meta?.colsnum) {
+  //         const max = token.meta.colsnum;
+
+  //         for (let k = n, num = 0; k < index; k++) {
+  //           if ("td_open" == tokens[k].type) {
+  //             num += 1;
+  //           } else if ("tr_close" == tokens[k].type) {
+  //             break;
+  //           }
+  //           num > max && (tokens[k].hidden || hideTable(tokens[k]));
+  //         }
+  //       }
+
+  //       if (cols > 1) {
+  //         const one: number[] = [];
+  //         /** last index of the row's children */
+  //         let end = n + 3;
+  //         /** number of the row's children */
+  //         let num = calc;
+
+  //         for (let k = n; k > tbodyOpenIndex; k--) {
+  //           if ("tr_open" == tokens[k].type) {
+  //             num = tokens[k].meta?.colsnum || num;
+  //             break;
+  //           } else if ("td_open" === tokens[k].type) {
+  //             one.unshift(k);
+  //           }
+  //         }
+
+  //         for (let k = n + 2; k < index; k++) {
+  //           if ("tr_close" == tokens[k].type) {
+  //             end = k;
+  //             break;
+  //           } else if ("td_open" == tokens[k].type) {
+  //             one.push(k);
+  //           }
+  //         }
+
+  //         const off = one.indexOf(n);
+  //         let real = num - off;
+
+  //         real = real > cols ? cols : real;
+  //         cols > real && token.attrSet("colspan", real + "");
+
+  //         for (let k = one.slice(num + 1 - calc - real)[0]; k < end; k++) {
+  //           tokens[k].hidden || hideTable(tokens[k]);
+  //         }
+  //       }
+  //     }
+  //   },
+  // },
+];
 
 const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
   /**
@@ -200,7 +384,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
           {
             position: -1,
             type: "text",
-            content: hasDelimiters("only", options.left, options.right),
+            content: getDelimiterChecker(options, "only"),
           },
         ],
       },
@@ -248,7 +432,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
       {
         shift: 2,
         type: "inline",
-        content: hasDelimiters("only", options.left, options.right),
+        content: getDelimiterChecker(options, "only"),
         children: (children) => children.length === 1,
       },
       {
@@ -283,7 +467,7 @@ const getListRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => [
           {
             position: -1,
             type: "text",
-            content: hasDelimiters("end", options.left, options.right),
+            content: getDelimiterChecker(options, "end"),
           },
         ],
       },
@@ -327,7 +511,7 @@ const getSoftBreakRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
         {
           position: -1,
           type: "text",
-          content: hasDelimiters("only", options.left, options.right),
+          content: getDelimiterChecker(options, "only"),
         },
       ],
     },
@@ -406,7 +590,7 @@ const getBlockRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
       children: [
         {
           position: -1,
-          content: hasDelimiters("end", options.left, options.right),
+          content: getDelimiterChecker(options, "end"),
           type: (type) => type !== "code_inline" && type !== "math_inline",
         },
       ],
@@ -432,7 +616,7 @@ const getBlockRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
   },
 });
 
-const availableRules: MarkdownItAttrRuleName[] = [
+const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "fence",
   "inline",
   "table",
@@ -449,15 +633,15 @@ export const getRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => {
       ? []
       : Array.isArray(options.rule)
         ? // user specific rules
-          options.rule.filter((item) => availableRules.includes(item))
-        : availableRules;
+          options.rule.filter((item) => AVAILABLE_RULES.includes(item))
+        : AVAILABLE_RULES;
 
   const rules: Rule[] = [];
 
   if (enabledRules.includes("fence")) rules.push(getFenceRule(options));
   if (enabledRules.includes("inline")) rules.push(...getInlineRules(options));
+  if (enabledRules.includes("table")) rules.push(...getTableRules(options));
   if (enabledRules.includes("list")) rules.push(...getListRules(options));
-  if (enabledRules.includes("table")) rules.push(getTableRule(options));
   if (enabledRules.includes("softbreak")) rules.push(getSoftBreakRule(options));
   if (enabledRules.includes("hr")) rules.push(getHrRule(options));
   if (enabledRules.includes("block")) rules.push(getBlockRule(options));
