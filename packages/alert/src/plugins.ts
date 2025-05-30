@@ -46,7 +46,10 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     const oldTShift = [];
     const oldLineMax = state.lineMax;
     const oldParentType = state.parentType;
-    const terminatorRules = state.md.block.ruler.getRules("alert");
+    const terminatorRules = [
+      state.md.block.ruler.getRules("blockquote"),
+      state.md.block.ruler.getRules("alert"),
+    ].flat();
 
     // @ts-expect-error: We are creating a new type called "alert"
     state.parentType = "alert";
@@ -71,12 +74,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     //     ```
     let nextLine;
 
-    for (nextLine = startLine + 1; nextLine < endLine; nextLine++) {
-      let adjustTab = false;
-      let lastLineEmpty = false;
-      let pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      const max = state.eMarks[nextLine];
-
+    for (nextLine = startLine; nextLine < endLine; nextLine++) {
       // check if it's outdented, i.e. it's inside list item and indented
       // less than said list item:
       //
@@ -87,16 +85,21 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       // ```
       const isOutdented = state.sCount[nextLine] < state.blkIndent;
 
-      if (pos >= max)
-        // Case 1: line is not inside the blockquote, and this line is empty.
-        break;
+      let pos = state.bMarks[nextLine] + state.tShift[nextLine];
+      const max = state.eMarks[nextLine];
+
+      // Case 1: line is not inside the blockquote, and this line is empty.
+      if (pos >= max) break;
+
+      let lastLineEmpty = false;
 
       if (state.src.charAt(pos++) === ">" && !isOutdented) {
-        let spaceAfterMarker: boolean;
         // This line is inside the blockquote.
 
         // set offset past spaces and ">"
         let initial = state.sCount[nextLine] + 1;
+        let spaceAfterMarker = false;
+        let adjustTab = false;
 
         // skip one optional space after '>'
         if (state.src.charAt(pos) === " ") {
@@ -104,7 +107,6 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
           //     ^ -- position start of line here:
           pos++;
           initial++;
-          adjustTab = false;
           spaceAfterMarker = true;
         } else if (state.src.charAt(pos) === "\t") {
           spaceAfterMarker = true;
@@ -114,15 +116,12 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
             //       ^ -- position start of line here (tab has width===1)
             pos++;
             initial++;
-            adjustTab = false;
           } else {
             // ' >\t  test '
             //    ^ -- position start of line here + shift bsCount slightly
             //         to make extra space appear
             adjustTab = true;
           }
-        } else {
-          spaceAfterMarker = false;
         }
 
         let offset = initial;
