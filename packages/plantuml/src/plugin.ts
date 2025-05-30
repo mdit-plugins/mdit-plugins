@@ -1,9 +1,11 @@
+// eslint-disable-next-line import-x/no-unresolved
+import { deflate } from "@deflate";
 import { uml } from "@mdit/plugin-uml";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
-import { encode64, zip_deflate } from "./lib/deflate.js";
+import { customEncodeBase64 } from "./customBase64.js";
 import type { MarkdownItPlantumlOptions } from "./options.js";
 
 export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
@@ -17,14 +19,8 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     format = "svg",
     server = "https://www.plantuml.com/plantuml",
     srcGetter = (content: string): string =>
-      `${server}/${format}/${encode64(
-        zip_deflate(
-          // eslint-disable-next-line @typescript-eslint/no-deprecated
-          unescape(
-            encodeURIComponent(`@start${name}\n${content.trim()}\n@end${name}`),
-          ),
-          9,
-        ),
+      `${server}/${format}/${customEncodeBase64(
+        deflate(`@start${name}\n${content.trim()}\n@end${name}`),
       )}`,
     render = (
       tokens: Token[],

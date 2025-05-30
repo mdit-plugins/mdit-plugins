@@ -7,21 +7,21 @@ exports[`should not break normal code block 1`] = `
 `;
 
 exports[`should parse code block 1`] = `
-"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKi1IW80" alt="plantuml diagram">
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKifpSq10000" alt="plantuml diagram">
 "
 `;
 
 exports[`should parse custom code block 1`] = `
-"<img src="https://www.plantuml.com/plantuml/svg/RP4nRyCW48Lt_mh4x4WniHsfKw9k7RnaYgeEhi655eC5vrPHvV_UuwZR9GleldVtUC0fGX_WFNfNV1UCyT6425q_AVx0-9FNZfS9s_wVNYO3EcCJpzPy9WfXKOJwjrIAOowa32f61CaSGOIW59p_C1SL4qwo2t4onQx1m2s9dVfYLny-DevPWI9qrmtD7g5zz99ujT-BQdV0ZQEyKePPUwUwPNfL8PtuJ7Cv3gfmcsbIUxnSkL57xJcVO4tJx2fng3d9QtdVmO-Z6Uvwj7LB7dNJ7dyzS7sXT8Cs5X_3fMIPnDalCJcwnTfYBKxAoVG_Fm00" alt="plantuml diagram">
+"<img src="https://www.plantuml.com/plantuml/svg/RP6nRiCW441tlk9qSoBPn7QaJ8cwTV2IAQewK8DhMWmMd5j5bV-zufoqIqRUSOydSKoa8dsauCMF0C3UnaIj6WqU09_3u76JiLF_z3nQ6bPiqydPhqmfpeQHUiz7kLyFMaUJ4XuWom4mKJI6JdyOPGdIQpWpPoa0TfQkUTYQRxY4-7ddYHHnGdkveoaaKkufQEPbKSXokokB0WN0mWtJ4Bnfv_7DnFpY2--jEG18ruatXp2QcnC0FLzV-oJKTRqjvQv27Y-RnuRGzxPxw6YgXXrLtUnl3W7modNTO9sEnkUobQGfp2aR_UoSMCJHU9t_vnS0" alt="plantuml diagram">
 "
 `;
 
 exports[`should parse custom uml 1`] = `
-"<img src="https://www.plantuml.com/plantuml/svg/RP4nRyCW48Lt_mh4x4WniHsfKw9k7RnaYgeEhi655eC5vrPHvV_UuwZR9GleldVtUC0fGX_WFNfNV1UCyT6425q_AVx0-9FNZfS9s_wVNYO3EcCJpzPy9WfXKOJwjrIAOowa32f61CaSGOIW59p_C1SL4qwo2t4onQx1m2s9dVfYLny-DevPWI9qrmtD7g5zz99ujT-BQdV0ZQEyKePPUwUwPNfL8PtuJ7Cv3gfmcsbIUxnSkL57xJcVO4tJx2fng3d9QtdVmO-Z6Uvwj7LB7dNJ7dyzS7sXT8Cs5X_3fMIPnDalCJcwnTfYBKxAoVG_Fm00" alt="">
+"<img src="https://www.plantuml.com/plantuml/svg/RP6nRiCW441tlk9qSoBPn7QaJ8cwTV2IAQewK8DhMWmMd5j5bV-zufoqIqRUSOydSKoa8dsauCMF0C3UnaIj6WqU09_3u76JiLF_z3nQ6bPiqydPhqmfpeQHUiz7kLyFMaUJ4XuWom4mKJI6JdyOPGdIQpWpPoa0TfQkUTYQRxY4-7ddYHHnGdkveoaaKkufQEPbKSXokokB0WN0mWtJ4Bnfv_7DnFpY2--jEG18ruatXp2QcnC0FLzV-oJKTRqjvQv27Y-RnuRGzxPxw6YgXXrLtUnl3W7modNTO9sEnkUobQGfp2aR_UoSMCJHU9t_vnS0" alt="">
 "
 `;
 
 exports[`should render without options 1`] = `
-"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKi1IW80" alt="">
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKifpSq10000" alt="">
 "
 `;

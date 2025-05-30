@@ -2,6 +2,9 @@ import { basename } from "node:path";
 import { cwd } from "node:process";
 
 import { codecovRollupPlugin } from "@codecov/rollup-plugin";
+import alias from "@rollup/plugin-alias";
+import commonjs from "@rollup/plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import type { RollupOptions } from "rollup";
 import { defineConfig } from "rollup";
 import { dts } from "rollup-plugin-dts";
@@ -14,6 +17,7 @@ export interface RollupTypescriptOptions {
   external?: (RegExp | string)[];
   dtsExternal?: (RegExp | string)[];
   resolve?: boolean;
+  alias?: Record<string, string>;
   output?: Record<string, unknown>;
   inlineDynamicImports?: boolean;
 }
@@ -25,6 +29,8 @@ export const rollupTypescript = (
     external = [],
     dtsExternal = [],
     output = {},
+    resolve = false,
+    alias: aliasOptions,
     inlineDynamicImports = false,
   }: RollupTypescriptOptions = {},
 ): RollupOptions[] =>
@@ -42,6 +48,12 @@ export const rollupTypescript = (
         },
       ],
       plugins: [
+        aliasOptions
+          ? alias({
+              entries: aliasOptions,
+            })
+          : [],
+        resolve ? [commonjs(), nodeResolve()] : [],
         esbuild({ charset: "utf8", minify: isProduction, target: "node20" }),
         process.env.CODECOV_TOKEN
           ? [

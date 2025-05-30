@@ -1,10 +1,21 @@
+import path from "node:path";
+
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@deflate": path.resolve(
+        import.meta.dirname,
+        "packages/plantuml/src/deflate/node.js",
+      ),
+    },
+  },
   test: {
     coverage: {
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],
+      exclude: ["packages/plantuml/src/**/browser.ts"],
     },
     include: ["**/*.spec.ts"],
     ...(process.env.CODECOV_TOKEN
