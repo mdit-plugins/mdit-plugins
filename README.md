@@ -39,16 +39,16 @@ This repo contains the following plugins:
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
-- @mdit/plugin-include
+- @mdit/plugin-include (Node.js only)
 - @mdit/plugin-ins
 - @mdit/plugin-katex
-- @mdit/plugin-katex-slim
+- @mdit/plugin-katex-slim (Node.js only)
 - @mdit/plugin-mark
 - @mdit/plugin-mathjax
-- @mdit/plugin-mathjax-slim
+- @mdit/plugin-mathjax-slim (Node.js only)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
-- @mdit/plugin-snippet
+- @mdit/plugin-snippet (Node.js only)
 - @mdit/plugin-spoiler
 - @mdit/plugin-stylize
 - @mdit/plugin-sub

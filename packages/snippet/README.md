@@ -4,6 +4,8 @@
 
 Snippet plugin for MarkdownIt.
 
+This package can only run in Node.js environment.
+
 ## [Docs](https://mdit-plugins.github.io/snippet.html) | [文档](https://mdit-plugins.github.io/zh/snippet.html)
 
 ## Install / 安装
