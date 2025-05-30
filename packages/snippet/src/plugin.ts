@@ -95,8 +95,9 @@ const getSnippetRule =
      */
     const currentFilePath = currentPath(env);
     const snippetContent = state.src.slice(start, end).trim();
-    const [, snippetPath = snippetContent, snippetMeta = ""] =
-      SNIPPET_RE.exec(snippetContent) ?? [];
+    // the regexp supposes to match any possible snippet format
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
     const [, region = "", lines = "", lang = ""] =
       SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
