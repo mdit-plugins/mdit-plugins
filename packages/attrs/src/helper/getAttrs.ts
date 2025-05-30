@@ -1,4 +1,3 @@
-import type { MarkdownItAttrsOptions } from "../options.js";
 import {
   ALLOWED_KEY_CHARS,
   CLASS_MARKER,
@@ -6,12 +5,12 @@ import {
   KEY_SEPARATOR,
   PAIR_SEPARATOR,
 } from "./constant.js";
-import type { Attr } from "./types.js";
+import type { Attr, DelimiterConfig } from "./types.js";
 
 export const getAttrs = (
   str: string,
   start: number,
-  { left, right, allowed }: Required<Omit<MarkdownItAttrsOptions, "rule">>,
+  { left, right, allowed }: DelimiterConfig,
 ): Attr[] => {
   let key = "";
   let value = "";

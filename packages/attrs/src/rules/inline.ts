@@ -1,15 +1,13 @@
 import type { Rule } from "./types.js";
+import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
   getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
-import type { MarkdownItAttrsOptions } from "../options.js";
 
-export const getInlineRules = (
-  options: Required<MarkdownItAttrsOptions>,
-): Rule[] => [
+export const getInlineRules = (options: Required<DelimiterConfig>): Rule[] => [
   /**
    * bla `click()`{.c} ![](img.png){.d}
    *

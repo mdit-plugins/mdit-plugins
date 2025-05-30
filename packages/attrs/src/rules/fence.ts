@@ -1,15 +1,13 @@
 import type { Rule } from "./types.js";
+import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
   getAttrs,
   getDelimiterChecker,
   removeDelimiter,
 } from "../helper/index.js";
-import type { MarkdownItAttrsOptions } from "../options.js";
 
-export const getFenceRule = (
-  options: Required<MarkdownItAttrsOptions>,
-): Rule => ({
+export const getFenceRule = (options: Required<DelimiterConfig>): Rule => ({
   /**
    * fenced code blocks
    *

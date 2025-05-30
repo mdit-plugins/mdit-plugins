@@ -1,15 +1,13 @@
 import type { Rule } from "./types.js";
+import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
   getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
-import type { MarkdownItAttrsOptions } from "../options.js";
 
-export const getTableRules = (
-  options: Required<MarkdownItAttrsOptions>,
-): Rule[] => [
+export const getTableRules = (options: Required<DelimiterConfig>): Rule[] => [
   {
     /**
      * | h1 |

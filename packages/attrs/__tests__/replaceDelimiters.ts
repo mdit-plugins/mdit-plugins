@@ -1,6 +1,6 @@
-import type { MarkdownItAttrsOptions } from "../src/index.js";
+import type { DelimiterConfig } from "../src/helper/types.js";
 
 export const replaceDelimiters = (
   text: string,
-  options: Required<MarkdownItAttrsOptions>,
+  options: Required<DelimiterConfig>,
 ): string => text.replace(/{/g, options.left).replace(/}/g, options.right);

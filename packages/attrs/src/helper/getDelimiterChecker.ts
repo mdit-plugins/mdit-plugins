@@ -1,11 +1,11 @@
-import type { MarkdownItAttrsOptions } from "../options.js";
 import { CLASS_MARKER, ID_MARKER } from "./constant.js";
+import type { DelimiterConfig } from "./types.js";
 
 export type DelimiterChecker = (content: string) => boolean;
 
 export const getDelimiterChecker =
   (
-    { left, right }: Required<MarkdownItAttrsOptions>,
+    { left, right }: Required<DelimiterConfig>,
     where: "start" | "end" | "only",
   ): DelimiterChecker =>
   (content: string): boolean => {

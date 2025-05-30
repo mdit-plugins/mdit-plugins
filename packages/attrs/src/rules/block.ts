@@ -1,15 +1,13 @@
 import type { Rule } from "./types.js";
+import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
   getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
-import type { MarkdownItAttrsOptions } from "../options.js";
 
-export const getBlockRule = (
-  options: Required<MarkdownItAttrsOptions>,
-): Rule => ({
+export const getBlockRule = (options: Required<DelimiterConfig>): Rule => ({
   /**
    * end of {.block}
    */

@@ -1,10 +1,10 @@
 import { escapeRegExp } from "@mdit/helper";
 
 import type { Rule } from "./types.js";
+import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getAttrs } from "../helper/index.js";
-import type { MarkdownItAttrsOptions } from "../options.js";
 
-export const getHrRule = (options: Required<MarkdownItAttrsOptions>): Rule => ({
+export const getHrRule = (options: Required<DelimiterConfig>): Rule => ({
   /**
    * horizontal rule --- {#id}
    */
