@@ -1,9 +1,9 @@
 /**
- * Get amount item of array. Supports negative amount, where -1 is last
+ * Get index item of array. Supports negative index, where -1 is last
  * element in array.
  */
-export const getElements = <T>(arr: T[], amount: number): T =>
-  amount >= 0 ? arr[amount] : arr[arr.length + amount];
+export const getArrayItem = <T>(arr: T[], index: number): T =>
+  index >= 0 ? arr[index] : arr[arr.length + index];
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const isArrayOfFunctions = (arr: unknown): arr is Function[] =>
