@@ -102,5 +102,6 @@ export const getMatchingOpeningToken = (
     if (tokens[index].type === type && tokens[index].level === level)
       return tokens[index];
 
+  /* istanbul ignore next -- @preserve */
   return null;
 };
