@@ -563,6 +563,21 @@ test
       expect(result).toMatch(/<p>test<\/p>\n$/);
     });
   });
+
+  it("should not end when ending marker number is less than start", () => {
+    const result = markdownIt.render(`
+:::: tabs
+@tab test
+A **bold** text.
+:::
+@tab test2
+A **bold** text 2.
+::::
+`);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(":::");
+  });
 });
 
 describe("nesting", () => {

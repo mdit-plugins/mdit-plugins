@@ -283,6 +283,25 @@ exports[`ending correctly > should end container when a negative indent text fou
 "
 `;
 
+exports[`ending correctly > should not end when ending marker number is less than start 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.
+:::</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`nesting > should render nested tabs 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
