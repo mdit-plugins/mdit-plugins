@@ -1,5 +1,5 @@
 export * from "./addAttrs.js";
-export * from "./constant.js";
+export * from "./constants.js";
 export * from "./getAttrs.js";
 export * from "./getDelimiterChecker.js";
 export * from "./getMatchingOpeningToken.js";

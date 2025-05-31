@@ -1,4 +1,4 @@
-import { CLASS_MARKER, ID_MARKER } from "./constant.js";
+import { CLASS_MARKER, ID_MARKER } from "./constants.js";
 import type { DelimiterConfig } from "./types.js";
 
 export type DelimiterChecker = (content: string) => boolean;

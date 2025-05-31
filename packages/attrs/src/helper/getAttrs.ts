@@ -4,7 +4,7 @@ import {
   ID_MARKER,
   KEY_SEPARATOR,
   PAIR_SEPARATOR,
-} from "./constant.js";
+} from "./constants.js";
 import type { Attr, DelimiterConfig } from "./types.js";
 
 export const getAttrs = (
