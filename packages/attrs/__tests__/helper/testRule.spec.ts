@@ -1,8 +1,8 @@
 import type Token from "markdown-it/lib/token.mjs";
 import { describe, expect, it } from "vitest";
 
-import { testRule } from "../src/helper/testRule.js";
-import type { RuleSet } from "../src/rules/types.js";
+import { testRule } from "../../src/helper/testRule.js";
+import type { RuleSet } from "../../src/rules/types.js";
 
 // Helper function to create a basic token
 const createToken = (overrides: Partial<Token> = {}): Token =>
