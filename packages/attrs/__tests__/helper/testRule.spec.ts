@@ -2,7 +2,7 @@ import type Token from "markdown-it/lib/token.mjs";
 import { describe, expect, it } from "vitest";
 
 import { testRule } from "../../src/helper/testRule.js";
-import type { RuleSet } from "../../src/rules/types.js";
+import type { AttrRuleSet } from "../../src/rules/types.js";
 
 // Helper function to create a basic token
 const createToken = (overrides: Partial<Token> = {}): Token =>
@@ -146,7 +146,7 @@ describe("testRule", () => {
     ];
     const tokens = [createToken({ type: "inline", children: childTokens })];
 
-    const rule: RuleSet = {
+    const rule: AttrRuleSet = {
       shift: 0,
       type: "inline",
       children: [
@@ -168,7 +168,7 @@ describe("testRule", () => {
     ];
     const tokens = [createToken({ type: "inline", children: childTokens })];
 
-    const rule: RuleSet = {
+    const rule: AttrRuleSet = {
       shift: 0,
       type: "inline",
       children: [
@@ -222,7 +222,7 @@ describe("testRule", () => {
     ];
     const tokens = [createToken({ type: "inline", children: childTokens })];
 
-    const rule: RuleSet = {
+    const rule: AttrRuleSet = {
       shift: 0,
       type: "inline",
       children: [{ position: -1, type: "strong_open" }], // Last element
@@ -238,7 +238,7 @@ describe("testRule", () => {
     const tokens = [createToken({ type: "heading", level: 1, tag: "h1" })];
 
     // Complex object should throw error
-    const rule1: RuleSet = {
+    const rule1: AttrRuleSet = {
       shift: 0,
       type: "heading",
       level: 1,
@@ -253,7 +253,7 @@ describe("testRule", () => {
     const rule2 = {
       shift: 0,
       type: Symbol("test"),
-    } as unknown as RuleSet;
+    } as unknown as AttrRuleSet;
 
     expect(() => testRule(tokens, 0, rule2)).toThrow(
       "Unknown type of pattern test (key: type). Test should be of type boolean, number, string, function or array of functions.",

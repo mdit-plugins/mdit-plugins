@@ -1,4 +1,4 @@
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
@@ -7,7 +7,9 @@ import {
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getSoftBreakRule = (options: Required<DelimiterConfig>): Rule => ({
+export const getSoftBreakRule = (
+  options: Required<DelimiterConfig>,
+): AttrRule => ({
   /**
    * something with softbreak
    * {.cls}
@@ -36,14 +38,23 @@ export const getSoftBreakRule = (options: Required<DelimiterConfig>): Rule => ({
     const token = tokens[index].children![childIndex];
     const attrs = getAttrs(token.content, 0, options);
 
-    // find last closing tag
-    let ii = index + 1;
+    // Find the last closing tag by searching forward
+    let closingTokenIndex = index + 1;
 
-    while (tokens[ii + 1] && tokens[ii + 1].nesting === -1) ii++;
+    while (
+      tokens[closingTokenIndex + 1] &&
+      tokens[closingTokenIndex + 1].nesting === -1
+    ) {
+      closingTokenIndex++;
+    }
 
-    const openingToken = getMatchingOpeningToken(tokens, ii);
+    // Get the corresponding opening token
+    const openingToken = getMatchingOpeningToken(tokens, closingTokenIndex);
 
+    // Apply attributes to the opening token
     addAttrs(attrs, openingToken);
+
+    // Remove the softbreak and attribute tokens
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     tokens[index].children = tokens[index].children!.slice(0, -2);
   },

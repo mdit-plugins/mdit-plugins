@@ -2,7 +2,7 @@ import type Token from "markdown-it/lib/token.mjs";
 
 export type TestFunction<Value = unknown> = (value: Value) => boolean;
 
-export interface RuleSet {
+export interface AttrRuleSet {
   position?: number;
   shift?: number;
   type?: string | TestFunction<string> | TestFunction<string>[];
@@ -13,11 +13,11 @@ export interface RuleSet {
   hidden?: boolean | TestFunction<boolean> | TestFunction<boolean>[];
   info?: string | TestFunction<string> | TestFunction<string>[];
   content?: string | TestFunction<string> | TestFunction<string>[];
-  children?: RuleSet[] | TestFunction<RuleSet[]>;
+  children?: AttrRuleSet[] | TestFunction<AttrRuleSet[]>;
 }
 
-export interface Rule {
+export interface AttrRule {
   name: string;
-  tests: RuleSet[];
-  transform: (tokens: Token[], index: number, subIndex: number) => void;
+  tests: AttrRuleSet[];
+  transform: (tokens: Token[], index: number, childIndex: number) => void;
 }

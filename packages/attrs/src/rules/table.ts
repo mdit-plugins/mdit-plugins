@@ -1,4 +1,4 @@
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
@@ -7,7 +7,9 @@ import {
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getTableRules = (options: Required<DelimiterConfig>): Rule[] => [
+export const getTableRules = (
+  options: Required<DelimiterConfig>,
+): AttrRule[] => [
   {
     /**
      * | h1 |
@@ -36,12 +38,13 @@ export const getTableRules = (options: Required<DelimiterConfig>): Rule[] => [
     ],
     transform: (tokens, index): void => {
       const token = tokens[index + 2];
-      const tableOpen = getMatchingOpeningToken(tokens, index);
+      const tableOpeningToken = getMatchingOpeningToken(tokens, index);
       const attrs = getAttrs(token.content, 0, options);
 
-      // add attributes
-      addAttrs(attrs, tableOpen);
-      // remove <p>{.c}</p>
+      // Apply attributes to the table opening token
+      addAttrs(attrs, tableOpeningToken);
+
+      // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
     },
   },

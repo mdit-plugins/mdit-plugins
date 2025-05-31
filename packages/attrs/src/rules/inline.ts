@@ -1,4 +1,4 @@
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
@@ -7,7 +7,9 @@ import {
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getInlineRules = (options: Required<DelimiterConfig>): Rule[] => [
+export const getInlineRules = (
+  options: Required<DelimiterConfig>,
+): AttrRule[] => [
   /**
    * bla `click()`{.c} ![](img.png){.d}
    *
@@ -34,21 +36,26 @@ export const getInlineRules = (options: Required<DelimiterConfig>): Rule[] => [
       },
     ],
     transform: (tokens, index, childIndex): void => {
-      const rightLength = options.right.length;
+      const rightDelimiterLength = options.right.length;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
 
-      const endChar = token.content.indexOf(options.right);
+      const attrEndIndex = token.content.indexOf(options.right);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const attrToken = tokens[index].children![childIndex - 1];
+      const targetToken = tokens[index].children![childIndex - 1];
       const attrs = getAttrs(token.content, 0, options);
 
-      addAttrs(attrs, attrToken);
-      if (token.content.length === endChar + rightLength) {
+      // Apply attributes to the target token
+      addAttrs(attrs, targetToken);
+
+      // Remove or update token content based on remaining content
+      if (token.content.length === attrEndIndex + rightDelimiterLength) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tokens[index].children!.splice(childIndex, 1);
       } else {
-        token.content = token.content.slice(endChar + rightLength);
+        token.content = token.content.slice(
+          attrEndIndex + rightDelimiterLength,
+        );
       }
     },
   },
@@ -77,19 +84,27 @@ export const getInlineRules = (options: Required<DelimiterConfig>): Rule[] => [
     ],
     transform: (tokens, index, childIndex): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const token = tokens[index].children![childIndex];
-      const { content } = token;
-      const attrs = getAttrs(content, 0, options);
+      const currentToken = tokens[index].children![childIndex];
+      const { content } = currentToken;
+
+      // Extract attributes from the content
+      const attributes = getAttrs(content, 0, options);
+
+      // Find the corresponding opening token
       const openingToken = getMatchingOpeningToken(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tokens[index].children!,
         childIndex - 1,
       );
 
-      addAttrs(attrs, openingToken);
-      token.content = content.slice(
-        content.indexOf(options.right) + options.right.length,
-      );
+      // Apply attributes to the opening token
+      addAttrs(attributes, openingToken);
+
+      // Remove attribute syntax from content
+      const attributeEndIndex =
+        content.indexOf(options.right) + options.right.length;
+
+      currentToken.content = content.slice(attributeEndIndex);
     },
   },
 ];

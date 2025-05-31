@@ -1,4 +1,4 @@
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type {
   MarkdownItAttrRuleName,
   MarkdownItAttrsOptions,
@@ -21,7 +21,9 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "block",
 ];
 
-export const getRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => {
+export const getRules = (
+  options: Required<MarkdownItAttrsOptions>,
+): AttrRule[] => {
   const enabledRules =
     // disable
     options.rule === false
@@ -31,7 +33,7 @@ export const getRules = (options: Required<MarkdownItAttrsOptions>): Rule[] => {
           options.rule.filter((item) => AVAILABLE_RULES.includes(item))
         : AVAILABLE_RULES;
 
-  const rules: Rule[] = [];
+  const rules: AttrRule[] = [];
 
   if (enabledRules.includes("fence")) rules.push(getFenceRule(options));
   if (enabledRules.includes("inline")) rules.push(...getInlineRules(options));

@@ -1,4 +1,4 @@
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
@@ -7,7 +7,7 @@ import {
   removeDelimiter,
 } from "../helper/index.js";
 
-export const getFenceRule = (options: Required<DelimiterConfig>): Rule => ({
+export const getFenceRule = (options: Required<DelimiterConfig>): AttrRule =>
   /**
    * fenced code blocks
    *
@@ -16,39 +16,41 @@ export const getFenceRule = (options: Required<DelimiterConfig>): Rule => ({
    *     print(i)
    * ```
    */
+  ({
+    name: "code-block",
+    tests: [
+      {
+        shift: 0,
+        block: true,
+        info: getDelimiterChecker(options, "end"),
+      },
+    ],
+    transform: (tokens, index): void => {
+      const token = tokens[index];
+      let lineNumbers = "";
 
-  // fenced code blocks
-  name: "code-block",
-  tests: [
-    {
-      shift: 0,
-      block: true,
-      info: getDelimiterChecker(options, "end"),
+      // Special handler for VuePress line numbers syntax
+      const lineNumberMatch = /{(?:[\d,-]+)}/.exec(token.info);
+
+      if (lineNumberMatch) {
+        token.info = token.info.replace(lineNumberMatch[0], "");
+        lineNumbers = lineNumberMatch[0];
+      }
+
+      // Extract attributes from the token info
+      const attributeStartIndex = token.info.lastIndexOf(options.left);
+      const attributes = getAttrs(token.info, attributeStartIndex, options);
+
+      // Apply attributes to the current token
+      addAttrs(attributes, token);
+
+      // Remove attribute syntax from info and restore line numbers
+      const infoWithoutAttributes = removeDelimiter(
+        token.info,
+        options.left,
+        options.right,
+      );
+
+      token.info = `${infoWithoutAttributes} ${lineNumbers}`.trim();
     },
-  ],
-  transform: (tokens, index): void => {
-    const token = tokens[index];
-    let lineNumber = "";
-
-    // special handler for VuePress line number
-    const results = /{(?:[\d,-]+)}/.exec(token.info);
-
-    if (results) {
-      token.info = token.info.replace(results[0], "");
-      lineNumber = results[0];
-    }
-
-    const attrs = getAttrs(
-      token.info,
-      token.info.lastIndexOf(options.left),
-      options,
-    );
-
-    addAttrs(attrs, token);
-    token.info = `${removeDelimiter(
-      token.info,
-      options.left,
-      options.right,
-    )} ${lineNumber}`.trim();
-  },
-});
+  });

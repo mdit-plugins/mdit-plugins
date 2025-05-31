@@ -1,10 +1,10 @@
 import { escapeRegExp } from "@mdit/helper";
 
-import type { Rule } from "./types.js";
+import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getAttrs } from "../helper/index.js";
 
-export const getHrRule = (options: Required<DelimiterConfig>): Rule => ({
+export const getHrRule = (options: Required<DelimiterConfig>): AttrRule => ({
   /**
    * horizontal rule --- {#id}
    */
@@ -37,12 +37,17 @@ export const getHrRule = (options: Required<DelimiterConfig>): Rule => ({
     token.tag = "hr";
     token.nesting = 0;
 
-    const { content } = tokens[index + 1];
-    const start = content.lastIndexOf(options.left);
-    const attrs = getAttrs(content, start, options);
+    // Extract attributes from the inline content
+    const inlineToken = tokens[index + 1];
+    const { content } = inlineToken;
+    const attributeStartIndex = content.lastIndexOf(options.left);
+    const attributes = getAttrs(content, attributeStartIndex, options);
 
-    addAttrs(attrs, token);
+    // Apply attributes to the hr token
+    addAttrs(attributes, token);
     token.markup = content;
+
+    // Remove the inline and closing paragraph tokens
     tokens.splice(index + 1, 2);
   },
 });
