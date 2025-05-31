@@ -12,9 +12,11 @@ export const getMatchingOpeningToken = (
   const level = tokens[index].level;
   const type = tokens[index].type.replace("_close", "_open");
 
-  for (; index >= 0; --index)
+  while (index >= 0) {
     if (tokens[index].type === type && tokens[index].level === level)
       return tokens[index];
+    index--;
+  }
 
   /* istanbul ignore next -- @preserve */
   return null;
