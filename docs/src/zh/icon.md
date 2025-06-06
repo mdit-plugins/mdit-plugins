@@ -90,7 +90,7 @@ const mdIt = MarkdownIt().use(icon, {
 
 ## 演示
 
-::: md-demo 演示
+::: preview 演示
 
 iPhone 是由 ::apple:: 制造的。
 

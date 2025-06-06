@@ -108,7 +108,7 @@ interface MarkdownItDemoOptions {
 
 ## Demo
 
-::: md-demo
+::: preview
 
 ## Heading 1
 
@@ -117,7 +117,7 @@ Text
 :::
 
 ```md
-::: md-demo
+::: preview
 
 ## Heading 1
 

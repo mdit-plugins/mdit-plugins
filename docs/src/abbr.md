@@ -75,7 +75,7 @@ will be
 
 <!-- prettier-ignore-start -->
 
-::: md-demo Demo
+::: preview Demo
 
 *[HTML]: Hyper Text Markup Language
 *[W3C]: World Wide Web Consortium

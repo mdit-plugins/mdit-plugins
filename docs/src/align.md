@@ -111,7 +111,7 @@ Contents to align justify
 
 ## Demo
 
-::::: md-demo Demo
+::::: preview Demo
 
 :::: center
 

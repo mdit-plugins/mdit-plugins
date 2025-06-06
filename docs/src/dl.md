@@ -59,7 +59,7 @@ If there is a blank line after the term, the definition text will be treated as 
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 Term 1
 

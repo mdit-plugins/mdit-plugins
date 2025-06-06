@@ -169,7 +169,7 @@ md.use(container, {
 });
 ```
 
-:::: md-demo 你可以这样写一个提示:
+:::: preview 你可以这样写一个提示:
 
 ::: hint 这是一个提示
 

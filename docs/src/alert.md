@@ -150,7 +150,7 @@ interface MarkdownItAlertOptions {
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 > [!note]
 > This is note text

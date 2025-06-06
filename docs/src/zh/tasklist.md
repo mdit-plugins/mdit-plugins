@@ -100,7 +100,7 @@ interface MarkdownItTasklistOptions {
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 - [ ] 计划 A
 - [x] 计划 B

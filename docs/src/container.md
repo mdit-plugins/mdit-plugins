@@ -169,7 +169,7 @@ md.use(container, {
 });
 ```
 
-:::: md-demo You can write a hint like this:
+:::: preview You can write a hint like this:
 
 ::: hint Here is a Hint
 :::

@@ -75,7 +75,7 @@ The HTML specification is maintained by the W3C.
 
 <!-- prettier-ignore-start -->
 
-::: md-demo 示例
+::: preview 示例
 
 *[HTML]: Hyper Text Markup Language
 *[W3C]: World Wide Web Consortium
