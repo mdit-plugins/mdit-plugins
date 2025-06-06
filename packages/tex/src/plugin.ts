@@ -10,10 +10,10 @@ import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 import type { MarkdownItTexOptions } from "./options.js";
 
 /*
- * Test if potential opening or closing delimiter
+ * Test if potential opening or closing delimiter for dollar syntax
  * Assumes that there is a "$" at state.src[pos]
  */
-const isValidDelim = (
+const isValidDollarDelim = (
   state: StateInline,
   pos: number,
   allowInlineWithSpace: boolean,
@@ -26,7 +26,7 @@ const isValidDelim = (
 
     /*
      * Check non-whitespace conditions for opening and closing, and
-     * check that closing delimiter isn’t followed by a number
+     * check that closing delimiter isn't followed by a number
      */
     canClose:
       !/[0-9]/u.exec(nextChar) &&
@@ -34,12 +34,15 @@ const isValidDelim = (
   };
 };
 
-const getInlineTex =
+/*
+ * Parse inline math with dollar signs: $...$
+ */
+const getDollarInlineTex =
   (allowInlineWithSpace: boolean): RuleInline =>
   (state, silent) => {
     if (state.src[state.pos] !== "$") return false;
 
-    let delimState = isValidDelim(state, state.pos, allowInlineWithSpace);
+    let delimState = isValidDollarDelim(state, state.pos, allowInlineWithSpace);
 
     if (!delimState.canOpen) {
       if (!silent) state.pending += "$";
@@ -93,7 +96,7 @@ const getInlineTex =
     }
 
     // Check for valid closing delimiter
-    delimState = isValidDelim(state, match, allowInlineWithSpace);
+    delimState = isValidDollarDelim(state, match, allowInlineWithSpace);
 
     if (!delimState.canClose) {
       if (!silent) state.pending += "$";
@@ -115,7 +118,72 @@ const getInlineTex =
     return true;
   };
 
-const blockTex: RuleBlock = (state, start, end, silent) => {
+/*
+ * Parse inline math with bracket syntax: \(...\)
+ */
+const getBracketInlineTex = (): RuleInline => (state, silent) => {
+  const start = state.pos;
+
+  // Check for opening \(
+  if (state.src.slice(start, start + 2) !== "\\(") return false;
+
+  // Look for closing \)
+  let pos = start + 2;
+  let found = false;
+
+  while (pos < state.src.length - 1) {
+    if (state.src.slice(pos, pos + 2) === "\\)") {
+      // Check if the opening \( was escaped
+      let backslashes = 0;
+      let checkPos = start - 1;
+
+      while (checkPos >= 0 && state.src[checkPos] === "\\") {
+        backslashes++;
+        checkPos--;
+      }
+
+      // If opening \( is escaped (odd number of preceding backslashes), don't parse
+      if (backslashes % 2 === 1) return false;
+
+      // Check if the closing \) is escaped
+      let closingBackslashes = 0;
+      let closingCheckPos = pos - 1;
+
+      while (
+        closingCheckPos >= start + 2 &&
+        state.src[closingCheckPos] === "\\"
+      ) {
+        closingBackslashes++;
+        closingCheckPos--;
+      }
+
+      // If closing \) is not escaped (even number of preceding backslashes), we found it
+      if (closingBackslashes % 2 === 0) {
+        found = true;
+        break;
+      }
+    }
+    pos++;
+  }
+
+  if (!found) return false;
+
+  if (!silent) {
+    const token = state.push("math_inline", "math", 0);
+
+    token.markup = "\\(";
+    token.content = state.src.slice(start + 2, pos);
+  }
+
+  state.pos = pos + 2;
+
+  return true;
+};
+
+/*
+ * Parse block math with dollar signs: $$...$$
+ */
+const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
   let pos = state.bMarks[start] + state.tShift[start];
   let max = state.eMarks[start];
 
@@ -173,11 +241,79 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
   return true;
 };
 
+/*
+ * Parse block math with bracket syntax: \[...\]
+ */
+const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
+  let pos = state.bMarks[start] + state.tShift[start];
+  let max = state.eMarks[start];
+
+  if (pos + 2 > max) return false;
+
+  if (state.src.slice(pos, pos + 2) !== "\\[") return false;
+
+  pos += 2;
+  let firstLine = state.src.slice(pos, max).trim();
+
+  if (silent) return true;
+
+  let found = false;
+
+  if (firstLine.endsWith("\\]")) {
+    // Single line expression
+    firstLine = firstLine.slice(0, -2);
+    found = true;
+  }
+
+  let current = start;
+  let lastLine = "";
+
+  while (!found) {
+    current++;
+    if (current >= end) break;
+
+    pos = state.bMarks[current] + state.tShift[current];
+    max = state.eMarks[current];
+
+    // non-empty line with negative indent should stop the list:
+    if (pos < max && state.tShift[current] < state.blkIndent) break;
+
+    // found end marker
+    if (state.src.slice(pos, max).trim().endsWith("\\]")) {
+      lastLine = state.src
+        .slice(pos, state.src.slice(0, max).lastIndexOf("\\]"))
+        .trim();
+      found = true;
+    }
+  }
+
+  if (!found) return false;
+
+  state.line = current + 1;
+
+  const token = state.push("math_block", "math", 0);
+
+  token.block = true;
+  token.content =
+    (firstLine ? `${firstLine}\n` : "") +
+    state.getLines(start + 1, current, state.tShift[start], true) +
+    (lastLine ? `${lastLine}\n` : "");
+  token.map = [start, state.line];
+  token.markup = "\\[";
+
+  return true;
+};
+
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (typeof options?.render !== "function")
     throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
 
-  const { allowInlineWithSpace = false, mathFence = false, render } = options;
+  const {
+    allowInlineWithSpace = false,
+    mathFence = false,
+    delimiters = "dollars",
+    render,
+  } = options;
 
   // Handle ```math blocks
   if (mathFence) {
@@ -195,14 +331,38 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     };
   }
 
-  md.inline.ruler.after(
-    "escape",
-    "math_inline",
-    getInlineTex(allowInlineWithSpace),
-  );
-  md.block.ruler.after("blockquote", "math_block", blockTex, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  // Register inline and block rules based on delimiters option
+  if (delimiters === "dollars" || delimiters === "all") {
+    md.inline.ruler.after(
+      "escape",
+      "math_inline_dollar",
+      getDollarInlineTex(allowInlineWithSpace),
+    );
+    md.block.ruler.after(
+      "blockquote",
+      "math_block_dollar",
+      getDollarBlockTex(),
+      {
+        alt: ["paragraph", "reference", "blockquote", "list"],
+      },
+    );
+  }
+
+  if (delimiters === "brackets" || delimiters === "all") {
+    md.inline.ruler.before(
+      "escape",
+      "math_inline_bracket",
+      getBracketInlineTex(),
+    );
+    md.block.ruler.after(
+      "blockquote",
+      "math_block_bracket",
+      getBracketBlockTex(),
+      {
+        alt: ["paragraph", "reference", "blockquote", "list"],
+      },
+    );
+  }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>
     render(tokens[index].content, false, env);

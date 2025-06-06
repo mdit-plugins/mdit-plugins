@@ -1,5 +1,22 @@
 export interface MarkdownItTexOptions<MarkdownItEnv = unknown> {
   /**
+   * Math delimiter syntax to enable
+   *
+   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
+   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
+   * - `"all"`: Enable both bracket and dollar syntaxes
+   *
+   * 启用的数学分隔符语法
+   *
+   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
+   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
+   * - `"all"`: 启用括号和美元符号两种语法
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
+  /**
    * Whether parsed fence block with math language to display mode math
    *
    * 是否将解析的数学语言 fence 块转换为显示模式数学
