@@ -69,7 +69,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 Footnote 1 link[^first].
 

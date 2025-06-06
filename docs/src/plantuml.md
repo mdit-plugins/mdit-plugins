@@ -45,7 +45,7 @@ Bob -> Alice : hello
 
 ## Demo
 
-::: md-demo demo
+::: preview demo
 
 @startuml
 Bob -> Alice : hello

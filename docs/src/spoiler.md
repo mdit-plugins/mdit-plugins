@@ -43,7 +43,7 @@ Use `!! !!` hide contents.
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 VuePress Theme Hope is !!powerful!!.
 

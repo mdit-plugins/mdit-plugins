@@ -130,7 +130,7 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 <!-- 新语法 -->
 

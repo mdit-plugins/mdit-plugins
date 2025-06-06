@@ -83,12 +83,12 @@ ${codeContent}
 
 it("customize container name", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "md-demo",
+    name: "preview",
   });
 
   expect(
     markdownIt.render(`
-::: md-demo Title text
+::: preview Title text
 ${mdContent}
 :::
 `),
@@ -101,7 +101,7 @@ ${codeContent}
 
   expect(
     markdownIt.render(`
-::: md-demo Title text
+::: preview Title text
 
 ${mdContent}
 
@@ -263,12 +263,12 @@ DEF
 
 it("should not render", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "md-demo",
+    name: "preview",
   });
 
   expect(
     markdownIt.render(`
-  ::: md-demo Title text
+  ::: preview Title text
 
 test
 

@@ -41,7 +41,7 @@ Use `== ==` to mark.
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 VuePress Theme Hope is ==powerful==.
 

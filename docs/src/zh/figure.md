@@ -60,7 +60,7 @@ interface MarkdownItFigureOptions {
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 ![Logo](/favicon.ico)
 

@@ -127,7 +127,7 @@ You should use `$tex expression$` inline, and use `$$tex expression$$` for block
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
 

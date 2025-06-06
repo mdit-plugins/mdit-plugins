@@ -41,7 +41,7 @@ mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 VuePress Theme Hope ++十分++ 强大。
 

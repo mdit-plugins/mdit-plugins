@@ -41,7 +41,7 @@ Use `++ ++` to add `<ins>` tag.
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 VuePress Theme Hope is ++very++ powerful.
 
