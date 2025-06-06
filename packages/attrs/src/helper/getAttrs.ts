@@ -1,20 +1,16 @@
-import type Token from "markdown-it/lib/token.mjs";
-
-import type { MarkdownItAttrsOptions } from "./options.js";
-
-export type Attr = [key: string, value: string];
-
-// not tab, line feed, form feed, space, solidus, greater than sign, quotation mark, apostrophe and equals sign
-export const ALLOWED_KEY_CHARS = /[^\t\n\f />"'=]/;
-export const PAIR_SEPARATOR = " ";
-export const KEY_SEPARATOR = "=";
-export const CLASS_MARKER = ".";
-export const ID_MARKER = "#";
+import {
+  ALLOWED_KEY_CHARS,
+  CLASS_MARKER,
+  ID_MARKER,
+  KEY_SEPARATOR,
+  PAIR_SEPARATOR,
+} from "./constants.js";
+import type { Attr, DelimiterConfig } from "./types.js";
 
 export const getAttrs = (
   str: string,
   start: number,
-  { left, right, allowed }: Required<Omit<MarkdownItAttrsOptions, "rule">>,
+  { left, right, allowed }: DelimiterConfig,
 ): Attr[] => {
   let key = "";
   let value = "";
@@ -61,7 +57,7 @@ export const getAttrs = (
     }
 
     // {value="inside quotes"}
-    if (char === '"' && value === "") {
+    if (char === '"' && value === "" && !valueInsideQuotes) {
       valueInsideQuotes = true;
       continue;
     }
@@ -104,15 +100,4 @@ export const getAttrs = (
         ),
       )
     : attrs;
-};
-
-export const addAttrs = (attrs: Attr[], token: Token | null): void => {
-  if (token)
-    attrs.forEach((attrItem) => {
-      const [key, value] = attrItem;
-
-      if (key === "class") token.attrJoin("class", value);
-      else if (key === "css-module") token.attrJoin("css-module", value);
-      else token.attrPush(attrItem);
-    });
 };

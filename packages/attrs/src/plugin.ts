@@ -5,8 +5,9 @@
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
+import { testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
-import { getRules, testRule } from "./rules/index.js";
+import { getRules } from "./rules/index.js";
 
 export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   md,
@@ -40,7 +41,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
 
           if (
             pattern.name === "inline attributes" ||
-            pattern.name === "inline nesting 0"
+            pattern.name === "inline nesting self-close"
           )
             // retry, may be several inline attributes
             ruleIndex--;

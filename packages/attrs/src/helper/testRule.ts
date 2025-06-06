@@ -1,6 +1,6 @@
 import type Token from "markdown-it/lib/token.mjs";
 
-import type { RuleSet, TestFunction } from "./types.js";
+import type { AttrRuleSet, TestFunction } from "../rules/types.js";
 import {
   getArrayItem,
   isArrayOfFunctions,
@@ -21,7 +21,7 @@ export interface TestRuleResult {
 export const testRule = (
   tokens: Token[],
   index: number,
-  rule: RuleSet,
+  rule: AttrRuleSet,
 ): TestRuleResult => {
   const result: TestRuleResult = {
     match: false,
