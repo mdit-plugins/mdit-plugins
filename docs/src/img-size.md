@@ -129,7 +129,7 @@ Renders as ↓
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 <!-- New Syntax -->
 

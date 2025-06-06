@@ -88,7 +88,7 @@ it("customize container name", () => {
 
   expect(
     markdownIt.render(`
-::: md-demo Title text
+::: preview Title text
 ${mdContent}
 :::
 `),
@@ -101,7 +101,7 @@ ${codeContent}
 
   expect(
     markdownIt.render(`
-::: md-demo Title text
+::: preview Title text
 
 ${mdContent}
 
@@ -268,7 +268,7 @@ it("should not render", () => {
 
   expect(
     markdownIt.render(`
-  ::: md-demo Title text
+  ::: preview Title text
 
 test
 

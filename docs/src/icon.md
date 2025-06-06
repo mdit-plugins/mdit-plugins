@@ -90,7 +90,7 @@ This is useful when you are using it with font icon libraries like Font Awesome,
 
 ## Demo
 
-::: md-demo Demo
+::: preview Demo
 
 iPhone is made by ::apple::.
 

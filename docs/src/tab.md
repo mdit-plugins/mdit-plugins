@@ -154,7 +154,7 @@ interface MarkdownItTabOptions {
 
 ## Demo
 
-:::: md-demo A tab of fruit
+:::: preview A tab of fruit
 
 ::: tabs#fruit
 
@@ -170,7 +170,7 @@ Banana
 
 ::::
 
-:::: md-demo Another tab of fruit
+:::: preview Another tab of fruit
 
 ::: tabs#fruit
 
@@ -190,7 +190,7 @@ Orange
 
 ::::
 
-:::: md-demo A tab of fruit without id
+:::: preview A tab of fruit without id
 
 ::: tabs
 

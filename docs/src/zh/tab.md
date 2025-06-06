@@ -154,7 +154,7 @@ interface MarkdownItTabOptions {
 
 ## 示例
 
-:::: md-demo 一个水果选项卡列表
+:::: preview 一个水果选项卡列表
 
 ::: tabs#fruit
 
@@ -170,7 +170,7 @@ Banana
 
 ::::
 
-:::: md-demo 另一个水果选项卡列表
+:::: preview 另一个水果选项卡列表
 
 ::: tabs#fruit
 
@@ -190,7 +190,7 @@ Orange
 
 ::::
 
-:::: md-demo 一个没有绑定 id 的水果选项卡列表
+:::: preview 一个没有绑定 id 的水果选项卡列表
 
 ::: tabs
 

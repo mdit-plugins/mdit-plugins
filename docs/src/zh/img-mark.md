@@ -105,7 +105,7 @@ interface MarkdownItImgMarkOptions {
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 ![GitHub Light](/github-light.png#dark)
 ![GitHub Dark](/github-dark.png#light)

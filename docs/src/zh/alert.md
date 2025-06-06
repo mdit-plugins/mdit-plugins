@@ -150,7 +150,7 @@ interface MarkdownItAlertOptions {
 
 ## 示例
 
-::: md-demo 示例
+::: preview 示例
 
 > [!note]
 > 注释文字
