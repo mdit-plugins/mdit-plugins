@@ -57,7 +57,7 @@ export const getAttrs = (
     }
 
     // {value="inside quotes"}
-    if (char === '"' && value === "") {
+    if (char === '"' && value === "" && !valueInsideQuotes) {
       valueInsideQuotes = true;
       continue;
     }
