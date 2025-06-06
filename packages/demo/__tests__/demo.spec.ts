@@ -83,7 +83,7 @@ ${codeContent}
 
 it("customize container name", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "md-demo",
+    name: "preview",
   });
 
   expect(
@@ -263,7 +263,7 @@ DEF
 
 it("should not render", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "md-demo",
+    name: "preview",
   });
 
   expect(
