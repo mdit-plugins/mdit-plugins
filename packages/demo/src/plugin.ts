@@ -108,7 +108,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     state.blkIndent = currentLineIndent;
 
     const title = params.trim().slice(name.length).trim();
-    const openToken = state.push("demo_open", "div", 1);
+    const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
     openToken.block = true;
@@ -117,7 +117,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const pushCodeToken = (): void => {
       const codeToken = state.push(
-        codeRender ? "demo_code" : "fence",
+        codeRender ? `${name}_demo_code` : "fence",
         "code",
         0,
       );
@@ -143,7 +143,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (showCodeFirst) pushCodeToken();
 
-    const contentOpenToken = state.push("demo_content_open", "div", 1);
+    const contentOpenToken = state.push(`${name}_demo_content_open`, "div", 1);
 
     contentOpenToken.attrPush(["class", "demo-content"]);
     contentOpenToken.block = true;
@@ -151,13 +151,17 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
-    const contentCloseToken = state.push("demo_content_close", "div", -1);
+    const contentCloseToken = state.push(
+      `${name}_demo_content_close`,
+      "div",
+      -1,
+    );
 
     contentCloseToken.block = true;
 
     if (!showCodeFirst) pushCodeToken();
 
-    const closeToken = state.push(`demo_close`, "div", -1);
+    const closeToken = state.push(`${name}_demo_close`, "div", -1);
 
     closeToken.markup = state.src.slice(currentLineStart, pos);
     closeToken.block = true;
@@ -174,11 +178,11 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.block.ruler.before("fence", "demo", demoRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules.demo_open = openRender;
-  md.renderer.rules.demo_close = closeRender;
-  if (codeRender) md.renderer.rules.demo_code = codeRender;
+  md.renderer.rules[`${name}_demo_open`] = openRender;
+  md.renderer.rules[`${name}_demo_close`] = closeRender;
+  if (codeRender) md.renderer.rules[`${name}_demo_code`] = codeRender;
   if (contentOpenRender)
-    md.renderer.rules.demo_content_open = contentOpenRender;
+    md.renderer.rules[`${name}_demo_content_open`] = contentOpenRender;
   if (contentCloseRender)
-    md.renderer.rules.demo_content_close = contentCloseRender;
+    md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
 };
