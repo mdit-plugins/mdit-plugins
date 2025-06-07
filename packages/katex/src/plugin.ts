@@ -70,7 +70,8 @@ export const katex = <MarkdownItEnv = unknown>(
 ): void => {
   const {
     allowInlineWithSpace = false,
-    mathFence = false,
+    delimiters,
+    mathFence,
     logger = (
       errorCode: string,
     ): "ignore" | "warn" | "error" | boolean | undefined =>
@@ -84,6 +85,7 @@ export const katex = <MarkdownItEnv = unknown>(
 
   md.use(tex, {
     allowInlineWithSpace,
+    delimiters,
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
       const katexOptions: KatexOptions = {

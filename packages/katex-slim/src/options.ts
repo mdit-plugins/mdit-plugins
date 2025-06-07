@@ -18,7 +18,10 @@ export type TeXTransformer = (content: string, displayMode: boolean) => string;
 
 export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   extends KatexOptions,
-    Pick<MarkdownItTexOptions, "allowInlineWithSpace" | "mathFence"> {
+    Pick<
+      MarkdownItTexOptions,
+      "allowInlineWithSpace" | "delimiters" | "mathFence"
+    > {
   /**
    * Error logger
    *

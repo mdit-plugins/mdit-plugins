@@ -66,7 +66,10 @@ export const getDocumentOptions = (
  */
 export interface MathjaxInstance
   extends Required<
-    Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "mathFence">
+    Pick<
+      MarkdownItMathjaxOptions,
+      "allowInlineWithSpace" | "delimiters" | "mathFence"
+    >
   > {
   /**
    * Mathjax adaptor
@@ -143,6 +146,7 @@ export const createMathjaxInstance = (
     adaptor,
     documentOptions,
     allowInlineWithSpace: options.allowInlineWithSpace ?? false,
+    delimiters: options.delimiters ?? "dollars",
     mathFence: options.mathFence ?? false,
     clearStyle,
     reset,
@@ -156,6 +160,7 @@ export const mathjax = (
   {
     allowInlineWithSpace,
     adaptor,
+    delimiters,
     documentOptions,
     mathFence,
     transformer,
@@ -163,6 +168,7 @@ export const mathjax = (
 ): void => {
   md.use(tex, {
     allowInlineWithSpace,
+    delimiters,
     mathFence,
     render: (content, displayMode) => {
       const mathDocument = mathjaxLib
