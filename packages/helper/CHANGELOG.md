@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **icon:** encode attrs ([1ec7cb2](https://github.com/mdit-plugins/mdit-plugins/commit/1ec7cb2515c280dcded4421b8e17917e9e1f1ab6))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

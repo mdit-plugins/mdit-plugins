@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **katex:** rebuild mhchem support
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
+- add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
+- **katex:** add browser bundle ([9f71b4d](https://github.com/mdit-plugins/mdit-plugins/commit/9f71b4d5885d9df0b08ca90da7a9c447291af3c9))
+- **katex:** improve error handling ([c9ac80d](https://github.com/mdit-plugins/mdit-plugins/commit/c9ac80d077ecac57df460946e49e9d9990f75720))
+- **katex:** rebuild mhchem support ([178f3d1](https://github.com/mdit-plugins/mdit-plugins/commit/178f3d1cb26baacedc856619f358e9788e8b68a9))
+- **katex:** use console.error ([cabf219](https://github.com/mdit-plugins/mdit-plugins/commit/cabf219ce317263f3301a5cb1921cc511c868fa7))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- **deps:** update dependency katex to v0.16.19 ([#69](https://github.com/mdit-plugins/mdit-plugins/issues/69)) ([b6b236c](https://github.com/mdit-plugins/mdit-plugins/commit/b6b236c27e34d8276308f7e961323e3140266f71))
+- **deps:** update dependency katex to v0.16.21 [security] ([#75](https://github.com/mdit-plugins/mdit-plugins/issues/75)) ([f6ddfdf](https://github.com/mdit-plugins/mdit-plugins/commit/f6ddfdf17eba70b5fe668a5125c045dc2121c658))
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **katex:** fix `\gdef` for katex ([7aea74c](https://github.com/mdit-plugins/mdit-plugins/commit/7aea74c7654081bf48a09926932568e730476b18))
+- **katex:** fix option types ([72eb726](https://github.com/mdit-plugins/mdit-plugins/commit/72eb726c180c0e49460a3da356085c8bf7f0fe31))
+- **katex:** improve logger type ([ba1a42c](https://github.com/mdit-plugins/mdit-plugins/commit/ba1a42cfef0b466b90362f7d090370d5e02a7080))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### ✨ Features

@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **tab:** rename options
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+- add tab plugin ([96d116a](https://github.com/mdit-plugins/mdit-plugins/commit/96d116a232b363892f095792c12453580bcd490d))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- **tab:** add browser bundle ([1afdc8f](https://github.com/mdit-plugins/mdit-plugins/commit/1afdc8f39df43ee1f4011356fda38c1d2b7b915a))
+- **tab:** add index information ([356c5a5](https://github.com/mdit-plugins/mdit-plugins/commit/356c5a5296c8c5997bf6b85995fd32f379efbb07))
+- **tab:** make tab container be stricter and improve test coverage ([bf80e1c](https://github.com/mdit-plugins/mdit-plugins/commit/bf80e1c5acb7426dfa556ea16fc7bee789e15b21))
+- **tab:** rename options ([8c2c1de](https://github.com/mdit-plugins/mdit-plugins/commit/8c2c1dea53778952d4e805ce41f2474d8b4856fe))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **tab:** fix multiple instance issue ([907130b](https://github.com/mdit-plugins/mdit-plugins/commit/907130bbe621ffed45b85873751b557d3432953e))
+- **tab:** fix options ([edb3546](https://github.com/mdit-plugins/mdit-plugins/commit/edb354619b83477c585c5b82b3b2c33e531bcac3))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### ✨ Features

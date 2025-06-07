@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle
+
+### ✨ Features
+
+- add allowInlineWithSpace options for katex and mathjax ([911cdf2](https://github.com/mdit-plugins/mdit-plugins/commit/911cdf219bea6252248e5416602628399e62fed6))
+- add katex-slim and mathjax-slim package ([a766226](https://github.com/mdit-plugins/mdit-plugins/commit/a766226448d2f1feec1333c331f7924ae0d9d8bb))
+- add mathjax plugin ([60f5e4a](https://github.com/mdit-plugins/mdit-plugins/commit/60f5e4a7a017a29a11554c4da15c542dba4a933d))
+- add transformer option for tex plugins ([f1b2f84](https://github.com/mdit-plugins/mdit-plugins/commit/f1b2f8446c79cf16c752ce58c00e8dbee65ba03d))
+- add vPre option ([bebdd5c](https://github.com/mdit-plugins/mdit-plugins/commit/bebdd5c96013da5605c3926978f7812f3ecc3249))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- **mathjax:** add outputStyle method and remove generateMathjaxStyle ([6fa0408](https://github.com/mdit-plugins/mdit-plugins/commit/6fa0408f5dd250b107d5dc0a22dca8b47ff7d6cd))
+- **mathjax:** update api ([f092805](https://github.com/mdit-plugins/mdit-plugins/commit/f092805e448b67302065ff92914bf8f056fa5e06))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- **tex:** support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68267f66f14272fcdc446222ab29e32a548))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix tex optional deps ([fbfc6a4](https://github.com/mdit-plugins/mdit-plugins/commit/fbfc6a4cfea5105c26a0f292ae822aaddb95eea4))
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **mathjax:** add reset method to clear label between pages, close [#25](https://github.com/mdit-plugins/mdit-plugins/issues/25) ([d580f1b](https://github.com/mdit-plugins/mdit-plugins/commit/d580f1b4055c1b65c0ed025b2135191251204065))
+- **mathjax:** fix tex type issue ([e856e90](https://github.com/mdit-plugins/mdit-plugins/commit/e856e900d77616bea64a9f1952bf36a268779cdc))
+- **mathjax:** remove exports ([787a88f](https://github.com/mdit-plugins/mdit-plugins/commit/787a88f4591529537c4d12d0bd26089f70a72296))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

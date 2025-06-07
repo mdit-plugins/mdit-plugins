@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **img-size:** restore old img size format and move to alt
+- **img-size:** rebuild img size (#96)
+- **img-size:** unify plugin export name
+
+### ✨ Features
+
+- add obsidianImageSize plugin ([d20c16d](https://github.com/mdit-plugins/mdit-plugins/commit/d20c16d0a888d13fe9a50365f4846d2baedba377))
+- add packages ([e713f59](https://github.com/mdit-plugins/mdit-plugins/commit/e713f59b76ecf7335fa4fee7e5028c66479df2f9))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- **img-size:** improve label handling and allow working together, close [#98](https://github.com/mdit-plugins/mdit-plugins/issues/98) ([e918a50](https://github.com/mdit-plugins/mdit-plugins/commit/e918a50f701c7b05e4ef929db15b29d2a5b1333e))
+- **img-size:** mark legacyImgSize as deprecated ([0adb063](https://github.com/mdit-plugins/mdit-plugins/commit/0adb0636220a90e2cb7f3bac10312782fcd3e711))
+- **img-size:** rebuild img size ([#96](https://github.com/mdit-plugins/mdit-plugins/issues/96)) ([2354def](https://github.com/mdit-plugins/mdit-plugins/commit/2354def57fcca49aab0f763e77a68d10be5f9485))
+- **img-size:** restore old img size format and move to alt ([da5603b](https://github.com/mdit-plugins/mdit-plugins/commit/da5603b8bd5aa4739f0c6cd926a7f2fac15042a0))
+- **img-size:** split original obsidian img size out and improve unit tests ([6b4dc3b](https://github.com/mdit-plugins/mdit-plugins/commit/6b4dc3b104242fd6de5c7d4f5fde0b2d909464b4))
+- **img-size:** unify plugin export name ([1e08784](https://github.com/mdit-plugins/mdit-plugins/commit/1e0878469977d9459081f77cee16c2ddb11b1c09))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **img-size:** rebuild plugin to work with figure ([e391c42](https://github.com/mdit-plugins/mdit-plugins/commit/e391c42b42719310ba12a343391e61b7024505fa))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

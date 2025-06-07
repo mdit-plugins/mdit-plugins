@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add attrs plugin ([9fea84c](https://github.com/mdit-plugins/mdit-plugins/commit/9fea84cc169c7c09d880177cc2da5c13895e0cd7))
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+- **attr:** provide browser bundle ([74c0043](https://github.com/mdit-plugins/mdit-plugins/commit/74c00430fd16eb9e17d38de1987f3873154a6462))
+- **attrs:** add new table rules and refine plugin ([860ac10](https://github.com/mdit-plugins/mdit-plugins/commit/860ac1082a8642e427600a65481d1a8cee554c91))
+- **attrs:** improve ruleset types and improve test coverage ([f50f526](https://github.com/mdit-plugins/mdit-plugins/commit/f50f5261acc9e250c7bb05d17d581b0484428559))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### ✨ Features

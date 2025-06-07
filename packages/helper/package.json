@@ -1,6 +1,6 @@
 {
   "name": "@mdit/helper",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Helper functions for MarkdownIt plugins",
   "keywords": [
     "markdown-it",

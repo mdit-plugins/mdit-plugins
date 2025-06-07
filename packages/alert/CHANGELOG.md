@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add alert plugin ([#34](https://github.com/mdit-plugins/mdit-plugins/issues/34)) ([d7c9c01](https://github.com/mdit-plugins/mdit-plugins/commit/d7c9c01f1d6ebac0baf2f10c32f19af13907d929))
+- add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92cfb0833e3dbf3f75777f4f0fbc98219cca))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- **alert:** correct alert detecting ([9946286](https://github.com/mdit-plugins/mdit-plugins/commit/994628639883d2a9897aac73d8c212b60fe95748))
+- **alert:** fix alert deep detect ([1839b87](https://github.com/mdit-plugins/mdit-plugins/commit/1839b871d7a4c235c07e5cbcaed99e1692689753))
+- **alert:** fix style, close [#45](https://github.com/mdit-plugins/mdit-plugins/issues/45) ([bc83f16](https://github.com/mdit-plugins/mdit-plugins/commit/bc83f16132211af6668a786f2c73f3cc320db0a2))
+- **alert:** remove debug logging ([572001e](https://github.com/mdit-plugins/mdit-plugins/commit/572001e0ddf5e28b45fab422bb42cbdc0163a61e))
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

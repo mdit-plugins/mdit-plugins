@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add spoiler plugin ([1b2e7b9](https://github.com/mdit-plugins/mdit-plugins/commit/1b2e7b943b5152b03976070368bc2100f9f2e768))
+- add style export ([a37f92c](https://github.com/mdit-plugins/mdit-plugins/commit/a37f92cfb0833e3dbf3f75777f4f0fbc98219cca))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **spoiler:** fix styles ([659e87b](https://github.com/mdit-plugins/mdit-plugins/commit/659e87b7314fa681f0a4e38d978724cf5b5728e1))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

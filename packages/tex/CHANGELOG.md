@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add packages ([e713f59](https://github.com/mdit-plugins/mdit-plugins/commit/e713f59b76ecf7335fa4fee7e5028c66479df2f9))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+- **katex:** support logger option ([9850d5e](https://github.com/mdit-plugins/mdit-plugins/commit/9850d5eecbc2e4415e8736284a955ff636fdcf42))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- **tex:** add allowInlineWithSpace for tex ([e6d9878](https://github.com/mdit-plugins/mdit-plugins/commit/e6d98787ee94463cb2ff5425dda4c4dcab273adf))
+- **tex:** support delimiters, close [#82](https://github.com/mdit-plugins/mdit-plugins/issues/82) ([#101](https://github.com/mdit-plugins/mdit-plugins/issues/101)) ([674df5b](https://github.com/mdit-plugins/mdit-plugins/commit/674df5b246556eb13bb882e484655834e2f7a505))
+- **tex:** support mathFence option ([60d1d68](https://github.com/mdit-plugins/mdit-plugins/commit/60d1d68267f66f14272fcdc446222ab29e32a548))
+- **tex:** throw error when render function is missing ([0ce0efa](https://github.com/mdit-plugins/mdit-plugins/commit/0ce0efa8b626ffabf3f81429eb9c7f082ee0a858))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **tex:** end block tex correctly ([163aae1](https://github.com/mdit-plugins/mdit-plugins/commit/163aae1a8536f6e2edc09152f6b11adadff5bde9))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

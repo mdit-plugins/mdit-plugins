@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **include:** throw if required option not set
+- **include:** you should use `<!-- @include :path -->` now
+- **include:** rename `getCurrentPath` to `currentPath`
+  rename `getPath` to `resolvePath`
+
+### ✨ Features
+
+- add helper package ([29563b8](https://github.com/mdit-plugins/mdit-plugins/commit/29563b88b4f5f93becc5749b8889ee64bc649fce))
+- add include plugin ([1e22cdc](https://github.com/mdit-plugins/mdit-plugins/commit/1e22cdc644a1046178517424c20ab29a9bfb96ed))
+- drop node14 and node 16 ([cd50145](https://github.com/mdit-plugins/mdit-plugins/commit/cd50145bb42ba2cf45dbcc8d720901f69191ef8c))
+- **include:** add useComment option ([f1222ba](https://github.com/mdit-plugins/mdit-plugins/commit/f1222bafc138f4e615df931d0750631df96b1e80))
+- **include:** improve grammar ([e798dd3](https://github.com/mdit-plugins/mdit-plugins/commit/e798dd3621ee7ae851279e93afffec15069176ed))
+- **include:** support frontmatter ([462497f](https://github.com/mdit-plugins/mdit-plugins/commit/462497fba6e8966ecb870d5e737d64574aa4bb9f))
+- **include:** throw if required option not set ([99c5cf7](https://github.com/mdit-plugins/mdit-plugins/commit/99c5cf762acf671cabe204b584a66f788936f240))
+- **include:** update include syntax ([fe5b2d8](https://github.com/mdit-plugins/mdit-plugins/commit/fe5b2d8962536019cf8f2641d43d033089b40605))
+- **include:** update options ([7ccf4b9](https://github.com/mdit-plugins/mdit-plugins/commit/7ccf4b9d60a0337c503a8aae1c9f314363970f83))
+- make deps optional ([bd110d0](https://github.com/mdit-plugins/mdit-plugins/commit/bd110d030c32177c7601f443dc240603d1035715))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- **demo:** fix source getting ([5860029](https://github.com/mdit-plugins/mdit-plugins/commit/5860029945ca460f83edbf388a408b7dafbd7970))
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+- **include:** fix dedent single line file ([f84216f](https://github.com/mdit-plugins/mdit-plugins/commit/f84216fdfb64efd36ed2ee31c2ced182a2f13eb5))
+- **include:** fix wrong path ([27c8873](https://github.com/mdit-plugins/mdit-plugins/commit/27c88733742cf730b944f263aec4d52275e59061))
+- **include:** improve option types and fix error hint ([30dc191](https://github.com/mdit-plugins/mdit-plugins/commit/30dc1915496d3c4afc0c1203b7548dad800b1dc8))
+
+### 🚀 Performance Improvements
+
+- **include:** improve performance ([2fcbb68](https://github.com/mdit-plugins/mdit-plugins/commit/2fcbb686ed40ce7b4121639d642befb47a9970c7))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes

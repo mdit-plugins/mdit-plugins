@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ✨ Features
+
+- add plantuml plugin ([3551afb](https://github.com/mdit-plugins/mdit-plugins/commit/3551afbd37ebfe3ac1f5a4edf6545c1af2367d8f))
+- **plantuml:** use node native zlib module and provide browser bundle ([03a0b6b](https://github.com/mdit-plugins/mdit-plugins/commit/03a0b6ba229aaf11a7c4a15949dc0f94b0ab997a))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### ✨ Features

@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.22.0 (2025-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- **demo:** rename beforeContent as showCodeFirst
+- **demo:** use stricter container
+
+### ✨ Features
+
+- add plugin demo ([aa68723](https://github.com/mdit-plugins/mdit-plugins/commit/aa687239f9369ae5bca4c07952d1da53d171833a))
+- **demo:** add contentRender option ([349440b](https://github.com/mdit-plugins/mdit-plugins/commit/349440b37cf6d2a2717b7e9135b9312858b2541b))
+- **demo:** rename beforeContent as showCodeFirst ([a9827a3](https://github.com/mdit-plugins/mdit-plugins/commit/a9827a30e8252a7090b3519aac32295501c47ee2))
+- **demo:** use stricter container ([d7cbd1c](https://github.com/mdit-plugins/mdit-plugins/commit/d7cbd1cf17127c95cd8b2bcaad3892faf908edcf))
+- support markdown-it v14 ([ac32cf1](https://github.com/mdit-plugins/mdit-plugins/commit/ac32cf10b89029533e96197f3b51b9b0ef1dca45))
+- update to markdown-it 14.1.0 and migrate to esm only ([a7d7c22](https://github.com/mdit-plugins/mdit-plugins/commit/a7d7c22d66663e2d4cada2089a2e4a20563bb1f9))
+- use eslint v9 ([eb67366](https://github.com/mdit-plugins/mdit-plugins/commit/eb6736684f55eff2fb6e5ae7df3b564007c1de9f))
+
+### 🐛 Bug Fixes
+
+- **demo:** fix code trim ([99323fa](https://github.com/mdit-plugins/mdit-plugins/commit/99323fae6edea4e13115c2db1fa40add41952085))
+- **demo:** fix contentRender ([cfffb20](https://github.com/mdit-plugins/mdit-plugins/commit/cfffb20983b788f8f747cc6e1880fe6e427b9092))
+- **demo:** fix render issues with multiple instance ([427d2c4](https://github.com/mdit-plugins/mdit-plugins/commit/427d2c4a25e9d594f7000665dae7a00a6084e873))
+- **demo:** fix source getting ([5860029](https://github.com/mdit-plugins/mdit-plugins/commit/5860029945ca460f83edbf388a408b7dafbd7970))
+- **demo:** fix validation issue ([e2fa49d](https://github.com/mdit-plugins/mdit-plugins/commit/e2fa49d25552ae657ef87a8c09c9152cca735d69))
+- **demo:** support working with include ([a59236d](https://github.com/mdit-plugins/mdit-plugins/commit/a59236da89d456f6d64e6394ddac71a6b1f4021d))
+- fix type export ([1344c0f](https://github.com/mdit-plugins/mdit-plugins/commit/1344c0f56e972434c8a666282f2381659a4f7d55))
+
 ## [0.21.0](https://github.com/mdit-plugins/mdit-plugins/compare/v0.20.0...v0.21.0) (2025-05-30)
 
 ### 🐛 Bug Fixes
