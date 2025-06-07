@@ -74,8 +74,8 @@ importers:
         specifier: 9.28.0
         version: 9.28.0(jiti@2.4.2)
       eslint-config-mister-hope:
-        specifier: 0.9.3
-        version: 0.9.3(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.2(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(sass-embedded@1.89.1)(tsx@4.19.4)(yaml@2.8.0))
+        specifier: 0.9.5
+        version: 0.9.5(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.2(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(sass-embedded@1.89.1)(tsx@4.19.4)(yaml@2.8.0))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -2766,20 +2766,20 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-mister-hope@0.9.3:
-    resolution: {integrity: sha512-kXn56cvmUh0xF3GLMboKMc5uatTvp+KUsOHtPc11t64hpV3YZadg/UE/5wAe0CIJZuGLET/MhwwcVHOvfLKL6w==}
+  eslint-config-mister-hope@0.9.5:
+    resolution: {integrity: sha512-1UXoHG/fZd9hPFRrf2oGomC3tKilqBC7HSylI20UqG/vZqMypZBHv5WBk5PNlWIL446ggEYsXE6ItIJFSXFScg==}
     peerDependencies:
-      eslint: ^9.21.0
-      eslint-plugin-vue: ^10.0.0
-      vue-eslint-parser: ^10.1.1
+      eslint: ^9.28.0
+      eslint-plugin-vue: ^10.2.0
+      vue-eslint-parser: ^10.1.3
     peerDependenciesMeta:
       eslint-plugin-vue:
         optional: true
       vue-eslint-parser:
         optional: true
 
-  eslint-config-prettier@10.1.2:
-    resolution: {integrity: sha512-Epgp/EofAUeEpIdZkW60MHKvPyru1ruQJxPL+WIycnaPApuseK0Zpkrh/FwL9oIpQvIhJwV7ptOy0DWUjTlCiA==}
+  eslint-config-prettier@10.1.5:
+    resolution: {integrity: sha512-zc1UmCpNltmVY34vuLRV61r1K27sWuX39E+uyUnY8xS2Bex88VV9cugG+UZbRSRGtGyFboj+D8JODyme1plMpw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -7867,14 +7867,14 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-mister-hope@0.9.3(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.2(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(sass-embedded@1.89.1)(tsx@4.19.4)(yaml@2.8.0)):
+  eslint-config-mister-hope@0.9.5(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.2(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(sass-embedded@1.89.1)(tsx@4.19.4)(yaml@2.8.0)):
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.5.0(eslint@9.28.0(jiti@2.4.2))
       '@eslint/js': 9.28.0
       '@typescript-eslint/utils': 8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
       '@vitest/eslint-plugin': 1.2.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.2(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(sass-embedded@1.89.1)(tsx@4.19.4)(yaml@2.8.0))
       eslint: 9.28.0(jiti@2.4.2)
-      eslint-config-prettier: 10.1.2(eslint@9.28.0(jiti@2.4.2))
+      eslint-config-prettier: 10.1.5(eslint@9.28.0(jiti@2.4.2))
       eslint-import-resolver-typescript: 4.4.3(eslint-plugin-import-x@4.15.1(@typescript-eslint/utils@8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2)))(eslint@9.28.0(jiti@2.4.2))
       eslint-plugin-import-x: 4.15.1(@typescript-eslint/utils@8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2))
       globals: 16.2.0
@@ -7886,7 +7886,7 @@ snapshots:
       - typescript
       - vitest
 
-  eslint-config-prettier@10.1.2(eslint@9.28.0(jiti@2.4.2)):
+  eslint-config-prettier@10.1.5(eslint@9.28.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.28.0(jiti@2.4.2)
 
