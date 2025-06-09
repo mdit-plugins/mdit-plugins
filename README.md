@@ -44,7 +44,7 @@ This repo contains the following plugins:
 - @mdit/plugin-katex
 - @mdit/plugin-katex-slim (Node.js only)
 - @mdit/plugin-mark
-- @mdit/plugin-mathjax
+- @mdit/plugin-mathjax (Node.js only)
 - @mdit/plugin-mathjax-slim (Node.js only)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
