@@ -11,8 +11,7 @@ let isKatexInstalled = true;
 let katexLib: typeof import("katex");
 
 try {
-  katexLib = (await import("katex"))
-    .default as unknown as typeof import("katex");
+  katexLib = await import("katex");
 } catch {
   /* istanbul ignore next -- @preserve */
   isKatexInstalled = false;
