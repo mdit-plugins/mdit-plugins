@@ -2,11 +2,12 @@ name: Publish packages
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - main
 
 jobs:
   publish:
+    if: "${{contains(github.event.head_commit.message, 'chore(release): publish') }}"
     name: Publish packages
     runs-on: ubuntu-latest
     steps:
