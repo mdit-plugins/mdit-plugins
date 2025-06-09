@@ -15,7 +15,14 @@ export const sync = (): Promise<void[]> => {
       ({ default: content }: { default: Record<string, unknown> }) =>
         new Promise<void>((resolve) => {
           const req = request(
-            new URL(`https://npmmirror.com/sync/${content.name as string}/`),
+            `https://registry-direct.npmmirror.com/-/package/${content.name as string}/syncs`,
+            {
+              method: "PUT",
+              headers: {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "Content-Length": 0,
+              },
+            },
           );
 
           req.write("");
