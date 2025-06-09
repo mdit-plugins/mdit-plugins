@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.22.0...@mdit/plugin-katex-slim@0.23.0) (2025-06-09)
+
+### ✨ Features
+
+- support delimiters options in tex plugins ([1eebf3e](https://github.com/mdit-plugins/mdit-plugins/commit/1eebf3ef137fc7fef6610f53e4e7ab4b5ffd8a57))
+
+### 🐛 Bug Fixes
+
+- **katex-slim:** fix imports ([2ca59b2](https://github.com/mdit-plugins/mdit-plugins/commit/2ca59b2c4facdac8eafdd8504b0a0e5fa1649a8e))
+
 ## 0.22.0 (2025-06-07)
 
 ### ⚠ BREAKING CHANGES

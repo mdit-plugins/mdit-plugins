@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex@0.22.0...@mdit/plugin-katex@0.23.0) (2025-06-09)
+
+### ✨ Features
+
+- support delimiters options in tex plugins ([1eebf3e](https://github.com/mdit-plugins/mdit-plugins/commit/1eebf3ef137fc7fef6610f53e4e7ab4b5ffd8a57))
+
 ## 0.22.0 (2025-06-07)
 
 ### ⚠ BREAKING CHANGES
