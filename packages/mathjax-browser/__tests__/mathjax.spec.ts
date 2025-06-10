@@ -70,7 +70,7 @@ describe("inline mathjax", () => {
   });
 
   it("should output A11y", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(
+    const markdownItSVG = MarkdownIt({ linkify: true }).use(
       mathjax,
       createMathjaxInstance({
         output: svg(),
@@ -86,12 +86,12 @@ describe("inline mathjax", () => {
     );
 
     examples.forEach((example) => {
-      expect(markdownIt.render(`$${example}$`)).toMatch(
+      expect(markdownItSVG.render(`$${example}$`)).toMatch(
         /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );
-      expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
-      );
+      expect(
+        markdownItSVG.render(`A tex equation $${example}$ inline.`),
+      ).toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
         /<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/,
       );

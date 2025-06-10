@@ -40,11 +40,10 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^14.1.2",
-    "upath": "^2.0.1"
+    "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
+    "@mdit/plugin-tex": "workspace:*",
     "mathjax-full": "3.2.2"
   },
   "peerDependencies": {
