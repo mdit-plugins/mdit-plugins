@@ -11,7 +11,7 @@ import { mathjax as mathjaxLib } from "mathjax-full/js/mathjax.js";
 import type { CHTML } from "mathjax-full/js/output/chtml.js";
 import type { SVG } from "mathjax-full/js/output/svg.js";
 
-import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
+import type { MarkdownItMathjaxOptions } from "./options.js";
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
@@ -34,11 +34,9 @@ export const getDocumentOptions = (
  * Mathjax instance
  */
 export interface MathjaxInstance
-  extends Required<
-    Pick<
-      MarkdownItMathjaxOptions,
-      "allowInlineWithSpace" | "delimiters" | "mathFence"
-    >
+  extends Pick<
+    MarkdownItMathjaxOptions,
+    "allowInlineWithSpace" | "delimiters" | "mathFence" | "transformer"
   > {
   /**
    * Mathjax adaptor
@@ -66,28 +64,41 @@ export interface MathjaxInstance
    * Reset tex (including labels)
    */
   reset: () => void;
-
-  /**
-   * Output content transformer
-   */
-  transformer: TeXTransformer | null;
 }
 
-export const createMathjaxInstance = (
-  options: MarkdownItMathjaxOptions,
-): MathjaxInstance => {
-  const documentOptions = getDocumentOptions(options);
+export const createMathjaxInstance = ({
+  tex,
+  output,
+  a11y,
 
-  const { OutputJax, InputJax } = documentOptions;
+  allowInlineWithSpace,
+  delimiters,
+  mathFence,
+  transformer,
+}: MarkdownItMathjaxOptions): MathjaxInstance => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!output) {
+    throw new Error("Output renderer is required");
+  }
+
+  const InputJax = new TeX<LiteElement, string, HTMLElement>({
+    packages: AllPackages,
+    ...tex,
+  });
+
+  const documentOptions: DocumentOptions = {
+    InputJax,
+    OutputJax: output,
+  };
 
   const adaptor = liteAdaptor();
   const handler = RegisterHTMLHandler(adaptor);
 
-  options.a11y?.(handler);
+  a11y?.(handler);
 
   const clearStyle = (): void => {
     // clear style cache
-    if ("clearCache" in OutputJax) OutputJax.clearCache();
+    if ("clearCache" in output) output.clearCache();
   };
 
   const reset = (): void => {
@@ -96,7 +107,7 @@ export const createMathjaxInstance = (
 
   const outputStyle = (): string => {
     const style = adaptor.innerHTML(
-      OutputJax.styleSheet(
+      output.styleSheet(
         mathjaxLib.document("", documentOptions) as MathDocument<
           LiteElement,
           string,
@@ -113,13 +124,13 @@ export const createMathjaxInstance = (
   return {
     adaptor,
     documentOptions,
-    allowInlineWithSpace: options.allowInlineWithSpace ?? false,
-    delimiters: options.delimiters ?? "dollars",
-    mathFence: options.mathFence ?? false,
+    allowInlineWithSpace,
+    delimiters,
+    mathFence,
     clearStyle,
     reset,
     outputStyle,
-    transformer: options.transformer ?? null,
+    transformer,
   };
 };
 
