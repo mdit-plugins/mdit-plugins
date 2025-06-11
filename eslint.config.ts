@@ -6,6 +6,7 @@ export default hope({
     "packages/*/src/lib/**",
     "**/.vuepress/snippets/",
     "**/__tests__/__fixtures__/**",
+    "**/*.bench.ts",
   ],
 
   languageOptions: {

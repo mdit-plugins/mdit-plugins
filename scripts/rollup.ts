@@ -65,7 +65,7 @@ export const rollupTypescript = (
             ]
           : [],
       ],
-      external: [/^markdown-it/, ...external],
+      external: resolve ? [] : [/^markdown-it/, ...external],
       treeshake: {
         preset: "smallest",
       },

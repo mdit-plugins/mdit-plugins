@@ -18,6 +18,9 @@ export default defineConfig({
       exclude: ["packages/plantuml/src/**/browser.ts"],
     },
     include: ["**/*.spec.ts"],
+    benchmark: {
+      include: ["**/*.bench.ts"],
+    },
     ...(process.env.CODECOV_TOKEN
       ? {
           reporters: ["junit"],
