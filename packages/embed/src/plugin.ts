@@ -6,6 +6,47 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
+/**
+ * Check if a character is whitespace (space or tab)
+ */
+const isWhitespace = (char: string): boolean => char === " " || char === "\t";
+
+/**
+ * Validate embed content format: must have whitespace at both ends and valid structure
+ */
+const validateEmbedContent = (
+  content: string,
+): {
+  isValid: boolean;
+  embedName: string;
+  params: string;
+} => {
+  // Content must have at least one space at the beginning and end
+  if (
+    content.length < 3 ||
+    !isWhitespace(content.charAt(0)) ||
+    !isWhitespace(content.charAt(content.length - 1))
+  ) {
+    return { isValid: false, embedName: "", params: "" };
+  }
+
+  // Extract the trimmed content for parsing
+  const trimmedContent = content.trim();
+
+  if (!trimmedContent) {
+    return { isValid: false, embedName: "", params: "" };
+  }
+
+  // Split into name and params
+  const spaceIndex = trimmedContent.search(/[\s\t]/);
+  const embedName =
+    spaceIndex === -1 ? trimmedContent : trimmedContent.slice(0, spaceIndex);
+  const params =
+    spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex + 1).trim();
+
+  return { isValid: true, embedName, params };
+};
+
 /*
  * Parse inline embed with bracket syntax: {%...%}
  */
@@ -53,26 +94,10 @@ const getEmbedInline =
     // Check that content doesn't contain {% or %}
     if (content.includes("{%") || content.includes("%}")) return false;
 
-    // Content must have at least one space at the beginning and end
-    if (
-      content.length < 3 ||
-      (content.charAt(0) !== " " && content.charAt(0) !== "\t") ||
-      (content.charAt(content.length - 1) !== " " &&
-        content.charAt(content.length - 1) !== "\t")
-    )
-      return false;
+    // Validate embed content format and extract name/params
+    const { isValid, embedName, params } = validateEmbedContent(content);
 
-    // Extract the trimmed content for parsing
-    const trimmedContent = content.trim();
-
-    if (!trimmedContent) return false;
-
-    // Split into name and params
-    const spaceIndex = trimmedContent.search(/[\s\t]/);
-    const embedName =
-      spaceIndex === -1 ? trimmedContent : trimmedContent.slice(0, spaceIndex);
-    const params =
-      spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex + 1).trim();
+    if (!isValid) return false;
 
     // Check if embed name exists in the map
     if (!embedName || !inlineEmbedMap.has(embedName)) return false;
@@ -112,11 +137,9 @@ const getEmbedBlock =
 
     // Find the closing %} on the same line
     let closingPos = -1;
+
     for (let pos = lineStart + 2; pos + 1 < lineMax; pos++) {
-      if (
-        state.src.charAt(pos) === "%" &&
-        state.src.charAt(pos + 1) === "}"
-      ) {
+      if (state.src.charAt(pos) === "%" && state.src.charAt(pos + 1) === "}") {
         closingPos = pos;
         break;
       }
@@ -131,25 +154,10 @@ const getEmbedBlock =
     // Check that content doesn't contain {% or %}
     if (content.includes("{%") || content.includes("%}")) return false;
 
-    // Content must have at least one space at the beginning and end
-    if (
-      content.length < 3 ||
-      (content.charAt(0) !== " " && content.charAt(0) !== "\t") ||
-      (content.charAt(content.length - 1) !== " " &&
-        content.charAt(content.length - 1) !== "\t")
-    )
-      return false;
+    // Validate embed content format and extract name/params
+    const { isValid, embedName, params } = validateEmbedContent(content);
 
-    // Extract the trimmed content for parsing
-    const trimmedContent = content.trim();
-    if (!trimmedContent) return false;
-
-    // Split into name and params
-    const spaceIndex = trimmedContent.search(/[\s\t]/);
-    const embedName =
-      spaceIndex === -1 ? trimmedContent : trimmedContent.slice(0, spaceIndex);
-    const params =
-      spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex + 1).trim();
+    if (!isValid) return false;
 
     // Check if embed name exists in the map
     if (!embedName || !embedMap.has(embedName)) return false;
@@ -163,7 +171,7 @@ const getEmbedBlock =
     const lineContent = state.src.slice(lineStart, lineMax);
     const embedStartInLine = lineContent.indexOf("{%");
     const beforeEmbedContent = lineContent.slice(0, embedStartInLine);
-    
+
     if (beforeEmbedContent.trim() !== "") return false;
 
     // Check if there's non-whitespace content after the embed
