@@ -1,0 +1,68 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`embed > block embeds > should handle block embed: { youtube dQw4w9WgXcQ } 1`] = `
+"<p>{ youtube dQw4w9WgXcQ }</p>
+"
+`;
+
+exports[`embed > block embeds > should handle block embed: {% github octocat/Hello-World %} 1`] = `"<div class="github-embed"><a href="https://github.com/octocat/Hello-World">github.com/octocat/Hello-World</a></div>"`;
+
+exports[`embed > block embeds > should handle block embed: {% twitter user1 %} 1`] = `"<div class="twitter"><a href="https://x.com/user1"></a></div>"`;
+
+exports[`embed > block embeds > should handle block embed: {% unknown some-param %} 1`] = `
+"<p>{% unknown some-param %}</p>
+"
+`;
+
+exports[`embed > block embeds > should handle block embed: {% youtube dQw4w9WgXcQ %} 1`] = `"<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"`;
+
+exports[`embed > block embeds > should handle multiline content 1`] = `
+"<h1>Title</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe><p>Some text</p>
+<div class="twitter"><a href="https://x.com/user1"></a></div>"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: {% icon star %} Rating: {% badge 5 stars %} {% icon thumbs-up %} 1`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: {% icon star %} Rating: {% badge 5 stars %} {% icon thumbs-up %} 2`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: {% icon star %} Rating: {% badge 5 stars %} {% icon thumbs-up %} 3`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Check out {% youtube dQw4w9WgXcQ %} video. 1`] = `
+"<p>Check out {% youtube dQw4w9WgXcQ %} video.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Click the {% icon home %} button to go home. 1`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Click the {% icon home %} button to go home. 2`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Click the {% icon home %} button to go home. 3`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Status: {% badge active %} 1`] = `
+"<p>Status: <span class="badge">active</span></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed: Use {% unknown-inline param %} here. 1`] = `
+"<p>Use {% unknown-inline param %} here.</p>
+"
+`;
