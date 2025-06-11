@@ -2,6 +2,7 @@
  * Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js
  */
 
+import { isSpace } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
@@ -18,19 +19,19 @@ const isValidDollarDelim = (
   pos: number,
   allowInlineWithSpace: boolean,
 ): { canOpen: boolean; canClose: boolean } => {
-  const prevChar = state.src.charAt(pos - 1);
-  const nextChar = state.src.charAt(pos + 1);
+  const prevCharCode = state.src.charCodeAt(pos - 1);
+  const nextCharCode = state.src.charCodeAt(pos + 1);
 
   return {
-    canOpen: allowInlineWithSpace || (nextChar !== " " && nextChar !== "\t"),
+    canOpen: allowInlineWithSpace || !isSpace(nextCharCode),
 
     /*
      * Check non-whitespace conditions for opening and closing, and
      * check that closing delimiter isn't followed by a number
      */
     canClose:
-      !/[0-9]/u.exec(nextChar) &&
-      (allowInlineWithSpace || (prevChar !== " " && prevChar !== "\t")),
+      !((nextCharCode >= 48 /* 0 */ && nextCharCode <= 57) /* 9 */) &&
+      (allowInlineWithSpace || !isSpace(prevCharCode)),
   };
 };
 
@@ -69,7 +70,7 @@ const getDollarInlineTex =
        * first non escape when complete
        */
       pos = match - 1;
-      while (state.src[pos] === "\\") pos--;
+      while (state.src.charCodeAt(pos) === 92 /* \ */) pos--;
 
       // Even number of escapes, potential closing delimiter found
       if ((match - pos) % 2 === 1) break;
@@ -125,19 +126,27 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   const start = state.pos;
 
   // Check for opening \(
-  if (state.src.slice(start, start + 2) !== "\\(") return false;
+  if (
+    state.src.charCodeAt(start) !== 92 /* \ */ ||
+    state.src.charCodeAt(start + 1) !== 40 /* ( */
+  )
+    return false;
 
   // Look for closing \)
   let pos = start + 2;
   let found = false;
+  const srcLength = state.src.length;
 
-  while (pos < state.src.length - 1) {
-    if (state.src.slice(pos, pos + 2) === "\\)") {
+  while (pos < srcLength - 1) {
+    if (
+      state.src.charCodeAt(pos) === 92 /* \ */ &&
+      state.src.charCodeAt(pos + 1) === 41 /* ) */
+    ) {
       // Check if the opening \( was escaped
       let backslashes = 0;
       let checkPos = start - 1;
 
-      while (checkPos >= 0 && state.src[checkPos] === "\\") {
+      while (checkPos >= 0 && state.src.charCodeAt(checkPos) === 92 /* \ */) {
         backslashes++;
         checkPos--;
       }
@@ -148,10 +157,11 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
       // Check if the closing \) is escaped
       let closingBackslashes = 0;
       let closingCheckPos = pos - 1;
+      const minCheckPos = start + 2;
 
       while (
-        closingCheckPos >= start + 2 &&
-        state.src[closingCheckPos] === "\\"
+        closingCheckPos >= minCheckPos &&
+        state.src.charCodeAt(closingCheckPos) === 92 /* \ */
       ) {
         closingBackslashes++;
         closingCheckPos--;
@@ -189,7 +199,11 @@ const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
 
   if (pos + 2 > max) return false;
 
-  if (state.src.slice(pos, pos + 2) !== "$$") return false;
+  if (
+    state.src.charCodeAt(pos) !== 36 /* $ */ ||
+    state.src.charCodeAt(pos + 1) !== 36 /* $ */
+  )
+    return false;
 
   pos += 2;
   let firstLine = state.src.slice(pos, max).trim();
@@ -198,7 +212,11 @@ const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
 
   let found = false;
 
-  if (firstLine.endsWith("$$")) {
+  if (
+    firstLine.length >= 2 &&
+    firstLine.charCodeAt(firstLine.length - 1) === 36 /* $ */ &&
+    firstLine.charCodeAt(firstLine.length - 2) === 36 /* $ */
+  ) {
     // Single line expression
     firstLine = firstLine.slice(0, -2);
     found = true;
@@ -218,10 +236,28 @@ const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
     if (pos < max && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    if (state.src.slice(pos, max).trim().endsWith("$$")) {
-      lastLine = state.src
-        .slice(pos, state.src.slice(0, max).lastIndexOf("$$"))
-        .trim();
+    const trimmedLine = state.src.slice(pos, max).trim();
+
+    if (
+      trimmedLine.length >= 2 &&
+      trimmedLine.charCodeAt(trimmedLine.length - 1) === 36 /* $ */ &&
+      trimmedLine.charCodeAt(trimmedLine.length - 2) === 36 /* $ */
+    ) {
+      // Find the last occurrence of "$$" in the current line
+      let dollarEnd = max;
+
+      while (dollarEnd > pos + 1) {
+        if (
+          state.src.charCodeAt(dollarEnd - 1) === 36 /* $ */ &&
+          state.src.charCodeAt(dollarEnd - 2) === 36 /* $ */
+        ) {
+          dollarEnd -= 2;
+          break;
+        }
+        dollarEnd--;
+      }
+
+      lastLine = state.src.slice(pos, dollarEnd).trim();
       found = true;
     }
   }
@@ -250,7 +286,11 @@ const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
 
   if (pos + 2 > max) return false;
 
-  if (state.src.slice(pos, pos + 2) !== "\\[") return false;
+  if (
+    state.src.charCodeAt(pos) !== 92 /* \ */ ||
+    state.src.charCodeAt(pos + 1) !== 91 /* [ */
+  )
+    return false;
 
   pos += 2;
   let firstLine = state.src.slice(pos, max).trim();
@@ -259,7 +299,11 @@ const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
 
   let found = false;
 
-  if (firstLine.endsWith("\\]")) {
+  if (
+    firstLine.length >= 2 &&
+    firstLine.charCodeAt(firstLine.length - 1) === 93 /* ] */ &&
+    firstLine.charCodeAt(firstLine.length - 2) === 92 /* \ */
+  ) {
     // Single line expression
     firstLine = firstLine.slice(0, -2);
     found = true;
@@ -279,10 +323,28 @@ const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
     if (pos < max && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    if (state.src.slice(pos, max).trim().endsWith("\\]")) {
-      lastLine = state.src
-        .slice(pos, state.src.slice(0, max).lastIndexOf("\\]"))
-        .trim();
+    const trimmedLine = state.src.slice(pos, max).trim();
+
+    if (
+      trimmedLine.length >= 2 &&
+      trimmedLine.charCodeAt(trimmedLine.length - 1) === 93 /* ] */ &&
+      trimmedLine.charCodeAt(trimmedLine.length - 2) === 92 /* \ */
+    ) {
+      // Find the last occurrence of "\\]" in the current line
+      let bracketEnd = max;
+
+      while (bracketEnd > pos + 1) {
+        if (
+          state.src.charCodeAt(bracketEnd - 1) === 93 /* ] */ &&
+          state.src.charCodeAt(bracketEnd - 2) === 92 /* \ */
+        ) {
+          bracketEnd -= 2;
+          break;
+        }
+        bracketEnd--;
+      }
+
+      lastLine = state.src.slice(pos, bracketEnd).trim();
       found = true;
     }
   }

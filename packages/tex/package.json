@@ -26,6 +26,7 @@
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
+      "browser": "./lib/browser.js",
       "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
@@ -40,6 +41,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
   "peerDependencies": {

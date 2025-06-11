@@ -21,7 +21,9 @@
     "release:publish": "lerna publish from-package --yes",
     "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" tsx scripts/sync.ts",
     "release:version": "lerna version",
-    "test": "vitest run --coverage"
+    "test": "vitest run",
+    "test:bench": "vitest bench --run",
+    "test:coverage": "vitest run --coverage"
   },
   "commitlint": {
     "extends": [
