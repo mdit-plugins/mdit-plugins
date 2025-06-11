@@ -11,6 +11,25 @@ import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 import type { MarkdownItTexOptions } from "./options.js";
 
 /*
+ * Count preceding backslashes from a position
+ */
+const countPrecedingBackslashes = (
+  src: string,
+  pos: number,
+  minPos = 0,
+): number => {
+  let count = 0;
+  let checkPos = pos - 1;
+
+  while (checkPos >= minPos && src.charCodeAt(checkPos) === 92 /* \ */) {
+    count++;
+    checkPos--;
+  }
+
+  return count;
+};
+
+/*
  * Test if potential opening or closing delimiter for dollar syntax
  * Assumes that there is a "$" at state.src[pos]
  */
@@ -143,29 +162,17 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
       state.src.charCodeAt(pos + 1) === 41 /* ) */
     ) {
       // Check if the opening \( was escaped
-      let backslashes = 0;
-      let checkPos = start - 1;
-
-      while (checkPos >= 0 && state.src.charCodeAt(checkPos) === 92 /* \ */) {
-        backslashes++;
-        checkPos--;
-      }
+      const openingBackslashes = countPrecedingBackslashes(state.src, start);
 
       // If opening \( is escaped (odd number of preceding backslashes), don't parse
-      if (backslashes % 2 === 1) return false;
+      if (openingBackslashes % 2 === 1) return false;
 
       // Check if the closing \) is escaped
-      let closingBackslashes = 0;
-      let closingCheckPos = pos - 1;
-      const minCheckPos = start + 2;
-
-      while (
-        closingCheckPos >= minCheckPos &&
-        state.src.charCodeAt(closingCheckPos) === 92 /* \ */
-      ) {
-        closingBackslashes++;
-        closingCheckPos--;
-      }
+      const closingBackslashes = countPrecedingBackslashes(
+        state.src,
+        pos,
+        start + 2,
+      );
 
       // If closing \) is not escaped (even number of preceding backslashes), we found it
       if (closingBackslashes % 2 === 0) {
@@ -193,7 +200,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
 /*
  * Parse block math with dollar signs: $$...$$
  */
-const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
+const dollarBlockTex: RuleBlock = (state, start, end, silent) => {
   let pos = state.bMarks[start] + state.tShift[start];
   let max = state.eMarks[start];
 
@@ -366,6 +373,10 @@ const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
   return true;
 };
 
+const ruleOptions = {
+  alt: ["paragraph", "reference", "blockquote", "list"],
+};
+
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (typeof options?.render !== "function")
     throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
@@ -403,10 +414,8 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     md.block.ruler.after(
       "blockquote",
       "math_block_dollar",
-      getDollarBlockTex(),
-      {
-        alt: ["paragraph", "reference", "blockquote", "list"],
-      },
+      dollarBlockTex,
+      ruleOptions,
     );
   }
 
@@ -420,9 +429,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
       "blockquote",
       "math_block_bracket",
       getBracketBlockTex(),
-      {
-        alt: ["paragraph", "reference", "blockquote", "list"],
-      },
+      ruleOptions,
     );
   }
 
