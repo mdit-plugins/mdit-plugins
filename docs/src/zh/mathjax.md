@@ -60,6 +60,17 @@ interface MarkdownItMathjaxOptions {
   output?: "chtml" | "svg";
 
   /**
+   * 启用的数学分隔符语法
+   *
+   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
+   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
+   * - `"all"`: 启用括号和美元符号两种语法
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
+  /**
    * 是否允许两端带空格的内联数学
    *
    * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
@@ -109,11 +120,15 @@ interface MarkdownItMathjaxOptions {
 
 ## 格式
 
-你应该在行内使用 `$tex expression$`，在块中使用 `$$tex expression$$`。
+语法取决于 `delimiters` 选项：
+
+- **默认 (`"dollars"`)**: 内联使用 `$tex expression$`，块级使用 `$$tex expression$$`。
+- **LaTeX 风格 (`"brackets"`)**: 内联使用 `\(tex expression\)`，块级使用 `\[tex expression\]`。
+- **两种语法 (`"all"`)**: 同时支持美元符号和括号语法。
 
 ::: tip 转义
 
-- 你可以使用 `\` 来转义 `$`:
+- 你可以使用 `\` 来转义 `$` `\[` 和 `\(`:
 
   ```md
   Euler’s identity \$e^{i\pi}+1=0$

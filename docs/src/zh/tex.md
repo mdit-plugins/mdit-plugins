@@ -56,6 +56,17 @@ mdIt.render("$E=mc^2$");
 ```ts
 interface MarkdownItTexOptions {
   /**
+   * 启用的数学分隔符语法
+   *
+   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
+   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
+   * - `"all"`: 启用括号和美元符号两种语法
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
+  /**
    * 是否将解析的数学语言 fence 块转换为显示模式数学
    *
    * @default false
@@ -85,6 +96,10 @@ interface MarkdownItTexOptions {
 
 ## 格式
 
+插件根据 `delimiters` 选项支持不同的分隔符语法：
+
+### 默认语法 (dollars)
+
 - 内联模式：`$xxx$`
 
 - 显示模式：
@@ -96,6 +111,24 @@ interface MarkdownItTexOptions {
   xxx
   $$
   ```
+
+### LaTeX 风格 (brackets)
+
+- 内联模式：`\(xxx\)`
+
+- 显示模式：
+
+  ```md
+  \[xxx\]
+
+  \[
+  xxx
+  \]
+  ```
+
+### 混合语法 (all)
+
+当 `delimiters` 设置为 `"all"` 时，同时支持美元符号和括号语法。
 
 ::: tip 转义
 

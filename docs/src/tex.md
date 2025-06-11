@@ -55,6 +55,10 @@ This plugin registers markdown rules for $\TeX$. It will replace the $\TeX$ toke
 
 ## Syntax
 
+The plugin supports different delimiter syntaxes based on the `delimiters` option:
+
+### Default Syntax (dollars)
+
 - Inline mode: `$xxx$`
 
 - Display mode:
@@ -66,6 +70,24 @@ This plugin registers markdown rules for $\TeX$. It will replace the $\TeX$ toke
   xxx
   $$
   ```
+
+### LaTeX Style (brackets)
+
+- Inline mode: `\(xxx\)`
+
+- Display mode:
+
+  ```md
+  \[xxx\]
+
+  \[
+  xxx
+  \]
+  ```
+
+### Mixed Syntax (all)
+
+When `delimiters` is set to `"all"`, both dollar and bracket syntaxes are supported.
 
 ::: tip Escaping
 
@@ -83,6 +105,17 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 
 ```ts
 interface MarkdownItTexOptions {
+  /**
+   * Math delimiter syntax to enable
+   *
+   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
+   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
+   * - `"all"`: Enable both bracket and dollar syntaxes
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
   /**
    * Whether parsed fence block with math language to display mode math
    *

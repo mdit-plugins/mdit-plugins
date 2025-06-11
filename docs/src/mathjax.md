@@ -60,6 +60,17 @@ interface MarkdownItMathjaxOptions {
   output?: "chtml" | "svg";
 
   /**
+   * Math delimiter syntax to enable
+   *
+   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
+   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
+   * - `"all"`: Enable both bracket and dollar syntaxes
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
+  /**
    * Whether to allow inline math with spaces on ends
    *
    * @description NOT recommended to set this to true, because it will likely break the default usage of $
@@ -109,11 +120,15 @@ We also have a package called `@mdit/plugin-mathjax-slim` which `mathjax-full` i
 
 ## Syntax
 
-You should use `$tex expression$` inline, and use `$$tex expression$$` for block.
+The syntax depends on the `delimiters` option:
+
+- **Default (`"dollars"`)**: Use `$tex expression$` inline, and `$$tex expression$$` for block.
+- **LaTeX style (`"brackets"`)**: Use `\(tex expression\)` inline, and `\[tex expression\]` for block.
+- **Both (`"all"`)**: Both dollar and bracket syntaxes are supported.
 
 ::: tip Escaping
 
-- You can use `\` to escape `$`:
+- You can use `\` to escape `$` `\(` and `\[`:
 
   ```md
   Euler’s identity \$e^{i\pi}+1=0$

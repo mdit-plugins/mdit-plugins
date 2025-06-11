@@ -45,7 +45,11 @@ We also have a package called `@mdit/plugin-katex-slim` which `katex` is an opti
 
 ## Syntax
 
-You should use `$tex expression$` inline, and use `$$tex expression$$` for block.
+The syntax depends on the `delimiters` option:
+
+- **Default (`"dollars"`)**: Use `$tex expression$` inline, and `$$tex expression$$` for block.
+- **LaTeX style (`"brackets"`)**: Use `\(tex expression\)` inline, and `\[tex expression\]` for block.
+- **Both (`"all"`)**: Both dollar and bracket syntaxes are supported.
 
 ::: tip Style
 
@@ -55,7 +59,7 @@ You should import `katex/dist/katex.min.css` from `katex` package or CDN yoursel
 
 ::: tip Escaping
 
-- You can use `\` to escape `$`:
+- You can use `\` to escape `$` `\(` and `\[`:
 
   ```md
   Euler’s identity \$e^{i\pi}+1=0$
@@ -111,6 +115,17 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 type TeXTransformer = (content: string, displayMode: boolean) => string;
 
 interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
+  /**
+   * Math delimiter syntax to enable
+   *
+   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
+   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
+   * - `"all"`: Enable both bracket and dollar syntaxes
+   *
+   * @default "dollars"
+   */
+  delimiters?: "brackets" | "dollars" | "all";
+
   /**
    * Whether to allow inline math with spaces on ends
    *
