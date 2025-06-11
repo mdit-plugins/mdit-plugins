@@ -257,7 +257,7 @@ const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
         dollarEnd--;
       }
 
-      lastLine = state.src.slice(pos, dollarEnd).trim();
+      lastLine = state.src.slice(pos, dollarEnd);
       found = true;
     }
   }
