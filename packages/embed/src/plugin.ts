@@ -7,7 +7,7 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
 /*
- * Parse inline math with bracket syntax: {%...%}
+ * Parse inline embed with bracket syntax: {%...%}
  */
 const getEmbedInline =
   (inlineEmbedMap: Map<string, EmbedConfig>): RuleInline =>
@@ -15,16 +15,11 @@ const getEmbedInline =
     const start = state.pos;
     const max = state.src.length;
 
-    // minimum length check for inline embed - at least 7 characters
-    if (max - start < 7) return false;
+    // minimum length check for inline embed - at least 5 characters: {% %}
+    if (max - start < 5) return false;
 
     // check opening marker
-    if (
-      state.src.charAt(start) !== "{" ||
-      state.src.charAt(start + 1) !== "%" ||
-      (state.src.charAt(start + 2) !== " " &&
-        state.src.charAt(start + 2) !== "\t")
-    )
+    if (state.src.charAt(start) !== "{" || state.src.charAt(start + 1) !== "%")
       return false;
 
     // Check if the opening marker was escaped
@@ -39,72 +34,51 @@ const getEmbedInline =
     // If opening {% is escaped (odd number of preceding backslashes), don't parse
     if (backslashCount % 2 === 1) return false;
 
-    // Move past "{% "
-    pos = start + 3;
-    let char: string;
+    // Find the closing %}
+    let closingPos = -1;
 
-    // Skip spaces after "{% "
-    for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+    for (pos = start + 2; pos + 1 < max; pos++) {
+      if (state.src.charAt(pos) === "%" && state.src.charAt(pos + 1) === "}") {
+        closingPos = pos;
+        break;
+      }
     }
 
-    const embedNameStart = pos;
+    // No closing marker found
+    if (closingPos === -1) return false;
 
-    // go th embed name until space or tab
-    for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      // if we hit a marker char before a space or tab, quit
-      if (char === "%" && state.src.charAt(pos + 1) === "}") return false;
-      if (char === " " || char === "\t") break;
-    }
+    // Extract content between {% and %}
+    const content = state.src.slice(start + 2, closingPos);
 
-    const embedName = state.src.slice(embedNameStart, pos);
+    // Check that content doesn't contain {% or %}
+    if (content.includes("{%") || content.includes("%}")) return false;
 
+    // Content must have at least one space at the beginning and end
+    if (
+      content.length < 3 ||
+      (content.charAt(0) !== " " && content.charAt(0) !== "\t") ||
+      (content.charAt(content.length - 1) !== " " &&
+        content.charAt(content.length - 1) !== "\t")
+    )
+      return false;
+
+    // Extract the trimmed content for parsing
+    const trimmedContent = content.trim();
+
+    if (!trimmedContent) return false;
+
+    // Split into name and params
+    const spaceIndex = trimmedContent.search(/[\s\t]/);
+    const embedName =
+      spaceIndex === -1 ? trimmedContent : trimmedContent.slice(0, spaceIndex);
+    const params =
+      spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex + 1).trim();
+
+    // Check if embed name exists in the map
     if (!embedName || !inlineEmbedMap.has(embedName)) return false;
 
-    let params = "";
-
-    // looking for a direct closing " %}"
-    if (pos + 3 === max) {
-      // check closing marker
-      if (
-        state.src.charAt(pos + 1) !== "%" ||
-        state.src.charAt(pos + 2) !== "}"
-      )
-        return false;
-
-      state.pos = pos + 2;
-    } else {
-      // Skip spaces after embed name
-      for (; pos < max; pos++) {
-        char = state.src.charAt(pos);
-        if (char !== " " && char !== "\t") break;
-      }
-
-      const contentStart = pos;
-
-      let found = false;
-
-      for (; pos + 2 < max; pos++) {
-        char = state.src.charAt(pos);
-        // a valid closing marker found
-        if (
-          state.src.charAt(pos + 1) === "%" &&
-          state.src.charAt(pos + 2) === "}"
-        ) {
-          // if we hit a marker char before a space or tab, quit
-          if (char !== " " && char !== "\t") return false;
-          found = true;
-          break;
-        }
-      }
-
-      if (!found) return false;
-
-      params = state.src.slice(contentStart, pos).trim();
-      state.pos = pos + 3;
-    }
+    // Update parser position
+    state.pos = closingPos + 2;
 
     if (!silent) {
       const token = state.push("embed_inline", "embed", 0);
@@ -126,95 +100,74 @@ const getEmbedBlock =
     const lineStart = state.bMarks[start] + state.tShift[start];
     const lineMax = state.eMarks[start];
 
-    if (lineMax - lineStart < 7) return false;
+    // minimum length check for block embed - at least 5 characters: {% %}
+    if (lineMax - lineStart < 5) return false;
 
-    // Check for opening marker
+    // check opening marker
     if (
       state.src.charAt(lineStart) !== "{" ||
-      state.src.charAt(lineStart + 1) !== "%" ||
-      (state.src.charAt(lineStart + 2) !== " " &&
-        state.src.charAt(lineStart + 2) !== "\t")
+      state.src.charAt(lineStart + 1) !== "%"
     )
       return false;
 
-    let pos = lineStart + 2;
-    let char: string;
-
-    // Skip spaces after marker
-    for (; pos < lineMax; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+    // Find the closing %} on the same line
+    let closingPos = -1;
+    for (let pos = lineStart + 2; pos + 1 < lineMax; pos++) {
+      if (
+        state.src.charAt(pos) === "%" &&
+        state.src.charAt(pos + 1) === "}"
+      ) {
+        closingPos = pos;
+        break;
+      }
     }
 
-    const embedNameStart = pos;
+    // No closing marker found on the same line
+    if (closingPos === -1) return false;
 
-    // go through embed name until space or tab
-    for (; pos < lineMax; pos++) {
-      char = state.src.charAt(pos);
-      if (char === " " || char === "\t") break;
-    }
+    // Extract content between {% and %}
+    const content = state.src.slice(lineStart + 2, closingPos);
 
-    const embedName = state.src.slice(embedNameStart, pos);
+    // Check that content doesn't contain {% or %}
+    if (content.includes("{%") || content.includes("%}")) return false;
 
+    // Content must have at least one space at the beginning and end
+    if (
+      content.length < 3 ||
+      (content.charAt(0) !== " " && content.charAt(0) !== "\t") ||
+      (content.charAt(content.length - 1) !== " " &&
+        content.charAt(content.length - 1) !== "\t")
+    )
+      return false;
+
+    // Extract the trimmed content for parsing
+    const trimmedContent = content.trim();
+    if (!trimmedContent) return false;
+
+    // Split into name and params
+    const spaceIndex = trimmedContent.search(/[\s\t]/);
+    const embedName =
+      spaceIndex === -1 ? trimmedContent : trimmedContent.slice(0, spaceIndex);
+    const params =
+      spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex + 1).trim();
+
+    // Check if embed name exists in the map
     if (!embedName || !embedMap.has(embedName)) return false;
 
-    // Look for closing %} at end of the line
-    for (; pos < lineMax; pos++) {
-      const char = state.src.charAt(pos);
-
-      if (char !== " " && char !== "\t") break;
-    }
-
-    const contentStart = pos;
-
-    // Look for closing %} - it must be either "%}" immediately (empty params) or " %}" (with params)
-    let contentEnd = contentStart;
-    let found = false;
-
-    // Check if params is empty (immediate %})
-    if (
-      contentStart + 1 < lineMax &&
-      state.src.charAt(contentStart) === "%" &&
-      state.src.charAt(contentStart + 1) === "}"
-    ) {
-      found = true;
-      contentEnd = contentStart;
-    } else {
-      // Search for " %}" or "\t%}" pattern
-      for (; contentEnd + 2 < lineMax; contentEnd++) {
-        char = state.src.charAt(contentEnd);
-        if (
-          (char === " " || char === "\t") &&
-          state.src.charAt(contentEnd + 1) === "%" &&
-          state.src.charAt(contentEnd + 2) === "}"
-        ) {
-          found = true;
-          break;
-        }
-      }
-    }
-
-    if (!found) return false;
-
     // Check that this is the only embed on the line (for true block behavior)
-    const afterEmbedPos =
-      contentEnd === contentStart ? contentEnd + 2 : contentEnd + 3;
+    // There should be only whitespace before {% and after %}
+    const afterEmbedPos = closingPos + 2;
+    const afterEmbed = state.src.slice(afterEmbedPos, lineMax);
 
-    // If there's content after %} on the same line, this should be handled as inline
-    if (afterEmbedPos < lineMax) {
-      // Check if remaining content is non-whitespace
-      let hasNonWhitespace = false;
+    // Check if there's non-whitespace content before the embed (besides line indentation)
+    const lineContent = state.src.slice(lineStart, lineMax);
+    const embedStartInLine = lineContent.indexOf("{%");
+    const beforeEmbedContent = lineContent.slice(0, embedStartInLine);
+    
+    if (beforeEmbedContent.trim() !== "") return false;
 
-      for (let i = afterEmbedPos; i < lineMax; i++) {
-        const char = state.src.charAt(i);
-
-        if (char !== " " && char !== "\t" && char !== "\n" && char !== "\r") {
-          hasNonWhitespace = true;
-          break;
-        }
-      }
-      if (hasNonWhitespace) return false;
-    }
+    // Check if there's non-whitespace content after the embed
+    if (afterEmbed.trim() !== "") return false;
 
     if (silent) return true;
 
@@ -222,7 +175,7 @@ const getEmbedBlock =
 
     token.block = true;
     token.info = embedName;
-    token.content = state.src.slice(contentStart, contentEnd).trim();
+    token.content = params;
     token.map = [start, start + 1];
     token.markup = "{% %}";
 
