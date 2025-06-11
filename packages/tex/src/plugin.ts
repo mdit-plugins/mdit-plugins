@@ -236,7 +236,7 @@ const getDollarBlockTex = (): RuleBlock => (state, start, end, silent) => {
     if (pos < max && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    const trimmedLine = state.src.slice(pos, max).trim();
+    const trimmedLine = state.src.slice(pos, max).trimEnd();
 
     if (
       trimmedLine.length >= 2 &&
