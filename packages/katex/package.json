@@ -29,6 +29,10 @@
       "browser": "./lib/browser.js",
       "default": "./lib/index.js"
     },
+    "./mhchem": {
+      "type": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "lib/index.js",

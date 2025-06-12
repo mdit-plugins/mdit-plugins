@@ -60,10 +60,6 @@ const katexBlock = (
   return transformer?.(result, true) ?? result;
 };
 
-export const loadMhchem = async (): Promise<void> => {
-  await import("katex/contrib/mhchem");
-};
-
 export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
