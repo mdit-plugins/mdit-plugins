@@ -77,17 +77,13 @@ const getAlertRule =
     let typeName = "";
 
     // find closing bracket ']'
-    while (
-      currentPos < max &&
-      state.src.charCodeAt(currentPos) !== 93 /* ] */
-    ) {
+    while (currentPos < max) {
       const char = state.src.charAt(currentPos);
 
       if (char === "]") break;
-      else {
-        typeName += char;
-        currentPos++;
-      }
+
+      typeName += char;
+      currentPos++;
     }
 
     if (currentPos === max) return false;
