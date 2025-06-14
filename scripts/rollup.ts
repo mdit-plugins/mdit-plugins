@@ -12,6 +12,12 @@ import esbuild from "rollup-plugin-esbuild";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+export interface FileInfo {
+  base?: string;
+  files: string[];
+  target?: string;
+}
+
 export interface RollupTypescriptOptions {
   dts?: boolean;
   external?: (RegExp | string)[];
@@ -23,7 +29,7 @@ export interface RollupTypescriptOptions {
 }
 
 export const rollupTypescript = (
-  filePath: string,
+  filePath: string | FileInfo,
   {
     dts: enableDts = true,
     external = [],
@@ -36,10 +42,24 @@ export const rollupTypescript = (
 ): RollupOptions[] =>
   defineConfig([
     {
-      input: `./src/${filePath}.ts`,
+      input:
+        typeof filePath === "object"
+          ? Object.fromEntries(
+              filePath.files.map((item) => [
+                item,
+                `./src/${filePath.base ? `${filePath.base}/` : ""}${item}.ts`,
+              ]),
+            )
+          : `./src/${filePath}.ts`,
+
       output: [
         {
-          file: `./lib/${filePath}.js`,
+          ...(typeof filePath === "object"
+            ? {
+                dir: `./lib/${filePath.target ?? filePath.base ?? ""}`,
+                entryFileNames: "[name].js",
+              }
+            : { file: `./lib/${filePath}.js` }),
           format: "esm",
           sourcemap: true,
           exports: "named",
@@ -47,6 +67,7 @@ export const rollupTypescript = (
           ...output,
         },
       ],
+
       plugins: [
         aliasOptions
           ? alias({
@@ -73,8 +94,28 @@ export const rollupTypescript = (
     ...(enableDts
       ? [
           defineConfig({
-            input: `./src/${filePath}.ts`,
-            output: [{ file: `./lib/${filePath}.d.ts`, format: "esm" }],
+            input:
+              typeof filePath === "object"
+                ? Object.fromEntries(
+                    filePath.files.map((item) => [
+                      item,
+                      `./src/${filePath.base ? `${filePath.base}/` : ""}${item}.ts`,
+                    ]),
+                  )
+                : `./src/${filePath}.ts`,
+
+            output: [
+              {
+                ...(typeof filePath === "object"
+                  ? {
+                      dir: `./lib/${filePath.target ?? filePath.base ?? ""}`,
+                      entryFileNames: "[name].d.ts",
+                    }
+                  : { file: `./lib/${filePath}.d.ts` }),
+                format: "esm",
+              },
+            ],
+
             plugins: [
               dts({
                 compilerOptions: {

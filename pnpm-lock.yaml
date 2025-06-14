@@ -415,7 +415,7 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
 
-  packages/mathjax-slim:
+  packages/mathjax-browser:
     dependencies:
       '@mdit/plugin-tex':
         specifier: workspace:*
@@ -426,10 +426,25 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+      mathjax-full:
+        specifier: 3.2.2
+        version: 3.2.2
       upath:
         specifier: ^2.0.1
         version: 2.0.1
+
+  packages/mathjax-slim:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
     devDependencies:
+      '@mdit/plugin-tex':
+        specifier: workspace:*
+        version: link:../tex
       mathjax-full:
         specifier: 3.2.2
         version: 3.2.2
