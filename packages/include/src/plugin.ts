@@ -232,7 +232,12 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   return false;
 };
 
-const includePopRule: RuleBlock = (state, startLine, _, silent): boolean => {
+const includePopRule: RuleBlock = (
+  state,
+  startLine,
+  _endLine,
+  silent,
+): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 

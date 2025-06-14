@@ -200,22 +200,22 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
 /*
  * Parse block math with dollar signs: $$...$$
  */
-const dollarBlockTex: RuleBlock = (state, start, end, silent) => {
-  const lineStart = state.bMarks[start] + state.tShift[start];
-  let lineEnd = state.eMarks[start];
+const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
+  const start = state.bMarks[startLine] + state.tShift[startLine];
+  let end = state.eMarks[startLine];
 
-  if (lineStart + 2 > lineEnd) return false;
+  if (start + 2 > end) return false;
 
   if (
-    state.src.charCodeAt(lineStart) !== 36 /* $ */ ||
-    state.src.charCodeAt(lineStart + 1) !== 36 /* $ */
+    state.src.charCodeAt(start) !== 36 /* $ */ ||
+    state.src.charCodeAt(start + 1) !== 36 /* $ */
   )
     return false;
 
   if (silent) return true;
 
-  let contentEnd = state.skipSpacesBack(lineEnd, lineStart);
-  let pos = lineStart + 2;
+  let contentEnd = state.skipSpacesBack(end, start);
+  let pos = start + 2;
   let firstLine: string;
   let found = false;
 
@@ -228,24 +228,24 @@ const dollarBlockTex: RuleBlock = (state, start, end, silent) => {
     firstLine = state.src.slice(pos, contentEnd - 2);
     found = true;
   } else {
-    firstLine = state.src.slice(pos, lineEnd);
+    firstLine = state.src.slice(pos, end);
   }
 
-  let current = start;
+  let current = startLine;
   let lastLine = "";
 
   while (!found) {
     current++;
-    if (current >= end) break;
+    if (current >= endLine) break;
 
     pos = state.bMarks[current] + state.tShift[current];
-    lineEnd = state.eMarks[current];
+    end = state.eMarks[current];
 
     // non-empty line with negative indent should stop the list:
-    if (pos < lineEnd && state.tShift[current] < state.blkIndent) break;
+    if (pos < end && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    contentEnd = state.skipSpacesBack(lineEnd, pos);
+    contentEnd = state.skipSpacesBack(end, pos);
 
     if (
       contentEnd - pos >= 2 &&
@@ -264,9 +264,9 @@ const dollarBlockTex: RuleBlock = (state, start, end, silent) => {
   token.block = true;
   token.content =
     (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(start + 1, current, state.tShift[start], true) +
+    state.getLines(startLine + 1, current, state.tShift[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
-  token.map = [start, state.line];
+  token.map = [startLine, state.line];
   token.markup = "$$";
 
   return true;
@@ -275,79 +275,80 @@ const dollarBlockTex: RuleBlock = (state, start, end, silent) => {
 /*
  * Parse block math with bracket syntax: \[...\]
  */
-const getBracketBlockTex = (): RuleBlock => (state, start, end, silent) => {
-  const lineStart = state.bMarks[start] + state.tShift[start];
-  let lineEnd = state.eMarks[start];
+const getBracketBlockTex =
+  (): RuleBlock => (state, startLine, endLine, silent) => {
+    const start = state.bMarks[startLine] + state.tShift[startLine];
+    let end = state.eMarks[startLine];
 
-  if (lineStart + 2 > lineEnd) return false;
+    if (start + 2 > end) return false;
 
-  if (
-    state.src.charCodeAt(lineStart) !== 92 /* \ */ ||
-    state.src.charCodeAt(lineStart + 1) !== 91 /* [ */
-  )
-    return false;
+    if (
+      state.src.charCodeAt(start) !== 92 /* \ */ ||
+      state.src.charCodeAt(start + 1) !== 91 /* [ */
+    )
+      return false;
 
-  if (silent) return true;
+    if (silent) return true;
 
-  let contentEnd = state.skipSpacesBack(lineEnd, lineStart);
-  let pos = lineStart + 2;
-  let firstLine: string;
-  let found = false;
-
-  if (
-    contentEnd - pos >= 2 &&
-    state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
-    state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
-  ) {
-    // Single line expression
-    firstLine = state.src.slice(pos, contentEnd - 2);
-    found = true;
-  } else {
-    firstLine = state.src.slice(pos, lineEnd);
-  }
-
-  let current = start;
-  let lastLine = "";
-
-  while (!found) {
-    current++;
-    if (current >= end) break;
-
-    pos = state.bMarks[current] + state.tShift[current];
-    lineEnd = state.eMarks[current];
-
-    // non-empty line with negative indent should stop the list:
-    if (pos < lineEnd && state.tShift[current] < state.blkIndent) break;
-
-    // found end marker
-    contentEnd = state.skipSpacesBack(lineEnd, pos);
+    let contentEnd = state.skipSpacesBack(end, start);
+    let pos = start + 2;
+    let firstLine: string;
+    let found = false;
 
     if (
       contentEnd - pos >= 2 &&
       state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
       state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
     ) {
-      lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
+      // Single line expression
+      firstLine = state.src.slice(pos, contentEnd - 2);
       found = true;
+    } else {
+      firstLine = state.src.slice(pos, end);
     }
-  }
 
-  if (!found) return false;
+    let current = startLine;
+    let lastLine = "";
 
-  state.line = current + 1;
+    while (!found) {
+      current++;
+      if (current >= endLine) break;
 
-  const token = state.push("math_block", "math", 0);
+      pos = state.bMarks[current] + state.tShift[current];
+      end = state.eMarks[current];
 
-  token.block = true;
-  token.content =
-    (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(start + 1, current, state.tShift[start], true) +
-    (lastLine ? `${lastLine}\n` : "");
-  token.map = [start, state.line];
-  token.markup = "\\[";
+      // non-empty line with negative indent should stop the list:
+      if (pos < end && state.tShift[current] < state.blkIndent) break;
 
-  return true;
-};
+      // found end marker
+      contentEnd = state.skipSpacesBack(end, pos);
+
+      if (
+        contentEnd - pos >= 2 &&
+        state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
+        state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
+      ) {
+        lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
+        found = true;
+      }
+    }
+
+    if (!found) return false;
+
+    state.line = current + 1;
+
+    const token = state.push("math_block", "math", 0);
+
+    token.block = true;
+    token.content =
+      (firstLine ? `${firstLine}\n` : "") +
+      state.getLines(startLine + 1, current, state.tShift[startLine], true) +
+      (lastLine ? `${lastLine}\n` : "");
+    token.map = [startLine, state.line];
+    token.markup = "\\[";
+
+    return true;
+  };
 
 const ruleOptions = {
   alt: ["paragraph", "reference", "blockquote", "list"],
