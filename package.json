@@ -43,7 +43,7 @@
     "@lerna-lite/cli": "4.4.1",
     "@lerna-lite/publish": "4.4.1",
     "@rollup/plugin-alias": "5.1.1",
-    "@rollup/plugin-commonjs": "28.0.3",
+    "@rollup/plugin-commonjs": "28.0.5",
     "@rollup/plugin-node-resolve": "16.0.1",
     "@types/node": "24.0.1",
     "@vitest/coverage-istanbul": "3.2.3",
