@@ -3,19 +3,9 @@ import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
-const HINT_REGEXP = /^>(?:(?: {0,3})| {0,2}\t {0,1})\[!(.*)\]\s*$/i;
-
-export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
-  md,
-  {
-    alertNames = ["tip", "warning", "caution", "important", "note"],
-    deep = false,
-    openRender,
-    closeRender,
-    titleRender,
-  } = {},
-) => {
-  const alertRule: RuleBlock = (state, startLine, endLine, silent) => {
+const getAlertRule =
+  (types: Set<string>, deep: boolean): RuleBlock =>
+  (state, startLine, endLine, silent) => {
     if (
       // if it's indented more than 3 spaces, it should be a code block
       state.sCount[startLine] - state.blkIndent >= 4 ||
@@ -28,18 +18,90 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     const max = state.eMarks[startLine];
 
     // check the block quote marker
-    if (state.src.charAt(pos) !== ">") return false;
+    if (state.src.charCodeAt(pos) !== 62 /* > */) return false;
 
-    // check alert markers
-    const match = HINT_REGEXP.exec(state.src.slice(pos, max));
+    let currentPos = pos + 1;
 
-    if (!match || !alertNames.includes(match[1].toLowerCase())) return false;
+    let initial = state.sCount[startLine] + 1;
+    let adjustTab = false;
+
+    // skip one optional space after '>'
+    if (state.src.charCodeAt(currentPos) === 32 /* space */) {
+      // ' >   [!tip] '
+      //     ^ -- position start of line here:
+      currentPos++;
+      initial++;
+    } else if (state.src.charCodeAt(currentPos) === 9 /* tab */) {
+      if ((state.bsCount[startLine] + initial) % 4 === 3) {
+        // '  >\t  [!tip] '
+        //       ^ -- position start of line here (tab has width===1)
+        currentPos++;
+        initial++;
+      } else {
+        // ' >\t  [!tip] '
+        //    ^ -- position start of line here + shift bsCount slightly
+        //         to make extra space appear
+        adjustTab = true;
+      }
+    }
+
+    let offset = initial;
+
+    while (currentPos < max) {
+      const ch = state.src.charCodeAt(currentPos);
+
+      if (ch === 9 /** \t */)
+        offset +=
+          4 - ((offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4);
+      else if (ch === 32 /** space */) offset++;
+      else break;
+
+      currentPos++;
+    }
+
+    // skip blockquote
+    if (offset - initial >= 4) return false;
+
+    // the minimum length of an alert is 4 characters [!x]
+    if (max - currentPos < 4) return false;
+
+    // check opening marker '[!'
+    if (
+      state.src.charCodeAt(currentPos) !== 91 /* [ */ ||
+      state.src.charCodeAt(currentPos + 1) !== 33 /* ! */
+    )
+      return false;
+
+    currentPos += 2;
+
+    let typeName = "";
+
+    // find closing bracket ']'
+    while (currentPos < max) {
+      const char = state.src.charAt(currentPos);
+
+      if (char === "]") break;
+
+      typeName += char;
+      currentPos++;
+    }
+
+    if (currentPos === max) return false;
+
+    const type = typeName.toLowerCase();
+
+    if (!types.has(type)) return false;
+
+    // skip spaces after ']'
+    currentPos = state.skipSpaces(currentPos + 1);
+
+    // if there are non-space characters after ']', it's not a valid alert
+    if (currentPos < max) return false;
 
     // we know that it's going to be a valid alert,
     // so no point trying to find the end of it in silent mode
     if (silent) return true;
 
-    const type = match[1].toLowerCase();
     const oldBMarks = [];
     const oldBSCount = [];
     const oldSCount = [];
@@ -72,9 +134,9 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     //     > test
     //      - - -
     //     ```
-    let nextLine;
+    let currentLine;
 
-    for (nextLine = startLine; nextLine < endLine; nextLine++) {
+    for (currentLine = startLine; currentLine < endLine; currentLine++) {
       // check if it's outdented, i.e. it's inside list item and indented
       // less than said list item:
       //
@@ -83,35 +145,35 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       //    > current blockquote
       // 2. checking this line
       // ```
-      const isOutdented = state.sCount[nextLine] < state.blkIndent;
+      const isOutdented = state.sCount[currentLine] < state.blkIndent;
 
-      let pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      const max = state.eMarks[nextLine];
+      let pos = state.bMarks[currentLine] + state.tShift[currentLine];
+      const max = state.eMarks[currentLine];
 
       // Case 1: line is not inside the blockquote, and this line is empty.
       if (pos >= max) break;
 
       let lastLineEmpty = false;
 
-      if (state.src.charAt(pos++) === ">" && !isOutdented) {
+      if (state.src.charCodeAt(pos++) === 62 /* > */ && !isOutdented) {
         // This line is inside the blockquote.
 
         // set offset past spaces and ">"
-        let initial = state.sCount[nextLine] + 1;
+        let initial = state.sCount[currentLine] + 1;
         let spaceAfterMarker = false;
         let adjustTab = false;
 
         // skip one optional space after '>'
-        if (state.src.charAt(pos) === " ") {
+        if (state.src.charCodeAt(pos) === 32 /* space */) {
           // ' >   test '
           //     ^ -- position start of line here:
           pos++;
           initial++;
           spaceAfterMarker = true;
-        } else if (state.src.charAt(pos) === "\t") {
+        } else if (state.src.charCodeAt(pos) === 9 /* \t */) {
           spaceAfterMarker = true;
 
-          if ((state.bsCount[nextLine] + initial) % 4 === 3) {
+          if ((state.bsCount[currentLine] + initial) % 4 === 3) {
             // '  >\t  test '
             //       ^ -- position start of line here (tab has width===1)
             pos++;
@@ -126,17 +188,17 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 
         let offset = initial;
 
-        oldBMarks.push(state.bMarks[nextLine]);
-        state.bMarks[nextLine] = pos;
+        oldBMarks.push(state.bMarks[currentLine]);
+        state.bMarks[currentLine] = pos;
 
         while (pos < max) {
-          const ch = state.src.charAt(pos);
+          const ch = state.src.charCodeAt(pos);
 
-          if (ch === "\t")
+          if (ch === 9 /** \t */)
             offset +=
               4 -
-              ((offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4);
-          else if (ch === " ") offset++;
+              ((offset + state.bsCount[currentLine] + (adjustTab ? 1 : 0)) % 4);
+          else if (ch === 32 /** space */) offset++;
           else break;
 
           pos++;
@@ -144,15 +206,15 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 
         lastLineEmpty = pos >= max;
 
-        oldBSCount.push(state.bsCount[nextLine]);
-        state.bsCount[nextLine] =
-          state.sCount[nextLine] + 1 + (spaceAfterMarker ? 1 : 0);
+        oldBSCount.push(state.bsCount[currentLine]);
+        state.bsCount[currentLine] =
+          state.sCount[currentLine] + 1 + (spaceAfterMarker ? 1 : 0);
 
-        oldSCount.push(state.sCount[nextLine]);
-        state.sCount[nextLine] = offset - initial;
+        oldSCount.push(state.sCount[currentLine]);
+        state.sCount[currentLine] = offset - initial;
 
-        oldTShift.push(state.tShift[nextLine]);
-        state.tShift[nextLine] = pos - state.bMarks[nextLine];
+        oldTShift.push(state.tShift[currentLine]);
+        state.tShift[currentLine] = pos - state.bMarks[currentLine];
         continue;
       }
 
@@ -164,7 +226,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       let terminate = false;
 
       for (const terminatorRule of terminatorRules)
-        if (terminatorRule(state, nextLine, endLine, true)) {
+        if (terminatorRule(state, currentLine, endLine, true)) {
           terminate = true;
           break;
         }
@@ -174,30 +236,31 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
         // normally if you call `tokenize(state, startLine, nextLine)`,
         // paragraphs will look below nextLine for paragraph continuation,
         // but if blockquote is terminated by another tag, they shouldn't
-        state.lineMax = nextLine;
+        state.lineMax = currentLine;
 
         if (state.blkIndent !== 0) {
           // state.blkIndent was non-zero, we now set it to zero,
           // so we need to re-calculate all offsets to appear as
           // if indent wasn't changed
-          oldBMarks.push(state.bMarks[nextLine]);
-          oldBSCount.push(state.bsCount[nextLine]);
-          oldTShift.push(state.tShift[nextLine]);
-          oldSCount.push(state.sCount[nextLine]);
-          state.sCount[nextLine] -= state.blkIndent;
+          oldBMarks.push(state.bMarks[currentLine]);
+          oldBSCount.push(state.bsCount[currentLine]);
+          oldSCount.push(state.sCount[currentLine]);
+          oldTShift.push(state.tShift[currentLine]);
+
+          state.sCount[currentLine] -= state.blkIndent;
         }
 
         break;
       }
 
-      oldBMarks.push(state.bMarks[nextLine]);
-      oldBSCount.push(state.bsCount[nextLine]);
-      oldTShift.push(state.tShift[nextLine]);
-      oldSCount.push(state.sCount[nextLine]);
+      oldBMarks.push(state.bMarks[currentLine]);
+      oldBSCount.push(state.bsCount[currentLine]);
+      oldSCount.push(state.sCount[currentLine]);
+      oldTShift.push(state.tShift[currentLine]);
 
       // A negative indentation means that this is a paragraph continuation
       //
-      state.sCount[nextLine] = -1;
+      state.sCount[currentLine] = -1;
     }
 
     const oldIndent = state.blkIndent;
@@ -217,10 +280,10 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 
     titleToken.attrJoin("class", `markdown-alert-title`);
     titleToken.markup = type;
-    titleToken.content = match[1];
+    titleToken.content = typeName;
     titleToken.map = titleLines;
 
-    state.md.block.tokenize(state, startLine + 1, nextLine);
+    state.md.block.tokenize(state, startLine + 1, currentLine);
 
     const closeToken = state.push("alert_close", "div", -1);
 
@@ -243,9 +306,24 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     return true;
   };
 
-  md.block.ruler.before("blockquote", "alert", alertRule, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
+  md,
+  {
+    alertNames = ["tip", "warning", "caution", "important", "note"],
+    deep = false,
+    openRender,
+    closeRender,
+    titleRender,
+  } = {},
+) => {
+  md.block.ruler.before(
+    "blockquote",
+    "alert",
+    getAlertRule(new Set(alertNames.map((name) => name.toLowerCase())), deep),
+    {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    },
+  );
 
   if (openRender) md.renderer.rules.alert_open = openRender;
   if (closeRender) md.renderer.rules.alert_close = closeRender;
