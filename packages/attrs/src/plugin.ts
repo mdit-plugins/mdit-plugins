@@ -7,7 +7,7 @@ import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
 import { testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
-import type { DelimiterRange} from "./rules/index.js";
+import type { DelimiterRange } from "./rules/index.js";
 import { getRules } from "./rules/index.js";
 
 export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
