@@ -2,14 +2,11 @@ import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
-  getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getInlineRules = (
-  options: Required<DelimiterConfig>,
-): AttrRule[] => [
+export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
   /**
    * bla `click()`{.c} ![](img.png){.d}
    *
@@ -35,27 +32,20 @@ export const getInlineRules = (
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
-      const rightDelimiterLength = options.right.length;
+    transform: (tokens, index, childIndex, range): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const token = tokens[index].children![childIndex];
-
-      const attrEndIndex = token.content.indexOf(options.right);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const targetToken = tokens[index].children![childIndex - 1];
-      const attrs = getAttrs(token.content, 0, options);
+      const childTokens = tokens[index].children!;
+      const token = childTokens[childIndex];
+      const targetToken = childTokens[childIndex - 1];
+      const attrsEndIndex = options.right.length + range[1];
 
       // Apply attributes to the target token
-      addAttrs(attrs, targetToken);
+      addAttrs(targetToken, token.content, range, options.allowed);
 
-      // Remove or update token content based on remaining content
-      if (token.content.length === attrEndIndex + rightDelimiterLength) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        tokens[index].children!.splice(childIndex, 1);
+      if (token.content.length === attrsEndIndex) {
+        childTokens.splice(childIndex, 1);
       } else {
-        token.content = token.content.slice(
-          attrEndIndex + rightDelimiterLength,
-        );
+        token.content = token.content.slice(attrsEndIndex);
       }
     },
   },
@@ -82,29 +72,21 @@ export const getInlineRules = (
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
+    transform: (tokens, index, childIndex, range): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const currentToken = tokens[index].children![childIndex];
+      const childTokens = tokens[index].children!;
+      const currentToken = childTokens[childIndex];
       const { content } = currentToken;
-
-      // Extract attributes from the content
-      const attributes = getAttrs(content, 0, options);
+      const attrsEndIndex = options.right.length + range[1];
 
       // Find the corresponding opening token
-      const openingToken = getMatchingOpeningToken(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        tokens[index].children!,
-        childIndex - 1,
-      );
+      const openingToken = getMatchingOpeningToken(childTokens, childIndex - 1);
 
       // Apply attributes to the opening token
-      addAttrs(attributes, openingToken);
+      addAttrs(openingToken, content, range, options.allowed);
 
       // Remove attribute syntax from content
-      const attributeEndIndex =
-        content.indexOf(options.right) + options.right.length;
-
-      currentToken.content = content.slice(attributeEndIndex);
+      currentToken.content = content.slice(attrsEndIndex);
     },
   },
 ];

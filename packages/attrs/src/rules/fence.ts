@@ -1,13 +1,10 @@
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
+
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import {
-  addAttrs,
-  getAttrs,
-  getDelimiterChecker,
-  removeDelimiter,
-} from "../helper/index.js";
+import { addAttrs, getDelimiterChecker } from "../helper/index.js";
 
-export const getFenceRule = (options: Required<DelimiterConfig>): AttrRule =>
+export const getFenceRule = (options: DelimiterConfig): AttrRule =>
   /**
    * fenced code blocks
    *
@@ -25,32 +22,19 @@ export const getFenceRule = (options: Required<DelimiterConfig>): AttrRule =>
         info: getDelimiterChecker(options, "end"),
       },
     ],
-    transform: (tokens, index): void => {
+    transform: (tokens, index, _, range): void => {
+      const attrStartIndex = range[0] - options.left.length;
       const token = tokens[index];
-      let lineNumbers = "";
-
-      // Special handler for VuePress line numbers syntax
-      const lineNumberMatch = /{(?:[\d,-]+)}/.exec(token.info);
-
-      if (lineNumberMatch) {
-        token.info = token.info.replace(lineNumberMatch[0], "");
-        lineNumbers = lineNumberMatch[0];
-      }
-
-      // Extract attributes from the token info
-      const attributeStartIndex = token.info.lastIndexOf(options.left);
-      const attributes = getAttrs(token.info, attributeStartIndex, options);
+      const { info } = token;
+      const hasTrailingSpace = isSpace(info.charCodeAt(attrStartIndex - 1));
 
       // Apply attributes to the current token
-      addAttrs(attributes, token);
+      addAttrs(token, info, range, options.allowed);
 
-      // Remove attribute syntax from info and restore line numbers
-      const infoWithoutAttributes = removeDelimiter(
-        token.info,
-        options.left,
-        options.right,
+      // Remove the attribute syntax from info
+      token.info = info.substring(
+        0,
+        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
       );
-
-      token.info = `${infoWithoutAttributes} ${lineNumbers}`.trim();
     },
   });

@@ -7,6 +7,7 @@ import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
 import { testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
+import type { DelimiterRange } from "./rules/index.js";
 import { getRules } from "./rules/index.js";
 
 export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
@@ -26,18 +27,20 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         const pattern = rules[ruleIndex];
         // position of child with offset 0
         let position: null | number = null;
+        let range: DelimiterRange | null = null;
 
         const match = pattern.tests.every((t) => {
           const result = testRule(tokens, index, t);
 
           if (result.position !== null) ({ position } = result);
+          if (result.range) range = result.range;
 
           return result.match;
         });
 
         if (match) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          pattern.transform(tokens, index, position!);
+          pattern.transform(tokens, index, position!, range);
 
           if (
             pattern.name === "inline attributes" ||

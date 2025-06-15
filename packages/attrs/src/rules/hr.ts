@@ -1,10 +1,10 @@
-import { escapeRegExp } from "@mdit/helper";
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
-import type { AttrRule } from "./types.js";
+import type { AttrRule, DelimiterRange } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getAttrs } from "../helper/index.js";
+import { addAttrs, getDelimiterChecker } from "../helper/index.js";
 
-export const getHrRule = (options: Required<DelimiterConfig>): AttrRule => ({
+export const getHrRule = (options: DelimiterConfig): AttrRule => ({
   /**
    * horizontal rule --- {#id}
    */
@@ -18,33 +18,62 @@ export const getHrRule = (options: Required<DelimiterConfig>): AttrRule => ({
       shift: 1,
       type: "inline",
       children: (children) => children.length === 1,
-      content: (content) =>
-        new RegExp(
-          `^ {0,3}[-*_]{3,} ?${escapeRegExp(options.left)}[^${escapeRegExp(
-            options.right,
-          )}]`,
-        ).test(content),
+      content: (content): DelimiterRange | false => {
+        let pos = 0;
+        let charCode;
+        let offset = 0;
+
+        while (pos < content.length) {
+          charCode = content.charCodeAt(pos++);
+
+          if (charCode === 32 /** space */) offset++;
+          else if (charCode === 9 /** tab */) offset += 4 - (offset % 4);
+          else break;
+        }
+
+        if (offset > 3) return false;
+
+        const markerCode = content.charCodeAt(pos - 1);
+
+        if (
+          markerCode !== 45 /** - */ &&
+          markerCode !== 42 /** * */ &&
+          markerCode !== 95 /** _ */
+        )
+          return false;
+
+        let count = 1;
+
+        while (pos < content.length) {
+          charCode = content.charCodeAt(pos++);
+          if (charCode !== markerCode) break;
+          count++;
+        }
+
+        if (count < 3) return false;
+
+        if (!isSpace(content.charCodeAt(pos - 1))) pos--;
+
+        return getDelimiterChecker(options, "end")(content);
+      },
     },
     {
       shift: 2,
       type: "paragraph_close",
     },
   ],
-  transform: (tokens, index): void => {
+  transform: (tokens, index, _, range): void => {
     const token = tokens[index];
+    // Extract attributes from the inline content
+    const inlineToken = tokens[index + 1];
+    const { content } = inlineToken;
 
     token.type = "hr";
     token.tag = "hr";
     token.nesting = 0;
 
-    // Extract attributes from the inline content
-    const inlineToken = tokens[index + 1];
-    const { content } = inlineToken;
-    const attributeStartIndex = content.lastIndexOf(options.left);
-    const attributes = getAttrs(content, attributeStartIndex, options);
-
     // Apply attributes to the hr token
-    addAttrs(attributes, token);
+    addAttrs(token, content, range, options.allowed);
     token.markup = content;
 
     // Remove the inline and closing paragraph tokens

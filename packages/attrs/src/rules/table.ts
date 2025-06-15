@@ -1,10 +1,10 @@
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
-  getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
@@ -54,10 +54,7 @@ const handleRowspan = (
 
       trOpenToken.meta ??= {};
 
-      if (trOpenToken.meta.columnCount) {
-        adjustedColumnCount -= 1;
-      }
-
+      if (trOpenToken.meta.columnCount) adjustedColumnCount -= 1;
       trOpenToken.meta.columnCount = adjustedColumnCount;
       remainingRows--;
     }
@@ -81,14 +78,11 @@ const handleTableRow = (
   for (let index = startIndex, cellCount = 0; index < endIndex; index++) {
     const currentToken = tokens[index];
 
-    // Count table cells in the row
-    if (currentToken.type === "td_open") {
-      cellCount += 1;
-    }
     // break at end of table row
-    else if (currentToken.type === "tr_close") {
-      break;
-    }
+    if (currentToken.type === "tr_close") break;
+
+    // Count table cells in the row
+    if (currentToken.type === "td_open") cellCount += 1;
 
     // hide extra table cells
     if (cellCount > expectedColumnCount && !currentToken.hidden) {
@@ -153,9 +147,7 @@ const handleColspan = (
   }
 };
 
-export const getTableRules = (
-  options: Required<DelimiterConfig>,
-): AttrRule[] => [
+export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
   {
     /**
      * | h1 |
@@ -182,13 +174,12 @@ export const getTableRules = (
         content: getDelimiterChecker(options, "only"),
       },
     ],
-    transform: (tokens, index): void => {
+    transform: (tokens, index, _, range): void => {
       const token = tokens[index + 2];
       const tableOpeningToken = getMatchingOpeningToken(tokens, index);
-      const attrs = getAttrs(token.content, 0, options);
 
       // Apply attributes to the table opening token
-      addAttrs(attrs, tableOpeningToken);
+      addAttrs(tableOpeningToken, token.content, range, options.allowed);
 
       // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
@@ -217,23 +208,24 @@ export const getTableRules = (
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
+    transform: (tokens, index, childIndex, range): void => {
+      const attrStartIndex = range[0] - options.left.length;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const cellOpenToken = tokens[index - 1];
       const { content } = token;
+      const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
       // Find last attribute syntax in the content
-      const attrStartIndex = content.lastIndexOf(options.left);
-
-      // Extract attributes from the content
-      const attributes = getAttrs(content, attrStartIndex, options);
 
       // Apply attributes to the table cell token
-      addAttrs(attributes, cellOpenToken);
+      addAttrs(cellOpenToken, content, range, options.allowed);
 
       // Remove attribute syntax from content
-      token.content = content.substring(0, attrStartIndex).trim();
+      token.content = content.substring(
+        0,
+        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
+      );
     },
   },
   {

@@ -1,10 +1,17 @@
 import { CLASS_MARKER, ID_MARKER } from "./constants.js";
 import type { DelimiterConfig } from "./types.js";
+import type { DelimiterChecker } from "../rules/types.js";
 
-export type DelimiterChecker = (content: string) => boolean;
-
+/**
+ * Get a function to check if a string matches the delimiter pattern
+ * 获取一个函数来检查字符串是否匹配分隔符模式
+ *
+ * @param options - Delimiter configuration / 分隔符配置
+ * @param where - Position for matching: start, end, or only / 匹配位置：开始、结束或仅匹配
+ * @returns A function that checks if content matches the delimiter pattern / 检查内容是否匹配分隔符模式的函数
+ */
 export const getDelimiterChecker = (
-  { left, right }: Required<DelimiterConfig>,
+  { left, right }: DelimiterConfig,
   where: "start" | "end" | "only",
 ): DelimiterChecker => {
   if (!["start", "end", "only"].includes(where)) {
@@ -13,60 +20,70 @@ export const getDelimiterChecker = (
     );
   }
 
-  return (content: string): boolean => {
-    const leftLength = left.length;
-    const rightLength = right.length;
-    // we need minimum three chars, for example {b}
-    const minCurlyLength = leftLength + 1 + rightLength;
-    const rightDelimiterMinimumShift = leftLength + 1;
+  // Cache frequently used values
+  const leftLength = left.length;
+  const rightLength = right.length;
+  const minContentLength = leftLength + 1 + rightLength;
 
-    // perform a quick check
-    if (
-      !content ||
-      typeof content !== "string" ||
-      content.length < minCurlyLength
-    )
+  return (content) => {
+    // Quick check for minimum length requirements
+    if (typeof content !== "string" || content.length < minContentLength)
       return false;
-
-    const validCurlyLength = (curly: string): boolean =>
-      [CLASS_MARKER, ID_MARKER].includes(curly.charAt(leftLength))
-        ? curly.length >= minCurlyLength + 1
-        : curly.length >= minCurlyLength;
 
     let start: number;
     let end: number;
-    let slice: string;
-    let nextChar: string;
 
     if (where === "start") {
-      // first char should be {, } found in char 2 or more
-      slice = content.slice(0, leftLength);
-      start = slice === left ? 0 : -1;
-      end =
-        start === -1 ? -1 : content.indexOf(right, rightDelimiterMinimumShift);
-      // check if next character is not one of the delimiters
-      nextChar = content.charAt(end + rightLength);
-      if (nextChar && right.includes(nextChar)) end = -1;
+      // Check if content starts with left delimiter
+      if (!content.startsWith(left)) return false;
+
+      start = leftLength;
+      end = content.indexOf(right, leftLength + 1);
+
+      if (end === -1) return false;
+
+      // Check if next character is not part of right delimiter
+      const nextCharPos = end + rightLength;
+
+      if (
+        nextCharPos < content.length &&
+        right.includes(content.charAt(nextCharPos))
+      ) {
+        return false;
+      }
     } else if (where === "end") {
-      // last char should be }
+      // Check if content ends with right delimiter
       start = content.lastIndexOf(left);
-      end =
-        start === -1
-          ? -1
-          : content.indexOf(right, start + rightDelimiterMinimumShift);
-      end = end === content.length - rightLength ? end : -1;
+
+      if (start === -1) {
+        return false;
+      }
+
+      end = content.indexOf(right, start + leftLength + 1);
+      start += leftLength;
+
+      if (end === -1 || end + rightLength !== content.length) {
+        return false;
+      }
     } else {
-      // '{.a}'
-      slice = content.slice(0, leftLength);
-      start = slice === left ? 0 : -1;
-      slice = content.slice(content.length - rightLength);
-      end = slice === right ? content.length - rightLength : -1;
+      // Check if content is wrapped by delimiters ('{.a}')
+      if (!content.startsWith(left) || !content.endsWith(right)) return false;
+
+      start = leftLength;
+      end = content.length - rightLength;
     }
 
-    return (
-      start !== -1 &&
-      end !== -1 &&
-      validCurlyLength(content.substring(start, end + rightLength))
-    );
+    // Check if content between delimiters is valid
+    const firstCharCode = content.charCodeAt(start);
+    const length = end - start;
+
+    const isValid =
+      firstCharCode === CLASS_MARKER || firstCharCode === ID_MARKER
+        ? length >= 2
+        : length >= 1;
+
+    if (!isValid) return false;
+
+    return [start, end];
   };
 };

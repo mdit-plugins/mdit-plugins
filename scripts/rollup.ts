@@ -59,8 +59,9 @@ export const rollupTypescript = (
           ? [
               codecovRollupPlugin({
                 enableBundleAnalysis: true,
-                bundleName: basename(cwd()),
+                bundleName: `${basename(cwd())}${resolve ? "-browser" : ""}`,
                 uploadToken: process.env.CODECOV_TOKEN,
+                telemetry: false,
               }),
             ]
           : [],

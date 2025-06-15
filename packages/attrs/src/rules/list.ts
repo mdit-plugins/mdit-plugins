@@ -1,15 +1,14 @@
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
+
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
-  getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getListRules = (
-  options: Required<DelimiterConfig>,
-): AttrRule[] => [
+export const getListRules = (options: DelimiterConfig): AttrRule[] => [
   /**
    * - item
    * {.a}
@@ -37,10 +36,11 @@ export const getListRules = (
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
+    transform: (tokens, index, childIndex, range): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const token = tokens[index].children![childIndex];
-      const attrs = getAttrs(token.content, 0, options);
+      const childTokens = tokens[index].children!;
+      const token = childTokens[childIndex];
+
       let listOpenIndex = index - 2;
 
       // Find the list opening token
@@ -53,11 +53,15 @@ export const getListRules = (
       }
 
       // Apply attributes to the list opening token
-      addAttrs(attrs, tokens[listOpenIndex - 1]);
+      addAttrs(
+        tokens[listOpenIndex - 1],
+        token.content,
+        range,
+        options.allowed,
+      );
 
       // Remove the attribute tokens from children
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tokens[index].children = tokens[index].children!.slice(0, -2);
+      tokens[index].children = childTokens.slice(0, -2);
     },
   },
 
@@ -93,13 +97,12 @@ export const getListRules = (
         type: "paragraph_close",
       },
     ],
-    transform: (tokens, index): void => {
+    transform: (tokens, index, _, range): void => {
       const token = tokens[index + 2];
-      const attrs = getAttrs(token.content, 0, options);
       const openingToken = getMatchingOpeningToken(tokens, index);
 
       // Apply attributes to the opening token
-      addAttrs(attrs, openingToken);
+      addAttrs(openingToken, token.content, range, options.allowed);
 
       // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
@@ -128,26 +131,21 @@ export const getListRules = (
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
+    transform: (tokens, index, childIndex, range): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const { content } = token;
-
-      // Extract attributes from the content
-      const attrStartIndex = content.lastIndexOf(options.left);
-      const attrs = getAttrs(content, attrStartIndex, options);
+      const attrStartIndex = range[0] - options.left.length;
+      const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
       // Apply attributes to the list item opening token
-      addAttrs(attrs, tokens[index - 2]);
+      addAttrs(tokens[index - 2], content, range, options.allowed);
 
       // Remove attribute syntax from content
-      const contentWithoutAttributes = content.slice(0, attrStartIndex);
-      const hasTrailingSpace =
-        contentWithoutAttributes[contentWithoutAttributes.length - 1] === " ";
-
-      token.content = hasTrailingSpace
-        ? contentWithoutAttributes.slice(0, -1)
-        : contentWithoutAttributes;
+      token.content = content.slice(
+        0,
+        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
+      );
     },
   },
 ];
