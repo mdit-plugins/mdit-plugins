@@ -71,7 +71,11 @@ export const abbr: PluginSimple = (md) => {
     const label = state.src
       .substring(labelStart, labelEnd)
       .replace(/\\(.)/g, "$1");
-    const title = state.src.substring(labelEnd + 2, max).trim();
+
+    pos = labelEnd + 2;
+    const titleStart = state.skipSpaces(pos);
+    const titleEnd = state.skipSpacesBack(max, titleStart);
+    const title = state.src.substring(titleStart, titleEnd);
 
     if (!label.length || !title.length) return false;
 

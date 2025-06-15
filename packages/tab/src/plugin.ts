@@ -154,7 +154,7 @@ const getTabsRule =
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.substring(currentLineStart, pos);
+    const markup = ":".repeat(markerCount);
     const params = state.src.substring(pos, currentLineMax);
 
     const [containerName, id = ""] = params.split("#", 2);
@@ -246,7 +246,7 @@ const getTabsRule =
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
-    closeToken.markup = state.src.substring(currentLineStart, pos);
+    closeToken.markup = markup;
     closeToken.block = true;
 
     state.parentType = oldParent;

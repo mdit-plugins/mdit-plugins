@@ -11,7 +11,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   {
     name = "demo",
     openRender = (tokens: Token[], index: number): string =>
-      `<details><summary>${tokens[index].info.trim()}</summary>\n`,
+      `<details><summary>${tokens[index].info}</summary>\n`,
     closeRender = (): string => "</details>\n",
     codeRender,
     contentOpenRender,
@@ -26,6 +26,10 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (state.src.charCodeAt(currentLineStart) !== 58 /* : */) return false;
 
+    // check the minimal length of container
+    if (currentLineMax - currentLineStart < MIN_MARKER_NUM + name.length)
+      return false;
+
     let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
@@ -38,10 +42,21 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.substring(currentLineStart, pos);
-    const params = state.src.substring(pos, currentLineMax);
+    const markup = ":".repeat(markerCount);
 
-    if (params.trim().split(" ", 2)[0] !== name) return false;
+    pos = state.skipSpaces(pos);
+
+    // check name is matched
+    for (let i = 0; i < name.length; i++) {
+      if (state.src.charCodeAt(pos) !== name.charCodeAt(i)) return false;
+      pos++;
+    }
+
+    const nameEnd = pos;
+
+    const titleStart = state.skipSpaces(nameEnd);
+
+    if (titleStart === nameEnd) return false;
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
@@ -107,7 +122,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // this will update the block indent
     state.blkIndent = currentLineIndent;
 
-    const title = params.trim().substring(name.length).trim();
+    const titleEnd = state.skipSpacesBack(currentLineMax, titleStart);
+    const title = state.src.substring(titleStart, titleEnd);
     const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
@@ -163,7 +179,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const closeToken = state.push(`${name}_demo_close`, "div", -1);
 
-    closeToken.markup = state.src.substring(currentLineStart, pos);
+    closeToken.markup = markup;
     closeToken.block = true;
     closeToken.info = title;
 
