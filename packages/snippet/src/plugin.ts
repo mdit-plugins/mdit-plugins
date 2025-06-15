@@ -19,7 +19,6 @@ const REGIONS_RE = [
   /^::#((?:end)region) ([\w*-]+)$/, // Bat
   /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
-const SNIPPET_CHAR = "<";
 const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
 const SNIPPET_META_RE =
   /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
@@ -30,7 +29,7 @@ const testLine = (
   regionName: string,
   end = false,
 ): boolean => {
-  const [full, tag, name] = regexp.exec(line.trim()) ?? [];
+  const [full, tag, name] = regexp.exec(line.trimStart()) ?? [];
 
   return Boolean(
     full &&
@@ -76,9 +75,11 @@ const getSnippetRule =
     if (state.sCount[startLine] - state.blkIndent >= 4) return false;
 
     for (let index = 0; index < 3; ++index) {
-      const char = state.src.charAt(pos + index);
-
-      if (char !== SNIPPET_CHAR || pos + index >= max) return false;
+      if (
+        state.src.charCodeAt(pos + index) !== 60 /* < */ ||
+        pos + index >= max
+      )
+        return false;
     }
 
     if (silent) return true;
@@ -94,7 +95,7 @@ const getSnippetRule =
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
     const currentFilePath = currentPath(env);
-    const snippetContent = state.src.slice(start, end).trim();
+    const snippetContent = state.src.substring(start, end).trim();
     // the regexp supposes to match any possible snippet format
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
@@ -104,7 +105,7 @@ const getSnippetRule =
     const cwd = currentFilePath ? path.dirname(currentFilePath) : ".";
     const resolvedPath = resolvePath(snippetPath.trim(), cwd);
     const absolutePath = path.resolve(cwd, resolvedPath);
-    const ext = path.extname(absolutePath).slice(1);
+    const ext = path.extname(absolutePath).substring(1);
 
     state.line = startLine + 1;
 

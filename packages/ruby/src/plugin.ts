@@ -11,7 +11,7 @@ const rubyRule: RuleInline = (state, silent) => {
   const start = state.pos;
   const max = state.posMax;
 
-  if (silent || state.src.charAt(start) !== "{" || start + 4 >= max)
+  if (silent || state.src.charCodeAt(start) !== 123 /* { */ || start + 4 >= max)
     return false;
 
   state.pos = start + 1;
@@ -22,15 +22,15 @@ const rubyRule: RuleInline = (state, silent) => {
   while (state.pos < max) {
     if (dividerPosition) {
       if (
-        state.src.charAt(state.pos) === "}" &&
-        state.src.charAt(state.pos - 1) !== "\\"
+        state.src.charCodeAt(state.pos) === 125 /* } */ &&
+        state.src.charCodeAt(state.pos - 1) !== 92 /* \ */
       ) {
         closePos = state.pos;
         break;
       }
     } else if (
-      state.src.charAt(state.pos) === ":" &&
-      state.src.charAt(state.pos - 1) !== "\\"
+      state.src.charCodeAt(state.pos) === 58 /* : */ &&
+      state.src.charCodeAt(state.pos - 1) !== 92 /* \ */
     ) {
       dividerPosition = state.pos;
     }
@@ -51,8 +51,8 @@ const rubyRule: RuleInline = (state, silent) => {
 
   openToken.markup = "{";
 
-  const baseText = state.src.slice(start + 1, dividerPosition);
-  const rubyText = state.src.slice(dividerPosition + 1, closePos);
+  const baseText = state.src.substring(start + 1, dividerPosition);
+  const rubyText = state.src.substring(dividerPosition + 1, closePos);
 
   const baseArray = baseText.split("");
   const rubyArray = rubyText.split("|");

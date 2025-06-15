@@ -24,13 +24,13 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     const currentLineMax = state.eMarks[startLine];
     const currentLineIndent = state.sCount[startLine];
 
-    if (state.src.charAt(currentLineStart) !== ":") return false;
+    if (state.src.charCodeAt(currentLineStart) !== 58 /* : */) return false;
 
     let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
-      if (state.src.charAt(pos) !== ":") break;
+      if (state.src.charCodeAt(pos) !== 58 /* : */) break;
       pos++;
     }
 
@@ -38,8 +38,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.slice(currentLineStart, pos);
-    const params = state.src.slice(pos, currentLineMax);
+    const markup = state.src.substring(currentLineStart, pos);
+    const params = state.src.substring(pos, currentLineMax);
 
     if (params.trim().split(" ", 2)[0] !== name) return false;
 
@@ -74,11 +74,11 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         // closing fence should be indented same as opening one
         state.sCount[nextLine] === currentLineIndent &&
         // match start
-        ":" === state.src[nextLineStart]
+        state.src.charCodeAt(nextLineStart) === 58 /* : */
       ) {
         // check rest of marker
         for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
-          if (":" !== state.src[pos]) break;
+          if (state.src.charCodeAt(pos) !== 58 /* : */) break;
 
         // closing code fence must be at least as long as the opening one
         if (pos - nextLineStart >= markerCount) {
@@ -107,7 +107,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // this will update the block indent
     state.blkIndent = currentLineIndent;
 
-    const title = params.trim().slice(name.length).trim();
+    const title = params.trim().substring(name.length).trim();
     const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
@@ -163,7 +163,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const closeToken = state.push(`${name}_demo_close`, "div", -1);
 
-    closeToken.markup = state.src.slice(currentLineStart, pos);
+    closeToken.markup = state.src.substring(currentLineStart, pos);
     closeToken.block = true;
     closeToken.info = title;
 

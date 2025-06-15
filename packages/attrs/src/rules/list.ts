@@ -142,7 +142,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       addAttrs(tokens[index - 2], content, range, options.allowed);
 
       // Remove attribute syntax from content
-      token.content = content.slice(
+      token.content = content.substring(
         0,
         hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
       );

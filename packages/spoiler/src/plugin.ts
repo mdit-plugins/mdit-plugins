@@ -15,26 +15,28 @@ import type { MarkdownItSpoilerOptions } from "./options.js";
  */
 const tokenize: RuleInline = (state, silent) => {
   const start = state.pos;
-  const marker = state.src.charAt(start);
+  const marker = state.src.charCodeAt(start);
 
-  if (silent || marker !== "!") return false;
+  if (silent || marker !== 33 /* ! */) return false;
 
   const scanned = state.scanDelims(state.pos, true);
   let { length } = scanned;
 
   if (length < 2) return false;
 
+  const markerChar = String.fromCharCode(marker);
+
   if (length % 2) {
     const token = state.push("text", "", 0);
 
-    token.content = marker;
+    token.content = markerChar;
     length--;
   }
 
   for (let i = 0; i < length; i += 2) {
     const token = state.push("text", "", 0);
 
-    token.content = marker + marker;
+    token.content = markerChar + markerChar;
 
     if (scanned.can_open || scanned.can_close)
       state.delimiters.push({

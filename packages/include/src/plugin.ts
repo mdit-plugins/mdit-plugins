@@ -207,7 +207,7 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  const content = state.src.slice(start, max);
+  const content = state.src.substring(start, max);
 
   if (content.startsWith("<!-- #include-env-start: ")) {
     // check if it’s matched the syntax

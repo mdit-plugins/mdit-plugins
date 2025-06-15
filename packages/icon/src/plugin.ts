@@ -55,7 +55,7 @@ const iconRule: RuleInline = (state, silent) => {
     return false;
   }
 
-  const info = state.src.slice(start + 2, state.pos);
+  const info = state.src.substring(start + 2, state.pos);
 
   // found
   state.posMax = state.pos;

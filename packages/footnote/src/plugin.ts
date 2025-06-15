@@ -143,20 +143,22 @@ const footnoteDef: RuleBlock = (
 ) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
+  let char: number;
 
   if (
     // line should be at least 5 chars - "[^x]:"
     start + 4 > max ||
-    state.src.charAt(start) !== "[" ||
-    state.src.charAt(start + 1) !== "^"
+    state.src.charCodeAt(start) !== 91 /* [ */ ||
+    state.src.charCodeAt(start + 1) !== 94 /* ^ */
   )
     return false;
 
   let pos = start + 2;
 
   while (pos < max) {
-    if (state.src.charAt(pos) === " ") return false;
-    if (state.src.charAt(pos) === "]") break;
+    char = state.src.charCodeAt(pos);
+    if (char === 32 /* space */) return false;
+    if (char === 93 /* ] */) break;
     pos++;
   }
 
@@ -164,7 +166,7 @@ const footnoteDef: RuleBlock = (
     // empty footnote label
     pos === start + 2 ||
     pos + 1 >= max ||
-    state.src.charAt(++pos) !== ":"
+    state.src.charCodeAt(++pos) !== 58 /* : */
   )
     return false;
 
@@ -174,7 +176,7 @@ const footnoteDef: RuleBlock = (
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   (state.env.footnotes ??= {}).refs ??= {};
 
-  const label = state.src.slice(start + 2, pos - 2);
+  const label = state.src.substring(start + 2, pos - 2);
 
   state.env.footnotes.refs[`:${label}`] = -1;
 
@@ -193,16 +195,13 @@ const footnoteDef: RuleBlock = (
     pos -
     (state.bMarks[startLine] + state.tShift[startLine]);
 
-  let offset =
-    state.sCount[startLine] +
-    pos -
-    (state.bMarks[startLine] + state.tShift[startLine]);
+  let offset = initial;
 
   while (pos < max) {
-    const char = state.src.charAt(pos);
+    const char = state.src.charCodeAt(pos);
 
-    if (char === "\t") offset += 4 - (offset % 4);
-    else if (char === " ") offset++;
+    if (char === 9 /* \t */) offset += 4 - (offset % 4);
+    else if (char === 32 /* space */) offset++;
     else break;
 
     pos++;
@@ -210,7 +209,6 @@ const footnoteDef: RuleBlock = (
 
   state.tShift[startLine] = pos - posAfterColon;
   state.sCount[startLine] = offset - initial;
-
   state.bMarks[startLine] = posAfterColon;
   state.blkIndent += 4;
   state.parentType = "footnote" as unknown as ParentType;
@@ -240,8 +238,8 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
 
   if (
     start + 2 >= max ||
-    state.src.charAt(start) !== "^" ||
-    state.src.charAt(start + 1) !== "["
+    state.src.charCodeAt(start) !== 94 /* ^ */ ||
+    state.src.charCodeAt(start + 1) !== 91 /* [ */
   )
     return false;
 
@@ -264,7 +262,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     const tokens: Token[] = [];
 
     state.md.inline.parse(
-      state.src.slice(labelStart, labelEnd),
+      state.src.substring(labelStart, labelEnd),
       state.md,
       state.env,
       tokens,
@@ -275,7 +273,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     refToken.meta = { id: footnoteId };
 
     state.env.footnotes.list[footnoteId] = {
-      content: state.src.slice(labelStart, labelEnd),
+      content: state.src.substring(labelStart, labelEnd),
       tokens,
     };
   }
@@ -290,23 +288,24 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
 const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   const start = state.pos;
   const max = state.posMax;
+  let char: number;
 
   if (
     // should be at least 4 chars - "[^x]"
     start + 3 > max ||
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     !state.env.footnotes?.refs ||
-    state.src.charAt(start) !== "[" ||
-    state.src.charAt(start + 1) !== "^"
+    state.src.charCodeAt(start) !== 91 /* [ */ ||
+    state.src.charCodeAt(start + 1) !== 94 /* ^ */
   )
     return false;
 
   let pos = start + 2;
 
   while (pos < max) {
-    if (state.src.charAt(pos) === " " || state.src.charAt(pos) === "\n")
-      return false;
-    if (state.src.charAt(pos) === "]") break;
+    char = state.src.charCodeAt(pos);
+    if (char === 32 /* space */ || char === 10 /* \n */) return false;
+    if (char === 93 /* ] */) break;
     pos++;
   }
 
@@ -319,7 +318,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   pos++;
 
-  const label = state.src.slice(start + 2, pos - 1);
+  const label = state.src.substring(start + 2, pos - 1);
 
   if (typeof state.env.footnotes.refs[`:${label}`] === "undefined")
     return false;

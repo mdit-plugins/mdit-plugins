@@ -45,35 +45,38 @@ export const abbr: PluginSimple = (md) => {
 
     if (
       pos + 2 >= max ||
-      state.src.charAt(pos++) !== "*" ||
-      state.src.charAt(pos++) !== "["
+      state.src.charCodeAt(pos++) !== 42 /* * */ ||
+      state.src.charCodeAt(pos++) !== 91 /* [ */
     )
       return false;
 
     const labelStart = pos;
 
     while (pos < max) {
-      const ch = state.src.charAt(pos);
+      const ch = state.src.charCodeAt(pos);
 
-      if (ch === "[") return false;
-      if (ch === "]") {
+      if (ch === 91 /* [ */) return false;
+      if (ch === 93 /* ] */) {
         labelEnd = pos;
         break;
       }
-      if (ch === "\\") pos++;
+      if (ch === 92 /* \ */) pos++;
       pos++;
     }
 
-    if (labelEnd < 0 || state.src.charAt(labelEnd + 1) !== ":") return false;
+    if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */)
+      return false;
     if (silent) return true;
 
-    const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");
-    const title = state.src.slice(labelEnd + 2, max).trim();
+    const label = state.src
+      .substring(labelStart, labelEnd)
+      .replace(/\\(.)/g, "$1");
+    const title = state.src.substring(labelEnd + 2, max).trim();
 
     if (!label.length || !title.length) return false;
 
     // prepend ':' to avoid conflict with Object.prototype members
-    (state.env.abbreviations ??= {})[":" + label] ??= title;
+    (state.env.abbreviations ??= {})["_" + label] ??= title;
 
     state.line = startLine + 1;
 
@@ -129,13 +132,13 @@ export const abbr: PluginSimple = (md) => {
           if (match.index > 0 || before.length > 0) {
             const token = new state.Token("text", "", 0);
 
-            token.content = text.slice(pos, match.index + before.length);
+            token.content = text.substring(pos, match.index + before.length);
             nodes.push(token);
           }
 
           const abbrOpenToken = new state.Token("abbr_open", "abbr", 1);
 
-          abbrOpenToken.attrPush(["title", abbreviations[`:${word}`]]);
+          abbrOpenToken.attrPush(["title", abbreviations[`_${word}`]]);
           nodes.push(abbrOpenToken);
 
           const textToken = new state.Token("text", "", 0);
@@ -156,7 +159,7 @@ export const abbr: PluginSimple = (md) => {
         if (pos < text.length) {
           const token = new state.Token("text", "", 0);
 
-          token.content = text.slice(pos);
+          token.content = text.substring(pos);
           nodes.push(token);
         }
 

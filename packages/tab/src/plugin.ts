@@ -27,18 +27,18 @@ const getTabRule =
      * Check out the first character quickly,
      * this should filter out most of non-uml blocks
      */
-    if (state.src.charAt(currentLineStart) !== "@") return false;
+    if (state.src.charCodeAt(currentLineStart) !== 64 /* @ */) return false;
 
     // Check out the rest of the marker string
     for (let index = 0; index < TAB_MARKER_LENGTH; index++)
       if (TAB_MARKER[index] !== state.src[currentLineStart + index])
         return false;
 
-    const markup = state.src.slice(
+    const markup = state.src.substring(
       currentLineStart,
       currentLineStart + TAB_MARKER_LENGTH,
     );
-    const info = state.src.slice(
+    const info = state.src.substring(
       currentLineStart + TAB_MARKER_LENGTH,
       currentLineMax,
     );
@@ -154,8 +154,8 @@ const getTabsRule =
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.slice(currentLineStart, pos);
-    const params = state.src.slice(pos, currentLineMax);
+    const markup = state.src.substring(currentLineStart, pos);
+    const params = state.src.substring(pos, currentLineMax);
 
     const [containerName, id = ""] = params.split("#", 2);
 
@@ -246,7 +246,7 @@ const getTabsRule =
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
-    closeToken.markup = state.src.slice(currentLineStart, pos);
+    closeToken.markup = state.src.substring(currentLineStart, pos);
     closeToken.block = true;
 
     state.parentType = oldParent;

@@ -1,4 +1,5 @@
 import type { PluginSimple } from "markdown-it";
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -12,8 +13,8 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   const max = state.posMax;
 
   if (
-    state.src.charAt(state.pos) !== "!" ||
-    state.src.charAt(state.pos + 1) !== "["
+    state.src.charCodeAt(state.pos) !== 33 /* ! */ ||
+    state.src.charCodeAt(state.pos + 1) !== 91 /* [ */
   )
     return false;
 
@@ -23,7 +24,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   // parser failed to find ']', so it's not a valid link
   if (labelEnd < 0) return false;
 
-  const rawLabel = state.src.slice(labelStart, labelEnd);
+  const rawLabel = state.src.substring(labelStart, labelEnd);
 
   // check if label has img size
   const matches = IMAGE_SIZE_REGEXP.exec(rawLabel);
@@ -33,12 +34,11 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   const [, label, width, height] = matches;
 
   let pos = labelEnd + 1;
-  let char: string;
 
   let href = "";
   let title = "";
 
-  if (pos < max && state.src.charAt(pos) === "(") {
+  if (pos < max && state.src.charCodeAt(pos) === 40 /* ( */) {
     //
     // Inline link
     //
@@ -48,8 +48,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     pos++;
 
     while (pos < max) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      if (!isSpace(state.src.charCodeAt(pos))) break;
       pos++;
     }
 
@@ -73,8 +72,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     const start = pos;
 
     for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      if (!isSpace(state.src.charCodeAt(pos))) break;
     }
 
     // [link](  <href>  "title"  )
@@ -88,14 +86,13 @@ export const imgSizeRule: RuleInline = (state, silent) => {
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
       for (; pos < max; pos++) {
-        char = state.src.charAt(pos);
-        if (char !== " " && char !== "\t") break;
+        if (!isSpace(state.src.charCodeAt(pos))) break;
       }
     } else {
       title = "";
     }
 
-    if (pos >= max || state.src.charAt(pos) !== ")") {
+    if (pos >= max || state.src.charCodeAt(pos) !== 41 /* ) */) {
       state.pos = oldPos;
 
       return false;
@@ -112,16 +109,15 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
     for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      if (!isSpace(state.src.charCodeAt(pos))) break;
     }
 
-    if (pos < max && state.src.charAt(pos) === "[") {
+    if (pos < max && state.src.charCodeAt(pos) === 91 /* [ */) {
       const start = pos + 1;
 
       pos = state.md.helpers.parseLinkLabel(state, pos);
 
-      if (pos >= 0) referenceLabel = state.src.slice(start, pos++);
+      if (pos >= 0) referenceLabel = state.src.substring(start, pos++);
       else pos = labelEnd + 1;
     } else {
       pos = labelEnd + 1;

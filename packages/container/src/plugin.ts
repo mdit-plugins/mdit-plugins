@@ -73,8 +73,8 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
 
     pos -= (pos - currentLineStart) % markerLength;
 
-    const markup = state.src.slice(currentLineStart, pos);
-    const params = state.src.slice(pos, currentLineMax);
+    const markup = state.src.substring(currentLineStart, pos);
+    const params = state.src.substring(pos, currentLineMax);
 
     if (!validate(params, markup)) return false;
 
@@ -155,7 +155,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
 
     const closeToken = state.push(`container_${name}_close`, "div", -1);
 
-    closeToken.markup = state.src.slice(currentLineStart, pos);
+    closeToken.markup = state.src.substring(currentLineStart, pos);
     closeToken.block = true;
 
     state.parentType = oldParent;
