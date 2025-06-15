@@ -96,8 +96,6 @@ const ATTR_REGEXP = new RegExp(
   "g",
 );
 
-// console.log(ATTR_REGEXP.toString());
-
 /**
  * Parse attrs string to object
  *
