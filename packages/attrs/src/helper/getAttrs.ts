@@ -1,16 +1,30 @@
 import {
-  ALLOWED_KEY_CHARS,
   CLASS_MARKER,
   ID_MARKER,
   KEY_SEPARATOR,
   PAIR_SEPARATOR,
+  QUOTE_MARKER,
 } from "./constants.js";
-import type { Attr, DelimiterConfig } from "./types.js";
+import type { Attr } from "./types.js";
+import type { DelimiterRange } from "../rules/types.js";
+
+const isAllowedKeyChar = (charCode: number): boolean =>
+  !(
+    charCode === 9 /* \t */ ||
+    charCode === 10 /* \n */ ||
+    charCode === 12 /* \f */ ||
+    charCode === 32 /* 空格 */ ||
+    charCode === 47 /* / */ ||
+    charCode === 62 /* > */ ||
+    charCode === 34 /* " */ ||
+    charCode === 39 /* ' */ ||
+    charCode === 61 /* = */
+  );
 
 export const getAttrs = (
   str: string,
-  start: number,
-  { left, right, allowed }: DelimiterConfig,
+  range: DelimiterRange,
+  allowed: (string | RegExp)[],
 ): Attr[] => {
   let key = "";
   let value = "";
@@ -19,26 +33,21 @@ export const getAttrs = (
 
   const attrs: Attr[] = [];
 
-  // read inside {}
-  // start + left delimiter length to avoid beginning {
-  // breaks when } is found or end of string
-  for (let index = start + left.length; index < str.length; index++) {
-    if (str.slice(index, index + right.length) === right) {
-      if (key !== "") attrs.push([key, value]);
-      break;
-    }
-
-    const char = str.charAt(index);
+  // read inside marker
+  // start + left delimiter length to avoid beginning marker
+  // breaks when ending marker is found or end of string
+  for (let index = range[0]; index < range[1]; index++) {
+    const charCode = str.charCodeAt(index);
 
     // switch to reading value if equal sign
-    if (char === KEY_SEPARATOR && parsingKey) {
+    if (charCode === KEY_SEPARATOR && parsingKey) {
       parsingKey = false;
       continue;
     }
 
     // {.class} {..css-module}
-    if (char === CLASS_MARKER && key === "") {
-      if (str.charAt(index + 1) === CLASS_MARKER) {
+    if (charCode === CLASS_MARKER && key === "") {
+      if (str.charCodeAt(index + 1) === CLASS_MARKER) {
         key = "css-module";
         index++;
       } else {
@@ -50,25 +59,25 @@ export const getAttrs = (
     }
 
     // {#id}
-    if (char === ID_MARKER && key === "") {
+    if (charCode === ID_MARKER && key === "") {
       key = "id";
       parsingKey = false;
       continue;
     }
 
     // {value="inside quotes"}
-    if (char === '"' && value === "" && !valueInsideQuotes) {
+    if (charCode === QUOTE_MARKER && value === "" && !valueInsideQuotes) {
       valueInsideQuotes = true;
       continue;
     }
 
-    if (char === '"' && valueInsideQuotes) {
+    if (charCode === QUOTE_MARKER && valueInsideQuotes) {
       valueInsideQuotes = false;
       continue;
     }
 
     // read next key/value pair
-    if (char === PAIR_SEPARATOR && !valueInsideQuotes) {
+    if (charCode === PAIR_SEPARATOR && !valueInsideQuotes) {
       if (key === "")
         // beginning or ending space: { .red } vs {.red}
         continue;
@@ -82,16 +91,19 @@ export const getAttrs = (
     }
 
     // continue if character not allowed
-    if (parsingKey && char.search(ALLOWED_KEY_CHARS) === -1) continue;
+    if (parsingKey && !isAllowedKeyChar(charCode)) continue;
 
     // no other conditions met; append to key/value
     if (parsingKey) {
-      key += char;
+      key += String.fromCharCode(charCode);
       continue;
     }
 
-    value += char;
+    value += String.fromCharCode(charCode);
   }
+
+  // append last key/value pair
+  if (key !== "") attrs.push([key, value]);
 
   return allowed.length
     ? attrs.filter(([attr]) =>

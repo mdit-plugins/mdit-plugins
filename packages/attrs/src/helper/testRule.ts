@@ -1,17 +1,14 @@
 import type Token from "markdown-it/lib/token.mjs";
 
-import type { AttrRuleSet, TestFunction } from "../rules/types.js";
-import {
-  getArrayItem,
-  isArrayOfFunctions,
-  isArrayOfObjects,
-} from "../utils.js";
+import type { AttrRuleSet } from "../rules/types.js";
+import { getArrayItem } from "../utils.js";
 
 export interface TestRuleResult {
   /** whether rule matches token stream */
   match: boolean;
   /** position of token */
   position: null | number;
+  range: [start: number, end: number] | null;
 }
 
 /**
@@ -23,109 +20,123 @@ export const testRule = (
   index: number,
   rule: AttrRuleSet,
 ): TestRuleResult => {
-  const result: TestRuleResult = {
+  const testResult: TestRuleResult = {
     match: false,
     position: null,
+    range: null,
   };
+  const isShift = rule.shift !== undefined;
 
-  const tokenIndex =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    rule.shift !== undefined ? index + rule.shift : rule.position!;
+  const tokenIndex = isShift ? index + rule.shift : rule.position;
 
   // we should never shift to negative indexes (rolling around to back of array)
-  if (rule.shift !== undefined && tokenIndex < 0) return result;
+  if (isShift && tokenIndex < 0) return testResult;
 
   const token = getArrayItem(tokens, tokenIndex);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!token) return result;
+  if (!token) return testResult;
 
   for (const key of Object.keys(rule) as (keyof typeof rule)[]) {
     if (key === "shift" || key === "position") continue;
 
-    if (token[key as keyof Token] === undefined) return result;
+    if (token[key as keyof Token] == undefined) return testResult;
 
-    if (key === "children" && isArrayOfObjects(rule.children)) {
-      if (token.children?.length === 0) return result;
+    if (key === "children" && Array.isArray(rule.children)) {
+      if (!token.children?.length) return testResult;
 
-      let match;
       const childTests = rule.children;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const children = token.children!;
+      const children = token.children;
+      let match;
+      let range: [start: number, end: number] | null = null;
 
-      if (childTests.every((childTest) => childTest.position !== undefined)) {
+      if (childTests.every((childTest) => childTest.position != undefined)) {
         // positions instead of shifts, do not loop all children
-        match = childTests.every(
-          (childTest) =>
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            testRule(children, childTest.position!, childTest).match,
-        );
+        match = childTests.every((childTest) => {
+          const result = testRule(children, childTest.position, childTest);
+
+          if (!result.match) return false;
+
+          if (result.range) range = result.range;
+
+          return true;
+        });
 
         if (match) {
-          // we may need position of child in transform
-          const position = childTests[childTests.length - 1]?.position ?? 0;
+          // get position of child
+          const { position } = childTests[childTests.length - 1];
 
-          result.position =
+          testResult.position =
             position >= 0 ? position : children.length + position;
+
+          // set pos data
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          testResult.range = range!;
         }
       } else {
-        for (let token = 0; token < children.length; token++) {
-          match = childTests.every(
-            (childTest) => testRule(children, token, childTest).match,
-          );
+        for (let childIndex = 0; childIndex < children.length; childIndex++) {
+          match = childTests.every((childTest) => {
+            const result = testRule(children, childIndex, childTest);
+
+            if (!result.match) return false;
+
+            if (result.range) range = result.range;
+
+            return true;
+          });
 
           if (match) {
-            result.position = token;
-            // all tests true, continue with next key of pattern t
+            testResult.position = childIndex;
+            // set pos data
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            if (range) testResult.range = range;
+            // all tests passes. so the check is successful
             break;
           }
         }
       }
 
-      if (match === false) return result;
+      if (match === false) return testResult;
 
       continue;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const ruleDetail = rule[key];
 
     switch (typeof ruleDetail) {
       case "boolean":
       case "number":
       case "string": {
-        if (token[key] !== ruleDetail) return result;
+        if (token[key] !== ruleDetail) return testResult;
 
         break;
       }
 
       case "function": {
-        if (!(ruleDetail as TestFunction)(token[key])) return result;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const result = ruleDetail(token[key]) as
+          | boolean
+          | [start: number, end: number];
+
+        if (!result) return testResult;
+
+        if (Array.isArray(result)) testResult.range = result;
 
         break;
       }
 
       // fall through for objects !== arrays of functions
       default: {
-        if (isArrayOfFunctions(ruleDetail)) {
-          if (
-            !(ruleDetail as TestFunction[]).every((ruleItem) =>
-              ruleItem(token[key]),
-            )
-          )
-            return result;
-
-          break;
-        }
-
         throw new Error(
-          `Unknown type of pattern test (key: ${key}). Test should be of type boolean, number, string, function or array of functions.`,
+          `Unknown type of pattern test (key: ${key}). Test should be of type boolean, number, string or function.`,
         );
       }
     }
   }
 
   // no tests returned false -> all tests returns true
-  result.match = true;
+  testResult.match = true;
 
-  return result;
+  return testResult;
 };

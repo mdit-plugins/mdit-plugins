@@ -1,13 +1,14 @@
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
+
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
-  getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getBlockRule = (options: Required<DelimiterConfig>): AttrRule =>
+export const getBlockRule = (options: DelimiterConfig): AttrRule =>
   /**
    * end of {.block}
    */
@@ -26,14 +27,12 @@ export const getBlockRule = (options: Required<DelimiterConfig>): AttrRule =>
         ],
       },
     ],
-    transform: (tokens, index, childIndex): void => {
+    transform: (tokens, index, childIndex, range): void => {
+      const attrStartIndex = range[0] - options.left.length;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const { content } = token;
-
-      // Extract attributes from the content
-      const attrStartIndex = content.lastIndexOf(options.left);
-      const attrs = getAttrs(content, attrStartIndex, options);
+      const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
       // Find the closing token by skipping all nested closing tokens
       let closingTokenIndex = index + 1;
@@ -49,15 +48,12 @@ export const getBlockRule = (options: Required<DelimiterConfig>): AttrRule =>
       const openingToken = getMatchingOpeningToken(tokens, closingTokenIndex);
 
       // Apply attributes to the opening token
-      addAttrs(attrs, openingToken);
+      addAttrs(openingToken, content, range, options.allowed);
 
       // Remove the attribute syntax from content
-      const contentWithoutAttributes = content.slice(0, attrStartIndex);
-      const hasTrailingSpace =
-        contentWithoutAttributes[contentWithoutAttributes.length - 1] === " ";
-
-      token.content = hasTrailingSpace
-        ? contentWithoutAttributes.slice(0, -1)
-        : contentWithoutAttributes;
+      token.content = content.substring(
+        0,
+        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
+      );
     },
   });

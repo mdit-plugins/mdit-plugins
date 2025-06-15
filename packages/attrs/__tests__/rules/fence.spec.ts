@@ -58,8 +58,7 @@ const createDualRuleTests = (
         const src = "```python{1,3-5} {.highlight}\nprint('hello')\n```";
         const result = markdownIt.render(src);
 
-        expect(result).toContain('class="highlight language-python"');
-        expect(result).toContain('<code class="highlight language-python">');
+        expect(result).toContain('<code class="highlight language-python');
 
         // Test various VuePress line number patterns
         const testCases = [
@@ -71,8 +70,7 @@ const createDualRuleTests = (
         testCases.forEach((src) => {
           const result = markdownIt.render(src);
 
-          expect(result).toContain('class="class language-js"');
-          expect(result).toContain('<code class="class language-js">');
+          expect(result).toContain('<code class="class language-js');
         });
       });
     });

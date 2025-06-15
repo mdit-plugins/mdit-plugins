@@ -85,30 +85,6 @@ describe("testRule", () => {
     expect(testRule(tokens, 0, { shift: 0, nesting: 0 }).match).toBe(false);
   });
 
-  it("function arrays", () => {
-    const tokens = [createToken({ type: "code_block" })];
-    const rule = {
-      shift: 0,
-      type: [
-        (type: string): boolean => type.includes("code"),
-        (type: string): boolean => type.includes("block"),
-      ],
-    };
-    const failRule = {
-      shift: 0,
-      type: [
-        (type: string): boolean => type.includes("code"),
-        (type: string): boolean => type.includes("inline"),
-      ],
-    };
-
-    // Should match when all functions return true
-    expect(testRule(tokens, 0, rule).match).toBe(true);
-
-    // Should not match when any function returns false
-    expect(testRule(tokens, 0, failRule).match).toBe(false);
-  });
-
   it("position and shift", () => {
     const tokens = [
       createToken({ type: "text" }),
@@ -246,7 +222,7 @@ describe("testRule", () => {
     };
 
     expect(() => testRule(tokens, 0, rule1)).toThrow(
-      "Unknown type of pattern test (key: tag). Test should be of type boolean, number, string, function or array of functions.",
+      "Unknown type of pattern test (key: tag). Test should be of type boolean, number, string or function.",
     );
 
     // Symbol type should throw error
@@ -256,7 +232,7 @@ describe("testRule", () => {
     } as unknown as AttrRuleSet;
 
     expect(() => testRule(tokens, 0, rule2)).toThrow(
-      "Unknown type of pattern test (key: type). Test should be of type boolean, number, string, function or array of functions.",
+      "Unknown type of pattern test (key: type). Test should be of type boolean, number, string or function.",
     );
   });
 });

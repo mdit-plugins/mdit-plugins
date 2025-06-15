@@ -1,10 +1,10 @@
-import { escapeHtml } from "@mdit/helper";
 import { describe, expect, it } from "vitest";
 
 import { getAttrs } from "../../src/helper/getAttrs.js";
 import { getDelimiterChecker } from "../../src/helper/getDelimiterChecker.js";
 import type { DelimiterConfig } from "../../src/helper/types.js";
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
+import type { DelimiterRange } from "../../src/rules/types.js";
 import { replaceDelimiters } from "../replaceDelimiters.js";
 
 const createDelimiterTests = (
@@ -18,7 +18,10 @@ const createDelimiterTests = (
         options,
       ),
       () => {
-        const src = "{.red ..mod #head key=val .class.with.dot}";
+        const src = replaceDelimiters(
+          "{.red ..mod #head key=val .class.with.dot}",
+          options,
+        );
         const expected = [
           ["class", "red"],
           ["css-module", "mod"],
@@ -27,21 +30,27 @@ const createDelimiterTests = (
           ["class", "class.with.dot"],
         ];
 
-        expect(getAttrs(replaceDelimiters(src, options), 0, options)).toEqual(
-          expected,
-        );
+        const range = getDelimiterChecker(
+          options,
+          "only",
+        )(src) as DelimiterRange;
+
+        expect(getAttrs(src, range, options)).toEqual(expected);
       },
     );
 
     it(
       replaceDelimiters("should parse attributes with = {attr=/id=1}", options),
       () => {
-        const src = "{link=/some/page/in/app/id=1}";
+        const src = replaceDelimiters("{link=/some/page/in/app/id=1}", options);
         const expected = [["link", "/some/page/in/app/id=1"]];
 
-        expect(getAttrs(replaceDelimiters(src, options), 0, options)).toEqual(
-          expected,
-        );
+        const range = getDelimiterChecker(
+          options,
+          "only",
+        )(src) as DelimiterRange;
+
+        expect(getAttrs(src, range, options)).toEqual(expected);
       },
     );
 
@@ -51,7 +60,10 @@ const createDelimiterTests = (
         options,
       ),
       () => {
-        const src = '{gt>=true slash/=trace i\td "q\fu\ne\'r\ny"=}';
+        const src = replaceDelimiters(
+          '{gt>=true slash/=trace i\td "q\fu\ne\'r\ny"=}',
+          options,
+        );
         const expected = [
           ["gt", "true"],
           ["slash", "trace"],
@@ -59,54 +71,14 @@ const createDelimiterTests = (
           ["query", ""],
         ];
 
-        expect(getAttrs(replaceDelimiters(src, options), 0, options)).toEqual(
-          expected,
-        );
+        const range = getDelimiterChecker(
+          options,
+          "only",
+        )(src) as DelimiterRange;
+
+        expect(getAttrs(src, range, options)).toEqual(expected);
       },
     );
-
-    it(
-      replaceDelimiters(
-        "should throw an error while calling `hasDelimiters` with an invalid `where` param",
-        options,
-      ),
-      () => {
-        // @ts-expect-error: error in test
-        expect(() => getDelimiterChecker(options, 0)).toThrow(
-          /Invalid 'where' parameter/,
-        );
-        // @ts-expect-error: error in test
-        expect(() => getDelimiterChecker(options, "")).toThrow(
-          /Invalid 'where' parameter/,
-        );
-        // @ts-expect-error: error in test
-        expect(() => getDelimiterChecker(options, null)).toThrow(
-          /Invalid 'where' parameter/,
-        );
-        // @ts-expect-error: error in test
-        expect(() => getDelimiterChecker(options, undefined)).toThrow(
-          /Invalid 'where' parameter/,
-        );
-        expect(() =>
-          // @ts-expect-error: error in test
-          getDelimiterChecker(options, "center")("has {#test} delimiters"),
-        ).toThrow(/Invalid 'where' parameter/);
-      },
-    );
-
-    it('should escape html entities(&,<,>,") eg: <a href="?a&b">TOC</a>', () => {
-      const src = '<a href="a&b">TOC</a>';
-      const expected = "&lt;a href=&quot;a&amp;b&quot;&gt;TOC&lt;/a&gt;";
-
-      expect(escapeHtml(src)).toEqual(expected);
-    });
-
-    it('should keep the origional input which is not contains(&,<,>,") char(s) eg: |a|b|', () => {
-      const src = "|a|b|";
-      const expected = "|a|b|";
-
-      expect(escapeHtml(src)).toEqual(expected);
-    });
   });
 };
 

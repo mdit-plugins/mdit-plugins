@@ -2,14 +2,11 @@ import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import {
   addAttrs,
-  getAttrs,
   getDelimiterChecker,
   getMatchingOpeningToken,
 } from "../helper/index.js";
 
-export const getSoftBreakRule = (
-  options: Required<DelimiterConfig>,
-): AttrRule => ({
+export const getSoftBreakRule = (options: DelimiterConfig): AttrRule => ({
   /**
    * something with softbreak
    * {.cls}
@@ -33,10 +30,10 @@ export const getSoftBreakRule = (
       ],
     },
   ],
-  transform: (tokens, index, childIndex): void => {
+  transform: (tokens, index, childIndex, range): void => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const token = tokens[index].children![childIndex];
-    const attrs = getAttrs(token.content, 0, options);
+    const childTokens = tokens[index].children!;
+    const token = childTokens[childIndex];
 
     // Find the last closing tag by searching forward
     let closingTokenIndex = index + 1;
@@ -48,14 +45,15 @@ export const getSoftBreakRule = (
       closingTokenIndex++;
     }
 
-    // Get the corresponding opening token
-    const openingToken = getMatchingOpeningToken(tokens, closingTokenIndex);
-
     // Apply attributes to the opening token
-    addAttrs(attrs, openingToken);
+    addAttrs(
+      getMatchingOpeningToken(tokens, closingTokenIndex),
+      token.content,
+      range,
+      options.allowed,
+    );
 
     // Remove the softbreak and attribute tokens
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    tokens[index].children = tokens[index].children!.slice(0, -2);
+    tokens[index].children = childTokens.slice(0, -2);
   },
 });
