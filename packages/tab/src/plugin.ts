@@ -2,6 +2,7 @@ import { escapeHtml } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 import type {
@@ -11,37 +12,54 @@ import type {
 } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
-const TAB_MARKER = `@tab`;
+const TAB_MARKER = "@tab";
+const ACTIVE_TAB_MARKER = TAB_MARKER + ":active";
 const TAB_MARKER_LENGTH = TAB_MARKER.length;
+const ACTIVE_TAB_MARKER_LENGTH = ACTIVE_TAB_MARKER.length;
+
+const checkTabMarker = (
+  state: StateBlock,
+  start: number,
+  max: number,
+): false | { isActive: boolean; pos: number } => {
+  /*
+   * Check out the first character quickly,
+   * this should filter out most of non-uml blocks
+   */
+  if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
+
+  let pos = 1;
+
+  // Check out the rest of the marker string
+  for (; pos < ACTIVE_TAB_MARKER_LENGTH; pos++)
+    if (ACTIVE_TAB_MARKER.charCodeAt(pos) !== state.src.charCodeAt(start + pos))
+      break;
+
+  const isActive = pos === ACTIVE_TAB_MARKER_LENGTH;
+
+  if (!isActive && pos !== TAB_MARKER_LENGTH) return false;
+
+  const markerEnd = start + pos;
+  const infoStart = state.skipSpaces(markerEnd);
+
+  if (infoStart > markerEnd && infoStart < max)
+    return { isActive, pos: infoStart };
+
+  return false;
+};
 
 const getTabRule =
   (name: string, store: { state: string | null }): RuleBlock =>
   (state, startLine, endLine, silent) => {
     if (store.state !== name) return false;
 
-    const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
-    const currentLineMax = state.eMarks[startLine];
-    const currentLineIndent = state.sCount[startLine];
+    const start = state.bMarks[startLine] + state.tShift[startLine];
+    const max = state.eMarks[startLine];
+    const indent = state.sCount[startLine];
 
-    /*
-     * Check out the first character quickly,
-     * this should filter out most of non-uml blocks
-     */
-    if (state.src.charCodeAt(currentLineStart) !== 64 /* @ */) return false;
+    const tabMatch = checkTabMarker(state, start, max);
 
-    // Check out the rest of the marker string
-    for (let index = 0; index < TAB_MARKER_LENGTH; index++)
-      if (TAB_MARKER[index] !== state.src[currentLineStart + index])
-        return false;
-
-    const markup = state.src.substring(
-      currentLineStart,
-      currentLineStart + TAB_MARKER_LENGTH,
-    );
-    const info = state.src.substring(
-      currentLineStart + TAB_MARKER_LENGTH,
-      currentLineMax,
-    );
+    if (tabMatch === false) return false;
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
@@ -61,20 +79,12 @@ const getTabRule =
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
 
       if (
-        // closing fence should be indented same as opening one
-        state.sCount[nextLine] === currentLineIndent &&
+        // marker should be indented same as opening one
+        state.sCount[nextLine] === indent &&
         // match start
         state.src[nextLineStart] === "@"
       ) {
-        let openMakerMatched = true;
-
-        for (let index = 0; index < TAB_MARKER.length; index++)
-          if (TAB_MARKER[index] !== state.src[nextLineStart + index]) {
-            openMakerMatched = false;
-            break;
-          }
-
-        if (openMakerMatched) {
+        if (checkTabMarker(state, nextLineStart, state.eMarks[nextLine])) {
           // found!
           autoClosed = true;
           break;
@@ -93,23 +103,54 @@ const getTabRule =
     state.lineMax = nextLine - (autoClosed ? 1 : 0);
 
     // this will update the block indent
-    state.blkIndent = currentLineIndent;
+    state.blkIndent = indent;
 
     const openToken = state.push(`${name}_tab_open`, "", 1);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const [, title, id] = /^(.*?)(?:(?<!\\)#([^#]*))?$/.exec(
-      info.replace(/^:active/, ""),
-    )!;
+    const infoStart = tabMatch.pos;
+    const infoEnd = state.skipSpacesBack(max, infoStart);
+
+    let pos = infoEnd;
+    let escapePos: number;
+
+    while (pos > infoStart) {
+      /*
+       * Found potential #, look for escapes, pos will point to
+       * first non escape when complete
+       */
+      if (state.src.charCodeAt(pos) === 35 /* # */) {
+        escapePos = pos - 1;
+
+        while (state.src.charCodeAt(escapePos) === 92 /* \ */) escapePos--;
+
+        // Even number of escapes, potential closing delimiter found
+        if ((pos - escapePos) % 2 === 1) break;
+      }
+
+      pos--;
+    }
+
+    let title;
+    let id = "";
+
+    const hasId = pos !== infoStart;
+
+    if (hasId) {
+      id = state.src.substring(pos + 1, infoEnd);
+      pos = state.skipSpacesBack(pos, infoStart);
+      title = state.src.substring(infoStart, pos);
+    } else {
+      title = state.src.substring(infoStart, infoEnd);
+    }
 
     openToken.block = true;
-    openToken.markup = markup;
-    openToken.info = title.trim().replace(/\\#/g, "#");
+    openToken.markup = TAB_MARKER;
+    openToken.info = title;
     openToken.meta = {
-      active: info.includes(":active"),
+      active: tabMatch.isActive,
     };
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (id) openToken.meta.id = id.trim();
+    if (id) openToken.meta.id = id;
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
     state.md.block.tokenize(
@@ -375,7 +416,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === index ? " active" : ""
           }" data-tab="${index}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === index ? " data-active" : ""
-          }>${escapeHtml(title)}</button>`,
+          }>${escapeHtml(md.renderInline(title))}</button>`,
       );
 
       return `\
