@@ -42,8 +42,6 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = ":".repeat(markerCount);
-
     pos = state.skipSpaces(pos);
 
     // check name is matched
@@ -122,6 +120,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // this will update the block indent
     state.blkIndent = currentLineIndent;
 
+    const markup = ":".repeat(markerCount);
     const titleEnd = state.skipSpacesBack(currentLineMax, titleStart);
     const title = state.src.substring(titleStart, titleEnd);
     const openToken = state.push(`${name}_demo_open`, "div", 1);
