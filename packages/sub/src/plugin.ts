@@ -36,7 +36,7 @@ const subscriptRender: RuleInline = (state, silent) => {
     return false;
   }
 
-  const content = state.src.substring(start + 1, state.pos);
+  const content = state.src.slice(start + 1, state.pos);
 
   // don’t allow unescaped spaces/newlines inside
   if (/(^|[^\\])(\\\\)*\s/u.exec(content)) {

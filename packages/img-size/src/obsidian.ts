@@ -24,7 +24,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   // parser failed to find ']', so it's not a valid link
   if (labelEnd < 0) return false;
 
-  const rawLabel = state.src.substring(labelStart, labelEnd);
+  const rawLabel = state.src.slice(labelStart, labelEnd);
 
   // check if label has img size
   const matches = OBSIDIAN_IMAGE_SIZE_REGEXP.exec(rawLabel);
@@ -120,7 +120,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
       pos = state.md.helpers.parseLinkLabel(state, pos);
 
-      if (pos >= 0) referenceLabel = state.src.substring(start, pos++);
+      if (pos >= 0) referenceLabel = state.src.slice(start, pos++);
       else pos = labelEnd + 1;
     } else {
       pos = labelEnd + 1;

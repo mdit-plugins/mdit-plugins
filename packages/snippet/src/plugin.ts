@@ -95,7 +95,7 @@ const getSnippetRule =
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
     const currentFilePath = currentPath(env);
-    const snippetContent = state.src.substring(start, end).trim();
+    const snippetContent = state.src.slice(start, end).trim();
     // the regexp supposes to match any possible snippet format
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
@@ -105,7 +105,7 @@ const getSnippetRule =
     const cwd = currentFilePath ? path.dirname(currentFilePath) : ".";
     const resolvedPath = resolvePath(snippetPath.trim(), cwd);
     const absolutePath = path.resolve(cwd, resolvedPath);
-    const ext = path.extname(absolutePath).substring(1);
+    const ext = path.extname(absolutePath).slice(1);
 
     state.line = startLine + 1;
 

@@ -176,7 +176,7 @@ const footnoteDef: RuleBlock = (
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   (state.env.footnotes ??= {}).refs ??= {};
 
-  const label = state.src.substring(start + 2, pos - 2);
+  const label = state.src.slice(start + 2, pos - 2);
 
   state.env.footnotes.refs[`:${label}`] = -1;
 
@@ -262,7 +262,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     const tokens: Token[] = [];
 
     state.md.inline.parse(
-      state.src.substring(labelStart, labelEnd),
+      state.src.slice(labelStart, labelEnd),
       state.md,
       state.env,
       tokens,
@@ -273,7 +273,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     refToken.meta = { id: footnoteId };
 
     state.env.footnotes.list[footnoteId] = {
-      content: state.src.substring(labelStart, labelEnd),
+      content: state.src.slice(labelStart, labelEnd),
       tokens,
     };
   }
@@ -318,7 +318,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   pos++;
 
-  const label = state.src.substring(start + 2, pos - 1);
+  const label = state.src.slice(start + 2, pos - 1);
 
   if (typeof state.env.footnotes.refs[`:${label}`] === "undefined")
     return false;

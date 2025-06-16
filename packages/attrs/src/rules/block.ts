@@ -51,7 +51,7 @@ export const getBlockRule = (options: DelimiterConfig): AttrRule =>
       addAttrs(openingToken, content, range, options.allowed);
 
       // Remove the attribute syntax from content
-      token.content = content.substring(
+      token.content = content.slice(
         0,
         hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
       );

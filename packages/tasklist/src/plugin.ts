@@ -56,7 +56,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         token.children ??= [];
 
         // remove the checkbox syntax letter
-        token.children[0].content = token.children[0].content.substring(3);
+        token.children[0].content = token.children[0].content.slice(3);
 
         const id = `task-item-${state.env.tasklistId++}`;
 

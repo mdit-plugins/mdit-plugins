@@ -74,7 +74,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
     pos -= (pos - currentLineStart) % markerLength;
 
     const markup = marker.repeat(markerCount);
-    const params = state.src.substring(pos, currentLineMax);
+    const params = state.src.slice(pos, currentLineMax);
 
     if (!validate(params, markup)) return false;
 

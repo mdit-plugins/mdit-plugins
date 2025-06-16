@@ -137,11 +137,11 @@ const getTabRule =
     const hasId = pos !== infoStart;
 
     if (hasId) {
-      id = state.src.substring(pos + 1, infoEnd);
+      id = state.src.slice(pos + 1, infoEnd);
       pos = state.skipSpacesBack(pos, infoStart);
-      title = state.src.substring(infoStart, pos);
+      title = state.src.slice(infoStart, pos);
     } else {
-      title = state.src.substring(infoStart, infoEnd);
+      title = state.src.slice(infoStart, infoEnd);
     }
 
     openToken.block = true;
@@ -286,7 +286,7 @@ const getTabsRule =
       idStart = state.skipSpaces(idStart);
       const idEnd = state.skipSpacesBack(max, idStart);
 
-      if (idStart < idEnd) id = state.src.substring(idStart, idEnd);
+      if (idStart < idEnd) id = state.src.slice(idStart, idEnd);
     }
 
     const openToken = state.push(`${name}_tabs_open`, "", 1);

@@ -133,7 +133,7 @@ const getDollarInlineTex =
       const token = state.push("math_inline", "math", 0);
 
       token.markup = "$";
-      token.content = state.src.substring(start, match);
+      token.content = state.src.slice(start, match);
     }
 
     state.pos = match + 1;
@@ -192,7 +192,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
     const token = state.push("math_inline", "math", 0);
 
     token.markup = "\\(";
-    token.content = state.src.substring(start + 2, pos);
+    token.content = state.src.slice(start + 2, pos);
   }
 
   state.pos = pos + 2;
@@ -228,10 +228,10 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
     state.src.charCodeAt(contentEnd - 2) === 36 /* $ */
   ) {
     // Single line expression
-    firstLine = state.src.substring(pos, contentEnd - 2);
+    firstLine = state.src.slice(pos, contentEnd - 2);
     found = true;
   } else {
-    firstLine = state.src.substring(pos, end);
+    firstLine = state.src.slice(pos, end);
   }
 
   let current = startLine;
@@ -255,7 +255,7 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
       state.src.charCodeAt(contentEnd - 1) === 36 /* $ */ &&
       state.src.charCodeAt(contentEnd - 2) === 36 /* $ */
     ) {
-      lastLine = state.src.substring(pos, contentEnd - 2);
+      lastLine = state.src.slice(pos, contentEnd - 2);
       found = true;
     }
   }
@@ -304,10 +304,10 @@ const getBracketBlockTex =
       state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
     ) {
       // Single line expression
-      firstLine = state.src.substring(pos, contentEnd - 2);
+      firstLine = state.src.slice(pos, contentEnd - 2);
       found = true;
     } else {
-      firstLine = state.src.substring(pos, end);
+      firstLine = state.src.slice(pos, end);
     }
 
     let current = startLine;
@@ -331,7 +331,7 @@ const getBracketBlockTex =
         state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
         state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
       ) {
-        lastLine = state.src.substring(pos, contentEnd - 2).trimEnd();
+        lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
         found = true;
       }
     }

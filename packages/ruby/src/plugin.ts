@@ -51,8 +51,8 @@ const rubyRule: RuleInline = (state, silent) => {
 
   openToken.markup = "{";
 
-  const baseText = state.src.substring(start + 1, dividerPosition);
-  const rubyText = state.src.substring(dividerPosition + 1, closePos);
+  const baseText = state.src.slice(start + 1, dividerPosition);
+  const rubyText = state.src.slice(dividerPosition + 1, closePos);
 
   const baseArray = baseText.split("");
   const rubyArray = rubyText.split("|");

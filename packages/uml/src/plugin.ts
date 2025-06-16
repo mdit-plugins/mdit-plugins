@@ -37,8 +37,8 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
     for (index = 0; index < OPEN_MARKER.length; ++index)
       if (OPEN_MARKER[index] !== state.src[start + index]) return false;
 
-    const markup = state.src.substring(start, start + index);
-    const params = state.src.substring(start + index, max);
+    const markup = state.src.slice(start, start + index);
+    const params = state.src.slice(start + index, max);
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;

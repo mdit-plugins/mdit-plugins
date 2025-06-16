@@ -122,7 +122,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const markup = ":".repeat(markerCount);
     const titleEnd = state.skipSpacesBack(currentLineMax, titleStart);
-    const title = state.src.substring(titleStart, titleEnd);
+    const title = state.src.slice(titleStart, titleEnd);
     const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
@@ -142,7 +142,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       codeToken.content = state.src
         .split(/\n\r?/)
         .slice(startLine + 1, nextLine)
-        .map((line) => line.substring(indent))
+        .map((line) => line.slice(indent))
         // this is a workaround to work with include plugin
         .filter(
           (line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line),

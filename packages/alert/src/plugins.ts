@@ -334,8 +334,7 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
       const token = tokens[index];
 
       return `<p class="markdown-alert-title">${
-        token.content[0].toUpperCase() +
-        token.content.substring(1).toLowerCase()
+        token.content[0].toUpperCase() + token.content.slice(1).toLowerCase()
       }</p>\n`;
     });
 };

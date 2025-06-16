@@ -68,14 +68,12 @@ export const abbr: PluginSimple = (md) => {
       return false;
     if (silent) return true;
 
-    const label = state.src
-      .substring(labelStart, labelEnd)
-      .replace(/\\(.)/g, "$1");
+    const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");
 
     pos = labelEnd + 2;
     const titleStart = state.skipSpaces(pos);
     const titleEnd = state.skipSpacesBack(max, titleStart);
-    const title = state.src.substring(titleStart, titleEnd);
+    const title = state.src.slice(titleStart, titleEnd);
 
     if (!label.length || !title.length) return false;
 
@@ -94,7 +92,7 @@ export const abbr: PluginSimple = (md) => {
     if (!abbreviations) return;
 
     const abbreviationsRegExpText = Object.keys(abbreviations)
-      .map((x) => x.substring(1))
+      .map((x) => x.slice(1))
       .sort((a, b) => b.length - a.length)
       .map(escapeRE)
       .join("|");
@@ -136,7 +134,7 @@ export const abbr: PluginSimple = (md) => {
           if (match.index > 0 || before.length > 0) {
             const token = new state.Token("text", "", 0);
 
-            token.content = text.substring(pos, match.index + before.length);
+            token.content = text.slice(pos, match.index + before.length);
             nodes.push(token);
           }
 
@@ -163,7 +161,7 @@ export const abbr: PluginSimple = (md) => {
         if (pos < text.length) {
           const token = new state.Token("text", "", 0);
 
-          token.content = text.substring(pos);
+          token.content = text.slice(pos);
           nodes.push(token);
         }
 

@@ -34,7 +34,7 @@ const parseNumber = (
 
   result.ok = true;
   result.pos = pos;
-  result.value = str.substring(start, pos);
+  result.value = str.slice(start, pos);
 
   return result;
 };
@@ -204,7 +204,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
       pos = state.md.helpers.parseLinkLabel(state, pos);
 
-      if (pos >= 0) label = state.src.substring(start, pos++);
+      if (pos >= 0) label = state.src.slice(start, pos++);
       else pos = labelEnd + 1;
     } else {
       pos = labelEnd + 1;
@@ -212,7 +212,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
     // covers label === '' and label === undefined
     // (collapsed reference link and shortcut reference link respectively)
-    if (!label) label = state.src.substring(labelStart, labelEnd);
+    if (!label) label = state.src.slice(labelStart, labelEnd);
 
     const ref = env.references[state.md.utils.normalizeReference(label)];
 
@@ -232,7 +232,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   // so all that's left to do is to call tokenizer.
   //
   if (!silent) {
-    const content = state.src.substring(labelStart, labelEnd);
+    const content = state.src.slice(labelStart, labelEnd);
     const tokens: Token[] = [];
 
     state.md.inline.parse(content, state.md, state.env, tokens);

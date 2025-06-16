@@ -222,7 +222,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       addAttrs(cellOpenToken, content, range, options.allowed);
 
       // Remove attribute syntax from content
-      token.content = content.substring(
+      token.content = content.slice(
         0,
         hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
       );
