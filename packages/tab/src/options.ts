@@ -23,14 +23,14 @@ export interface MarkdownItTabData {
    *
    * Tab 标识符
    */
-  id?: string;
+  id: string | undefined;
 
   /**
    * Whether the tab is active
    *
    * Tab 是否激活
    */
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 export interface MarkdownItTabInfo {

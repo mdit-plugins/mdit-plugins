@@ -1,7 +1,6 @@
 /**
  * Forked from https://github.com/markdown-it/markdown-it-sub/blob/master/index.mjs
  */
-
 import { UNESCAPE_RE } from "@mdit/helper";
 import type { PluginSimple } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
@@ -11,7 +10,7 @@ const subscriptRender: RuleInline = (state, silent) => {
   const start = state.pos;
 
   if (
-    state.src.charAt(start) !== "~" ||
+    state.src.charCodeAt(start) !== 126 /* ~ */ ||
     // don’t run any pairs in validation mode
     silent ||
     start + 2 >= max
@@ -23,7 +22,7 @@ const subscriptRender: RuleInline = (state, silent) => {
   let found = false;
 
   while (state.pos < max) {
-    if (state.src.charAt(state.pos) === "~") {
+    if (state.src.charCodeAt(state.pos) === 126 /* ~ */) {
       found = true;
       break;
     }

@@ -3,6 +3,7 @@
  */
 
 import type { PluginSimple } from "markdown-it";
+import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -15,7 +16,7 @@ const parseNumber = (
   pos: number,
   max: number,
 ): { ok: boolean; pos: number; value: string } => {
-  let char: string;
+  let char: number;
   const start = pos;
   const result = {
     ok: false,
@@ -23,10 +24,13 @@ const parseNumber = (
     value: "",
   };
 
-  char = str.charAt(pos);
+  char = str.charCodeAt(pos);
 
-  while ((pos < max && /\d/.test(char)) || char === "%")
-    char = str.charAt(++pos);
+  while (
+    (pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ ||
+    char === 37 /* % */
+  )
+    char = str.charCodeAt(++pos);
 
   result.ok = true;
   result.pos = pos;
@@ -42,7 +46,7 @@ const parseImageSize = (
 ): { pos: number; width: string; height: string } | null => {
   if (pos >= max) return null;
 
-  if (str.charAt(pos) !== "=") return null;
+  if (str.charCodeAt(pos) !== 61 /* = */) return null;
 
   pos++;
 
@@ -50,9 +54,10 @@ const parseImageSize = (
   // (1) =300x200
   // (2) =300x
   // (3) =x200
-  const char = str.charAt(pos);
+  const char = str.charCodeAt(pos);
 
-  if (char !== "x" && !/\d/.test(char)) return null;
+  if (char !== 120 /* x */ && (char < 48 /* 0 */ || char > 57) /* 9 */)
+    return null;
 
   // parse width
   const width = parseNumber(str, pos, max);
@@ -60,9 +65,7 @@ const parseImageSize = (
   pos = width.pos;
 
   // next character must be 'x'
-  if (str.charAt(pos) !== "x") return null;
-
-  pos++;
+  if (str.charCodeAt(pos++) !== 120 /* x */) return null;
 
   // parse height
   const height = parseNumber(str, pos, max);
@@ -82,8 +85,8 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   const max = state.posMax;
 
   if (
-    state.src.charAt(state.pos) !== "!" ||
-    state.src.charAt(state.pos + 1) !== "["
+    state.src.charCodeAt(state.pos) !== 33 /* ! */ ||
+    state.src.charCodeAt(state.pos + 1) !== 91 /* [ */
   )
     return false;
 
@@ -94,14 +97,14 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   if (labelEnd < 0) return false;
 
   let pos = labelEnd + 1;
-  let char: string;
+  let char: number;
 
   let href = "";
   let title = "";
   let width = "";
   let height = "";
 
-  if (pos < max && state.src.charAt(pos) === "(") {
+  if (pos < max && state.src.charCodeAt(pos) === 40 /* ( */) {
     //
     // Inline link
     //
@@ -111,8 +114,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     pos++;
 
     while (pos < max) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      if (!isSpace(state.src.charCodeAt(pos))) break;
       pos++;
     }
 
@@ -136,8 +138,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     const start = pos;
 
     for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      if (!isSpace(state.src.charCodeAt(pos))) break;
     }
 
     // [link](  <href>  "title"  )
@@ -151,8 +152,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
       for (; pos < max; pos++) {
-        char = state.src.charAt(pos);
-        if (char !== " " && char !== "\t") break;
+        if (!isSpace(state.src.charCodeAt(pos))) break;
       }
     } else {
       title = "";
@@ -161,11 +161,9 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     // [link](  <href>  "title" =WxH  )
     //                          ^^^^ parsing image size
     if (pos - 1 >= 0) {
-      char = state.src.charAt(pos - 1);
-
       // there must be at least one white spaces
       // between previous field and the size
-      if (char === " ") {
+      if (isSpace(state.src.charCodeAt(pos - 1))) {
         const sizeInfo = parseImageSize(state.src, pos, state.posMax);
 
         if (sizeInfo) {
@@ -174,14 +172,13 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
           // [link](  <href>  "title" =WxH  )
           //                              ^^ skipping these spaces
           for (; pos < max; pos++) {
-            char = state.src.charAt(pos);
-            if (char !== " " && char !== "\n") break;
+            if (!isSpace(state.src.charCodeAt(pos))) break;
           }
         }
       }
     }
 
-    if (pos >= max || state.src.charAt(pos) !== ")") {
+    if (pos >= max || state.src.charCodeAt(pos) !== 41 /* ) */) {
       state.pos = oldPos;
 
       return false;
@@ -198,11 +195,11 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
     for (; pos < max; pos++) {
-      char = state.src.charAt(pos);
-      if (char !== " " && char !== "\t") break;
+      char = state.src.charCodeAt(pos);
+      if (char !== 32 /* space */ && char !== 9 /* \t */) break;
     }
 
-    if (pos < max && state.src.charAt(pos) === "[") {
+    if (pos < max && state.src.charCodeAt(pos) === 91 /* [ */) {
       const start = pos + 1;
 
       pos = state.md.helpers.parseLinkLabel(state, pos);

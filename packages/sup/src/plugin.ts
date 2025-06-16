@@ -11,7 +11,7 @@ const superscriptRender: RuleInline = (state, silent) => {
   const start = state.pos;
 
   if (
-    state.src.charAt(start) !== "^" ||
+    state.src.charCodeAt(start) !== 94 /* ^ */ ||
     // don’t run any pairs in validation mode
     silent ||
     start + 2 >= max
@@ -23,7 +23,7 @@ const superscriptRender: RuleInline = (state, silent) => {
   let found = false;
 
   while (state.pos < max) {
-    if (state.src.charAt(state.pos) === "^") {
+    if (state.src.charCodeAt(state.pos) === 94 /* ^ */) {
       found = true;
       break;
     }

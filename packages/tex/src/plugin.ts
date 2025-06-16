@@ -82,8 +82,11 @@ const getDollarInlineTex =
 
     let match = start;
     let pos: number;
+    const max = state.src.lastIndexOf("$");
 
-    while ((match = state.src.indexOf("$", match)) !== -1) {
+    if (max === -1) return false;
+
+    while ((match = state.src.indexOf("$", match)) <= max) {
       /*
        * Found potential $, look for escapes, pos will point to
        * first non escape when complete

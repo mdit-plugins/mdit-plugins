@@ -11,7 +11,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   {
     name = "demo",
     openRender = (tokens: Token[], index: number): string =>
-      `<details><summary>${tokens[index].info.trim()}</summary>\n`,
+      `<details><summary>${tokens[index].info}</summary>\n`,
     closeRender = (): string => "</details>\n",
     codeRender,
     contentOpenRender,
@@ -24,13 +24,17 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     const currentLineMax = state.eMarks[startLine];
     const currentLineIndent = state.sCount[startLine];
 
-    if (state.src.charAt(currentLineStart) !== ":") return false;
+    if (state.src.charCodeAt(currentLineStart) !== 58 /* : */) return false;
+
+    // check the minimal length of container
+    if (currentLineMax - currentLineStart < MIN_MARKER_NUM + name.length)
+      return false;
 
     let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
-      if (state.src.charAt(pos) !== ":") break;
+      if (state.src.charCodeAt(pos) !== 58 /* : */) break;
       pos++;
     }
 
@@ -38,10 +42,19 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     if (markerCount < MIN_MARKER_NUM) return false;
 
-    const markup = state.src.slice(currentLineStart, pos);
-    const params = state.src.slice(pos, currentLineMax);
+    pos = state.skipSpaces(pos);
 
-    if (params.trim().split(" ", 2)[0] !== name) return false;
+    // check name is matched
+    for (let i = 0; i < name.length; i++) {
+      if (state.src.charCodeAt(pos) !== name.charCodeAt(i)) return false;
+      pos++;
+    }
+
+    const nameEnd = pos;
+
+    const titleStart = state.skipSpaces(nameEnd);
+
+    if (titleStart === nameEnd) return false;
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
@@ -74,11 +87,11 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         // closing fence should be indented same as opening one
         state.sCount[nextLine] === currentLineIndent &&
         // match start
-        ":" === state.src[nextLineStart]
+        state.src.charCodeAt(nextLineStart) === 58 /* : */
       ) {
         // check rest of marker
         for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
-          if (":" !== state.src[pos]) break;
+          if (state.src.charCodeAt(pos) !== 58 /* : */) break;
 
         // closing code fence must be at least as long as the opening one
         if (pos - nextLineStart >= markerCount) {
@@ -107,7 +120,9 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // this will update the block indent
     state.blkIndent = currentLineIndent;
 
-    const title = params.trim().slice(name.length).trim();
+    const markup = ":".repeat(markerCount);
+    const titleEnd = state.skipSpacesBack(currentLineMax, titleStart);
+    const title = state.src.slice(titleStart, titleEnd);
     const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
@@ -127,7 +142,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       codeToken.content = state.src
         .split(/\n\r?/)
         .slice(startLine + 1, nextLine)
-        .map((line) => line.substring(indent))
+        .map((line) => line.slice(indent))
         // this is a workaround to work with include plugin
         .filter(
           (line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line),
@@ -163,7 +178,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const closeToken = state.push(`${name}_demo_close`, "div", -1);
 
-    closeToken.markup = state.src.slice(currentLineStart, pos);
+    closeToken.markup = markup;
     closeToken.block = true;
     closeToken.info = title;
 

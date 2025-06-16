@@ -19,7 +19,6 @@ const REGIONS_RE = [
   /^::#((?:end)region) ([\w*-]+)$/, // Bat
   /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
-const SNIPPET_CHAR = "<";
 const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
 const SNIPPET_META_RE =
   /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
@@ -30,7 +29,7 @@ const testLine = (
   regionName: string,
   end = false,
 ): boolean => {
-  const [full, tag, name] = regexp.exec(line.trim()) ?? [];
+  const [full, tag, name] = regexp.exec(line.trimStart()) ?? [];
 
   return Boolean(
     full &&
@@ -76,9 +75,11 @@ const getSnippetRule =
     if (state.sCount[startLine] - state.blkIndent >= 4) return false;
 
     for (let index = 0; index < 3; ++index) {
-      const char = state.src.charAt(pos + index);
-
-      if (char !== SNIPPET_CHAR || pos + index >= max) return false;
+      if (
+        state.src.charCodeAt(pos + index) !== 60 /* < */ ||
+        pos + index >= max
+      )
+        return false;
     }
 
     if (silent) return true;

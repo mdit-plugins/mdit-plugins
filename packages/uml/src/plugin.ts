@@ -29,7 +29,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
      * Check out the first character quickly,
      * this should filter out most of non-uml blocks
      */
-    if (state.src.charAt(start) !== "@") return false;
+    if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
 
     let index;
 
@@ -63,7 +63,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
 
       if (
         // didn’t find the closing fence
-        state.src.charAt(start) === "@" &&
+        state.src.charCodeAt(start) === 64 /* @ */ &&
         // closing fence should not be indented with respect of opening fence
         state.sCount[nextLine] <= state.sCount[startLine]
       ) {
