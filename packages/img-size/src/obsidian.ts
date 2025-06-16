@@ -5,7 +5,86 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { ImgSizeEnv } from "./types.js";
 
-const OBSIDIAN_IMAGE_SIZE_REGEXP = /^(.*?)\s*\|\s*(\d+)\s*x\s*(\d+)\s*$/;
+const isNumber = (charCode: number): boolean =>
+  charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
+
+/**
+ * Parse image size information from label text in Obsidian format
+ * Format: `alt | width x height`
+ */
+const parseObsidianImageSize = (
+  label: string,
+): {
+  label: string;
+  width: string | null;
+  height: string | null;
+} | null => {
+  const max = label.length;
+  let pos = label.lastIndexOf("|");
+
+  if (pos === -1) return null;
+
+  // Get original label part before the pipe
+  const origLabel = label.substring(0, pos++).trimEnd();
+
+  // Skip spaces after pipe
+  while (pos < max) {
+    if (!isSpace(label.charCodeAt(pos))) break;
+    pos++;
+  }
+
+  if (pos === max) return null;
+
+  const widthStart = pos;
+
+  while (pos < max && isNumber(label.charCodeAt(pos))) {
+    pos++;
+  }
+
+  if (pos === widthStart || pos === max) return null;
+
+  const width = label.substring(widthStart, pos);
+
+  // Skip spaces after width
+  while (pos < max) {
+    if (!isSpace(label.charCodeAt(pos))) break;
+    pos++;
+  }
+
+  // Check for 'x' character - 只接受小写 x
+  if (pos === max || label.charCodeAt(pos++) !== 120 /* x */) return null;
+
+  // Skip spaces after 'x'
+  while (pos < max) {
+    if (!isSpace(label.charCodeAt(pos))) break;
+    pos++;
+  }
+
+  const heightStart = pos;
+
+  while (pos < max && isNumber(label.charCodeAt(pos))) {
+    pos++;
+  }
+
+  if (pos === heightStart) return null;
+
+  // 验证宽度是有效的数字序列
+  const height = label.substring(heightStart, pos);
+  const widthNum = Number(width);
+  const heightNum = Number(height);
+
+  if (!widthNum && !heightNum) return null;
+
+  while (pos < max) {
+    if (!isSpace(label.charCodeAt(pos++))) return null;
+  }
+
+  return {
+    label: origLabel,
+    width: widthNum ? width : null,
+    height: heightNum ? height : null,
+  };
+};
 
 export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
@@ -27,15 +106,11 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   const rawLabel = state.src.slice(labelStart, labelEnd);
 
   // check if label has img size
-  const matches = OBSIDIAN_IMAGE_SIZE_REGEXP.exec(rawLabel);
+  const sizeInfo = parseObsidianImageSize(rawLabel);
 
-  if (!matches) return false;
+  if (!sizeInfo) return false;
 
-  const [, label, width, height] = matches;
-  const widthValue = Number(width);
-  const heightValue = Number(height);
-
-  if (!widthValue && !heightValue) return false;
+  const { label, width, height } = sizeInfo;
 
   let pos = labelEnd + 1;
   let href = "";
@@ -157,8 +232,8 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     if (title) attrs.push(["title", title]);
 
-    if (widthValue) attrs.push(["width", width]);
-    if (heightValue) attrs.push(["height", height]);
+    if (width) attrs.push(["width", width]);
+    if (height) attrs.push(["height", height]);
 
     const tokens: Token[] = [];
 

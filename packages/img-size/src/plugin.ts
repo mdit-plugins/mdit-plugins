@@ -5,7 +5,68 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { ImgSizeEnv } from "./types.js";
 
-const IMAGE_SIZE_REGEXP = /^(.*?)\s+=(\d*)\s*(?:x(\d*))?$/;
+const isNumber = (charCode: number): boolean =>
+  charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
+
+/**
+ * Parse image size information from label text
+ * Format: `alt =width x height`
+ */
+const parseImageSize = (
+  label: string,
+): { label: string; width: string | null; height: string | null } | null => {
+  const max = label.length;
+  let pos = label.lastIndexOf("=");
+
+  if (pos === -1 || pos === max) return null;
+  if (pos !== 0 && !isSpace(label.charCodeAt(pos - 1))) return null;
+
+  const origLabel = label.substring(0, pos++).trimEnd();
+
+  let width: string | null = null;
+  let height: string | null = null;
+
+  if (isNumber(label.charCodeAt(pos))) {
+    const startPos = pos;
+
+    while (pos < max && isNumber(label.charCodeAt(pos))) {
+      pos++;
+    }
+
+    if (startPos === pos) return null;
+
+    width = label.substring(startPos, pos);
+
+    if (label.charCodeAt(pos++) !== 120 /* x */) return null;
+  } else if (label.charCodeAt(pos++) === 120 /* x */) {
+    // no width info
+  } else {
+    return null;
+  }
+
+  if (pos < max) {
+    const startPos = pos;
+
+    while (pos < max && isNumber(label.charCodeAt(pos))) {
+      pos++;
+    }
+
+    if (pos > startPos) height = label.substring(startPos, pos);
+  }
+
+  if (width === null && height === null) return null;
+
+  while (pos < max) {
+    if (!isSpace(label.charCodeAt(pos))) return null;
+    pos++;
+  }
+
+  return {
+    label: origLabel,
+    width,
+    height,
+  };
+};
 
 export const imgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
@@ -27,14 +88,13 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   const rawLabel = state.src.slice(labelStart, labelEnd);
 
   // check if label has img size
-  const matches = IMAGE_SIZE_REGEXP.exec(rawLabel);
+  const sizeInfo = parseImageSize(rawLabel);
 
-  if (!matches) return false;
+  if (!sizeInfo) return false;
 
-  const [, label, width, height] = matches;
+  const { label, width, height } = sizeInfo;
 
   let pos = labelEnd + 1;
-
   let href = "";
   let title = "";
 
