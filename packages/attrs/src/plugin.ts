@@ -29,8 +29,8 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         let position: null | number = null;
         let range: DelimiterRange | null = null;
 
-        const match = pattern.tests.every((t) => {
-          const result = testRule(tokens, index, t);
+        const match = pattern.tests.every((test) => {
+          const result = testRule(tokens, index, test);
 
           if (result.position !== null) ({ position } = result);
           if (result.range) range = result.range;
@@ -40,7 +40,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
 
         if (match) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          pattern.transform(tokens, index, position!, range);
+          pattern.transform(tokens, index, position!, range!);
 
           if (
             pattern.name === "inline attributes" ||

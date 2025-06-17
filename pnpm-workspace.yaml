@@ -7,7 +7,6 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 overrides:
-  "@conventional-changelog/git-client": 2.4.0
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
   "@mdit/plugin-attrs": workspace:*

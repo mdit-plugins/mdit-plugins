@@ -87,6 +87,10 @@ will be
 
 You can pass options to `@mdit-plugin-attrs` to customize plugin behavior.
 
+The `rule` option allows you to specify which rules to enable. The default is `"all"`, which enables all rules. This is the most important one, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
+
+If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
+
 ```ts
 type MarkdownItAttrRuleName =
   | "fence"
@@ -94,6 +98,7 @@ type MarkdownItAttrRuleName =
   | "table"
   | "list"
   | "hr"
+  | "heading"
   | "softbreak"
   | "block";
 
