@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-alert@0.22.0...@mdit/plugin-alert@0.22.1) (2025-06-17)
+
+### 🚀 Performance Improvements
+
+- **alert:** improve plugin performance ([#117](https://github.com/mdit-plugins/mdit-plugins/issues/117)) ([72226ab](https://github.com/mdit-plugins/mdit-plugins/commit/72226ab2a7f732e97f00a597c6e2ea3c4a3ecd6d))
+- improve perf ([#119](https://github.com/mdit-plugins/mdit-plugins/issues/119)) ([c9bfd79](https://github.com/mdit-plugins/mdit-plugins/commit/c9bfd7946c80efd5c4346e4c30d1047a87ea35e6))
+
 ## 0.22.0 (2025-06-07)
 
 ### ✨ Features

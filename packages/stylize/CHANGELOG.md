@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-stylize@0.22.0...@mdit/plugin-stylize@0.22.1) (2025-06-17)
+
+**Note:** Version bump only for package @mdit/plugin-stylize
+
 ## 0.22.0 (2025-06-07)
 
 ### ✨ Features

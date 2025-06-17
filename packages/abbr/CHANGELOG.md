@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-abbr@0.22.0...@mdit/plugin-abbr@0.22.1) (2025-06-17)
+
+### 🚀 Performance Improvements
+
+- improve perf ([#119](https://github.com/mdit-plugins/mdit-plugins/issues/119)) ([c9bfd79](https://github.com/mdit-plugins/mdit-plugins/commit/c9bfd7946c80efd5c4346e4c30d1047a87ea35e6))
+
 ## 0.22.0 (2025-06-07)
 
 ### ✨ Features

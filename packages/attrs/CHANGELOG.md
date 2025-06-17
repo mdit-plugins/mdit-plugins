@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.22.1...@mdit/plugin-attrs@0.23.0) (2025-06-17)
+
+### ✨ Features
+
+- **attrs:** add heading rule, close [#109](https://github.com/mdit-plugins/mdit-plugins/issues/109) ([#121](https://github.com/mdit-plugins/mdit-plugins/issues/121)) ([3f88f80](https://github.com/mdit-plugins/mdit-plugins/commit/3f88f800b7b37e893f2b9549238de10620b25928))
+
+### 🚀 Performance Improvements
+
+- **attrs:** improve performance ([#118](https://github.com/mdit-plugins/mdit-plugins/issues/118)) ([f8ba87d](https://github.com/mdit-plugins/mdit-plugins/commit/f8ba87d623cdbd667ca2f17fed1097e58033db81))
+- improve perf ([#119](https://github.com/mdit-plugins/mdit-plugins/issues/119)) ([c9bfd79](https://github.com/mdit-plugins/mdit-plugins/commit/c9bfd7946c80efd5c4346e4c30d1047a87ea35e6))
+
 ## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.22.0...@mdit/plugin-attrs@0.22.1) (2025-06-09)
 
 **Note:** Version bump only for package @mdit/plugin-attrs
