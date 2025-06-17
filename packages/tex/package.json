@@ -26,13 +26,13 @@
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
-      "browser": "./lib/browser.js",
       "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "./lib/index.js",
+  "browser": "./lib/browser.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib"
   ],
