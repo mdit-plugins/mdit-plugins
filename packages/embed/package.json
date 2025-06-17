@@ -1,0 +1,59 @@
+{
+  "name": "@mdit/plugin-embed",
+  "version": "0.21.0",
+  "description": "embed plugin for MarkdownIt",
+  "keywords": [
+    "markdown-it",
+    "markdown-it-plugin",
+    "embed"
+  ],
+  "homepage": "https://mdit-plugins.github.io/embed.html",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/embed"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mr.Hope",
+    "email": "mister-hope@outlook.com",
+    "url": "https://mister-hope.com"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "type": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.ts --configPlugin esbuild",
+    "clean": "rimraf ./lib"
+  },
+  "dependencies": {
+    "@types/markdown-it": "^14.1.2"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
