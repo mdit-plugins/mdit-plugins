@@ -39,6 +39,11 @@ features:
     details: 同时展示片段和渲染结果
     link: ./demo.html
 
+  - title: embed
+    icon: code
+    details: 创建自定义嵌入
+    link: ./embed.html
+
   - title: figure
     icon: image
     details: 生成带有标题的图片

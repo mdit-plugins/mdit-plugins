@@ -39,6 +39,11 @@ features:
     details: Definition lists
     link: ./dl.html
 
+  - title: embed
+    icon: code
+    details: Add custom embeds
+    link: ./embed.html
+
   - title: figure
     icon: image
     details: Generating figures with captions from images

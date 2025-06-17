@@ -246,6 +246,15 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
 
+  packages/embed:
+    dependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/figure:
     dependencies:
       '@types/markdown-it':

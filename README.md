@@ -33,6 +33,7 @@ This repo contains the following plugins:
 - @mdit/plugin-container
 - @mdit/plugin-demo
 - @mdit/plugin-dl
+- @mdit/plugin-embed
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
 - @mdit/plugin-icon

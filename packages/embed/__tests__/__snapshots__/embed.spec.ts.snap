@@ -1,0 +1,141 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`embed > block embeds > should break other block elements 1`] = `
+"<p>abc</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"
+`;
+
+exports[`embed > block embeds > should break other block elements 2`] = `
+"<ul>
+<li>abc</li>
+</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"
+`;
+
+exports[`embed > block embeds > should break other block elements 3`] = `
+"<blockquote>
+<p>abc</p>
+</blockquote>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"
+`;
+
+exports[`embed > block embeds > should handle block embed 1`] = `"<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"`;
+
+exports[`embed > block embeds > should handle block embed 2`] = `"<div class="twitter"><a href="https://x.com/user1"></a></div>"`;
+
+exports[`embed > block embeds > should handle block embed 3`] = `"<div class="github-embed"><a href="https://github.com/octocat/Hello-World">github.com/octocat/Hello-World</a></div>"`;
+
+exports[`embed > block embeds > should handle block embed 4`] = `"<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"`;
+
+exports[`embed > block embeds > should handle block embed 5`] = `
+"<p>{% unknown some-param %}</p>
+"
+`;
+
+exports[`embed > block embeds > should handle block embed 6`] = `
+"<p>{ youtube dQw4w9WgXcQ }</p>
+"
+`;
+
+exports[`embed > block embeds > should handle multiline content 1`] = `
+"<h1>Title</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe><p>Some text</p>
+<div class="twitter"><a href="https://x.com/user1"></a></div>"
+`;
+
+exports[`embed > escape sequences > should not render escaped embeds 1`] = `
+"<p>{% test param %}</p>
+"
+`;
+
+exports[`embed > escape sequences > should not render escaped embeds 2`] = `
+"<p>{% test param %}</p>
+"
+`;
+
+exports[`embed > escape sequences > should render valid unescaped embeds 1`] = `
+"<p>\\<span>param</span></p>
+"
+`;
+
+exports[`embed > escape sequences > should render valid unescaped embeds 2`] = `
+"<p>\\<span>param</span></p>
+"
+`;
+
+exports[`embed > escape sequences > should render valid unescaped embeds 3`] = `"<span>{% param %}</span>"`;
+
+exports[`embed > inline embeds > should handle inline embed 1`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 2`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 3`] = `
+"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 4`] = `
+"<p>Status: <span class="badge">active</span></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 5`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 6`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 7`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 8`] = `
+"<p>Check out {% youtube dQw4w9WgXcQ %} video.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 9`] = `
+"<p>Use {% unknown-inline param %} here.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 10`] = `
+"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 11`] = `
+"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 12`] = `
+"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 13`] = `
+"<p>{% icon <i class="icon icon-home"></i> home %}</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 14`] = `
+"<p>{% icon <i class="icon icon-home"></i> home %}</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 15`] = `
+"<p>{% icon <i class="icon icon-home"></i> home %}</p>
+"
+`;
