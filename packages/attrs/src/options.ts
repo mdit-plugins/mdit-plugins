@@ -5,6 +5,7 @@ export type MarkdownItAttrRuleName =
   | "inline"
   | "table"
   | "list"
+  | "heading"
   | "hr"
   | "softbreak"
   | "block";

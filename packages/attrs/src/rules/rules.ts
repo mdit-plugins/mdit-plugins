@@ -5,6 +5,7 @@ import type {
 } from "../options.js";
 import { getBlockRule } from "./block.js";
 import { getFenceRule } from "./fence.js";
+import { getHeadingRule } from "./heading.js";
 import { getHrRule } from "./hr.js";
 import { getInlineRules } from "./inline.js";
 import { getListRules } from "./list.js";
@@ -16,6 +17,7 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "inline",
   "table",
   "list",
+  "heading",
   "hr",
   "softbreak",
   "block",
@@ -42,6 +44,9 @@ export const getRules = (
   if (enabledRules.includes("softbreak")) rules.push(getSoftBreakRule(options));
   if (enabledRules.includes("hr")) rules.push(getHrRule(options));
   if (enabledRules.includes("block")) rules.push(getBlockRule(options));
+  // heading rule is fully covered by block rules
+  else if (enabledRules.includes("heading"))
+    rules.push(getHeadingRule(options));
 
   return rules;
 };
