@@ -8,7 +8,7 @@ const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(
   footnote,
 );
 
-it("Pandoc example", () => {
+it("should render", () => {
   expect(
     markdownIt.render(
       `
@@ -60,6 +60,31 @@ isn’t indented.
       {},
     ),
   ).toMatchSnapshot();
+});
+
+it("should not render empty labels", () => {
+  expect(
+    markdownIt.render(`
+Here is a empty footnote reference[^].
+
+[^]: Here is the footnote.
+`),
+  ).toBe(`\
+<p>Here is a empty footnote reference[^].</p>
+<p>[^]: Here is the footnote.</p>
+`);
+});
+
+it("should not render labels without reference", () => {
+  expect(
+    markdownIt.render(`
+Here is a footnote reference[^abc].
+
+[^ab]: Here is the footnote.
+`),
+  ).toBe(`\
+<p>Here is a footnote reference[^abc].</p>
+`);
 });
 
 it("should terminate each other", () => {

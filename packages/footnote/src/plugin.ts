@@ -309,12 +309,8 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     pos++;
   }
 
-  if (
-    //  empty footnote labels
-    pos === start + 2 ||
-    pos >= max
-  )
-    return false;
+  // empty footnote labels
+  if (pos === start + 2 || pos >= max) return false;
 
   pos++;
 
@@ -359,16 +355,35 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 
   let current: Token[];
   let currentLabel: string;
-  let insideRef = false;
+  let isInsideRef = false;
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!state.env.footnotes?.list) return false;
+  if (!state.env.footnotes?.list) {
+    // If no footnotes list, remove all footnote reference tokens
+    state.tokens = state.tokens.filter((stateToken) => {
+      if (stateToken.type === "footnote_reference_open") {
+        isInsideRef = true;
+
+        return false;
+      }
+
+      if (stateToken.type === "footnote_reference_close") {
+        isInsideRef = false;
+
+        return false;
+      }
+
+      return !isInsideRef;
+    });
+
+    return false;
+  }
 
   const { list } = state.env.footnotes;
 
   state.tokens = state.tokens.filter((stateToken) => {
     if (stateToken.type === "footnote_reference_open") {
-      insideRef = true;
+      isInsideRef = true;
       current = [];
       currentLabel = stateToken.meta.label;
 
@@ -376,15 +391,15 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
     }
 
     if (stateToken.type === "footnote_reference_close") {
-      insideRef = false;
+      isInsideRef = false;
       // prepend ':' to avoid conflict with Object.prototype members
       refTokens[`:${currentLabel}`] = current;
 
       return false;
     }
-    if (insideRef) current.push(stateToken);
+    if (isInsideRef) current.push(stateToken);
 
-    return !insideRef;
+    return !isInsideRef;
   });
 
   const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
