@@ -71,9 +71,6 @@ const getSnippetRule =
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
-    // if it's indented more than 3 spaces, it should be a code block
-    if (state.sCount[startLine] - state.blkIndent >= 4) return false;
-
     for (let index = 0; index < 3; ++index) {
       if (
         state.src.charCodeAt(pos + index) !== 60 /* < */ ||
@@ -149,10 +146,10 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     self: Renderer,
   ): string => {
     const token = tokens[index];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const meta: Record<string, unknown> =
-      typeof token.meta === "object" ? (token.meta ?? {}) : {};
-    const { src, region } = meta as { src: string; region: string };
+    const { src, region } = (token.meta ??= {}) as {
+      src: string;
+      region: string;
+    };
 
     if (src)
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
