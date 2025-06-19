@@ -276,6 +276,22 @@ const createDualRuleTests = (
           markdownItWithOptions.render(replaceDelimiters(src, options)),
         ).toBe(expected);
       });
+
+      it(
+        replaceDelimiters(
+          "should handle nested block structures with multiple closing tokens",
+          options,
+        ),
+        () => {
+          const src = "> > nested blockquote {.nested}";
+          const expected =
+            '<blockquote class="nested">\n<blockquote>\n<p>nested blockquote</p>\n</blockquote>\n</blockquote>\n';
+
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
+            expected,
+          );
+        },
+      );
     });
   });
 };

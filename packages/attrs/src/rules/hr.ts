@@ -21,19 +21,7 @@ export const getHrRule = (options: DelimiterConfig): AttrRule => ({
       content: (content): DelimiterRange | false => {
         let pos = 0;
         let charCode;
-        let offset = 0;
-
-        while (pos < content.length) {
-          charCode = content.charCodeAt(pos++);
-
-          if (charCode === 32 /** space */) offset++;
-          else if (charCode === 9 /** tab */) offset += 4 - (offset % 4);
-          else break;
-        }
-
-        if (offset > 3) return false;
-
-        const markerCode = content.charCodeAt(pos - 1);
+        const markerCode = content.charCodeAt(pos++);
 
         if (
           markerCode !== 45 /** - */ &&

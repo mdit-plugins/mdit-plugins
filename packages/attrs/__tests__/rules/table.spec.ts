@@ -61,7 +61,7 @@ const createDualRuleTests = (
 | title | title {.title-class} |
 | :---: | :---: |
 | text | text {.text-class} |
-| text {.text-class2} | text |
+| text{.text-class2} | text |
 
 {.c}
 `;

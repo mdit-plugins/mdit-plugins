@@ -17,7 +17,7 @@ const createTests = (
     it(replaceDelimiters("should add attributes on headings", options), () => {
       const testCases = [
         ["## some text {with=attrs}", '<h2 with="attrs">some text</h2>\n'],
-        ["### some text {#id}", '<h3 id="id">some text</h3>\n'],
+        ["### some text{#id}", '<h3 id="id">some text</h3>\n'],
       ];
 
       testCases.forEach(([src, expected]) => {

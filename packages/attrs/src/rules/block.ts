@@ -37,10 +37,7 @@ export const getBlockRule = (options: DelimiterConfig): AttrRule =>
       // Find the closing token by skipping all nested closing tokens
       let closingTokenIndex = index + 1;
 
-      while (
-        tokens[closingTokenIndex + 1] &&
-        tokens[closingTokenIndex + 1].nesting === -1
-      ) {
+      while (tokens[closingTokenIndex + 1]?.nesting === -1) {
         closingTokenIndex++;
       }
 

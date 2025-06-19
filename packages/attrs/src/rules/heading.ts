@@ -38,18 +38,8 @@ export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
       const { content } = token;
       const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
-      // Find the closing token by skipping all nested closing tokens
-      let closingTokenIndex = index + 1;
-
-      while (
-        tokens[closingTokenIndex + 1] &&
-        tokens[closingTokenIndex + 1].nesting === -1
-      ) {
-        closingTokenIndex++;
-      }
-
       // Get the corresponding opening token
-      const openingToken = getMatchingOpeningToken(tokens, closingTokenIndex);
+      const openingToken = getMatchingOpeningToken(tokens, index + 1);
 
       // Apply attributes to the opening token
       addAttrs(openingToken, content, range, options.allowed);

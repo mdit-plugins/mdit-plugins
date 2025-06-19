@@ -18,6 +18,7 @@ describe("getDelimiterChecker", () => {
     expect(checker("{.class} more text")).toEqual([1, 7]);
     expect(checker("text")).toBe(false);
     expect(checker("")).toBe(false);
+    expect(checker("{aaa")).toBe(false);
     expect(checker("{.}")).toBe(false); // too short
   });
 

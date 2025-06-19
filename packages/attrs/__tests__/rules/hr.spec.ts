@@ -24,14 +24,31 @@ const createDualRuleTests = (
       it(
         replaceDelimiters("should support horizontal rules ---{#id}", options),
         () => {
-          const src = "---{#id}";
-          const expected = '<hr id="id">\n';
+          const testCases = [
+            ["---{#id}", '<hr id="id">\n'],
+            [" ---{#id}", '<hr id="id">\n'],
+            ["  ---{#id}", '<hr id="id">\n'],
+            ["   ---{#id}", '<hr id="id">\n'],
+            [">\t ---{#id}", '<blockquote>\n<hr id="id">\n</blockquote>\n'],
+          ];
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
+          testCases.forEach(([src, expected]) => {
+            expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
+              expected,
+            );
+          });
         },
       );
+
+      it(replaceDelimiters("should not convert marker < 3", options), () => {
+        const testCases = ["--{#id}", "- - -{#id}"];
+
+        testCases.forEach((src) => {
+          expect(
+            markdownIt.render(replaceDelimiters(src, options)),
+          ).not.toContain("hr");
+        });
+      });
 
       it("should support multiple classes for <hr>", () => {
         const src = "--- {.a .b}";
