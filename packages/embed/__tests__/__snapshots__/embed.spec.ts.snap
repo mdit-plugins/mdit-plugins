@@ -23,16 +23,21 @@ exports[`embed > block embeds > should handle block embed 1`] = `"<iframe width=
 
 exports[`embed > block embeds > should handle block embed 2`] = `"<div class="twitter"><a href="https://x.com/user1"></a></div>"`;
 
-exports[`embed > block embeds > should handle block embed 3`] = `"<div class="github-embed"><a href="https://github.com/octocat/Hello-World">github.com/octocat/Hello-World</a></div>"`;
+exports[`embed > block embeds > should handle block embed 3`] = `"<div class="github-embed"><a href="https://github.com/user/Hello-World">github.com/user/Hello-World</a></div>"`;
 
 exports[`embed > block embeds > should handle block embed 4`] = `"<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>"`;
 
 exports[`embed > block embeds > should handle block embed 5`] = `
-"<p>{% unknown some-param %}</p>
+"<p><span class="icon-warning"></span></p>
 "
 `;
 
 exports[`embed > block embeds > should handle block embed 6`] = `
+"<p>{% unknown some-param %}</p>
+"
+`;
+
+exports[`embed > block embeds > should handle block embed 7`] = `
 "<p>{ youtube dQw4w9WgXcQ }</p>
 "
 `;
@@ -81,12 +86,12 @@ exports[`embed > inline embeds > should handle inline embed 3`] = `
 `;
 
 exports[`embed > inline embeds > should handle inline embed 4`] = `
-"<p>Status: <span class="badge">active</span></p>
+"<p><span class="icon-warning"></span></p>
 "
 `;
 
 exports[`embed > inline embeds > should handle inline embed 5`] = `
-"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"<p>Status: <span class="badge">active</span></p>
 "
 `;
 
@@ -101,17 +106,17 @@ exports[`embed > inline embeds > should handle inline embed 7`] = `
 `;
 
 exports[`embed > inline embeds > should handle inline embed 8`] = `
-"<p>Check out {% youtube dQw4w9WgXcQ %} video.</p>
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
 "
 `;
 
 exports[`embed > inline embeds > should handle inline embed 9`] = `
-"<p>Use {% unknown-inline param %} here.</p>
+"<p>Check out {% youtube dQw4w9WgXcQ %} video.</p>
 "
 `;
 
 exports[`embed > inline embeds > should handle inline embed 10`] = `
-"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
+"<p>Use {% unknown-inline param %} here.</p>
 "
 `;
 
@@ -126,7 +131,7 @@ exports[`embed > inline embeds > should handle inline embed 12`] = `
 `;
 
 exports[`embed > inline embeds > should handle inline embed 13`] = `
-"<p>{% icon <i class="icon icon-home"></i> home %}</p>
+"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
 "
 `;
 
@@ -136,6 +141,11 @@ exports[`embed > inline embeds > should handle inline embed 14`] = `
 `;
 
 exports[`embed > inline embeds > should handle inline embed 15`] = `
+"<p>{% icon <i class="icon icon-home"></i> home %}</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 16`] = `
 "<p>{% icon <i class="icon icon-home"></i> home %}</p>
 "
 `;

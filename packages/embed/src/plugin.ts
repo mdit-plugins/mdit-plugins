@@ -140,33 +140,35 @@ const getEmbedBlock =
       contentStart++;
     }
 
-    let spacer = 0;
+    let spacer = -1;
 
     for (let pos = contentStart; pos + 1 < contentEnd; pos++) {
       // must not include unescaped opening marker or closing marker
       if (checkInlineOpeningMarker(state.src, pos)) return false;
       if (checkClosingMarker(state.src, pos)) return false;
-      if (spacer) continue;
+      if (spacer !== -1) continue;
       if (isSpace(state.src.charCodeAt(pos))) spacer = pos;
     }
 
     // Extract content between {% and %}
-    const name = spacer
-      ? state.src.slice(contentStart, spacer)
-      : state.src.slice(contentStart, contentEnd + 1).trimEnd();
+    const name =
+      spacer === -1
+        ? state.src.slice(contentStart, contentEnd + 1).trimEnd()
+        : state.src.slice(contentStart, spacer);
 
     // Check if embed name exists in the map
     if (!embedMap.has(name)) return false;
 
     if (silent) return true;
 
-    const params = spacer
-      ? state.src
-          .slice(spacer + 1, contentEnd)
-          .trim()
-          .replace(/\\{%/g, "{%")
-          .replace(/%\\}/g, "%}")
-      : "";
+    const params =
+      spacer === -1
+        ? ""
+        : state.src
+            .slice(spacer + 1, contentEnd)
+            .trim()
+            .replace(/\\{%/g, "{%")
+            .replace(/%\\}/g, "%}");
 
     const token = state.push("embed_block", "embed", 0);
 
@@ -183,9 +185,14 @@ const getEmbedBlock =
   };
 
 export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
-  md: MarkdownIt,
-  { config = [] }: MarkdownItEmbedOptions = {},
+  md,
+  options,
 ) => {
+  if (typeof options !== "object" || !Array.isArray(options.config))
+    throw new Error(
+      "[@mdit/plugin-embed]: config is required and must be an array.",
+    );
+
   // Get existing maps or create new ones to support multiple plugin instances
   const mdWithMaps = md as MarkdownIt & {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -200,7 +207,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
     EmbedConfig
   >());
 
-  config.forEach((item) => {
+  options.config.forEach((item) => {
     embedMap.set(item.name, item);
     // Inline embeds are only supported when allowInline is true
     if (item.allowInline) inlineEmbedMap.set(item.name, item);

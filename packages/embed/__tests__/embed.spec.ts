@@ -31,6 +31,11 @@ describe("embed", () => {
         allowInline: true,
         setup: (text: string): string => `<span class="badge">${text}</span>`,
       },
+      {
+        name: "warning",
+        allowInline: true,
+        setup: (): string => `<span class="icon-warning"></span>`,
+      },
     ],
   });
 
@@ -42,14 +47,12 @@ describe("embed", () => {
           ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
         ],
         ["{% twitter user1 %}", ['href="https://x.com/user1"']],
-        [
-          "{% github octocat/Hello-World %}",
-          ["github.com/octocat/Hello-World"],
-        ],
+        ["{% github user/Hello-World %}", ["github.com/user/Hello-World"]],
         [
           "{%youtube dQw4w9WgXcQ%}",
           ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
         ],
+        ["{%warning%}", ['<span class="icon-warning"></span>']],
         ["{% unknown some-param %}", ["{% unknown some-param %}"]],
         ["{ youtube dQw4w9WgXcQ }", ["{ youtube dQw4w9WgXcQ }"]],
       ];
@@ -122,6 +125,7 @@ Some text
           "button to go home.</p>",
         ],
       ],
+      ["{%warning%}", ['<span class="icon-warning"></span>']],
       ["Status: {% badge active %}", ['<span class="badge">active</span>']],
       [
         "{% icon star %} Rating: {% badge 5 stars %} {% icon thumbs-up %}",
@@ -187,7 +191,7 @@ Some text
 
 Click {% icon play %} to start, or check the {% badge premium %} content.
 
-{% github octocat/Hello-World %}`;
+{% github user/Hello-World %}`;
 
       const result = md.render(content);
 
@@ -196,7 +200,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
       );
       expect(result).toContain('<i class="icon icon-play"></i>');
       expect(result).toContain('<span class="badge">premium</span>');
-      expect(result).toContain("github.com/octocat/Hello-World");
+      expect(result).toContain("github.com/user/Hello-World");
     });
   });
 
@@ -599,7 +603,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
       let mdCombined = MarkdownIt().use(embed, {
         config: [
           {
-            name: "blockonly",
+            name: "block-only",
             setup: (param: string): string =>
               `<div class="block">${param}</div>`,
           },
@@ -610,7 +614,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
       mdCombined = mdCombined.use(embed, {
         config: [
           {
-            name: "inlineok",
+            name: "allow-inline",
             allowInline: true,
             setup: (param: string): string =>
               `<span class="inline">${param}</span>`,
@@ -619,15 +623,31 @@ Continue {% icon middle %} and {% badge final %} end.`;
       });
 
       // Block only should not work inline
-      const blockResult = mdCombined.render("Text {% blockonly param %} more");
+      const blockResult = mdCombined.render("Text {% block-only param %} more");
 
       expect(blockResult).not.toContain('<div class="block">param</div>');
-      expect(blockResult).toContain("{% blockonly param %}");
+      expect(blockResult).toContain("{% block-only param %}");
 
       // Inline enabled should work inline
-      const inlineResult = mdCombined.render("Text {% inlineok param %} more");
+      const inlineResult = mdCombined.render(
+        "Text {% allow-inline param %} more",
+      );
 
       expect(inlineResult).toContain('<span class="inline">param</span>');
     });
+  });
+
+  it("should throw without options", () => {
+    expect(() => {
+      MarkdownIt().use(embed);
+    }).toThrowError(
+      "[@mdit/plugin-embed]: config is required and must be an array.",
+    );
+
+    expect(() => {
+      MarkdownIt().use(embed, {});
+    }).toThrowError(
+      "[@mdit/plugin-embed]: config is required and must be an array.",
+    );
   });
 });
