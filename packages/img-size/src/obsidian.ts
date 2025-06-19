@@ -130,7 +130,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
       pos++;
     }
 
-    if (pos >= max) return false;
+    if (pos === max) return false;
 
     // [link](  <href>  "title"  )
     //          ^^^^^^ parsing link destination

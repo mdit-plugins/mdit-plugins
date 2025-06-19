@@ -18,7 +18,7 @@ const parseImageSize = (
   const max = label.length;
   let pos = label.lastIndexOf("=");
 
-  if (pos === -1 || pos === max) return null;
+  if (pos === -1 || pos + 3 > max) return null;
   if (pos !== 0 && !isSpace(label.charCodeAt(pos - 1))) return null;
 
   const origLabel = label.substring(0, pos++).trimEnd();
@@ -32,8 +32,6 @@ const parseImageSize = (
     while (pos < max && isNumber(label.charCodeAt(pos))) {
       pos++;
     }
-
-    if (startPos === pos) return null;
 
     width = label.substring(startPos, pos);
 
@@ -53,8 +51,6 @@ const parseImageSize = (
 
     if (pos > startPos) height = label.substring(startPos, pos);
   }
-
-  if (width === null && height === null) return null;
 
   while (pos < max) {
     if (!isSpace(label.charCodeAt(pos))) return null;

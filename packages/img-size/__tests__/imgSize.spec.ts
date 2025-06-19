@@ -91,6 +91,10 @@ describe("default image size", () => {
           `![image =200x300](/logo.svg)`,
           '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
         ],
+        [
+          `![image =200x300 ](/logo.svg)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -116,6 +120,14 @@ describe("default image size", () => {
         [
           `\
 ![image =200x300][logo]
+
+[logo]: /logo.svg
+`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `\
+![image =200x300] [logo]
 
 [logo]: /logo.svg
 `,
@@ -283,8 +295,8 @@ describe("default image size", () => {
   it("should not render if width or height is not number", () => {
     const testCases = [
       [
-        `![image =abcxdef](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =abcxdef"></p>\n',
+        `![image =!bcxdef](/logo.svg)`,
+        '<p><img src="/logo.svg" alt="image =!bcxdef"></p>\n',
       ],
       [
         `![image =abcx100](/logo.svg)`,
@@ -352,6 +364,35 @@ describe("default image size", () => {
 [empty]:
 `,
         "<p>![image =200x300][empty]</p>\n<p>[empty]:</p>\n",
+      ],
+      [`![image`, "<p>![image</p>\n"],
+      [`![image =200x300](  `, "<p>![image =200x300](</p>\n"],
+      [`![image =200x300](<)`, "<p>![image =200x300](&lt;)</p>\n"],
+      [
+        `![image =200x300](/logo.svg "title" aa)`,
+        "<p>![image =200x300](/logo.svg &quot;title&quot; aa)</p>\n",
+      ],
+
+      [
+        `
+![image =200x300][logo
+
+[logo]: /logo.svg
+`,
+        "<p>![image =200x300][logo</p>\n",
+      ],
+      [
+        `
+![image =200x300][logo1]
+
+[logo2]: /logo.svg
+`,
+        "<p>![image =200x300][logo1]</p>\n",
+      ],
+      [`![image =](/logo.svg)`, '<p><img src="/logo.svg" alt="image ="></p>\n'],
+      [
+        `![image=200x300](/logo.svg)`,
+        '<p><img src="/logo.svg" alt="image=200x300"></p>\n',
       ],
     ];
 

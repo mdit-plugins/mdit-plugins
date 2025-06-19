@@ -84,6 +84,55 @@ describe("obsidian image size", () => {
     });
   });
 
+  it("should not render", () => {
+    const testCases = [
+      [
+        `\
+![logo
+
+[logo]: /logo.svg "title"
+`,
+        "<p>![logo</p>\n",
+      ],
+      [
+        `\
+![image|200x300](  
+`,
+        "<p>![image|200x300](</p>\n",
+      ],
+      [
+        `\
+![image|200x300][logo
+
+[logo]: /logo.svg "title"
+`,
+        "<p>![image|200x300][logo</p>\n",
+      ],
+      [
+        `\
+![image| ](/logo.svg)
+`,
+        '<p><img src="/logo.svg" alt="image| "></p>\n',
+      ],
+      [
+        `\
+![image|200x300](<)
+`,
+        "<p>![image|200x300](&lt;)</p>\n",
+      ],
+      [
+        `\
+![image|200x300](/logo.svg "logo" aa)
+`,
+        "<p>![image|200x300](/logo.svg &quot;logo&quot; aa)</p>\n",
+      ],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      expect(markdownIt.render(input)).toEqual(expected);
+    });
+  });
+
   describe("should render with width and height", () => {
     it("simple", () => {
       const testCases = [
@@ -116,6 +165,14 @@ describe("obsidian image size", () => {
         [
           `\
 ![image|200x300][logo]
+
+[logo]: /logo.svg
+`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `\
+![image|200x300]  [logo]
 
 [logo]: /logo.svg
 `,

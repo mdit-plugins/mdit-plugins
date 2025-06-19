@@ -44,8 +44,6 @@ const parseImageSize = (
   pos: number,
   max: number,
 ): { pos: number; width: string; height: string } | null => {
-  if (pos >= max) return null;
-
   if (str.charCodeAt(pos) !== 61 /* = */) return null;
 
   pos++;
@@ -118,7 +116,8 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
       pos++;
     }
 
-    if (pos >= max) return false;
+    // minimal 5 => [link]( a =1x)
+    if (pos + 5 > max) return false;
 
     // [link](  <href>  "title"  )
     //          ^^^^^^ parsing link destination
@@ -145,36 +144,35 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //                  ^^^^^^^ parsing link title
     res = state.md.helpers.parseLinkTitle(state.src, pos, state.posMax);
 
-    if (pos < max && start !== pos && res.ok) {
+    let skipSpaces = false;
+
+    if (start !== pos && res.ok) {
       title = res.str;
       pos = res.pos;
 
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
       for (; pos < max; pos++) {
-        if (!isSpace(state.src.charCodeAt(pos))) break;
+        if (!isSpace(state.src.charCodeAt(pos))) {
+          skipSpaces = true;
+          break;
+        }
       }
+
+      if (!skipSpaces || pos + 3 > max) return false;
     } else {
       title = "";
     }
 
-    // [link](  <href>  "title" =WxH  )
-    //                          ^^^^ parsing image size
-    if (pos - 1 >= 0) {
-      // there must be at least one white spaces
-      // between previous field and the size
-      if (isSpace(state.src.charCodeAt(pos - 1))) {
-        const sizeInfo = parseImageSize(state.src, pos, state.posMax);
+    const sizeInfo = parseImageSize(state.src, pos, state.posMax);
 
-        if (sizeInfo) {
-          ({ width, height, pos } = sizeInfo);
+    if (sizeInfo) {
+      ({ width, height, pos } = sizeInfo);
 
-          // [link](  <href>  "title" =WxH  )
-          //                              ^^ skipping these spaces
-          for (; pos < max; pos++) {
-            if (!isSpace(state.src.charCodeAt(pos))) break;
-          }
-        }
+      // [link](  <href>  "title" =WxH  )
+      //                              ^^ skipping these spaces
+      for (; pos < max; pos++) {
+        if (!isSpace(state.src.charCodeAt(pos))) break;
       }
     }
 

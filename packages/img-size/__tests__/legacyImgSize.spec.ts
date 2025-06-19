@@ -11,8 +11,14 @@ describe("legacy image size", () => {
   describe("should not break original image syntax", () => {
     it("simple", () => {
       const testCases = [
+        [`![image](/a)`, '<p><img src="/a" alt="image"></p>\n'],
         [`![image](/logo.svg)`, '<p><img src="/logo.svg" alt="image"></p>\n'],
+        [`![image](/logo.svg )`, '<p><img src="/logo.svg" alt="image"></p>\n'],
         [`![image]( /logo.svg)`, '<p><img src="/logo.svg" alt="image"></p>\n'],
+        [
+          `![image]( /logo.svg "title")`,
+          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
+        ],
         [`![image](data:script)`, "<p>![image](data:script)</p>\n"],
       ];
 
@@ -39,6 +45,14 @@ describe("legacy image size", () => {
         [
           `\
 ![image][logo]
+
+[logo]: /logo.svg
+`,
+          '<p><img src="/logo.svg" alt="image"></p>\n',
+        ],
+        [
+          `\
+![image] [logo]
 
 [logo]: /logo.svg
 `,
@@ -85,11 +99,27 @@ describe("legacy image size", () => {
     });
   });
 
+  it("should not render", () => {
+    const testCases = [
+      [`![image`, "<p>![image</p>\n"],
+      [`![image][]`, "<p>![image][]</p>\n"],
+      [`![image](< =200x)`, "<p>![image](&lt; =200x)</p>\n"],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      expect(markdownIt.render(input)).toEqual(expected);
+    });
+  });
+
   describe("should render with width and height", () => {
     it("simple", () => {
       const testCases = [
         [
           `![image](/logo.svg =200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =200x300  )`,
           '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
         ],
       ];
@@ -121,8 +151,16 @@ describe("legacy image size", () => {
           '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
         ],
         [
+          `![image](/logo.svg =1x)`,
+          '<p><img src="/logo.svg" alt="image" width="1"></p>\n',
+        ],
+        [
           `![image](/logo.svg =x300)`,
           '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =x1)`,
+          '<p><img src="/logo.svg" alt="image" height="1"></p>\n',
         ],
       ];
 
