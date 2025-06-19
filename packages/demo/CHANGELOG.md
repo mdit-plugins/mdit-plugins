@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-demo@0.22.1...@mdit/plugin-demo@0.22.2) (2025-06-19)
+
+### 🐛 Bug Fixes
+
+- **demo:** fix title issue and improve coverage ([aeeb9c8](https://github.com/mdit-plugins/mdit-plugins/commit/aeeb9c8508fd41782479ce9049b6f5b81f8dfe34))
+
 ## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-demo@0.22.0...@mdit/plugin-demo@0.22.1) (2025-06-17)
 
 ### 🚀 Performance Improvements

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-footnote@0.22.1...@mdit/plugin-footnote@0.22.2) (2025-06-19)
+
+### 🐛 Bug Fixes
+
+- **footnote:** fix unreferenced definition ([a3325c3](https://github.com/mdit-plugins/mdit-plugins/commit/a3325c3cf474a8e0869af21456f1408f36be1d40))
+
 ## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-footnote@0.22.0...@mdit/plugin-footnote@0.22.1) (2025-06-17)
 
 ### 🚀 Performance Improvements

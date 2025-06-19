@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-snippet",
-  "version": "0.22.1",
+  "version": "0.22.2",
   "description": "snippet plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
