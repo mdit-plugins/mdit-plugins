@@ -7,7 +7,6 @@
 
 [![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 [![License](https://img.shields.io/npm/l/@mdit/plugin-align.svg?style=for-the-badge)](https://github.com/mdit-plugins/mdit-plugins/blob/main/LICENSE)
-[![Open in Visual Studio Code](https://img.shields.io/badge/-open%20in%20vscode-blue?style=for-the-badge&logo=visualstudiocode)](https://open.vscode.dev/mdit-plugins/mdit-plugins)
 
 <!-- markdownlint-restore -->
 
@@ -16,13 +15,7 @@
 [![code cov](https://codecov.io/gh/mdit-plugins/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/mdit-plugins/mdit-plugins)
 ![Test](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/test.yml/badge.svg)
 
-## [English Docs](https://mdit-plugins.github.io/) | [中文文档](https://mdit-plugins.github.io/zh/)
-
-## Contact
-
-We recommend you to contact using [issues](https://github.com/mdit-plugins/mdit-plugins/issues) and [discussions](https://github.com/mdit-plugins/mdit-plugins/discussions).
-
-## Details
+## Docs: [English](https://mdit-plugins.github.io/) | [中文](https://mdit-plugins.github.io/zh/)
 
 This repo contains the following plugins:
 
@@ -58,6 +51,10 @@ This repo contains the following plugins:
 - @mdit/plugin-tasklist
 - @mdit/plugin-tex
 - @mdit/plugin-uml
+
+## Contact
+
+We recommend you to contact using [issues](https://github.com/mdit-plugins/mdit-plugins/issues) and [discussions](https://github.com/mdit-plugins/mdit-plugins/discussions).
 
 ## Project Status
 
