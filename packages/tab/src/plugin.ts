@@ -137,9 +137,8 @@ const getTabRule =
     const hasId = pos !== infoStart;
 
     if (hasId) {
-      id = state.src.slice(pos + 1, infoEnd);
-      pos = state.skipSpacesBack(pos, infoStart);
-      title = state.src.slice(infoStart, pos);
+      id = state.src.slice(state.skipSpaces(pos + 1), infoEnd);
+      title = state.src.slice(infoStart, state.skipSpacesBack(pos, infoStart));
     } else {
       title = state.src.slice(infoStart, infoEnd);
     }
