@@ -3,7 +3,7 @@
   <img width="240" src="https://mdit-plugins.github.io/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">markdown-it plugin collections</h1>
-<h3 align="center">Some awesome markdown-it plugins written in typescript✨</h3>
+<h3 align="center">Some awesome markdown-it plugins written in typescript with 100% test coverage!✨</h3>
 
 [![Author: Mr.Hope](https://img.shields.io/badge/Author-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 [![License](https://img.shields.io/npm/l/@mdit/plugin-align.svg?style=for-the-badge)](https://github.com/mdit-plugins/mdit-plugins/blob/main/LICENSE)
