@@ -1,6 +1,6 @@
 import { escapeHtml } from "@mdit/helper";
 import MarkdownIt from "markdown-it";
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { alert } from "../../alert/src/index.js";
 import { include } from "../../include/src/plugin.js";
@@ -34,26 +34,57 @@ const codeContent = `\
 </code></pre>\
 `;
 
-it("default", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(demo);
+const markdownIt = MarkdownIt({ linkify: true }).use(demo);
 
-  expect(
-    markdownIt.render(`
+describe("demo", () => {
+  it("should render", () => {
+    expect(
+      markdownIt.render(`
 ::: demo Title text
 ${mdContent}
 :::
 `),
-  ).toBe(
-    `\
+    ).toBe(
+      `\
 <details><summary>Title text</summary>
 ${demoContent}
 ${codeContent}
 </details>
 `,
-  );
+    );
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
+::: demo   Title text  
+${mdContent}
+:::  
+`),
+    ).toBe(
+      `\
+<details><summary>Title text</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+
+    expect(
+      markdownIt.render(`
+::: demo\tTitle text\t
+${mdContent}
+:::\t
+`),
+    ).toBe(
+      `\
+<details><summary>Title text</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+
+    expect(
+      markdownIt.render(`
 - list
 
   ::: demo Title text
@@ -66,8 +97,8 @@ ${codeContent}
   \`\`\`
   :::
 `),
-  ).toBe(
-    `\
+    ).toBe(
+      `\
 <ul>
 <li>
 <p>list</p>
@@ -78,119 +109,300 @@ ${codeContent}
 </li>
 </ul>
 `,
-  );
-});
-
-it("customize container name", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "preview",
+    );
   });
 
-  expect(
-    markdownIt.render(`
-::: preview Title text
-${mdContent}
-:::
-`),
-  ).toBe(`\
-<details><summary>Title text</summary>
-${demoContent}
-${codeContent}
-</details>
-`);
-
-  expect(
-    markdownIt.render(`
-::: preview Title text
-
-${mdContent}
-
-:::
-`),
-  ).toBe(`\
-<details><summary>Title text</summary>
-${demoContent}
-${codeContent}
-</details>
-`);
-});
-
-it("showCodeFirst", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    showCodeFirst: true,
-  });
-
-  expect(
-    markdownIt.render(`
+  it("should break paragraphs", () => {
+    expect(
+      markdownIt.render(`
+some text
 ::: demo Title text
 ${mdContent}
 :::
 `),
-  ).toBe(
-    `\
+    ).toContain(
+      `\
+<details><summary>Title text</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+  });
+
+  it("should allow content without title", () => {
+    expect(
+      markdownIt.render(`
+::: demo
+${mdContent}
+:::
+`),
+    ).toBe(
+      `\
+<details><summary>Demo</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+
+    expect(
+      markdownIt.render(`
+::: demo  
+${mdContent}
+:::
+`),
+    ).toBe(
+      `\
+<details><summary>Demo</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+
+    expect(
+      markdownIt.render(`
+::: demo\t  \t
+${mdContent}
+:::
+`),
+    ).toBe(
+      `\
+<details><summary>Demo</summary>
+${demoContent}
+${codeContent}
+</details>
+`,
+    );
+  });
+
+  it("should not render with wrong name", () => {
+    expect(
+      markdownIt.render(`
+  ::: wrong Title text
+
+test
+
+  :::
+`),
+    ).to.not.contain("details");
+
+    expect(
+      markdownIt.render(`
+  ::: demoTitle
+
+test
+
+  :::
+`),
+    ).to.not.contain("details");
+  });
+
+  it("should not render when content has negative indentation", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+      name: "preview",
+    });
+
+    expect(
+      markdownIt.render(`
+  ::: preview Title text
+
+test
+
+  :::
+`),
+    ).toBe(
+      `\
+<details><summary>Title text</summary>
+<div class="demo-content"></div>
+<pre><code class="language-md">
+</code></pre>
+</details>
+<p>test</p>
+<p>:::</p>
+`,
+    );
+  });
+
+  it("should not render with marker < 3", () => {
+    expect(
+      markdownIt.render(`
+:: demo
+
+test
+
+::
+`),
+    ).to.not.contain("details");
+  });
+
+  it("should not end with wrong marker", () => {
+    expect(
+      markdownIt.render(`
+::: demo
+
+text1
+
+:::abc
+
+text2
+`),
+    ).toBe(`\
+<details><summary>Demo</summary>
+<div class="demo-content">
+<p>text1</p>
+<p>:::abc</p>
+<p>text2</p>
+</div>
+<pre><code class="language-md">text1
+
+:::abc
+
+text2
+</code></pre>
+</details>
+`);
+
+    expect(
+      markdownIt.render(`
+:::: demo
+
+text1
+
+:::
+
+text2
+
+::::
+`),
+    ).toBe(`\
+<details><summary>Demo</summary>
+<div class="demo-content">
+<p>text1</p>
+<p>:::</p>
+<p>text2</p>
+</div>
+<pre><code class="language-md">text1
+
+:::
+
+text2
+</code></pre>
+</details>
+`);
+  });
+
+  it("customize container name", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+      name: "preview",
+    });
+
+    expect(
+      markdownIt.render(`
+::: preview Title text
+${mdContent}
+:::
+`),
+    ).toBe(`\
+<details><summary>Title text</summary>
+${demoContent}
+${codeContent}
+</details>
+`);
+
+    expect(
+      markdownIt.render(`
+::: preview Title text
+
+${mdContent}
+
+:::
+`),
+    ).toBe(`\
+<details><summary>Title text</summary>
+${demoContent}
+${codeContent}
+</details>
+`);
+  });
+
+  it("showCodeFirst", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+      showCodeFirst: true,
+    });
+
+    expect(
+      markdownIt.render(`
+::: demo Title text
+${mdContent}
+:::
+`),
+    ).toBe(
+      `\
 <details><summary>Title text</summary>
 ${codeContent}
 ${demoContent}
 </details>
 `,
-  );
-});
-
-it("customRender", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    openRender: () => `<details><summary>\n`,
-    codeRender: (tokens, index, options, _env, self) => {
-      tokens[index].type = "fence";
-      tokens[index].info = "md";
-      tokens[index].markup = "```";
-
-      return `</summary>\n${self.rules.fence!(
-        tokens,
-        index,
-        options,
-        _env,
-        self,
-      )}`;
-    },
-    contentOpenRender: () => "",
-    contentCloseRender: () => "",
+    );
   });
 
-  expect(
-    markdownIt.render(`
+  it("customRender", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+      openRender: () => `<details><summary>\n`,
+      codeRender: (tokens, index, options, _env, self) => {
+        tokens[index].type = "fence";
+        tokens[index].info = "md";
+        tokens[index].markup = "```";
+
+        return `</summary>\n${self.rules.fence!(
+          tokens,
+          index,
+          options,
+          _env,
+          self,
+        )}`;
+      },
+      contentOpenRender: () => "",
+      contentCloseRender: () => "",
+    });
+
+    expect(
+      markdownIt.render(`
 ::: demo Title text
 ${mdContent}
 :::
 `),
-  ).toBe(
-    `\
+    ).toBe(
+      `\
 <details><summary>
 ${renderContent}
 </summary>
 ${codeContent}
 </details>
 `,
-  );
-});
+    );
+  });
 
-it("should work with alert", () => {
-  const alertContent = `\
+  it("should work with alert", () => {
+    const alertContent = `\
 > [!caution]
 > Caution text\
 `;
 
-  const markdownItAlert = MarkdownIt({ linkify: true })
-    .use(alert, { deep: true })
-    .use(demo);
+    const markdownItAlert = MarkdownIt({ linkify: true })
+      .use(alert, { deep: true })
+      .use(demo);
 
-  expect(
-    markdownItAlert.render(`
+    expect(
+      markdownItAlert.render(`
 ::: demo Title text
 ${alertContent}
 :::
 `),
-  ).toBe(
-    `\
+    ).toBe(
+      `\
 <details><summary>Title text</summary>
 <div class="demo-content">
 <div class="markdown-alert markdown-alert-caution">
@@ -202,27 +414,27 @@ ${alertContent}
 </code></pre>
 </details>
 `,
-  );
-});
+    );
+  });
 
-it("should work with import", () => {
-  const importContent = `\
+  it("should work with import", () => {
+    const importContent = `\
 <!-- @include: ../../include/__tests__/__fixtures__/simpleInclude.md -->
 `;
 
-  const markdownItInclude = MarkdownIt({ linkify: true })
-    .use(include, {
-      currentPath: () => __filename,
-    })
-    .use(demo);
+    const markdownItInclude = MarkdownIt({ linkify: true })
+      .use(include, {
+        currentPath: () => __filename,
+      })
+      .use(demo);
 
-  const result1 = markdownItInclude.render(`
+    const result1 = markdownItInclude.render(`
 ::: demo Title text
 ${importContent}
 :::
 `);
 
-  const result2 = markdownItInclude.render(`
+    const result2 = markdownItInclude.render(`
 ::: demo Title text
 
 ${importContent}
@@ -230,8 +442,8 @@ ${importContent}
 :::
 `);
 
-  expect(result1).toMatch(
-    `\
+    expect(result1).toMatch(
+      `\
 <details><summary>Title text</summary>
 <div class="demo-content">
 <h1>ABC</h1>
@@ -243,10 +455,10 @@ DEF
 </code></pre>
 </details>
 `,
-  );
+    );
 
-  expect(result2).toMatch(
-    `\
+    expect(result2).toMatch(
+      `\
 <details><summary>Title text</summary>
 <div class="demo-content">
 <h1>ABC</h1>
@@ -258,31 +470,6 @@ DEF
 </code></pre>
 </details>
 `,
-  );
-});
-
-it("should not render", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
-    name: "preview",
+    );
   });
-
-  expect(
-    markdownIt.render(`
-  ::: preview Title text
-
-test
-
-  :::
-`),
-  ).toBe(
-    `\
-<details><summary>Title text</summary>
-<div class="demo-content"></div>
-<pre><code class="language-md">
-</code></pre>
-</details>
-<p>test</p>
-<p>:::</p>
-`,
-  );
 });

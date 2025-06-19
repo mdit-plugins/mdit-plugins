@@ -52,9 +52,14 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     const nameEnd = pos;
 
-    const titleStart = state.skipSpaces(nameEnd);
+    const titleEnd = state.skipSpacesBack(currentLineMax, pos);
+    const hasTitle = titleEnd > nameEnd;
+    let titleStart = -1;
 
-    if (titleStart === nameEnd) return false;
+    if (hasTitle) {
+      titleStart = state.skipSpaces(nameEnd);
+      if (titleStart === nameEnd) return false;
+    }
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
@@ -121,8 +126,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     state.blkIndent = currentLineIndent;
 
     const markup = ":".repeat(markerCount);
-    const titleEnd = state.skipSpacesBack(currentLineMax, titleStart);
-    const title = state.src.slice(titleStart, titleEnd);
+    const title = hasTitle ? state.src.slice(titleStart, titleEnd) : "Demo";
     const openToken = state.push(`${name}_demo_open`, "div", 1);
 
     openToken.markup = markup;
