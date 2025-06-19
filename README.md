@@ -10,10 +10,10 @@
 
 <!-- markdownlint-restore -->
 
-[![DeepScan grade](https://deepscan.io/api/teams/15982/projects/23409/branches/708702/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=15982&pid=23409&bid=708702)
-![CodeQL](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/codeql.yml/badge.svg)
 [![code cov](https://codecov.io/gh/mdit-plugins/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/mdit-plugins/mdit-plugins)
 ![Test](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/test.yml/badge.svg)
+[![DeepScan grade](https://deepscan.io/api/teams/15982/projects/29808/branches/954935/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=15982&pid=29808&bid=954935)
+![CodeQL](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/codeql.yml/badge.svg)
 
 ## Docs: [English](https://mdit-plugins.github.io/) | [中文](https://mdit-plugins.github.io/zh/)
 
