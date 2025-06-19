@@ -240,12 +240,150 @@ it("should not break blockquote with setext headings", () => {
 });
 
 it("should not break blockquote with tabs", () => {
-  // CommonMark spec tabs with blockquotes
   const testCases = [
-    // Example 6 - Tabs in blockquotes
     [
-      ">\t\tfoo\n",
-      "<blockquote>\n<pre><code>  foo\n</code></pre>\n</blockquote>\n",
+      `\
+>\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code>  test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+ >\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code> test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+  >\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code>test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+> ---
+>\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code>  test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+ > ---
+ >\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code> test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+  > ---
+  >\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code>test
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+>\t\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code>  \ttest
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+ >\t\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code> \ttest
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+  >\t\t\ttest
+`,
+      `\
+<blockquote>
+<pre><code>\ttest
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+> ---
+>\t\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code>  \ttest
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+ > ---
+ >\t\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code> \ttest
+</code></pre>
+</blockquote>
+`,
+    ],
+    [
+      `\
+  > ---
+  >\t\t\ttest
+`,
+      `\
+<blockquote>
+<hr>
+<pre><code>\ttest
+</code></pre>
+</blockquote>
+`,
     ],
   ];
 
@@ -255,8 +393,8 @@ it("should not break blockquote with tabs", () => {
   });
 });
 
-describe("hint", () => {
-  it("should render tip, warning, caution, important note", () => {
+describe("alert", () => {
+  it("should render default alerts", () => {
     const testCases = [
       [
         `\
@@ -325,7 +463,7 @@ describe("hint", () => {
     });
   });
 
-  it("should ignore case", () => {
+  it("should ignore casing in alert names", () => {
     const testCases = [
       [
         `\
@@ -370,51 +508,9 @@ describe("hint", () => {
     });
   });
 
-  it("should support multiple content", () => {
-    const testCases = [
-      [
-        `\
-> [!important]
->
-> This is an important note
->
-> This is an important note
-`,
-        `\
-<div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
-<p>This is an important note</p>
-<p>This is an important note</p>
-</div>
-`,
-      ],
-      [
-        `\
-> [!important]
->
->
->This is an important note
->
->
->This is an important note
-`,
-        `\
-<div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
-<p>This is an important note</p>
-<p>This is an important note</p>
-</div>
-`,
-      ],
-    ];
-
-    testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
-    });
-  });
-
   it("should handle spaces and tabs", () => {
     const testCases = [
+      // Basic space handling
       [
         `\
 >[!important]
@@ -451,40 +547,7 @@ describe("hint", () => {
 </div>
 `,
       ],
-      [
-        `\
-> [!important]
->
-> This is an important note
->
-> This is an important note
-`,
-        `\
-<div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
-<p>This is an important note</p>
-<p>This is an important note</p>
-</div>
-`,
-      ],
-      [
-        `\
-> [!important]
->
->
->This is an important note
->
->
->This is an important note
-`,
-        `\
-<div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
-<p>This is an important note</p>
-<p>This is an important note</p>
-</div>
-`,
-      ],
+      // Multiple spaces before alert type
       [
         `\
 >  [!Important]
@@ -509,18 +572,7 @@ describe("hint", () => {
 </div>
 `,
       ],
-      [
-        `\
->   [!Important]
-> This is an important note
-`,
-        `\
-<div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
-<p>This is an important note</p>
-</div>
-`,
-      ],
+      // Trailing spaces
       [
         `\
 > [!Important]                      
@@ -533,28 +585,176 @@ describe("hint", () => {
 </div>
 `,
       ],
+      // Multi-line content with empty lines
       [
         `\
->	[!Important]                      
->	This is an important note
+> [!important]
+>
+> This is an important note
+>
+> This is an important note
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
 <p class="markdown-alert-title">Important</p>
+<p>This is an important note</p>
 <p>This is an important note</p>
 </div>
 `,
       ],
       [
         `\
->	 [!Important]
->	 This is an important note
+> [!important]
+>
+>
+>This is an important note
+>
+>
+>This is an important note
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
 <p class="markdown-alert-title">Important</p>
 <p>This is an important note</p>
+<p>This is an important note</p>
 </div>
+`,
+      ],
+      // Tab handling - single tab (should work)
+      [
+        `\
+>\t[!tip]
+>\tThis is a tip
+`,
+        `\
+<div class="markdown-alert markdown-alert-tip">
+<p class="markdown-alert-title">Tip</p>
+<p>This is a tip</p>
+</div>
+`,
+      ],
+      // Tab with space after
+      [
+        `\
+>\t [!caution]
+>\t This is a caution
+`,
+        `\
+<div class="markdown-alert markdown-alert-caution">
+<p class="markdown-alert-title">Caution</p>
+<p>This is a caution</p>
+</div>
+`,
+      ],
+      // Alert with indentation (1 space + tab)
+      [
+        `\
+ >\t[!note]
+ >\tThis is a note
+`,
+        `\
+<div class="markdown-alert markdown-alert-note">
+<p class="markdown-alert-title">Note</p>
+<p>This is a note</p>
+</div>
+`,
+      ],
+      // Alert with indentation (2 spaces + tab)
+      [
+        `\
+  >\t[!warning]
+  >\tThis is a warning
+`,
+        `\
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>This is a warning</p>
+</div>
+`,
+      ],
+      // Tab content in alert
+      [
+        `\
+> [!caution]
+>\tThis content has tab indentation
+>\tand should still work correctly
+`,
+        `\
+<div class="markdown-alert markdown-alert-caution">
+<p class="markdown-alert-title">Caution</p>
+<p>This content has tab indentation
+and should still work correctly</p>
+</div>
+`,
+      ],
+      // Double tabs (should become code block, not alert)
+      [
+        `\
+>\t\t[!important]
+>\t\tThis should be code
+`,
+        `\
+<blockquote>
+<pre><code>  [!important]
+  This should be code
+</code></pre>
+</blockquote>
+`,
+      ],
+      // Double tabs with 1 space indentation
+      [
+        `\
+ >\t\t[!important]
+ >\t\tThis should be code
+`,
+        `\
+<blockquote>
+<pre><code> [!important]
+ This should be code
+</code></pre>
+</blockquote>
+`,
+      ],
+      // Triple tabs (should become code block)
+      [
+        `\
+>\t\t\t[!note]
+>\t\t\tThis should be code
+`,
+        `\
+<blockquote>
+<pre><code>  \t[!note]
+  \tThis should be code
+</code></pre>
+</blockquote>
+`,
+      ],
+      // Too many tabs with spaces (should become code block)
+      [
+        `\
+>\t  [!Important]
+>\t This is an important note
+`,
+        `\
+<blockquote>
+<pre><code>[!Important]
+</code></pre>
+<p>This is an important note</p>
+</blockquote>
+`,
+      ],
+      // Excessive tabs (should become code block)
+      [
+        `\
+>\t\t\t\t[!important]
+>\t\t\t\tToo many tabs
+`,
+        `\
+<blockquote>
+<pre><code>  \t\t[!important]
+  \t\tToo many tabs
+</code></pre>
+</blockquote>
 `,
       ],
     ];
@@ -564,33 +764,24 @@ describe("hint", () => {
     });
   });
 
-  it("should work with other content", () => {
+  it("should terminate by other content correctly", () => {
     const original = `
 # Title
-
 > [!important]
 > This is an important note
 
 Paragraph text.
-
 > [!important]
 > This is an important note
-
 ---
-
 > [!important]
 > This is an important note
-
 - list item
-
 > [!important]
 > This is an important note
-
 1. list item
-
 > [!important]
 > This is an important note
-
 `;
 
     expect(markdownIt.render(original)).toEqual(`\
@@ -628,6 +819,16 @@ Paragraph text.
 
   it("should not render", () => {
     const testCases = [
+      [
+        `\
+> [!note
+`,
+        `\
+<blockquote>
+<p>[!note</p>
+</blockquote>
+`,
+      ],
       [
         `\
 > [!Important]:
@@ -691,8 +892,8 @@ This is an important note</p>
       ],
       [
         `\
->	  [!Important]
->	  This is an important note
+>\t  [!Important]
+>\t  This is an important note
 `,
         `\
 <blockquote>
@@ -704,8 +905,8 @@ This is an important note
       ],
       [
         `\
->	   [!Important]
->	   This is an important note
+>\t   [!Important]
+>\t   This is an important note
 `,
         `\
 <blockquote>
@@ -717,12 +918,12 @@ This is an important note
       ],
       [
         `\
->				[!Important]
+>\t\t\t\t[!Important]
 > This is an important note
 `,
         `\
 <blockquote>
-<pre><code>  		[!Important]
+<pre><code>  \t\t[!Important]
 </code></pre>
 <p>This is an important note</p>
 </blockquote>
@@ -730,13 +931,13 @@ This is an important note
       ],
       [
         `\
->				[!Important]
->				This is an important note
+>\t\t\t\t[!Important]
+>\t\t\t\tThis is an important note
 `,
         `\
 <blockquote>
-<pre><code>  		[!Important]
-  		This is an important note
+<pre><code>  \t\t[!Important]
+  \t\tThis is an important note
 </code></pre>
 </blockquote>
 `,
@@ -887,6 +1088,7 @@ This is a note</p>
     const markdownItCustom = new MarkdownIt().use(alert, {
       openRender: (tokens, index) =>
         `<div class="${tokens[index].markup}-alert">\n`,
+      closeRender: () => `</div>\n`,
       titleRender: (tokens, index) => {
         const token = tokens[index];
         const title = {
@@ -1061,6 +1263,38 @@ code block
 
     testCases.forEach(([input, output]) => {
       expect(markdownIt.render(input)).toEqual(output);
+    });
+  });
+
+  it("should handle alert termination", () => {
+    const markdownItCustom = new MarkdownIt().use(alert, {
+      deep: true,
+    });
+
+    const testCases = [
+      // Alert in list item terminated by another list item
+      [
+        `\
+- > [!warning]
+  > This is a warning in list
+- Another list item
+`,
+        `\
+<ul>
+<li>
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>This is a warning in list</p>
+</div>
+</li>
+<li>Another list item</li>
+</ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownItCustom.render(input)).toEqual(output);
     });
   });
 });
