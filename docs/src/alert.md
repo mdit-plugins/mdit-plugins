@@ -89,7 +89,6 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
   >
   > > [!warning]
   > > This is a nested warning
-
   - > [!warning]
     > This is warning text
 
