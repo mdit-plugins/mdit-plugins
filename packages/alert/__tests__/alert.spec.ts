@@ -1084,6 +1084,26 @@ This is a note</p>
     });
   });
 
+  it("should not render when alert has no content", () => {
+    const testCases = [
+      [
+        `\
+> [!Important]
+`,
+        // should be normal blockquote
+        `\
+<blockquote>
+<p>[!Important]</p>
+</blockquote>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownIt.render(input)).toEqual(output);
+    });
+  });
+
   it("should support customize options", () => {
     const markdownItCustom = new MarkdownIt().use(alert, {
       openRender: (tokens, index) =>

@@ -98,14 +98,10 @@ const getAlertRule =
     // if there are non-space characters after ']', it's not a valid alert
     if (currentPos < max) return false;
 
-    // we know that it's going to be a valid alert,
-    // so no point trying to find the end of it in silent mode
-    if (silent) return true;
-
-    const oldBMarks = [];
-    const oldBSCount = [];
-    const oldSCount = [];
-    const oldTShift = [];
+    const oldBMarks: number[] = [];
+    const oldBSCount: number[] = [];
+    const oldSCount: number[] = [];
+    const oldTShift: number[] = [];
     const oldLineMax = state.lineMax;
     const oldParentType = state.parentType;
     const terminatorRules = [
@@ -134,9 +130,9 @@ const getAlertRule =
     //     > test
     //      - - -
     //     ```
-    let currentLine;
+    let currentLine = startLine;
 
-    for (currentLine = startLine; currentLine < endLine; currentLine++) {
+    for (; currentLine < endLine; currentLine++) {
       // check if it's outdented, i.e. it's inside list item and indented
       // less than said list item:
       //
@@ -188,8 +184,10 @@ const getAlertRule =
 
         let offset = initial;
 
-        oldBMarks.push(state.bMarks[currentLine]);
-        state.bMarks[currentLine] = pos;
+        if (!silent) {
+          oldBMarks.push(state.bMarks[currentLine]);
+          state.bMarks[currentLine] = pos;
+        }
 
         while (pos < max) {
           const ch = state.src.charCodeAt(pos);
@@ -206,15 +204,17 @@ const getAlertRule =
 
         lastLineEmpty = pos >= max;
 
-        oldBSCount.push(state.bsCount[currentLine]);
-        state.bsCount[currentLine] =
-          state.sCount[currentLine] + 1 + (spaceAfterMarker ? 1 : 0);
+        if (!silent) {
+          oldBSCount.push(state.bsCount[currentLine]);
+          state.bsCount[currentLine] =
+            state.sCount[currentLine] + 1 + (spaceAfterMarker ? 1 : 0);
 
-        oldSCount.push(state.sCount[currentLine]);
-        state.sCount[currentLine] = offset - initial;
+          oldSCount.push(state.sCount[currentLine]);
+          state.sCount[currentLine] = offset - initial;
 
-        oldTShift.push(state.tShift[currentLine]);
-        state.tShift[currentLine] = pos - state.bMarks[currentLine];
+          oldTShift.push(state.tShift[currentLine]);
+          state.tShift[currentLine] = pos - state.bMarks[currentLine];
+        }
         continue;
       }
 
@@ -238,7 +238,7 @@ const getAlertRule =
         // but if blockquote is terminated by another tag, they shouldn't
         state.lineMax = currentLine;
 
-        if (state.blkIndent !== 0) {
+        if (state.blkIndent !== 0 && !silent) {
           // state.blkIndent was non-zero, we now set it to zero,
           // so we need to re-calculate all offsets to appear as
           // if indent wasn't changed
@@ -253,15 +253,42 @@ const getAlertRule =
         break;
       }
 
-      oldBMarks.push(state.bMarks[currentLine]);
-      oldBSCount.push(state.bsCount[currentLine]);
-      oldSCount.push(state.sCount[currentLine]);
-      oldTShift.push(state.tShift[currentLine]);
+      if (!silent) {
+        oldBMarks.push(state.bMarks[currentLine]);
+        oldBSCount.push(state.bsCount[currentLine]);
+        oldSCount.push(state.sCount[currentLine]);
+        oldTShift.push(state.tShift[currentLine]);
 
-      // A negative indentation means that this is a paragraph continuation
-      //
-      state.sCount[currentLine] = -1;
+        // A negative indentation means that this is a paragraph continuation
+        state.sCount[currentLine] = -1;
+      }
     }
+
+    const restoreState = (): void => {
+      state.lineMax = oldLineMax;
+      state.parentType = oldParentType;
+
+      // Restore original tShift; this might not be necessary since the parser
+      // has already been here, but just to make sure we can do that.
+      for (let i = 0; i < oldTShift.length; i++) {
+        state.bMarks[i + startLine] = oldBMarks[i];
+        state.tShift[i + startLine] = oldTShift[i];
+        state.sCount[i + startLine] = oldSCount[i];
+        state.bsCount[i + startLine] = oldBSCount[i];
+      }
+    };
+
+    // If we didn't find any alert body, so we don't have a valid alert
+    if (startLine + 1 >= currentLine) {
+      // If we are in silent mode, we don't need to restore the state
+      if (!silent) restoreState();
+
+      return false;
+    }
+
+    // from now we know that it's going to be a valid alert,
+    // so no point trying to find the end of it in silent mode
+    if (silent) return true;
 
     const oldIndent = state.blkIndent;
 
@@ -288,20 +315,10 @@ const getAlertRule =
     const closeToken = state.push("alert_close", "div", -1);
 
     closeToken.markup = type;
-
-    state.lineMax = oldLineMax;
-    state.parentType = oldParentType;
     contentLines[1] = state.line;
 
-    // Restore original tShift; this might not be necessary since the parser
-    // has already been here, but just to make sure we can do that.
-    for (let i = 0; i < oldTShift.length; i++) {
-      state.bMarks[i + startLine] = oldBMarks[i];
-      state.tShift[i + startLine] = oldTShift[i];
-      state.sCount[i + startLine] = oldSCount[i];
-      state.bsCount[i + startLine] = oldBSCount[i];
-    }
     state.blkIndent = oldIndent;
+    restoreState();
 
     return true;
   };
