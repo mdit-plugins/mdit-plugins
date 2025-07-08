@@ -16,6 +16,19 @@ Bob -> Alice : hello
   expect(result).toMatch(/<img src=".*" alt=".*">/);
 });
 
+it("should render now-ascii characters", () => {
+  const markdownIt = MarkdownIt({ linkify: true }).use(plantuml);
+
+  const result = markdownIt.render(`
+@startuml
+Bob -> Alice : 你好
+@enduml
+    `);
+
+  expect(result).toMatchSnapshot();
+  expect(result).toMatch(/<img src=".*" alt=".*">/);
+});
+
 it("should parse custom uml", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
     name: "json",

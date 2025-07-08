@@ -53,6 +53,14 @@ Bob -> Alice : hello
 
 :::
 
+::: preview Non-ascii demo
+
+@startuml
+Bob -> Alice : 你好
+@enduml
+
+:::
+
 ## Options
 
 ```ts
