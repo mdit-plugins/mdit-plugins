@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-plantuml@0.22.1...@mdit/plugin-plantuml@0.22.2) (2025-07-08)
+
+### 🐛 Bug Fixes
+
+- **plantuml:** fix encoding ([#151](https://github.com/mdit-plugins/mdit-plugins/issues/151)) ([47973b9](https://github.com/mdit-plugins/mdit-plugins/commit/47973b991dd66e9c3dc4af34085de62e07047d81))
+
 ## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-plantuml@0.22.0...@mdit/plugin-plantuml@0.22.1) (2025-06-17)
 
 **Note:** Version bump only for package @mdit/plugin-plantuml
