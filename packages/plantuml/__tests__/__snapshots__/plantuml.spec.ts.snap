@@ -21,6 +21,11 @@ exports[`should parse custom uml 1`] = `
 "
 `;
 
+exports[`should render now-ascii characters 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKdYoTy7JfNkv75BpKafpSm00" alt="">
+"
+`;
+
 exports[`should render without options 1`] = `
 "<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKifpSq10000" alt="">
 "
