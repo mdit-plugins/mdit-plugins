@@ -11,4 +11,4 @@ export const imgLazyload: PluginSimple = (md) => {
   };
 };
 
-export default img - lazyload;
+export default imgLazyload;

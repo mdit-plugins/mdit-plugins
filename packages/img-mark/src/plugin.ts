@@ -26,4 +26,4 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   };
 };
 
-export default img - mark;
+export default imgMark;

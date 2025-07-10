@@ -208,4 +208,4 @@ export const mathjax = (
   });
 };
 
-export default mathjax - slim;
+export default mathjax;
