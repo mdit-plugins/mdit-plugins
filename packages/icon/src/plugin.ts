@@ -80,3 +80,5 @@ export const icon: PluginWithOptions<MarkdownItIconOptions> = (
   md.renderer.rules.icon = (tokens, idx, _, env): string =>
     render(tokens[idx].content, env);
 };
+
+export default icon;

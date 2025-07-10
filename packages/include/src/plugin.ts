@@ -411,3 +411,5 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     }
   }
 };
+
+export default include;

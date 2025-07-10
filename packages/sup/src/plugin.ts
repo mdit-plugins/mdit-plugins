@@ -72,3 +72,5 @@ const superscriptRender: RuleInline = (state, silent) => {
 export const sup: PluginSimple = (md) => {
   md.inline.ruler.after("emphasis", "sup", superscriptRender);
 };
+
+export default sup;

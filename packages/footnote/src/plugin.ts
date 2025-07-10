@@ -489,3 +489,5 @@ export const footnote: PluginSimple = (md) => {
   md.inline.ruler.after("footnoteInline", "footnote_ref", footnoteRef);
   md.core.ruler.after("inline", "footnoteTail", footnoteTail);
 };
+
+export default footnote;

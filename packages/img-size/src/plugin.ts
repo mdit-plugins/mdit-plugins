@@ -230,3 +230,5 @@ export const imgSizeRule: RuleInline = (state, silent) => {
 export const imgSize: PluginSimple = (md) => {
   md.inline.ruler.before("image", "img-size", imgSizeRule);
 };
+
+export default img - size;

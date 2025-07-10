@@ -102,3 +102,5 @@ export const katex = <MarkdownItEnv = unknown>(
     },
   });
 };
+
+export default katex;

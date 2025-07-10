@@ -73,3 +73,5 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     };
   }
 };
+
+export default plantuml;

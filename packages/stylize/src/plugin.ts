@@ -70,3 +70,5 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (
 
   md.core.ruler.push("stylize_tag", stylizeRule);
 };
+
+export default stylize;

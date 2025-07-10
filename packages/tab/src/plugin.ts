@@ -512,3 +512,5 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRender;
 };
+
+export default tab;

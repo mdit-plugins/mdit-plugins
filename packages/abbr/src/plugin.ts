@@ -177,3 +177,5 @@ export const abbr: PluginSimple = (md) => {
 
   md.core.ruler.after("linkify", "abbr_replace", abbrReplace);
 };
+
+export default abbr;

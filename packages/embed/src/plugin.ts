@@ -253,3 +253,5 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
     };
   }
 };
+
+export default embed;

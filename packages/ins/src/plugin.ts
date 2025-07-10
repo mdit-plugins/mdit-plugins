@@ -126,3 +126,5 @@ export const ins: PluginSimple = (md) => {
     return true;
   });
 };
+
+export default ins;

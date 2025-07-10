@@ -113,3 +113,5 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
 
   md.renderer.rules[name] = render;
 };
+
+export default uml;

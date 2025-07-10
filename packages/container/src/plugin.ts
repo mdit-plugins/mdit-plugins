@@ -172,3 +172,5 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
   md.renderer.rules[`container_${name}_open`] = openRender;
   md.renderer.rules[`container_${name}_close`] = closeRender;
 };
+
+export default container;

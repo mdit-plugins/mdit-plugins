@@ -127,3 +127,5 @@ export const mark: PluginSimple = (md) => {
     return true;
   });
 };
+
+export default mark;

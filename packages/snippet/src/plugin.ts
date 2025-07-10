@@ -179,3 +179,5 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
     return originalFence(tokens, index, options, env, self);
   };
 };
+
+export default snippet;

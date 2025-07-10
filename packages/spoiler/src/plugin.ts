@@ -144,3 +144,5 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
     return true;
   });
 };
+
+export default spoiler;

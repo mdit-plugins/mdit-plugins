@@ -11,3 +11,5 @@ export const align: PluginSimple = (md) => {
     ),
   );
 };
+
+export default align;

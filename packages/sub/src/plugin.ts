@@ -71,3 +71,5 @@ const subscriptRender: RuleInline = (state, silent) => {
 export const sub: PluginSimple = (md) => {
   md.inline.ruler.after("emphasis", "sub", subscriptRender);
 };
+
+export default sub;

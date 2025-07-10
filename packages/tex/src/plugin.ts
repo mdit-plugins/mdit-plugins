@@ -418,3 +418,5 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   md.renderer.rules.math_block = (tokens, index, _options, env): string =>
     render(tokens[index].content, true, env);
 };
+
+export default tex;

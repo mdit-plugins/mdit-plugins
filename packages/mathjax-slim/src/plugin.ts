@@ -207,3 +207,5 @@ export const mathjax = (
     },
   });
 };
+
+export default mathjax - slim;

@@ -205,3 +205,5 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   if (contentCloseRender)
     md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
 };
+
+export default demo;

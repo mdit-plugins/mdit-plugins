@@ -101,3 +101,5 @@ const rubyRule: RuleInline = (state, silent) => {
 export const ruby: PluginSimple = (md) => {
   md.inline.ruler.before("text", "ruby", rubyRule);
 };
+
+export default ruby;

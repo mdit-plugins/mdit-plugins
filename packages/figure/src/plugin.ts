@@ -96,3 +96,5 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
 
   md.core.ruler.before("linkify", "figure", figureRule);
 };
+
+export default figure;

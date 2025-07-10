@@ -223,3 +223,5 @@ export const dl: PluginSimple = (md) => {
     alt: ["paragraph", "reference", "blockquote"],
   });
 };
+
+export default dl;

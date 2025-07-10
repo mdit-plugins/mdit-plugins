@@ -103,3 +103,5 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
   md.core.ruler.after("inline", "task_list", taskListRule);
 };
+
+export default tasklist;

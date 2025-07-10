@@ -54,3 +54,5 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
 
   md.core.ruler.before("linkify", "attrs", attrsRule);
 };
+
+export default attrs;

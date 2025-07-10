@@ -10,3 +10,5 @@ export const imgLazyload: PluginSimple = (md) => {
     return originalImageRender(tokens, index, options, env, self);
   };
 };
+
+export default img - lazyload;
