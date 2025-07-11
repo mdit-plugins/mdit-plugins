@@ -18,9 +18,9 @@ import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
 
 const mdIt = MarkdownIt().use(uml, {
-  name: 'demo',
-  open: 'demostart',
-  close: 'demoend',
+  name: "demo",
+  open: "demostart",
+  close: "demoend",
   render: (tokens, index) => {
     // render content here
   },
@@ -41,9 +41,9 @@ const MarkdownIt = require("markdown-it");
 const { uml } = require("@mdit/plugin-uml");
 
 const mdIt = MarkdownIt().use(uml, {
-  name: 'demo',
-  open: 'demostart',
-  close: 'demoend',
+  name: "demo",
+  open: "demostart",
+  close: "demoend",
   render: (tokens, index) => {
     // render content here
   },
