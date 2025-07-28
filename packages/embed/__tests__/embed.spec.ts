@@ -637,6 +637,150 @@ Continue {% icon middle %} and {% badge final %} end.`;
     });
   });
 
+  describe("isInline parameter functionality", () => {
+    const mdDifferentStyles = MarkdownIt().use(embed, {
+      config: [
+        {
+          name: "style-aware",
+          allowInline: true,
+          setup: (content: string, isInline: boolean): string => {
+            if (isInline) {
+              return `<span class="inline-style" data-content="${content}">📍 ${content}</span>`;
+            } else {
+              return `<div class="block-style" data-content="${content}"><h3>Block: ${content}</h3></div>`;
+            }
+          },
+        },
+        {
+          name: "block-only",
+          setup: (content: string, isInline: boolean): string => {
+            return `<section class="block-section" data-inline="${isInline}">${content}</section>`;
+          },
+        },
+      ],
+    });
+
+    it("should pass isInline=true for inline embeds", () => {
+      const result = mdDifferentStyles.render(
+        "Text with {% style-aware inline-content %} here.",
+      );
+
+      expect(result).toContain('<span class="inline-style"');
+      expect(result).toContain('data-content="inline-content"');
+      expect(result).toContain("📍 inline-content");
+      expect(result).not.toContain('<div class="block-style"');
+      expect(result).not.toContain("<h3>Block:");
+    });
+
+    it("should pass isInline=false for block embeds", () => {
+      const result = mdDifferentStyles.render(
+        "{% style-aware block-content %}",
+      );
+
+      expect(result).toContain('<div class="block-style"');
+      expect(result).toContain('data-content="block-content"');
+      expect(result).toContain("<h3>Block: block-content</h3>");
+      expect(result).not.toContain('<span class="inline-style"');
+      expect(result).not.toContain("📍");
+    });
+
+    it("should pass isInline=false for block-only embeds", () => {
+      const result = mdDifferentStyles.render("{% block-only test-content %}");
+
+      expect(result).toContain('<section class="block-section"');
+      expect(result).toContain('data-inline="false"');
+      expect(result).toContain("test-content");
+    });
+
+    it("should handle mixed inline and block embeds correctly", () => {
+      const content = `# Title
+
+{% style-aware block-item %}
+
+Here is some text with {% style-aware inline-item %} embedded.
+
+{% block-only another-block %}`;
+
+      const result = mdDifferentStyles.render(content);
+
+      // Block embed
+      expect(result).toContain(
+        '<div class="block-style" data-content="block-item">',
+      );
+      expect(result).toContain("<h3>Block: block-item</h3>");
+
+      // Inline embed
+      expect(result).toContain(
+        '<span class="inline-style" data-content="inline-item">',
+      );
+      expect(result).toContain("📍 inline-item");
+
+      // Block-only embed
+      expect(result).toContain(
+        '<section class="block-section" data-inline="false">',
+      );
+      expect(result).toContain("another-block");
+    });
+
+    it("should maintain backward compatibility when isInline parameter is ignored", () => {
+      const mdBackwardCompatible = MarkdownIt().use(embed, {
+        config: [
+          {
+            name: "legacy",
+            allowInline: true,
+            setup: (content: string): string =>
+              `<span class="legacy">${content}</span>`,
+          },
+        ],
+      });
+
+      const blockResult = mdBackwardCompatible.render(
+        "{% legacy block-test %}",
+      );
+      const inlineResult = mdBackwardCompatible.render(
+        "Text {% legacy inline-test %} more.",
+      );
+
+      expect(blockResult).toContain('<span class="legacy">block-test</span>');
+      expect(inlineResult).toContain('<span class="legacy">inline-test</span>');
+    });
+
+    it("should work with complex parameters and isInline distinction", () => {
+      const mdComplex = MarkdownIt().use(embed, {
+        config: [
+          {
+            name: "video",
+            allowInline: true,
+            setup: (params: string, isInline: boolean): string => {
+              const [id, title = "Video"] = params.split("|");
+
+              if (isInline) {
+                return `<a href="/video/${id}" class="video-link">${title}</a>`;
+              } else {
+                return `<iframe src="/embed/${id}" title="${title}" class="video-player"></iframe>`;
+              }
+            },
+          },
+        ],
+      });
+
+      const blockResult = mdComplex.render("{% video abc123|My Tutorial %}");
+      const inlineResult = mdComplex.render(
+        "Watch {% video abc123|this video %} for details.",
+      );
+
+      // Block should render iframe
+      expect(blockResult).toContain('<iframe src="/embed/abc123"');
+      expect(blockResult).toContain('title="My Tutorial"');
+      expect(blockResult).toContain('class="video-player"');
+
+      // Inline should render link
+      expect(inlineResult).toContain('<a href="/video/abc123"');
+      expect(inlineResult).toContain('class="video-link"');
+      expect(inlineResult).toContain(">this video</a>");
+    });
+  });
+
   it("should throw without options", () => {
     expect(() => {
       MarkdownIt().use(embed);

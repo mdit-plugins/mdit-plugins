@@ -229,7 +229,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
       const token = tokens[index];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return embedMap.get(token.info)!.setup(token.content);
+      return embedMap.get(token.info)!.setup(token.content, false);
     };
   }
 
@@ -249,7 +249,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
       const token = tokens[index];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return inlineEmbedMap.get(token.info)!.setup(token.content);
+      return inlineEmbedMap.get(token.info)!.setup(token.content, true);
     };
   }
 };
