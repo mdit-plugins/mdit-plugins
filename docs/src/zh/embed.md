@@ -162,8 +162,11 @@ interface EmbedConfig {
 
   /**
    * 生成嵌入 HTML 的设置函数
+   * @param params 参数
+   * @param isInline 如果 allowInline 为 true，则 isInline 表示当前匹配的内容原文是否是 inline
+   * @returns
    */
-  setup: (params: string) => string;
+  setup: (params: string, isInline: boolean) => string;
 
   /**
    * 是否允许在行内使用
@@ -192,7 +195,7 @@ const md = MarkdownIt().use(embed, {
   config: [
     {
       name: "video",
-      setup: (params: string) => {
+      setup: (params: string, isInline: boolean) => {
         // 解析参数：src width height
         const [src, width = "560", height = "315"] = params.split(" ");
         return `<video width="${width}" height="${height}" controls>
