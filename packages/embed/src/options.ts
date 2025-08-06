@@ -11,7 +11,7 @@ export interface EmbedConfig {
    *
    * 生成嵌入 HTML 的设置函数
    */
-  setup: (ref: string) => string;
+  setup: (ref: string, isInline: boolean) => string;
 
   /**
    * Whether the embed can be used inline
