@@ -466,7 +466,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
         `${name}-tab-content${info.isActive ? " active" : ""}`,
       );
       token.attrSet("data-index", info.index.toString());
-      if (info.id) token.attrSet("data-id", info.id.toString());
+      if (info.id) token.attrSet("data-id", info.id);
 
       if (info.isActive) token.attrJoin("data-active", "");
 

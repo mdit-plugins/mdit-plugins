@@ -322,9 +322,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         if (tokens[tbodyOpenIndex].type === "tbody_open") break;
       }
 
-      const columnCount = Number(
-        (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0,
-      );
+      const columnCount =
+        (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
 
       if (columnCount < 2) return;
 
