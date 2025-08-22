@@ -14,7 +14,7 @@ Plugins to hide content.
 @tab TS
 
 ```ts
-import MarkdownIt from "spoilerdown-it";
+import MarkdownIt from "markdown-it";
 import { spoiler } from "@mdit/plugin-spoiler";
 
 const mdIt = MarkdownIt().use(spoiler);
@@ -25,7 +25,7 @@ mdIt.render("VuePress Theme Hope is !!powerful!!.");
 @tab JS
 
 ```js
-const MarkdownIt = require("spoilerdown-it");
+const MarkdownIt = require("markdown-it");
 const { spoiler } = require("@mdit/plugin-spoiler");
 
 const mdIt = MarkdownIt().use(spoiler);
