@@ -40,7 +40,7 @@ export const rollupTypescript = (
       output: [
         {
           file: `./lib/${filePath}.js`,
-          format: "esm",
+          format: "cjs",
           sourcemap: true,
           exports: "named",
           inlineDynamicImports,

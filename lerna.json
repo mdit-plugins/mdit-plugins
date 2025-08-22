@@ -3,14 +3,15 @@
   "version": "independent",
   "command": {
     "version": {
-      "allowBranch": "main",
-      "conventionalCommits": true,
+      "allowBranch": "cjs",
       "exact": true,
-      "message": "chore(release): publish"
+      "message": "chore(release): publish v%v",
+      "noChangelog": true
     },
     "publish": {
       "graphType": "all",
-      "removePackageFields": ["devDependencies", "scripts"]
+      "removePackageFields": ["devDependencies", "scripts"],
+      "preDistTag": "cjs"
     }
   },
   "changelogPreset": {

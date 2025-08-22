@@ -11,7 +11,8 @@ let isKatexInstalled = true;
 let katexLib: typeof import("katex");
 
 try {
-  katexLib = await import("katex");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  katexLib = require("katex") as typeof import("katex");
 } catch {
   /* istanbul ignore next -- @preserve */
   isKatexInstalled = false;
@@ -71,8 +72,9 @@ const katexBlock = (
   return transformer?.(result, true) ?? result;
 };
 
-export const loadMhchem = async (): Promise<void> => {
-  await import("katex/contrib/mhchem");
+export const loadMhchem = (): void => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require("katex/contrib/mhchem");
 };
 
 export const katex = <MarkdownItEnv = unknown>(

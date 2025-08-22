@@ -2,8 +2,6 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
-import { createRequire } from "node:module";
-
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 import { AssistiveMmlHandler } from "mathjax-full/js/a11y/assistive-mml.js";
@@ -25,8 +23,6 @@ import { SVG } from "mathjax-full/js/output/svg.js";
 import path from "upath";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-
-const require = createRequire(import.meta.url);
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
