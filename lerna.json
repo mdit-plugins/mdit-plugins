@@ -9,6 +9,7 @@
       "noChangelog": true
     },
     "publish": {
+      "allowBranch": "cjs",
       "graphType": "all",
       "removePackageFields": ["devDependencies", "scripts"],
       "preDistTag": "cjs"
