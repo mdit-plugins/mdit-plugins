@@ -1,6 +1,6 @@
 {
-  "name": "@mdit/plugin-mathjax-slim",
-  "version": "0.23.1",
+  "name": "@mdit/plugin-mathjax-browser",
+  "version": "0.22.0",
   "description": "mathjax plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/mathjax"
+    "directory": "packages/mathjax-browser"
   },
   "license": "MIT",
   "author": {
@@ -30,8 +30,8 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib"
   ],
@@ -40,21 +40,16 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@types/markdown-it": "^14.1.2"
-  },
-  "devDependencies": {
     "@mdit/plugin-tex": "workspace:*",
-    "mathjax-full": "3.2.2"
+    "@types/markdown-it": "^14.1.2",
+    "mathjax-full": "3.2.2",
+    "upath": "^2.0.1"
   },
   "peerDependencies": {
-    "markdown-it": "^14.1.0",
-    "mathjax-full": "^3.2.2"
+    "markdown-it": "^14.1.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {
-      "optional": true
-    },
-    "mathjax-full": {
       "optional": true
     }
   },
