@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@codecov/rollup-plugin": "1.9.1",
-    "@commitlint/cli": "20.0.0",
+    "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
     "@lerna-lite/cli": "4.9.0",
     "@lerna-lite/publish": "4.9.0",
