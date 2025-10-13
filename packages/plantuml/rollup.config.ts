@@ -12,9 +12,9 @@ export default [
     output: {
       file: "./lib/browser.js",
     },
-    resolve: true,
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
+    external: false,
   }),
 ];

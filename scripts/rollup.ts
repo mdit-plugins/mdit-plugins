@@ -5,7 +5,7 @@ import { codecovRollupPlugin } from "@codecov/rollup-plugin";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import type { RollupOptions } from "rollup";
+import type { OutputOptions, RollupOptions } from "rollup";
 import { defineConfig } from "rollup";
 import { dts } from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
@@ -14,11 +14,10 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export interface RollupTypescriptOptions {
   dts?: boolean;
-  external?: (RegExp | string)[];
+  external?: (RegExp | string)[] | false;
   dtsExternal?: (RegExp | string)[];
-  resolve?: boolean;
   alias?: Record<string, string>;
-  output?: Record<string, unknown>;
+  output?: OutputOptions;
   inlineDynamicImports?: boolean;
 }
 
@@ -29,7 +28,6 @@ export const rollupTypescript = (
     external = [],
     dtsExternal = [],
     output = {},
-    resolve = false,
     alias: aliasOptions,
     inlineDynamicImports = false,
   }: RollupTypescriptOptions = {},
@@ -37,16 +35,14 @@ export const rollupTypescript = (
   defineConfig([
     {
       input: `./src/${filePath}.ts`,
-      output: [
-        {
-          file: `./lib/${filePath}.js`,
-          format: "cjs",
-          sourcemap: true,
-          exports: "named",
-          inlineDynamicImports,
-          ...output,
-        },
-      ],
+      output: {
+        file: `./lib/${filePath}.js`,
+        format: "cjs",
+        sourcemap: true,
+        exports: "named",
+        inlineDynamicImports,
+        ...output,
+      },
       plugins: [
         aliasOptions ? alias({ entries: aliasOptions }) : [],
         nodeResolve(),
@@ -56,14 +52,14 @@ export const rollupTypescript = (
           ? [
               codecovRollupPlugin({
                 enableBundleAnalysis: true,
-                bundleName: `${basename(cwd())}${resolve ? "-browser" : ""}`,
+                bundleName: `${basename(cwd())}${external ? "" : "-browser"}`,
                 uploadToken: process.env.CODECOV_TOKEN,
                 telemetry: false,
               }),
             ]
           : [],
       ],
-      external: resolve ? [] : [/^node:/, /^@mdit\//, ...external],
+      external: external ? [/^node:/, /^@mdit\//, ...external] : [],
       treeshake: {
         preset: "smallest",
       },
