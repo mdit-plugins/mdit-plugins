@@ -7,5 +7,6 @@ export default [
       file: "./lib/browser.js",
     },
     external: false,
+    dts: false,
   }),
 ];
