@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-demo",
-  "version": "0.22.4-cjs.0",
+  "version": "0.22.5-cjs.0",
   "description": "demo plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
