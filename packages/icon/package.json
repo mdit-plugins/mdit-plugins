@@ -30,14 +30,6 @@
     },
     "pengzhanbo"
   ],
-  "type": "module",
-  "exports": {
-    ".": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "browser": "./lib/browser.js",
   "types": "./lib/index.d.ts",
   "files": [
