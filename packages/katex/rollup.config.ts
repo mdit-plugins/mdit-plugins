@@ -5,10 +5,10 @@ export default [
     external: ["katex", "katex/contrib/mhchem"],
   }),
   ...rollupTypescript("browser", {
-    resolve: true,
     output: {
       dir: "./lib",
       file: null,
     },
+    external: false,
   }),
 ];

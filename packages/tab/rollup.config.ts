@@ -6,6 +6,6 @@ export default [
     output: {
       file: "./lib/browser.js",
     },
-    resolve: true,
+    external: false,
   }),
 ];

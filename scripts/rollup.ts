@@ -14,9 +14,8 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export interface RollupTypescriptOptions {
   dts?: boolean;
-  external?: (RegExp | string)[];
+  external?: (RegExp | string)[] | false;
   dtsExternal?: (RegExp | string)[];
-  resolve?: boolean;
   alias?: Record<string, string>;
   output?: Record<string, unknown>;
   inlineDynamicImports?: boolean;
@@ -29,7 +28,6 @@ export const rollupTypescript = (
     external = [],
     dtsExternal = [],
     output = {},
-    resolve = false,
     alias: aliasOptions,
     inlineDynamicImports = false,
   }: RollupTypescriptOptions = {},
@@ -49,22 +47,22 @@ export const rollupTypescript = (
       ],
       plugins: [
         aliasOptions ? alias({ entries: aliasOptions }) : [],
-        resolve ? [nodeResolve(), commonjs()] : [],
+        external ? [] : [nodeResolve(), commonjs()],
         esbuild({ charset: "utf8", minify: isProduction, target: "node20" }),
         process.env.CODECOV_TOKEN
           ? [
               codecovRollupPlugin({
                 enableBundleAnalysis: true,
-                bundleName: `${basename(cwd())}${resolve ? "-browser" : ""}`,
+                bundleName: `${basename(cwd())}${external ? "" : "-browser"}`,
                 uploadToken: process.env.CODECOV_TOKEN,
                 telemetry: false,
               }),
             ]
           : [],
       ],
-      external: resolve
-        ? []
-        : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
+      external: external
+        ? [/^node:/, /^@mdit\//, /^markdown-it/, ...external]
+        : [],
       treeshake: {
         preset: "smallest",
       },
