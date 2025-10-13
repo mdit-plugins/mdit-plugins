@@ -49,7 +49,8 @@ export const rollupTypescript = (
       ],
       plugins: [
         aliasOptions ? alias({ entries: aliasOptions }) : [],
-        resolve ? [nodeResolve(), commonjs()] : [],
+        nodeResolve(),
+        commonjs(),
         esbuild({ charset: "utf8", minify: isProduction, target: "node20" }),
         process.env.CODECOV_TOKEN
           ? [
@@ -62,9 +63,7 @@ export const rollupTypescript = (
             ]
           : [],
       ],
-      external: resolve
-        ? []
-        : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
+      external: resolve ? [] : [/^node:/, /^@mdit\//, ...external],
       treeshake: {
         preset: "smallest",
       },
