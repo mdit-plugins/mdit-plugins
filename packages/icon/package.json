@@ -30,6 +30,7 @@
     },
     "pengzhanbo"
   ],
+  "main": "./lib/index.js",
   "browser": "./lib/browser.js",
   "types": "./lib/index.d.ts",
   "files": [

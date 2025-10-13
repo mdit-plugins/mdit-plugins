@@ -23,6 +23,7 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "main": "./lib/index.js",
   "browser": "./lib/browser.js",
   "types": "./lib/index.d.ts",
   "files": [
