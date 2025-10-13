@@ -1,3 +1,3 @@
-export * from "./options.js";
+export type * from "./options.js";
 export * from "./plugin.js";
-export * from "./types.js";
+export type * from "./types.js";
