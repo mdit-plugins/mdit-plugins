@@ -7,8 +7,9 @@ export default [
   ...rollupTypescript("browser", {
     output: {
       dir: "./lib",
-      file: null,
+      file: undefined,
     },
     external: false,
+    dts: false,
   }),
 ];

@@ -16,5 +16,6 @@ export default [
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
     external: false,
+    dts: false,
   }),
 ];
