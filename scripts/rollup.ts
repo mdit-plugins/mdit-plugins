@@ -48,12 +48,8 @@ export const rollupTypescript = (
         },
       ],
       plugins: [
-        aliasOptions
-          ? alias({
-              entries: aliasOptions,
-            })
-          : [],
-        resolve ? [commonjs(), nodeResolve()] : [],
+        aliasOptions ? alias({ entries: aliasOptions }) : [],
+        resolve ? [nodeResolve(), commonjs()] : [],
         esbuild({ charset: "utf8", minify: isProduction, target: "node20" }),
         process.env.CODECOV_TOKEN
           ? [
