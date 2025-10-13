@@ -4,4 +4,4 @@ export * from "./getAttrs.js";
 export * from "./getDelimiterChecker.js";
 export * from "./getMatchingOpeningToken.js";
 export * from "./testRule.js";
-export * from "./types.js";
+export type * from "./types.js";
