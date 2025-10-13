@@ -5,7 +5,7 @@ import { codecovRollupPlugin } from "@codecov/rollup-plugin";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import type { RollupOptions } from "rollup";
+import type { OutputOptions, RollupOptions } from "rollup";
 import { defineConfig } from "rollup";
 import { dts } from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
@@ -17,7 +17,7 @@ export interface RollupTypescriptOptions {
   external?: (RegExp | string)[] | false;
   dtsExternal?: (RegExp | string)[];
   alias?: Record<string, string>;
-  output?: Record<string, unknown>;
+  output?: OutputOptions;
   inlineDynamicImports?: boolean;
 }
 
@@ -35,16 +35,14 @@ export const rollupTypescript = (
   defineConfig([
     {
       input: `./src/${filePath}.ts`,
-      output: [
-        {
-          file: `./lib/${filePath}.js`,
-          format: "esm",
-          sourcemap: true,
-          exports: "named",
-          inlineDynamicImports,
-          ...output,
-        },
-      ],
+      output: {
+        file: `./lib/${filePath}.js`,
+        format: "esm",
+        sourcemap: true,
+        exports: "named",
+        inlineDynamicImports,
+        ...output,
+      },
       plugins: [
         aliasOptions ? alias({ entries: aliasOptions }) : [],
         external ? [] : [nodeResolve(), commonjs()],
