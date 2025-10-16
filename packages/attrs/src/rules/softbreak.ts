@@ -38,10 +38,7 @@ export const getSoftBreakRule = (options: DelimiterConfig): AttrRule => ({
     // Find the last closing tag by searching forward
     let closingTokenIndex = index + 1;
 
-    while (
-      tokens[closingTokenIndex + 1] &&
-      tokens[closingTokenIndex + 1].nesting === -1
-    ) {
+    while (tokens[closingTokenIndex + 1]?.nesting === -1) {
       closingTokenIndex++;
     }
 

@@ -45,8 +45,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
 
       // Find the list opening token
       while (
-        tokens[listOpenIndex - 1] &&
-        tokens[listOpenIndex - 1].type !== "ordered_list_open" &&
+        tokens[listOpenIndex - 1]?.type !== "ordered_list_open" &&
         tokens[listOpenIndex - 1].type !== "bullet_list_open"
       ) {
         listOpenIndex--;
