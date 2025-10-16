@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.3](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-img-size@0.22.2...@mdit/plugin-img-size@0.22.3) (2025-10-16)
+
+**Note:** Version bump only for package @mdit/plugin-img-size
+
 ## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-img-size@0.22.1...@mdit/plugin-img-size@0.22.2) (2025-06-19)
 
 **Note:** Version bump only for package @mdit/plugin-img-size

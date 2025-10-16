@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.23.1...@mdit/plugin-katex-slim@0.23.2) (2025-10-16)
+
+### 🐛 Bug Fixes
+
+- **deps:** update dependency katex to v0.16.24 ([#213](https://github.com/mdit-plugins/mdit-plugins/issues/213)) ([cc96cbd](https://github.com/mdit-plugins/mdit-plugins/commit/cc96cbd8b4a2709cdb92985e989a2dcae9469943))
+
 ## [0.23.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.23.0...@mdit/plugin-katex-slim@0.23.1) (2025-06-17)
 
 **Note:** Version bump only for package @mdit/plugin-katex-slim
