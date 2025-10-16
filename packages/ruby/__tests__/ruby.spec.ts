@@ -54,6 +54,29 @@ it("should work with other gramma", () => {
       `{ruby base:[ruby text](http://example.com)}`,
       `<p><ruby>ruby base<rt><a href="http://example.com">ruby text</a></rt></ruby></p>\n`,
     ],
+    [
+      `\
+| a | b |
+| - | - |
+| {中国:zhōng\\|guó} | {中国:zhōng\\|guó} |\
+`,
+      `\
+<table>
+<thead>
+<tr>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ruby>中<rt>zhōng</rt>国<rt>guó</rt></ruby></td>
+<td><ruby>中<rt>zhōng</rt>国<rt>guó</rt></ruby></td>
+</tr>
+</tbody>
+</table>
+`,
+    ],
   ];
 
   tests.forEach(([content, expected]) => {
