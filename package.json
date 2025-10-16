@@ -43,7 +43,7 @@
     "@lerna-lite/cli": "4.9.0",
     "@lerna-lite/publish": "4.9.0",
     "@rollup/plugin-alias": "5.1.1",
-    "@rollup/plugin-commonjs": "28.0.6",
+    "@rollup/plugin-commonjs": "28.0.8",
     "@rollup/plugin-node-resolve": "16.0.3",
     "@types/node": "24.7.2",
     "@vitest/coverage-istanbul": "3.2.4",
@@ -66,7 +66,7 @@
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
-  "packageManager": "pnpm@10.18.2",
+  "packageManager": "pnpm@10.18.3",
   "engines": {
     "node": ">=20.6.0"
   }
