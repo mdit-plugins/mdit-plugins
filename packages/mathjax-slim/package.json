@@ -45,17 +45,17 @@
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "mathjax-full": "3.2.2"
+    "@mathjax/src": "4.0.0"
   },
   "peerDependencies": {
-    "markdown-it": "^14.1.0",
-    "mathjax-full": "^3.2.2"
+    "@mathjax/src": "^4.0.0",
+    "markdown-it": "^14.1.0"
   },
   "peerDependenciesMeta": {
-    "markdown-it": {
+    "@mathjax/src": {
       "optional": true
     },
-    "mathjax-full": {
+    "markdown-it": {
       "optional": true
     }
   },

@@ -47,9 +47,9 @@ export default hopeTheme({
     legacyImgSize: true,
     obsidianImgSize: true,
     include: true,
-    math: {
-      type: "mathjax",
-    },
+    // math: {
+    //   type: "mathjax",
+    // },
     mark: true,
     plantuml: true,
     preview: true,

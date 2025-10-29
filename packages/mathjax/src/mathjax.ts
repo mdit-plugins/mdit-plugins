@@ -1,6 +1,46 @@
-import type { MmlNode } from "mathjax-full/js/core/MmlTree/MmlNode.js";
-import type TexError from "mathjax-full/js/input/tex/TexError.js";
-import type { TeX } from "mathjax-full/js/input/tex.js";
+import type { MmlNode } from "@mathjax/src/js/core/MmlTree/MmlNode.js";
+import type TexError from "@mathjax/src/js/input/tex/TexError.js";
+import type { TeX } from "@mathjax/src/js/input/tex.js";
+
+export type TexPackage =
+  | "action"
+  | "ams"
+  | "amscd"
+  | "bbm"
+  | "bboldx"
+  | "bbox"
+  | "begingroup"
+  | "boldsymbol"
+  | "braket"
+  | "bussproofs"
+  | "cancel"
+  | "cases"
+  | "centernot"
+  | "color"
+  | "colortbl"
+  | "colorv2"
+  | "configmacros"
+  | "dsfont"
+  | "empheq"
+  | "enclose"
+  | "extpfeil"
+  | "gensymb"
+  | "html"
+  | "mathtools"
+  | "mhchem"
+  | "newcommand"
+  | "noerrors"
+  | "noundefined"
+  | "physics"
+  | "setoptions"
+  | "tagformat"
+  | "texhtml"
+  | "textcomp"
+  | "textmacros"
+  | "unicode"
+  | "units"
+  | "upgreek"
+  | "verb";
 
 export interface MathJaxTexInputOptions {
   /**
@@ -11,7 +51,10 @@ export interface MathJaxTexInputOptions {
    *   'action',
    *   'ams',
    *   'amscd',
+   *   'bbm',
+   *   'bboldx',
    *   'bbox',
+   *   'begingroup',
    *   'boldsymbol',
    *   'braket',
    *   'bussproofs',
@@ -20,6 +63,9 @@ export interface MathJaxTexInputOptions {
    *   'centernot',
    *   'color',
    *   'colortbl',
+   *   'colorv2',
+   *   'configmacros',
+   *   'dsfont',
    *   'empheq',
    *   'enclose',
    *   'extpfeil',
@@ -30,16 +76,20 @@ export interface MathJaxTexInputOptions {
    *   'newcommand',
    *   'noerrors',
    *   'noundefined',
-   *   'upgreek',
-   *   'unicode',
-   *   'verb',
-   *   'configmacros',
+   *   'physics',
+   *   'require',
+   *   'setoptions',
    *   'tagformat',
+   *   'texhtml',
    *   'textcomp',
-   *   'textmacros'
+   *   'textmacros',
+   *   'unicode',
+   *   'units',
+   *   'upgreek',
+   *   'verb',
    *  ]
    */
-  packages?: string[];
+  packages?: TexPackage[];
 
   /**
    * pattern for recognizing numbers
@@ -182,7 +232,7 @@ export interface MathjaxCommonHTMLOutputOptions
   /**
    * The URL where the fonts are found
    *
-   * @default local form mathjax-full
+   * @default local form @mathjax/src
    */
   fontURL?: string;
 
