@@ -72,7 +72,7 @@ export default hopeTheme({
     docsearch: {
       appId: "SIZGZ1FGFU",
       apiKey: "0ee82673983c6cd1b9c8d93fbfbe61eb",
-      indexName: `mdit-pluginsio`,
+      indices: [`mdit-pluginsio`],
     },
 
     git: {
