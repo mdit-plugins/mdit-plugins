@@ -23,7 +23,7 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 
-const mathjaxInstance = createMathjaxInstance(options);
+const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
@@ -36,7 +36,7 @@ const style = mathjaxInstance.outputStyle();
 const MarkdownIt = require("markdown-it");
 const { createMathjaxInstance, mathjax } = require("@mdit/plugin-mathjax");
 
-const mathjaxInstance = createMathjaxInstance(options);
+const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
@@ -116,7 +116,9 @@ The instance holds render content of each calls, so you should:
 - Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
 - Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
 
-We also have a package called `@mdit/plugin-mathjax-slim` which `mathjax-full` is an optional peer dep.
+We also have a package called `@mdit/plugin-mathjax-slim` which `@mathjax/src` is an optional peer dep.
+
+For better performance and memory, the `createMathjaxInstance` function is asynchronous, allowing you to load only the $TeX$ packages you need dynamically, but if you must call the plugin in a synchronous flow, you can import a synchronous version of the `createMathjaxInstance` function from `@mdit/plugin-mathjax/sync`.
 
 ## Syntax
 

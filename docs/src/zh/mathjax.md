@@ -23,7 +23,7 @@ icon: square-root-variable
 import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 
-const mathjaxInstance = createMathjaxInstance(options);
+const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
@@ -36,7 +36,7 @@ const style = mathjaxInstance.outputStyle();
 const MarkdownIt = require("markdown-it");
 const { createMathjaxInstance, mathjax } = require("@mdit/plugin-mathjax");
 
-const mathjaxInstance = createMathjaxInstance(options);
+const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
@@ -116,7 +116,9 @@ interface MarkdownItMathjaxOptions {
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
 - 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
 
-我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `mathjax-full` 是可选对等依赖。
+我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `@mathjax/src` 是可选对等依赖。
+
+为了更好的性能与内存，`createMathjaxInstance` 函数是异步的，允许仅动态加载你需要的 $TeX$ 包，但是如果你必须在一个同步流程中调用插件，你可以从 `@mdit/plugin-mathjax/sync` 导入 `createMathjaxInstance` 函数的同步版本。
 
 ## 格式
 

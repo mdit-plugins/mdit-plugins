@@ -2,39 +2,71 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
-import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
+import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type {
   LiteElement,
   LiteNode,
 } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import type { LiteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
-import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
+import type {
+  LiteAdaptor,
+  liteAdaptor as liteAdaptorType,
+} from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import { RegisterHTMLHandler } from "@mathjax/src/js/handlers/html.js";
-import { TeX } from "@mathjax/src/js/input/tex.js";
-import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
-import { CHTML } from "@mathjax/src/js/output/chtml.js";
-import { SVG } from "@mathjax/src/js/output/svg.js";
+import type { RegisterHTMLHandler as RegisterHTMLHandlerType } from "@mathjax/src/js/handlers/html.js";
+import type { TeX as TeXType } from "@mathjax/src/js/input/tex.js";
+import type { mathjax as mathjaxType } from "@mathjax/src/js/mathjax.js";
+import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
+import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
+import { texPackages } from "./tex/index.js";
+
+let isMathJaxFullInstalled = true;
+let mathjaxLib: typeof mathjaxType;
+let TeX: typeof TeXType;
+let CHTML: typeof CHTMLType;
+let SVG: typeof SVGType;
+let liteAdaptor: typeof liteAdaptorType;
+// move type import to front
+let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
+let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
+
+try {
+  ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
+  ({ TeX } = await import("@mathjax/src/js/input/tex.js"));
+  ({ CHTML } = await import("@mathjax/src/js/output/chtml.js"));
+  ({ SVG } = await import("@mathjax/src/js/output/svg.js"));
+  ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
+  ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
+  ({ AssistiveMmlHandler } = await import(
+    "@mathjax/src/js/a11y/assistive-mml.js"
+  ));
+  await import("./tex/importer.js");
+} catch {
+  /* istanbul ignore next -- @preserve */
+  isMathJaxFullInstalled = false;
+}
 
 export interface DocumentOptions {
-  InputJax: TeX<LiteElement, string, HTMLElement>;
+  InputJax: TeXType<LiteElement, string, HTMLElement>;
   OutputJax:
-    | CHTML<LiteElement, string, HTMLElement>
-    | SVG<LiteElement, string, HTMLElement>;
+    | CHTMLType<LiteElement, string, HTMLElement>
+    | SVGType<LiteElement, string, HTMLElement>;
   enableAssistiveMml: boolean;
 }
 
-export const getDocumentOptions = async (
+export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
-): Promise<DocumentOptions> => {
-  await loadTexPackages(options.tex?.packages);
+): DocumentOptions => {
+  /* istanbul ignore if -- @preserve */
+  if (!isMathJaxFullInstalled)
+    throw new Error(
+      '[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!',
+    );
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
@@ -98,10 +130,10 @@ export interface MathjaxInstance
   transformer: TeXTransformer | null;
 }
 
-export const createMathjaxInstance = async (
+export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
-): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
+): MathjaxInstance | null => {
+  const documentOptions = getDocumentOptions(options);
 
   const { OutputJax, InputJax } = documentOptions;
 

@@ -81,7 +81,7 @@ export const katex = <MarkdownItEnv = unknown>(
 ): void => {
   /* istanbul ignore if -- @preserve */
   if (!isKatexInstalled)
-    throw new Error('[@mdit/plugin-katex]: "katex" not installed!');
+    throw new Error('[@mdit/plugin-katex-slim]: "katex" is not installed!');
 
   const {
     allowInlineWithSpace = false,
