@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-mathjax",
-  "version": "0.23.2",
+  "version": "0.24.0",
   "description": "mathjax plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
@@ -44,9 +44,9 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "@mathjax/src": "^4.0.0",
     "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^14.1.2",
-    "@mathjax/src": "^4.0.0"
+    "@types/markdown-it": "^14.1.2"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"

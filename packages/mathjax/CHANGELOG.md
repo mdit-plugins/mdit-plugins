@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-mathjax@0.23.2...@mdit/plugin-mathjax@0.24.0) (2025-10-30)
+
+### ✨ Features
+
+- add support for mathjax v4 ([#236](https://github.com/mdit-plugins/mdit-plugins/issues/236)) ([37cd2cd](https://github.com/mdit-plugins/mdit-plugins/commit/37cd2cdda995f5bbb00a57983b690d9bc2821b4d))
+
 ## [0.23.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-mathjax@0.23.1...@mdit/plugin-mathjax@0.23.2) (2025-10-16)
 
 **Note:** Version bump only for package @mdit/plugin-mathjax
