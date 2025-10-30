@@ -28,6 +28,10 @@
       "type": "./lib/index.d.ts",
       "default": "./lib/index.js"
     },
+    "./sync": {
+      "type": "./lib/sync.d.ts",
+      "default": "./lib/sync.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./lib/index.js",
@@ -42,8 +46,7 @@
   "dependencies": {
     "@mdit/plugin-tex": "workspace:*",
     "@types/markdown-it": "^14.1.2",
-    "@mathjax/src": "^4.0.0",
-    "upath": "^2.0.1"
+    "@mathjax/src": "^4.0.0"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"

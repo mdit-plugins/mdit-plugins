@@ -422,9 +422,6 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
-      upath:
-        specifier: ^2.0.1
-        version: 2.0.1
 
   packages/mathjax-slim:
     dependencies:
@@ -437,9 +434,6 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
-      upath:
-        specifier: ^2.0.1
-        version: 2.0.1
     devDependencies:
       '@mathjax/src':
         specifier: 4.0.0

@@ -23,7 +23,7 @@ import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex-packages.js";
+import { loadTexPackages, texPackages } from "./tex/index.js";
 
 let isMathJaxFullInstalled = true;
 let mathjaxLib: typeof mathjaxType;

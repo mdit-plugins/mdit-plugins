@@ -1,45 +1,4 @@
-import type { TexPackage } from "./mathjax.js";
-
-export const texPackages: TexPackage[] = [
-  "action",
-  "ams",
-  "amscd",
-  "bbm",
-  "bboldx",
-  "bbox",
-  "begingroup",
-  "boldsymbol",
-  "braket",
-  "bussproofs",
-  "cancel",
-  "cases",
-  "centernot",
-  "color",
-  "colortbl",
-  "colorv2",
-  "configmacros",
-  "dsfont",
-  "empheq",
-  "enclose",
-  "extpfeil",
-  "gensymb",
-  "html",
-  "mathtools",
-  "mhchem",
-  "newcommand",
-  "noerrors",
-  "noundefined",
-  "physics",
-  "setoptions",
-  "tagformat",
-  "texhtml",
-  "textcomp",
-  "textmacros",
-  "unicode",
-  "units",
-  "upgreek",
-  "verb",
-];
+import type { TexPackage } from "../mathjax.js";
 
 export const texLoaders: Record<TexPackage, () => Promise<unknown>> = {
   action: () =>
@@ -111,16 +70,4 @@ export const texLoaders: Record<TexPackage, () => Promise<unknown>> = {
   upgreek: () =>
     import("@mathjax/src/js/input/tex/upgreek/UpgreekConfiguration.js"),
   verb: () => import("@mathjax/src/js/input/tex/verb/VerbConfiguration.js"),
-};
-
-export const loadTexPackages = async (
-  packages: TexPackage[] = texPackages,
-): Promise<void> => {
-  await import("@mathjax/src/js/input/tex/base/BaseConfiguration.js");
-
-  await Promise.all(
-    packages
-      .filter((pkg) => texPackages.includes(pkg))
-      .map((pkg) => texLoaders[pkg]()),
-  );
 };

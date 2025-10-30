@@ -21,7 +21,9 @@ import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
+import { texPackages } from "./tex/index.js";
+
+import "./tex/importer.js";
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
@@ -31,29 +33,25 @@ export interface DocumentOptions {
   enableAssistiveMml: boolean;
 }
 
-export const getDocumentOptions = async (
+export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
-): Promise<DocumentOptions> => {
-  await loadTexPackages(options.tex?.packages);
-
-  return {
-    InputJax: new TeX<LiteElement, string, HTMLElement>({
-      packages: ["base", ...texPackages],
-      ...options.tex,
-    }),
-    OutputJax:
-      options.output === "chtml"
-        ? new CHTML<LiteElement, string, HTMLElement>({
-            adaptiveCSS: true,
-            ...options.chtml,
-          })
-        : new SVG<LiteElement, string, HTMLElement>({
-            fontCache: "none",
-            ...options.svg,
-          }),
-    enableAssistiveMml: options.a11y !== false,
-  };
-};
+): DocumentOptions => ({
+  InputJax: new TeX<LiteElement, string, HTMLElement>({
+    packages: ["base", ...texPackages],
+    ...options.tex,
+  }),
+  OutputJax:
+    options.output === "chtml"
+      ? new CHTML<LiteElement, string, HTMLElement>({
+          adaptiveCSS: true,
+          ...options.chtml,
+        })
+      : new SVG<LiteElement, string, HTMLElement>({
+          fontCache: "none",
+          ...options.svg,
+        }),
+  enableAssistiveMml: options.a11y !== false,
+});
 
 /**
  * Mathjax instance
@@ -98,10 +96,10 @@ export interface MathjaxInstance
   transformer: TeXTransformer | null;
 }
 
-export const createMathjaxInstance = async (
+export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
-): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
+): MathjaxInstance | null => {
+  const documentOptions = getDocumentOptions(options);
 
   const { OutputJax, InputJax } = documentOptions;
 
