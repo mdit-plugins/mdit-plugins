@@ -36,10 +36,10 @@ This repo contains the following plugins:
 - @mdit/plugin-include (Node.js only)
 - @mdit/plugin-ins
 - @mdit/plugin-katex
-- @mdit/plugin-katex-slim (Node.js only)
+- @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-mark
-- @mdit/plugin-mathjax (Node.js only)
-- @mdit/plugin-mathjax-slim (Node.js only)
+- @mdit/plugin-mathjax (Workable in browser with bundlers, but no CDN scripts)
+- @mdit/plugin-mathjax-slim (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
 - @mdit/plugin-snippet (Node.js only)
