@@ -19,6 +19,7 @@ export interface RollupTypescriptOptions {
   alias?: Record<string, string>;
   output?: OutputOptions;
   inlineDynamicImports?: boolean;
+  treeshake?: RollupOptions["treeshake"];
 }
 
 export const rollupTypescript = (
@@ -30,6 +31,7 @@ export const rollupTypescript = (
     output = {},
     alias: aliasOptions,
     inlineDynamicImports = false,
+    treeshake = { preset: "smallest" },
   }: RollupTypescriptOptions = {},
 ): RollupOptions[] =>
   defineConfig([
@@ -61,9 +63,7 @@ export const rollupTypescript = (
       external: external
         ? [/^node:/, /^@mdit\//, /^markdown-it/, ...external]
         : [],
-      treeshake: {
-        preset: "smallest",
-      },
+      treeshake,
     },
     ...(enableDts
       ? [
@@ -78,9 +78,7 @@ export const rollupTypescript = (
               }),
             ],
             external: dtsExternal,
-            treeshake: {
-              preset: "smallest",
-            },
+            treeshake,
           }),
         ]
       : []),

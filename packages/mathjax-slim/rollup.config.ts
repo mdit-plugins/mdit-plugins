@@ -6,5 +6,10 @@ export default [
   }),
   ...rollupTypescript("sync", {
     external: [/^@mathjax\/src\//],
+    output: {
+      dir: "./lib",
+      file: undefined,
+    },
+    treeshake: {},
   }),
 ];
