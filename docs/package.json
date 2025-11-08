@@ -20,7 +20,7 @@
     "@vuepress/plugin-docsearch": "2.0.0-rc.115",
     "@mathjax/src": "4.0.0",
     "sass-embedded": "1.93.2",
-    "vue": "3.5.22",
+    "vue": "3.5.24",
     "vuepress": "2.0.0-rc.26",
     "vuepress-shared": "2.0.0-rc.96",
     "vuepress-theme-hope": "2.0.0-rc.96"
