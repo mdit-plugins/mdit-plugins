@@ -46,6 +46,9 @@
     "@mdit/plugin-uml": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
+  "devDependencies": {
+    "pako": "2.1.0"
+  },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },
@@ -56,8 +59,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "pako": "2.1.0"
   }
 }

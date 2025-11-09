@@ -34,7 +34,7 @@
     "**/*": "prettier --write --ignore-unknown",
     "*.{js,ts}": "eslint --fix",
     "*.md": "markdownlint-cli2 --fix",
-    "package.json": "sort-package-json"
+    "**/package.json": "sort-package-json"
   },
   "devDependencies": {
     "@codecov/rollup-plugin": "1.9.1",
