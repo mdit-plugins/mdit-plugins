@@ -13,7 +13,7 @@ icon: square-root-variable
 
 <!-- more -->
 
-## 使用 <Badge text="仅限 Node.js 环境" />
+## 使用 <Badge text="没有 CDN 脚本" />
 
 ::: code-tabs#language
 
