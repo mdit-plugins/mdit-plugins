@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     if: "${{contains(github.event.head_commit.message, 'chore(release): publish') }}"
@@ -12,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -30,10 +34,6 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run build
-
-      - name: Update npmrc
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
       - name: Publish packages
         run: pnpm publish -r --no-git-checks --tag ${{ github.ref_name == 'cjs' && 'cjs'|| 'latest' }}

@@ -55,9 +55,9 @@ const testLine = (
 
   return Boolean(
     full &&
-      tag &&
-      name === regionName &&
-      tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
+    tag &&
+    name === regionName &&
+    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
   );
 };
 

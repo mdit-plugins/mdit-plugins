@@ -105,6 +105,7 @@ export const katex = <MarkdownItEnv = unknown>(
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
       const katexOptions: KatexOptions = {
         strict: (errorCode, errorMsg, token) =>
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           logger(errorCode, errorMsg, token, env) ?? "ignore",
         macros,
         throwOnError: false,

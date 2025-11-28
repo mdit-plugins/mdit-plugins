@@ -8,11 +8,10 @@ import type {
 
 export type TeXTransformer = (content: string, displayMode: boolean) => string;
 
-export interface MarkdownItMathjaxOptions
-  extends Pick<
-    MarkdownItTexOptions,
-    "allowInlineWithSpace" | "delimiters" | "mathFence"
-  > {
+export interface MarkdownItMathjaxOptions extends Pick<
+  MarkdownItTexOptions,
+  "allowInlineWithSpace" | "delimiters" | "mathFence"
+> {
   /**
    * Output syntax
    *

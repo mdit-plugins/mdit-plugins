@@ -220,8 +220,7 @@ export interface MathjaxCommonOutputOptions {
   exFactor?: number;
 }
 
-export interface MathjaxCommonHTMLOutputOptions
-  extends MathjaxCommonOutputOptions {
+export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptions {
   /**
    * Whether match ex-height of surrounding font
    *

@@ -341,10 +341,6 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
         ["{%   %}"], // Only spaces as name
       ],
       [
-        "{% icon %}",
-        ['<i class="icon icon-"></i>'], // Empty parameters (should still work)
-      ],
-      [
         "{% icon test",
         ["{% icon test"], // Missing closing %}
       ],
@@ -366,13 +362,15 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
           expect(result).toContain(expectedContent);
         });
 
-        // Make sure no embed elements are generated for invalid syntax
-        if (!input.includes("{% icon %}")) {
-          // Exception: empty parameters should still generate embed
-          expect(result).not.toContain('<i class="icon');
-          expect(result).not.toContain('<span class="badge');
-        }
+        expect(result).not.toContain('<i class="icon');
+        expect(result).not.toContain('<span class="badge');
       });
+    });
+
+    it("empty embed should still work", () => {
+      const result = md.render("{% icon %}");
+
+      expect(result).toContain('<i class="icon icon-"></i>');
     });
   });
 

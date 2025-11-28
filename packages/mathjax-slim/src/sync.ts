@@ -42,9 +42,8 @@ try {
   ({ SVG } = await import("@mathjax/src/js/output/svg.js"));
   ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
   ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
-  ({ AssistiveMmlHandler } = await import(
-    "@mathjax/src/js/a11y/assistive-mml.js"
-  ));
+  ({ AssistiveMmlHandler } =
+    await import("@mathjax/src/js/a11y/assistive-mml.js"));
   await import("./tex/importer.js");
 } catch {
   /* istanbul ignore next -- @preserve */
@@ -90,13 +89,12 @@ export const getDocumentOptions = (
 /**
  * Mathjax instance
  */
-export interface MathjaxInstance
-  extends Required<
-    Pick<
-      MarkdownItMathjaxOptions,
-      "allowInlineWithSpace" | "delimiters" | "mathFence"
-    >
-  > {
+export interface MathjaxInstance extends Required<
+  Pick<
+    MarkdownItMathjaxOptions,
+    "allowInlineWithSpace" | "delimiters" | "mathFence"
+  >
+> {
   /**
    * Mathjax adaptor
    */

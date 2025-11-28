@@ -60,13 +60,12 @@ export const getDocumentOptions = async (
 /**
  * Mathjax instance
  */
-export interface MathjaxInstance
-  extends Required<
-    Pick<
-      MarkdownItMathjaxOptions,
-      "allowInlineWithSpace" | "delimiters" | "mathFence"
-    >
-  > {
+export interface MathjaxInstance extends Required<
+  Pick<
+    MarkdownItMathjaxOptions,
+    "allowInlineWithSpace" | "delimiters" | "mathFence"
+  >
+> {
   /**
    * Mathjax adaptor
    */

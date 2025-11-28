@@ -28,9 +28,7 @@ export const texLoaders: Record<TexPackage, () => Promise<unknown>> = {
   colorv2: () =>
     import("@mathjax/src/js/input/tex/colorv2/ColorV2Configuration.js"),
   configmacros: () =>
-    import(
-      "@mathjax/src/js/input/tex/configmacros/ConfigMacrosConfiguration.js"
-    ),
+    import("@mathjax/src/js/input/tex/configmacros/ConfigMacrosConfiguration.js"),
   dsfont: () =>
     import("@mathjax/src/js/input/tex/dsfont/DsfontConfiguration.js"),
   empheq: () =>
