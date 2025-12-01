@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-dl@0.22.1...@mdit/plugin-dl@0.22.2) (2025-12-01)
+
+### 🐛 Bug Fixes
+
+- **dl:** fix dl in edge cases, close [#264](https://github.com/mdit-plugins/mdit-plugins/issues/264) ([9613d67](https://github.com/mdit-plugins/mdit-plugins/commit/9613d67f9b45dfa7e4b472c5c40931a286099f6e))
+
 ## [0.22.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-dl@0.22.0...@mdit/plugin-dl@0.22.1) (2025-06-17)
 
 ### 🚀 Performance Improvements

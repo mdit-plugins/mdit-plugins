@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.23.3...@mdit/plugin-attrs@0.24.0) (2025-12-01)
+
+### ⚠ BREAKING CHANGES
+
+- **attrs:** rebuild table span logic, close #122
+- **katex:** avoid async loading (#266)
+
+### ✨ Features
+
+- **attrs:** rebuild table span logic, close [#122](https://github.com/mdit-plugins/mdit-plugins/issues/122) ([c49705f](https://github.com/mdit-plugins/mdit-plugins/commit/c49705f6dd434ba070c12a7c33e2fd521596784d))
+- **katex:** avoid async loading ([#266](https://github.com/mdit-plugins/mdit-plugins/issues/266)) ([5999136](https://github.com/mdit-plugins/mdit-plugins/commit/5999136cbb6905f3f0afd9767b2c7c6b13fb4848))
+
 ## [0.23.3](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.23.2...@mdit/plugin-attrs@0.23.3) (2025-10-30)
 
 **Note:** Version bump only for package @mdit/plugin-attrs

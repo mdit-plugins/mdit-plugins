@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-embed",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "description": "embed plugin for MarkdownIt",
   "keywords": [
     "markdown-it",

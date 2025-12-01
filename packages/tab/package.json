@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-tab",
-  "version": "0.22.3",
+  "version": "0.23.0",
   "description": "tab plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
