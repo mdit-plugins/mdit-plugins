@@ -9,10 +9,6 @@ Plugin to import code snippets in markdown.
 
 ## Usage <Badge text="Node.js runtime only" />
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
@@ -27,24 +23,6 @@ mdIt.render("<<< example.ts", {
 });
 ```
 
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { snippet } = require("@mdit/plugin-snippet");
-
-const mdIt = MarkdownIt().use(snippet, {
-  // your options, currentPath is required
-  currentPath: (env) => env.filePath,
-});
-
-mdIt.render("<<< example.js", {
-  filePath: "path/to/current/file.md",
-});
-```
-
-:::
-
 Since markdown-it only receive markdown content in `render()` api, so the plugin don't know the file path of current content so don't know where to find the snippet files.
 
 To solve this, you should pass the information via `env` object, and set `currentPath` in plugin options.
@@ -56,8 +34,8 @@ Also, to support alias, you can set `resolvePath` in plugin options.
 For example, the following code add support for `@src` alias:
 
 ```ts
-const MarkdownIt = require("markdown-it");
-const { snippet } = require("@mdit/plugin-snippet");
+import MarkdownIt from "markdown-it";
+import { snippet } from "@mdit/plugin-snippet";
 
 const mdIt = MarkdownIt();
 
@@ -170,8 +148,8 @@ mdIt.render("@snippet(./path/to/snippet/file.md)", {
 @tab JS
 
 ```js
-const MarkdownIt = require("markdown-it");
-const { snippet } = require("@mdit/plugin-snippet");
+import MarkdownIt from "markdown-it";
+import { snippet } from "@mdit/plugin-snippet";
 
 // #region snippet
 const mdIt = MarkdownIt().use(snippet, {

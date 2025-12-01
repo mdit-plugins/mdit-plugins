@@ -9,10 +9,6 @@ icon: wand-magic-sparkles
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { stylize } from "@mdit/plugin-stylize";
@@ -25,23 +21,6 @@ const mdIt = MarkdownIt().use(stylize, {
 
 mdIt.render("Check FAQ for more details._Recommended_");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { stylize } = require("@mdit/plugin-stylize");
-
-const mdIt = MarkdownIt().use(stylize, {
-  config: [
-    // your options
-  ],
-});
-
-mdIt.render("Check FAQ for more details._Recommended_");
-```
-
-:::
 
 `stylize` 接收一个数组，其中每个元素接受 2 个选项：
 

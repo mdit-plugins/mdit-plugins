@@ -9,10 +9,6 @@ icon: circle-half-stroke
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { imgMark } from "@mdit/plugin-img-mark";
@@ -23,21 +19,6 @@ const mdIt = MarkdownIt().use(imgMark, {
 
 mdIt.render("![image](https://example.com/image.png#light)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { imgMark } = require("@mdit/plugin-img-mark");
-
-const mdIt = MarkdownIt().use(imgMark, {
-  // 你的选项，可选的
-});
-
-mdIt.render("![image](https://example.com/image.png#light)");
-```
-
-:::
 
 ## 格式
 

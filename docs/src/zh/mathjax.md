@@ -15,10 +15,6 @@ icon: square-root-variable
 
 ## 使用 <Badge text="没有 CDN 脚本" />
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
@@ -29,21 +25,6 @@ const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 const html = mdIt.render("$E=mc^2$");
 const style = mathjaxInstance.outputStyle();
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { createMathjaxInstance, mathjax } = require("@mdit/plugin-mathjax");
-
-const mathjaxInstance = await createMathjaxInstance(options);
-const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
-
-const html = mdIt.render("$E=mc^2$");
-const style = mathjaxInstance.outputStyle();
-```
-
-:::
 
 这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。
 

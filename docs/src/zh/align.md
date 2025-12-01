@@ -15,10 +15,6 @@ icon: align-center
 
 ## 使用
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
@@ -31,23 +27,6 @@ mdIt.render(`\
 :::
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { align } = require("@mdit/plugin-align");
-
-const mdIt = MarkdownIt().use(align);
-
-mdIt.render(`\
-::: center
-居中的内容
-:::
-`);
-```
-
-::::
 
 ## 格式
 

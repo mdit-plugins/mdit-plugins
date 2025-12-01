@@ -9,10 +9,6 @@ icon: file-lines
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
@@ -33,31 +29,6 @@ Another content
 @demoend
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { uml } = require("@mdit/plugin-uml");
-
-const mdIt = MarkdownIt().use(uml, {
-  name: 'demo'
-  open: 'demostart',
-  close: 'demoend',
-  render: (tokens, index) => {
-    // render content here
-  },
-});
-
-mdIt.render(`\
-@demostart
-Content
-Another content
-@demoend
-`);
-```
-
-:::
 
 该插件会将 `@openmarker` 和 `@closemarker` 之间的内容提取到单个 Token 中，然后使用 `render` 函数对其进行渲染。
 

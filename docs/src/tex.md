@@ -17,10 +17,6 @@ If you are looking for an out of box solution, you should try [@mdit/plugin-kate
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
@@ -33,23 +29,6 @@ const mdIt = MarkdownIt().use(figure, {
 
 mdIt.render("$E=mc^2$");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { figure } = require("@mdit/plugin-figure");
-
-const mdIt = MarkdownIt().use(figure, {
-  render: (content, displayMode) => {
-    // render tex here and return
-  },
-});
-
-mdIt.render("$E=mc^2$");
-```
-
-:::
 
 This plugin registers markdown rules for $\TeX$. It will replace the $\TeX$ tokens with the result of `render` function.
 

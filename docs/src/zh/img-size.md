@@ -9,10 +9,6 @@ icon: up-right-and-down-left-from-center
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
@@ -29,31 +25,6 @@ mdObsidian.render("![image|300x200](https://example.com/image.png)");
 const mdLegacy = MarkdownIt().use(legacyImgSize);
 mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const {
-  legacyImgSize,
-  imgSize,
-  obsidianImgSize,
-} = require("@mdit/plugin-img-size");
-
-// 新格式
-const mdNew = MarkdownIt().use(imgSize);
-mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
-
-// Obsidian 格式
-const mdObsidian = MarkdownIt().use(obsidianImgSize);
-mdObsidian.render("![image|300x200](https://example.com/image.png)");
-
-// 旧格式
-const mdLegacy = MarkdownIt().use(legacyImgSize);
-mdLegacy.render("![image](https://example.com/image.png =300x200)");
-```
-
-:::
 
 ## 语法
 

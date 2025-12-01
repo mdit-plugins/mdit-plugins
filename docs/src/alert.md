@@ -9,10 +9,6 @@ Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/dis
 
 ## Usage
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
@@ -24,22 +20,6 @@ mdIt.render(`
 > Warning Text
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { alert } = require("@mdit/plugin-alert");
-
-const mdIt = MarkdownIt().use(alert);
-
-mdIt.render(`
-> [!warning]
-> Warning Text
-`);
-```
-
-::::
 
 <!-- markdownlint-disable MD028 -->
 

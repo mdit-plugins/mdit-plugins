@@ -9,10 +9,6 @@ icon: at
 
 ## 使用 <Badge text="仅限 Node.js 环境" />
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
@@ -27,24 +23,6 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 });
 ```
 
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
-
-const mdIt = MarkdownIt().use(include, {
-  // 你的选项，currentPath 是必填的
-  currentPath: (env) => env.filePath,
-});
-
-mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
-  filePath: "path/to/current/file.md",
-});
-```
-
-:::
-
 由于 markdown-it 仅在 `render()` api 中接收 markdown 内容，因此插件不知道当前内容的文件路径，因此不知道在哪里可以找到包含文件。
 
 要解决这个问题，你应该通过 env 对象传递信息，并在插件选项中设置 `currentPath`。
@@ -56,8 +34,8 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 例如，以下代码添加了对 `@src` 别名的支持：
 
 ```ts
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
+import MarkdownIt from "markdown-it";
+import { include } from "@mdit/plugin-include";
 
 const mdIt = MarkdownIt();
 
@@ -169,8 +147,8 @@ mdIt.render("<!-- @include: ./path/to/include/file.md)", {
 @tab JS
 
 ```js
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
+import MarkdownIt from "markdown-it";
+import { include } from "@mdit/plugin-include";
 
 // #region snippet
 const mdIt = MarkdownIt().use(include, {

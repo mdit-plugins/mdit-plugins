@@ -9,10 +9,6 @@ icon: code
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
@@ -23,21 +19,6 @@ const mdIt = MarkdownIt().use(attrs, {
 
 mdIt.render("# Heading 🎉{#heading}");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { attrs } = require("@mdit/plugin-attrs");
-
-const mdIt = MarkdownIt().use(attrs, {
-  // 你的选项，可选
-});
-
-mdIt.render("# Heading 🎉{#heading}");
-```
-
-:::
 
 ## 语法
 

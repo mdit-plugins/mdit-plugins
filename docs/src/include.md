@@ -9,10 +9,6 @@ Plugin to include other files in markdown.
 
 ## Usage <Badge text="Node.js runtime only" />
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
@@ -27,24 +23,6 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 });
 ```
 
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
-
-const mdIt = MarkdownIt().use(include, {
-  // your options, currentPath is required
-  currentPath: (env) => env.filePath,
-});
-
-mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
-  filePath: "path/to/current/file.md",
-});
-```
-
-:::
-
 Since markdown-it only receive markdown content in `render()` api, so the plugin don't know the file path of current content so don't know where to find the include files.
 
 To solve this, you should pass the information via `env` object, and set `currentPath` in plugin options.
@@ -56,8 +34,8 @@ Also, to support alias, you can set `resolvePath` in plugin options.
 For example, the following code add support for `@src` alias:
 
 ```ts
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
+import MarkdownIt from "markdown-it";
+import { include } from "@mdit/plugin-include";
 
 const mdIt = MarkdownIt();
 
@@ -169,8 +147,8 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 @tab JS
 
 ```js
-const MarkdownIt = require("markdown-it");
-const { include } = require("@mdit/plugin-include");
+import MarkdownIt from "markdown-it";
+import { include } from "@mdit/plugin-include";
 
 // #region snippet
 const mdIt = MarkdownIt().use(include, {

@@ -9,13 +9,9 @@ export default [
     },
   }),
   ...rollupTypescript("index", {
-    output: {
-      file: "./lib/browser.js",
-    },
+    browser: true,
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
-    external: false,
-    dts: false,
   }),
 ];

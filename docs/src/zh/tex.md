@@ -15,10 +15,6 @@ icon: square-root-variable
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
@@ -31,23 +27,6 @@ const mdIt = MarkdownIt().use(figure, {
 
 mdIt.render("$E=mc^2$");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { figure } = require("@mdit/plugin-figure");
-
-const mdIt = MarkdownIt().use(figure, {
-  render: (content, displayMode) => {
-    // 在此渲染 tex 并返回
-  },
-});
-
-mdIt.render("$E=mc^2$");
-```
-
-:::
 
 这个插件为 $\TeX$ 注册 Markdown 规则。 它将用 `render` 函数的结果替换 $\TeX$ 标记。
 

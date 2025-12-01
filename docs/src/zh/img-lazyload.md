@@ -9,10 +9,6 @@ icon: spinner
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { imgLazyload } from "@mdit/plugin-img-lazyload";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(imgLazyload);
 
 mdIt.render("![Image](https://example.com/image.png)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { imgLazyload } = require("@mdit/plugin-img-lazyload");
-
-const mdIt = MarkdownIt().use(imgLazyload);
-
-mdIt.render("![Image](https://example.com/image.png)");
-```
-
-:::
 
 ## 描述
 

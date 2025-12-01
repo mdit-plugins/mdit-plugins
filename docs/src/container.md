@@ -9,10 +9,6 @@ Plugin for creating block-level custom containers.
 
 ## Usage
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
@@ -30,28 +26,6 @@ Warning Text
 :::
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { container } = require("@mdit/plugin-container");
-
-const mdIt = MarkdownIt().use(container, {
-  // your options, name is required
-  name: "warning",
-});
-
-mdIt.render(`
-::: warning
-
-Warning Text
-
-:::
-`);
-```
-
-::::
 
 ## Syntax
 

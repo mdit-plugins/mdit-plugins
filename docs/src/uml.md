@@ -9,10 +9,6 @@ Plugin to support splitting contents from context.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
@@ -33,31 +29,6 @@ Another content
 @demoend
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { uml } = require("@mdit/plugin-uml");
-
-const mdIt = MarkdownIt().use(uml, {
-  name: "demo",
-  open: "demostart",
-  close: "demoend",
-  render: (tokens, index) => {
-    // render content here
-  },
-});
-
-mdIt.render(`\
-@demostart
-Content
-Another content
-@demoend
-`);
-```
-
-:::
 
 This plugin will extract content between `@openmarker` and `@closemarker` into a single token, then render it with `render` function.
 

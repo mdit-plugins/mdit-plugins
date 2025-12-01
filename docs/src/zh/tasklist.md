@@ -9,10 +9,6 @@ icon: square-check
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { tasklist } from "@mdit/plugin-tasklist";
@@ -26,24 +22,6 @@ mdIt.render(`\
 - [ ] task 2
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { tasklist } = require("@mdit/plugin-tasklist");
-
-const mdIt = MarkdownIt().use(tasklist, {
-  // your options, optional
-});
-
-mdIt.render(`\
-- [x] task 1
-- [ ] task 2
-`);
-```
-
-:::
 
 ## 格式
 

@@ -9,10 +9,6 @@ icon: lightbulb
 
 ## 使用
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
@@ -31,29 +27,6 @@ Text
 :::
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { demo } = require("@mdit/plugin-demo");
-
-const mdIt = MarkdownIt().use(demo, {
-  // your options
-});
-
-mdIt.render(`
-::: demo
-
-# Heading 1
-
-Text
-
-:::
-`);
-```
-
-::::
 
 ## 格式
 
