@@ -251,6 +251,51 @@ Term 1
 
 Term 2
 : foo
+: bar
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>foo</dd>
+<dd>bar</dd>
+<dt>Term 2</dt>
+<dd>foo</dd>
+<dd>bar</dd>
+</dl>
+`,
+      ],
+      // loose lists (original functionality)
+      [
+        `\
+Term 1
+
+: Definition paragraph 1.
+
+Term 2
+
+: Definition paragraph 2.
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>
+<p>Definition paragraph 1.</p>
+</dd>
+<dt>Term 2</dt>
+<dd>
+<p>Definition paragraph 2.</p>
+</dd>
+</dl>
+`,
+      ],
+      [
+        `\
+Term 1
+: foo
+: bar
+
+Term 2
+: foo
 
 : bar
 `,
@@ -406,6 +451,47 @@ Second Term
 <dt>Second Term</dt>
 <dd>First def for second term</dd>
 <dd>Second def for second term</dd>
+</dl>
+`,
+      ],
+      // A lazy continuation may start with a `:`, if it has enough indent.
+      [
+        `\
+apple
+   : > computer company
+     : red fruit
+
+orange
+   : > telecom company
+   : orange fruit
+
+chili's
+   : > restaurant company
+ : spicy fruit
+`,
+        `\
+<dl>
+<dt>apple</dt>
+<dd>
+<blockquote>
+<p>computer company
+: red fruit</p>
+</blockquote>
+</dd>
+<dt>orange</dt>
+<dd>
+<blockquote>
+<p>telecom company</p>
+</blockquote>
+</dd>
+<dd>orange fruit</dd>
+<dt>chili's</dt>
+<dd>
+<blockquote>
+<p>restaurant company</p>
+</blockquote>
+</dd>
+<dd>spicy fruit</dd>
 </dl>
 `,
       ],
