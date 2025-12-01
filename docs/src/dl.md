@@ -9,10 +9,6 @@ Plugin to support definition list.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { dl } from "@mdit/plugin-dl";
@@ -27,25 +23,6 @@ Orange
 : The fruit of an evergreen tree of the genus Citrus.
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { dl } = require("@mdit/plugin-dl");
-
-const mdIt = MarkdownIt().use(dl);
-
-mdIt.render(`\
-Apple
-: Pomaceous fruit of plants of the genus Malus in the family Rosaceae.
-
-Orange
-: The fruit of an evergreen tree of the genus Citrus.
-`);
-```
-
-:::
 
 ## Syntax
 

@@ -9,10 +9,6 @@ icon: paperclip
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { ruby } from "@mdit/plugin-ruby";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(ruby);
 
 mdIt.render("{中国:zhōng|guó}");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { ruby } = require("@mdit/plugin-ruby");
-
-const mdIt = MarkdownIt().use(ruby);
-
-mdIt.render("{中国:zhōng|guó}");
-```
-
-:::
 
 ## 格式
 

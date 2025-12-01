@@ -9,10 +9,6 @@ Plugin for stylizing tokens.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { stylize } from "@mdit/plugin-stylize";
@@ -25,23 +21,6 @@ const mdIt = MarkdownIt().use(stylize, {
 
 mdIt.render("Check FAQ for more details._Recommended_");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { stylize } = require("@mdit/plugin-stylize");
-
-const mdIt = MarkdownIt().use(stylize, {
-  config: [
-    // your options
-  ],
-});
-
-mdIt.render("Check FAQ for more details._Recommended_");
-```
-
-:::
 
 The `config` option receives an array, where each element accepts 2 options:
 

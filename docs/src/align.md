@@ -15,10 +15,6 @@ This plugin is based on [@mdit/plugin-container](container.md).
 
 ## Usage
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
@@ -31,23 +27,6 @@ Contents to align center
 :::
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { align } = require("@mdit/plugin-align");
-
-const mdIt = MarkdownIt().use(align);
-
-mdIt.render(`\
-::: center
-Contents to align center
-:::
-`);
-```
-
-::::
 
 ## Syntax
 

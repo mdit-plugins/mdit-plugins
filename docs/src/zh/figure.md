@@ -9,10 +9,6 @@ icon: image
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
@@ -23,21 +19,6 @@ const mdIt = MarkdownIt().use(figure, {
 
 mdIt.render("![image](https://example.com/image.png)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { figure } = require("@mdit/plugin-figure");
-
-const mdIt = MarkdownIt().use(figure, {
-  // 你的选项，可选的
-});
-
-mdIt.render("![image](https://example.com/image.png)");
-```
-
-:::
 
 ## 格式
 

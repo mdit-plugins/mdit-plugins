@@ -15,10 +15,6 @@ icon: square-root-variable
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
@@ -27,19 +23,6 @@ const mdIt = MarkdownIt().use(katex);
 
 mdIt.render("$E=mc^2$");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { katex } = require("@mdit/plugin-katex");
-
-const mdIt = MarkdownIt().use(katex);
-
-mdIt.render("$E=mc^2$");
-```
-
-:::
 
 我们也有一个 `@mdit/plugin-katex-slim` 包，其中 `katex` 是可选对等依赖。
 
@@ -86,15 +69,12 @@ $$
 
 ## mhchem 扩展
 
-如果你想加载 `mhchem` 扩展，你应该从 `@mdit/plugin-katex` 中导入 `loadMhchem`:
+如果你想加载 `mhchem` 扩展，你应该导入 `@mdit/plugin-katex/mhchem`:
 
 ```ts
-import { loadMhchem } from "@mdit/plugin-katex";
-
-await loadMhchem();
+import { katex } from "@mdit/plugin-katex";
+import "@mdit/plugin-katex/mhchem";
 ```
-
-因为它是异步的，你应该在准备阶段调用它，因为 markdown-it 渲染是同步的。
 
 ## 选项
 
@@ -159,4 +139,4 @@ interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
 
 ## Cookbook
 
-- [$\TeX$ Cookbook](tex.md#cookbook)
+- [$\TeX$ Cookbook](tex.md#tex-教程)

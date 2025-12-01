@@ -9,10 +9,6 @@ Plugins with icon support.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(icon);
 
 mdIt.render("iPhone is made by ::apple::.");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { icon } = require("@mdit/plugin-icon");
-
-const mdIt = MarkdownIt().use(icon);
-
-mdIt.render("iPhone is made by ::apple::.");
-```
-
-:::
 
 ## Syntax
 
@@ -48,13 +31,13 @@ Use `::icon classes::` to insert custom icons. By default the plugin will render
 If you are not satisfied with the default render, you can use `render` option to customize icon rendering:
 
 ```js
-const MarkdownIt = require("markdown-it");
-const {
+import MarkdownIt from "markdown-it";
+import {
   fontAwesomeRender,
   icon,
   iconfontRender,
   iconifyRender,
-} = require("@mdit/plugin-icon");
+} from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
   // support for iconify

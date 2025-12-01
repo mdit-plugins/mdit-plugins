@@ -9,10 +9,6 @@ icon: eraser
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { spoiler } from "@mdit/plugin-spoiler";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(spoiler);
 
 mdIt.render("VuePress Theme Hope !!十分强大!!。");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { spoiler } = require("@mdit/plugin-spoiler");
-
-const mdIt = MarkdownIt().use(spoiler);
-
-mdIt.render("VuePress Theme Hope !!十分强大!!。");
-```
-
-:::
 
 在使用默认选项的情况下，你可以导入 `@mdit/plugin-spoiler/style` 以应用相应样式。
 

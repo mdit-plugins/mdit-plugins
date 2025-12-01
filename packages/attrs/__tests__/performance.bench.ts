@@ -157,8 +157,8 @@ mdIt.render("# Heading 🎉{#heading}");
 @tab JS
 
 \`\`\`js
-const MarkdownIt = require("markdown-it");
-const { attrs } = require("@mdit/plugin-attrs");
+import MarkdownIt from "markdown-it";
+import { attrs } from "@mdit/plugin-attrs";
 
 const mdIt = MarkdownIt().use(attrs, {
   // your options, optional

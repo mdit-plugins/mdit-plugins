@@ -9,10 +9,6 @@ icon: book
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { abbr } from "@mdit/plugin-abbr";
@@ -25,23 +21,6 @@ mdIt.render(`
 The HTML specification is maintained by the W3C.
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { abbr } = require("@mdit/plugin-abbr");
-
-const mdIt = MarkdownIt().use(abbr);
-
-mdIt.render(`
-*[HTML]: Hyper Text Markup Language
-*[W3C]:  World Wide Web Consortium
-The HTML specification is maintained by the W3C.
-`);
-```
-
-:::
 
 <!-- markdownlint-disable MD028 -->
 

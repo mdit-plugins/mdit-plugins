@@ -9,8 +9,6 @@ Plugin to add lazy loading for images.
 
 ## Usage
 
-::: code-tabs#language
-
 @tab TS
 
 ```ts
@@ -21,19 +19,6 @@ const mdIt = MarkdownIt().use(imgLazyload);
 
 mdIt.render("![Image](https://example.com/image.png)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { imgLazyload } = require("@mdit/plugin-img-lazyload");
-
-const mdIt = MarkdownIt().use(imgLazyload);
-
-mdIt.render("![Image](https://example.com/image.png)");
-```
-
-:::
 
 ## Description
 

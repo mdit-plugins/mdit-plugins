@@ -9,10 +9,6 @@ Plugins to hide content.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { spoiler } from "@mdit/plugin-spoiler";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(spoiler);
 
 mdIt.render("VuePress Theme Hope is !!powerful!!.");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { spoiler } = require("@mdit/plugin-spoiler");
-
-const mdIt = MarkdownIt().use(spoiler);
-
-mdIt.render("VuePress Theme Hope is !!powerful!!.");
-```
-
-:::
 
 With the default options, you can import `@mdit/plugin-spoiler/style` to apply styles.
 

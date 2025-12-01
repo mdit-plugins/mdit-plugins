@@ -9,8 +9,6 @@ Plugin for generating figures with captions from images.
 
 ## Usage
 
-::: code-tabs#language
-
 @tab TS
 
 ```ts
@@ -23,21 +21,6 @@ const mdIt = MarkdownIt().use(figure, {
 
 mdIt.render("![image](https://example.com/image.png)");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { figure } = require("@mdit/plugin-figure");
-
-const mdIt = MarkdownIt().use(figure, {
-  // your options, optional
-});
-
-mdIt.render("![image](https://example.com/image.png)");
-```
-
-:::
 
 ## Syntax
 

@@ -9,10 +9,6 @@ icon: diagram-project
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
@@ -25,23 +21,6 @@ Bob -> Alice : hello
 @enduml
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { plantuml } = require("@mdit/plugin-plantuml");
-
-const mdIt = MarkdownIt().use(plantuml);
-
-mdIt.render(`\
-@startuml
-Bob -> Alice : hello
-@enduml
-`);
-```
-
-:::
 
 ## 示例
 

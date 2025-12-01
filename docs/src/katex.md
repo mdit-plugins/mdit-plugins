@@ -15,10 +15,6 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
@@ -27,19 +23,6 @@ const mdIt = MarkdownIt().use(katex);
 
 mdIt.render("$E=mc^2$");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { katex } = require("@mdit/plugin-katex");
-
-const mdIt = MarkdownIt().use(katex);
-
-mdIt.render("$E=mc^2$");
-```
-
-:::
 
 We also have a package called `@mdit/plugin-katex-slim` which `katex` is an optional peer.
 
@@ -86,15 +69,12 @@ $$
 
 ## mhchem extension
 
-If you want to load the `mhchem` extension, you should import `loadMhchem` from `@mdit/plugin-katex`:
+If you want to load the `mhchem` extension, you should import `@mdit/plugin-katex/mhchem`:
 
 ```ts
-import { loadMhchem } from "@mdit/plugin-katex";
-
-await loadMhchem();
+import { katex } from "@mdit/plugin-katex";
+import "@mdit/plugin-katex/mhchem";
 ```
-
-Since it's async, you should call it in prepare stage as markdown-it rendering is sync.
 
 ## Options
 
@@ -161,4 +141,4 @@ interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
 
 ## Cookbook
 
-- [$\TeX$ Cookbook](tex.md#cookbook)
+- [$\TeX$ Cookbook](tex.md#tex-tutorial)

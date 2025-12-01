@@ -9,10 +9,6 @@ icon: box-open
 
 ## 使用
 
-:::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
@@ -31,28 +27,6 @@ Warning Text
 `);
 ```
 
-@tab JS
-
-````js
-const MarkdownIt = require("markdown-it");
-const { container } = require("@mdit/plugin-container");
-
-const mdIt = MarkdownIt().use(container, {
-  // your options, name is required
-  name: "warning",
-});
-
-mdIt.render(`
-::: warning
-
-Warning Text
-
-:::
-`);
-```
-
-::::
-
 ## 格式
 
 使用此插件，你可以创建块容器，例如:
@@ -61,7 +35,7 @@ Warning Text
 ::: warning
 _here be dragons_
 :::
-````
+```
 
 并指定它们应该如何呈现。如果没有定义渲染器，将创建带有容器名称 class 的 `<div>`：
 

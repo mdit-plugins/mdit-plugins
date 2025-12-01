@@ -57,8 +57,8 @@ const md = MarkdownIt().use(embed, {
 @tab JS
 
 ```js
-const MarkdownIt = require("markdown-it");
-const { embed } = require("@mdit/plugin-embed");
+import MarkdownIt from "markdown-it";
+import { embed } from "@mdit/plugin-embed";
 
 const md = MarkdownIt().use(embed, {
   config: [

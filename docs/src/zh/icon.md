@@ -9,10 +9,6 @@ icon: icons
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(icon);
 
 mdIt.render("iPhone is made by ::apple::.");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { icon } = require("@mdit/plugin-icon");
-
-const mdIt = MarkdownIt().use(icon);
-
-mdIt.render("iPhone is made by ::apple::.");
-```
-
-:::
 
 ## 语法
 
@@ -48,13 +31,13 @@ mdIt.render("iPhone is made by ::apple::.");
 如果你对默认渲染不满意，可以使用 `render` 选项自定义图标渲染：
 
 ```js
-const MarkdownIt = require("markdown-it");
-const {
+import MarkdownIt from "markdown-it";
+import {
   fontAwesomeRender,
   icon,
   iconfontRender,
   iconifyRender,
-} = require("@mdit/plugin-icon");
+} from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
   // 支持 iconify

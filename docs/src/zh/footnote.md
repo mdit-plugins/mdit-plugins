@@ -9,10 +9,6 @@ icon: quote-left
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { footnote } from "@mdit/plugin-footnote";
@@ -21,19 +17,6 @@ const mdIt = MarkdownIt().use(footnote);
 
 mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { footnote } = require("@mdit/plugin-footnote");
-
-const mdIt = MarkdownIt().use(footnote);
-
-mdIt.render("Inline footnote^[Text of inline footnote] definition.");
-```
-
-:::
 
 ## 格式
 

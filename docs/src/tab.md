@@ -9,27 +9,9 @@ Plugin for creating block-level custom tabs.
 
 ## Usage
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
-
-const mdIt = MarkdownIt().use(tab, {
-  // your options, name is required
-  name: "tabs",
-});
-
-mdIt.render("content");
-```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { tab } = require("@mdit/plugin-tab");
 
 const mdIt = MarkdownIt().use(tab, {
   // your options, name is required

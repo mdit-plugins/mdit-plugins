@@ -15,10 +15,6 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 
 ## Usage <Badge text="No CDN Scripts" />
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
@@ -29,21 +25,6 @@ const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 const html = mdIt.render("$E=mc^2$");
 const style = mathjaxInstance.outputStyle();
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { createMathjaxInstance, mathjax } = require("@mdit/plugin-mathjax");
-
-const mathjaxInstance = await createMathjaxInstance(options);
-const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
-
-const html = mdIt.render("$E=mc^2$");
-const style = mathjaxInstance.outputStyle();
-```
-
-:::
 
 This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
 

@@ -9,10 +9,6 @@ icon: table-columns
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
@@ -24,22 +20,6 @@ const mdIt = MarkdownIt().use(tab, {
 
 mdIt.render("content");
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { tab } = require("@mdit/plugin-tab");
-
-const mdIt = MarkdownIt().use(tab, {
-  // 你的选项，name 是必填的
-  name: "tabs",
-});
-
-mdIt.render("content");
-```
-
-:::
 
 使用此插件，你可以使用 `::: name` 和 `:::` 来创建选项卡容器，其中 `name` 是你设置为名称的值。
 

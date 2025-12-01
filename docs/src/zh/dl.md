@@ -9,10 +9,6 @@ icon: list-check
 
 ## 使用
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { dl } from "@mdit/plugin-dl";
@@ -27,25 +23,6 @@ mdIt.render(`\
 : 柑橘属常绿乔木的果实。
 `);
 ```
-
-@tab JS
-
-```js
-const MarkdownIt = require("markdown-it");
-const { dl } = require("@mdit/plugin-dl");
-
-const mdIt = MarkdownIt().use(dl);
-
-mdIt.render(`\
-苹果
-: 蔷薇科苹果属植物的果仁果实。
-
-橘子
-: 柑橘属常绿乔木的果实。
-`);
-```
-
-:::
 
 ## 语法
 
