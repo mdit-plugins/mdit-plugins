@@ -59,7 +59,29 @@ The plugin doesn't provide any styles, and will not register any events, so that
 
 ::: tip Nesting and escaping
 
-- Nesting is **not** supported because `@tab` does not contain any information about what tab container it's marking.
+- Nesting can be supported by adding 2 indents in your nested tab container:
+
+<!-- prettier-ignore-start -->
+
+  ```md
+  :::: tabs
+  @tab test1
+
+  A text 1.
+
+  @tab test2
+    ::: tabs
+    @tab sub-test1
+    A **bold** text 1.
+    @tab:active sub-test2
+    A **bold** text 2.
+    :::
+  @tab:active test3
+  A **bold** text 3.
+  ::::
+  ```
+
+<!-- prettier-ignore-end -->
 
 - If you need to use `@tab` at the beginning of the line, you can use `\` to escape it to `\@tab`
 
