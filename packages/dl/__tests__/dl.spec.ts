@@ -80,6 +80,25 @@ Term 2
 </dl>
 `,
       ],
+      [
+        `\
+Term 1
+
+: Definition paragraph.
+
+Term 2
+
+: Definition paragraph.
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd><p>Definition paragraph.</p></dd>
+<dt>Term 2</dt>
+<dd><p>Definition paragraph.</p></dd>
+</dl>
+`,
+      ],
     ];
 
     testCases.forEach(([content, expected]) => {

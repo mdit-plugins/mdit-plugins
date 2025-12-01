@@ -8,7 +8,7 @@ import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 
 // Search `[:~][\n ]`, returns next pos after marker on success
 // or -1 on fail.
-const skipMarker = (state: StateBlock, line: number): number => {
+const checkAndSkipDlMarker = (state: StateBlock, line: number): number => {
   let start = state.bMarks[line] + state.tShift[line];
   const max = state.eMarks[line];
 
@@ -49,10 +49,10 @@ const markTightParagraphs = (state: StateBlock, index: number): void => {
 
 const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
   if (silent) {
-    // quirk: validation mode validates a dd block only, not a whole definition list
+    // validation mode validates a dd block only, not a whole definition list
     if (state.ddIndent < 0) return false;
 
-    return skipMarker(state, startLine) >= 0;
+    return checkAndSkipDlMarker(state, startLine) >= 0;
   }
 
   let nextLine = startLine + 1;
@@ -66,12 +66,12 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (state.sCount[nextLine] < state.blkIndent) return false;
 
-  let contentStart = skipMarker(state, nextLine);
+  let contentStart = checkAndSkipDlMarker(state, nextLine);
 
   if (contentStart < 0) return false;
 
   // Start list
-  const listTokIdx = state.tokens.length;
+  const listTokenIndex = state.tokens.length;
 
   const dlOpenToken = state.push("dl_open", "dl", 1);
   const listLines: [start: number, end: number] = [startLine, 0];
@@ -165,6 +165,8 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       state.blkIndent = oldIndent;
       state.ddIndent = oldDDIndent;
 
+      console.log(state.ddIndent);
+
       state.push("dd_close", "dd", -1);
 
       itemLines[1] = nextLine = state.line;
@@ -173,7 +175,7 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
       if (state.sCount[nextLine] < state.blkIndent) break OUTER;
 
-      contentStart = skipMarker(state, nextLine);
+      contentStart = checkAndSkipDlMarker(state, nextLine);
 
       if (contentStart < 0) break;
 
@@ -197,7 +199,7 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
     if (ddLine >= endLine || state.sCount[ddLine] < state.blkIndent) break;
 
-    contentStart = skipMarker(state, ddLine);
+    contentStart = checkAndSkipDlMarker(state, ddLine);
 
     if (contentStart < 0) break;
 
@@ -212,8 +214,10 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   state.line = nextLine;
 
+  console.log(tight);
+
   // mark paragraphs tight if needed
-  if (tight) markTightParagraphs(state, listTokIdx);
+  if (tight) markTightParagraphs(state, listTokenIndex);
 
   return true;
 };
