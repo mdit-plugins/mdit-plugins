@@ -2,7 +2,6 @@ import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 import { dl } from "@mdit/plugin-dl";
 import { ins } from "@mdit/plugin-ins";
-import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax-slim";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
 import { defineUserConfig } from "vuepress";
@@ -31,7 +30,7 @@ export default defineUserConfig({
 
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
-  extendsMarkdown: async (md) => {
+  extendsMarkdown: (md) => {
     md.use(abbr);
     md.use(container, {
       name: "hint",
@@ -64,8 +63,6 @@ export default defineUserConfig({
         return path.join(cwd, filePath);
       },
     });
-
-    md.use(mathjax, await createMathjaxInstance());
   },
 
   theme,
