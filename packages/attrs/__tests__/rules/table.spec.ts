@@ -23,24 +23,25 @@ const createDualRuleTests = (
 
       it(replaceDelimiters("should support tables", options), () => {
         const src = `\
-| h1 | h2 |
-| -- | -- |
-| c1 | c1 |
+| header1 | header2 |
+| ------- | ------- |
+| cell1   | cell2   |
 
-{.c}`;
+
+{.class}`;
 
         const expected = `\
-<table class="c">
+<table class="class">
 <thead>
 <tr>
-<th>h1</th>
-<th>h2</th>
+<th>header1</th>
+<th>header2</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>c1</td>
-<td>c1</td>
+<td>cell1</td>
+<td>cell2</td>
 </tr>
 </tbody>
 </table>
@@ -98,42 +99,18 @@ const createDualRuleTests = (
           options,
         ),
         () => {
-          const src = `\
-| A | B | C | D |
-| -- | -- | -- | -- |
-| 1 | 11 | 111 | 1111 {rowspan=3} |
-| 2 {colspan=2 rowspan=2} | 22 | 222 | 2222 |
-| 3 | 33 | 333 | 3333 |
-
-{border=1}
-
-| A |
-| -- |
-| 1 {colspan=3}|
-| 2 |
-| 3 |
-
-{border=2}
-
-| A | B | C |
-| -- | -- | -- |
-| 1 {rowspan=2}| 11 | 111 |
-| 2 {rowspan=2}| 22 | 222 |
-| 3 | 33 | 333 |
-
-{border=3}
-
-| A | B | C | D |
-| -- | -- | -- | -- |
-| 1 {colspan=2}| 11 {colspan=3} | 111| 1111 |
-| 2 {rowspan=2} | 22 {colspan=2} | 222 | 2222 |
-| 3 | 33 {colspan=4} | 333 | 3333 |
-
-{border=4}
-`;
-
-          const expected = `\
-<table border="1">
+          const testCases = [
+            // the merged cells should be correctly removed
+            [
+              `\
+| A                        | B   | C   | D              |
+| ------------------------ | --- | --- | -------------- |
+| A1                       | B1  | C1  | D1 {rowspan=3} |
+| A2 {colspan=2 rowspan=2} | B2  | C2  | D2             |
+| A3                       | B3  | C3  | D3             |
+`,
+              `\
+<table>
 <thead>
 <tr>
 <th>A</th>
@@ -144,21 +121,34 @@ const createDualRuleTests = (
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>11</td>
-<td>111</td>
-<td rowspan="3">1111</td>
+<td>A1</td>
+<td>B1</td>
+<td>C1</td>
+<td rowspan="3">D1</td>
 </tr>
 <tr>
-<td colspan="2" rowspan="2">2</td>
-<td>22</td>
+<td colspan="2" rowspan="2">A2</td>
+<td>C2</td>
 </tr>
 <tr>
-<td>3</td>
+<td>C3</td>
 </tr>
 </tbody>
 </table>
-<table border="2">
+`,
+            ],
+            // colspan should work even out of borders
+            [
+              `\
+| A |
+| -- |
+| 1 {colspan=3}|
+| 2 |
+| 3 |
+
+`,
+              `\
+<table>
 <thead>
 <tr>
 <th>A</th>
@@ -176,7 +166,50 @@ const createDualRuleTests = (
 </tr>
 </tbody>
 </table>
-<table border="3">
+`,
+            ],
+            // row should work even out of borders
+            [
+              `\
+| A   | B              |
+| --- | -------------- |
+| A1  | B1             |
+| A2  | B2 {rowspan=2} |
+
+`,
+              `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>B1</td>
+</tr>
+<tr>
+<td>A2</td>
+<td rowspan="2">B2</td>
+</tr>
+</tbody>
+</table>
+`,
+            ],
+            // should work with multiple rowspan
+            [
+              `\
+| A              | B              | C   |
+| -------------- | -------------- | --- |
+| A1 {rowspan=2} | B1             | C1  |
+| A2             | B2 {rowspan=2} | C2  |
+| A3             | B3             | C3  |
+
+`,
+              `\
+<table>
 <thead>
 <tr>
 <th>A</th>
@@ -186,21 +219,70 @@ const createDualRuleTests = (
 </thead>
 <tbody>
 <tr>
-<td rowspan="2">1</td>
-<td>11</td>
-<td>111</td>
+<td rowspan="2">A1</td>
+<td>B1</td>
+<td>C1</td>
 </tr>
 <tr>
-<td rowspan="2">2</td>
-<td>22</td>
+<td rowspan="2">B2</td>
+<td>C2</td>
 </tr>
 <tr>
-<td>3</td>
-<td>33</td>
+<td>A3</td>
+<td>C3</td>
 </tr>
 </tbody>
 </table>
-<table border="4">
+`,
+            ],
+            // should work with multiple colspan
+            [
+              `\
+| A              | B              | C   |
+| -------------- | -------------- | --- |
+| A1 {colspan=2} | B1             | C1  |
+| A2             | B2 {colspan=2} | C2  |
+| A3             | B3             | C3  |
+
+`,
+              `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">A1</td>
+<td>C1</td>
+</tr>
+<tr>
+<td>A2</td>
+<td colspan="2">B2</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>B3</td>
+<td>C3</td>
+</tr>
+</tbody>
+</table>
+`,
+            ],
+            // should not handle dropped cells attributes
+            [
+              `\
+| A                        | B   | C   | D              |
+| ------------------------ | --- | --- | -------------- |
+| A1                       | B1  | C1  | D1 {rowspan=3} |
+| A2 {colspan=2 rowspan=2} | B2  | C2  | D2 {rowspan=2} |
+| A3 {colspan=2}           | B3  | C3  | D3             |
+`,
+              `\
+<table>
 <thead>
 <tr>
 <th>A</th>
@@ -211,25 +293,29 @@ const createDualRuleTests = (
 </thead>
 <tbody>
 <tr>
-<td colspan="2">1</td>
-<td colspan="3">11</td>
+<td>A1</td>
+<td>B1</td>
+<td>C1</td>
+<td rowspan="3">D1</td>
 </tr>
 <tr>
-<td rowspan="2">2</td>
-<td colspan="2">22</td>
-<td>222</td>
+<td colspan="2" rowspan="2">A2</td>
+<td>C2</td>
 </tr>
 <tr>
-<td>3</td>
-<td colspan="2">33</td>
+<td>C3</td>
 </tr>
 </tbody>
 </table>
-`;
+`,
+            ],
+          ];
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
+          testCases.forEach(([src, expected]) => {
+            expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
+              expected,
+            );
+          });
         },
       );
 

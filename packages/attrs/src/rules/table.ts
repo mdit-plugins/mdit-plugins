@@ -18,135 +18,6 @@ interface TokenWithColumnCount extends Token {
     | undefined;
 }
 
-/**
- * Hidden table's cells and them inline children,
- * specially cast inline's content as empty
- * to prevent that escapes the table's box model
- */
-const hideTokenContent = (token: Token): void => {
-  token.hidden = true;
-  token.children?.forEach((childToken) => {
-    childToken.content = "";
-    hideTokenContent(childToken);
-  });
-};
-
-/**
- * Handle rowspan logic for table cells
- */
-const handleRowspan = (
-  tokens: Token[],
-  startIndex: number,
-  endIndex: number,
-  columnCount: number,
-  colspan: number,
-  rowspan: number,
-): void => {
-  let adjustedColumnCount = columnCount - (colspan > 0 ? colspan : 1);
-
-  for (
-    let tokenIndex = startIndex, remainingRows = rowspan;
-    tokenIndex < endIndex && remainingRows > 1;
-    tokenIndex++
-  ) {
-    if (tokens[tokenIndex].type === "tr_open") {
-      const trOpenToken = tokens[tokenIndex] as TokenWithColumnCount;
-
-      trOpenToken.meta ??= {};
-
-      if (trOpenToken.meta.columnCount) adjustedColumnCount -= 1;
-      trOpenToken.meta.columnCount = adjustedColumnCount;
-      remainingRows--;
-    }
-  }
-};
-
-/**
- * Handle table row processing
- */
-const handleTableRow = (
-  tokens: Token[],
-  startIndex: number,
-  endIndex: number,
-): void => {
-  const token = tokens[startIndex] as TokenWithColumnCount;
-  const expectedColumnCount = token.meta?.columnCount;
-
-  if (!expectedColumnCount) return;
-
-  // hide extra table cells in the row
-  for (let index = startIndex, cellCount = 0; index < endIndex; index++) {
-    const currentToken = tokens[index];
-
-    // break at end of table row
-    if (currentToken.type === "tr_close") break;
-
-    // Count table cells in the row
-    if (currentToken.type === "td_open") cellCount += 1;
-
-    // hide extra table cells
-    if (cellCount > expectedColumnCount && !currentToken.hidden) {
-      hideTokenContent(currentToken);
-    }
-  }
-};
-
-/**
- * Handle colspan logic for table cells
- */
-const handleColspan = (
-  tokens: Token[],
-  startIndex: number,
-  endIndex: number,
-  columnCount: number,
-  colspan: number,
-  tbodyOpenIndex: number,
-): void => {
-  const cellIndices: number[] = [];
-  const startToken = tokens[startIndex];
-
-  let end = startIndex + 3;
-  let colspanNum = columnCount;
-
-  // Find previous row children indices
-  for (let tokenIndex = startIndex; tokenIndex > tbodyOpenIndex; tokenIndex--) {
-    if (tokens[tokenIndex].type === "tr_open") {
-      colspanNum =
-        (tokens[tokenIndex] as TokenWithColumnCount).meta?.columnCount ??
-        colspanNum;
-      break;
-    } else if (tokens[tokenIndex].type === "td_open") {
-      cellIndices.unshift(tokenIndex);
-    }
-  }
-
-  // Find current row children indices
-  for (let index = startIndex + 2; index < endIndex; index++) {
-    if (tokens[index].type === "tr_close") {
-      end = index;
-      break;
-    } else if (tokens[index].type === "td_open") {
-      cellIndices.push(index);
-    }
-  }
-
-  const cellOffset = cellIndices.indexOf(startIndex);
-
-  const realColspan = Math.min(colspan, colspanNum - cellOffset);
-
-  if (colspan > realColspan) {
-    startToken.attrSet("colspan", realColspan.toString());
-  }
-
-  const hiddenStartIndex = cellIndices.slice(
-    colspanNum + 1 - columnCount - realColspan,
-  )[0];
-
-  for (let index = hiddenStartIndex; index < end; index++) {
-    if (!tokens[index].hidden) hideTokenContent(tokens[index]);
-  }
-};
-
 export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
   {
     /**
@@ -325,46 +196,172 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       const columnCount =
         (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
 
-      if (columnCount < 2) return;
+      if (columnCount < 1) return;
 
-      const maxLevel = tokens[index].level + 2;
+      const rowState = Array.from({ length: columnCount }).fill(0) as number[];
+      const rangesToRemove: { start: number; end: number }[] = [];
 
-      for (
-        let currentIndex = tbodyOpenIndex;
-        currentIndex < index;
-        currentIndex++
-      ) {
-        if (tokens[currentIndex].level > maxLevel) continue;
+      // Iterate through the tbody content
+      let currentTokenIndex = tbodyOpenIndex + 1;
 
-        const token = tokens[currentIndex];
-        const rowspan = token.hidden ? 0 : Number(token.attrGet("rowspan"));
-        const colspan = token.hidden ? 0 : Number(token.attrGet("colspan"));
-
-        if (rowspan > 1) {
-          handleRowspan(
-            tokens,
-            currentIndex,
-            index,
-            columnCount,
-            colspan,
-            rowspan,
-          );
-        }
+      while (currentTokenIndex < index) {
+        const token = tokens[currentTokenIndex];
 
         if (token.type === "tr_open") {
-          handleTableRow(tokens, currentIndex, index);
-        }
+          const trStartIndex = currentTokenIndex;
+          // Find tr_close
+          let trEndIndex = trStartIndex;
 
-        if (colspan > 1) {
-          handleColspan(
-            tokens,
-            currentIndex,
-            index,
-            columnCount,
-            colspan,
-            tbodyOpenIndex,
-          );
+          for (
+            let trSearchIndex = trStartIndex + 1;
+            trSearchIndex < index;
+            trSearchIndex++
+          ) {
+            if (tokens[trSearchIndex].type === "tr_close") {
+              trEndIndex = trSearchIndex;
+              break;
+            }
+          }
+
+          // Collect cell info
+          const cells: { openIndex: number; closeIndex: number }[] = [];
+
+          for (
+            let cellSearchIndex = trStartIndex + 1;
+            cellSearchIndex < trEndIndex;
+            cellSearchIndex++
+          ) {
+            if (
+              tokens[cellSearchIndex].type === "td_open" ||
+              tokens[cellSearchIndex].type === "th_open"
+            ) {
+              let closeIndex = cellSearchIndex + 1;
+
+              while (closeIndex < trEndIndex) {
+                if (
+                  tokens[closeIndex].type === "td_close" ||
+                  tokens[closeIndex].type === "th_close"
+                ) {
+                  break;
+                }
+                closeIndex++;
+              }
+
+              // Include trailing tokens (e.g. whitespace/newlines)
+              let nextIndex = closeIndex + 1;
+
+              while (nextIndex < trEndIndex) {
+                const type = tokens[nextIndex].type;
+
+                if (type === "td_open" || type === "th_open") {
+                  break;
+                }
+                nextIndex++;
+              }
+
+              cells.push({
+                openIndex: cellSearchIndex,
+                closeIndex: nextIndex - 1,
+              });
+              cellSearchIndex = nextIndex - 1;
+            }
+          }
+
+          let cellIndex = 0;
+          let colIndex = 0;
+
+          while (colIndex < columnCount) {
+            if (rowState[colIndex] > 0) {
+              rowState[colIndex]--;
+              // Consume a cell if available (it corresponds to this occupied slot)
+              if (cellIndex < cells.length) {
+                const { openIndex, closeIndex } = cells[cellIndex];
+
+                rangesToRemove.push({ start: openIndex, end: closeIndex });
+                cellIndex++;
+              }
+              colIndex++;
+            } else {
+              // Column is free
+              if (cellIndex < cells.length) {
+                const { openIndex } = cells[cellIndex];
+                const cellToken = tokens[openIndex];
+
+                cellIndex++;
+
+                if (cellToken.hidden) {
+                  colIndex++;
+                  continue;
+                }
+
+                const colspan = Number(cellToken.attrGet("colspan")) || 1;
+                const rowspan = Number(cellToken.attrGet("rowspan")) || 1;
+
+                // Calculate real colspan based on availability
+                let realColspan = 0;
+
+                for (let i = 0; i < colspan; i++) {
+                  if (colIndex + i < columnCount) {
+                    if (rowState[colIndex + i] === 0) {
+                      realColspan++;
+                    } else {
+                      break;
+                    }
+                  } else {
+                    realColspan++;
+                  }
+                }
+
+                if (realColspan < colspan) {
+                  cellToken.attrSet("colspan", String(realColspan));
+                }
+
+                // Mark columns as occupied
+                for (let i = 0; i < realColspan; i++) {
+                  if (colIndex + i < columnCount) {
+                    rowState[colIndex + i] = rowspan - 1;
+                  }
+                }
+
+                // Consume merged cells
+                const cellsToMerge = realColspan - 1;
+
+                for (let i = 0; i < cellsToMerge; i++) {
+                  if (cellIndex < cells.length) {
+                    const { openIndex: mergeOpen, closeIndex: mergeClose } =
+                      cells[cellIndex];
+
+                    rangesToRemove.push({ start: mergeOpen, end: mergeClose });
+                    cellIndex++;
+                  }
+                }
+
+                colIndex += realColspan;
+              } else {
+                // No more cells
+                colIndex++;
+              }
+            }
+          }
+
+          // Hide remaining cells
+          while (cellIndex < cells.length) {
+            const { openIndex, closeIndex } = cells[cellIndex];
+
+            rangesToRemove.push({ start: openIndex, end: closeIndex });
+            cellIndex++;
+          }
+
+          currentTokenIndex = trEndIndex + 1;
+        } else {
+          currentTokenIndex++;
         }
+      }
+
+      // Remove tokens in reverse order
+      rangesToRemove.sort((a, b) => b.start - a.start);
+      for (const { start, end } of rangesToRemove) {
+        tokens.splice(start, end - start + 1);
       }
     },
   },
