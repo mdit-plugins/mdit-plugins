@@ -33,7 +33,7 @@ This repo contains the following plugins:
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
-- @mdit/plugin-include (Node.js only)
+- @mdit/plugin-include (Node.js only as it needs the `fs` api)
 - @mdit/plugin-ins
 - @mdit/plugin-katex
 - @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
@@ -42,7 +42,7 @@ This repo contains the following plugins:
 - @mdit/plugin-mathjax-slim (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
-- @mdit/plugin-snippet (Node.js only)
+- @mdit/plugin-snippet (Node.js only as it needs the `fs` api))
 - @mdit/plugin-spoiler
 - @mdit/plugin-stylize
 - @mdit/plugin-sub
