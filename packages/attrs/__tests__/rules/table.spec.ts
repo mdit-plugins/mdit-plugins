@@ -95,11 +95,12 @@ const createDualRuleTests = (
 
       it(
         replaceDelimiters(
-          "should caculate table's colspan and/or rowspan",
+          "should calculate table's colspan and/or rowspan",
           options,
         ),
         () => {
           const testCases = [
+            // colspan should work together with rowspan
             // the merged cells should be correctly removed
             [
               `\
@@ -140,12 +141,17 @@ const createDualRuleTests = (
             // colspan should work even out of borders
             [
               `\
-| A |
-| -- |
-| 1 {colspan=3}|
-| 2 |
-| 3 |
+| A             |
+| ------------- |
+| 1 {colspan=3} |
+| 2             |
+| 3             |
 
+| B             |
+| ------------- |
+| 1             |
+| 2             |
+| 3 {colspan=3} |
 `,
               `\
 <table>
@@ -163,6 +169,24 @@ const createDualRuleTests = (
 </tr>
 <tr>
 <td>3</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+</tr>
+<tr>
+<td colspan="3">3</td>
 </tr>
 </tbody>
 </table>
@@ -304,6 +328,37 @@ const createDualRuleTests = (
 </tr>
 <tr>
 <td>C3</td>
+</tr>
+</tbody>
+</table>
+`,
+            ],
+            // handle colspan collision with rowspan
+            [
+              `\
+| A              | B              | C   |
+| -------------- | -------------- | --- |
+| A1             | B1 {rowspan=2} | C1  |
+| A2 {colspan=3} |
+`,
+              `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td rowspan="2">B1</td>
+<td>C1</td>
+</tr>
+<tr>
+<td colspan="1">A2</td>
+<td></td>
 </tr>
 </tbody>
 </table>

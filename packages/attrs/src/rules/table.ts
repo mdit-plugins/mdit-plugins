@@ -185,182 +185,131 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       },
     ],
     transform: (tokens, index): void => {
-      // Find the tbody_open token index
       let tbodyOpenIndex = index - 2;
 
-      while (tbodyOpenIndex > 0) {
+      while (
+        tbodyOpenIndex >= 0 &&
+        tokens[tbodyOpenIndex].type !== "tbody_open"
+      ) {
         tbodyOpenIndex--;
-        if (tokens[tbodyOpenIndex].type === "tbody_open") break;
       }
 
       const columnCount =
         (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
 
-      if (columnCount < 1) return;
+      if (columnCount < 2) return;
 
-      const rowState = Array.from({ length: columnCount }).fill(0) as number[];
-      const rangesToRemove: { start: number; end: number }[] = [];
+      const remainingCellRemovedByRowSpan = Array.from({
+        length: columnCount,
+      }).fill(0) as number[];
+      const rangesToRemove: [start: number, end: number][] = [];
 
-      // Iterate through the tbody content
       let currentTokenIndex = tbodyOpenIndex + 1;
 
       while (currentTokenIndex < index) {
-        const token = tokens[currentTokenIndex];
+        // The current token should be tr_open
+        const trOpenIndex = currentTokenIndex;
+        // Find tr_close
+        let trCloseIndex = trOpenIndex + 1;
 
-        if (token.type === "tr_open") {
-          const trStartIndex = currentTokenIndex;
-          // Find tr_close
-          let trEndIndex = trStartIndex;
-
-          for (
-            let trSearchIndex = trStartIndex + 1;
-            trSearchIndex < index;
-            trSearchIndex++
-          ) {
-            if (tokens[trSearchIndex].type === "tr_close") {
-              trEndIndex = trSearchIndex;
-              break;
-            }
-          }
-
-          // Collect cell info
-          const cells: { openIndex: number; closeIndex: number }[] = [];
-
-          for (
-            let cellSearchIndex = trStartIndex + 1;
-            cellSearchIndex < trEndIndex;
-            cellSearchIndex++
-          ) {
-            if (
-              tokens[cellSearchIndex].type === "td_open" ||
-              tokens[cellSearchIndex].type === "th_open"
-            ) {
-              let closeIndex = cellSearchIndex + 1;
-
-              while (closeIndex < trEndIndex) {
-                if (
-                  tokens[closeIndex].type === "td_close" ||
-                  tokens[closeIndex].type === "th_close"
-                ) {
-                  break;
-                }
-                closeIndex++;
-              }
-
-              // Include trailing tokens (e.g. whitespace/newlines)
-              let nextIndex = closeIndex + 1;
-
-              while (nextIndex < trEndIndex) {
-                const type = tokens[nextIndex].type;
-
-                if (type === "td_open" || type === "th_open") {
-                  break;
-                }
-                nextIndex++;
-              }
-
-              cells.push({
-                openIndex: cellSearchIndex,
-                closeIndex: nextIndex - 1,
-              });
-              cellSearchIndex = nextIndex - 1;
-            }
-          }
-
-          let cellIndex = 0;
-          let colIndex = 0;
-
-          while (colIndex < columnCount) {
-            if (rowState[colIndex] > 0) {
-              rowState[colIndex]--;
-              // Consume a cell if available (it corresponds to this occupied slot)
-              if (cellIndex < cells.length) {
-                const { openIndex, closeIndex } = cells[cellIndex];
-
-                rangesToRemove.push({ start: openIndex, end: closeIndex });
-                cellIndex++;
-              }
-              colIndex++;
-            } else {
-              // Column is free
-              if (cellIndex < cells.length) {
-                const { openIndex } = cells[cellIndex];
-                const cellToken = tokens[openIndex];
-
-                cellIndex++;
-
-                if (cellToken.hidden) {
-                  colIndex++;
-                  continue;
-                }
-
-                const colspan = Number(cellToken.attrGet("colspan")) || 1;
-                const rowspan = Number(cellToken.attrGet("rowspan")) || 1;
-
-                // Calculate real colspan based on availability
-                let realColspan = 0;
-
-                for (let i = 0; i < colspan; i++) {
-                  if (colIndex + i < columnCount) {
-                    if (rowState[colIndex + i] === 0) {
-                      realColspan++;
-                    } else {
-                      break;
-                    }
-                  } else {
-                    realColspan++;
-                  }
-                }
-
-                if (realColspan < colspan) {
-                  cellToken.attrSet("colspan", String(realColspan));
-                }
-
-                // Mark columns as occupied
-                for (let i = 0; i < realColspan; i++) {
-                  if (colIndex + i < columnCount) {
-                    rowState[colIndex + i] = rowspan - 1;
-                  }
-                }
-
-                // Consume merged cells
-                const cellsToMerge = realColspan - 1;
-
-                for (let i = 0; i < cellsToMerge; i++) {
-                  if (cellIndex < cells.length) {
-                    const { openIndex: mergeOpen, closeIndex: mergeClose } =
-                      cells[cellIndex];
-
-                    rangesToRemove.push({ start: mergeOpen, end: mergeClose });
-                    cellIndex++;
-                  }
-                }
-
-                colIndex += realColspan;
-              } else {
-                // No more cells
-                colIndex++;
-              }
-            }
-          }
-
-          // Hide remaining cells
-          while (cellIndex < cells.length) {
-            const { openIndex, closeIndex } = cells[cellIndex];
-
-            rangesToRemove.push({ start: openIndex, end: closeIndex });
-            cellIndex++;
-          }
-
-          currentTokenIndex = trEndIndex + 1;
-        } else {
-          currentTokenIndex++;
+        while (
+          trCloseIndex < index &&
+          tokens[trCloseIndex].type !== "tr_close"
+        ) {
+          trCloseIndex++;
         }
+
+        // Collect cell info
+        const cells: [openIndex: number, closeIndex: number][] = [];
+
+        let cellSearchIndex = trOpenIndex + 1;
+
+        // if it's not tr_close, then it should be a td_open or th_open
+        while (cellSearchIndex < trCloseIndex) {
+          let closeIndex = cellSearchIndex + 1;
+
+          // find the close token
+          while (
+            closeIndex < trCloseIndex &&
+            tokens[closeIndex].type !== "td_close" &&
+            tokens[closeIndex].type !== "th_close"
+          ) {
+            closeIndex++;
+          }
+
+          cells.push([cellSearchIndex, closeIndex]);
+          // move to next token
+          cellSearchIndex = closeIndex + 1;
+        }
+
+        let cellIndex = 0;
+        let colIndex = 0;
+
+        while (colIndex < columnCount) {
+          // skip cells removed by rowspan
+          if (remainingCellRemovedByRowSpan[colIndex] > 0) {
+            remainingCellRemovedByRowSpan[colIndex]--;
+            rangesToRemove.push(cells[cellIndex]);
+            cellIndex++;
+            colIndex++;
+            continue;
+          }
+
+          // get rowspan and colspan for current cell
+          const cellOpenToken = tokens[cells[cellIndex][0]];
+          const colspan = Number(cellOpenToken.attrGet("colspan")) || 1;
+          const rowspan = Number(cellOpenToken.attrGet("rowspan")) || 1;
+
+          cellIndex++;
+
+          // Calculate real colspan based on availability
+          let realColspan = 0;
+
+          for (let colSpanIndex = 0; colSpanIndex < colspan; colSpanIndex++) {
+            // colspan should not overflow table columns
+            if (colIndex + colSpanIndex < columnCount) {
+              // the column is not occupied by rowspan
+              if (
+                remainingCellRemovedByRowSpan[colIndex + colSpanIndex] === 0
+              ) {
+                realColspan++;
+              } else {
+                break;
+              }
+            }
+          }
+
+          if (colspan > 1 && realColspan < colspan) {
+            cellOpenToken.attrSet("colspan", String(realColspan));
+          }
+
+          // Mark columns as occupied
+          for (let i = 0; i < realColspan; i++) {
+            if (colIndex + i < columnCount) {
+              remainingCellRemovedByRowSpan[colIndex + i] = rowspan - 1;
+            }
+          }
+
+          // Consume merged cells
+          const cellsToMerge = realColspan - 1;
+
+          if (cellsToMerge > 0) {
+            for (let i = 0; i < cellsToMerge; i++) {
+              rangesToRemove.push(cells[cellIndex]);
+              cellIndex++;
+            }
+          }
+
+          colIndex += realColspan;
+        }
+
+        // Move to next tr
+        currentTokenIndex = trCloseIndex + 1;
       }
 
       // Remove tokens in reverse order
-      rangesToRemove.sort((a, b) => b.start - a.start);
-      for (const { start, end } of rangesToRemove) {
+      rangesToRemove.sort((a, b) => b[0] - a[0]);
+      for (const [start, end] of rangesToRemove) {
         tokens.splice(start, end - start + 1);
       }
     },
