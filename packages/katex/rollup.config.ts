@@ -8,7 +8,6 @@ export default [
   }),
   ...rollupTypescript("mhchem", {
     external: ["katex", "katex/contrib/mhchem"],
-    dtsExternal: ["katex", "katex/contrib/mhchem"],
     treeshake: {
       moduleSideEffects: ["katex", "katex/contrib/mhchem"],
     },

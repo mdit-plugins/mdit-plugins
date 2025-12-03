@@ -35,7 +35,7 @@ export const rollupTypescript = (
     browser = false,
     dts: enableDts = !browser,
     external = [],
-    dtsExternal = [],
+    dtsExternal = external,
     output = {},
     alias: aliasOptions,
     inlineDynamicImports = false,
