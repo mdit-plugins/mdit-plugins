@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.24.0...@mdit/plugin-attrs@0.24.1) (2025-12-04)
+
+### 🚀 Performance Improvements
+
+- **attrs:** improve new table performance ([50ab8ca](https://github.com/mdit-plugins/mdit-plugins/commit/50ab8caa6dd2d40dfb7ee0bd22d7d3f4984ff330))
+
 ## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.23.3...@mdit/plugin-attrs@0.24.0) (2025-12-01)
 
 ### ⚠ BREAKING CHANGES

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.25.0...@mdit/plugin-katex-slim@0.25.1) (2025-12-04)
+
+### 🐛 Bug Fixes
+
+- **katex-slim:** add missing export ([78f00c8](https://github.com/mdit-plugins/mdit-plugins/commit/78f00c801c3b007ee3ceb885f5e6b3849df9f73c))
+
 ## [0.25.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.24.0...@mdit/plugin-katex-slim@0.25.0) (2025-12-01)
 
 ### ⚠ BREAKING CHANGES
