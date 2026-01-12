@@ -21,7 +21,7 @@ import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-import { texPackages } from "./tex/index.js";
+import { defaultTexPackages } from "./tex/index.js";
 
 import "./tex/importer.js";
 
@@ -37,8 +37,8 @@ export const getDocumentOptions = (
   options: MarkdownItMathjaxOptions,
 ): DocumentOptions => ({
   InputJax: new TeX<LiteElement, string, HTMLElement>({
-    packages: ["base", ...texPackages],
     ...options.tex,
+    packages: ["base", ...defaultTexPackages],
   }),
   OutputJax:
     options.output === "chtml"

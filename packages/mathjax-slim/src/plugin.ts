@@ -2,6 +2,7 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
+import { MathJaxTexFont } from "@mathjax/mathjax-tex-font/js/svg.js";
 import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type {
@@ -23,7 +24,7 @@ import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
+import { defaultTexPackages, loadTexPackages } from "./tex/index.js";
 
 let isMathJaxFullInstalled = true;
 let mathjaxLib: typeof mathjaxType;
@@ -70,8 +71,8 @@ export const getDocumentOptions = async (
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
-      packages: ["base", ...texPackages],
       ...options.tex,
+      packages: ["base", ...(options.tex?.packages ?? defaultTexPackages)],
     }),
     OutputJax:
       options.output === "chtml"
@@ -81,6 +82,7 @@ export const getDocumentOptions = async (
           })
         : new SVG<LiteElement, string, HTMLElement>({
             fontCache: "none",
+            fontData: MathJaxTexFont,
             ...options.svg,
           }),
     enableAssistiveMml: options.a11y !== false,
