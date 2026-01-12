@@ -1,9 +1,9 @@
 import type { TexPackage } from "../mathjax.js";
 import { texLoaders } from "./loader.js";
-import { texPackages } from "./packages.js";
+import { defaultTexPackages, texPackages } from "./packages.js";
 
 export const loadTexPackages = async (
-  packages: TexPackage[] = texPackages,
+  packages: TexPackage[] = defaultTexPackages,
 ): Promise<void> => {
   await import("@mathjax/src/js/input/tex/base/BaseConfiguration.js");
 

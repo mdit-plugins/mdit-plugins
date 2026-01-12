@@ -40,3 +40,7 @@ export const texPackages: TexPackage[] = [
   "upgreek",
   "verb",
 ];
+
+export const defaultTexPackages: TexPackage[] = texPackages.filter(
+  (pkg) => pkg !== "bboldx",
+);

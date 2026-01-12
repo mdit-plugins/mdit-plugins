@@ -47,12 +47,10 @@ export interface MathJaxTexInputOptions {
    * extensions to use
    *
    * @default [
-   *   'base',
    *   'action',
    *   'ams',
    *   'amscd',
    *   'bbm',
-   *   'bboldx',
    *   'bbox',
    *   'begingroup',
    *   'boldsymbol',
