@@ -1,3 +1,6 @@
+const ESCAPE_REGEXP = /[-/\\^$*+?.()|[\]{}]/g;
+const REPLACE_WITH = String.raw`\$&`;
+
 /**
  * Escapes html content
  *
@@ -12,9 +15,6 @@ export const escapeHtml = (unsafeHTML: string): string =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-
-const ESCAPE_REGEXP = /[-/\\^$*+?.()|[\]{}]/g;
-const REPLACE_WITH = String.raw`\$&`;
 
 /**
  * Escapes special characters in string s such that the string

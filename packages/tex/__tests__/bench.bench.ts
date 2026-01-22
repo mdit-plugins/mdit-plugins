@@ -20,7 +20,9 @@ const testData = {
 
   // 中等文档: 10,000 字符
   medium: {
-    inline: Array(50).fill("$x^2 + y^2 = z^2$ and $\\alpha + \\beta = \\gamma$").join(" "),
+    inline: Array(50)
+      .fill(String.raw`$x^2 + y^2 = z^2$ and $\alpha + \beta = \gamma$`)
+      .join(" "),
     block: Array(20)
       .fill(
         "$$\n\\frac{\\partial^2 f}{\\partial x^2} + \\frac{\\partial^2 f}{\\partial y^2} = 0\n$$",
@@ -40,7 +42,7 @@ const testData = {
   large: {
     inline: Array(500)
       .fill(
-        "$\\frac{1}{2\\pi i} \\oint_C \\frac{f(z)}{z-a} dz = f(a)$ and $\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}$",
+        String.raw`$\frac{1}{2\pi i} \oint_C \frac{f(z)}{z-a} dz = f(a)$ and $\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$`,
       )
       .join(" "),
     block: Array(200)
@@ -328,7 +330,7 @@ describe("tex plugin performance benchmarks", () => {
     const combinedData = {
       small: testData.small.mixed + "\n\n" + bracketTestData.small.mixed,
       medium: testData.medium.mixed + "\n\n" + bracketTestData.medium.mixed,
-      large: testData.large.mixed + "\n\n" + bracketTestData.large.mixed,
+      large: `${testData.large.mixed}\n\n${bracketTestData.large.mixed}`,
     };
 
     describe("small documents (~2K chars)", () => {
@@ -378,7 +380,7 @@ describe("tex plugin performance benchmarks", () => {
 
     // Test with heavy escape sequences
     const escapeHeavyContent = Array(1000)
-      .fill("\\$escaped\\$ and \\\\(also\\\\) escaped")
+      .fill(String.raw`\$escaped\$ and \\(also\\) escaped`)
       .join(" ");
 
     bench("current - escape heavy", () => {
@@ -390,7 +392,9 @@ describe("tex plugin performance benchmarks", () => {
     });
 
     // Test with many unclosed markers (should be fast rejection)
-    const uncloseMarkers = Array(1000).fill("$unclosed and \\(also unclosed").join(" ");
+    const uncloseMarkers = Array(1000)
+      .fill(String.raw`$unclosed and \(also unclosed`)
+      .join(" ");
 
     bench("current - unclosed markers", () => {
       currentMd.render(uncloseMarkers);

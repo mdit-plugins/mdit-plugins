@@ -14,6 +14,7 @@ interface TokenWithColumnCount extends Token {
     | undefined;
 }
 
+// oxlint-disable-next-line max-lines-per-function
 export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
   {
     /**
