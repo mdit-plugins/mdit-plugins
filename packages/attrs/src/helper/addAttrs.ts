@@ -13,14 +13,17 @@ export const addAttrs = (
 
   getAttrs(content, range, allowed).forEach(([key, value]) => {
     switch (key) {
-      case "class":
+      case "class": {
         token.attrJoin("class", value);
         break;
-      case "css-module":
+      }
+      case "css-module": {
         token.attrJoin("css-module", value);
         break;
-      default:
+      }
+      default: {
         token.attrPush([key, value]);
+      }
     }
   });
 };

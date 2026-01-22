@@ -36,7 +36,7 @@ const tokenize: RuleInline = (state, silent) => {
 
     token.content = markerChar + markerChar;
 
-    if (scanned.can_open || scanned.can_close)
+    if (scanned.can_open || scanned.can_close) {
       state.delimiters.push({
         marker: 0x3d,
         length: 0, // disable "rule of 3" length checks meant for emphasis
@@ -45,6 +45,7 @@ const tokenize: RuleInline = (state, silent) => {
         open: scanned.can_open,
         close: scanned.can_close,
       });
+    }
   }
 
   state.pos += scanned.length;
@@ -84,8 +85,9 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
       if (
         state.tokens[endDelim.token - 1].type === "text" &&
         state.tokens[endDelim.token - 1].content === "="
-      )
+      ) {
         loneMarkers.push(endDelim.token - 1);
+      }
     }
   }
 
@@ -97,7 +99,7 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
    * So, we have to move all those markers after subsequent s_close tags.
    *
    */
-  while (loneMarkers.length) {
+  while (loneMarkers.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i = loneMarkers.pop()!;
     let j = i + 1;

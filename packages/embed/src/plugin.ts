@@ -8,8 +8,9 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
 const checkInlineOpeningMarker = (src: string, current: number): boolean => {
-  if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */)
+  if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */) {
     return false;
+  }
 
   // Check if the opening marker was escaped
   let pos = current - 1;
@@ -119,8 +120,9 @@ const getEmbedBlock =
     if (
       state.src.charCodeAt(start) !== 123 /* { */ ||
       state.src.charCodeAt(start + 1) !== 37 /* % */
-    )
+    ) {
       return false;
+    }
 
     max = state.skipSpacesBack(max, start);
 
@@ -181,8 +183,9 @@ const getEmbedBlock =
   };
 
 export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) => {
-  if (typeof options !== "object" || !Array.isArray(options.config))
-    throw new Error("[@mdit/plugin-embed]: config is required and must be an array.");
+  if (typeof options !== "object" || !Array.isArray(options.config)) {
+    throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
+  }
 
   // Get existing maps or create new ones to support multiple plugin instances
   const mdWithMaps = md as MarkdownIt & {
@@ -219,7 +222,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
   }
 
   // only register embed_inline rules if inline embeds are allowed
-  if (inlineEmbedMap.size && !("embed_inline" in md.renderer.rules)) {
+  if (inlineEmbedMap.size > 0 && !("embed_inline" in md.renderer.rules)) {
     // Register the inline rule
     md.inline.ruler.before("emphasis", "embed_inline", getEmbedInline(inlineEmbedMap));
 

@@ -56,8 +56,9 @@ export interface DocumentOptions {
 
 export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => {
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxFullInstalled)
+  if (!isMathJaxFullInstalled) {
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
+  }
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({

@@ -20,7 +20,7 @@ const parseImageSize = (
   if (pos === -1 || pos + 3 > max) return null;
   if (pos !== 0 && !isSpace(label.charCodeAt(pos - 1))) return null;
 
-  const origLabel = label.substring(0, pos++).trimEnd();
+  const origLabel = label.slice(0, pos++).trimEnd();
 
   let width: string | null = null;
   let height: string | null = null;
@@ -32,7 +32,7 @@ const parseImageSize = (
       pos++;
     }
 
-    width = label.substring(startPos, pos);
+    width = label.slice(startPos, pos);
 
     if (label.charCodeAt(pos++) !== 120 /* x */) return null;
   } else if (label.charCodeAt(pos++) === 120 /* x */) {
@@ -48,7 +48,7 @@ const parseImageSize = (
       pos++;
     }
 
-    if (pos > startPos) height = label.substring(startPos, pos);
+    if (pos > startPos) height = label.slice(startPos, pos);
   }
 
   while (pos < max) {
@@ -71,8 +71,9 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   if (
     state.src.charCodeAt(state.pos) !== 33 /* ! */ ||
     state.src.charCodeAt(state.pos + 1) !== 91 /* [ */
-  )
+  ) {
     return false;
+  }
 
   const labelStart = state.pos + 2;
   const labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);

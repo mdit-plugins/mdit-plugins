@@ -37,17 +37,19 @@ const findRegion = (
   let regexp: RegExp | null = null;
   let start = -1;
 
-  for (const [lineId, line] of lines.entries())
+  for (const [lineId, line] of lines.entries()) {
     if (regexp === null) {
-      for (const reg of REGIONS_RE)
+      for (const reg of REGIONS_RE) {
         if (testLine(line, reg, regionName)) {
           start = lineId + 1;
           regexp = reg;
           break;
         }
+      }
     } else if (testLine(line, regexp, regionName, true)) {
       return { start, end: lineId, regexp };
     }
+  }
 
   return null;
 };
@@ -105,8 +107,9 @@ const getSnippetRule =
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
   const { currentPath, resolvePath = (path: string): string => path } = options ?? {};
 
-  if (typeof currentPath !== "function")
-    throw new Error('[@mdit/plugin-snippet]: "currentPath" is required');
+  if (typeof currentPath !== "function") {
+    throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
+  }
 
   md.block.ruler.before("fence", "snippet", getSnippetRule({ currentPath, resolvePath }));
 
@@ -126,7 +129,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
       region: string;
     };
 
-    if (src)
+    if (src) {
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
         let content = fs.readFileSync(src, "utf8");
 
@@ -134,13 +137,14 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
           const lines = content.split(NEWLINE_RE);
           const regionInfo = findRegion(lines, region);
 
-          if (regionInfo)
+          if (regionInfo) {
             content = dedent(
               lines
                 .slice(regionInfo.start, regionInfo.end)
                 .filter((line: string) => !regionInfo.regexp.test(line.trim()))
                 .join("\n"),
             );
+          }
         }
 
         token.content = content;
@@ -150,6 +154,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
         token.content = `Code snippet path not found: ${src}`;
         token.info = "";
       }
+    }
 
     return originalFence(tokens, index, options, env, self);
   };

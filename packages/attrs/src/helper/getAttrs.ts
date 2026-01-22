@@ -80,9 +80,10 @@ export const getAttrs = (
 
     // read next key/value pair
     if (charCode === PAIR_SEPARATOR && !valueInsideQuotes) {
-      if (key === "")
+      if (key === "") {
         // beginning or ending space: { .red } vs {.red}
         continue;
+      }
 
       attrs.push([key, value]);
       key = "";
@@ -107,7 +108,7 @@ export const getAttrs = (
   // append last key/value pair
   if (key !== "") attrs.push([key, value]);
 
-  return allowed.length
+  return allowed.length > 0
     ? attrs.filter(([attr]) =>
         allowed.some((item) => (item instanceof RegExp ? item.test(attr) : item === attr)),
       )

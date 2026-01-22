@@ -49,7 +49,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
     state.env.tasklistId ||= 0;
 
-    for (let i = 2; i < tokens.length; i++)
+    for (let i = 2; i < tokens.length; i++) {
       if (isTaskListItem(tokens, i)) {
         const token = tokens[i];
 
@@ -82,8 +82,9 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         ];
 
         // if token.content starts with '[x] ' or '[X] '
-        if (/^\[[xX]\][ \u00A0]/.test(token.content))
+        if (/^\[[xX]\][ \u00A0]/.test(token.content)) {
           checkboxToken.attrs.push(["checked", "checked"]);
+        }
 
         if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
 
@@ -93,6 +94,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         setTokenAttr(tokens[i - 2], "class", itemClass);
         setTokenAttr(tokens[getParentTokenIndex(tokens, i - 2)], "class", containerClass);
       }
+    }
 
     return true;
   };

@@ -18,15 +18,16 @@ const katexInline = (
       ...options,
       displayMode: false,
     });
-  } catch (error) {
+  } catch (err) {
     /* istanbul ignore else -- @preserve */
-    if (error instanceof ParseError) {
-      console.error(error);
+    if (err instanceof ParseError) {
+      // oxlint-disable-next-line no-console
+      console.error(err);
       result = `<span class='katex-error' title='${escapeHtml(
-        (error as Error).toString(),
+        (err as Error).toString(),
       )}'>${escapeHtml(tex)}</span>`;
     } else {
-      throw error;
+      throw err;
     }
   }
 
@@ -45,15 +46,16 @@ const katexBlock = (
       ...options,
       displayMode: true,
     })}</p>\n`;
-  } catch (error) {
+  } catch (err) {
     /* istanbul ignore else -- @preserve */
-    if (error instanceof ParseError) {
-      console.error(error);
+    if (err instanceof ParseError) {
+      // oxlint-disable-next-line no-console
+      console.error(err);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
-        (error as Error).toString(),
+        (err as Error).toString(),
       )}'>${escapeHtml(tex)}</p>\n`;
     } else {
-      throw error;
+      throw err;
     }
   }
 

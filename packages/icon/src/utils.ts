@@ -137,7 +137,7 @@ export const extractAttrs = <T extends { content: string }>(
           ? ""
           : (valueWithoutQuotes ??
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            valueWithQuotes!.replace(new RegExp(`\\\\${quote}`, "g"), quote!));
+            valueWithQuotes!.replaceAll(new RegExp(`\\\\${quote}`, "g"), quote!));
 
         return "";
       },

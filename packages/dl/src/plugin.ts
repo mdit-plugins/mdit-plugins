@@ -26,8 +26,9 @@ const checkAndSkipMarker = (state: StateBlock, line: number): number => {
     start === pos ||
     // no empty definitions, e.g. "  : "
     pos >= max
-  )
+  ) {
     return -1;
+  }
 
   return start;
 };

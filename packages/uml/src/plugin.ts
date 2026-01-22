@@ -34,8 +34,9 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
     let index;
 
     // Check out the rest of the marker string
-    for (index = 0; index < OPEN_MARKER.length; ++index)
+    for (index = 0; index < OPEN_MARKER.length; ++index) {
       if (OPEN_MARKER[index] !== state.src[start + index]) return false;
+    }
 
     const markup = state.src.slice(start, start + index);
     const params = state.src.slice(start + index, max);
@@ -55,11 +56,12 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 
-      if (start < max && state.sCount[nextLine] < state.blkIndent)
+      if (start < max && state.sCount[nextLine] < state.blkIndent) {
         // non-empty line with negative indent should stop the list:
         // - @umlstart
         //  test
         break;
+      }
 
       if (
         // didn’t find the closing fence
@@ -69,11 +71,12 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       ) {
         let closeMarkerMatched = true;
 
-        for (index = 0; index < CLOSE_MARKER.length; ++index)
+        for (index = 0; index < CLOSE_MARKER.length; ++index) {
           if (CLOSE_MARKER[index] !== state.src[start + index]) {
             closeMarkerMatched = false;
             break;
           }
+        }
 
         if (
           closeMarkerMatched &&

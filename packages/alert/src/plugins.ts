@@ -11,8 +11,9 @@ const getAlertRule =
       state.sCount[startLine] - state.blkIndent >= 4 ||
       // check whether it's at first level
       (state.level !== 0 && !deep)
-    )
+    ) {
       return false;
+    }
 
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -50,9 +51,9 @@ const getAlertRule =
     while (currentPos < max) {
       const ch = state.src.charCodeAt(currentPos);
 
-      if (ch === 9 /** \t */)
+      if (ch === 9 /** \t */) {
         offset += 4 - ((offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4);
-      else if (ch === 32 /** space */) offset++;
+      } else if (ch === 32 /** space */) offset++;
       else break;
 
       currentPos++;
@@ -68,8 +69,9 @@ const getAlertRule =
     if (
       state.src.charCodeAt(currentPos) !== 91 /* [ */ ||
       state.src.charCodeAt(currentPos + 1) !== 33 /* ! */
-    )
+    ) {
       return false;
+    }
 
     currentPos += 2;
 
@@ -191,9 +193,9 @@ const getAlertRule =
         while (pos < max) {
           const ch = state.src.charCodeAt(pos);
 
-          if (ch === 9 /** \t */)
+          if (ch === 9 /** \t */) {
             offset += 4 - ((offset + state.bsCount[currentLine] + (adjustTab ? 1 : 0)) % 4);
-          else if (ch === 32 /** space */) offset++;
+          } else if (ch === 32 /** space */) offset++;
           else break;
 
           pos++;
@@ -221,11 +223,12 @@ const getAlertRule =
       // Case 3: another tag found.
       let terminate = false;
 
-      for (const terminatorRule of terminatorRules)
+      for (const terminatorRule of terminatorRules) {
         if (terminatorRule(state, currentLine, endLine, true)) {
           terminate = true;
           break;
         }
+      }
 
       if (terminate) {
         // Quirk to enforce "hard termination mode" for paragraphs;

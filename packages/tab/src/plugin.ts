@@ -28,8 +28,9 @@ const checkTabMarker = (
   let pos = 1;
 
   // Check out the rest of the marker string
-  for (; pos < ACTIVE_TAB_MARKER_LENGTH; pos++)
+  for (; pos < ACTIVE_TAB_MARKER_LENGTH; pos++) {
     if (ACTIVE_TAB_MARKER.charCodeAt(pos) !== state.src.charCodeAt(start + pos)) break;
+  }
 
   const isActive = pos === ACTIVE_TAB_MARKER_LENGTH;
 
@@ -224,11 +225,12 @@ const getTabsRule =
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < indent)
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < indent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
+      }
 
       if (
         // closing fence should be indented same as opening one
@@ -237,8 +239,9 @@ const getTabsRule =
         state.src.charCodeAt(nextLineStart) === 58 /* : */
       ) {
         // check rest of marker
-        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
+        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++) {
           if (state.src.charCodeAt(pos) !== 58 /* : */) break;
+        }
 
         // closing code fence must be at least as long as the opening one
         if (pos - nextLineStart >= markerCount) {
@@ -345,10 +348,11 @@ const getTabsDataGetter =
           meta.index = data.length;
           // tab is active
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (meta.active)
+          if (meta.active) {
             if (activeIndex === -1) activeIndex = data.length;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             else meta.active = false;
+          }
 
           data.push({
             title: info,

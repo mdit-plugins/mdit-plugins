@@ -60,17 +60,19 @@ const findRegion = (
   let regexp = null;
   let lineStart = -1;
 
-  for (const [lineId, line] of lines.entries())
+  for (const [lineId, line] of lines.entries()) {
     if (regexp === null) {
-      for (const reg of REGIONS_RE)
+      for (const reg of REGIONS_RE) {
         if (testLine(line, reg, regionName)) {
           lineStart = lineId + 1;
           regexp = reg;
           break;
         }
+      }
     } else if (testLine(line, regexp, regionName, true)) {
       return { lineStart, lineEnd: lineId };
     }
+  }
 
   return null;
 };
@@ -274,7 +276,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
   } = options ?? {};
 
   if (typeof currentPath !== "function") {
-    throw new Error('[@mdit/plugin-include]: "currentPath" is required');
+    throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
   }
 
   const includeRule: RuleCore = (state): void => {

@@ -26,8 +26,9 @@ const parseNumber = (
 
   char = str.charCodeAt(pos);
 
-  while ((pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ || char === 37 /* % */)
+  while ((pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ || char === 37 /* % */) {
     char = str.charCodeAt(++pos);
+  }
 
   result.ok = true;
   result.pos = pos;
@@ -81,8 +82,9 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   if (
     state.src.charCodeAt(state.pos) !== 33 /* ! */ ||
     state.src.charCodeAt(state.pos + 1) !== 91 /* [ */
-  )
+  ) {
     return false;
+  }
 
   const labelStart = state.pos + 2;
   const labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);

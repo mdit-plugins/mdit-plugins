@@ -144,8 +144,12 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   const start = state.pos;
 
   // Check for opening \(
-  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 40 /* ( */)
+  if (
+    state.src.charCodeAt(start) !== 92 /* \ */ ||
+    state.src.charCodeAt(start + 1) !== 40 /* ( */
+  ) {
     return false;
+  }
 
   // Look for closing \)
   let pos = start + 2;
@@ -177,7 +181,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   if (!silent) {
     const token = state.push("math_inline", "math", 0);
 
-    token.markup = "\\(";
+    token.markup = String.raw`\(`;
     token.content = state.src.slice(start + 2, pos);
   }
 
@@ -195,8 +199,12 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (start + 2 > end) return false;
 
-  if (state.src.charCodeAt(start) !== 36 /* $ */ || state.src.charCodeAt(start + 1) !== 36 /* $ */)
+  if (
+    state.src.charCodeAt(start) !== 36 /* $ */ ||
+    state.src.charCodeAt(start + 1) !== 36 /* $ */
+  ) {
     return false;
+  }
 
   if (silent) return true;
 
@@ -267,8 +275,12 @@ const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) 
 
   if (start + 2 > end) return false;
 
-  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 91 /* [ */)
+  if (
+    state.src.charCodeAt(start) !== 92 /* \ */ ||
+    state.src.charCodeAt(start + 1) !== 91 /* [ */
+  ) {
     return false;
+  }
 
   if (silent) return true;
 
@@ -337,8 +349,9 @@ const ruleOptions = {
 };
 
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
-  if (typeof options?.render !== "function")
-    throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
+  if (typeof options?.render !== "function") {
+    throw new TypeError('[@mdit/plugin-tex]: "render" option should be a function');
+  }
 
   const {
     allowInlineWithSpace = false,

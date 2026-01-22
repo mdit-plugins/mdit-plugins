@@ -42,8 +42,9 @@ export const abbr: PluginSimple = (md) => {
       pos + 2 >= max ||
       state.src.charCodeAt(pos++) !== 42 /* * */ ||
       state.src.charCodeAt(pos++) !== 91 /* [ */
-    )
+    ) {
       return false;
+    }
 
     const labelStart = pos;
 
@@ -62,14 +63,14 @@ export const abbr: PluginSimple = (md) => {
     if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
     if (silent) return true;
 
-    const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");
+    const label = state.src.slice(labelStart, labelEnd).replaceAll(/\\(.)/g, "$1");
 
     pos = labelEnd + 2;
     const titleStart = state.skipSpaces(pos);
     const titleEnd = state.skipSpacesBack(max, titleStart);
     const title = state.src.slice(titleStart, titleEnd);
 
-    if (!label.length || !title.length) return false;
+    if (label.length === 0 || title.length === 0) return false;
 
     // prepend ':' to avoid conflict with Object.prototype members
     (state.env.abbreviations ??= {})["_" + label] ??= title;
@@ -150,7 +151,7 @@ export const abbr: PluginSimple = (md) => {
           pos = regExp.lastIndex;
         }
 
-        if (!nodes.length) continue;
+        if (nodes.length === 0) continue;
 
         if (pos < text.length) {
           const token = new state.Token("text", "", 0);

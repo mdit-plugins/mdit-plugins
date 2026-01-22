@@ -53,12 +53,13 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
     const localConfig = options.localConfigGetter?.(env) ?? [];
 
     tokens.forEach(({ type, children }) => {
-      if (type === "inline" && children)
+      if (type === "inline" && children) {
         scanTokens(children, [
           // local config has higher priority
           ...localConfig,
           ...(options.config ?? []),
         ]);
+      }
     });
   };
 

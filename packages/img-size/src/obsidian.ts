@@ -24,7 +24,7 @@ const parseObsidianImageSize = (
   if (pos === -1) return null;
 
   // Get original label part before the pipe
-  const origLabel = label.substring(0, pos++).trimEnd();
+  const origLabel = label.slice(0, pos++).trimEnd();
 
   // Skip spaces after pipe
   while (pos < max) {
@@ -42,7 +42,7 @@ const parseObsidianImageSize = (
 
   if (pos === widthStart || pos === max) return null;
 
-  const width = label.substring(widthStart, pos);
+  const width = label.slice(widthStart, pos);
 
   // Skip spaces after width
   while (pos < max) {
@@ -68,7 +68,7 @@ const parseObsidianImageSize = (
   if (pos === heightStart) return null;
 
   // 验证宽度是有效的数字序列
-  const height = label.substring(heightStart, pos);
+  const height = label.slice(heightStart, pos);
   const widthNum = Number(width);
   const heightNum = Number(height);
 
@@ -93,8 +93,9 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
   if (
     state.src.charCodeAt(state.pos) !== 33 /* ! */ ||
     state.src.charCodeAt(state.pos + 1) !== 91 /* [ */
-  )
+  ) {
     return false;
+  }
 
   const labelStart = state.pos + 2;
   const labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);

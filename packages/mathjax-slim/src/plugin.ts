@@ -57,8 +57,9 @@ export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
 ): Promise<DocumentOptions> => {
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxFullInstalled)
+  if (!isMathJaxFullInstalled) {
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
+  }
 
   await loadTexPackages(options.tex?.packages);
 

@@ -91,11 +91,12 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent)
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
+      }
 
       if (
         // closing fence should be indented same as opening one
@@ -104,8 +105,9 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
         markerStart === state.src[nextLineStart]
       ) {
         // check rest of marker
-        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
+        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++) {
           if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos]) break;
+        }
 
         // closing code fence must be at least as long as the opening one
         if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {

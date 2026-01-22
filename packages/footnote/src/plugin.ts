@@ -113,7 +113,7 @@ const renderFootnoteAnchor: RenderRule = (
   ` <a href="#footnote-ref${self.rules.footnote_anchorName!(tokens, index, options, env, self)}${
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
-  }" class="footnote-backref">\u21a9\uFE0E</a>`;
+  }" class="footnote-backref">\u21A9\uFE0E</a>`;
 
 // Process footnote block definition
 const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, silent) => {
@@ -126,8 +126,9 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
     start + 4 > max ||
     state.src.charCodeAt(start) !== 91 /* [ */ ||
     state.src.charCodeAt(start + 1) !== 94 /* ^ */
-  )
+  ) {
     return false;
+  }
 
   let pos = start + 2;
 
@@ -143,8 +144,9 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
     pos === start + 2 ||
     pos + 1 >= max ||
     state.src.charCodeAt(++pos) !== 58 /* : */
-  )
+  ) {
     return false;
+  }
 
   if (silent) return true;
   pos++;
@@ -213,8 +215,9 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     start + 2 >= max ||
     state.src.charCodeAt(start) !== 94 /* ^ */ ||
     state.src.charCodeAt(start + 1) !== 91 /* [ */
-  )
+  ) {
     return false;
+  }
 
   const labelEnd = state.md.helpers.parseLinkLabel(state, start + 1);
 
@@ -265,8 +268,9 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     !state.env.footnotes?.refs ||
     state.src.charCodeAt(start) !== 91 /* [ */ ||
     state.src.charCodeAt(start + 1) !== 94 /* ^ */
-  )
+  ) {
     return false;
+  }
 
   let pos = start + 2;
 
@@ -406,9 +410,9 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       if (tokens) state.tokens.push(...tokens);
     }
 
-    if (state.tokens[state.tokens.length - 1].type === "paragraph_close")
+    if (state.tokens[state.tokens.length - 1].type === "paragraph_close") {
       lastParagraph = state.tokens.pop() ?? null;
-    else lastParagraph = null;
+    } else lastParagraph = null;
 
     for (
       let j = 0;

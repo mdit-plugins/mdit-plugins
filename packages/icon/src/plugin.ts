@@ -10,8 +10,9 @@ const iconRule: RuleInline = (state, silent) => {
 
   // ::xxx
   // ^^
-  if (state.src.charCodeAt(start) !== 0x3a || state.src.charCodeAt(start + 1) !== 0x3a)
+  if (state.src.charCodeAt(start) !== 0x3a || state.src.charCodeAt(start + 1) !== 0x3a) {
     return false;
+  }
 
   const next = state.src.charCodeAt(start + 2);
 

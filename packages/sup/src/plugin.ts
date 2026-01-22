@@ -15,8 +15,9 @@ const superscriptRender: RuleInline = (state, silent) => {
     // don’t run any pairs in validation mode
     silent ||
     start + 2 >= max
-  )
+  ) {
     return false;
+  }
 
   state.pos = start + 1;
 
@@ -40,7 +41,7 @@ const superscriptRender: RuleInline = (state, silent) => {
   const content = state.src.slice(start + 1, state.pos);
 
   // don’t allow unescaped spaces/newlines inside
-  if (/(^|[^\\])(\\\\)*\s/u.exec(content)) {
+  if (/(^|[^\\])(\\\\)*\s/u.test(content)) {
     state.pos = start;
 
     return false;

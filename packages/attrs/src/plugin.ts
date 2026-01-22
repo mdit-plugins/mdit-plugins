@@ -22,7 +22,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   });
 
   const attrsRule: RuleCore = ({ tokens }) => {
-    for (let index = 0; index < tokens.length; index++)
+    for (let index = 0; index < tokens.length; index++) {
       for (let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
         const pattern = rules[ruleIndex];
         // position of child with offset 0
@@ -42,11 +42,16 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           pattern.transform(tokens, index, position!, range!);
 
-          if (pattern.name === "inline attributes" || pattern.name === "inline nesting self-close")
+          if (
+            pattern.name === "inline attributes" ||
+            pattern.name === "inline nesting self-close"
+          ) {
             // retry, may be several inline attributes
             ruleIndex--;
+          }
         }
       }
+    }
   };
 
   md.core.ruler.before("linkify", "attrs", attrsRule);
