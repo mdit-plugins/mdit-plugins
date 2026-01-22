@@ -9,6 +9,12 @@ import type { Delimiter } from "markdown-it/lib/rules_inline/state_inline.mjs";
 
 import type { MarkdownItSpoilerOptions } from "./options.js";
 
+const DEFAULT_TAG = "span";
+const DEFAULT_ATTRS = [
+  ["class", "spoiler"],
+  ["tabindex", "-1"],
+];
+
 /*
  * Insert each marker as a separate text token, and add it to delimiter list
  *
@@ -20,7 +26,7 @@ const tokenize: RuleInline = (state, silent) => {
   if (silent || marker !== 33 /* ! */) return false;
 
   const scanned = state.scanDelims(state.pos, true);
-  let { length } = scanned;
+  let length = scanned.length;
 
   if (length < 2) return false;
 
@@ -62,7 +68,8 @@ const tokenize: RuleInline = (state, silent) => {
 const postProcess = (
   state: StateInline,
   delimiters: Delimiter[],
-  { tag, attrs }: Required<MarkdownItSpoilerOptions>,
+  tag: string,
+  attrs: [string, string][],
 ): void => {
   let token;
   const loneMarkers = [];
@@ -123,22 +130,24 @@ const postProcess = (
   }
 };
 
-export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
-  md,
-  {
-    tag = "span",
-    attrs = [
-      ["class", "spoiler"],
-      ["tabindex", "-1"],
-    ],
-  }: MarkdownItSpoilerOptions = {},
-) => {
+export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (md, options) => {
+  const { tag = DEFAULT_TAG, attrs = DEFAULT_ATTRS } = options ?? {};
+
   md.inline.ruler.before("emphasis", "spoiler", tokenize);
   md.inline.ruler2.before("emphasis", "spoiler", (state) => {
-    postProcess(state, state.delimiters, { tag, attrs });
+    if (state.delimiters.length > 0) {
+      postProcess(state, state.delimiters, tag, attrs);
+    }
 
-    for (const tokenMeta of state.tokens_meta) {
-      if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters, { tag, attrs });
+    const tokensMeta = state.tokens_meta;
+    const tokensMetaLength = tokensMeta.length;
+
+    if (tokensMetaLength === 0) return true;
+
+    for (let i = 0; i < tokensMetaLength; i++) {
+      const tokenMeta = tokensMeta[i];
+
+      if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters, tag, attrs);
     }
 
     return true;

@@ -18,8 +18,8 @@ export const getParentTokenIndex = (tokens: Token[], index: number): number => {
   return -1;
 };
 
-export const isInlineToken = (token?: Token): boolean => token?.type === "inline";
+export const isInlineToken = (token: Token): boolean => token.type === "inline";
 
-export const isParagraphToken = (token?: Token): boolean => token?.type === "paragraph_open";
+export const isParagraphToken = (token: Token): boolean => token.type === "paragraph_open";
 
-export const isListItemToken = (token?: Token): boolean => token?.type === "list_item_open";
+export const isListItemToken = (token: Token): boolean => token.type === "list_item_open";

@@ -10,9 +10,15 @@ import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from 
 
 const MIN_MARKER_NUM = 3;
 const TAB_MARKER = "@tab";
-const ACTIVE_TAB_MARKER = TAB_MARKER + ":active";
+const ACTIVE_TAB_MARKER = `${TAB_MARKER}:active`;
 const TAB_MARKER_LENGTH = TAB_MARKER.length;
 const ACTIVE_TAB_MARKER_LENGTH = ACTIVE_TAB_MARKER.length;
+
+interface TabMeta {
+  index: number;
+  active: boolean;
+  id?: string;
+}
 
 const checkTabMarker = (
   state: StateBlock,
@@ -78,13 +84,13 @@ const getTabRule =
         // marker should be indented same as opening one
         state.sCount[nextLine] === indent &&
         // match start
-        state.src[nextLineStart] === "@"
+        state.src[nextLineStart] === "@" &&
+        // check rest of marker
+        checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
       ) {
-        if (checkTabMarker(state, nextLineStart, state.eMarks[nextLine])) {
-          // found!
-          autoClosed = true;
-          break;
-        }
+        // found!
+        autoClosed = true;
+        break;
       }
     }
 
@@ -310,7 +316,7 @@ const getTabsRule =
 
 const getTabsDataGetter =
   (name: string): ((tokens: Token[], index: number) => MarkdownItTabInfo) =>
-  (tokens, index) => {
+  (tokens: Token[], index: number) => {
     const data: MarkdownItTabData[] = [];
     let activeIndex = -1;
     let isTabStart = false;
@@ -322,10 +328,11 @@ const getTabsDataGetter =
       i < tokens.length;
       i++
     ) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { block, meta, type, info } = tokens[i];
+      const token = tokens[i];
+      const meta = token.meta as TabMeta;
+      const type = token.type;
 
-      if (block) {
+      if (token.block) {
         // record the nesting depth of tabs
         if (type === `${name}_tabs_open`) {
           nestingDepth++;
@@ -344,23 +351,18 @@ const getTabsDataGetter =
         if (type === `${name}_tab_open`) {
           isTabStart = true;
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           meta.index = data.length;
           // tab is active
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (meta.active) {
             if (activeIndex === -1) activeIndex = data.length;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             else meta.active = false;
           }
 
           data.push({
-            title: info,
+            title: token.info,
             index: data.length,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            id: meta.id as string | undefined,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            isActive: meta.active as boolean,
+            id: meta.id,
+            isActive: meta.active,
           });
 
           continue;
@@ -383,17 +385,14 @@ const getTabsDataGetter =
   };
 
 const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { info, meta } = tokens[index];
+  const token = tokens[index];
+  const meta = token.meta as TabMeta;
 
   return {
-    title: info,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    index: meta.index as number,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    id: meta.id as string | undefined,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    isActive: meta.active as boolean,
+    title: token.info,
+    index: meta.index,
+    id: meta.id,
+    isActive: meta.active,
   };
 };
 
@@ -485,10 +484,10 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   md.renderer.rules[`${name}_tabs_close`] = closeRender;
 
-  md.renderer.rules[`${name}_tab_open`] = (tokens, index, ...args): string => {
+  md.renderer.rules[`${name}_tab_open`] = (tokens, index, options, env, self): string => {
     const data = tabDataGetter(tokens, index);
 
-    return tabOpenRender(data, tokens, index, ...args);
+    return tabOpenRender(data, tokens, index, options, env, self);
   };
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRender;

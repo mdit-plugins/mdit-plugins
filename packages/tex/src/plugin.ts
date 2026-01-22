@@ -2,11 +2,13 @@
  * Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js
  */
 
-import type { PluginWithOptions } from "markdown-it";
+import type { Options, PluginWithOptions } from "markdown-it";
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItTexOptions } from "./options.js";
 
@@ -364,15 +366,19 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (mathFence) {
     const fence = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (...args): string => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const [tokens, index, , env] = args;
-      const { content, info } = tokens[index];
+    md.renderer.rules.fence = (
+      tokens: Token[],
+      index: number,
+      options: Options,
+      env: unknown,
+      self: Renderer,
+    ): string => {
+      const token = tokens[index];
 
-      if (info.trim() === "math") return render(content, true, env);
+      if (token.info.trim() === "math") return render(token.content, true, env);
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return fence!(...args);
+      return fence!(tokens, index, options, env, self);
     };
   }
 

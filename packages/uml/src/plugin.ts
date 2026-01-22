@@ -1,15 +1,9 @@
 import { dedent } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItUMLOptions } from "./options.js";
-
-const defaultRender = (tokens: Token[], index: number): string => {
-  const token = tokens[index];
-
-  return `<div class="${token.type}" title="${token.info}">${token.content}</div>`;
-};
+import { defaultRender } from "./options.js";
 
 export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
   const { name = "uml", open = "start", close = "end", render = defaultRender } = options ?? {};

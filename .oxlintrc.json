@@ -93,10 +93,11 @@
       "warn",
       { "max": 100, "skipBlankLines": true, "skipComments": true }
     ],
-    "max-params": ["warn", 4],
-    "max-statements": ["warn", { "max": 30 }]
 
     // per project settings
+    "id-length": ["warn", { "min": 2, "exceptions": ["i", "j", "_"] }],
+    "max-params": ["warn", 5],
+    "max-statements": "off"
   },
   "overrides": [
     {
@@ -117,6 +118,7 @@
       "rules": {
         "prefer-destructuring": "off",
         "prefer-spread": "off",
+        "typescript/prefer-for-of": "off",
         "unicorn/no-for-loop": "off",
         "unicorn/prefer-array-flat": "off",
         "unicorn/prefer-code-point": "off",

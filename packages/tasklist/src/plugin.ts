@@ -21,17 +21,47 @@ interface TaskListStateCore extends StateCore {
   env: TaskListEnv;
 }
 
+const CHECKED_REG = /^\[[xX]\][ \u00A0]/;
+
 // The leading whitespace in a list item (token.content) is already trimmed off by markdown-it.
 // The regex below checks for '[ ] ' or '[x] ' or '[X] ' at the start of the string token.content,
 // where the space is either a normal space or a non-breaking space (character 160 = \u00A0).
-const startsWithTodoMarkdown = (token: Token): boolean =>
-  /^\[[xX \u00A0]\][ \u00A0]/.test(token.content);
+const startsWithTodoMarkdown = (token: Token): boolean => {
+  const content = token.content;
 
-const isTaskListItem = (tokens: Token[], index: number): boolean =>
-  isInlineToken(tokens[index]) &&
-  isParagraphToken(tokens[index - 1]) &&
-  isListItemToken(tokens[index - 2]) &&
-  startsWithTodoMarkdown(tokens[index]);
+  // minimal length is 4: "[ ] "
+  if (content.length < 4) return false;
+
+  if (content.charCodeAt(0) !== 91 /* [ */) return false;
+
+  if (content.charCodeAt(2) !== 93 /* ] */) return false;
+
+  const spacer = content.charCodeAt(3);
+
+  if (spacer !== 32 /* space */ && spacer !== 160 /* \u00A0 */) return false;
+
+  const contentChar = content.charCodeAt(1);
+
+  return (
+    contentChar === 32 /* space */ ||
+    contentChar === 120 /* x */ ||
+    contentChar === 88 /* X */ ||
+    contentChar === 160 /* \u00A0 */
+  );
+};
+
+const isTaskListItem = (tokens: Token[], index: number): boolean => {
+  const token = tokens[index];
+
+  if (index < 2) return false;
+
+  return (
+    isInlineToken(token) &&
+    isParagraphToken(tokens[index - 1]) &&
+    isListItemToken(tokens[index - 2]) &&
+    startsWithTodoMarkdown(token)
+  );
+};
 
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   md,
@@ -82,7 +112,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         ];
 
         // if token.content starts with '[x] ' or '[X] '
-        if (/^\[[xX]\][ \u00A0]/.test(token.content)) {
+        if (CHECKED_REG.test(token.content)) {
           checkboxToken.attrs.push(["checked", "checked"]);
         }
 
