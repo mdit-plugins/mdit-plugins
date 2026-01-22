@@ -20,6 +20,7 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
+// oxlint-disable-next-line import/no-unassigned-import
 import "./tex/importer.js";
 
 export interface DocumentOptions {
@@ -99,8 +100,10 @@ export const createMathjaxInstance = async (
   const { OutputJax, InputJax } = documentOptions;
 
   const adaptor = liteAdaptor();
+  // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
 
+  // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {

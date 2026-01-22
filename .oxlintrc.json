@@ -97,10 +97,11 @@
     ],
 
     // per project settings
-    "id-length": ["warn", { "min": 2, "exceptions": ["a", "b", "i", "j", "_"] }],
+    "id-length": ["warn", { "min": 2, "exceptions": ["a", "b", "i", "j", "T", "_"] }],
     "max-params": ["warn", 5],
     "max-statements": "off",
-    "new-cap": ["warn", { "capIsNewExceptionPattern": "MarkdownIt" }]
+    "new-cap": ["warn", { "capIsNewExceptionPattern": "MarkdownIt" }],
+    "no-multi-assign": "off"
   },
   "overrides": [
     {
@@ -120,6 +121,7 @@
       "files": ["packages/*/src/**/*.ts"],
       "rules": {
         "prefer-destructuring": "off",
+        "prefer-object-spread": "off",
         "prefer-spread": "off",
         "typescript/prefer-for-of": "off",
         "unicorn/no-for-loop": "off",
