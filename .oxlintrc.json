@@ -77,6 +77,8 @@
     "unicorn/no-array-sort": "off",
     // sometimes nested ternary is considerable
     "unicorn/no-nested-ternary": "warn",
+    // conflicts with oxfmt code style
+    "unicorn/number-literal-case": "off",
     // Array.at() is too modern for browser targets
     "unicorn/prefer-at": "off",
     // support starts with chrome71, firefox68. safari12.1, node12
