@@ -66,14 +66,21 @@ const createTestContent = (size: "small" | "medium" | "large"): string => {
     softbreak;
 
   switch (size) {
-    case "small": // approx. 2000-3000 characters
+    case "small": {
+      // approx. 2000-3000 characters
       return basicUnit.repeat(2);
-    case "medium": // approx. 6000-9000 characters
+    }
+    case "medium": {
+      // approx. 6000-9000 characters
       return basicUnit.repeat(6);
-    case "large": // approx. 15000-20000 characters
+    }
+    case "large": {
+      // approx. 15000-20000 characters
       return basicUnit.repeat(12);
-    default:
+    }
+    default: {
       return basicUnit;
+    }
   }
 };
 
