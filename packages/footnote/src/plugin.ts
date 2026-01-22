@@ -307,7 +307,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     const subId = list[footnoteId].count!;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    list[footnoteId].count = list[footnoteId].count! + 1;
+    list[footnoteId].count! += 1;
 
     const refToken = state.push("footnote_ref", "", 0);
 

@@ -74,6 +74,7 @@ const parseImageSize = (
   };
 };
 
+// oxlint-disable-next-line max-lines-per-function
 const legacyImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
   const oldPos = state.pos;
@@ -257,6 +258,8 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
 /**
  * @deprecated Recommended to use `imgSize` instead.
+ *
+ * @param md Markdown-it instance
  */
 export const legacyImgSize: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "image", legacyImgSizeRule);

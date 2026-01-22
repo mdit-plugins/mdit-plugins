@@ -167,7 +167,7 @@ $$
 `),
     ).toMatch(/<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/);
 
-    expect(global.console.error).toHaveBeenCalledTimes(2);
+    expect(globalThis.console.error).toHaveBeenCalledTimes(2);
     globalThis.console.error = originalError;
   });
 });

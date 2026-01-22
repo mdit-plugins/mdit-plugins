@@ -179,6 +179,9 @@ export const appendStyle = (
 
 /**
  * Stringify attrs object
+ *
+ * @param attrs Attrs object
+ * @returns stringified attrs
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)
