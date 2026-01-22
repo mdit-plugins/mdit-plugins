@@ -10,7 +10,6 @@
     "docs:dev": "pnpm run --filter=docs docs:dev",
     "lint": "pnpm lint:eslint --fix && oxfmt",
     "lint:check": "pnpm lint:eslint && oxfmt --check",
-    "lint:eslint": "eslint .",
     "lint:md": "markdownlint-cli2 **/*.md",
     "packages:bootstrap": "tsx scripts/bootstrap.ts",
     "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
