@@ -112,8 +112,25 @@ export default hope(
         },
         // 禁止在循环里 new RegExp
         {
-          selector:
-            "FunctionDeclaration NewExpression[callee.name='RegExp'], ArrowFunctionExpression NewExpression[callee.name='RegExp'], Literal[regex]",
+          selector: [
+            // 1. 禁止在普通函数内使用正则字面量 /.../
+            "FunctionDeclaration Literal[regex]",
+
+            // 2. 禁止在箭头函数内使用正则字面量
+            "ArrowFunctionExpression Literal[regex]",
+
+            // 3. 禁止在函数表达式内使用正则字面量 (const foo = function() {})
+            "FunctionExpression Literal[regex]",
+
+            // 4. 禁止在普通函数内 new RegExp
+            "FunctionDeclaration NewExpression[callee.name='RegExp']",
+
+            // 5. 禁止在箭头函数内 new RegExp
+            "ArrowFunctionExpression NewExpression[callee.name='RegExp']",
+
+            // 6. 禁止在函数表达式内 new RegExp
+            "FunctionExpression NewExpression[callee.name='RegExp']",
+          ].join(", "),
           message: "【性能禁止】不要在循环内编译正则。请在模块顶层声明 const REGEX = /.../;",
         },
 
