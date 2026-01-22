@@ -13,11 +13,10 @@ const katexInline = (
 ): string => {
   let result: string;
 
+  options.displayMode = false;
+
   try {
-    result = renderToString(tex, {
-      ...options,
-      displayMode: false,
-    });
+    result = renderToString(tex, options);
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof ParseError) {
@@ -41,11 +40,10 @@ const katexBlock = (
 ): string => {
   let result: string;
 
+  options.displayMode = true;
+
   try {
-    result = `<p class='katex-block'>${renderToString(tex, {
-      ...options,
-      displayMode: true,
-    })}</p>\n`;
+    result = `<p class='katex-block'>${renderToString(tex, options)}</p>\n`;
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof ParseError) {
@@ -72,26 +70,30 @@ export const katex = <MarkdownItEnv = unknown>(
     mathFence,
     logger = (errorCode: string): "ignore" | "warn" | "error" | boolean | undefined =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
-    // see https://github.com/vuepress/ecosystem/issues/261
-    // this ensures that `\gdef` works as expected
-    macros = {},
     transformer,
     ...userOptions
   } = options;
+
+  const commonKatexOptions: KatexOptions = Object.assign(
+    {
+      // see https://github.com/vuepress/ecosystem/issues/261
+      // this ensures that `\gdef` works as expected macros: {},
+      macros: {},
+      throwOnError: false,
+    },
+    userOptions,
+  );
 
   md.use(tex, {
     allowInlineWithSpace,
     delimiters,
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
-      const katexOptions: KatexOptions = {
+      const katexOptions = Object.assign({}, commonKatexOptions, {
         strict: (errorCode, errorMsg, token) =>
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           logger(errorCode, errorMsg, token, env) ?? "ignore",
-        macros,
-        throwOnError: false,
-        ...userOptions,
-      };
+      });
 
       return displayMode
         ? katexBlock(content, katexOptions, transformer)

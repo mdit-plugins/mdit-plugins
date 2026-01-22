@@ -18,7 +18,7 @@ const tokenize: RuleInline = (state, silent) => {
   if (silent || marker !== 61 /* = */) return false;
 
   const scanned = state.scanDelims(state.pos, true);
-  let { length } = scanned;
+  let length = scanned.length;
 
   if (length < 2) return false;
 
@@ -121,8 +121,15 @@ export const mark: PluginSimple = (md) => {
   md.inline.ruler2.before("emphasis", "mark", (state) => {
     postProcess(state, state.delimiters);
 
-    for (const tokenMeta of state.tokens_meta) {
-      if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters);
+    const tokensMeta = state.tokens_meta;
+    const tokensMetaLength = tokensMeta.length;
+
+    if (tokensMetaLength === 0) return true;
+
+    for (let i = 0; i < tokensMetaLength; i++) {
+      const tokenMeta = tokensMeta[i];
+
+      if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters);
     }
 
     return true;

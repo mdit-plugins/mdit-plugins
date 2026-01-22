@@ -14,7 +14,6 @@
     "noUnusedParameters": true,
 
     // Modules
-    "baseUrl": "./",
     "module": "NodeNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,

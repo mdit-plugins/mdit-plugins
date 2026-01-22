@@ -104,8 +104,10 @@ const getSnippetRule =
     return true;
   };
 
+const defaultPathResolver = (path: string): string => path;
+
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
-  const { currentPath, resolvePath = (path: string): string => path } = options ?? {};
+  const { currentPath, resolvePath = defaultPathResolver } = options ?? {};
 
   if (typeof currentPath !== "function") {
     throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');

@@ -123,7 +123,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
     transform: (tokens, index, childIndex, range): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = tokens[index].children![childIndex];
-      const { content } = token;
+      const content = token.content;
       const attrStartIndex = range[0] - options.left.length;
       const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
