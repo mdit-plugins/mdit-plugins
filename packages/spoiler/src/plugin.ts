@@ -10,7 +10,7 @@ import type { Delimiter } from "markdown-it/lib/rules_inline/state_inline.mjs";
 import type { MarkdownItSpoilerOptions } from "./options.js";
 
 const DEFAULT_TAG = "span";
-const DEFAULT_ATTRS = [
+const DEFAULT_ATTRS: [string, string][] = [
   ["class", "spoiler"],
   ["tabindex", "-1"],
 ];
