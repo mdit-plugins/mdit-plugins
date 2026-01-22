@@ -71,16 +71,16 @@ describe("inline katex", () => {
   });
 
   it("should render error msg when content is wrong", () => {
-    const originalError = global.console.error;
+    const originalError = globalThis.console.error;
 
-    global.console.error = vi.fn();
+    globalThis.console.error = vi.fn();
 
     expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toEqual(
       "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
     );
 
     expect(global.console.error).toHaveBeenCalledOnce();
-    global.console.error = originalError;
+    globalThis.console.error = originalError;
   });
 });
 
@@ -152,9 +152,9 @@ $$
   });
 
   it("should render error msg when content is wrong", () => {
-    const originalError = global.console.error;
+    const originalError = globalThis.console.error;
 
-    global.console.error = vi.fn();
+    globalThis.console.error = vi.fn();
     expect(markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toMatch(
       /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
@@ -168,7 +168,7 @@ $$
     ).toMatch(/<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/);
 
     expect(global.console.error).toHaveBeenCalledTimes(2);
-    global.console.error = originalError;
+    globalThis.console.error = originalError;
   });
 });
 
