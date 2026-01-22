@@ -1,4 +1,5 @@
 {
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "cSpell.words": [
     "blockquotes",
     "chtml",
