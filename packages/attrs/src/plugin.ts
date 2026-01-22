@@ -42,10 +42,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           pattern.transform(tokens, index, position!, range!);
 
-          if (
-            pattern.name === "inline attributes" ||
-            pattern.name === "inline nesting self-close"
-          )
+          if (pattern.name === "inline attributes" || pattern.name === "inline nesting self-close")
             // retry, may be several inline attributes
             ruleIndex--;
         }

@@ -19,8 +19,7 @@ const createTestContent = (size: "small" | "medium" | "large"): string => {
 
   // 2. heading - heading attributes
   const heading = "## Heading {#heading .big data-level=2}\n\n";
-  const headingMulti =
-    "### Multi-attribute heading {#multi .small .important color=blue}\n\n";
+  const headingMulti = "### Multi-attribute heading {#multi .small .important color=blue}\n\n";
 
   // 3. inline - inline element attributes
   const inline =
@@ -46,9 +45,7 @@ const createTestContent = (size: "small" | "medium" | "large"): string => {
     '```python {.py-code theme=dark indent=4}\ndef hello():\n    print("Hello, world!")\n\nhello()\n```\n\n';
 
   // 7. hr - horizontal rule attributes
-  const hr =
-    '--- {.horizontal width="80%" color="gray"}\n\n' +
-    "*** {.custom-hr theme=dark}\n\n";
+  const hr = '--- {.horizontal width="80%" color="gray"}\n\n' + "*** {.custom-hr theme=dark}\n\n";
 
   // 8. softbreak - soft break attributes
   const softbreak =

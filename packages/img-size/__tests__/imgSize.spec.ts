@@ -22,10 +22,7 @@ describe("default image size", () => {
 
     it("with title", () => {
       const testCases = [
-        [
-          `![image](/logo.svg "title")`,
-          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
-        ],
+        [`![image](/logo.svg "title")`, '<p><img src="/logo.svg" alt="image" title="title"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -177,14 +174,8 @@ describe("default image size", () => {
   describe("should render with width or height", () => {
     it("simple", () => {
       const testCases = [
-        [
-          `![image =200x](/logo.svg)`,
-          '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-        ],
-        [
-          `![image =x300](/logo.svg)`,
-          '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
-        ],
+        [`![image =200x](/logo.svg)`, '<p><img src="/logo.svg" alt="image" width="200"></p>\n'],
+        [`![image =x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -294,26 +285,11 @@ describe("default image size", () => {
 
   it("should not render if width or height is not number", () => {
     const testCases = [
-      [
-        `![image =!bcxdef](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =!bcxdef"></p>\n',
-      ],
-      [
-        `![image =abcx100](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =abcx100"></p>\n',
-      ],
-      [
-        `![image =200xdef](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =200xdef"></p>\n',
-      ],
-      [
-        `![image =12ax300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =12ax300"></p>\n',
-      ],
-      [
-        `![image =200x12a](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =200x12a"></p>\n',
-      ],
+      [`![image =!bcxdef](/logo.svg)`, '<p><img src="/logo.svg" alt="image =!bcxdef"></p>\n'],
+      [`![image =abcx100](/logo.svg)`, '<p><img src="/logo.svg" alt="image =abcx100"></p>\n'],
+      [`![image =200xdef](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200xdef"></p>\n'],
+      [`![image =12ax300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =12ax300"></p>\n'],
+      [`![image =200x12a](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200x12a"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -323,14 +299,8 @@ describe("default image size", () => {
 
   it("should not render with capital X or math times", () => {
     const testCases = [
-      [
-        `![image =200X300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =200X300"></p>\n',
-      ],
-      [
-        `![image =200×300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image =200×300"></p>\n',
-      ],
+      [`![image =200X300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200X300"></p>\n'],
+      [`![image =200×300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200×300"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -390,10 +360,7 @@ describe("default image size", () => {
         "<p>![image =200x300][logo1]</p>\n",
       ],
       [`![image =](/logo.svg)`, '<p><img src="/logo.svg" alt="image ="></p>\n'],
-      [
-        `![image=200x300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image=200x300"></p>\n',
-      ],
+      [`![image=200x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image=200x300"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {

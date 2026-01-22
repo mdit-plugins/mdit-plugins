@@ -23,29 +23,18 @@ const createDualRuleTests = (
 
       it(replaceDelimiters("should support code blocks", options), () => {
         const src = "```{.c a=1 #ii}\nfor i in range(10):\n```";
-        const expected =
-          '<pre><code class="c" a="1" id="ii">for i in range(10):\n</code></pre>\n';
+        const expected = '<pre><code class="c" a="1" id="ii">for i in range(10):\n</code></pre>\n';
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
-      it(
-        replaceDelimiters(
-          "should support code blocks with language defined",
-          options,
-        ),
-        () => {
-          const src = "```python {.c a=1 #ii}\nfor i in range(10):\n```";
-          const expected =
-            '<pre><code class="c language-python" a="1" id="ii">for i in range(10):\n</code></pre>\n';
+      it(replaceDelimiters("should support code blocks with language defined", options), () => {
+        const src = "```python {.c a=1 #ii}\nfor i in range(10):\n```";
+        const expected =
+          '<pre><code class="c language-python" a="1" id="ii">for i in range(10):\n</code></pre>\n';
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
       it("should handle VuePress line numbers in code blocks", () => {
         // VuePress line numbers only work with {} delimiters

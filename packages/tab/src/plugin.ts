@@ -6,11 +6,7 @@ import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
-import type {
-  MarkdownItTabData,
-  MarkdownItTabInfo,
-  MarkdownItTabOptions,
-} from "./options.js";
+import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 const TAB_MARKER = "@tab";
@@ -33,8 +29,7 @@ const checkTabMarker = (
 
   // Check out the rest of the marker string
   for (; pos < ACTIVE_TAB_MARKER_LENGTH; pos++)
-    if (ACTIVE_TAB_MARKER.charCodeAt(pos) !== state.src.charCodeAt(start + pos))
-      break;
+    if (ACTIVE_TAB_MARKER.charCodeAt(pos) !== state.src.charCodeAt(start + pos)) break;
 
   const isActive = pos === ACTIVE_TAB_MARKER_LENGTH;
 
@@ -43,8 +38,7 @@ const checkTabMarker = (
   const markerEnd = start + pos;
   const infoStart = state.skipSpaces(markerEnd);
 
-  if (infoStart > markerEnd && infoStart < max)
-    return { isActive, pos: infoStart };
+  if (infoStart > markerEnd && infoStart < max) return { isActive, pos: infoStart };
 
   return false;
 };
@@ -153,11 +147,7 @@ const getTabRule =
     if (id) openToken.meta.id = id;
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    state.md.block.tokenize(
-      state,
-      startLine + 1,
-      nextLine + (autoClosed ? 0 : 1),
-    );
+    state.md.block.tokenize(state, startLine + 1, nextLine + (autoClosed ? 0 : 1));
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -298,11 +288,7 @@ const getTabsRule =
 
     store.state = name;
 
-    state.md.block.tokenize(
-      state,
-      startLine + 1,
-      nextLine - (autoClosed ? 1 : 0),
-    );
+    state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
 
     store.state = oldState;
 
@@ -461,10 +447,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     ): string => {
       const token = tokens[index];
 
-      token.attrJoin(
-        "class",
-        `${name}-tab-content${info.isActive ? " active" : ""}`,
-      );
+      token.attrJoin("class", `${name}-tab-content${info.isActive ? " active" : ""}`);
       token.attrSet("data-index", info.index.toString());
       if (info.id) token.attrSet("data-id", info.id);
 
@@ -490,13 +473,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.renderer.rules[`${name}_tabs_open`] = (
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  ): string => {
+  md.renderer.rules[`${name}_tabs_open`] = (tokens, index, options, env, self): string => {
     const info = tabsDataGetter(tokens, index);
 
     return openRender(info, tokens, index, options, env, self);

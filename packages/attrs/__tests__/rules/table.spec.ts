@@ -47,18 +47,11 @@ const createDualRuleTests = (
 </table>
 `;
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
-      it(
-        replaceDelimiters(
-          "should apply attributes to the last column of tables",
-          options,
-        ),
-        () => {
-          const src = `\
+      it(replaceDelimiters("should apply attributes to the last column of tables", options), () => {
+        const src = `\
 | title | title {.title-class} |
 | :---: | :---: |
 | text | text {.text-class} |
@@ -66,7 +59,7 @@ const createDualRuleTests = (
 
 {.c}
 `;
-          const expected = `\
+        const expected = `\
 <table class="c">
 <thead>
 <tr>
@@ -87,30 +80,22 @@ const createDualRuleTests = (
 </table>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
-      it(
-        replaceDelimiters(
-          "should calculate table's colspan and/or rowspan",
-          options,
-        ),
-        () => {
-          const testCases = [
-            // colspan should work together with rowspan
-            // the merged cells should be correctly removed
-            [
-              `\
+      it(replaceDelimiters("should calculate table's colspan and/or rowspan", options), () => {
+        const testCases = [
+          // colspan should work together with rowspan
+          // the merged cells should be correctly removed
+          [
+            `\
 | A                        | B   | C   | D              |
 | ------------------------ | --- | --- | -------------- |
 | A1                       | B1  | C1  | D1 {rowspan=3} |
 | A2 {colspan=2 rowspan=2} | B2  | C2  | D2             |
 | A3                       | B3  | C3  | D3             |
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -137,10 +122,10 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // colspan should work even out of borders
-            [
-              `\
+          ],
+          // colspan should work even out of borders
+          [
+            `\
 | A             |
 | ------------- |
 | 1 {colspan=3} |
@@ -153,7 +138,7 @@ const createDualRuleTests = (
 | 2             |
 | 3 {colspan=3} |
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -191,17 +176,17 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // row should work even out of borders
-            [
-              `\
+          ],
+          // row should work even out of borders
+          [
+            `\
 | A   | B              |
 | --- | -------------- |
 | A1  | B1             |
 | A2  | B2 {rowspan=2} |
 
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -221,10 +206,10 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // should work with multiple rowspan
-            [
-              `\
+          ],
+          // should work with multiple rowspan
+          [
+            `\
 | A              | B              | C   |
 | -------------- | -------------- | --- |
 | A1 {rowspan=2} | B1             | C1  |
@@ -232,7 +217,7 @@ const createDualRuleTests = (
 | A3             | B3             | C3  |
 
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -258,10 +243,10 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // should work with multiple colspan
-            [
-              `\
+          ],
+          // should work with multiple colspan
+          [
+            `\
 | A              | B              | C   |
 | -------------- | -------------- | --- |
 | A1 {colspan=2} | B1             | C1  |
@@ -269,7 +254,7 @@ const createDualRuleTests = (
 | A3             | B3             | C3  |
 
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -295,17 +280,17 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // should not handle dropped cells attributes
-            [
-              `\
+          ],
+          // should not handle dropped cells attributes
+          [
+            `\
 | A                        | B   | C   | D              |
 | ------------------------ | --- | --- | -------------- |
 | A1                       | B1  | C1  | D1 {rowspan=3} |
 | A2 {colspan=2 rowspan=2} | B2  | C2  | D2 {rowspan=2} |
 | A3 {colspan=2}           | B3  | C3  | D3             |
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -332,16 +317,16 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-            // handle colspan collision with rowspan
-            [
-              `\
+          ],
+          // handle colspan collision with rowspan
+          [
+            `\
 | A              | B              | C   |
 | -------------- | -------------- | --- |
 | A1             | B1 {rowspan=2} | C1  |
 | A2 {colspan=3} |
 `,
-              `\
+            `\
 <table>
 <thead>
 <tr>
@@ -363,38 +348,29 @@ const createDualRuleTests = (
 </tbody>
 </table>
 `,
-            ],
-          ];
+          ],
+        ];
 
-          testCases.forEach(([src, expected]) => {
-            expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-              expected,
-            );
-          });
-        },
-      );
+        testCases.forEach(([src, expected]) => {
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+        });
+      });
 
-      it(
-        replaceDelimiters("should support empty inline tokens", options),
-        () => {
-          const fn = vi.fn();
-          const src = " 1 | 2 \n --|-- \n a | ";
+      it(replaceDelimiters("should support empty inline tokens", options), () => {
+        const fn = vi.fn();
+        const src = " 1 | 2 \n --|-- \n a | ";
 
-          try {
-            markdownIt.render(replaceDelimiters(src, options));
-          } catch {
-            fn();
-          }
+        try {
+          markdownIt.render(replaceDelimiters(src, options));
+        } catch {
+          fn();
+        }
 
-          expect(fn).toBeCalledTimes(0);
-        },
-      );
+        expect(fn).toBeCalledTimes(0);
+      });
 
       it(
-        replaceDelimiters(
-          "should handle incomplete attribute syntax in table cells",
-          options,
-        ),
+        replaceDelimiters("should handle incomplete attribute syntax in table cells", options),
         () => {
           const src = `\
 | header | header |
@@ -428,20 +404,15 @@ const createDualRuleTests = (
         },
       );
 
-      it(
-        replaceDelimiters(
-          "should not handle attribute syntax in text",
-          options,
-        ),
-        () => {
-          const src = `\
+      it(replaceDelimiters("should not handle attribute syntax in text", options), () => {
+        const src = `\
 | header | header |
 | --- | --- |
 | cell {#id} text | cell |
 | cell {.class} id | cell |
 `;
 
-          const expected = `\
+        const expected = `\
 <table>
 <thead>
 <tr>
@@ -462,9 +433,8 @@ const createDualRuleTests = (
 </table>
 `;
 
-          expect(markdownIt.render(src)).toBe(expected);
-        },
-      );
+        expect(markdownIt.render(src)).toBe(expected);
+      });
     });
   });
 };

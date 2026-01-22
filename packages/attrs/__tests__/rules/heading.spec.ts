@@ -21,27 +21,22 @@ const createTests = (
       ];
 
       testCases.forEach(([src, expected]) => {
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
     });
 
-    it(
-      replaceDelimiters("should not add attributes on others", options),
-      () => {
-        const testCases = [
-          ["some text {with=attrs}", "{with=attrs}"],
-          ["- some text {#id}", "{#id}"],
-        ];
+    it(replaceDelimiters("should not add attributes on others", options), () => {
+      const testCases = [
+        ["some text {with=attrs}", "{with=attrs}"],
+        ["- some text {#id}", "{#id}"],
+      ];
 
-        testCases.forEach(([src, expected]) => {
-          expect(markdownIt.render(replaceDelimiters(src, options))).toContain(
-            replaceDelimiters(expected, options),
-          );
-        });
-      },
-    );
+      testCases.forEach(([src, expected]) => {
+        expect(markdownIt.render(replaceDelimiters(src, options))).toContain(
+          replaceDelimiters(expected, options),
+        );
+      });
+    });
   });
 };
 

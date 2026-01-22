@@ -3,18 +3,13 @@
   "version": "0.23.0",
   "description": "icon plugin for MarkdownIt",
   "keywords": [
+    "icon",
     "markdown-it",
-    "markdown-it-plugin",
-    "icon"
+    "markdown-it-plugin"
   ],
   "homepage": "https://mdit-plugins.github.io/icon.html",
   "bugs": {
     "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/icon"
   },
   "license": "MIT",
   "author": {
@@ -30,7 +25,17 @@
     },
     "pengzhanbo"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/icon"
+  },
+  "files": [
+    "lib"
+  ],
   "type": "module",
+  "browser": "./lib/browser.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
@@ -38,11 +43,9 @@
     },
     "./package.json": "./package.json"
   },
-  "browser": "./lib/browser.js",
-  "types": "./lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
@@ -62,8 +65,5 @@
     "markdown-it": {
       "optional": true
     }
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

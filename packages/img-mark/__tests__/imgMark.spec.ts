@@ -23,15 +23,11 @@ it("should render", () => {
 });
 
 it("should support options", () => {
-  expect(
-    markdownItWithCustomOptions.render(`![image](/logo.svg#lightmode)`),
-  ).toEqual(
+  expect(markdownItWithCustomOptions.render(`![image](/logo.svg#lightmode)`)).toEqual(
     '<p><img src="/logo.svg" alt="image" data-mode="lightmode-only"></p>\n',
   );
 
-  expect(
-    markdownItWithCustomOptions.render(`![image](/logo.svg#darkmode)`),
-  ).toEqual(
+  expect(markdownItWithCustomOptions.render(`![image](/logo.svg#darkmode)`)).toEqual(
     '<p><img src="/logo.svg" alt="image" data-mode="darkmode-only"></p>\n',
   );
 });
@@ -45,16 +41,12 @@ it("should not be effected by title", () => {
     '<p><img src="/logo.svg" alt="image" title="another title" data-mode="darkmode-only"></p>\n',
   );
 
-  expect(
-    markdownItWithCustomOptions.render(`![image](/logo.svg#lightmode "title")`),
-  ).toEqual(
+  expect(markdownItWithCustomOptions.render(`![image](/logo.svg#lightmode "title")`)).toEqual(
     '<p><img src="/logo.svg" alt="image" title="title" data-mode="lightmode-only"></p>\n',
   );
 
   expect(
-    markdownItWithCustomOptions.render(
-      `![image](/logo.svg#darkmode "another title")`,
-    ),
+    markdownItWithCustomOptions.render(`![image](/logo.svg#darkmode "another title")`),
   ).toEqual(
     '<p><img src="/logo.svg" alt="image" title="another title" data-mode="darkmode-only"></p>\n',
   );

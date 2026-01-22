@@ -13,11 +13,7 @@ import type { MarkdownItTexOptions } from "./options.js";
 /*
  * Count preceding backslashes from a position
  */
-const countPrecedingBackslashes = (
-  src: string,
-  pos: number,
-  minPos = 0,
-): number => {
+const countPrecedingBackslashes = (src: string, pos: number, minPos = 0): number => {
   let count = 0;
   let checkPos = pos - 1;
 
@@ -148,10 +144,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   const start = state.pos;
 
   // Check for opening \(
-  if (
-    state.src.charCodeAt(start) !== 92 /* \ */ ||
-    state.src.charCodeAt(start + 1) !== 40 /* ( */
-  )
+  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 40 /* ( */)
     return false;
 
   // Look for closing \)
@@ -160,10 +153,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   const srcLength = state.src.length;
 
   while (pos < srcLength - 1) {
-    if (
-      state.src.charCodeAt(pos) === 92 /* \ */ &&
-      state.src.charCodeAt(pos + 1) === 41 /* ) */
-    ) {
+    if (state.src.charCodeAt(pos) === 92 /* \ */ && state.src.charCodeAt(pos + 1) === 41 /* ) */) {
       // Check if the opening \( was escaped
       const openingBackslashes = countPrecedingBackslashes(state.src, start);
 
@@ -171,11 +161,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
       if (openingBackslashes % 2 === 1) return false;
 
       // Check if the closing \) is escaped
-      const closingBackslashes = countPrecedingBackslashes(
-        state.src,
-        pos,
-        start + 2,
-      );
+      const closingBackslashes = countPrecedingBackslashes(state.src, pos, start + 2);
 
       // If closing \) is not escaped (even number of preceding backslashes), we found it
       if (closingBackslashes % 2 === 0) {
@@ -209,10 +195,7 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (start + 2 > end) return false;
 
-  if (
-    state.src.charCodeAt(start) !== 36 /* $ */ ||
-    state.src.charCodeAt(start + 1) !== 36 /* $ */
-  )
+  if (state.src.charCodeAt(start) !== 36 /* $ */ || state.src.charCodeAt(start + 1) !== 36 /* $ */)
     return false;
 
   if (silent) return true;
@@ -278,80 +261,76 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
 /*
  * Parse block math with bracket syntax: \[...\]
  */
-const getBracketBlockTex =
-  (): RuleBlock => (state, startLine, endLine, silent) => {
-    const start = state.bMarks[startLine] + state.tShift[startLine];
-    let end = state.eMarks[startLine];
+const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) => {
+  const start = state.bMarks[startLine] + state.tShift[startLine];
+  let end = state.eMarks[startLine];
 
-    if (start + 2 > end) return false;
+  if (start + 2 > end) return false;
 
-    if (
-      state.src.charCodeAt(start) !== 92 /* \ */ ||
-      state.src.charCodeAt(start + 1) !== 91 /* [ */
-    )
-      return false;
+  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 91 /* [ */)
+    return false;
 
-    if (silent) return true;
+  if (silent) return true;
 
-    let contentEnd = state.skipSpacesBack(end, start);
-    let pos = start + 2;
-    let firstLine: string;
-    let found = false;
+  let contentEnd = state.skipSpacesBack(end, start);
+  let pos = start + 2;
+  let firstLine: string;
+  let found = false;
+
+  if (
+    contentEnd - pos >= 2 &&
+    state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
+    state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
+  ) {
+    // Single line expression
+    firstLine = state.src.slice(pos, contentEnd - 2);
+    found = true;
+  } else {
+    firstLine = state.src.slice(pos, end);
+  }
+
+  let current = startLine;
+  let lastLine = "";
+
+  while (!found) {
+    current++;
+    if (current >= endLine) break;
+
+    pos = state.bMarks[current] + state.tShift[current];
+    end = state.eMarks[current];
+
+    // non-empty line with negative indent should stop the list:
+    if (pos < end && state.tShift[current] < state.blkIndent) break;
+
+    // found end marker
+    contentEnd = state.skipSpacesBack(end, pos);
 
     if (
       contentEnd - pos >= 2 &&
       state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
       state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
     ) {
-      // Single line expression
-      firstLine = state.src.slice(pos, contentEnd - 2);
+      lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
       found = true;
-    } else {
-      firstLine = state.src.slice(pos, end);
     }
+  }
 
-    let current = startLine;
-    let lastLine = "";
+  if (!found) return false;
 
-    while (!found) {
-      current++;
-      if (current >= endLine) break;
+  state.line = current + 1;
 
-      pos = state.bMarks[current] + state.tShift[current];
-      end = state.eMarks[current];
+  const token = state.push("math_block", "math", 0);
 
-      // non-empty line with negative indent should stop the list:
-      if (pos < end && state.tShift[current] < state.blkIndent) break;
+  token.block = true;
+  token.content =
+    (firstLine ? `${firstLine}\n` : "") +
+    state.getLines(startLine + 1, current, state.tShift[startLine], true) +
+    (lastLine ? `${lastLine}\n` : "");
+  token.map = [startLine, state.line];
+  token.markup = "\\[";
 
-      // found end marker
-      contentEnd = state.skipSpacesBack(end, pos);
-
-      if (
-        contentEnd - pos >= 2 &&
-        state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
-        state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
-      ) {
-        lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
-        found = true;
-      }
-    }
-
-    if (!found) return false;
-
-    state.line = current + 1;
-
-    const token = state.push("math_block", "math", 0);
-
-    token.block = true;
-    token.content =
-      (firstLine ? `${firstLine}\n` : "") +
-      state.getLines(startLine + 1, current, state.tShift[startLine], true) +
-      (lastLine ? `${lastLine}\n` : "");
-    token.map = [startLine, state.line];
-    token.markup = "\\[";
-
-    return true;
-  };
+  return true;
+};
 
 const ruleOptions = {
   alt: ["paragraph", "reference", "blockquote", "list"],
@@ -386,31 +365,13 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
 
   // Register inline and block rules based on delimiters option
   if (delimiters === "dollars" || delimiters === "all") {
-    md.inline.ruler.after(
-      "escape",
-      "math_inline_dollar",
-      getDollarInlineTex(allowInlineWithSpace),
-    );
-    md.block.ruler.after(
-      "blockquote",
-      "math_block_dollar",
-      dollarBlockTex,
-      ruleOptions,
-    );
+    md.inline.ruler.after("escape", "math_inline_dollar", getDollarInlineTex(allowInlineWithSpace));
+    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTex, ruleOptions);
   }
 
   if (delimiters === "brackets" || delimiters === "all") {
-    md.inline.ruler.before(
-      "escape",
-      "math_inline_bracket",
-      getBracketInlineTex(),
-    );
-    md.block.ruler.after(
-      "blockquote",
-      "math_block_bracket",
-      getBracketBlockTex(),
-      ruleOptions,
-    );
+    md.inline.ruler.before("escape", "math_inline_bracket", getBracketInlineTex());
+    md.block.ruler.after("blockquote", "math_block_bracket", getBracketBlockTex(), ruleOptions);
   }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>

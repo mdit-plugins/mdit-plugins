@@ -626,10 +626,7 @@ zzz</p>
     });
 
     const testCases = [
-      [
-        "``` spoiler\n*content*\n```\n",
-        '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n',
-      ],
+      ["``` spoiler\n*content*\n```\n", '<div class="spoiler">\n<p><em>content</em></p>\n</div>\n'],
       [
         "\n``` not spoiler\n*content*\n```\n",
         '<pre><code class="language-not">*content*\n</code></pre>\n',
@@ -657,9 +654,7 @@ zzz</p>
         validate: () => false,
       });
 
-      expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe(
-        "<p>:::foo\nbar\n:::</p>\n",
-      );
+      expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe("<p>:::foo\nbar\n:::</p>\n");
     });
 
     it("should accept rule if return value is true", () => {
@@ -713,9 +708,7 @@ bar
         },
       });
 
-      expect(markdownIt.render(":::\nfoo\n:::\n")).toBe(
-        "<p>:::\nfoo\n:::</p>\n",
-      );
+      expect(markdownIt.render(":::\nfoo\n:::\n")).toBe("<p>:::\nfoo\n:::</p>\n");
 
       expect(markdownIt.render("::::\nfoo\n::::\n")).toBe(
         '<div class="name">\n<p>foo</p>\n</div>\n',

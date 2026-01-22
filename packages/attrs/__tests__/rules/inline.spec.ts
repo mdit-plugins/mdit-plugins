@@ -21,28 +21,18 @@ const createDualRuleTests = (
     describe(testTitle, () => {
       const markdownIt = MarkdownIt().use(attrs, options);
 
-      it(
-        replaceDelimiters("should add classes to inline elements", options),
-        () => {
-          const src = "paragraph **bold**{.red} asdf";
-          const expected =
-            '<p>paragraph <strong class="red">bold</strong> asdf</p>\n';
+      it(replaceDelimiters("should add classes to inline elements", options), () => {
+        const src = "paragraph **bold**{.red} asdf";
+        const expected = '<p>paragraph <strong class="red">bold</strong> asdf</p>\n';
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
       it(
-        replaceDelimiters(
-          "should not add classes to inline elements with too many {{}}",
-          options,
-        ),
+        replaceDelimiters("should not add classes to inline elements with too many {{}}", options),
         () => {
           const src = "paragraph **bold**{{.red}} asdf";
-          const expected =
-            "<p>paragraph <strong>bold</strong>{{.red}} asdf</p>\n";
+          const expected = "<p>paragraph <strong>bold</strong>{{.red}} asdf</p>\n";
 
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
             replaceDelimiters(expected, options),
@@ -50,34 +40,24 @@ const createDualRuleTests = (
         },
       );
 
-      it(
-        replaceDelimiters("should work with nested inline elements", options),
-        () => {
-          const src = "- **bold *italics*{.blue}**{.green}";
+      it(replaceDelimiters("should work with nested inline elements", options), () => {
+        const src = "- **bold *italics*{.blue}**{.green}";
 
-          const expected = `\
+        const expected = `\
 <ul>
 <li><strong class="green">bold <em class="blue">italics</em></strong></li>
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
-      it(
-        replaceDelimiters("should add class to inline code block", options),
-        () => {
-          const src = "bla `click()`{.c}";
-          const expected = '<p>bla <code class="c">click()</code></p>\n';
+      it(replaceDelimiters("should add class to inline code block", options), () => {
+        const src = "bla `click()`{.c}";
+        const expected = '<p>bla <code class="c">click()</code></p>\n';
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
       it(
         replaceDelimiters(
@@ -89,31 +69,24 @@ const createDualRuleTests = (
           const expected =
             '<p>bla <code class="c">click()</code> blah <code class="cpp">release()</code></p>\n';
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
         },
       );
 
-      it(
-        replaceDelimiters("should not apply inside `code{.red}`", options),
-        () => {
-          const src = "paragraph `code{.red}`";
-          const expected = "<p>paragraph <code>code{.red}</code></p>\n";
+      it(replaceDelimiters("should not apply inside `code{.red}`", options), () => {
+        const src = "paragraph `code{.red}`";
+        const expected = "<p>paragraph <code>code{.red}</code></p>\n";
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            replaceDelimiters(expected, options),
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
+          replaceDelimiters(expected, options),
+        );
+      });
 
       it(replaceDelimiters("should support images", options), () => {
         const src = "![alt](img.png){.a}";
         const expected = '<p><img src="img.png" alt="alt" class="a"></p>\n';
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
     });
   });

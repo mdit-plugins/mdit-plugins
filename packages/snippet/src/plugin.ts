@@ -20,22 +20,13 @@ const REGIONS_RE = [
   /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
 const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
-const SNIPPET_META_RE =
-  /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
+const SNIPPET_META_RE = /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
 
-const testLine = (
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end = false,
-): boolean => {
+const testLine = (line: string, regexp: RegExp, regionName: string, end = false): boolean => {
   const [full, tag, name] = regexp.exec(line.trimStart()) ?? [];
 
   return Boolean(
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
+    full && tag && name === regionName && tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
   );
 };
 
@@ -62,21 +53,14 @@ const findRegion = (
 };
 
 const getSnippetRule =
-  ({
-    currentPath,
-    resolvePath,
-  }: Required<MarkdownItSnippetOptions>): RuleBlock =>
+  ({ currentPath, resolvePath }: Required<MarkdownItSnippetOptions>): RuleBlock =>
   (state, startLine, _endLine, silent) => {
     const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
     for (let index = 0; index < 3; ++index) {
-      if (
-        state.src.charCodeAt(pos + index) !== 60 /* < */ ||
-        pos + index >= max
-      )
-        return false;
+      if (state.src.charCodeAt(pos + index) !== 60 /* < */ || pos + index >= max) return false;
     }
 
     if (silent) return true;
@@ -96,8 +80,7 @@ const getSnippetRule =
     // the regexp supposes to match any possible snippet format
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
-    const [, region = "", lines = "", lang = ""] =
-      SNIPPET_META_RE.exec(snippetMeta) ?? [];
+    const [, region = "", lines = "", lang = ""] = SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
     const cwd = currentFilePath ? path.dirname(currentFilePath) : ".";
     const resolvedPath = resolvePath(snippetPath.trim(), cwd);
@@ -119,21 +102,13 @@ const getSnippetRule =
     return true;
   };
 
-export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (
-  md,
-  options,
-) => {
-  const { currentPath, resolvePath = (path: string): string => path } =
-    options ?? {};
+export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
+  const { currentPath, resolvePath = (path: string): string => path } = options ?? {};
 
   if (typeof currentPath !== "function")
     throw new Error('[@mdit/plugin-snippet]: "currentPath" is required');
 
-  md.block.ruler.before(
-    "fence",
-    "snippet",
-    getSnippetRule({ currentPath, resolvePath }),
-  );
+  md.block.ruler.before("fence", "snippet", getSnippetRule({ currentPath, resolvePath }));
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const originalFence = md.renderer.rules.fence!;

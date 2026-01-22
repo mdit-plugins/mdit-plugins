@@ -21,32 +21,25 @@ const createDualRuleTests = (
     describe(testTitle, () => {
       const markdownIt = MarkdownIt().use(attrs, options);
 
-      it(
-        replaceDelimiters("should support horizontal rules ---{#id}", options),
-        () => {
-          const testCases = [
-            ["---{#id}", '<hr id="id">\n'],
-            [" ---{#id}", '<hr id="id">\n'],
-            ["  ---{#id}", '<hr id="id">\n'],
-            ["   ---{#id}", '<hr id="id">\n'],
-            [">\t ---{#id}", '<blockquote>\n<hr id="id">\n</blockquote>\n'],
-          ];
+      it(replaceDelimiters("should support horizontal rules ---{#id}", options), () => {
+        const testCases = [
+          ["---{#id}", '<hr id="id">\n'],
+          [" ---{#id}", '<hr id="id">\n'],
+          ["  ---{#id}", '<hr id="id">\n'],
+          ["   ---{#id}", '<hr id="id">\n'],
+          [">\t ---{#id}", '<blockquote>\n<hr id="id">\n</blockquote>\n'],
+        ];
 
-          testCases.forEach(([src, expected]) => {
-            expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-              expected,
-            );
-          });
-        },
-      );
+        testCases.forEach(([src, expected]) => {
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+        });
+      });
 
       it(replaceDelimiters("should not convert marker < 3", options), () => {
         const testCases = ["--{#id}", "- - -{#id}"];
 
         testCases.forEach((src) => {
-          expect(
-            markdownIt.render(replaceDelimiters(src, options)),
-          ).not.toContain("hr");
+          expect(markdownIt.render(replaceDelimiters(src, options))).not.toContain("hr");
         });
       });
 
@@ -54,9 +47,7 @@ const createDualRuleTests = (
         const src = "--- {.a .b}";
         const expected = '<hr class="a b">\n';
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
     });
   });

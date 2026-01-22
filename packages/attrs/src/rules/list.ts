@@ -2,11 +2,7 @@ import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import {
-  addAttrs,
-  getDelimiterChecker,
-  getMatchingOpeningToken,
-} from "../helper/index.js";
+import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
 export const getListRules = (options: DelimiterConfig): AttrRule[] => [
   /**
@@ -52,12 +48,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       }
 
       // Apply attributes to the list opening token
-      addAttrs(
-        tokens[listOpenIndex - 1],
-        token.content,
-        range,
-        options.allowed,
-      );
+      addAttrs(tokens[listOpenIndex - 1], token.content, range, options.allowed);
 
       // Remove the attribute tokens from children
       tokens[index].children = childTokens.slice(0, -2);
@@ -78,8 +69,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
         // let this token be i = 0 so that we can erase
         // the <p>{.a}</p> tokens below
         shift: 0,
-        type: (type) =>
-          type === "bullet_list_close" || type === "ordered_list_close",
+        type: (type) => type === "bullet_list_close" || type === "ordered_list_close",
       },
       {
         shift: 1,
@@ -141,10 +131,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       addAttrs(tokens[index - 2], content, range, options.allowed);
 
       // Remove attribute syntax from content
-      token.content = content.slice(
-        0,
-        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
-      );
+      token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
   },
 ];

@@ -1,8 +1,5 @@
 import type { AttrRule } from "./types.js";
-import type {
-  MarkdownItAttrRuleName,
-  MarkdownItAttrsOptions,
-} from "../options.js";
+import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { getBlockRule } from "./block.js";
 import { getFenceRule } from "./fence.js";
 import { getHeadingRule } from "./heading.js";
@@ -23,9 +20,7 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "block",
 ];
 
-export const getRules = (
-  options: Required<MarkdownItAttrsOptions>,
-): AttrRule[] => {
+export const getRules = (options: Required<MarkdownItAttrsOptions>): AttrRule[] => {
   const enabledRules =
     // disable
     options.rule === false
@@ -45,8 +40,7 @@ export const getRules = (
   if (enabledRules.includes("hr")) rules.push(getHrRule(options));
   if (enabledRules.includes("block")) rules.push(getBlockRule(options));
   // heading rule is fully covered by block rules
-  else if (enabledRules.includes("heading"))
-    rules.push(getHeadingRule(options));
+  else if (enabledRules.includes("heading")) rules.push(getHeadingRule(options));
 
   return rules;
 };

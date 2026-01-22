@@ -13,15 +13,9 @@ const createDelimiterTests = (
 ): void => {
   describe(`getAttrs ${delimiterText}`, () => {
     it(
-      replaceDelimiters(
-        "should parse {.class ..css-module #id key=val .class.with.dot}",
-        options,
-      ),
+      replaceDelimiters("should parse {.class ..css-module #id key=val .class.with.dot}", options),
       () => {
-        const src = replaceDelimiters(
-          "{.red ..mod #head key=val .class.with.dot}",
-          options,
-        );
+        const src = replaceDelimiters("{.red ..mod #head key=val .class.with.dot}", options);
         const expected = [
           ["class", "red"],
           ["css-module", "mod"],
@@ -30,29 +24,20 @@ const createDelimiterTests = (
           ["class", "class.with.dot"],
         ];
 
-        const range = getDelimiterChecker(
-          options,
-          "only",
-        )(src) as DelimiterRange;
+        const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
 
         expect(getAttrs(src, range, options)).toEqual(expected);
       },
     );
 
-    it(
-      replaceDelimiters("should parse attributes with = {attr=/id=1}", options),
-      () => {
-        const src = replaceDelimiters("{link=/some/page/in/app/id=1}", options);
-        const expected = [["link", "/some/page/in/app/id=1"]];
+    it(replaceDelimiters("should parse attributes with = {attr=/id=1}", options), () => {
+      const src = replaceDelimiters("{link=/some/page/in/app/id=1}", options);
+      const expected = [["link", "/some/page/in/app/id=1"]];
 
-        const range = getDelimiterChecker(
-          options,
-          "only",
-        )(src) as DelimiterRange;
+      const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options)).toEqual(expected);
-      },
-    );
+      expect(getAttrs(src, range, options)).toEqual(expected);
+    });
 
     it(
       replaceDelimiters(
@@ -60,10 +45,7 @@ const createDelimiterTests = (
         options,
       ),
       () => {
-        const src = replaceDelimiters(
-          '{gt>=true slash/=trace i\td "q\fu\ne\'r\ny"=}',
-          options,
-        );
+        const src = replaceDelimiters('{gt>=true slash/=trace i\td "q\fu\ne\'r\ny"=}', options);
         const expected = [
           ["gt", "true"],
           ["slash", "trace"],
@@ -71,10 +53,7 @@ const createDelimiterTests = (
           ["query", ""],
         ];
 
-        const range = getDelimiterChecker(
-          options,
-          "only",
-        )(src) as DelimiterRange;
+        const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
 
         expect(getAttrs(src, range, options)).toEqual(expected);
       },

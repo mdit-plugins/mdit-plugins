@@ -356,13 +356,7 @@ ${demoContent}
         tokens[index].info = "md";
         tokens[index].markup = "```";
 
-        return `</summary>\n${self.rules.fence!(
-          tokens,
-          index,
-          options,
-          _env,
-          self,
-        )}`;
+        return `</summary>\n${self.rules.fence!(tokens, index, options, _env, self)}`;
       },
       contentOpenRender: () => "",
       contentCloseRender: () => "",
@@ -391,9 +385,7 @@ ${codeContent}
 > Caution text\
 `;
 
-    const markdownItAlert = MarkdownIt({ linkify: true })
-      .use(alert, { deep: true })
-      .use(demo);
+    const markdownItAlert = MarkdownIt({ linkify: true }).use(alert, { deep: true }).use(demo);
 
     expect(
       markdownItAlert.render(`

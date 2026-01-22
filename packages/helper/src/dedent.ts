@@ -8,8 +8,7 @@ export const dedent = (text: string): string => {
     return acc;
   }, Infinity);
 
-  if (minIndentLength < Infinity)
-    return lines.map((x) => x.slice(minIndentLength)).join("\n");
+  if (minIndentLength < Infinity) return lines.map((x) => x.slice(minIndentLength)).join("\n");
 
   return text;
 };

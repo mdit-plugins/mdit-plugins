@@ -224,8 +224,7 @@ const md = MarkdownIt().use(embed, {
     // YouTube
     {
       name: "youtube",
-      setup: (id) =>
-        `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
+      setup: (id) => `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
     },
     // Bilibili
     {
@@ -290,8 +289,7 @@ md.use(embed, {
   config: [
     {
       name: "youtube",
-      setup: (id) =>
-        `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
+      setup: (id) => `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
     },
   ],
 });

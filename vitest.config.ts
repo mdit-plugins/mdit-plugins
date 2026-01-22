@@ -5,10 +5,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      "@deflate": path.resolve(
-        import.meta.dirname,
-        "packages/plantuml/src/deflate/node.js",
-      ),
+      "@deflate": path.resolve(import.meta.dirname, "packages/plantuml/src/deflate/node.js"),
     },
   },
   test: {

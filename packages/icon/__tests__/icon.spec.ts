@@ -11,9 +11,7 @@ describe("should work with default options", () => {
     .use(icon);
 
   it("should render", () => {
-    expect(markdownIt.render("::icon-name::")).toEqual(
-      `<p><i class="icon-name"></i></p>\n`,
-    );
+    expect(markdownIt.render("::icon-name::")).toEqual(`<p><i class="icon-name"></i></p>\n`);
 
     expect(markdownIt.render("::icon-name fa-fw sm::")).toEqual(
       `<p><i class="icon-name fa-fw sm"></i></p>\n`,
@@ -38,24 +36,12 @@ xx</p>\n`);
   it("should not render", () => {
     expect(markdownIt.render("::icon-name")).toEqual("<p>::icon-name</p>\n");
     expect(markdownIt.render("icon-name::")).toEqual("<p>icon-name::</p>\n");
-    expect(markdownIt.render(":: icon-name::")).toEqual(
-      "<p>:: icon-name::</p>\n",
-    );
-    expect(markdownIt.render("::icon-name ::")).toEqual(
-      "<p>::icon-name ::</p>\n",
-    );
-    expect(markdownIt.render(":: icon-name:::")).toEqual(
-      "<p>:: icon-name:::</p>\n",
-    );
-    expect(markdownIt.render(":::icon-name ::")).toEqual(
-      "<p>:::icon-name ::</p>\n",
-    );
-    expect(markdownIt.render("::icon-name :::")).toEqual(
-      "<p>::icon-name :::</p>\n",
-    );
-    expect(markdownIt.render(":: icon-name ::")).toEqual(
-      "<p>:: icon-name ::</p>\n",
-    );
+    expect(markdownIt.render(":: icon-name::")).toEqual("<p>:: icon-name::</p>\n");
+    expect(markdownIt.render("::icon-name ::")).toEqual("<p>::icon-name ::</p>\n");
+    expect(markdownIt.render(":: icon-name:::")).toEqual("<p>:: icon-name:::</p>\n");
+    expect(markdownIt.render(":::icon-name ::")).toEqual("<p>:::icon-name ::</p>\n");
+    expect(markdownIt.render("::icon-name :::")).toEqual("<p>::icon-name :::</p>\n");
+    expect(markdownIt.render(":: icon-name ::")).toEqual("<p>:: icon-name ::</p>\n");
     expect(markdownIt.render(":: no-icon ::icon-name::")).toEqual(
       '<p>:: no-icon <i class="icon-name"></i></p>\n',
     );
@@ -68,21 +54,15 @@ xx</p>\n`);
     expect(markdownIt.render(`x ::foo ::bar::::`)).toEqual(
       `<p>x ::foo <i class="bar"></i>::</p>\n`,
     );
-    expect(markdownIt.render(`x ::::foo::::`)).toEqual(
-      `<p>x ::<i class="foo"></i>::</p>\n`,
-    );
+    expect(markdownIt.render(`x ::::foo::::`)).toEqual(`<p>x ::<i class="foo"></i>::</p>\n`);
     expect(markdownIt.render(`::foo ::bar:: baz::`)).toEqual(
       `<p>::foo <i class="bar"></i> baz::</p>\n`,
     );
   });
 
   it("higher priority then emphases or strong", () => {
-    expect(markdownIt.render(`::f **o** a::`)).toEqual(
-      `<p><i class="f **o** a"></i></p>\n`,
-    );
-    expect(markdownIt.render(`*f ::o:: a*`)).toEqual(
-      `<p><em>f <i class="o"></i> a</em></p>\n`,
-    );
+    expect(markdownIt.render(`::f **o** a::`)).toEqual(`<p><i class="f **o** a"></i></p>\n`);
+    expect(markdownIt.render(`*f ::o:: a*`)).toEqual(`<p><em>f <i class="o"></i> a</em></p>\n`);
     expect(markdownIt.render(`::f **o ::o** b:: a r::`)).toEqual(
       `<p>::f **o <i class="o** b"></i> a r::</p>\n`,
     );
@@ -92,12 +72,8 @@ xx</p>\n`);
   });
 
   it("respect backticks", () => {
-    expect(markdownIt.render("::`icon::`")).toEqual(
-      `<p>::<code>icon::</code></p>\n`,
-    );
-    expect(markdownIt.render("` :: icon`::")).toEqual(
-      `<p><code> :: icon</code>::</p>\n`,
-    );
+    expect(markdownIt.render("::`icon::`")).toEqual(`<p>::<code>icon::</code></p>\n`);
+    expect(markdownIt.render("` :: icon`::")).toEqual(`<p><code> :: icon</code>::</p>\n`);
   });
 
   it("should work with markdown-it-emoji", () => {
@@ -117,9 +93,7 @@ describe("should work with custom render", () => {
     });
 
   it("should render", () => {
-    expect(markdownIt.render("::icon-name::")).toEqual(
-      '<p><Icon icon="icon-name"></Icon></p>\n',
-    );
+    expect(markdownIt.render("::icon-name::")).toEqual('<p><Icon icon="icon-name"></Icon></p>\n');
 
     expect(markdownIt.render("::icon-name fa-fw sm::")).toEqual(
       '<p><Icon icon="icon-name fa-fw sm"></Icon></p>\n',
@@ -135,9 +109,7 @@ describe("should work with render: undefined", () => {
     });
 
   it("should render", () => {
-    expect(markdownIt.render("::icon-name::")).toEqual(
-      '<p><i class="icon-name"></i></p>\n',
-    );
+    expect(markdownIt.render("::icon-name::")).toEqual('<p><i class="icon-name"></i></p>\n');
 
     expect(markdownIt.render("::icon-name fa-fw sm::")).toEqual(
       '<p><i class="icon-name fa-fw sm"></i></p>\n',

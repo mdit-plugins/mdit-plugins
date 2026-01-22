@@ -76,16 +76,13 @@ export const katex = <MarkdownItEnv = unknown>(
   options: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
   /* istanbul ignore if -- @preserve */
-  if (!isKatexInstalled)
-    throw new Error('[@mdit/plugin-katex-slim]: "katex" is not installed!');
+  if (!isKatexInstalled) throw new Error('[@mdit/plugin-katex-slim]: "katex" is not installed!');
 
   const {
     allowInlineWithSpace = false,
     delimiters,
     mathFence,
-    logger = (
-      errorCode: string,
-    ): "ignore" | "warn" | "error" | boolean | undefined =>
+    logger = (errorCode: string): "ignore" | "warn" | "error" | boolean | undefined =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
     // see https://github.com/vuepress/ecosystem/issues/261
     // this ensures that `\gdef` works as expected

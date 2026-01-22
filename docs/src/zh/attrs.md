@@ -45,9 +45,7 @@ mdIt.render("# Heading 🎉{#heading}");
 会被渲染为:
 
 ```html
-<p id="p" class="a b" align="center" customize-attr="content with spaces">
-  一个包含文字的段落。
-</p>
+<p id="p" class="a b" align="center" customize-attr="content with spaces">一个包含文字的段落。</p>
 ```
 
 ::: tip 转义

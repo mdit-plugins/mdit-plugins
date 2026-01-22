@@ -62,21 +62,13 @@ describe("getDelimiterChecker", () => {
 
   it("should throw an error while calling `hasDelimiters` with an invalid `where` param", () => {
     // @ts-expect-error: error in test
-    expect(() => getDelimiterChecker(options, 0)).toThrow(
-      /Invalid 'where' parameter/,
-    );
+    expect(() => getDelimiterChecker(options, 0)).toThrow(/Invalid 'where' parameter/);
     // @ts-expect-error: error in test
-    expect(() => getDelimiterChecker(options, "")).toThrow(
-      /Invalid 'where' parameter/,
-    );
+    expect(() => getDelimiterChecker(options, "")).toThrow(/Invalid 'where' parameter/);
     // @ts-expect-error: error in test
-    expect(() => getDelimiterChecker(options, null)).toThrow(
-      /Invalid 'where' parameter/,
-    );
+    expect(() => getDelimiterChecker(options, null)).toThrow(/Invalid 'where' parameter/);
     // @ts-expect-error: error in test
-    expect(() => getDelimiterChecker(options, undefined)).toThrow(
-      /Invalid 'where' parameter/,
-    );
+    expect(() => getDelimiterChecker(options, undefined)).toThrow(/Invalid 'where' parameter/);
     expect(() =>
       // @ts-expect-error: error in test
       getDelimiterChecker(options, "center")("has {#test} delimiters"),

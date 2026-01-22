@@ -27,8 +27,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     if (state.src.charCodeAt(currentLineStart) !== 58 /* : */) return false;
 
     // check the minimal length of container
-    if (currentLineMax - currentLineStart < MIN_MARKER_NUM + name.length)
-      return false;
+    if (currentLineMax - currentLineStart < MIN_MARKER_NUM + name.length) return false;
 
     let pos = currentLineStart + 1;
 
@@ -79,10 +78,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (
-        nextLineStart < nextLineMax &&
-        state.sCount[nextLine] < currentLineIndent
-      )
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent)
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
@@ -135,11 +131,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     openToken.map = [startLine, nextLine];
 
     const pushCodeToken = (): void => {
-      const codeToken = state.push(
-        codeRender ? `${name}_demo_code` : "fence",
-        "code",
-        0,
-      );
+      const codeToken = state.push(codeRender ? `${name}_demo_code` : "fence", "code", 0);
 
       const indent = state.sCount[startLine];
 
@@ -148,9 +140,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .slice(startLine + 1, nextLine)
         .map((line) => line.slice(indent))
         // this is a workaround to work with include plugin
-        .filter(
-          (line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line),
-        )
+        .filter((line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line))
         .join("\n")
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
@@ -170,11 +160,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
-    const contentCloseToken = state.push(
-      `${name}_demo_content_close`,
-      "div",
-      -1,
-    );
+    const contentCloseToken = state.push(`${name}_demo_content_close`, "div", -1);
 
     contentCloseToken.block = true;
 
@@ -200,8 +186,6 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.renderer.rules[`${name}_demo_open`] = openRender;
   md.renderer.rules[`${name}_demo_close`] = closeRender;
   if (codeRender) md.renderer.rules[`${name}_demo_code`] = codeRender;
-  if (contentOpenRender)
-    md.renderer.rules[`${name}_demo_content_open`] = contentOpenRender;
-  if (contentCloseRender)
-    md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
+  if (contentOpenRender) md.renderer.rules[`${name}_demo_content_open`] = contentOpenRender;
+  if (contentCloseRender) md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
 };

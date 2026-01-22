@@ -42,15 +42,11 @@ it("should not change inline image", () => {
 });
 
 it("should support image with links", () => {
-  expect(
-    markdownIt.render(`[![image](/logo.svg)](https://example.com)`),
-  ).toEqual(
+  expect(markdownIt.render(`[![image](/logo.svg)](https://example.com)`)).toEqual(
     '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>image</figcaption></figure>\n',
   );
 
-  expect(
-    markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`),
-  ).toEqual(
+  expect(markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`)).toEqual(
     '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>A image</figcaption></figure>\n',
   );
 });
@@ -74,7 +70,5 @@ it("should not covert existing figure tags to markdown-it-figure", () => {
 
 </figure>
 `),
-  ).toEqual(
-    `<figure>\n<img src="/logo.svg" alt="image" tabindex="0">\n</figure>\n`,
-  );
+  ).toEqual(`<figure>\n<img src="/logo.svg" alt="image" tabindex="0">\n</figure>\n`);
 });

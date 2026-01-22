@@ -109,8 +109,7 @@ const postProcess = (
     const i = loneMarkers.pop()!;
     let j = i + 1;
 
-    while (j < state.tokens.length && state.tokens[j].type === "spoiler_close")
-      j++;
+    while (j < state.tokens.length && state.tokens[j].type === "spoiler_close") j++;
 
     j--;
 
@@ -137,8 +136,7 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
     postProcess(state, state.delimiters, { tag, attrs });
 
     for (const tokenMeta of state.tokens_meta) {
-      if (tokenMeta?.delimiters)
-        postProcess(state, tokenMeta.delimiters, { tag, attrs });
+      if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters, { tag, attrs });
     }
 
     return true;

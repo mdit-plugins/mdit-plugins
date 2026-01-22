@@ -21,28 +21,21 @@ const createDualRuleTests = (
     describe(testTitle, () => {
       const markdownIt = MarkdownIt().use(attrs, options);
 
-      it(
-        replaceDelimiters("should add classes for list items", options),
-        () => {
-          const src = "- item 1{.red}\n- item 2";
+      it(replaceDelimiters("should add classes for list items", options), () => {
+        const src = "- item 1{.red}\n- item 2";
 
-          const expected = `\
+        const expected = `\
 <ul>
 <li class="red">item 1</li>
 <li>item 2</li>
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
-      it(
-        replaceDelimiters("should add classes in nested lists", options),
-        () => {
-          const src = `\
+      it(replaceDelimiters("should add classes in nested lists", options), () => {
+        const src = `\
 - item 1{.a}
   - nested item {.b}
   {.c}
@@ -50,7 +43,7 @@ const createDualRuleTests = (
     {.e}
 `;
 
-          const expected = `\
+        const expected = `\
 <ul>
 <li class="a">item 1
 <ul class="c">
@@ -64,87 +57,57 @@ const createDualRuleTests = (
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
-      it(
-        replaceDelimiters("should not trim unrelated white space", options),
-        () => {
-          const src = "- **bold** text {.red}";
+      it(replaceDelimiters("should not trim unrelated white space", options), () => {
+        const src = "- **bold** text {.red}";
 
-          const expected = `\
+        const expected = `\
 <ul>
 <li class="red"><strong>bold</strong> text</li>
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
       it(
-        replaceDelimiters(
-          "should add attributes to ul when below last bullet point",
-          options,
-        ),
+        replaceDelimiters("should add attributes to ul when below last bullet point", options),
         () => {
           const src = "- item1\n- item2\n{.red}";
-          const expected =
-            '<ul class="red">\n<li>item1</li>\n<li>item2</li>\n</ul>\n';
+          const expected = '<ul class="red">\n<li>item1</li>\n<li>item2</li>\n</ul>\n';
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
         },
       );
 
-      it(
-        replaceDelimiters(
-          "should add classes for both last list item and ul",
-          options,
-        ),
-        () => {
-          const src = "- item{.red}\n{.blue}";
+      it(replaceDelimiters("should add classes for both last list item and ul", options), () => {
+        const src = "- item{.red}\n{.blue}";
 
-          const expected = `\
+        const expected = `\
 <ul class="blue">
 <li class="red">item</li>
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
-      it(
-        replaceDelimiters('should add class ul after a "soft-break"', options),
-        () => {
-          const src = "- item\n{.blue}";
+      it(replaceDelimiters('should add class ul after a "soft-break"', options), () => {
+        const src = "- item\n{.blue}";
 
-          const expected = `\
+        const expected = `\
 <ul class="blue">
 <li>item</li>
 </ul>
 `;
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
 
       it(
-        replaceDelimiters(
-          'should ignore non-text "attr-like" text after a "soft-break"',
-          options,
-        ),
+        replaceDelimiters('should ignore non-text "attr-like" text after a "soft-break"', options),
         () => {
           const src = "- item\n*{.blue}*";
 
@@ -167,9 +130,7 @@ const createDualRuleTests = (
 </ol>
 `;
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
       it(replaceDelimiters("should support nested lists", options), () => {
@@ -191,20 +152,14 @@ const createDualRuleTests = (
 </ul>
 `;
 
-        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-          expected,
-        );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
       it(
-        replaceDelimiters(
-          "should not apply inside item lists with trailing `code{.red}`",
-          options,
-        ),
+        replaceDelimiters("should not apply inside item lists with trailing `code{.red}`", options),
         () => {
           const src = "- item with trailing `code = {.red}`";
-          const expected =
-            "<ul>\n<li>item with trailing <code>code = {.red}</code></li>\n</ul>\n";
+          const expected = "<ul>\n<li>item with trailing <code>code = {.red}</code></li>\n</ul>\n";
 
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
             replaceDelimiters(expected, options),
@@ -219,8 +174,7 @@ const createDualRuleTests = (
         ),
         () => {
           const src = "- item with trailing *{.red}*";
-          const expected =
-            "<ul>\n<li>item with trailing <em>{.red}</em></li>\n</ul>\n";
+          const expected = "<ul>\n<li>item with trailing <em>{.red}</em></li>\n</ul>\n";
 
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
             replaceDelimiters(expected, options),
@@ -228,23 +182,15 @@ const createDualRuleTests = (
         },
       );
 
-      it(
-        replaceDelimiters(
-          "should not crash on {#ids} in front of list items",
+      it(replaceDelimiters("should not crash on {#ids} in front of list items", options), () => {
+        const src = "- {#ids} [link](./link)";
+        const expected = replaceDelimiters(
+          '<ul>\n<li>{#ids} <a href="./link">link</a></li>\n</ul>\n',
           options,
-        ),
-        () => {
-          const src = "- {#ids} [link](./link)";
-          const expected = replaceDelimiters(
-            '<ul>\n<li>{#ids} <a href="./link">link</a></li>\n</ul>\n',
-            options,
-          );
+        );
 
-          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(
-            expected,
-          );
-        },
-      );
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
     });
   });
 };

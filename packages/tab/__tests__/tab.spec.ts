@@ -481,14 +481,10 @@ A **bold** text 4.
       '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
     );
     expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
-    expect(result).toContain(
-      "<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>",
-    );
+    expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>");
 
     expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
-    expect(result).toContain(
-      "<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>",
-    );
+    expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>");
   });
 });
 

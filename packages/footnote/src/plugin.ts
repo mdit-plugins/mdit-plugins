@@ -48,10 +48,7 @@ const renderFootnoteAnchorName: RenderRule = (
     (tokens[index].meta.id + 1).toString()
   }`;
 
-const renderFootnoteCaption: RenderRule = (
-  tokens: FootNoteToken[],
-  index,
-): string =>
+const renderFootnoteCaption: RenderRule = (tokens: FootNoteToken[], index): string =>
   `[${
     // number
     (tokens[index].meta.id + 1).toString()
@@ -67,13 +64,7 @@ const renderFootnoteRef: RenderRule = (
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const id = self.rules.footnote_anchorName!(tokens, index, options, env, self);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const caption = self.rules.footnote_caption!(
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  );
+  const caption = self.rules.footnote_caption!(tokens, index, options, env, self);
 
   return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
     tokens,
@@ -81,11 +72,7 @@ const renderFootnoteRef: RenderRule = (
   )}"></a></sup>`;
 };
 
-const renderFootnoteBlockOpen: RenderRule = (
-  _tokens: FootNoteToken[],
-  _index,
-  options,
-): string =>
+const renderFootnoteBlockOpen: RenderRule = (_tokens: FootNoteToken[], _index, options): string =>
   `\
 <hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
 <section class="footnotes">
@@ -123,24 +110,13 @@ const renderFootnoteAnchor: RenderRule = (
   self,
 ): string =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  ` <a href="#footnote-ref${self.rules.footnote_anchorName!(
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  )}${
+  ` <a href="#footnote-ref${self.rules.footnote_anchorName!(tokens, index, options, env, self)}${
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
   }" class="footnote-backref">\u21a9\uFE0E</a>`;
 
 // Process footnote block definition
-const footnoteDef: RuleBlock = (
-  state: FootNoteStateBlock,
-  startLine,
-  endLine,
-  silent,
-) => {
+const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
   let char: number;
@@ -191,9 +167,7 @@ const footnoteDef: RuleBlock = (
   const oldParentType = state.parentType;
   const posAfterColon = pos;
   const initial =
-    state.sCount[startLine] +
-    pos -
-    (state.bMarks[startLine] + state.tShift[startLine]);
+    state.sCount[startLine] + pos - (state.bMarks[startLine] + state.tShift[startLine]);
 
   let offset = initial;
 
@@ -213,8 +187,7 @@ const footnoteDef: RuleBlock = (
   state.blkIndent += 4;
   state.parentType = "footnote" as unknown as ParentType;
 
-  if (state.sCount[startLine] < state.blkIndent)
-    state.sCount[startLine] += state.blkIndent;
+  if (state.sCount[startLine] < state.blkIndent) state.sCount[startLine] += state.blkIndent;
 
   state.md.block.tokenize(state, startLine, endLine);
 
@@ -261,12 +234,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
     const footnoteId = list.length;
     const tokens: Token[] = [];
 
-    state.md.inline.parse(
-      state.src.slice(labelStart, labelEnd),
-      state.md,
-      state.env,
-      tokens,
-    );
+    state.md.inline.parse(state.src.slice(labelStart, labelEnd), state.md, state.env, tokens);
 
     const refToken = state.push("footnote_ref", "", 0);
 
@@ -316,8 +284,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   const label = state.src.slice(start + 2, pos - 1);
 
-  if (typeof state.env.footnotes.refs[`:${label}`] === "undefined")
-    return false;
+  if (typeof state.env.footnotes.refs[`:${label}`] === "undefined") return false;
 
   if (!silent) {
     const list = (state.env.footnotes.list ??= []);

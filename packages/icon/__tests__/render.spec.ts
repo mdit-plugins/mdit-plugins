@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  defaultRender,
-  fontawesomeRender,
-  iconfontRender,
-  iconifyRender,
-} from "../src/render.js";
+import { defaultRender, fontawesomeRender, iconfontRender, iconifyRender } from "../src/render.js";
 
 describe("defaultRender", () => {
   it("should render default icon", () => {
@@ -19,9 +14,7 @@ describe("defaultRender", () => {
   });
 
   it("should render default icon with additional classes", () => {
-    expect(defaultRender("test class1 class2")).toBe(
-      '<i icon="test class1 class2"></i>',
-    );
+    expect(defaultRender("test class1 class2")).toBe('<i icon="test class1 class2"></i>');
   });
 
   it("should render default icon with additional classes, size, and color", () => {
@@ -33,9 +26,7 @@ describe("defaultRender", () => {
 
 describe("iconifyRender", () => {
   it("should render iconify icon", () => {
-    expect(iconifyRender("test:icon")).toBe(
-      '<iconify-icon icon="test:icon"></iconify-icon>',
-    );
+    expect(iconifyRender("test:icon")).toBe('<iconify-icon icon="test:icon"></iconify-icon>');
   });
 
   it("should render iconify icon with size and color", () => {
@@ -47,9 +38,7 @@ describe("iconifyRender", () => {
 
 describe("iconfontRender", () => {
   it("should render iconfont icon", () => {
-    expect(iconfontRender("test")).toBe(
-      '<span class="iconfont icon-test"></span>',
-    );
+    expect(iconfontRender("test")).toBe('<span class="iconfont icon-test"></span>');
   });
 
   it("should render iconfont icon with size and color", () => {
@@ -73,9 +62,7 @@ describe("iconfontRender", () => {
 
 describe("fontawesomeRender", () => {
   it("should render fontawesome icon with classes", () => {
-    expect(fontawesomeRender("fa-test")).toBe(
-      '<i class="fa-test fa-solid"></i>',
-    );
+    expect(fontawesomeRender("fa-test")).toBe('<i class="fa-test fa-solid"></i>');
 
     expect(fontawesomeRender("test")).toBe('<i class="fa-test fa-solid"></i>');
   });
@@ -83,13 +70,9 @@ describe("fontawesomeRender", () => {
   it("should render fontawesome icon with explicit family", () => {
     expect(fontawesomeRender("fas:icon")).toBe('<i class="fas fa-icon"></i>');
     expect(fontawesomeRender("s:icon")).toBe('<i class="fas fa-icon"></i>');
-    expect(fontawesomeRender("solid:icon")).toBe(
-      '<i class="fa-solid fa-icon"></i>',
-    );
+    expect(fontawesomeRender("solid:icon")).toBe('<i class="fa-solid fa-icon"></i>');
     expect(fontawesomeRender("b:icon")).toBe('<i class="fab fa-icon"></i>');
-    expect(fontawesomeRender("brands:icon")).toBe(
-      '<i class="fa-brands fa-icon"></i>',
-    );
+    expect(fontawesomeRender("brands:icon")).toBe('<i class="fa-brands fa-icon"></i>');
   });
 
   it("should render fontawesome icon with size and color", () => {

@@ -17,7 +17,7 @@ export type TokenPropTest = {
       ? never
       : K extends "content" | "info"
         ? string | DelimiterChecker
-        : Token[K] extends infer T | null
+        : Token[K] extends (infer T) | null
           ? T | TestFunction<T>
           : Token[K] | TestFunction<Token[K]>;
 };
@@ -90,10 +90,5 @@ export type AttrRuleSet = ShiftAttrRuleSet | PositionAttrRuleSet;
 export interface AttrRule {
   name: string;
   tests: AttrRuleSet[];
-  transform: (
-    tokens: Token[],
-    index: number,
-    childIndex: number,
-    range: DelimiterRange,
-  ) => void;
+  transform: (tokens: Token[], index: number, childIndex: number, range: DelimiterRange) => void;
 }

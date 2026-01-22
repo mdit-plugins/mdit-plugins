@@ -2,10 +2,7 @@ import type { PluginWithOptions } from "markdown-it";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
-import type {
-  MarkdownItStylizeConfig,
-  MarkdownItStylizeOptions,
-} from "./options.js";
+import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
 const scanTokens = (
   tokens: Token[],
@@ -49,10 +46,7 @@ const scanTokens = (
   }
 };
 
-export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (
-  md,
-  options = {},
-) => {
+export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options = {}) => {
   if (options.config?.length == 0) return;
 
   const stylizeRule: RuleCore = ({ env, tokens }) => {

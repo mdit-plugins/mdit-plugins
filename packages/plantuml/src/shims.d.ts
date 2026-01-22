@@ -48,10 +48,7 @@ declare module "pako/lib/deflate.js" {
   /**
    * The same as deflate, but creates raw data, without wrapper (header and adler32 crc).
    */
-  export function deflateRaw(
-    data: Data | string,
-    options?: DeflateFunctionOptions,
-  ): Uint8Array;
+  export function deflateRaw(data: Data | string, options?: DeflateFunctionOptions): Uint8Array;
 }
 
 declare module "@deflate" {

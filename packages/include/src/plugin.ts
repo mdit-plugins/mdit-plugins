@@ -45,19 +45,11 @@ const INCLUDE_COMMENT_RE =
 const INCLUDE_RE =
   /^( *)@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*$/gm;
 
-const testLine = (
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end = false,
-): boolean => {
+const testLine = (line: string, regexp: RegExp, regionName: string, end = false): boolean => {
   const [full, tag, name] = regexp.exec(line.trim()) ?? [];
 
   return Boolean(
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
+    full && tag && name === regionName && tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
   );
 };
 
@@ -94,9 +86,7 @@ export const handleInclude = (
     // if the importPath is relative path, we need to resolve it
     // according to the markdown filePath
     if (!cwd) {
-      console.error(
-        `[@mdit/plugin-include]: Error when resolving path: ${filePath}`,
-      );
+      console.error(`[@mdit/plugin-include]: Error when resolving path: ${filePath}`);
 
       return "\nError when resolving path\n";
     }
@@ -132,9 +122,7 @@ export const handleInclude = (
     if (lineStart) {
       results = lines.slice(lineStart - 1, lineEnd);
     } else if (lines[0] === "---") {
-      const endLineIndex = lines.findIndex(
-        (line, index) => index !== 0 && line === "---",
-      );
+      const endLineIndex = lines.findIndex((line, index) => index !== 0 && line === "---");
 
       results = lines.slice(Math.max(endLineIndex + 1, 1), lineEnd);
     } else {
@@ -232,12 +220,7 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   return false;
 };
 
-const includePopRule: RuleBlock = (
-  state,
-  startLine,
-  _endLine,
-  silent,
-): boolean => {
+const includePopRule: RuleBlock = (state, startLine, _endLine, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
@@ -270,24 +253,17 @@ const resolveRelatedLink = (
     const { length } = includedPaths;
 
     if (length) {
-      const includeDir = path.relative(
-        path.dirname(filePath),
-        includedPaths[length - 1],
-      );
+      const includeDir = path.relative(path.dirname(filePath), includedPaths[length - 1]);
 
       const resolvedPath = path.join(includeDir, url);
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      token.attrs![attrIndex][1] =
-        resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
+      token.attrs![attrIndex][1] = resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
     }
   }
 };
 
-export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
-  md,
-  options,
-): void => {
+export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
   const {
     currentPath,
     resolvePath = (path: string): string => path,
@@ -334,12 +310,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
 
-    md.renderer.rules.include_start = (
-      tokens,
-      index,
-      _options,
-      env: IncludeEnv,
-    ): string => {
+    md.renderer.rules.include_start = (tokens, index, _options, env: IncludeEnv): string => {
       const token = tokens[index];
       const includedPaths = (env.includedPaths ??= []);
 
@@ -348,20 +319,12 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       return "";
     };
 
-    md.renderer.rules.include_end = (
-      _tokens,
-      _index,
-      _options,
-      env: IncludeEnv,
-    ): string => {
+    md.renderer.rules.include_end = (_tokens, _index, _options, env: IncludeEnv): string => {
       const includedPaths = env.includedPaths;
 
       /* istanbul ignore else -- @preserve */
       if (Array.isArray(includedPaths)) includedPaths.pop();
-      else
-        console.error(
-          `[@mdit/plugin-include]: include_end failed, no include_start.`,
-        );
+      else console.error(`[@mdit/plugin-include]: include_end failed, no include_start.`);
 
       return "";
     };
@@ -370,13 +333,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const defaultImageRender = md.renderer.rules.image!;
 
-      md.renderer.rules.image = (
-        tokens,
-        index,
-        options,
-        env: IncludeEnv,
-        self,
-      ): string => {
+      md.renderer.rules.image = (tokens, index, options, env: IncludeEnv, self): string => {
         const token = tokens[index];
         const path = currentPath(env);
 
@@ -390,16 +347,9 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (
     if (resolveLinkPath) {
       const defaultLinkRender =
         md.renderer.rules.link_open ??
-        ((tokens, index, options, _env, self): string =>
-          self.renderToken(tokens, index, options));
+        ((tokens, index, options, _env, self): string => self.renderToken(tokens, index, options));
 
-      md.renderer.rules.link_open = (
-        tokens,
-        index,
-        options,
-        env: IncludeEnv,
-        self,
-      ): string => {
+      md.renderer.rules.link_open = (tokens, index, options, env: IncludeEnv, self): string => {
         const token = tokens[index];
         const path = currentPath(env);
 

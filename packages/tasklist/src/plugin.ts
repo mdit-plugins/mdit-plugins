@@ -91,11 +91,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
         token.children.unshift(checkboxToken);
 
         setTokenAttr(tokens[i - 2], "class", itemClass);
-        setTokenAttr(
-          tokens[getParentTokenIndex(tokens, i - 2)],
-          "class",
-          containerClass,
-        );
+        setTokenAttr(tokens[getParentTokenIndex(tokens, i - 2)], "class", containerClass);
       }
 
     return true;

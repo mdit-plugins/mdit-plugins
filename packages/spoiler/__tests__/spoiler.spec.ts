@@ -48,21 +48,15 @@ describe("spoiler", () => {
   });
 
   it("Have the same priority as emphases", () => {
-    expect(markdownIt.render(`**!!test**!!`)).toEqual(
-      `<p><strong>!!test</strong>!!</p>\n`,
-    );
+    expect(markdownIt.render(`**!!test**!!`)).toEqual(`<p><strong>!!test</strong>!!</p>\n`);
     expect(markdownIt.render(`!!**test!!**`)).toEqual(
       `<p><span class="spoiler" tabindex="-1">**test</span>**</p>\n`,
     );
   });
 
   it("Have the same priority as emphases with respect to links", () => {
-    expect(markdownIt.render(`[!!link]()!!`)).toEqual(
-      `<p><a href="">!!link</a>!!</p>\n`,
-    );
-    expect(markdownIt.render(`!![link!!]()`)).toEqual(
-      `<p>!!<a href="">link!!</a></p>\n`,
-    );
+    expect(markdownIt.render(`[!!link]()!!`)).toEqual(`<p><a href="">!!link</a>!!</p>\n`);
+    expect(markdownIt.render(`!![link!!]()`)).toEqual(`<p>!!<a href="">link!!</a></p>\n`);
   });
 
   it('should not render with single "!"', () => {
@@ -77,18 +71,12 @@ describe("spoiler", () => {
   });
 
   it("Have the same priority as emphases with respect to backticks", () => {
-    expect(markdownIt.render("!!`code!!`")).toEqual(
-      `<p>!!<code>code!!</code></p>\n`,
-    );
-    expect(markdownIt.render("` !! code`!!")).toEqual(
-      `<p><code> !! code</code>!!</p>\n`,
-    );
+    expect(markdownIt.render("!!`code!!`")).toEqual(`<p>!!<code>code!!</code></p>\n`);
+    expect(markdownIt.render("` !! code`!!")).toEqual(`<p><code> !! code</code>!!</p>\n`);
   });
 
   it("should not render a whitespace or newline between text and '!!'", () => {
-    expect(markdownIt.render("foo !! bar !! baz")).toEqual(
-      `<p>foo !! bar !! baz</p>\n`,
-    );
+    expect(markdownIt.render("foo !! bar !! baz")).toEqual(`<p>foo !! bar !! baz</p>\n`);
 
     expect(
       markdownIt.render(`

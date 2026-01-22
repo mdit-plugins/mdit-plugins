@@ -22,10 +22,7 @@ describe("obsidian image size", () => {
 
     it("with title", () => {
       const testCases = [
-        [
-          `![image](/logo.svg "title")`,
-          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
-        ],
+        [`![image](/logo.svg "title")`, '<p><img src="/logo.svg" alt="image" title="title"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -222,14 +219,8 @@ describe("obsidian image size", () => {
   describe("should render with width=0 or height=0", () => {
     it("simple", () => {
       const testCases = [
-        [
-          `![image|200x0](/logo.svg)`,
-          '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-        ],
-        [
-          `![image|0x200](/logo.svg)`,
-          '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
-        ],
+        [`![image|200x0](/logo.svg)`, '<p><img src="/logo.svg" alt="image" width="200"></p>\n'],
+        [`![image|0x200](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="200"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -257,10 +248,7 @@ describe("obsidian image size", () => {
 
   it("should render with width=0 or height =0", () => {
     const testCases = [
-      [
-        `![image|0x0](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|0x0"></p>\n',
-      ],
+      [`![image|0x0](/logo.svg)`, '<p><img src="/logo.svg" alt="image|0x0"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -270,26 +258,11 @@ describe("obsidian image size", () => {
 
   it("should not render if width or height is missing", () => {
     const testCases = [
-      [
-        `![image|200](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200"></p>\n',
-      ],
-      [
-        `![image|200x](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200x"></p>\n',
-      ],
-      [
-        `![image| 200 x](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image| 200 x"></p>\n',
-      ],
-      [
-        `![image|x200](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|x200"></p>\n',
-      ],
-      [
-        `![image | x 200](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image | x 200"></p>\n',
-      ],
+      [`![image|200](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200"></p>\n'],
+      [`![image|200x](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200x"></p>\n'],
+      [`![image| 200 x](/logo.svg)`, '<p><img src="/logo.svg" alt="image| 200 x"></p>\n'],
+      [`![image|x200](/logo.svg)`, '<p><img src="/logo.svg" alt="image|x200"></p>\n'],
+      [`![image | x 200](/logo.svg)`, '<p><img src="/logo.svg" alt="image | x 200"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -299,14 +272,8 @@ describe("obsidian image size", () => {
 
   it("should render with multiple zeros", () => {
     const testCases = [
-      [
-        `![image|200x00](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-      ],
-      [
-        `![image|00x150](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image" height="150"></p>\n',
-      ],
+      [`![image|200x00](/logo.svg)`, '<p><img src="/logo.svg" alt="image" width="200"></p>\n'],
+      [`![image|00x150](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="150"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -320,10 +287,7 @@ describe("obsidian image size", () => {
         `![image|200 x 300](/logo.svg)`,
         '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
       ],
-      [
-        `![image|200 x 0](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-      ],
+      [`![image|200 x 0](/logo.svg)`, '<p><img src="/logo.svg" alt="image" width="200"></p>\n'],
       [
         `![image  |  0 x 200](/logo.svg)`,
         '<p><img src="/logo.svg" alt="image" height="200"></p>\n',
@@ -341,26 +305,11 @@ describe("obsidian image size", () => {
 
   it("should not render if width or height is not number", () => {
     const testCases = [
-      [
-        `![image|abcxdef](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|abcxdef"></p>\n',
-      ],
-      [
-        `![image|abcx100](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|abcx100"></p>\n',
-      ],
-      [
-        `![image|200xdef](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200xdef"></p>\n',
-      ],
-      [
-        `![image|12ax300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|12ax300"></p>\n',
-      ],
-      [
-        `![image|200x12a](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200x12a"></p>\n',
-      ],
+      [`![image|abcxdef](/logo.svg)`, '<p><img src="/logo.svg" alt="image|abcxdef"></p>\n'],
+      [`![image|abcx100](/logo.svg)`, '<p><img src="/logo.svg" alt="image|abcx100"></p>\n'],
+      [`![image|200xdef](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200xdef"></p>\n'],
+      [`![image|12ax300](/logo.svg)`, '<p><img src="/logo.svg" alt="image|12ax300"></p>\n'],
+      [`![image|200x12a](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200x12a"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -370,14 +319,8 @@ describe("obsidian image size", () => {
 
   it("should not render with capital X or math times", () => {
     const testCases = [
-      [
-        `![image|200X300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200X300"></p>\n',
-      ],
-      [
-        `![image|200×300](/logo.svg)`,
-        '<p><img src="/logo.svg" alt="image|200×300"></p>\n',
-      ],
+      [`![image|200X300](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200X300"></p>\n'],
+      [`![image|200×300](/logo.svg)`, '<p><img src="/logo.svg" alt="image|200×300"></p>\n'],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -397,14 +340,8 @@ describe("obsidian image size", () => {
       ],
       [`![image|200x300][[nested]`, "<p>![image|200x300][[nested]</p>\n"],
       [`![image|200x300][\nbroken`, "<p>![image|200x300][\nbroken</p>\n"],
-      [
-        `![image|200x300][unclosed\nreference`,
-        "<p>![image|200x300][unclosed\nreference</p>\n",
-      ],
-      [
-        `![image|200x300][nonexistent]`,
-        "<p>![image|200x300][nonexistent]</p>\n",
-      ],
+      [`![image|200x300][unclosed\nreference`, "<p>![image|200x300][unclosed\nreference</p>\n"],
+      [`![image|200x300][nonexistent]`, "<p>![image|200x300][nonexistent]</p>\n"],
       [
         `\
 ![image|200x300][empty]

@@ -57,8 +57,7 @@ describe("stylize", () => {
         },
       },
     ],
-    localConfigGetter: (env) =>
-      (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
+    localConfigGetter: (env) => (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
   };
 
   const markdownIt = MarkdownIt({ linkify: true }).use(stylize, options);
@@ -67,9 +66,7 @@ describe("stylize", () => {
     expect(markdownIt.render(`**MUST**`)).toEqual(
       '<p><strong class="badge tip">MUST</strong></p>\n',
     );
-    expect(markdownIt.render(`*MUST*`)).toEqual(
-      '<p><em class="badge tip">MUST</em></p>\n',
-    );
+    expect(markdownIt.render(`*MUST*`)).toEqual('<p><em class="badge tip">MUST</em></p>\n');
   });
 
   it("should render SHOULD", () => {
@@ -80,24 +77,16 @@ describe("stylize", () => {
   });
 
   it("should render MAY", () => {
-    expect(markdownIt.render(`**MAY**`)).toEqual(
-      "<p><strong>MAY</strong></p>\n",
-    );
+    expect(markdownIt.render(`**MAY**`)).toEqual("<p><strong>MAY</strong></p>\n");
     expect(markdownIt.render(`*MAY*`)).toEqual("<p><em>MAY:)</em></p>\n");
   });
 
   it("should render NOT", () => {
-    expect(markdownIt.render(`**NOT**`)).toEqual(
-      "<p><strong>NOT</strong></p>\n",
-    );
+    expect(markdownIt.render(`**NOT**`)).toEqual("<p><strong>NOT</strong></p>\n");
     expect(markdownIt.render(`*NOT*`)).toEqual("<p><em>MUST_NOT</em></p>\n");
   });
   it("should render negative words with red", () => {
-    expect(
-      markdownIt.render(
-        `I _don't_ want to talk him, he _isn't_ a friend of mine.`,
-      ),
-    ).toEqual(`\
+    expect(markdownIt.render(`I _don't_ want to talk him, he _isn't_ a friend of mine.`)).toEqual(`\
 <p>I <span style="color:red;">don't</span> want to talk him, he <span style="color:red;">isn't</span> a friend of mine.</p>
 `);
   });
@@ -149,21 +138,15 @@ describe("stylize", () => {
           } as MarkdownItStylizeConfig,
         ],
       }),
-    ).toEqual(
-      '<p><strong>SHOULD</strong>/<strong class="badge tip">MUST</strong></p>\n',
-    );
+    ).toEqual('<p><strong>SHOULD</strong>/<strong class="badge tip">MUST</strong></p>\n');
   });
 });
 
 it("work with no config", () => {
   const markdownIt1 = MarkdownIt().use(stylize);
 
-  expect(markdownIt1.render(`**MUST**`)).toEqual(
-    "<p><strong>MUST</strong></p>\n",
-  );
+  expect(markdownIt1.render(`**MUST**`)).toEqual("<p><strong>MUST</strong></p>\n");
   const markdownIt2 = MarkdownIt().use(stylize, { config: [] });
 
-  expect(markdownIt2.render(`**MUST**`)).toEqual(
-    "<p><strong>MUST</strong></p>\n",
-  );
+  expect(markdownIt2.render(`**MUST**`)).toEqual("<p><strong>MUST</strong></p>\n");
 });

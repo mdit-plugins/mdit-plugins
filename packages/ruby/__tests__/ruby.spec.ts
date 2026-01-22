@@ -7,10 +7,7 @@ const markdownIt = MarkdownIt({ linkify: true }).use(ruby);
 
 it("should render", () => {
   const tests: [content: string, expected: string][] = [
-    [
-      `{ruby base:ruby text}`,
-      `<p><ruby>ruby base<rt>ruby text</rt></ruby></p>\n`,
-    ],
+    [`{ruby base:ruby text}`, `<p><ruby>ruby base<rt>ruby text</rt></ruby></p>\n`],
     [
       `{鬼:き}{門:もん}の{方:ほう}{角:がく}を{凝:ぎょう}{視:し}する。`,
       `<p><ruby>鬼<rt>き</rt></ruby><ruby>門<rt>もん</rt></ruby>の<ruby>方<rt>ほう</rt></ruby><ruby>角<rt>がく</rt></ruby>を<ruby>凝<rt>ぎょう</rt></ruby><ruby>視<rt>し</rt></ruby>する。</p>\n`,

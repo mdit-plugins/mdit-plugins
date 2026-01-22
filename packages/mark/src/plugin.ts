@@ -102,8 +102,7 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
     const i = loneMarkers.pop()!;
     let j = i + 1;
 
-    while (j < state.tokens.length && state.tokens[j].type === "mark_close")
-      j++;
+    while (j < state.tokens.length && state.tokens[j].type === "mark_close") j++;
 
     j--;
 

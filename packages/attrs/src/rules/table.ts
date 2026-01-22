@@ -3,11 +3,7 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import {
-  addAttrs,
-  getDelimiterChecker,
-  getMatchingOpeningToken,
-} from "../helper/index.js";
+import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
 interface TokenWithColumnCount extends Token {
   meta:
@@ -93,10 +89,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       addAttrs(cellOpenToken, content, range, options.allowed);
 
       // Remove attribute syntax from content
-      token.content = content.slice(
-        0,
-        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
-      );
+      token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
   },
   {
@@ -137,9 +130,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         const currentToken = tokens[currentIndex];
 
         if (currentToken === trOpenToken) {
-          const tHeadOpenToken = tokens[
-            currentIndex - 1
-          ] as TokenWithColumnCount;
+          const tHeadOpenToken = tokens[currentIndex - 1] as TokenWithColumnCount;
 
           tHeadOpenToken.meta = {
             ...tHeadOpenToken.meta,
@@ -149,10 +140,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         }
 
         // Count th_close tokens at the same level
-        if (
-          currentToken.level === thCloseToken.level &&
-          currentToken.type === thCloseToken.type
-        ) {
+        if (currentToken.level === thCloseToken.level && currentToken.type === thCloseToken.type) {
           columnCount++;
         }
 
@@ -187,15 +175,11 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
     transform: (tokens, index): void => {
       let tbodyOpenIndex = index - 2;
 
-      while (
-        tbodyOpenIndex >= 0 &&
-        tokens[tbodyOpenIndex].type !== "tbody_open"
-      ) {
+      while (tbodyOpenIndex >= 0 && tokens[tbodyOpenIndex].type !== "tbody_open") {
         tbodyOpenIndex--;
       }
 
-      const columnCount =
-        (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
+      const columnCount = (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
 
       if (columnCount < 2) return;
 
@@ -212,10 +196,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         // Find tr_close
         let trCloseIndex = trOpenIndex + 1;
 
-        while (
-          trCloseIndex < index &&
-          tokens[trCloseIndex].type !== "tr_close"
-        ) {
+        while (trCloseIndex < index && tokens[trCloseIndex].type !== "tr_close") {
           trCloseIndex++;
         }
 
@@ -269,9 +250,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
             // colspan should not overflow table columns
             if (colIndex + colSpanIndex < columnCount) {
               // the column is not occupied by rowspan
-              if (
-                remainingCellRemovedByRowSpan[colIndex + colSpanIndex] === 0
-              ) {
+              if (remainingCellRemovedByRowSpan[colIndex + colSpanIndex] === 0) {
                 realColspan++;
               } else {
                 break;

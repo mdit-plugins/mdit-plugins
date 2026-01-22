@@ -11,8 +11,7 @@ const rubyRule: RuleInline = (state, silent) => {
   const start = state.pos;
   const max = state.posMax;
 
-  if (silent || state.src.charCodeAt(start) !== 123 /* { */ || start + 4 >= max)
-    return false;
+  if (silent || state.src.charCodeAt(start) !== 123 /* { */ || start + 4 >= max) return false;
 
   state.pos = start + 1;
 
@@ -65,12 +64,7 @@ const rubyRule: RuleInline = (state, silent) => {
 
       state.push("rt_open", "rt", 1);
 
-      state.md.inline.parse(
-        rubyArray[index],
-        state.md,
-        state.env,
-        (tokens = []),
-      );
+      state.md.inline.parse(rubyArray[index], state.md, state.env, (tokens = []));
 
       state.tokens.push(...tokens);
 

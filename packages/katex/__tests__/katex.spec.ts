@@ -28,9 +28,7 @@ describe("inline katex", () => {
   it("should output htmlAndMathML", () => {
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
-      expect(
-        markdownIt.render(`A tex equation $${example}$ inline.`),
-      ).toMatchSnapshot();
+      expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
 
       expect(markdownIt.render(`$${example}$`)).toMatch(
         /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
@@ -44,16 +42,12 @@ describe("inline katex", () => {
   it("should output HTML", () => {
     examples.forEach((example) => {
       expect(markdownItHTML.render(`$${example}$`)).toMatchSnapshot();
-      expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`),
-      ).toMatchSnapshot();
+      expect(markdownItHTML.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
 
       expect(markdownItHTML.render(`$${example}$`)).toMatch(
         /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
-      expect(
-        markdownItHTML.render(`A tex equation $${example}$ inline.`),
-      ).toMatch(
+      expect(markdownItHTML.render(`A tex equation $${example}$ inline.`)).toMatch(
         /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
     });
@@ -65,12 +59,10 @@ describe("inline katex", () => {
       expect(markdownItMathML.render(`$${example}$`)).toMatch(
         /<span class="katex"><math .*>[.\n]*<\/math><\/span>/,
       );
-      expect(
-        markdownItMathML.render(`A tex equation $${example}$ inline.`),
-      ).toMatchSnapshot();
-      expect(
-        markdownItMathML.render(`A tex equation $${example}$ inline.`),
-      ).toMatch(/<span class="katex"><math .*>[.\n]*<\/math><\/span>/);
+      expect(markdownItMathML.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
+      expect(markdownItMathML.render(`A tex equation $${example}$ inline.`)).toMatch(
+        /<span class="katex"><math .*>[.\n]*<\/math><\/span>/,
+      );
     });
   });
 
@@ -173,9 +165,7 @@ $$
 \\fra{a}{b}
 $$
 `),
-    ).toMatch(
-      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
-    );
+    ).toMatch(/<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/);
 
     expect(global.console.error).toHaveBeenCalledTimes(2);
     global.console.error = originalError;
@@ -244,8 +234,7 @@ $$
 
 it("should work with transformer", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
-    transformer: (content: string) =>
-      content.replace(/^(<[a-z]+ )/g, "$1v-pre "),
+    transformer: (content: string) => content.replace(/^(<[a-z]+ )/g, "$1v-pre "),
   });
 
   expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");

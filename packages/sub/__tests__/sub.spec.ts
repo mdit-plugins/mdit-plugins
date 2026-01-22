@@ -19,19 +19,13 @@ it("should not render when having spaces", () => {
 });
 
 it("should render when spaces are escaped", () => {
-  expect(markdownIt.render(`~foo\\ bar\\ baz~`)).toEqual(
-    "<p><sub>foo bar baz</sub></p>\n",
-  );
+  expect(markdownIt.render(`~foo\\ bar\\ baz~`)).toEqual("<p><sub>foo bar baz</sub></p>\n");
   expect(markdownIt.render(`~\\ foo\\ ~`)).toEqual("<p><sub> foo </sub></p>\n");
 });
 
 it("should handle multiple '\\'", () => {
-  expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual(
-    "<p><sub>foo\\\\ bar</sub></p>\n",
-  );
-  expect(markdownIt.render(`~foo\\\\\\\\ bar~`)).toEqual(
-    "<p>~foo\\\\ bar~</p>\n",
-  );
+  expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual("<p><sub>foo\\\\ bar</sub></p>\n");
+  expect(markdownIt.render(`~foo\\\\\\\\ bar~`)).toEqual("<p>~foo\\\\ bar~</p>\n");
 });
 
 it("should work with other marker", () => {

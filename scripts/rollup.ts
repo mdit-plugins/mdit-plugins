@@ -88,9 +88,7 @@ export const rollupTypescript = (
             ]
           : [],
       ],
-      external: browser
-        ? []
-        : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
+      external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
       treeshake,
     },
     ...(enableDts

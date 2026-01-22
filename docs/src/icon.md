@@ -32,12 +32,7 @@ If you are not satisfied with the default render, you can use `render` option to
 
 ```js
 import MarkdownIt from "markdown-it";
-import {
-  fontAwesomeRender,
-  icon,
-  iconfontRender,
-  iconifyRender,
-} from "@mdit/plugin-icon";
+import { fontAwesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
   // support for iconify

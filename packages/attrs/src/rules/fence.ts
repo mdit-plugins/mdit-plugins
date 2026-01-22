@@ -32,9 +32,6 @@ export const getFenceRule = (options: DelimiterConfig): AttrRule =>
       addAttrs(token, info, range, options.allowed);
 
       // Remove the attribute syntax from info
-      token.info = info.slice(
-        0,
-        hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex,
-      );
+      token.info = info.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
   });

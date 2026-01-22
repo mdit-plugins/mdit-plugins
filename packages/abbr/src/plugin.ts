@@ -33,12 +33,7 @@ export const abbr: PluginSimple = (md) => {
   const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
 
-  const abbrDefinition: RuleBlock = (
-    state: AbbrStateBlock,
-    startLine,
-    _endLine,
-    silent,
-  ) => {
+  const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
     let labelEnd = -1;
     let pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -64,8 +59,7 @@ export const abbr: PluginSimple = (md) => {
       pos++;
     }
 
-    if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */)
-      return false;
+    if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
     if (silent) return true;
 
     const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");

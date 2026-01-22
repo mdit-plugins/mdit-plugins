@@ -51,8 +51,7 @@ const getAlertRule =
       const ch = state.src.charCodeAt(currentPos);
 
       if (ch === 9 /** \t */)
-        offset +=
-          4 - ((offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4);
+        offset += 4 - ((offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4);
       else if (ch === 32 /** space */) offset++;
       else break;
 
@@ -193,9 +192,7 @@ const getAlertRule =
           const ch = state.src.charCodeAt(pos);
 
           if (ch === 9 /** \t */)
-            offset +=
-              4 -
-              ((offset + state.bsCount[currentLine] + (adjustTab ? 1 : 0)) % 4);
+            offset += 4 - ((offset + state.bsCount[currentLine] + (adjustTab ? 1 : 0)) % 4);
           else if (ch === 32 /** space */) offset++;
           else break;
 
@@ -206,8 +203,7 @@ const getAlertRule =
 
         if (!silent) {
           oldBSCount.push(state.bsCount[currentLine]);
-          state.bsCount[currentLine] =
-            state.sCount[currentLine] + 1 + (spaceAfterMarker ? 1 : 0);
+          state.bsCount[currentLine] = state.sCount[currentLine] + 1 + (spaceAfterMarker ? 1 : 0);
 
           oldSCount.push(state.sCount[currentLine]);
           state.sCount[currentLine] = offset - initial;

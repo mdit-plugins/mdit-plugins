@@ -3,18 +3,13 @@
   "version": "0.22.1",
   "description": "insert plugin for MarkdownIt",
   "keywords": [
+    "insert",
     "markdown-it",
-    "markdown-it-plugin",
-    "insert"
+    "markdown-it-plugin"
   ],
   "homepage": "https://mdit-plugins.github.io/ins.html",
   "bugs": {
     "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/ins"
   },
   "license": "MIT",
   "author": {
@@ -22,7 +17,17 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/ins"
+  },
+  "files": [
+    "lib"
+  ],
   "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
@@ -30,11 +35,9 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
@@ -52,8 +55,5 @@
   },
   "engines": {
     "node": ">= 18"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

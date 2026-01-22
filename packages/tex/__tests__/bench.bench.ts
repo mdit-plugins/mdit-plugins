@@ -6,9 +6,7 @@ import { tex as texCurrent } from "../src/index.js";
 import { tex as texOld } from "../src-old/index.js";
 
 const render = (content: string, displayMode: boolean): string =>
-  displayMode
-    ? `<p>{Tex content: ${content.trim()}}</p>\n`
-    : `{Tex content: ${content.trim()}}`;
+  displayMode ? `<p>{Tex content: ${content.trim()}}</p>\n` : `{Tex content: ${content.trim()}}`;
 
 // Test data sets based on project requirements
 const testData = {
@@ -16,16 +14,13 @@ const testData = {
   small: {
     inline: "$a=1$ and $b=2$ with simple equations",
     block: "$$\na = 1 \\\\\nb = 2\n$$",
-    mixed:
-      "An equation $E=mc^2$ inline. $$\n\\sum_{i=1}^n i = \\frac{n(n+1)}{2}\n$$",
+    mixed: "An equation $E=mc^2$ inline. $$\n\\sum_{i=1}^n i = \\frac{n(n+1)}{2}\n$$",
     mathFence: "```math\na = 1 + 2\n```",
   },
 
   // 中等文档: 10,000 字符
   medium: {
-    inline: Array(50)
-      .fill("$x^2 + y^2 = z^2$ and $\\alpha + \\beta = \\gamma$")
-      .join(" "),
+    inline: Array(50).fill("$x^2 + y^2 = z^2$ and $\\alpha + \\beta = \\gamma$").join(" "),
     block: Array(20)
       .fill(
         "$$\n\\frac{\\partial^2 f}{\\partial x^2} + \\frac{\\partial^2 f}{\\partial y^2} = 0\n$$",
@@ -71,13 +66,10 @@ const bracketTestData = {
   small: {
     inline: "\\(a=1\\) and \\(b=2\\) with simple equations",
     block: "\\[\na = 1 \\\\\nb = 2\n\\]",
-    mixed:
-      "An equation \\(E=mc^2\\) inline. \\[\n\\sum_{i=1}^n i = \\frac{n(n+1)}{2}\n\\]",
+    mixed: "An equation \\(E=mc^2\\) inline. \\[\n\\sum_{i=1}^n i = \\frac{n(n+1)}{2}\n\\]",
   },
   medium: {
-    inline: Array(50)
-      .fill("\\(x^2 + y^2 = z^2\\) and \\(\\alpha + \\beta = \\gamma\\)")
-      .join(" "),
+    inline: Array(50).fill("\\(x^2 + y^2 = z^2\\) and \\(\\alpha + \\beta = \\gamma\\)").join(" "),
     block: Array(20)
       .fill(
         "\\[\n\\frac{\\partial^2 f}{\\partial x^2} + \\frac{\\partial^2 f}{\\partial y^2} = 0\n\\]",
@@ -398,9 +390,7 @@ describe("tex plugin performance benchmarks", () => {
     });
 
     // Test with many unclosed markers (should be fast rejection)
-    const uncloseMarkers = Array(1000)
-      .fill("$unclosed and \\(also unclosed")
-      .join(" ");
+    const uncloseMarkers = Array(1000).fill("$unclosed and \\(also unclosed").join(" ");
 
     bench("current - unclosed markers", () => {
       currentMd.render(uncloseMarkers);
@@ -412,9 +402,7 @@ describe("tex plugin performance benchmarks", () => {
 
     // Test with mixed content (tex and non-tex)
     const mixedContent = Array(500)
-      .fill(
-        "Normal text $a=1$ more text \\(b=2\\) end. $$\nc=3\n$$ Final text.",
-      )
+      .fill("Normal text $a=1$ more text \\(b=2\\) end. $$\nc=3\n$$ Final text.")
       .join("\n\n");
 
     bench("current - mixed content", () => {
@@ -442,9 +430,7 @@ describe("tex plugin performance benchmarks", () => {
       render,
     });
 
-    const spaceHeavyContent = Array(500)
-      .fill("$ a = 1 $ and $ b = 2 $ with spaces")
-      .join(" ");
+    const spaceHeavyContent = Array(500).fill("$ a = 1 $ and $ b = 2 $ with spaces").join(" ");
 
     bench("current - space heavy", () => {
       currentMd.render(spaceHeavyContent);

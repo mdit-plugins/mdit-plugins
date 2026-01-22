@@ -15,9 +15,7 @@ export const getDelimiterChecker = (
   where: "start" | "end" | "only",
 ): DelimiterChecker => {
   if (!["start", "end", "only"].includes(where)) {
-    throw new Error(
-      `Invalid 'where' parameter: ${where}. Expected 'start', 'end', or 'only'.`,
-    );
+    throw new Error(`Invalid 'where' parameter: ${where}. Expected 'start', 'end', or 'only'.`);
   }
 
   // Cache frequently used values
@@ -27,8 +25,7 @@ export const getDelimiterChecker = (
 
   return (content) => {
     // Quick check for minimum length requirements
-    if (typeof content !== "string" || content.length < minContentLength)
-      return false;
+    if (typeof content !== "string" || content.length < minContentLength) return false;
 
     let start: number;
     let end: number;
@@ -45,10 +42,7 @@ export const getDelimiterChecker = (
       // Check if next character is not part of right delimiter
       const nextCharPos = end + rightLength;
 
-      if (
-        nextCharPos < content.length &&
-        right.includes(content.charAt(nextCharPos))
-      ) {
+      if (nextCharPos < content.length && right.includes(content.charAt(nextCharPos))) {
         return false;
       }
     } else if (where === "end") {
@@ -78,9 +72,7 @@ export const getDelimiterChecker = (
     const length = end - start;
 
     const isValid =
-      firstCharCode === CLASS_MARKER || firstCharCode === ID_MARKER
-        ? length >= 2
-        : length >= 1;
+      firstCharCode === CLASS_MARKER || firstCharCode === ID_MARKER ? length >= 2 : length >= 1;
 
     if (!isValid) return false;
 

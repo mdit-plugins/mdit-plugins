@@ -96,9 +96,7 @@ describe("extractAttrs", () => {
     });
 
     it("complex attribute", () => {
-      expect(
-        extractAttrs({ content: `a11y=true multi-word=complex-value2` }),
-      ).toEqual({
+      expect(extractAttrs({ content: `a11y=true multi-word=complex-value2` })).toEqual({
         attrs: { a11y: "true", "multi-word": "complex-value2" },
         content: "",
       });
@@ -164,30 +162,22 @@ describe("extractAttrs", () => {
     });
 
     it("value with mixed quotes", () => {
-      expect(
-        extractAttrs({ content: `key1="value with space" key2=value2` }),
-      ).toEqual({
+      expect(extractAttrs({ content: `key1="value with space" key2=value2` })).toEqual({
         attrs: { key1: "value with space", key2: "value2" },
         content: "",
       });
 
-      expect(
-        extractAttrs({ content: `key1="value with space" key2="value2"` }),
-      ).toEqual({
+      expect(extractAttrs({ content: `key1="value with space" key2="value2"` })).toEqual({
         attrs: { key1: "value with space", key2: "value2" },
         content: "",
       });
 
-      expect(
-        extractAttrs({ content: `key1="value with space" key2='value'` }),
-      ).toEqual({
+      expect(extractAttrs({ content: `key1="value with space" key2='value'` })).toEqual({
         attrs: { key1: "value with space", key2: "value" },
         content: "",
       });
 
-      expect(
-        extractAttrs({ content: `key1='value with space' key2="value"` }),
-      ).toEqual({
+      expect(extractAttrs({ content: `key1='value with space' key2="value"` })).toEqual({
         attrs: { key1: "value with space", key2: "value" },
         content: "",
       });
@@ -223,30 +213,22 @@ describe("extractAttrs", () => {
   });
 
   it("Classes and attrs", () => {
-    expect(
-      extractAttrs({ content: `class1 class2 key1=value1 key2=value2` }),
-    ).toEqual({
+    expect(extractAttrs({ content: `class1 class2 key1=value1 key2=value2` })).toEqual({
       attrs: { key1: "value1", key2: "value2" },
       content: "class1 class2",
     });
 
-    expect(
-      extractAttrs({ content: `class1 class2 key1="value1" key2="value2"` }),
-    ).toEqual({
+    expect(extractAttrs({ content: `class1 class2 key1="value1" key2="value2"` })).toEqual({
       attrs: { key1: "value1", key2: "value2" },
       content: "class1 class2",
     });
 
-    expect(
-      extractAttrs({ content: `class1 class2 key1="value1" key2=value2` }),
-    ).toEqual({
+    expect(extractAttrs({ content: `class1 class2 key1="value1" key2=value2` })).toEqual({
       attrs: { key1: "value1", key2: "value2" },
       content: "class1 class2",
     });
 
-    expect(
-      extractAttrs({ content: `class1 class2 key1=value1 key2="value2"` }),
-    ).toEqual({
+    expect(extractAttrs({ content: `class1 class2 key1=value1 key2="value2"` })).toEqual({
       attrs: { key1: "value1", key2: "value2" },
       content: "class1 class2",
     });
@@ -327,12 +309,7 @@ describe("appendStyle", () => {
   });
 
   it("Multiple styles", () => {
-    expect(
-      appendStyle(
-        { style: "font-size: 12px;" },
-        "color: red; background: blue;",
-      ),
-    ).toEqual({
+    expect(appendStyle({ style: "font-size: 12px;" }, "color: red; background: blue;")).toEqual({
       style: "font-size: 12px;color: red; background: blue;",
     });
   });
@@ -348,9 +325,7 @@ describe("stringifyAttrs", () => {
   });
 
   it("Multiple attrs", () => {
-    expect(stringifyAttrs({ key1: "value1", key2: "value2" })).toBe(
-      ' key1="value1" key2="value2"',
-    );
+    expect(stringifyAttrs({ key1: "value1", key2: "value2" })).toBe(' key1="value1" key2="value2"');
   });
 
   it("Attrs with special characters", () => {
@@ -358,13 +333,13 @@ describe("stringifyAttrs", () => {
       ' key1="value with space" key2="value&amp;"',
     );
 
-    expect(
-      stringifyAttrs({ key1: 'value with "quotes"', key2: "value&" }),
-    ).toBe(' key1="value with &quot;quotes&quot;" key2="value&amp;"');
+    expect(stringifyAttrs({ key1: 'value with "quotes"', key2: "value&" })).toBe(
+      ' key1="value with &quot;quotes&quot;" key2="value&amp;"',
+    );
 
-    expect(
-      stringifyAttrs({ key1: "value with 'single quotes'", key2: "value&" }),
-    ).toBe(' key1="value with &#39;single quotes&#39;" key2="value&amp;"');
+    expect(stringifyAttrs({ key1: "value with 'single quotes'", key2: "value&" })).toBe(
+      ' key1="value with &#39;single quotes&#39;" key2="value&amp;"',
+    );
 
     expect(stringifyAttrs({ key1: "value with <tag>", key2: "value&" })).toBe(
       ' key1="value with &lt;tag&gt;" key2="value&amp;"',

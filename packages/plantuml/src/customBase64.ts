@@ -23,10 +23,7 @@ const append3bytes = (b1: number, b2: number, b3: number): string => {
   const c4 = b3 & 0x3f;
 
   return (
-    encode6bit(c1 & 0x3f) +
-    encode6bit(c2 & 0x3f) +
-    encode6bit(c3 & 0x3f) +
-    encode6bit(c4 & 0x3f)
+    encode6bit(c1 & 0x3f) + encode6bit(c2 & 0x3f) + encode6bit(c3 & 0x3f) + encode6bit(c4 & 0x3f)
   );
 };
 
@@ -47,11 +44,7 @@ export const customEncodeBase64 = (data: string): string => {
     } else if (i + 1 === data.length) {
       result += append3bytes(data.charCodeAt(i), 0, 0);
     } else {
-      result += append3bytes(
-        data.charCodeAt(i),
-        data.charCodeAt(i + 1),
-        data.charCodeAt(i + 2),
-      );
+      result += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), data.charCodeAt(i + 2));
     }
   }
 

@@ -110,9 +110,7 @@ describe("getMatchingOpeningToken", () => {
   });
 
   it("should return null when no matching opening token found", () => {
-    const tokens = [
-      createToken({ type: "paragraph_close", nesting: -1, level: 0 }),
-    ];
+    const tokens = [createToken({ type: "paragraph_close", nesting: -1, level: 0 })];
 
     expect(getMatchingOpeningToken(tokens, 0)).toBe(null);
   });

@@ -136,12 +136,9 @@ it("should render with items containing other markdown syntax", () => {
 });
 
 it("should support disabled option", () => {
-  const markdownItWithDisabledFalse = MarkdownIt({ linkify: true }).use(
-    tasklist,
-    {
-      disabled: false,
-    },
-  );
+  const markdownItWithDisabledFalse = MarkdownIt({ linkify: true }).use(tasklist, {
+    disabled: false,
+  });
 
   const result = markdownItWithDisabledFalse.render(`
 - [ ] unchecked item 1

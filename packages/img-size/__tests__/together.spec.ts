@@ -20,9 +20,7 @@ describe("working together", () => {
       '<p><img src="/logo.svg" alt="image"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](data:script)`)).toEqual(
-      "<p>![image](data:script)</p>\n",
-    );
+    expect(markdownIt.render(`![image](data:script)`)).toEqual("<p>![image](data:script)</p>\n");
 
     expect(markdownIt.render(`![image](/logo.svg "title")`)).toEqual(
       '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
@@ -82,9 +80,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -93,9 +89,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -104,9 +98,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -115,9 +107,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
     expect(markdownIt.render(`![image =200x](/logo.svg)`)).toEqual(
       '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
     );
@@ -174,9 +164,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -185,9 +173,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" title="title" width="200"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -196,9 +182,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -207,9 +191,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" title="title" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" height="300"></p>\n');
   });
 
   it("obsidian img size", () => {
@@ -227,9 +209,7 @@ describe("working together", () => {
 [logo]: /logo.svg
     `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -238,9 +218,7 @@ describe("working together", () => {
 [logo]: /logo.svg
     `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -249,9 +227,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
     `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
     expect(
       markdownIt.render(
         `\
@@ -260,9 +236,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
     `,
       ),
-    ).toEqual(
-      '<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n',
-    );
+    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
   });
 
   it("legacy img size", () => {

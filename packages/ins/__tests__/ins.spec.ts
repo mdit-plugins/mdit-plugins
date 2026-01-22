@@ -15,10 +15,7 @@ it("Can nested", () => {
     [`x ++foo ++bar++++`, `<p>x <ins>foo <ins>bar</ins></ins></p>\n`],
     [`x ++++foo++++`, `<p>x <ins><ins>foo</ins></ins></p>\n`],
     [`++foo ++bar++ baz++`, `<p><ins>foo <ins>bar</ins> baz</ins></p>\n`],
-    [
-      `++f **o ++o b++ a** r++`,
-      `<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n`,
-    ],
+    [`++f **o ++o b++ a** r++`, `<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n`],
   ];
 
   testCases.forEach(([input, expected]) => {
@@ -27,36 +24,22 @@ it("Can nested", () => {
 });
 
 it("should handle multiple '+'", () => {
-  expect(markdownIt.render(`x +++foo+++`)).toEqual(
-    `<p>x +<ins>foo</ins>+</p>\n`,
-  );
+  expect(markdownIt.render(`x +++foo+++`)).toEqual(`<p>x +<ins>foo</ins>+</p>\n`);
 });
 
 it("Have the same priority as emphases", () => {
-  expect(markdownIt.render(`**++test**++`)).toEqual(
-    `<p><strong>++test</strong>++</p>\n`,
-  );
-  expect(markdownIt.render(`++**test++**`)).toEqual(
-    `<p><ins>**test</ins>**</p>\n`,
-  );
+  expect(markdownIt.render(`**++test**++`)).toEqual(`<p><strong>++test</strong>++</p>\n`);
+  expect(markdownIt.render(`++**test++**`)).toEqual(`<p><ins>**test</ins>**</p>\n`);
 });
 
 it("Have the same priority as emphases with respect to links", () => {
-  expect(markdownIt.render(`[++link]()++`)).toEqual(
-    `<p><a href="">++link</a>++</p>\n`,
-  );
-  expect(markdownIt.render(`++[link++]()`)).toEqual(
-    `<p>++<a href="">link++</a></p>\n`,
-  );
+  expect(markdownIt.render(`[++link]()++`)).toEqual(`<p><a href="">++link</a>++</p>\n`);
+  expect(markdownIt.render(`++[link++]()`)).toEqual(`<p>++<a href="">link++</a></p>\n`);
 });
 
 it("Have the same priority as emphases with respect to backticks", () => {
-  expect(markdownIt.render("++`code++`")).toEqual(
-    `<p>++<code>code++</code></p>\n`,
-  );
-  expect(markdownIt.render("` ++ code`++")).toEqual(
-    `<p><code> ++ code</code>++</p>\n`,
-  );
+  expect(markdownIt.render("++`code++`")).toEqual(`<p>++<code>code++</code></p>\n`);
+  expect(markdownIt.render("` ++ code`++")).toEqual(`<p><code> ++ code</code>++</p>\n`);
 });
 
 it('should not render with single "+"', () => {
@@ -71,9 +54,7 @@ it("should not render with empty content", () => {
 });
 
 it("should not render a whitespace or newline between text and '++'", () => {
-  expect(markdownIt.render("foo ++ bar ++ baz")).toEqual(
-    `<p>foo ++ bar ++ baz</p>\n`,
-  );
+  expect(markdownIt.render("foo ++ bar ++ baz")).toEqual(`<p>foo ++ bar ++ baz</p>\n`);
 
   expect(
     markdownIt.render(`

@@ -5,8 +5,7 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { ImgSizeEnv } from "./types.js";
 
-const isNumber = (charCode: number): boolean =>
-  charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
+const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
 
 /**
  * Parse image size information from label text
@@ -183,8 +182,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     // (collapsed reference link and shortcut reference link respectively)
     if (!referenceLabel) referenceLabel = label;
 
-    const ref =
-      env.references[state.md.utils.normalizeReference(referenceLabel)];
+    const ref = env.references[state.md.utils.normalizeReference(referenceLabel)];
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!ref) {

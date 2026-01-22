@@ -4,9 +4,7 @@ import { expect, it } from "vitest";
 import { footnote } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(footnote);
-const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(
-  footnote,
-);
+const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(footnote);
 
 it("should render", () => {
   expect(

@@ -9,10 +9,7 @@ import { obsidianImgSize as oldObsidianImgSize } from "../src-old/obsidian.js";
 // @ts-ignore: file may not exist
 import { imgSize as oldImgSize } from "../src-old/plugin.js";
 
-const generateMarkdownWithImages = (
-  count: number,
-  format: "normal" | "obsidian",
-): string => {
+const generateMarkdownWithImages = (count: number, format: "normal" | "obsidian"): string => {
   let markdown = "";
 
   for (let i = 0; i < count; i++) {

@@ -29,10 +29,7 @@ describe("legacy image size", () => {
 
     it("with title", () => {
       const testCases = [
-        [
-          `![image](/logo.svg "title")`,
-          '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
-        ],
+        [`![image](/logo.svg "title")`, '<p><img src="/logo.svg" alt="image" title="title"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -146,22 +143,10 @@ describe("legacy image size", () => {
   describe("should render with width or height", () => {
     it("simple", () => {
       const testCases = [
-        [
-          `![image](/logo.svg =200x)`,
-          '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
-        ],
-        [
-          `![image](/logo.svg =1x)`,
-          '<p><img src="/logo.svg" alt="image" width="1"></p>\n',
-        ],
-        [
-          `![image](/logo.svg =x300)`,
-          '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
-        ],
-        [
-          `![image](/logo.svg =x1)`,
-          '<p><img src="/logo.svg" alt="image" height="1"></p>\n',
-        ],
+        [`![image](/logo.svg =200x)`, '<p><img src="/logo.svg" alt="image" width="200"></p>\n'],
+        [`![image](/logo.svg =1x)`, '<p><img src="/logo.svg" alt="image" width="1"></p>\n'],
+        [`![image](/logo.svg =x300)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
+        [`![image](/logo.svg =x1)`, '<p><img src="/logo.svg" alt="image" height="1"></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -190,26 +175,11 @@ describe("legacy image size", () => {
   describe("should not render if width or height is not number", () => {
     it("simple", () => {
       const testCases = [
-        [
-          `![image](/logo.svg =abcxdef)`,
-          "<p>![image](/logo.svg =abcxdef)</p>\n",
-        ],
-        [
-          `![image](/logo.svg =abcx100)`,
-          "<p>![image](/logo.svg =abcx100)</p>\n",
-        ],
-        [
-          `![image](/logo.svg =200xdef)`,
-          "<p>![image](/logo.svg =200xdef)</p>\n",
-        ],
-        [
-          `![image](/logo.svg =12ax300)`,
-          "<p>![image](/logo.svg =12ax300)</p>\n",
-        ],
-        [
-          `![image](/logo.svg =200x12a)`,
-          "<p>![image](/logo.svg =200x12a)</p>\n",
-        ],
+        [`![image](/logo.svg =abcxdef)`, "<p>![image](/logo.svg =abcxdef)</p>\n"],
+        [`![image](/logo.svg =abcx100)`, "<p>![image](/logo.svg =abcx100)</p>\n"],
+        [`![image](/logo.svg =200xdef)`, "<p>![image](/logo.svg =200xdef)</p>\n"],
+        [`![image](/logo.svg =12ax300)`, "<p>![image](/logo.svg =12ax300)</p>\n"],
+        [`![image](/logo.svg =200x12a)`, "<p>![image](/logo.svg =200x12a)</p>\n"],
       ];
 
       testCases.forEach(([input, expected]) => {

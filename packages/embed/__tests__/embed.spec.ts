@@ -42,16 +42,10 @@ describe("embed", () => {
   describe("block embeds", () => {
     it("should handle block embed", () => {
       const blockTests: [string, string[]][] = [
-        [
-          "{% youtube dQw4w9WgXcQ %}",
-          ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-        ],
+        ["{% youtube dQw4w9WgXcQ %}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
         ["{% twitter user1 %}", ['href="https://x.com/user1"']],
         ["{% github user/Hello-World %}", ["github.com/user/Hello-World"]],
-        [
-          "{%youtube dQw4w9WgXcQ%}",
-          ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-        ],
+        ["{%youtube dQw4w9WgXcQ%}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
         ["{%warning%}", ['<span class="icon-warning"></span>']],
         ["{% unknown some-param %}", ["{% unknown some-param %}"]],
         ["{ youtube dQw4w9WgXcQ }", ["{ youtube dQw4w9WgXcQ }"]],
@@ -78,9 +72,7 @@ Some text
 
       const result = md.render(content);
 
-      expect(result).toContain(
-        'src="https://www.youtube.com/embed/dQw4w9WgXcQ"',
-      );
+      expect(result).toContain('src="https://www.youtube.com/embed/dQw4w9WgXcQ"');
       expect(result).toContain('href="https://x.com/user1"');
       expect(result).toMatchSnapshot();
     });
@@ -88,20 +80,11 @@ Some text
     it("should break other block elements", () => {
       const blockTests: [string, string[]][] = [
         // break paragraph
-        [
-          "abc\n{% youtube dQw4w9WgXcQ %}",
-          ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-        ],
+        ["abc\n{% youtube dQw4w9WgXcQ %}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
         // break lists
-        [
-          "- abc\n{% youtube dQw4w9WgXcQ %}",
-          ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-        ],
+        ["- abc\n{% youtube dQw4w9WgXcQ %}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
         // break blockquotes
-        [
-          "> abc\n{% youtube dQw4w9WgXcQ %}",
-          ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-        ],
+        ["> abc\n{% youtube dQw4w9WgXcQ %}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
       ];
 
       blockTests.forEach(([input, expected]) => {
@@ -119,11 +102,7 @@ Some text
     const inlineTests: [string, string[]][] = [
       [
         "Click the {% icon home %} button to go home.",
-        [
-          '<i class="icon icon-home"></i>',
-          "<p>Click the",
-          "button to go home.</p>",
-        ],
+        ['<i class="icon icon-home"></i>', "<p>Click the", "button to go home.</p>"],
       ],
       ["{%warning%}", ['<span class="icon-warning"></span>']],
       ["Status: {% badge active %}", ['<span class="badge">active</span>']],
@@ -195,9 +174,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
 
       const result = md.render(content);
 
-      expect(result).toContain(
-        'src="https://www.youtube.com/embed/dQw4w9WgXcQ"',
-      );
+      expect(result).toContain('src="https://www.youtube.com/embed/dQw4w9WgXcQ"');
       expect(result).toContain('<i class="icon icon-play"></i>');
       expect(result).toContain('<span class="badge">premium</span>');
       expect(result).toContain("github.com/user/Hello-World");
@@ -229,8 +206,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
         config: [
           {
             name: "custom",
-            setup: (params: string): string =>
-              `<div data-params="${params}"></div>`,
+            setup: (params: string): string => `<div data-params="${params}"></div>`,
           },
         ],
       });
@@ -245,8 +221,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
         config: [
           {
             name: "data",
-            setup: (params: string): string =>
-              `<div data-content="${params}"></div>`,
+            setup: (params: string): string => `<div data-content="${params}"></div>`,
           },
         ],
       });
@@ -303,9 +278,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle multiple escape sequences", () => {
-      const result = mdEscape.render(
-        "\\{% test 1 %} normal text \\{% test 2 %}",
-      );
+      const result = mdEscape.render("\\{% test 1 %} normal text \\{% test 2 %}");
 
       expect(result).toContain("{% test 1 %}");
       expect(result).toContain("{% test 2 %}");
@@ -376,11 +349,9 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
 
   describe("multiple consecutive embeds", () => {
     it("should handle multiple block embeds", () => {
-      const content = [
-        "{% youtube video1 %}",
-        "{% github repo1 %}",
-        "{% twitter user1 %}",
-      ].join("\n");
+      const content = ["{% youtube video1 %}", "{% github repo1 %}", "{% twitter user1 %}"].join(
+        "\n",
+      );
 
       const result = md.render(content);
 
@@ -390,9 +361,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle consecutive embeds without spaces", () => {
-      const result = md.render(
-        "{% icon a %}{% badge b %}{% icon c %}{% badge d %}{% icon e %}",
-      );
+      const result = md.render("{% icon a %}{% badge b %}{% icon c %}{% badge d %}{% icon e %}");
 
       // Should parse all embeds even without spaces between them
       expect(result).toContain('<i class="icon icon-a"></i>');
@@ -442,9 +411,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
 
       expect(result).toContain('<i class="icon icon-start"></i>');
       expect(result).toContain('<span class="badge">status</span>');
-      expect(result).toContain(
-        'src="https://www.youtube.com/embed/complex-video"',
-      );
+      expect(result).toContain('src="https://www.youtube.com/embed/complex-video"');
       expect(result).toContain('<i class="icon icon-middle"></i>');
       expect(result).toContain('<span class="badge">final</span>');
     });
@@ -455,14 +422,8 @@ Continue {% icon middle %} and {% badge final %} end.`;
       ["{%   icon    star   %}", ['<i class="icon icon-star"></i>']],
       ["{% icon star %} ", ['<i class="icon icon-star"></i>']],
       [" {% icon star %}", ['<i class="icon icon-star"></i>']],
-      [
-        "{%\tyoutube\tdQw4w9WgXcQ\t%}",
-        ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-      ],
-      [
-        "{% \t youtube \t dQw4w9WgXcQ \t %}",
-        ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"'],
-      ],
+      ["{%\tyoutube\tdQw4w9WgXcQ\t%}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
+      ["{% \t youtube \t dQw4w9WgXcQ \t %}", ['src="https://www.youtube.com/embed/dQw4w9WgXcQ"']],
     ];
 
     whitespaceTests.forEach(([input, expected]) => {
@@ -479,20 +440,17 @@ Continue {% icon middle %} and {% badge final %} end.`;
       config: [
         {
           name: "测试",
-          setup: (params: string): string =>
-            `<div class="测试">${params}</div>`,
+          setup: (params: string): string => `<div class="测试">${params}</div>`,
         },
         {
           name: "中文",
           allowInline: true,
-          setup: (params: string): string =>
-            `<span class="中文">${params}</span>`,
+          setup: (params: string): string => `<span class="中文">${params}</span>`,
         },
         {
           name: "emoji🚀",
           allowInline: true,
-          setup: (params: string): string =>
-            `<span class="emoji">${params}</span>`,
+          setup: (params: string): string => `<span class="emoji">${params}</span>`,
         },
       ],
     });
@@ -522,8 +480,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
           config: [
             {
               name: "youtube",
-              setup: (id: string): string =>
-                `<iframe src="https://youtube.com/${id}"></iframe>`,
+              setup: (id: string): string => `<iframe src="https://youtube.com/${id}"></iframe>`,
             },
             {
               name: "icon",
@@ -541,8 +498,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
             {
               name: "badge",
               allowInline: true,
-              setup: (text: string): string =>
-                `<span class="second-${text}"></span>`,
+              setup: (text: string): string => `<span class="second-${text}"></span>`,
             },
           ],
         });
@@ -550,17 +506,13 @@ Continue {% icon middle %} and {% badge final %} end.`;
       // Test that both instances work
       const result1 = mdMultiple.render("{% youtube test123 %}");
 
-      expect(result1).toContain(
-        '<iframe src="https://youtube.com/test123"></iframe>',
-      );
+      expect(result1).toContain('<iframe src="https://youtube.com/test123"></iframe>');
 
       const result2 = mdMultiple.render("{% twitter https://test.com %}");
 
       expect(result2).toContain('<div class="tweet">https://test.com</div>');
 
-      const result3 = mdMultiple.render(
-        "Text {% icon star %} and {% badge new %} end",
-      );
+      const result3 = mdMultiple.render("Text {% icon star %} and {% badge new %} end");
 
       expect(result3).toContain('<i class="first-star"></i>');
       expect(result3).toContain('<span class="second-new"></span>');
@@ -572,8 +524,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
         config: [
           {
             name: "test",
-            setup: (param: string): string =>
-              `<div class="first">${param}</div>`,
+            setup: (param: string): string => `<div class="first">${param}</div>`,
           },
         ],
       });
@@ -583,8 +534,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
         config: [
           {
             name: "test",
-            setup: (param: string): string =>
-              `<div class="second">${param}</div>`,
+            setup: (param: string): string => `<div class="second">${param}</div>`,
           },
         ],
       });
@@ -602,8 +552,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
         config: [
           {
             name: "block-only",
-            setup: (param: string): string =>
-              `<div class="block">${param}</div>`,
+            setup: (param: string): string => `<div class="block">${param}</div>`,
           },
         ],
       });
@@ -614,8 +563,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
           {
             name: "allow-inline",
             allowInline: true,
-            setup: (param: string): string =>
-              `<span class="inline">${param}</span>`,
+            setup: (param: string): string => `<span class="inline">${param}</span>`,
           },
         ],
       });
@@ -627,9 +575,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
       expect(blockResult).toContain("{% block-only param %}");
 
       // Inline enabled should work inline
-      const inlineResult = mdCombined.render(
-        "Text {% allow-inline param %} more",
-      );
+      const inlineResult = mdCombined.render("Text {% allow-inline param %} more");
 
       expect(inlineResult).toContain('<span class="inline">param</span>');
     });
@@ -659,9 +605,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
     });
 
     it("should pass isInline=true for inline embeds", () => {
-      const result = mdDifferentStyles.render(
-        "Text with {% style-aware inline-content %} here.",
-      );
+      const result = mdDifferentStyles.render("Text with {% style-aware inline-content %} here.");
 
       expect(result).toContain('<span class="inline-style"');
       expect(result).toContain('data-content="inline-content"');
@@ -671,9 +615,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
     });
 
     it("should pass isInline=false for block embeds", () => {
-      const result = mdDifferentStyles.render(
-        "{% style-aware block-content %}",
-      );
+      const result = mdDifferentStyles.render("{% style-aware block-content %}");
 
       expect(result).toContain('<div class="block-style"');
       expect(result).toContain('data-content="block-content"');
@@ -702,21 +644,15 @@ Here is some text with {% style-aware inline-item %} embedded.
       const result = mdDifferentStyles.render(content);
 
       // Block embed
-      expect(result).toContain(
-        '<div class="block-style" data-content="block-item">',
-      );
+      expect(result).toContain('<div class="block-style" data-content="block-item">');
       expect(result).toContain("<h3>Block: block-item</h3>");
 
       // Inline embed
-      expect(result).toContain(
-        '<span class="inline-style" data-content="inline-item">',
-      );
+      expect(result).toContain('<span class="inline-style" data-content="inline-item">');
       expect(result).toContain("📍 inline-item");
 
       // Block-only embed
-      expect(result).toContain(
-        '<section class="block-section" data-inline="false">',
-      );
+      expect(result).toContain('<section class="block-section" data-inline="false">');
       expect(result).toContain("another-block");
     });
 
@@ -726,18 +662,13 @@ Here is some text with {% style-aware inline-item %} embedded.
           {
             name: "legacy",
             allowInline: true,
-            setup: (content: string): string =>
-              `<span class="legacy">${content}</span>`,
+            setup: (content: string): string => `<span class="legacy">${content}</span>`,
           },
         ],
       });
 
-      const blockResult = mdBackwardCompatible.render(
-        "{% legacy block-test %}",
-      );
-      const inlineResult = mdBackwardCompatible.render(
-        "Text {% legacy inline-test %} more.",
-      );
+      const blockResult = mdBackwardCompatible.render("{% legacy block-test %}");
+      const inlineResult = mdBackwardCompatible.render("Text {% legacy inline-test %} more.");
 
       expect(blockResult).toContain('<span class="legacy">block-test</span>');
       expect(inlineResult).toContain('<span class="legacy">inline-test</span>');
@@ -763,9 +694,7 @@ Here is some text with {% style-aware inline-item %} embedded.
       });
 
       const blockResult = mdComplex.render("{% video abc123|My Tutorial %}");
-      const inlineResult = mdComplex.render(
-        "Watch {% video abc123|this video %} for details.",
-      );
+      const inlineResult = mdComplex.render("Watch {% video abc123|this video %} for details.");
 
       // Block should render iframe
       expect(blockResult).toContain('<iframe src="/embed/abc123"');
@@ -782,14 +711,10 @@ Here is some text with {% style-aware inline-item %} embedded.
   it("should throw without options", () => {
     expect(() => {
       MarkdownIt().use(embed);
-    }).toThrowError(
-      "[@mdit/plugin-embed]: config is required and must be an array.",
-    );
+    }).toThrowError("[@mdit/plugin-embed]: config is required and must be an array.");
 
     expect(() => {
       MarkdownIt().use(embed, {});
-    }).toThrowError(
-      "[@mdit/plugin-embed]: config is required and must be an array.",
-    );
+    }).toThrowError("[@mdit/plugin-embed]: config is required and must be an array.");
   });
 });

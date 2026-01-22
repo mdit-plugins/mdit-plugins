@@ -133,10 +133,7 @@ export interface MathJaxTexInputOptions {
    */
   maxBuffer?: number;
 
-  formatError?: (
-    jax: TeX<unknown, unknown, unknown>,
-    error: typeof TexError,
-  ) => MmlNode;
+  formatError?: (jax: TeX<unknown, unknown, unknown>, error: typeof TexError) => MmlNode;
 }
 
 export interface MathjaxCommonOutputOptions {

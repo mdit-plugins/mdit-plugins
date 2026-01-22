@@ -8,10 +8,7 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
 const checkInlineOpeningMarker = (src: string, current: number): boolean => {
-  if (
-    src.charCodeAt(current) !== 123 /* { */ ||
-    src.charCodeAt(current + 1) !== 37 /* % */
-  )
+  if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */)
     return false;
 
   // Check if the opening marker was escaped
@@ -30,8 +27,7 @@ const checkInlineOpeningMarker = (src: string, current: number): boolean => {
 };
 
 const checkClosingMarker = (src: string, current: number): boolean =>
-  src.charCodeAt(current) === 37 /* % */ &&
-  src.charCodeAt(current + 1) === 125; /* } */
+  src.charCodeAt(current) === 37 /* % */ && src.charCodeAt(current + 1) === 125; /* } */
 
 /*
  * Parse inline embed with bracket syntax: {%...%}
@@ -184,14 +180,9 @@ const getEmbedBlock =
     return true;
   };
 
-export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
-  md,
-  options,
-) => {
+export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) => {
   if (typeof options !== "object" || !Array.isArray(options.config))
-    throw new Error(
-      "[@mdit/plugin-embed]: config is required and must be an array.",
-    );
+    throw new Error("[@mdit/plugin-embed]: config is required and must be an array.");
 
   // Get existing maps or create new ones to support multiple plugin instances
   const mdWithMaps = md as MarkdownIt & {
@@ -202,10 +193,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
   };
 
   const embedMap = (mdWithMaps.__embedMap ??= new Map<string, EmbedConfig>());
-  const inlineEmbedMap = (mdWithMaps.__inlineEmbedMap ??= new Map<
-    string,
-    EmbedConfig
-  >());
+  const inlineEmbedMap = (mdWithMaps.__inlineEmbedMap ??= new Map<string, EmbedConfig>());
 
   options.config.forEach((item) => {
     embedMap.set(item.name, item);
@@ -222,10 +210,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
     });
 
     // Register the renderers
-    md.renderer.rules.embed_block = (
-      tokens: Token[],
-      index: number,
-    ): string => {
+    md.renderer.rules.embed_block = (tokens: Token[], index: number): string => {
       const token = tokens[index];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -236,16 +221,9 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (
   // only register embed_inline rules if inline embeds are allowed
   if (inlineEmbedMap.size && !("embed_inline" in md.renderer.rules)) {
     // Register the inline rule
-    md.inline.ruler.before(
-      "emphasis",
-      "embed_inline",
-      getEmbedInline(inlineEmbedMap),
-    );
+    md.inline.ruler.before("emphasis", "embed_inline", getEmbedInline(inlineEmbedMap));
 
-    md.renderer.rules.embed_inline = (
-      tokens: Token[],
-      index: number,
-    ): string => {
+    md.renderer.rules.embed_inline = (tokens: Token[], index: number): string => {
       const token = tokens[index];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

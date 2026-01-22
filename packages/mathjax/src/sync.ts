@@ -4,10 +4,7 @@
 
 import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
-import type {
-  LiteElement,
-  LiteNode,
-} from "@mathjax/src/js/adaptors/lite/Element.js";
+import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
 import type { LiteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
@@ -27,15 +24,11 @@ import "./tex/importer.js";
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
-  OutputJax:
-    | CHTML<LiteElement, string, HTMLElement>
-    | SVG<LiteElement, string, HTMLElement>;
+  OutputJax: CHTML<LiteElement, string, HTMLElement> | SVG<LiteElement, string, HTMLElement>;
   enableAssistiveMml: boolean;
 }
 
-export const getDocumentOptions = (
-  options: MarkdownItMathjaxOptions,
-): DocumentOptions => ({
+export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => ({
   InputJax: new TeX<LiteElement, string, HTMLElement>({
     packages: ["base", ...texPackages],
     ...options.tex,
@@ -57,10 +50,7 @@ export const getDocumentOptions = (
  * Mathjax instance
  */
 export interface MathjaxInstance extends Required<
-  Pick<
-    MarkdownItMathjaxOptions,
-    "allowInlineWithSpace" | "delimiters" | "mathFence"
-  >
+  Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
 > {
   /**
    * Mathjax adaptor
@@ -105,8 +95,7 @@ export const createMathjaxInstance = (
   const adaptor = liteAdaptor();
   const handler = RegisterHTMLHandler(adaptor);
 
-  if (options.a11y !== false)
-    AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+  if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {
     // clear style cache
@@ -120,11 +109,7 @@ export const createMathjaxInstance = (
   const outputStyle = (): string => {
     const style = adaptor.innerHTML(
       OutputJax.styleSheet(
-        mathjaxLib.document("", documentOptions) as MathDocument<
-          LiteElement,
-          string,
-          HTMLElement
-        >,
+        mathjaxLib.document("", documentOptions) as MathDocument<LiteElement, string, HTMLElement>,
       ),
     );
 
@@ -162,11 +147,9 @@ export const mathjax = (
     delimiters,
     mathFence,
     render: (content, displayMode) => {
-      const mathDocument = mathjaxLib
-        .document(content, documentOptions)
-        .convert(content, {
-          display: displayMode,
-        }) as LiteElement;
+      const mathDocument = mathjaxLib.document(content, documentOptions).convert(content, {
+        display: displayMode,
+      }) as LiteElement;
 
       const result = adaptor.outerHTML(mathDocument);
 

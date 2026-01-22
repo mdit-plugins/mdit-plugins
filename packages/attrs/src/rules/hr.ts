@@ -23,11 +23,7 @@ export const getHrRule = (options: DelimiterConfig): AttrRule => ({
         let charCode;
         const markerCode = content.charCodeAt(pos++);
 
-        if (
-          markerCode !== 45 /** - */ &&
-          markerCode !== 42 /** * */ &&
-          markerCode !== 95 /** _ */
-        )
+        if (markerCode !== 45 /** - */ && markerCode !== 42 /** * */ && markerCode !== 95 /** _ */)
           return false;
 
         let count = 1;

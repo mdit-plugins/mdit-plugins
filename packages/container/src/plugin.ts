@@ -11,10 +11,7 @@ import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
-export const container: PluginWithOptions<MarkdownItContainerOptions> = (
-  md,
-  options,
-) => {
+export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
   if (typeof options !== "object" || !options.name) {
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");
   }
@@ -22,8 +19,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
   const {
     name,
     marker = ":",
-    validate = (params: string): boolean =>
-      params.trim().split(" ", 2)[0] === name,
+    validate = (params: string): boolean => params.trim().split(" ", 2)[0] === name,
     openRender = (
       tokens: Token[],
       index: number,
@@ -62,8 +58,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
 
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
-      if (marker[(pos - currentLineStart) % markerLength] !== state.src[pos])
-        break;
+      if (marker[(pos - currentLineStart) % markerLength] !== state.src[pos]) break;
       pos++;
     }
 
@@ -96,10 +91,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (
-        nextLineStart < nextLineMax &&
-        state.sCount[nextLine] < currentLineIndent
-      )
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent)
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
@@ -113,8 +105,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (
       ) {
         // check rest of marker
         for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
-          if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos])
-            break;
+          if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos]) break;
 
         // closing code fence must be at least as long as the opening one
         if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {

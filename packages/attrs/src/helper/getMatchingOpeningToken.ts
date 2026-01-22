@@ -1,9 +1,6 @@
 import type Token from "markdown-it/lib/token.mjs";
 
-export const getMatchingOpeningToken = (
-  tokens: Token[],
-  index: number,
-): Token | null => {
+export const getMatchingOpeningToken = (tokens: Token[], index: number): Token | null => {
   const token = tokens[index];
 
   if (token.type === "softbreak") return null;
@@ -17,8 +14,7 @@ export const getMatchingOpeningToken = (
   while (index >= 0) {
     const currentToken = tokens[index];
 
-    if (currentToken.type === type && currentToken.level === level)
-      return currentToken;
+    if (currentToken.type === type && currentToken.level === level) return currentToken;
 
     index--;
   }

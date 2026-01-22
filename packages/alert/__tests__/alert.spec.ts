@@ -10,15 +10,9 @@ it("should not break blockquote", () => {
   // CommonMark spec blockquote test cases (examples 228-252)
   const testCases = [
     // Example 228
-    [
-      "> # Foo\n> bar\n> baz\n",
-      "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n",
-    ],
+    ["> # Foo\n> bar\n> baz\n", "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n"],
     // Example 229
-    [
-      "># Foo\n>bar\n> baz\n",
-      "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n",
-    ],
+    ["># Foo\n>bar\n> baz\n", "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n"],
     // Example 230
     [
       "   > # Foo\n   > bar\n > baz\n",
@@ -30,15 +24,9 @@ it("should not break blockquote", () => {
       "<pre><code>&gt; # Foo\n&gt; bar\n&gt; baz\n</code></pre>\n",
     ],
     // Example 232
-    [
-      "> # Foo\n> bar\nbaz\n",
-      "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n",
-    ],
+    ["> # Foo\n> bar\nbaz\n", "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n"],
     // Example 233
-    [
-      "> bar\nbaz\n> foo\n",
-      "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>\n",
-    ],
+    ["> bar\nbaz\n> foo\n", "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>\n"],
     // Example 234
     ["> foo\n---\n", "<blockquote>\n<p>foo</p>\n</blockquote>\n<hr>\n"],
     // Example 235
@@ -72,10 +60,7 @@ it("should not break blockquote", () => {
     // Example 243
     ["> foo\n> bar\n", "<blockquote>\n<p>foo\nbar</p>\n</blockquote>\n"],
     // Example 244
-    [
-      "> foo\n>\n> bar\n",
-      "<blockquote>\n<p>foo</p>\n<p>bar</p>\n</blockquote>\n",
-    ],
+    ["> foo\n>\n> bar\n", "<blockquote>\n<p>foo</p>\n<p>bar</p>\n</blockquote>\n"],
     // Example 245
     ["foo\n> bar\n", "<p>foo</p>\n<blockquote>\n<p>bar</p>\n</blockquote>\n"],
     // Example 246
@@ -88,10 +73,7 @@ it("should not break blockquote", () => {
     // Example 248
     ["> bar\n\nbaz\n", "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>\n"],
     // Example 249
-    [
-      "> bar\n>\nbaz\n",
-      "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>\n",
-    ],
+    ["> bar\n>\nbaz\n", "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>\n"],
     // Example 250
     [
       "> > > foo\nbar\n",
@@ -176,10 +158,7 @@ it("should not break blockquote with HTML blocks", () => {
   // CommonMark spec HTML blocks with blockquotes
   const testCases = [
     // Example 174 - HTML blocks in blockquotes
-    [
-      "> <div>\n> foo\n\nbar\n",
-      "<blockquote>\n<div>\nfoo\n</blockquote>\n<p>bar</p>\n",
-    ],
+    ["> <div>\n> foo\n\nbar\n", "<blockquote>\n<div>\nfoo\n</blockquote>\n<p>bar</p>\n"],
   ];
 
   testCases.forEach(([input, output]) => {
@@ -227,10 +206,7 @@ it("should not break blockquote with setext headings", () => {
     // Example 92 - Setext headings after blockquotes
     ["> Foo\n---\n", "<blockquote>\n<p>Foo</p>\n</blockquote>\n<hr>\n"],
     // Example 93 - Setext headings in blockquotes
-    [
-      "> foo\nbar\n===\n",
-      "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>\n",
-    ],
+    ["> foo\nbar\n===\n", "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>\n"],
   ];
 
   testCases.forEach(([input, output]) => {
@@ -1106,8 +1082,7 @@ This is a note</p>
 
   it("should support customize options", () => {
     const markdownItCustom = new MarkdownIt().use(alert, {
-      openRender: (tokens, index) =>
-        `<div class="${tokens[index].markup}-alert">\n`,
+      openRender: (tokens, index) => `<div class="${tokens[index].markup}-alert">\n`,
       closeRender: () => `</div>\n`,
       titleRender: (tokens, index) => {
         const token = tokens[index];

@@ -30,43 +30,28 @@ const createToken = (overrides: Partial<Token> = {}): Token =>
 
 describe("testRule", () => {
   it("string rules", () => {
-    const tokens = [
-      createToken({ type: "paragraph" }),
-      createToken({ type: "text" }),
-    ];
+    const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
 
     // Should match when types are equal
-    expect(testRule(tokens, 0, { shift: 0, type: "paragraph" }).match).toBe(
-      true,
-    );
+    expect(testRule(tokens, 0, { shift: 0, type: "paragraph" }).match).toBe(true);
 
     // Should not match when types differ
-    expect(testRule(tokens, 1, { shift: 0, type: "paragraph" }).match).toBe(
-      false,
-    );
+    expect(testRule(tokens, 1, { shift: 0, type: "paragraph" }).match).toBe(false);
   });
 
   it("function rules", () => {
-    const tokens = [
-      createToken({ type: "paragraph" }),
-      createToken({ type: "text" }),
-    ];
+    const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
     const typeCheck = (type: string): boolean => type === "paragraph";
 
     // Should match when function returns true
     expect(testRule(tokens, 0, { shift: 0, type: typeCheck }).match).toBe(true);
 
     // Should not match when function returns false
-    expect(testRule(tokens, 1, { shift: 0, type: typeCheck }).match).toBe(
-      false,
-    );
+    expect(testRule(tokens, 1, { shift: 0, type: typeCheck }).match).toBe(false);
   });
 
   it("boolean rules", () => {
-    const tokens = [
-      createToken({ block: true }),
-      createToken({ block: false }),
-    ];
+    const tokens = [createToken({ block: true }), createToken({ block: false })];
 
     // Should match when values are equal
     expect(testRule(tokens, 0, { shift: 0, block: true }).match).toBe(true);
@@ -86,15 +71,10 @@ describe("testRule", () => {
   });
 
   it("position and shift", () => {
-    const tokens = [
-      createToken({ type: "text" }),
-      createToken({ type: "paragraph" }),
-    ];
+    const tokens = [createToken({ type: "text" }), createToken({ type: "paragraph" })];
 
     // Should handle shift correctly
-    expect(testRule(tokens, 0, { shift: 1, type: "paragraph" }).match).toBe(
-      true,
-    );
+    expect(testRule(tokens, 0, { shift: 1, type: "paragraph" }).match).toBe(true);
 
     // Should handle position correctly
     expect(testRule(tokens, 0, { position: 0, type: "text" }).match).toBe(true);
@@ -110,9 +90,7 @@ describe("testRule", () => {
     const tokens = [createToken({ type: "text" })];
 
     // Should return false when token property is undefined
-    expect(testRule(tokens, 0, { shift: 0, info: "some-info" }).match).toBe(
-      false,
-    );
+    expect(testRule(tokens, 0, { shift: 0, info: "some-info" }).match).toBe(false);
   });
 
   it("children with positions", () => {
@@ -181,14 +159,12 @@ describe("testRule", () => {
     const childrenFunc = (children: unknown): boolean =>
       Array.isArray(children) && children.length > 0;
 
-    expect(
-      testRule(tokens, 0, { shift: 0, type: "inline", children: childrenFunc })
-        .match,
-    ).toBe(false);
-    expect(
-      testRule(tokens, 1, { shift: 0, type: "inline", children: childrenFunc })
-        .match,
-    ).toBe(true);
+    expect(testRule(tokens, 0, { shift: 0, type: "inline", children: childrenFunc }).match).toBe(
+      false,
+    );
+    expect(testRule(tokens, 1, { shift: 0, type: "inline", children: childrenFunc }).match).toBe(
+      true,
+    );
   });
 
   it("negative position in children", () => {

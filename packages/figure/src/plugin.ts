@@ -23,31 +23,19 @@ const getCaption = (image: Token): string => {
   return image.content;
 };
 
-export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
-  md,
-  options = {},
-) => {
+export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options = {}) => {
   const figureRule: RuleCore = (state) => {
     // do not process first and last token
-    for (
-      let index = 1, { length } = state.tokens;
-      index < length - 1;
-      index++
-    ) {
+    for (let index = 1, { length } = state.tokens; index < length - 1; index++) {
       const token = state.tokens[index];
 
       if (token.type !== "inline") continue;
 
       // children: image alone, or link_open -> image -> link_close
-      if (
-        !token.children ||
-        (token.children.length !== 1 && token.children.length !== 3)
-      )
-        continue;
+      if (!token.children || (token.children.length !== 1 && token.children.length !== 3)) continue;
 
       // one child, should be img
-      if (token.children.length === 1 && token.children[0].type !== "image")
-        continue;
+      if (token.children.length === 1 && token.children[0].type !== "image") continue;
 
       // three children, should be image enclosed in link
       if (token.children.length === 3) {
@@ -78,17 +66,14 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
       state.tokens[index + 1].tag = "figure";
 
       // for linked images, image is one off
-      const image =
-        token.children.length === 1 ? token.children[0] : token.children[1];
+      const image = token.children.length === 1 ? token.children[0] : token.children[1];
 
       const figCaption = getCaption(image);
       const [captionContent] = md.parseInline(figCaption, state.env);
 
       token.children.push(new state.Token("figcaption_open", "figcaption", 1));
       token.children.push(...(captionContent.children ?? []));
-      token.children.push(
-        new state.Token("figcaption_close", "figcaption", -1),
-      );
+      token.children.push(new state.Token("figcaption_close", "figcaption", -1));
 
       if (options.focusable !== false) image.attrPush(["tabindex", "0"]);
     }

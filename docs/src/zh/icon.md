@@ -32,12 +32,7 @@ mdIt.render("iPhone is made by ::apple::.");
 
 ```js
 import MarkdownIt from "markdown-it";
-import {
-  fontAwesomeRender,
-  icon,
-  iconfontRender,
-  iconifyRender,
-} from "@mdit/plugin-icon";
+import { fontAwesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
   // 支持 iconify

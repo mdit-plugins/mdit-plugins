@@ -10,15 +10,17 @@ import type { DelimiterRange } from "../rules/types.js";
 
 const isAllowedKeyChar = (charCode: number): boolean =>
   !(
-    charCode === 9 /* \t */ ||
-    charCode === 10 /* \n */ ||
-    charCode === 12 /* \f */ ||
-    charCode === 32 /* 空格 */ ||
-    charCode === 47 /* / */ ||
-    charCode === 62 /* > */ ||
-    charCode === 34 /* " */ ||
-    charCode === 39 /* ' */ ||
-    charCode === 61 /* = */
+    (
+      charCode === 9 /* \t */ ||
+      charCode === 10 /* \n */ ||
+      charCode === 12 /* \f */ ||
+      charCode === 32 /* 空格 */ ||
+      charCode === 47 /* / */ ||
+      charCode === 62 /* > */ ||
+      charCode === 34 /* " */ ||
+      charCode === 39 /* ' */ ||
+      charCode === 61
+    ) /* = */
   );
 
 export const getAttrs = (
@@ -107,9 +109,7 @@ export const getAttrs = (
 
   return allowed.length
     ? attrs.filter(([attr]) =>
-        allowed.some((item) =>
-          item instanceof RegExp ? item.test(attr) : item === attr,
-        ),
+        allowed.some((item) => (item instanceof RegExp ? item.test(attr) : item === attr)),
       )
     : attrs;
 };

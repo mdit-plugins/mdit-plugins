@@ -15,11 +15,7 @@ export interface TestRuleResult {
  * Test if rule matches token stream.
  *
  */
-export const testRule = (
-  tokens: Token[],
-  index: number,
-  rule: AttrRuleSet,
-): TestRuleResult => {
+export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): TestRuleResult => {
   const testResult: TestRuleResult = {
     match: false,
     position: null,
@@ -66,8 +62,7 @@ export const testRule = (
           // get position of child
           const { position } = childTests[childTests.length - 1];
 
-          testResult.position =
-            position >= 0 ? position : children.length + position;
+          testResult.position = position >= 0 ? position : children.length + position;
 
           // set pos data
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -115,9 +110,7 @@ export const testRule = (
 
       case "function": {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const result = ruleDetail(token[key]) as
-          | boolean
-          | [start: number, end: number];
+        const result = ruleDetail(token[key]) as boolean | [start: number, end: number];
 
         if (!result) return testResult;
 

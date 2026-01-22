@@ -75,10 +75,7 @@ describe("tex", () => {
       describe("basic rendering", () => {
         const testCases: [string, string][] = [
           ["$a=1$", "<p>{Tex content: a=1}</p>\n"],
-          [
-            "A tex equation $a=1$ inline.",
-            "<p>A tex equation {Tex content: a=1} inline.</p>\n",
-          ],
+          ["A tex equation $a=1$ inline.", "<p>A tex equation {Tex content: a=1} inline.</p>\n"],
           [
             "$a=1$ $b=2$ and $c=3$",
             "<p>{Tex content: a=1} {Tex content: b=2} and {Tex content: c=3}</p>\n",
@@ -124,11 +121,7 @@ inline.</p>
           ["space after content", "$a = 1 $", "<p>$a = 1 $</p>\n"],
           ["spaces around content", "$ a = 1 $", "<p>$ a = 1 $</p>\n"],
           ["closing followed by number", "$1=$1", "<p>$1=$1</p>\n"],
-          [
-            "currency context",
-            "Of course $1 = $1",
-            "<p>Of course $1 = $1</p>\n",
-          ],
+          ["currency context", "Of course $1 = $1", "<p>Of course $1 = $1</p>\n"],
           ["tab after opening", "$\ttest", "<p>$\ttest</p>\n"],
           ["tab before closing", "$test\t$", "<p>$test\t$</p>\n"],
           ["number after closing", "$test$1", "<p>$test$1</p>\n"],
@@ -144,9 +137,7 @@ inline.</p>
           expect(dollarModeMarkdownIt.render("$test\\\\$")).toEqual(
             "<p>{Tex content: test\\\\}</p>\n",
           );
-          expect(dollarModeMarkdownIt.render("$test\\\\\\$")).toEqual(
-            "<p>$test\\$</p>\n",
-          );
+          expect(dollarModeMarkdownIt.render("$test\\\\\\$")).toEqual("<p>$test\\$</p>\n");
           expect(dollarModeMarkdownIt.render("$test\\\\\\\\$")).toEqual(
             "<p>{Tex content: test\\\\\\\\}</p>\n",
           );
@@ -158,12 +149,8 @@ inline.</p>
       });
 
       it("should ignore bracket syntax", () => {
-        expect(dollarModeMarkdownIt.render("\\(a=1\\)")).toEqual(
-          "<p>(a=1)</p>\n",
-        );
-        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual(
-          "<p>[a=1]</p>\n",
-        );
+        expect(dollarModeMarkdownIt.render("\\(a=1\\)")).toEqual("<p>(a=1)</p>\n");
+        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
       });
     });
 
@@ -192,21 +179,13 @@ inline.</p>
         const bracketRejectionCases: [string, string, string][] = [
           ["unclosed bracket inline", "\\(a = 1", "<p>(a = 1</p>\n"],
           ["escaped opening inline", "\\\\(a = 1\\)", "<p>\\(a = 1)</p>\n"],
-          [
-            "multiple escaped opening inline",
-            "\\\\\\(a = 1\\)",
-            "<p>\\{Tex content: a = 1}</p>\n",
-          ],
+          ["multiple escaped opening inline", "\\\\\\(a = 1\\)", "<p>\\{Tex content: a = 1}</p>\n"],
           [
             "multiple escaped closing inline",
             "\\(a = 1\\\\\\)",
             "<p>{Tex content: a = 1\\\\}</p>\n",
           ],
-          [
-            "quadruple escaped opening inline",
-            "\\\\\\\\(a = 1\\)",
-            "<p>\\\\(a = 1)</p>\n",
-          ],
+          ["quadruple escaped opening inline", "\\\\\\\\(a = 1\\)", "<p>\\\\(a = 1)</p>\n"],
           [
             "escaped closing with multiple backslashes",
             "\\(a = 1\\\\\\\\\\)",
@@ -222,12 +201,8 @@ inline.</p>
       });
 
       it("should ignore dollar syntax", () => {
-        expect(bracketModeMarkdownIt.render("$a = 1$")).toEqual(
-          "<p>$a = 1$</p>\n",
-        );
-        expect(bracketModeMarkdownIt.render("$$a = 1$$")).toEqual(
-          "<p>$$a = 1$$</p>\n",
-        );
+        expect(bracketModeMarkdownIt.render("$a = 1$")).toEqual("<p>$a = 1$</p>\n");
+        expect(bracketModeMarkdownIt.render("$$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
       });
     });
 
@@ -311,11 +286,7 @@ test.`,
 
       describe("rejection cases", () => {
         const blockRejectionCases: [string, string, string][] = [
-          [
-            "inline with spaces",
-            "All $$ a = 1 $$ is true.",
-            "<p>All $$ a = 1 $$ is true.</p>\n",
-          ],
+          ["inline with spaces", "All $$ a = 1 $$ is true.", "<p>All $$ a = 1 $$ is true.</p>\n"],
           ["escaped block", "\\$\\$a = 1$$", "<p>$$a = 1$$</p>\n"],
           [
             "escaped multiline block",
@@ -333,12 +304,8 @@ a = 1
         });
 
         it("should handle empty block content", () => {
-          expect(dollarModeMarkdownIt.render("$$")).toEqual(
-            "<p>{Tex content: }</p>\n",
-          );
-          expect(dollarModeMarkdownIt.render("A $$ B")).toEqual(
-            "<p>A $$ B</p>\n",
-          );
+          expect(dollarModeMarkdownIt.render("$$")).toEqual("<p>{Tex content: }</p>\n");
+          expect(dollarModeMarkdownIt.render("A $$ B")).toEqual("<p>A $$ B</p>\n");
         });
 
         it("should handle complex block scenarios", () => {
@@ -366,9 +333,7 @@ $$`),
       });
 
       it("should ignore bracket syntax", () => {
-        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual(
-          "<p>[a=1]</p>\n",
-        );
+        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
       });
     });
 
@@ -411,9 +376,7 @@ y = 2
       });
 
       it("should ignore dollar syntax", () => {
-        expect(bracketModeMarkdownIt.render("$$a = 1$$")).toEqual(
-          "<p>$$a = 1$$</p>\n",
-        );
+        expect(bracketModeMarkdownIt.render("$$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
       });
     });
 
@@ -555,9 +518,7 @@ plain code
       });
 
       it("should handle special characters in inline rendering", () => {
-        expect(dollarModeMarkdownIt.render("$a=1$\t")).toEqual(
-          "<p>{Tex content: a=1}</p>\n",
-        );
+        expect(dollarModeMarkdownIt.render("$a=1$\t")).toEqual("<p>{Tex content: a=1}</p>\n");
       });
 
       it("should handle math fence with spaces in info", () => {
@@ -576,10 +537,7 @@ plain code
           ["$ a = 1 $", "<p>{Tex content: a = 1}</p>\n"],
           ["$a = 1 $", "<p>{Tex content: a = 1}</p>\n"],
           ["$ a = 1$", "<p>{Tex content: a = 1}</p>\n"],
-          [
-            "A tex equation $ a=1 $ inline.",
-            "<p>A tex equation {Tex content: a=1} inline.</p>\n",
-          ],
+          ["A tex equation $ a=1 $ inline.", "<p>A tex equation {Tex content: a=1} inline.</p>\n"],
         ];
 
         spaceAllowedCases.forEach(([input, expected]) => {
@@ -590,21 +548,15 @@ plain code
 
         it("should handle escaped currency", () => {
           expect(
-            allowSpaceDollarMarkdownIt.render(
-              `$a=1$ $b=2$ inline with \\$1 hot dogs and $c=3$.`,
-            ),
+            allowSpaceDollarMarkdownIt.render(`$a=1$ $b=2$ inline with \\$1 hot dogs and $c=3$.`),
           ).toEqual(
             "<p>{Tex content: a=1} {Tex content: b=2} inline with $1 hot dogs and {Tex content: c=3}.</p>\n",
           );
         });
 
         it("should ignore bracket syntax", () => {
-          expect(allowSpaceDollarMarkdownIt.render("\\(a=1\\)")).toEqual(
-            "<p>(a=1)</p>\n",
-          );
-          expect(allowSpaceDollarMarkdownIt.render("\\[a=1\\]")).toEqual(
-            "<p>[a=1]</p>\n",
-          );
+          expect(allowSpaceDollarMarkdownIt.render("\\(a=1\\)")).toEqual("<p>(a=1)</p>\n");
+          expect(allowSpaceDollarMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
         });
       });
 
@@ -625,12 +577,8 @@ plain code
         });
 
         it("should ignore dollar syntax", () => {
-          expect(allowSpaceBracketMarkdownIt.render("$a = 1$")).toEqual(
-            "<p>$a = 1$</p>\n",
-          );
-          expect(allowSpaceBracketMarkdownIt.render("$$a = 1$$")).toEqual(
-            "<p>$$a = 1$$</p>\n",
-          );
+          expect(allowSpaceBracketMarkdownIt.render("$a = 1$")).toEqual("<p>$a = 1$</p>\n");
+          expect(allowSpaceBracketMarkdownIt.render("$$a = 1$$")).toEqual("<p>$$a = 1$$</p>\n");
         });
       });
 
@@ -673,9 +621,7 @@ $$`,
         });
 
         it("should ignore bracket syntax", () => {
-          expect(allowSpaceDollarMarkdownIt.render("\\[ a = 1 \\]")).toEqual(
-            "<p>[ a = 1 ]</p>\n",
-          );
+          expect(allowSpaceDollarMarkdownIt.render("\\[ a = 1 \\]")).toEqual("<p>[ a = 1 ]</p>\n");
         });
       });
 
@@ -697,9 +643,7 @@ $$`,
         });
 
         it("should ignore dollar syntax", () => {
-          expect(allowSpaceBracketMarkdownIt.render("$$ a = 1 $$")).toEqual(
-            "<p>$$ a = 1 $$</p>\n",
-          );
+          expect(allowSpaceBracketMarkdownIt.render("$$ a = 1 $$")).toEqual("<p>$$ a = 1 $$</p>\n");
         });
       });
 
@@ -731,10 +675,7 @@ $$`,
     it("should handle silent mode", () => {
       const testCases = [
         [`[link $incomplete](url`, "<p>[link $incomplete](url</p>\n"],
-        [
-          `[link text $ invalid](url)`,
-          '<p><a href="url">link text $ invalid</a></p>\n',
-        ],
+        [`[link text $ invalid](url)`, '<p><a href="url">link text $ invalid</a></p>\n'],
       ];
 
       testCases.forEach(([input, expected]) => {
@@ -749,9 +690,7 @@ $$`,
     });
 
     it("should handle incomplete markdown structures", () => {
-      expect(defaultMarkdownIt.render("![alt $incomplete")).toEqual(
-        "<p>![alt $incomplete</p>\n",
-      );
+      expect(defaultMarkdownIt.render("![alt $incomplete")).toEqual("<p>![alt $incomplete</p>\n");
     });
   });
 });

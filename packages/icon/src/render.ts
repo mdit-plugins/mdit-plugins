@@ -23,9 +23,7 @@ export const iconifyRender = (icon: string): string => {
   if (size) appendStyle(attrs, `font-size:${size}`);
   if (color) appendStyle(attrs, `color:${color}`);
 
-  return `<iconify-icon icon="${content}"${stringifyAttrs(
-    attrs,
-  )}></iconify-icon>`;
+  return `<iconify-icon icon="${content}"${stringifyAttrs(attrs)}></iconify-icon>`;
 };
 
 /**
@@ -94,10 +92,7 @@ export const FONTAWESOME_STYLES = [
 /**
  * All fontawesome families and styles classes
  */
-export const FONTAWESOME_FAMILIES_AND_STYLES = [
-  ...FONTAWESOME_FAMILIES,
-  ...FONTAWESOME_STYLES,
-];
+export const FONTAWESOME_FAMILIES_AND_STYLES = [...FONTAWESOME_FAMILIES, ...FONTAWESOME_STYLES];
 
 /**
  * Check if a class is a valid fontawesome short alias
@@ -108,8 +103,7 @@ export const isFontawesomeShortAlias = (cls: string): boolean =>
 /**
  * Check if a class is a valid fontawesome family
  */
-export const isFontawesomeFamily = (cls: string): boolean =>
-  FONTAWESOME_FAMILIES.includes(cls);
+export const isFontawesomeFamily = (cls: string): boolean => FONTAWESOME_FAMILIES.includes(cls);
 
 /**
  * Ensure every class is prefixed with `fa-` or a valid short alias

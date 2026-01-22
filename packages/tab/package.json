@@ -11,18 +11,23 @@
   "bugs": {
     "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/tab"
-  },
   "license": "MIT",
   "author": {
     "name": "Mr.Hope",
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/tab"
+  },
+  "files": [
+    "lib"
+  ],
   "type": "module",
+  "browser": "./lib/browser.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "type": "./lib/index.d.ts",
@@ -30,11 +35,9 @@
     },
     "./package.json": "./package.json"
   },
-  "browser": "./lib/browser.js",
-  "types": "./lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
@@ -50,8 +53,5 @@
     "markdown-it": {
       "optional": true
     }
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

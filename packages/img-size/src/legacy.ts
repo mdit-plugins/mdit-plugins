@@ -26,10 +26,7 @@ const parseNumber = (
 
   char = str.charCodeAt(pos);
 
-  while (
-    (pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ ||
-    char === 37 /* % */
-  )
+  while ((pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ || char === 37 /* % */)
     char = str.charCodeAt(++pos);
 
   result.ok = true;
@@ -54,8 +51,7 @@ const parseImageSize = (
   // (3) =x200
   const char = str.charCodeAt(pos);
 
-  if (char !== 120 /* x */ && (char < 48 /* 0 */ || char > 57) /* 9 */)
-    return null;
+  if (char !== 120 /* x */ && (char < 48 /* 0 */ || char > 57) /* 9 */) return null;
 
   // parse width
   const width = parseNumber(str, pos, max);
