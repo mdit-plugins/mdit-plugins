@@ -53,8 +53,9 @@ export default defineUserConfig({
 
       // add support for @snippets/ alias
       resolvePath: (filePath: string, cwd: string) => {
-        if (filePath.startsWith("@snippets/"))
+        if (filePath.startsWith("@snippets/")) {
           return path.resolve(__dirname, "snippets", filePath.replace("@snippets/", ""));
+        }
 
         return path.join(cwd, filePath);
       },

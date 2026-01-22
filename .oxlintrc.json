@@ -94,11 +94,9 @@
       { "max": 100, "skipBlankLines": true, "skipComments": true }
     ],
     "max-params": ["warn", 4],
-    "max-statements": ["warn", { "max": 30 }],
+    "max-statements": ["warn", { "max": 30 }]
 
     // per project settings
-    // charCodeAt is more performant
-    "unicorn/prefer-code-point": "off"
   },
   "overrides": [
     {
@@ -111,6 +109,18 @@
         // "typescript/switch-exhaustiveness-check": "off",
         // a lot of time we are just want to check existence
         // "typescript/strict-boolean-expressions": "off"
+      }
+    },
+    // some rules are disabled due to performance consideration
+    {
+      "files": ["packages/*/src/**/*.ts"],
+      "rules": {
+        "prefer-destructuring": "off",
+        "prefer-spread": "off",
+        "unicorn/no-for-loop": "off",
+        "unicorn/prefer-array-flat": "off",
+        "unicorn/prefer-code-point": "off",
+        "unicorn/prefer-spread": "off"
       }
     },
     {
