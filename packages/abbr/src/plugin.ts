@@ -20,6 +20,53 @@ interface AbbrStateCore extends StateCore {
   };
 }
 
+const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
+  let labelEnd = -1;
+  let pos = state.bMarks[startLine] + state.tShift[startLine];
+  const max = state.eMarks[startLine];
+
+  if (
+    pos + 2 >= max ||
+    state.src.charCodeAt(pos++) !== 42 /* * */ ||
+    state.src.charCodeAt(pos++) !== 91 /* [ */
+  ) {
+    return false;
+  }
+
+  const labelStart = pos;
+
+  while (pos < max) {
+    const ch = state.src.charCodeAt(pos);
+
+    if (ch === 91 /* [ */) return false;
+    if (ch === 93 /* ] */) {
+      labelEnd = pos;
+      break;
+    }
+    if (ch === 92 /* \ */) pos++;
+    pos++;
+  }
+
+  if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
+  if (silent) return true;
+
+  const label = state.src.slice(labelStart, labelEnd).replaceAll(/\\(.)/g, "$1");
+
+  pos = labelEnd + 2;
+  const titleStart = state.skipSpaces(pos);
+  const titleEnd = state.skipSpacesBack(max, titleStart);
+  const title = state.src.slice(titleStart, titleEnd);
+
+  if (label.length === 0 || title.length === 0) return false;
+
+  // prepend ':' to avoid conflict with Object.prototype members
+  (state.env.abbreviations ??= {})[`_${label}`] ??= title;
+
+  state.line = startLine + 1;
+
+  return true;
+};
+
 export const abbr: PluginSimple = (md) => {
   const { arrayReplaceAt, escapeRE, lib } = md.utils;
 
@@ -32,53 +79,6 @@ export const abbr: PluginSimple = (md) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
-
-  const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
-    let labelEnd = -1;
-    let pos = state.bMarks[startLine] + state.tShift[startLine];
-    const max = state.eMarks[startLine];
-
-    if (
-      pos + 2 >= max ||
-      state.src.charCodeAt(pos++) !== 42 /* * */ ||
-      state.src.charCodeAt(pos++) !== 91 /* [ */
-    ) {
-      return false;
-    }
-
-    const labelStart = pos;
-
-    while (pos < max) {
-      const ch = state.src.charCodeAt(pos);
-
-      if (ch === 91 /* [ */) return false;
-      if (ch === 93 /* ] */) {
-        labelEnd = pos;
-        break;
-      }
-      if (ch === 92 /* \ */) pos++;
-      pos++;
-    }
-
-    if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
-    if (silent) return true;
-
-    const label = state.src.slice(labelStart, labelEnd).replaceAll(/\\(.)/g, "$1");
-
-    pos = labelEnd + 2;
-    const titleStart = state.skipSpaces(pos);
-    const titleEnd = state.skipSpacesBack(max, titleStart);
-    const title = state.src.slice(titleStart, titleEnd);
-
-    if (label.length === 0 || title.length === 0) return false;
-
-    // prepend ':' to avoid conflict with Object.prototype members
-    (state.env.abbreviations ??= {})["_" + label] ??= title;
-
-    state.line = startLine + 1;
-
-    return true;
-  };
 
   const abbrReplace: RuleCore = (state: AbbrStateCore) => {
     const tokens = state.tokens;

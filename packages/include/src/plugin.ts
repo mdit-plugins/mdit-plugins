@@ -88,6 +88,7 @@ export const handleInclude = (
     // if the importPath is relative path, we need to resolve it
     // according to the markdown filePath
     if (!cwd) {
+      // oxlint-disable-next-line no-console
       console.error(`[@mdit/plugin-include]: Error when resolving path: ${filePath}`);
 
       return "\nError when resolving path\n";
@@ -100,6 +101,7 @@ export const handleInclude = (
 
   // check file existence
   if (!fs.existsSync(realPath)) {
+    // oxlint-disable-next-line no-console
     console.error(`[@mdit/plugin-include]: ${realPath} not found`);
 
     return "\nFile not found\n";
@@ -326,6 +328,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
       /* istanbul ignore else -- @preserve */
       if (Array.isArray(includedPaths)) includedPaths.pop();
+      // oxlint-disable-next-line no-console
       else console.error(`[@mdit/plugin-include]: include_end failed, no include_start.`);
 
       return "";
