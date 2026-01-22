@@ -95,7 +95,7 @@
     ],
 
     // per project settings
-    "id-length": ["warn", { "min": 2, "exceptions": ["i", "j", "_"] }],
+    "id-length": ["warn", { "min": 2, "exceptions": ["a", "b", "i", "j", "_"] }],
     "max-params": ["warn", 5],
     "max-statements": "off",
     "new-cap": ["warn", { "capIsNewExceptionPattern": "MarkdownIt" }]

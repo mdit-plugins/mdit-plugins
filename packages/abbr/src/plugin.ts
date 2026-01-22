@@ -82,12 +82,12 @@ export const abbr: PluginSimple = (md) => {
 
   const abbrReplace: RuleCore = (state: AbbrStateCore) => {
     const tokens = state.tokens;
-    const { abbreviations } = state.env;
+    const abbreviations = state.env.abbreviations;
 
     if (!abbreviations) return;
 
     const abbreviationsRegExpText = Object.keys(abbreviations)
-      .map((x) => x.slice(1))
+      .map((item) => item.slice(1))
       .sort((a, b) => b.length - a.length)
       .map(escapeRE)
       .join("|");

@@ -7,6 +7,9 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
+const ESCAPED_OPENING_MARKER_REGEXP = /\\{%/g;
+const ESCAPED_CLOSING_MARKER_REGEXP = /%\\}/g;
+
 const checkInlineOpeningMarker = (src: string, current: number): boolean => {
   if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */) {
     return false;
@@ -88,8 +91,8 @@ const getEmbedInline =
         ? state.src
             .slice(spacer + 1, contentEnd)
             .trim()
-            .replace(/\\{%/g, "{%")
-            .replace(/%\\}/g, "%}")
+            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
         : "";
 
       token.markup = "{% %}";
@@ -111,7 +114,7 @@ const getEmbedBlock =
   (state, startLine, _, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
-    const { src } = state;
+    const src = state.src;
 
     // minimum length check for block embed - at least 5 characters: {%x%}
     if (max - start < 5) return false;
@@ -165,8 +168,8 @@ const getEmbedBlock =
         : state.src
             .slice(spacer + 1, contentEnd)
             .trim()
-            .replace(/\\{%/g, "{%")
-            .replace(/%\\}/g, "%}");
+            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}");
 
     const token = state.push("embed_block", "embed", 0);
 
