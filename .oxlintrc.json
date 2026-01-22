@@ -97,7 +97,8 @@
     "max-statements": ["warn", { "max": 30 }],
 
     // per project settings
-    "id-length": "off"
+    // charCodeAt is more performant
+    "unicorn/prefer-code-point": "off"
   },
   "overrides": [
     {

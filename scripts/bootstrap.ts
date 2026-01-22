@@ -74,7 +74,7 @@ files.forEach((pkgName) => {
   const readmePath = join(packagesDir, pkgName, "README.md");
 
   // generate README.md
-  if (!existsSync(readmePath))
+  if (!existsSync(readmePath)) {
     writeFileSync(
       readmePath,
       `\
@@ -96,4 +96,5 @@ yarn add -D @mdit/plugin-${pkgName}
 \`\`\`
 `,
     );
+  }
 });

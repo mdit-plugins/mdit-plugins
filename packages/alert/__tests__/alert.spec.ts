@@ -369,7 +369,7 @@ it("should not break blockquote with tabs", () => {
   });
 });
 
-describe("alert", () => {
+describe(alert, () => {
   it("should render default alerts", () => {
     const testCases = [
       [
