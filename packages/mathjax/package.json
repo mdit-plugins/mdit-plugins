@@ -44,7 +44,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@mathjax/src": "^4.0.0",
+    "@mathjax/src": "^4.1.0",
     "@mdit/plugin-tex": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },

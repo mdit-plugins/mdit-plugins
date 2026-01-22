@@ -48,7 +48,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "@mathjax/src": "4.0.0"
+    "@mathjax/src": "4.1.0"
   },
   "peerDependencies": {
     "@mathjax/src": "^4.0.0",
