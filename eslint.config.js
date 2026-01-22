@@ -1,83 +1,74 @@
 import { hope } from "eslint-config-mister-hope";
 
-export default hope({
-  ts: {
-    "no-restricted-syntax": [
-      "error",
+export default hope(
+  {},
+  {
+    files: ["packages/*/src/**/*.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "warn",
 
-      // --- 解构 (Destructuring) ---
-      {
-        selector: "ObjectPattern",
-        message:
-          "【性能禁止】对象解构涉及属性查找、null检查和临时对象分配。请直接访问属性 (obj.prop)。",
-      },
-      {
-        selector: "ArrayPattern",
-        message: "【性能禁止】数组解构会触发迭代器协议。请直接使用索引访问 (arr[i])。",
-      },
+        // --- 解构 (Destructuring) ---
+        {
+          selector: "ObjectPattern",
+          message:
+            "【性能禁止】对象解构涉及属性查找、null检查和临时对象分配。请直接访问属性 (obj.prop)。",
+        },
+        {
+          selector: "ArrayPattern",
+          message: "【性能禁止】数组解构会触发迭代器协议。请直接使用索引访问 (arr[i])。",
+        },
 
-      // --- 展开运算符 (Spread) ---
-      {
-        selector: "SpreadElement",
-        message:
-          "【性能禁止】Spread操作符 (...obj/arr) 会导致浅拷贝和迭代，产生大量垃圾回收(GC)。请使用 Object.assign 或 slice/concat。",
-      },
+        // --- 展开运算符 (Spread) ---
+        {
+          selector: "SpreadElement",
+          message:
+            "【性能禁止】Spread操作符 (...obj/arr) 会导致浅拷贝和迭代，产生大量垃圾回收(GC)。请使用 Object.assign 或 slice/concat。",
+        },
 
-      // --- 循环 (Loops) ---
-      {
-        selector: "ForOfStatement",
-        message:
-          "【性能禁止】for-of 循环依赖迭代器协议，开销远高于传统 for 循环。请使用 for(let i=0; i<len; i++)。",
-      },
+        // --- 循环 (Loops) ---
+        {
+          selector: "ForOfStatement",
+          message:
+            "【性能禁止】for-of 循环依赖迭代器协议，开销远高于传统 for 循环。请使用 for(let i=0; i<len; i++)。",
+        },
 
-      // --- 昂贵的 Object 方法 ---
-      {
-        selector: "CallExpression[callee.object.name='Object'][callee.property.name='entries']",
-        message:
-          "【性能禁止】Object.entries() 会创建 [[k,v], [k,v]] 大量临时数组，造成巨大 GC 压力。请使用 for-in 或 Object.keys() + 循环。",
-      },
-      {
-        selector: "CallExpression[callee.object.name='Object'][callee.property.name='values']",
-        message: "【性能禁止】Object.values() 会创建临时数组。请使用 for-in 或 Object.keys()。",
-      },
-      {
-        selector: "CallExpression[callee.object.name='Object'][callee.property.name='from']",
-        message: "【性能禁止】Object.from() 涉及迭代器和数组分配。请手动循环构建。",
-      },
+        // --- 昂贵的 Object 方法 ---
+        {
+          selector: "CallExpression[callee.object.name='Object'][callee.property.name='entries']",
+          message:
+            "【性能禁止】Object.entries() 会创建 [[k,v], [k,v]] 大量临时数组，造成巨大 GC 压力。请使用 for-in 或 Object.keys() + 循环。",
+        },
+        {
+          selector: "CallExpression[callee.object.name='Object'][callee.property.name='values']",
+          message: "【性能禁止】Object.values() 会创建临时数组。请使用 for-in 或 Object.keys()。",
+        },
+        {
+          selector: "CallExpression[callee.object.name='Object'][callee.property.name='from']",
+          message: "【性能禁止】Object.from() 涉及迭代器和数组分配。请手动循环构建。",
+        },
 
-      // --- 循环内的危险操作 (针对热点路径) ---
-      // 禁止在循环里定义函数 (闭包开销)
-      {
-        selector:
-          "ForStatement FunctionDeclaration, ForStatement ArrowFunctionExpression, WhileStatement FunctionDeclaration, WhileStatement ArrowFunctionExpression",
-        message: "【性能禁止】不要在循环内声明函数，这会重复分配闭包内存。请提取到循环外部。",
-      },
-      // 禁止在循环里 new RegExp
-      {
-        selector:
-          "ForStatement NewExpression[callee.name='RegExp'], WhileStatement NewExpression[callee.name='RegExp']",
-        message: "【性能禁止】不要在循环内编译正则。请在模块顶层声明 const REGEX = /.../;",
-      },
-    ],
+        // --- 循环内的危险操作 (针对热点路径) ---
+        // 禁止在循环里定义函数 (闭包开销)
+        {
+          selector:
+            "ForStatement FunctionDeclaration, ForStatement ArrowFunctionExpression, WhileStatement FunctionDeclaration, WhileStatement ArrowFunctionExpression",
+          message: "【性能禁止】不要在循环内声明函数，这会重复分配闭包内存。请提取到循环外部。",
+        },
+        // 禁止在循环里 new RegExp
+        {
+          selector:
+            "FunctionDeclaration NewExpression[callee.name='RegExp'], ArrowFunctionExpression NewExpression[callee.name='RegExp'], Literal[regex]",
+          message: "【性能禁止】不要在循环内编译正则。请在模块顶层声明 const REGEX = /.../;",
+        },
 
-    // ====================================================
-    // 3. 可选：针对数组高阶方法的限制
-    // ====================================================
-    // 如果你的场景极端敏感，map/filter 产生的中间数组也是无法接受的
-    "no-restricted-properties": [
-      "warn", // 先设为警告，因为改起来很痛苦
-      {
-        property: "map",
-        message: "【性能警告】map 会创建新数组。如果在热点循环中，请改用 for 循环 + push。",
-      },
-      {
-        property: "filter",
-        message: "【性能警告】filter 会创建新数组。请改用 for 循环。",
-      },
-      {
-        property: "forEach",
-        message: "【性能警告】forEach 有回调函数上下文开销。请改用 for (let i...)。",
-      },
-    ],
+        {
+          selector:
+            "CallExpression[callee.property.name=/^(map|filter|reduce|forEach|find|some|every)$/]",
+          message:
+            "【性能禁止】热点路径禁止使用数组高阶方法(.map/.filter等)，会产生中间数组或回调开销。请改用 for 循环。",
+        },
+      ],
+    },
   },
-});
+);
