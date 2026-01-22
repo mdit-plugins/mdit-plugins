@@ -2,6 +2,9 @@ import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 
 /**
  * Default render for icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const defaultRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -16,6 +19,9 @@ export const defaultRender = (icon: string): string => {
 
 /**
  * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const iconifyRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -96,23 +102,35 @@ export const FONTAWESOME_FAMILIES_AND_STYLES = [...FONTAWESOME_FAMILIES, ...FONT
 
 /**
  * Check if a class is a valid fontawesome short alias
+ *
+ * @param cls class string
+ * @returns whether the class is a fontawesome short alias
  */
 export const isFontawesomeShortAlias = (cls: string): boolean =>
   FONTAWESOME_SHORT_ALIAS.includes(cls);
 
 /**
  * Check if a class is a valid fontawesome family
+ *
+ * @param cls class string
+ * @returns whether the class is a fontawesome family
  */
 export const isFontawesomeFamily = (cls: string): boolean => FONTAWESOME_FAMILIES.includes(cls);
 
 /**
  * Ensure every class is prefixed with `fa-` or a valid short alias
+ *
+ * @param icon icon class string
+ * @returns prefixed icon class string
  */
 export const appendFontawesomePrefix = (icon: string): string =>
   icon.startsWith("fa-") || isFontawesomeShortAlias(icon) ? icon : `fa-${icon}`;
 
 /**
  * Render for [fontawesome](https://fontawesome.com/) icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const fontawesomeRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -152,6 +170,9 @@ export const fontawesomeRender = (icon: string): string => {
 
 /**
  * Render for [iconfont](https://www.iconfont.cn/) icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const iconfontRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });

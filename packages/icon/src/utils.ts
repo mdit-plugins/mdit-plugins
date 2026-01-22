@@ -4,6 +4,9 @@ const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 
 /**
  * Extract size from content
+ *
+ * @param data input data with content string
+ * @returns data with size property and cleaned content string
  */
 export const extractSize = <T extends { content: string }>(
   data: T & { size?: string },
@@ -27,6 +30,9 @@ const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
 
 /**
  * Extract color from content
+ *
+ * @param data input data with content string
+ * @returns data with color property and cleaned content string
  */
 export const extractColor = <T extends { content: string }>(
   data: T & { color?: string },
@@ -99,8 +105,8 @@ const ATTR_REGEXP = new RegExp(
 /**
  * Parse attrs string to object
  *
- * @param attrs
- * @returns
+ * @param data input data with content string
+ * @returns data with attrs object and cleaned content string
  */
 export const extractAttrs = <T extends { content: string }>(
   data: T & { attrs?: AttrsInfo },
@@ -110,6 +116,7 @@ export const extractAttrs = <T extends { content: string }>(
   const content = data.content
     .replace(
       ATTR_REGEXP,
+      // oxlint-disable-next-line max-params
       (
         _,
         _1,
