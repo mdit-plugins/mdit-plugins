@@ -28,6 +28,8 @@ const createToken = (overrides: Partial<Token> = {}): Token =>
     ...overrides,
   }) as Token;
 
+const checkParagraph = (type: string): boolean => type === "paragraph";
+
 describe(testRule, () => {
   it("string rules", () => {
     const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
@@ -41,13 +43,12 @@ describe(testRule, () => {
 
   it("function rules", () => {
     const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
-    const typeCheck = (type: string): boolean => type === "paragraph";
 
     // Should match when function returns true
-    expect(testRule(tokens, 0, { shift: 0, type: typeCheck }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, type: checkParagraph }).match).toBeTruthy();
 
     // Should not match when function returns false
-    expect(testRule(tokens, 1, { shift: 0, type: typeCheck }).match).toBeFalsy();
+    expect(testRule(tokens, 1, { shift: 0, type: checkParagraph }).match).toBeFalsy();
   });
 
   it("boolean rules", () => {

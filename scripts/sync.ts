@@ -41,8 +41,8 @@ export const sync = (): Promise<void[]> => {
 
 const npmmirrorSpinner = ora("Syncing npmmirror.com").start();
 
-void sync().then(() => {
-  npmmirrorSpinner.succeed();
+await sync();
 
-  ora("Release complete").succeed();
-});
+npmmirrorSpinner.succeed();
+
+ora("Release complete").succeed();
