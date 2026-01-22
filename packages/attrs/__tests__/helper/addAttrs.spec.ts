@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { addAttrs } from "../../src/helper/addAttrs.js";
 import type { DelimiterRange } from "../../src/rules/types.js";
 
-describe("addAttrs", () => {
+describe(addAttrs, () => {
   it("should add class attribute", () => {
     const token = new Token("p", "p", 1);
     const content = "{.test-class}";

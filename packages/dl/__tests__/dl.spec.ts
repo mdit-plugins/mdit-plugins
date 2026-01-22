@@ -5,7 +5,7 @@ import { dl } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(dl);
 
-describe("dl", () => {
+describe(dl, () => {
   it("should render basic definition lists", () => {
     const testCases = [
       // Basic definition list with spacing variations

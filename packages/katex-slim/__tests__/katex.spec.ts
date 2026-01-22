@@ -67,7 +67,7 @@ describe("inline katex", () => {
   });
 
   it("should not render error msg when content is wrong", () => {
-    expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$\fra{a}{b}$`)).toMatchSnapshot();
   });
 
   it("should render error msg when content is wrong", () => {
@@ -75,7 +75,7 @@ describe("inline katex", () => {
 
     global.console.error = vi.fn();
 
-    expect(markdownItWithError.render("$\\fra{a}{b}$")).toEqual(
+    expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toEqual(
       "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
     );
 
@@ -127,7 +127,7 @@ describe("block katex", () => {
   });
 
   it("should not render error msg when content is wrong", () => {
-    expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\fra{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -155,7 +155,7 @@ $$
     const originalError = global.console.error;
 
     global.console.error = vi.fn();
-    expect(markdownItWithError.render("$$\\fra{a}{b}$$")).toMatch(
+    expect(markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toMatch(
       /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
 
@@ -234,7 +234,7 @@ $$
 
 it("should work with transformer", () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
-    transformer: (content: string) => content.replace(/^(<[a-z]+ )/g, "$1v-pre "),
+    transformer: (content: string) => content.replaceAll(/^(<[a-z]+ )/g, "$1v-pre "),
   });
 
   expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");

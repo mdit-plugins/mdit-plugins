@@ -36,7 +36,7 @@ const codeContent = `\
 
 const markdownIt = MarkdownIt({ linkify: true }).use(demo);
 
-describe("demo", () => {
+describe(demo, () => {
   it("should render", () => {
     expect(
       markdownIt.render(`
