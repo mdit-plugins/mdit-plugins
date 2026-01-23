@@ -81,7 +81,7 @@ export interface TsdownOptions {
    *
    * @default true
    */
-  treeshake?: boolean;
+  treeshake?: UserConfig["treeshake"];
 
   /**
    * Inline options
@@ -90,7 +90,7 @@ export interface TsdownOptions {
    *
    * @default browser ? false : undefined
    */
-  inlineOnly?: (RegExp | string)[] | false;
+  inlineOnly?: UserConfig["inlineOnly"];
 }
 
 /**
@@ -112,7 +112,7 @@ export const tsdownConfig = (
     external = [],
     alias: aliasOptions,
     treeshake = true,
-    inlineOnly = browser ? false : undefined,
+    inlineOnly = browser ? false : [],
   } = options;
   const isObject = typeof filePath === "object";
   const base = isObject ? (filePath.base ? `${filePath.base}/` : "") : "";
