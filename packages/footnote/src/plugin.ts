@@ -288,7 +288,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   const label = state.src.slice(start + 2, pos - 1);
 
-  if (typeof state.env.footnotes.refs[`:${label}`] === "undefined") return false;
+  if (state.env.footnotes.refs[`:${label}`] === undefined) return false;
 
   if (!silent) {
     const list = (state.env.footnotes.list ??= []);

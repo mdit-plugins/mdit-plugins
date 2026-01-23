@@ -3,7 +3,9 @@ import { expect, it } from "vitest";
 
 import { katex } from "../src/index.js";
 
+// oxlint-disable-next-line import/no-unassigned-import
 import "katex";
+// oxlint-disable-next-line import/no-unassigned-import
 import "katex/contrib/mhchem";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(katex);

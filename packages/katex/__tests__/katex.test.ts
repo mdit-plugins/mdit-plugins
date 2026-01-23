@@ -79,7 +79,7 @@ describe("inline katex", () => {
       "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
     );
 
-    expect(globalThis.console.error).toHaveBeenCalledOnce();
+    expect(globalThis.console.error).toHaveBeenCalledTimes(1);
     globalThis.console.error = originalError;
   });
 });
@@ -229,7 +229,7 @@ b = 2
 $$
 `);
 
-  expect(logger2).toHaveBeenCalledOnce();
+  expect(logger2).toHaveBeenCalledTimes(1);
 });
 
 it("should work with transformer", () => {

@@ -11,6 +11,7 @@ import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
+// oxlint-disable-next-line max-lines-per-function
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
   if (typeof options !== "object" || !options.name) {
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");

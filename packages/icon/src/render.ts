@@ -144,6 +144,7 @@ export const fontawesomeRender = (icon: string): string => {
 
   // a icon name with explicit family (possibly with style) not found
   if (iconNameIndex === -1) {
+    // oxlint-disable-next-line unicorn/no-array-callback-reference
     finalClasses.push(...classes.map(appendFontawesomePrefix));
 
     // if no family is specified, default to solid
@@ -159,6 +160,7 @@ export const fontawesomeRender = (icon: string): string => {
     finalClasses.push(
       type.length <= 2 ? `fa${type}` : appendFontawesomePrefix(type),
       appendFontawesomePrefix(name),
+      // oxlint-disable-next-line unicorn/no-array-callback-reference
       ...classes.map(appendFontawesomePrefix),
     );
   }

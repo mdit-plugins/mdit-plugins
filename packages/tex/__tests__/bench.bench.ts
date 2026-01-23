@@ -1,3 +1,4 @@
+// oxlint-disable unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
 import { bench, describe } from "vitest";
 
@@ -330,8 +331,8 @@ describe("tex plugin performance benchmarks", () => {
     });
 
     const combinedData = {
-      small: testData.small.mixed + "\n\n" + bracketTestData.small.mixed,
-      medium: testData.medium.mixed + "\n\n" + bracketTestData.medium.mixed,
+      small: `${testData.small.mixed}\n\n${bracketTestData.small.mixed}`,
+      medium: `${testData.medium.mixed}\n\n${bracketTestData.medium.mixed}`,
       large: `${testData.large.mixed}\n\n${bracketTestData.large.mixed}`,
     };
 

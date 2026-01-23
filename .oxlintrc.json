@@ -75,8 +75,8 @@
     // toSorted can introduce memory overhead
     // in some chained calls it is better to use reverse as the "sorted" array is also a temp variable.
     "unicorn/no-array-sort": "off",
-    // sometimes nested ternary is considerable
-    "unicorn/no-nested-ternary": "warn",
+    // conflicts with oxfmt code style
+    "unicorn/no-nested-ternary": "off",
     // conflicts with oxfmt code style
     "unicorn/number-literal-case": "off",
     // Array.at() is too modern for browser targets
@@ -116,10 +116,11 @@
         // "typescript/strict-boolean-expressions": "off"
       }
     },
-    // some rules are disabled due to performance consideration
+
     {
       "files": ["packages/*/src/**/*.ts"],
       "rules": {
+        // some rules are disabled due to performance consideration
         "prefer-destructuring": "off",
         "prefer-object-spread": "off",
         "prefer-spread": "off",
@@ -130,12 +131,17 @@
         "unicorn/prefer-spread": "off"
       }
     },
+
     {
-      "files": ["**/__tests__/**"],
-      "plugins": ["vitest"],
+      "files": ["**/__tests__/**/*.ts"],
+      "plugins": ["typescript", "vitest"],
       "rules": {
         "max-lines-per-function": "off",
-        "max-lines": "off"
+        "max-lines": "off",
+        "typescript/ban-ts-comment": "off",
+        "typescript/prefer-ts-expect-error": "off",
+        "vitest/prefer-called-once": "off",
+        "unicorn/consistent-function-scoping": "off"
       }
     }
   ]

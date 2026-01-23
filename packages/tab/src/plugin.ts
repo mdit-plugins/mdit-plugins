@@ -402,6 +402,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
 
+    // oxlint-disable-next-line max-params
     openRender = (
       info: MarkdownItTabInfo,
       tokens: Token[],
@@ -440,6 +441,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 </div>
 `,
 
+    // oxlint-disable-next-line max-params
     tabOpenRender = (
       info: MarkdownItTabData,
       tokens: Token[],

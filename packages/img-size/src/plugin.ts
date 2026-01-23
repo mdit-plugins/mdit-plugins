@@ -10,6 +10,9 @@ const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCo
 /**
  * Parse image size information from label text
  * Format: `alt =width x height`
+ *
+ * @param label - label text to parse
+ * @returns parsed size info or null if not found
  */
 const parseImageSize = (
   label: string,
@@ -160,7 +163,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)

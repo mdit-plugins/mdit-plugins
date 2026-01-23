@@ -228,7 +228,7 @@ export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptio
   /**
    * The URL where the fonts are found
    *
-   * @default local form @mathjax/src
+   * @default local form `@mathjax/src`
    */
   fontURL?: string;
 

@@ -7,7 +7,6 @@ const REPLACE_WITH = String.raw`\$&`;
  * @param unsafeHTML The html content to escape.
  * @returns The escaped html content.
  */
-
 export const escapeHtml = (unsafeHTML: string): string =>
   unsafeHTML
     .replaceAll("&", "&amp;")

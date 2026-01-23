@@ -6,6 +6,9 @@ import { attrs as attrsOptimized } from "../src/index.js";
 
 /**
  * Create test content of different sizes
+ *
+ * @param size - size of the content ("small", "medium", "large")
+ * @returns generated markdown content
  */
 const createTestContent = (size: "small" | "medium" | "large"): string => {
   // Test cases for all attrs formats
@@ -45,7 +48,7 @@ const createTestContent = (size: "small" | "medium" | "large"): string => {
     '```python {.py-code theme=dark indent=4}\ndef hello():\n    print("Hello, world!")\n\nhello()\n```\n\n';
 
   // 7. hr - horizontal rule attributes
-  const hr = '--- {.horizontal width="80%" color="gray"}\n\n' + "*** {.custom-hr theme=dark}\n\n";
+  const hr = '--- {.horizontal width="80%" color="gray"}\n\n*** {.custom-hr theme=dark}\n\n';
 
   // 8. softbreak - soft break attributes
   const softbreak =

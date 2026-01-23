@@ -187,7 +187,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)

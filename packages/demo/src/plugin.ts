@@ -6,6 +6,7 @@ import type { MarkdownItDemoOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
+// oxlint-disable-next-line max-lines-per-function
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
   {
@@ -19,6 +20,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     showCodeFirst = false,
   } = {},
 ) => {
+  // oxlint-disable-next-line max-lines-per-function
   const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];

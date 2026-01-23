@@ -41,7 +41,7 @@ describe("directive", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(source.map(() => "<p>File not found</p>").join("\n") + "\n");
+    expect(rendered).toEqual(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
     expect(env.includedFiles).toEqual([
       "/path/to/foo.js",
       "/path/to/foo.js",
@@ -69,7 +69,7 @@ describe("directive", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(source.map((item) => `<p>${item.trim()}</p>`).join("\n") + "\n");
+    expect(rendered).toEqual(`${source.map((item) => `<p>${item.trim()}</p>`).join("\n")}\n`);
     expect(env.includedFiles).toEqual([]);
   });
 
@@ -120,7 +120,7 @@ describe("comment", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(source.map(() => "<p>File not found</p>").join("\n") + "\n");
+    expect(rendered).toEqual(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
     expect(env.includedFiles).toEqual([
       "/path/to/foo.js",
       "/path/to/foo.js",
@@ -648,7 +648,7 @@ foo
 `;
 
         const env: IncludeEnv = {
-          filePath: __filename + "1",
+          filePath: `${__filename}1`,
         };
         const rendered = md.render(source, env);
 
@@ -684,7 +684,7 @@ foo
 
       cases.forEach(([source, expected]) => {
         const env: IncludeEnv = {
-          filePath: __filename + "1",
+          filePath: `${__filename}1`,
         };
 
         const rendered = md.render(source, env);

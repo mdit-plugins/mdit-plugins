@@ -78,6 +78,7 @@ export const abbr: PluginSimple = (md) => {
   const UNICODE_PUNCTUATION_REGEXP = (lib.ucmicro.P as RegExp).source;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
+  // oxlint-disable-next-line unicorn/no-array-callback-reference
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
 
   const abbrReplace: RuleCore = (state: AbbrStateCore) => {
@@ -89,6 +90,7 @@ export const abbr: PluginSimple = (md) => {
     const abbreviationsRegExpText = Object.keys(abbreviations)
       .map((item) => item.slice(1))
       .sort((a, b) => b.length - a.length)
+      // oxlint-disable-next-line unicorn/no-array-callback-reference
       .map(escapeRE)
       .join("|");
 

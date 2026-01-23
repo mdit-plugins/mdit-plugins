@@ -151,6 +151,7 @@ export const resolveInclude = (
 ): string =>
   content.replace(
     options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE,
+    // oxlint-disable-next-line max-params
     (
       _,
       indent: string,

@@ -10,6 +10,9 @@ const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCo
 /**
  * Parse image size information from label text in Obsidian format
  * Format: `alt | width x height`
+ *
+ * @param label - image label text
+ * @returns parsed size info or null if not valid
  */
 const parseObsidianImageSize = (
   label: string,
@@ -182,7 +185,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)

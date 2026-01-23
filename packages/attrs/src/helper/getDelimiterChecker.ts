@@ -11,7 +11,7 @@ import type { DelimiterChecker } from "../rules/types.js";
  * @returns A function that checks if content matches the delimiter pattern / 检查内容是否匹配分隔符模式的函数
  */
 export const getDelimiterChecker = (
-  { left, right }: DelimiterConfig,
+  options: DelimiterConfig,
   where: "start" | "end" | "only",
 ): DelimiterChecker => {
   if (!["start", "end", "only"].includes(where)) {
@@ -19,6 +19,8 @@ export const getDelimiterChecker = (
   }
 
   // Cache frequently used values
+  const left = options.left;
+  const right = options.right;
   const leftLength = left.length;
   const rightLength = right.length;
   const minContentLength = leftLength + 1 + rightLength;
