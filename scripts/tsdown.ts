@@ -82,6 +82,15 @@ export interface TsdownOptions {
    * @default true
    */
   treeshake?: boolean;
+
+  /**
+   * Inline options
+   *
+   * 内联选项
+   *
+   * @default browser ? false : undefined
+   */
+  inlineOnly?: (RegExp | string)[] | false;
 }
 
 /**
@@ -103,6 +112,7 @@ export const tsdownConfig = (
     external = [],
     alias: aliasOptions,
     treeshake = true,
+    inlineOnly = browser ? false : undefined,
   } = options;
   const isObject = typeof filePath === "object";
   const base = isObject ? (filePath.base ? `${filePath.base}/` : "") : "";
@@ -125,6 +135,7 @@ export const tsdownConfig = (
       target: "node20",
       platform: browser ? "browser" : "node",
       external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
+      inlineOnly,
       ...(aliasOptions ? { alias: aliasOptions } : {}),
       treeshake,
       fixedExtension: false,
