@@ -20,6 +20,8 @@ interface AbbrStateCore extends StateCore {
   };
 }
 
+const ESCAPE_RE = /\\(.)/g;
+
 const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
   let labelEnd = -1;
   let pos = state.bMarks[startLine] + state.tShift[startLine];
@@ -50,7 +52,7 @@ const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, s
   if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
   if (silent) return true;
 
-  const label = state.src.slice(labelStart, labelEnd).replaceAll(/\\(.)/g, "$1");
+  const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$1");
 
   pos = labelEnd + 2;
   const titleStart = state.skipSpaces(pos);
