@@ -1,3 +1,4 @@
+import { defineAttarRule } from "./types.js";
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
@@ -9,7 +10,7 @@ export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
    * differs from 'inline attributes' as it does
    * not have a closing tag (nesting: -1)
    */
-  {
+  defineAttarRule({
     name: "inline nesting self-close",
     tests: [
       {
@@ -44,12 +45,12 @@ export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
         token.content = token.content.slice(attrsEndIndex);
       }
     },
-  },
+  }),
 
   /**
    * *emphasis*{.with attrs=1}
    */
-  {
+  defineAttarRule({
     name: "inline attributes",
     tests: [
       {
@@ -84,5 +85,5 @@ export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove attribute syntax from content
       currentToken.content = content.slice(attrsEndIndex);
     },
-  },
+  }),
 ];

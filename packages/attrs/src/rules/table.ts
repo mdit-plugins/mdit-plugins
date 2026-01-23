@@ -1,6 +1,7 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
+import { defineAttarRule } from "./types.js";
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
@@ -16,7 +17,7 @@ interface TokenWithColumnCount extends Token {
 
 // oxlint-disable-next-line max-lines-per-function
 export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
-  {
+  defineAttarRule({
     /**
      * | h1 |
      * | -- |
@@ -52,12 +53,12 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
     },
-  },
+  }),
   /**
    * Handle table cell attributes: title {.class}
    * This rule processes attributes within table cell text content
    */
-  {
+  defineAttarRule({
     name: "table cell attributes",
     tests: [
       {
@@ -92,8 +93,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove attribute syntax from content
       token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
-  },
-  {
+  }),
+  defineAttarRule({
     /**
      * | A | B |
      * | -- | -- |
@@ -156,8 +157,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         columnCount,
       };
     },
-  },
-  {
+  }),
+  defineAttarRule({
     /**
      * | A | B | C | D |
      * | -- | -- | -- | -- |
@@ -293,5 +294,5 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         tokens.splice(start, end - start + 1);
       }
     },
-  },
+  }),
 ];

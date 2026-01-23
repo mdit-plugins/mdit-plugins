@@ -1,5 +1,6 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
+import { defineAttarRule } from "./types.js";
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
@@ -9,7 +10,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
    * - item
    * {.a}
    */
-  {
+  defineAttarRule({
     name: "list softbreak",
     tests: [
       {
@@ -53,7 +54,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove the attribute tokens from children
       tokens[index].children = childTokens.slice(0, -2);
     },
-  },
+  }),
 
   /**
    * - nested list
@@ -62,7 +63,7 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
    *
    * {.b} <-- apply to root <ul>
    */
-  {
+  defineAttarRule({
     name: "list double softbreak",
     tests: [
       {
@@ -96,12 +97,12 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
     },
-  },
+  }),
 
   /**
    * - end of {.list-item}
    */
-  {
+  defineAttarRule({
     name: "list item end",
     tests: [
       {
@@ -133,5 +134,5 @@ export const getListRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove attribute syntax from content
       token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
-  },
+  }),
 ];

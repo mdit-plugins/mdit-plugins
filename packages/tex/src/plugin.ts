@@ -12,6 +12,9 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItTexOptions } from "./options.js";
 
+const BLOCK_MARKER = String.raw`\[ \]`;
+const INLINE_MARKER = String.raw`\( \)`;
+
 /*
  * Count preceding backslashes from a position
  */
@@ -183,7 +186,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   if (!silent) {
     const token = state.push("math_inline", "math", 0);
 
-    token.markup = String.raw`\(`;
+    token.markup = INLINE_MARKER;
     token.content = state.src.slice(start + 2, pos);
   }
 
@@ -341,7 +344,7 @@ const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) 
     state.getLines(startLine + 1, current, state.tShift[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
-  token.markup = "\\[";
+  token.markup = BLOCK_MARKER;
 
   return true;
 };

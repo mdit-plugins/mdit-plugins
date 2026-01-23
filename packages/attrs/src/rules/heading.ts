@@ -1,5 +1,6 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
+import { defineAttarRule } from "./types.js";
 import type { AttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
@@ -8,7 +9,7 @@ export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
   /**
    * ## end of {#heading}
    */
-  ({
+  defineAttarRule({
     name: "end of block",
     tests: [
       {
