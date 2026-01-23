@@ -62,9 +62,7 @@ const katexBlock = (
 
 export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
-  options: MarkdownItKatexOptions<MarkdownItEnv> = {},
-): void => {
-  const {
+  {
     allowInlineWithSpace = false,
     delimiters,
     mathFence,
@@ -72,8 +70,8 @@ export const katex = <MarkdownItEnv = unknown>(
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
     transformer,
     ...userOptions
-  } = options;
-
+  }: MarkdownItKatexOptions<MarkdownItEnv> = {},
+): void => {
   const commonKatexOptions: KatexOptions = Object.assign(
     {
       // see https://github.com/vuepress/ecosystem/issues/261
@@ -89,11 +87,15 @@ export const katex = <MarkdownItEnv = unknown>(
     delimiters,
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
-      const katexOptions = Object.assign({}, commonKatexOptions, {
-        strict: (errorCode, errorMsg, token) =>
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          logger(errorCode, errorMsg, token, env) ?? "ignore",
-      });
+      const katexOptions = Object.assign<KatexOptions, KatexOptions, KatexOptions>(
+        {},
+        commonKatexOptions,
+        {
+          strict: (errorCode, errorMsg, token) =>
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            logger(errorCode, errorMsg, token, env) ?? "ignore",
+        },
+      );
 
       return displayMode
         ? katexBlock(content, katexOptions, transformer)
