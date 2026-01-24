@@ -34,7 +34,7 @@
     "@rollup/plugin-commonjs": "29.0.0",
     "@rollup/plugin-node-resolve": "16.0.3",
     "@types/node": "25.0.10",
-    "@vitest/coverage-istanbul": "4.0.17",
+    "@vitest/coverage-istanbul": "4.0.18",
     "conventional-changelog-conventionalcommits": "9.1.0",
     "cross-env": "10.1.0",
     "eslint": "9.39.2",
@@ -53,7 +53,7 @@
     "tslib": "2.8.1",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.17"
+    "vitest": "4.0.18"
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
