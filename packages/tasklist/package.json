@@ -39,7 +39,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown --config-loader unrun",
     "clean": "rimraf ./lib"
   },
   "dependencies": {
