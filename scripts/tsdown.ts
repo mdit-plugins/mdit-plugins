@@ -91,7 +91,14 @@ export interface TsdownOptions {
    *
    * @default browser ? false : undefined
    */
-  inlineOnly?: UserConfig["inlineOnly"];
+  inlineOnly?: (string | RegExp)[] | false;
+
+  /**
+   * Packages not to treat as external
+   *
+   * 不作为外部处理的包
+   */
+  noExternal?: (string | RegExp)[];
 }
 
 /**
@@ -113,6 +120,7 @@ export const tsdownConfig = (
     external = [],
     alias: aliasOptions,
     treeshake = true,
+    noExternal = [],
     inlineOnly = browser ? false : undefined,
   } = options;
   const isObject = typeof filePath === "object";
@@ -132,14 +140,21 @@ export const tsdownConfig = (
     sourcemap: true,
     dts,
     minify: isProduction,
-    target: "node20",
+    target: browser ? ["chrome107", "edge107", "firefox104", "safari16"] : "node20",
     platform: browser ? "browser" : "node",
     external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    inlineOnly: inlineOnly!,
     ...(aliasOptions ? { alias: aliasOptions } : {}),
     treeshake,
     fixedExtension: false,
+    noExternal: browser ? [/^@mdit\//, /^markdown-it/, ...noExternal] : noExternal,
+    inlineOnly:
+      inlineOnly === false
+        ? false
+        : browser
+          ?  
+            [/^@mdit\//, /^markdown-it/, ...(inlineOnly ?? [])]
+          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            inlineOnly!,
     plugins: [
       process.env.CODECOV_TOKEN
         ? codecovRollupPlugin({
