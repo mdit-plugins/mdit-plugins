@@ -39,7 +39,6 @@
   },
   "scripts": {
     "build": "tsdown",
-    "build:rollup": "rollup -c rollup.config.ts --configPlugin esbuild",
     "clean": "rimraf ./lib"
   },
   "dependencies": {
