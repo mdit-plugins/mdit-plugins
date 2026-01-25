@@ -3,6 +3,7 @@ import { cwd } from "node:process";
 
 import { codecovRollupPlugin } from "@codecov/rollup-plugin";
 import type { UserConfig } from "tsdown";
+import { defineConfig } from "tsdown";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -105,51 +106,50 @@ export interface TsdownOptions {
 export const tsdownConfig = (
   filePath: string | FileInfo,
   options: TsdownOptions = {},
-): UserConfig[] => {
+): UserConfig => {
   const {
     browser = false,
     dts = !browser,
     external = [],
     alias: aliasOptions,
     treeshake = true,
-    inlineOnly = browser ? false : [],
+    inlineOnly = browser ? false : undefined,
   } = options;
   const isObject = typeof filePath === "object";
   const base = isObject ? (filePath.base ? `${filePath.base}/` : "") : "";
   const files = isObject ? filePath.files : [filePath];
   const targetDir = isObject ? (filePath.target ?? filePath.base) : "";
 
-  return [
-    {
-      entry: Object.fromEntries(
-        files.map((item) => [
-          browser ? (item === "index" ? "browser" : `${item}-browser`) : item,
-          `./src/${base}${item}.ts`,
-        ]),
-      ),
-      format: "esm",
-      outDir: `./lib${targetDir ? `/${targetDir}` : ""}`,
-      sourcemap: true,
-      dts,
-      minify: isProduction,
-      target: "node20",
-      platform: browser ? "browser" : "node",
-      external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
-      inlineOnly,
-      ...(aliasOptions ? { alias: aliasOptions } : {}),
-      treeshake,
-      fixedExtension: false,
-      plugins: [
-        process.env.CODECOV_TOKEN
-          ? codecovRollupPlugin({
-              enableBundleAnalysis: true,
-              bundleName: `${basename(cwd())}${browser ? "-browser" : ""}`,
-              uploadToken: process.env.CODECOV_TOKEN,
-              telemetry: false,
-            })
-          : null,
-      ].filter((item) => item !== null) as UserConfig["plugins"],
-      clean: false,
-    },
-  ];
+  return defineConfig({
+    entry: Object.fromEntries(
+      files.map((item) => [
+        browser ? (item === "index" ? "browser" : `${item}-browser`) : item,
+        `./src/${base}${item}.ts`,
+      ]),
+    ),
+    format: "esm",
+    outDir: `./lib${targetDir ? `/${targetDir}` : ""}`,
+    sourcemap: true,
+    dts,
+    minify: isProduction,
+    target: "node20",
+    platform: browser ? "browser" : "node",
+    external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    inlineOnly: inlineOnly!,
+    ...(aliasOptions ? { alias: aliasOptions } : {}),
+    treeshake,
+    fixedExtension: false,
+    plugins: [
+      process.env.CODECOV_TOKEN
+        ? codecovRollupPlugin({
+            enableBundleAnalysis: true,
+            bundleName: `${basename(cwd())}${browser ? "-browser" : ""}`,
+            uploadToken: process.env.CODECOV_TOKEN,
+            telemetry: false,
+          })
+        : null,
+    ].filter((item) => item !== null) as UserConfig["plugins"],
+    clean: false,
+  });
 };
