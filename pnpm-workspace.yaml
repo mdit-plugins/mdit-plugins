@@ -33,3 +33,10 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
+  vite@7: npm:rolldown-vite@7
+
+packageExtensions:
+  "@codecov/rollup-plugin":
+    peerDependenciesMeta:
+      rollup:
+        optional: true
