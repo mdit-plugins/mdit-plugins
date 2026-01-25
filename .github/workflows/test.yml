@@ -36,7 +36,7 @@ jobs:
 
       - name: Build project and upload bundle
         env:
-          CODECOV_TOKEN: ${{ github.ref == 'refs/heads/main' && matrix.node-version == 24 && secrets.CODECOV_TOKEN || ''}}
+          CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || ''}}
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run build
 
@@ -47,18 +47,18 @@ jobs:
 
       - name: Unit test and save results
         env:
-          CODECOV_TOKEN: ${{ github.ref == 'refs/heads/main' && matrix.node-version == 24 && secrets.CODECOV_TOKEN || '' }}
+          CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || '' }}
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run test:coverage
 
       - name: Upload coverage
-        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && matrix.node-version == 24 }}
+        if: ${{ !cancelled() && matrix.node-version == 24 }}
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results
-        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && matrix.node-version == 24 }}
+        if: ${{ !cancelled() && matrix.node-version == 24 }}
         uses: codecov/test-results-action@v1
         with:
           file: ./coverage/test-report.junit.xml
