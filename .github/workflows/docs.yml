@@ -1,4 +1,4 @@
-name: Deploy Docs
+name: Build Docs
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   deploy-gh-pages:
-    name: Deploy docs to gh pages
+    name: Build Docs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
