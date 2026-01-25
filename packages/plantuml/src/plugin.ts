@@ -34,7 +34,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
 
       token.tag = "img";
       token.attrPush(["src", srcGetter(content)]);
-      token.attrPush(["alt", info || "PlantUML diagram"]);
+      token.attrPush(["alt", info || "PlantUML Diagram"]);
 
       return self.renderToken(tokens, index, options);
     },
