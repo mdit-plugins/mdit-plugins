@@ -49,7 +49,7 @@ files.forEach((pkgName) => {
       types: "lib/index.d.ts",
       files: ["lib"],
       scripts: {
-        build: "tsdown",
+        build: "tsdown --config-loader unrun",
         clean: "rimraf ./lib",
       },
       dependencies: {
