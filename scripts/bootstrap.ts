@@ -49,7 +49,7 @@ files.forEach((pkgName) => {
       types: "lib/index.d.ts",
       files: ["lib"],
       scripts: {
-        build: "rollup -c rollup.config.ts --configPlugin esbuild",
+        build: "tsdown --config-loader unrun",
         clean: "rimraf ./lib",
       },
       dependencies: {

@@ -20,9 +20,6 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-// oxlint-disable-next-line import/no-unassigned-import
-import "./tex/importer.js";
-
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
   OutputJax: CHTML<LiteElement, string, HTMLElement> | SVG<LiteElement, string, HTMLElement>;

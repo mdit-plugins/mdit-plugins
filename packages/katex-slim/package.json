@@ -43,7 +43,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.ts --configPlugin esbuild",
+    "build": "tsdown --config-loader unrun",
     "clean": "rimraf ./lib"
   },
   "dependencies": {
@@ -52,7 +52,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "katex": "0.16.27"
+    "katex": "0.16.28"
   },
   "peerDependencies": {
     "katex": "^0.16.25",

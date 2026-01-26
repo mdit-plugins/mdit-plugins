@@ -30,11 +30,11 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       self: Renderer,
     ): string => {
       const token = tokens[index];
-      const { content, info = "plantuml diagram" } = token;
+      const { content, info } = token;
 
       token.tag = "img";
       token.attrPush(["src", srcGetter(content)]);
-      token.attrPush(["alt", info]);
+      token.attrPush(["alt", info || "PlantUML Diagram"]);
 
       return self.renderToken(tokens, index, options);
     },
