@@ -60,15 +60,6 @@ export interface TsdownOptions {
   dts?: boolean;
 
   /**
-   * External dependencies
-   *
-   * 外部依赖
-   *
-   * @default []
-   */
-  external?: (RegExp | string)[];
-
-  /**
    * Alias options
    *
    * 别名选项
@@ -117,9 +108,10 @@ export const tsdownConfig = (
   const {
     browser = false,
     dts = !browser,
-    external = [],
     alias: aliasOptions,
-    treeshake = true,
+    treeshake = {
+      moduleSideEffects: false,
+    },
     noExternal = [],
     inlineOnly = browser ? false : undefined,
   } = options;
@@ -127,6 +119,7 @@ export const tsdownConfig = (
   const base = isObject ? (filePath.base ? `${filePath.base}/` : "") : "";
   const files = isObject ? filePath.files : [filePath];
   const targetDir = isObject ? (filePath.target ?? filePath.base) : "";
+  const noExternalOptions = browser ? [/^@mdit\//, /^markdown-it/, ...noExternal] : noExternal;
 
   return defineConfig({
     entry: Object.fromEntries(
@@ -142,25 +135,19 @@ export const tsdownConfig = (
     minify: isProduction,
     target: browser ? ["chrome107", "edge107", "firefox104", "safari16"] : "node20",
     platform: browser ? "browser" : "node",
-    external: browser ? [] : [/^node:/, /^@mdit\//, /^markdown-it/, ...external],
     ...(aliasOptions ? { alias: aliasOptions } : {}),
     treeshake,
     fixedExtension: false,
-    noExternal: browser ? [/^@mdit\//, /^markdown-it/, ...noExternal] : noExternal,
-    inlineOnly:
-      inlineOnly === false
-        ? false
-        : browser
-          ?  
-            [/^@mdit\//, /^markdown-it/, ...(inlineOnly ?? [])]
-          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            inlineOnly!,
+    noExternal: noExternalOptions,
+    inlineOnly: inlineOnly ?? noExternalOptions,
     plugins: [
       process.env.CODECOV_TOKEN
         ? codecovRollupPlugin({
             enableBundleAnalysis: true,
             bundleName: `${basename(cwd())}${browser ? "-browser" : ""}`,
-            uploadToken: process.env.CODECOV_TOKEN,
+            oidc: {
+              useGitHubOIDC: true,
+            },
             telemetry: false,
           })
         : null,

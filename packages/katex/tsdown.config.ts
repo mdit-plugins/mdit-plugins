@@ -1,9 +1,7 @@
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
 export default [
-  tsdownConfig("index", {
-    // external: ["@mdit/helper", "@mdit/plugin-tex", "katex"],
-  }),
+  tsdownConfig("index"),
   tsdownConfig("mhchem", {
     treeshake: {
       moduleSideEffects: ["katex", "katex/contrib/mhchem"],
@@ -19,8 +17,7 @@ export default [
       treeshake: {
         moduleSideEffects: ["katex", "katex/contrib/mhchem"],
       },
-      noExternal: ["katex", "katex/contrib/mhchem"],
-      inlineOnly: ["katex", "katex/contrib/mhchem"],
+      noExternal: ["katex", "katex/contrib/mhchem", "mdurl"],
     },
   ),
 ];
