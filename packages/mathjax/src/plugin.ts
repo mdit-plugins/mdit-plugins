@@ -20,8 +20,6 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-import "./tex/importer.js";
-
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
   OutputJax: CHTML<LiteElement, string, HTMLElement> | SVG<LiteElement, string, HTMLElement>;
