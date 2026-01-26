@@ -1,8 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "baseUrl": "./"
+    "module": "ESNext"
   },
   "include": ["**/*.ts", "**/.vuepress/**/*.ts"]
 }
