@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { spoiler } from "../src/index.js";
 
-describe("spoiler", () => {
+describe(spoiler, () => {
   const markdownIt = MarkdownIt({ linkify: true }).use(spoiler);
 
   it("should render", () => {

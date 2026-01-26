@@ -41,7 +41,7 @@ const createDelimiterTests = (
 
     it(
       replaceDelimiters(
-        'should parse attributes whose are ignored the key chars(\\t,\\n,\\f,\\s,/,>,",\',=) eg: {gt>=true slash/=trace i\\td "q\\fnu e\'r\\ny"=}',
+        String.raw`should parse attributes whose are ignored the key chars(\t,\n,\f,\s,/,>,",',=) eg: {gt>=true slash/=trace i\td "q\fnu e'r\ny"=}`,
         options,
       ),
       () => {

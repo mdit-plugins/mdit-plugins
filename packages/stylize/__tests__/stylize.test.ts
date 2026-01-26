@@ -8,29 +8,31 @@ import type {
 } from "../src/index.js";
 import { stylize } from "../src/index.js";
 
-describe("stylize", () => {
+describe(stylize, () => {
   const options: MarkdownItStylizeOptions = {
     config: [
       {
         matcher: "MUST",
         replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
-          if (tag === "strong" || tag === "em")
+          if (tag === "strong" || tag === "em") {
             return {
               tag,
               attrs: { ...attrs, class: "badge tip" },
               content,
             };
+          }
         },
       },
       {
         matcher: "SHOULD",
         replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
-          if (tag === "strong")
+          if (tag === "strong") {
             return {
               tag,
               attrs: { ...attrs, title: "should" },
               content,
             };
+          }
         },
       },
       {
@@ -48,12 +50,13 @@ describe("stylize", () => {
       {
         matcher: /n't$/,
         replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
-          if (tag === "em")
+          if (tag === "em") {
             return {
               tag: "span",
               attrs: { ...attrs, style: `color:red;${attrs.style || ""}` },
               content,
             };
+          }
         },
       },
     ],

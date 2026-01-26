@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { getArrayItem } from "../src/utils.js";
 
-describe("getArrayItem", () => {
+describe(getArrayItem, () => {
   it("should get item by positive index", () => {
     const arr = ["a", "b", "c", "d"];
 

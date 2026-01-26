@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/sync.js";
+import { createMathjaxInstance, mathjax } from "../src/index.js";
 
 const examples = [
   "a=1",
@@ -9,8 +9,8 @@ const examples = [
 ];
 
 describe("inline mathjax", () => {
-  it("should output SVG", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should output SVG", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
 
     examples.forEach((example) => {
       expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
@@ -27,10 +27,10 @@ describe("inline mathjax", () => {
     });
   });
 
-  it("should output HTML", () => {
+  it("should output HTML", async () => {
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({
+      await createMathjaxInstance({
         output: "chtml",
       }),
     );
@@ -53,11 +53,11 @@ describe("inline mathjax", () => {
     });
   });
 
-  it("should output A11y", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should output A11y", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({
+      await createMathjaxInstance({
         output: "chtml",
       }),
     );
@@ -78,14 +78,14 @@ describe("inline mathjax", () => {
     });
   });
 
-  it("should not output A11y", () => {
+  it("should not output A11y", async () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({ a11y: false }),
+      await createMathjaxInstance({ a11y: false }),
     );
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({
+      await createMathjaxInstance({
         a11y: false,
         output: "chtml",
       }),
@@ -107,18 +107,18 @@ describe("inline mathjax", () => {
     });
   });
 
-  it("should not render error msg when content is wrong", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should not render error msg when content is wrong", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
 
-    expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$\fra{a}{b}$`)).toMatchSnapshot();
   });
 });
 
 describe("block mathjax", () => {
-  it("should output SVG", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should output SVG", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -129,13 +129,13 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("should output HTML", () => {
+  it("should output HTML", async () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({ output: "chtml" }),
+      await createMathjaxInstance({ output: "chtml" }),
     );
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -146,10 +146,10 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("should not render error msg when content is wrong", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should not render error msg when content is wrong", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
 
-    expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\fra{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -160,8 +160,8 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("should not output warnings when content has line breaks", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
+  it("should not output warnings when content has line breaks", async () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
 
     expect(
       markdownIt.render(`
@@ -177,57 +177,57 @@ $$
 });
 
 describe("generating Style", () => {
-  it("should generate correct CSS with svg", () => {
-    const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
+  it("should generate correct CSS with svg", async () => {
+    const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should generate correct CSS with HTML", () => {
-    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+  it("should generate correct CSS with HTML", async () => {
+    const mathjaxInstance = (await createMathjaxInstance({ output: "chtml" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 });
 
 describe("check label result pre page", () => {
-  it("should generate correct label and CSS with svg", () => {
-    const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
+  it("should generate correct label and CSS with svg", async () => {
+    const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content1");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content1");
 
     mathjaxInstance.reset();
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content2");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should generate correct label and CSS with HTML", () => {
-    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+  it("should generate correct label and CSS with HTML", async () => {
+    const mathjaxInstance = (await createMathjaxInstance({ output: "chtml" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content1");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content1");
 
     mathjaxInstance.reset();
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content2");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 });
 
-it("should work with transformer", () => {
-  const mathjaxInstance = createMathjaxInstance({
-    transformer: (content: string) => content.replace(/^(<[a-z-]+ )/g, "$1v-pre "),
-  })!;
+it("should work with transformer", async () => {
+  const mathjaxInstance = (await createMathjaxInstance({
+    transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
+  }))!;
   const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
   expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");

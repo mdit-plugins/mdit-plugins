@@ -110,7 +110,7 @@ describe("inline mathjax", () => {
   it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
 
-    expect(markdownIt.render("$\\fra{a}{b}$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$\fra{a}{b}$`)).toMatchSnapshot();
   });
 });
 
@@ -118,7 +118,7 @@ describe("block mathjax", () => {
   it("should output SVG", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -135,7 +135,7 @@ $$
       createMathjaxInstance({ output: "chtml" }),
     );
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -149,7 +149,7 @@ $$
   it("should not render error msg when content is wrong", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
 
-    expect(markdownIt.render("$$\\fra{a}{b}$$")).toMatchSnapshot();
+    expect(markdownIt.render(String.raw`$$\fra{a}{b}$$`)).toMatchSnapshot();
 
     expect(
       markdownIt.render(`
@@ -181,7 +181,7 @@ describe("generating Style", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
@@ -190,7 +190,7 @@ describe("generating Style", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\frac{a}{b}$$")).toMatchSnapshot("content");
+    expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
@@ -201,11 +201,11 @@ describe("check label result pre page", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content1");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content1");
 
     mathjaxInstance.reset();
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content2");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
@@ -214,11 +214,11 @@ describe("check label result pre page", () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content1");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content1");
 
     mathjaxInstance.reset();
 
-    expect(markdownIt.render("$$\\label{eq:1}\\frac{a}{b}$$")).toMatchSnapshot("content2");
+    expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
@@ -226,7 +226,7 @@ describe("check label result pre page", () => {
 
 it("should work with transformer", () => {
   const mathjaxInstance = createMathjaxInstance({
-    transformer: (content: string) => content.replace(/^(<[a-z-]+ )/g, "$1v-pre "),
+    transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
   })!;
   const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 

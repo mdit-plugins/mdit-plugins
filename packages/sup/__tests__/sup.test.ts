@@ -29,7 +29,7 @@ it("should render when having other symbols", () => {
   );
 });
 
-it("should handle multiple '\\'", () => {
+it(String.raw`should handle multiple '\'`, () => {
   expect(markdownIt.render(`^foo\\\\\\\\\\\\\\ bar^`)).toEqual("<p><sup>foo\\\\\\ bar</sup></p>\n");
   expect(markdownIt.render(`^foo\\\\\\\\\\\\ bar^`)).toEqual("<p>^foo\\\\\\ bar^</p>\n");
 });

@@ -14,7 +14,6 @@ export default defineConfig({
       include: ["packages/*/src/**/*.ts"],
       exclude: ["packages/plantuml/src/**/browser.ts"],
     },
-    include: ["**/*.spec.ts"],
     benchmark: {
       include: ["**/*.bench.ts"],
     },

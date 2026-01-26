@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { embed } from "../src/index.js";
 
-describe("embed", () => {
+describe(embed, () => {
   const md = MarkdownIt().use(embed, {
     config: [
       {
@@ -245,9 +245,9 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
 
     it("should render valid unescaped embeds", () => {
       const testCases = [
-        "\\\\{% test param %}",
-        "\\\\{% test param %}",
-        "{% test \\{% param %\\} %}",
+        String.raw`\\{% test param %}`,
+        String.raw`\\{% test param %}`,
+        String.raw`{% test \{% param %\} %}`,
       ];
 
       testCases.forEach((testCase) => {
@@ -260,7 +260,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should not render escaped embeds", () => {
-      const testCases = ["\\{% test param %}", "{% test param %\\}"];
+      const testCases = [String.raw`\{% test param %}`, String.raw`{% test param %\}`];
 
       testCases.forEach((testCase) => {
         const result = mdEscape.render(testCase);
@@ -272,13 +272,13 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle backslash before non-embed syntax", () => {
-      const result = md.render("\\{not an embed}");
+      const result = md.render(String.raw`\{not an embed}`);
 
       expect(result).toContain("{not an embed}");
     });
 
     it("should handle multiple escape sequences", () => {
-      const result = mdEscape.render("\\{% test 1 %} normal text \\{% test 2 %}");
+      const result = mdEscape.render(String.raw`\{% test 1 %} normal text \{% test 2 %}`);
 
       expect(result).toContain("{% test 1 %}");
       expect(result).toContain("{% test 2 %}");
@@ -286,7 +286,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle escaped embeds in inline context", () => {
-      const result = md.render("Text \\{% icon test %} more text");
+      const result = md.render(String.raw`Text \{% icon test %} more text`);
 
       expect(result).not.toContain('<i class="icon icon-test"></i>');
       expect(result).toContain("{% icon test %}");
@@ -295,7 +295,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle double backslash escape", () => {
-      const result = md.render("\\\\{% icon test %}");
+      const result = md.render(String.raw`\\{% icon test %}`);
 
       // Double backslash should escape the backslash, not the embed
       expect(result).toContain('<i class="icon icon-test"></i>');
@@ -588,18 +588,16 @@ Continue {% icon middle %} and {% badge final %} end.`;
           name: "style-aware",
           allowInline: true,
           setup: (content: string, isInline: boolean): string => {
-            if (isInline) {
+            if (isInline)
               return `<span class="inline-style" data-content="${content}">📍 ${content}</span>`;
-            } else {
-              return `<div class="block-style" data-content="${content}"><h3>Block: ${content}</h3></div>`;
-            }
+
+            return `<div class="block-style" data-content="${content}"><h3>Block: ${content}</h3></div>`;
           },
         },
         {
           name: "block-only",
-          setup: (content: string, isInline: boolean): string => {
-            return `<section class="block-section" data-inline="${isInline}">${content}</section>`;
-          },
+          setup: (content: string, isInline: boolean): string =>
+            `<section class="block-section" data-inline="${isInline}">${content}</section>`,
         },
       ],
     });
@@ -683,11 +681,9 @@ Here is some text with {% style-aware inline-item %} embedded.
             setup: (params: string, isInline: boolean): string => {
               const [id, title = "Video"] = params.split("|");
 
-              if (isInline) {
-                return `<a href="/video/${id}" class="video-link">${title}</a>`;
-              } else {
-                return `<iframe src="/embed/${id}" title="${title}" class="video-player"></iframe>`;
-              }
+              if (isInline) return `<a href="/video/${id}" class="video-link">${title}</a>`;
+
+              return `<iframe src="/embed/${id}" title="${title}" class="video-player"></iframe>`;
             },
           },
         ],

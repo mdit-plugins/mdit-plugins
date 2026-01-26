@@ -7,7 +7,7 @@ const markdownIt = MarkdownIt({ linkify: true }).use(container, {
   name: "test",
 });
 
-describe("container", () => {
+describe(container, () => {
   it("simple container", () => {
     const testCases = [
       [
@@ -703,9 +703,7 @@ bar
     it("should allow analyze mark", () => {
       const markdownIt = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
-        validate: (_, mark) => {
-          return mark.length >= 4;
-        },
+        validate: (_, mark) => mark.length >= 4,
       });
 
       expect(markdownIt.render(":::\nfoo\n:::\n")).toBe("<p>:::\nfoo\n:::</p>\n");

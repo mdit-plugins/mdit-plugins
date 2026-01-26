@@ -61,7 +61,7 @@ const allowSpaceBothMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
 
 const noMathFenceMarkdownIt = MarkdownIt().use(tex, { render });
 
-describe("tex", () => {
+describe(tex, () => {
   describe("config", () => {
     it("should require render option", () => {
       expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrowError(
@@ -106,7 +106,7 @@ inline.</p>
         ];
 
         multilineTestCases.forEach(([input, expected]) => {
-          it(`should render multiline: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should render multiline: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(dollarModeMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -115,8 +115,8 @@ inline.</p>
       describe("rejection cases", () => {
         const rejectionCases: [string, string, string][] = [
           ["unclosed marker", "$a = 1", "<p>$a = 1</p>\n"],
-          ["escaped opening", "\\$a = 1$", "<p>$a = 1$</p>\n"],
-          ["escaped closing", "$a = 1\\$", "<p>$a = 1$</p>\n"],
+          ["escaped opening", String.raw`\$a = 1$`, "<p>$a = 1$</p>\n"],
+          ["escaped closing", String.raw`$a = 1\$`, "<p>$a = 1$</p>\n"],
           ["space before content", "$ a = 1$", "<p>$ a = 1$</p>\n"],
           ["space after content", "$a = 1 $", "<p>$a = 1 $</p>\n"],
           ["spaces around content", "$ a = 1 $", "<p>$ a = 1 $</p>\n"],
@@ -134,11 +134,11 @@ inline.</p>
         });
 
         it("should handle complex escape sequences", () => {
-          expect(dollarModeMarkdownIt.render("$test\\\\$")).toEqual(
+          expect(dollarModeMarkdownIt.render(String.raw`$test\\$`)).toEqual(
             "<p>{Tex content: test\\\\}</p>\n",
           );
-          expect(dollarModeMarkdownIt.render("$test\\\\\\$")).toEqual("<p>$test\\$</p>\n");
-          expect(dollarModeMarkdownIt.render("$test\\\\\\\\$")).toEqual(
+          expect(dollarModeMarkdownIt.render(String.raw`$test\\\$`)).toEqual("<p>$test\\$</p>\n");
+          expect(dollarModeMarkdownIt.render(String.raw`$test\\\\$`)).toEqual(
             "<p>{Tex content: test\\\\\\\\}</p>\n",
           );
         });
@@ -149,21 +149,21 @@ inline.</p>
       });
 
       it("should ignore bracket syntax", () => {
-        expect(dollarModeMarkdownIt.render("\\(a=1\\)")).toEqual("<p>(a=1)</p>\n");
-        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
+        expect(dollarModeMarkdownIt.render(String.raw`\(a=1\)`)).toEqual("<p>(a=1)</p>\n");
+        expect(dollarModeMarkdownIt.render(String.raw`\[a=1\]`)).toEqual("<p>[a=1]</p>\n");
       });
     });
 
     describe("bracket mode", () => {
       describe("basic rendering", () => {
         const bracketInlineCases: [string, string][] = [
-          ["\\(a=1\\)", "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\(a=1\)`, "<p>{Tex content: a=1}</p>\n"],
           [
-            "An equation \\(E=mc^2\\) inline.",
+            String.raw`An equation \(E=mc^2\) inline.`,
             "<p>An equation {Tex content: E=mc^2} inline.</p>\n",
           ],
           [
-            "\\(x=1\\) \\(y=2\\) and \\(z=3\\)",
+            String.raw`\(x=1\) \(y=2\) and \(z=3\)`,
             "<p>{Tex content: x=1} {Tex content: y=2} and {Tex content: z=3}</p>\n",
           ],
         ];
@@ -177,18 +177,22 @@ inline.</p>
 
       describe("rejection cases", () => {
         const bracketRejectionCases: [string, string, string][] = [
-          ["unclosed bracket inline", "\\(a = 1", "<p>(a = 1</p>\n"],
-          ["escaped opening inline", "\\\\(a = 1\\)", "<p>\\(a = 1)</p>\n"],
-          ["multiple escaped opening inline", "\\\\\\(a = 1\\)", "<p>\\{Tex content: a = 1}</p>\n"],
+          ["unclosed bracket inline", String.raw`\(a = 1`, "<p>(a = 1</p>\n"],
+          ["escaped opening inline", String.raw`\\(a = 1\)`, "<p>\\(a = 1)</p>\n"],
+          [
+            "multiple escaped opening inline",
+            String.raw`\\\(a = 1\)`,
+            "<p>\\{Tex content: a = 1}</p>\n",
+          ],
           [
             "multiple escaped closing inline",
-            "\\(a = 1\\\\\\)",
+            String.raw`\(a = 1\\\)`,
             "<p>{Tex content: a = 1\\\\}</p>\n",
           ],
-          ["quadruple escaped opening inline", "\\\\\\\\(a = 1\\)", "<p>\\\\(a = 1)</p>\n"],
+          ["quadruple escaped opening inline", String.raw`\\\\(a = 1\)`, "<p>\\\\(a = 1)</p>\n"],
           [
             "escaped closing with multiple backslashes",
-            "\\(a = 1\\\\\\\\\\)",
+            String.raw`\(a = 1\\\\\)`,
             "<p>{Tex content: a = 1\\\\\\\\}</p>\n",
           ],
         ];
@@ -210,9 +214,9 @@ inline.</p>
       describe("basic rendering", () => {
         const bothSyntaxCases: [string, string][] = [
           ["$a=1$", "<p>{Tex content: a=1}</p>\n"],
-          ["\\(a=1\\)", "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\(a=1\)`, "<p>{Tex content: a=1}</p>\n"],
           [
-            "Both $x=1$ and \\(y=2\\) work.",
+            String.raw`Both $x=1$ and \(y=2\) work.`,
             "<p>Both {Tex content: x=1} and {Tex content: y=2} work.</p>\n",
           ],
         ];
@@ -247,7 +251,7 @@ $$`,
         ];
 
         blockCases.forEach(([input, expected]) => {
-          it(`should render block: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should render block: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(dollarModeMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -278,7 +282,7 @@ test.`,
         ];
 
         contextCases.forEach(([input, expected]) => {
-          it(`should handle context: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should handle context: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(dollarModeMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -287,7 +291,7 @@ test.`,
       describe("rejection cases", () => {
         const blockRejectionCases: [string, string, string][] = [
           ["inline with spaces", "All $$ a = 1 $$ is true.", "<p>All $$ a = 1 $$ is true.</p>\n"],
-          ["escaped block", "\\$\\$a = 1$$", "<p>$$a = 1$$</p>\n"],
+          ["escaped block", String.raw`\$\$a = 1$$`, "<p>$$a = 1$$</p>\n"],
           [
             "escaped multiline block",
             `\\$\\$
@@ -333,14 +337,14 @@ $$`),
       });
 
       it("should ignore bracket syntax", () => {
-        expect(dollarModeMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
+        expect(dollarModeMarkdownIt.render(String.raw`\[a=1\]`)).toEqual("<p>[a=1]</p>\n");
       });
     });
 
     describe("bracket mode", () => {
       describe("basic rendering", () => {
         const bracketBlockCases: [string, string][] = [
-          ["\\[a=1\\]", "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\[a=1\]`, "<p>{Tex content: a=1}</p>\n"],
           [
             `\\[
 x = \\frac{1}{2}
@@ -356,7 +360,7 @@ y = 2
         ];
 
         bracketBlockCases.forEach(([input, expected]) => {
-          it(`should render bracket block: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should render bracket block: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(bracketModeMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -364,8 +368,8 @@ y = 2
 
       describe("rejection cases", () => {
         const bracketRejectionCases: [string, string, string][] = [
-          ["unclosed bracket block", "\\[a = 1", "<p>[a = 1</p>\n"],
-          ["escaped opening block", "\\\\[a = 1\\]", "<p>\\[a = 1]</p>\n"],
+          ["unclosed bracket block", String.raw`\[a = 1`, "<p>[a = 1</p>\n"],
+          ["escaped opening block", String.raw`\\[a = 1\]`, "<p>\\[a = 1]</p>\n"],
         ];
 
         bracketRejectionCases.forEach(([description, input, expected]) => {
@@ -384,7 +388,7 @@ y = 2
       describe("basic rendering", () => {
         const bothBlockCases: [string, string][] = [
           ["$$a=1$$", "<p>{Tex content: a=1}</p>\n"],
-          ["\\[a=1\\]", "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\[a=1\]`, "<p>{Tex content: a=1}</p>\n"],
         ];
 
         bothBlockCases.forEach(([input, expected]) => {
@@ -409,7 +413,7 @@ b = 2
         ];
 
         mixedBlockCases.forEach(([input, expected]) => {
-          it(`should handle mixed block syntax: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should handle mixed block syntax: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(bothModeMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -442,7 +446,7 @@ a = 1
       ];
 
       fenceCases.forEach(([input, expected]) => {
-        it(`should render math fence: ${input.replace(/\n/g, "\\n")}`, () => {
+        it(`should render math fence: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
           expect(dollarModeMarkdownIt.render(input)).toEqual(expected);
         });
       });
@@ -459,7 +463,7 @@ a=1
       ];
 
       fenceCases.forEach(([input, expected]) => {
-        it(`should render math fence: ${input.replace(/\n/g, "\\n")}`, () => {
+        it(`should render math fence: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
           expect(bracketModeMarkdownIt.render(input)).toEqual(expected);
         });
       });
@@ -476,7 +480,7 @@ a=1
       ];
 
       fenceCases.forEach(([input, expected]) => {
-        it(`should render math fence: ${input.replace(/\n/g, "\\n")}`, () => {
+        it(`should render math fence: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
           expect(bothModeMarkdownIt.render(input)).toEqual(expected);
         });
       });
@@ -555,17 +559,17 @@ plain code
         });
 
         it("should ignore bracket syntax", () => {
-          expect(allowSpaceDollarMarkdownIt.render("\\(a=1\\)")).toEqual("<p>(a=1)</p>\n");
-          expect(allowSpaceDollarMarkdownIt.render("\\[a=1\\]")).toEqual("<p>[a=1]</p>\n");
+          expect(allowSpaceDollarMarkdownIt.render(String.raw`\(a=1\)`)).toEqual("<p>(a=1)</p>\n");
+          expect(allowSpaceDollarMarkdownIt.render(String.raw`\[a=1\]`)).toEqual("<p>[a=1]</p>\n");
         });
       });
 
       describe("bracket mode", () => {
         const bracketSpaceCases: [string, string][] = [
-          ["\\(a=1\\)", "<p>{Tex content: a=1}</p>\n"],
-          ["\\( a = 1 \\)", "<p>{Tex content: a = 1}</p>\n"],
+          [String.raw`\(a=1\)`, "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\( a = 1 \)`, "<p>{Tex content: a = 1}</p>\n"],
           [
-            "An equation \\( E=mc^2 \\) inline.",
+            String.raw`An equation \( E=mc^2 \) inline.`,
             "<p>An equation {Tex content: E=mc^2} inline.</p>\n",
           ],
         ];
@@ -585,11 +589,11 @@ plain code
       describe("both mode", () => {
         const bothSpaceCases: [string, string][] = [
           ["$a=1$", "<p>{Tex content: a=1}</p>\n"],
-          ["\\(a=1\\)", "<p>{Tex content: a=1}</p>\n"],
+          [String.raw`\(a=1\)`, "<p>{Tex content: a=1}</p>\n"],
           ["$ a = 1 $", "<p>{Tex content: a = 1}</p>\n"],
-          ["\\( a = 1 \\)", "<p>{Tex content: a = 1}</p>\n"],
+          [String.raw`\( a = 1 \)`, "<p>{Tex content: a = 1}</p>\n"],
           [
-            "Both $ x=1 $ and \\( y=2 \\) work.",
+            String.raw`Both $ x=1 $ and \( y=2 \) work.`,
             "<p>Both {Tex content: x=1} and {Tex content: y=2} work.</p>\n",
           ],
         ];
@@ -615,19 +619,21 @@ $$`,
         ];
 
         blockSpaceCases.forEach(([input, expected]) => {
-          it(`should render block with spaces: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should render block with spaces: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(allowSpaceDollarMarkdownIt.render(input)).toEqual(expected);
           });
         });
 
         it("should ignore bracket syntax", () => {
-          expect(allowSpaceDollarMarkdownIt.render("\\[ a = 1 \\]")).toEqual("<p>[ a = 1 ]</p>\n");
+          expect(allowSpaceDollarMarkdownIt.render(String.raw`\[ a = 1 \]`)).toEqual(
+            "<p>[ a = 1 ]</p>\n",
+          );
         });
       });
 
       describe("bracket mode", () => {
         const bracketBlockSpaceCases: [string, string][] = [
-          ["\\[ a = 1 \\]", "<p>{Tex content: a = 1}</p>\n"],
+          [String.raw`\[ a = 1 \]`, "<p>{Tex content: a = 1}</p>\n"],
           [
             `\\[
  x = \\frac{1}{2} 
@@ -637,7 +643,7 @@ $$`,
         ];
 
         bracketBlockSpaceCases.forEach(([input, expected]) => {
-          it(`should render bracket block with spaces: ${input.replace(/\n/g, "\\n")}`, () => {
+          it(`should render bracket block with spaces: ${input.replaceAll("\n", String.raw`\n`)}`, () => {
             expect(allowSpaceBracketMarkdownIt.render(input)).toEqual(expected);
           });
         });
@@ -650,7 +656,7 @@ $$`,
       describe("both mode", () => {
         const bothBlockSpaceCases: [string, string][] = [
           ["$$ a = 1 $$", "<p>{Tex content: a = 1}</p>\n"],
-          ["\\[ a = 1 \\]", "<p>{Tex content: a = 1}</p>\n"],
+          [String.raw`\[ a = 1 \]`, "<p>{Tex content: a = 1}</p>\n"],
         ];
 
         bothBlockSpaceCases.forEach(([input, expected]) => {
@@ -667,7 +673,7 @@ $$`,
       const defaultMd = MarkdownIt().use(tex, { render });
 
       expect(defaultMd.render("$a=1$")).toEqual("<p>{Tex content: a=1}</p>\n");
-      expect(defaultMd.render("\\(a=1\\)")).toEqual("<p>(a=1)</p>\n");
+      expect(defaultMd.render(String.raw`\(a=1\)`)).toEqual("<p>(a=1)</p>\n");
     });
   });
 
