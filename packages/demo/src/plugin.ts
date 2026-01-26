@@ -6,6 +6,7 @@ import type { MarkdownItDemoOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
+// oxlint-disable-next-line max-lines-per-function
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
   {
@@ -19,6 +20,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     showCodeFirst = false,
   } = {},
 ) => {
+  // oxlint-disable-next-line max-lines-per-function
   const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];
@@ -34,6 +36,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
       if (state.src.charCodeAt(pos) !== 58 /* : */) break;
+
       pos++;
     }
 
@@ -46,6 +49,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     // check name is matched
     for (let i = 0; i < name.length; i++) {
       if (state.src.charCodeAt(pos) !== name.charCodeAt(i)) return false;
+
       pos++;
     }
 
@@ -78,11 +82,12 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent)
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
+      }
 
       if (
         // closing fence should be indented same as opening one
@@ -145,7 +150,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
       codeToken.map = [startLine, state.line];
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      // oxlint-disable-next-line typescript/no-unsafe-member-access
       (codeToken.meta ??= {}).title = title;
       if (!codeRender) codeToken.info = "md";
     };
@@ -186,6 +191,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.renderer.rules[`${name}_demo_open`] = openRender;
   md.renderer.rules[`${name}_demo_close`] = closeRender;
   if (codeRender) md.renderer.rules[`${name}_demo_code`] = codeRender;
+
   if (contentOpenRender) md.renderer.rules[`${name}_demo_content_open`] = contentOpenRender;
+
   if (contentCloseRender) md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
 };

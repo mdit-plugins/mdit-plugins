@@ -11,24 +11,24 @@ const scanTokens = (
 ): void => {
   for (let index = 1, len = tokens.length; index < len - 1; index++) {
     const token = tokens[index];
-    const { content, type } = token;
+    const content = token.content;
 
     // skip current token
-    if (type !== "text" || skipContents.includes(content)) continue;
+    if (token.type !== "text" || skipContents.includes(content)) continue;
 
-    const configItem = config.find(({ matcher }) =>
-      typeof matcher === "string" ? matcher === content : matcher.test(content),
-    );
     const tokenPrev = tokens[index - 1];
     const tokenNext = tokens[index + 1];
 
-    if (
-      configItem &&
-      tokenPrev.tag === tokenNext.tag &&
-      tokenPrev.nesting === 1 &&
-      tokenNext.nesting === -1
-    ) {
-      const result = configItem.replacer({
+    // quick check for prev/next token
+    if (tokenPrev.tag !== tokenNext.tag || tokenPrev.nesting !== 1 || tokenNext.nesting !== -1)
+      continue;
+
+    const matchedConfig = config.find(({ matcher }) =>
+      typeof matcher === "string" ? matcher === content : matcher.test(content),
+    );
+
+    if (matchedConfig) {
+      const result = matchedConfig.replacer({
         tag: tokenPrev.tag,
         content: token.content,
         attrs: Object.fromEntries(tokenPrev.attrs ?? []),
@@ -47,19 +47,41 @@ const scanTokens = (
 };
 
 export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options = {}) => {
-  if (options.config?.length == 0) return;
+  const globalConfig = options.config ?? [];
+  const localConfigGetter = options.localConfigGetter;
 
-  const stylizeRule: RuleCore = ({ env, tokens }) => {
-    const localConfig = options.localConfigGetter?.(env) ?? [];
+  if (globalConfig.length === 0 && !localConfigGetter) {
+    // oxlint-disable-next-line no-console
+    console.error(
+      "[@mdit/plugin-stylize]: No global config or localConfigGetter provided, plugin will be inactive.",
+    );
 
-    tokens.forEach(({ type, children }) => {
-      if (type === "inline" && children)
-        scanTokens(children, [
-          // local config has higher priority
-          ...localConfig,
-          ...(options.config ?? []),
-        ]);
-    });
+    return;
+  }
+
+  const stylizeRule: RuleCore = (state) => {
+    const tokens = state.tokens;
+
+    let effectiveConfig = globalConfig;
+
+    if (localConfigGetter) {
+      const localConfig = localConfigGetter(state.env);
+
+      if (localConfig && localConfig.length > 0) {
+        effectiveConfig =
+          effectiveConfig.length > 0 ? localConfig.concat(effectiveConfig) : localConfig;
+      }
+    }
+
+    if (effectiveConfig.length === 0) return;
+
+    const length = tokens.length;
+
+    for (let i = 0; i < length; i++) {
+      const token = tokens[i];
+
+      if (token.type === "inline" && token.children) scanTokens(token.children, effectiveConfig);
+    }
   };
 
   md.core.ruler.push("stylize_tag", stylizeRule);

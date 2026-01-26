@@ -11,14 +11,15 @@ import type { DelimiterChecker } from "../rules/types.js";
  * @returns A function that checks if content matches the delimiter pattern / 检查内容是否匹配分隔符模式的函数
  */
 export const getDelimiterChecker = (
-  { left, right }: DelimiterConfig,
+  options: DelimiterConfig,
   where: "start" | "end" | "only",
 ): DelimiterChecker => {
-  if (!["start", "end", "only"].includes(where)) {
+  if (!["start", "end", "only"].includes(where))
     throw new Error(`Invalid 'where' parameter: ${where}. Expected 'start', 'end', or 'only'.`);
-  }
 
   // Cache frequently used values
+  const left = options.left;
+  const right = options.right;
   const leftLength = left.length;
   const rightLength = right.length;
   const minContentLength = leftLength + 1 + rightLength;
@@ -42,23 +43,17 @@ export const getDelimiterChecker = (
       // Check if next character is not part of right delimiter
       const nextCharPos = end + rightLength;
 
-      if (nextCharPos < content.length && right.includes(content.charAt(nextCharPos))) {
-        return false;
-      }
+      if (nextCharPos < content.length && right.includes(content.charAt(nextCharPos))) return false;
     } else if (where === "end") {
       // Check if content ends with right delimiter
       start = content.lastIndexOf(left);
 
-      if (start === -1) {
-        return false;
-      }
+      if (start === -1) return false;
 
       end = content.indexOf(right, start + leftLength + 1);
       start += leftLength;
 
-      if (end === -1 || end + rightLength !== content.length) {
-        return false;
-      }
+      if (end === -1 || end + rightLength !== content.length) return false;
     } else {
       // Check if content is wrapped by delimiters ('{.a}')
       if (!content.startsWith(left) || !content.endsWith(right)) return false;

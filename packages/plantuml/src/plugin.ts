@@ -1,4 +1,3 @@
-// eslint-disable-next-line import-x/no-unresolved
 import { deflate } from "@deflate";
 import { uml } from "@mdit/plugin-uml";
 import type { Options, PluginWithOptions } from "markdown-it";
@@ -30,11 +29,11 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       self: Renderer,
     ): string => {
       const token = tokens[index];
-      const { content, info = "plantuml diagram" } = token;
+      const { content, info } = token;
 
       token.tag = "img";
       token.attrPush(["src", srcGetter(content)]);
-      token.attrPush(["alt", info]);
+      token.attrPush(["alt", info || "PlantUML Diagram"]);
 
       return self.renderToken(tokens, index, options);
     },
@@ -49,7 +48,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     });
   } else {
     // Handle ```name  blocks
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const fenceRender = md.renderer.rules.fence!;
 
     md.renderer.rules.fence = (

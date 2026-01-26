@@ -10,26 +10,29 @@ const generateTestContent = (size: "small" | "medium" | "large"): string => {
   let content = "";
 
   switch (size) {
-    case "small":
+    case "small": {
       for (let i = 0; i < 10; i++) {
         const type = alertTypes[i % alertTypes.length];
         content += `>[!${type}]\n> This is a ${type} alert with some content.\n> Second line of the alert.\n\n`;
       }
       break;
+    }
 
-    case "medium":
+    case "medium": {
       for (let i = 0; i < 50; i++) {
         const type = alertTypes[i % alertTypes.length];
         content += `>[!${type}]\n> This is a ${type} alert with some content.\n> Second line of the alert.\n> Third line with more text.\n\n`;
       }
       break;
+    }
 
-    case "large":
+    case "large": {
       for (let i = 0; i < 100; i++) {
         const type = alertTypes[i % alertTypes.length];
         content += `>[!${type}]\n> This is a ${type} alert with detailed content.\n> Second line of the alert with more information.\n> Third line explaining something important.\n> Fourth line concluding the point.\n\n`;
       }
       break;
+    }
   }
 
   return content;

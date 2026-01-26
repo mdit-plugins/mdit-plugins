@@ -1,0 +1,38 @@
+import MarkdownIt from "markdown-it";
+import { expect, it } from "vitest";
+
+import { sub } from "../src/index.js";
+
+const markdownIt = MarkdownIt({ linkify: true }).use(sub);
+
+it("should render", () => {
+  expect(markdownIt.render(`~test~`)).toEqual("<p><sub>test</sub></p>\n");
+});
+
+it("should not render when escape", () => {
+  expect(markdownIt.render(`~foo\\~`)).toEqual("<p>~foo~</p>\n");
+  expect(markdownIt.render(`\\~foo~`)).toEqual("<p>~foo~</p>\n");
+});
+
+it("should not render when having spaces", () => {
+  expect(markdownIt.render(`~foo bar~`)).toEqual("<p>~foo bar~</p>\n");
+});
+
+it("should render when spaces are escaped", () => {
+  expect(markdownIt.render(`~foo\\ bar\\ baz~`)).toEqual("<p><sub>foo bar baz</sub></p>\n");
+  expect(markdownIt.render(`~\\ foo\\ ~`)).toEqual("<p><sub> foo </sub></p>\n");
+});
+
+it(String.raw`should handle multiple '\'`, () => {
+  expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual("<p><sub>foo\\\\ bar</sub></p>\n");
+  expect(markdownIt.render(`~foo\\\\\\\\ bar~`)).toEqual("<p>~foo\\\\ bar~</p>\n");
+});
+
+it("should work with other marker", () => {
+  expect(markdownIt.render(`**~foo~ bar**`)).toEqual(
+    "<p><strong><sub>foo</sub> bar</strong></p>\n",
+  );
+
+  expect(markdownIt.render(`*~f`)).toEqual("<p>*~f</p>\n");
+  expect(markdownIt.render(`b*~`)).toEqual("<p>b*~</p>\n");
+});

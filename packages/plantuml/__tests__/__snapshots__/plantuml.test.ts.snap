@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should not break normal code block 1`] = `
+"<pre><code class="language-js">const a = 1
+</code></pre>
+"
+`;
+
+exports[`should parse code block 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKifpSq10000" alt="PlantUML Diagram">
+"
+`;
+
+exports[`should parse custom code block 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/RP6nRiCW441tlk9qSoBPn7QaJ8cwTV2IAQewK8DhMWmMd5j5bV-zufoqIqRUSOydSKoa8dsauCMF0C3UnaIj6WqU09_3u76JiLF_z3nQ6bPiqydPhqmfpeQHUiz7kLyFMaUJ4XuWom4mKJI6JdyOPGdIQpWpPoa0TfQkUTYQRxY4-7ddYHHnGdkveoaaKkufQEPbKSXokokB0WN0mWtJ4Bnfv_7DnFpY2--jEG18ruatXp2QcnC0FLzV-oJKTRqjvQv27Y-RnuRGzxPxw6YgXXrLtUnl3W7modNTO9sEnkUobQGfp2aR_UoSMCJHU9t_vnS0" alt="PlantUML Diagram">
+"
+`;
+
+exports[`should parse custom uml 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/RP6nRiCW441tlk9qSoBPn7QaJ8cwTV2IAQewK8DhMWmMd5j5bV-zufoqIqRUSOydSKoa8dsauCMF0C3UnaIj6WqU09_3u76JiLF_z3nQ6bPiqydPhqmfpeQHUiz7kLyFMaUJ4XuWom4mKJI6JdyOPGdIQpWpPoa0TfQkUTYQRxY4-7ddYHHnGdkveoaaKkufQEPbKSXokokB0WN0mWtJ4Bnfv_7DnFpY2--jEG18ruatXp2QcnC0FLzV-oJKTRqjvQv27Y-RnuRGzxPxw6YgXXrLtUnl3W7modNTO9sEnkUobQGfp2aR_UoSMCJHU9t_vnS0" alt="PlantUML Diagram">
+"
+`;
+
+exports[`should render now-ascii characters 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKdYoTy7JfNkv75BpKafpSm00" alt="PlantUML Diagram">
+"
+`;
+
+exports[`should render without options 1`] = `
+"<img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBAJrBGjLDmpCbCJbMmKiX8pSd9vt98pKifpSq10000" alt="PlantUML Diagram">
+"
+`;

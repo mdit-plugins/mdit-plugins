@@ -1,17 +1,15 @@
-name: Deploy Docs
+name: Build Docs
 
 on:
   push:
-    branches:
-      - main
-      - work
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
   deploy-gh-pages:
-    name: Deploy docs to gh pages
+    name: Build Docs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,6 +42,7 @@ jobs:
           pnpm run docs:build
 
       - name: Deploy
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           repository-name: mdit-plugins/mdit-plugins.github.io

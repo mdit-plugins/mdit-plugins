@@ -1,6 +1,7 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
 import type { AttrRule } from "./types.js";
+import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker } from "../helper/index.js";
 
@@ -13,7 +14,7 @@ export const getFenceRule = (options: DelimiterConfig): AttrRule =>
    *     print(i)
    * ```
    */
-  ({
+  defineAttrRule({
     name: "code-block",
     tests: [
       {

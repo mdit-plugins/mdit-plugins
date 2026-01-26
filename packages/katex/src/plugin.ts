@@ -14,19 +14,17 @@ const katexInline = (
   let result: string;
 
   try {
-    result = renderToString(tex, {
-      ...options,
-      displayMode: false,
-    });
-  } catch (error) {
+    result = renderToString(tex, options);
+  } catch (err) {
     /* istanbul ignore else -- @preserve */
-    if (error instanceof ParseError) {
-      console.error(error);
+    if (err instanceof ParseError) {
+      // oxlint-disable-next-line no-console
+      console.error(err);
       result = `<span class='katex-error' title='${escapeHtml(
-        (error as Error).toString(),
+        (err as Error).toString(),
       )}'>${escapeHtml(tex)}</span>`;
     } else {
-      throw error;
+      throw err;
     }
   }
 
@@ -41,19 +39,17 @@ const katexBlock = (
   let result: string;
 
   try {
-    result = `<p class='katex-block'>${renderToString(tex, {
-      ...options,
-      displayMode: true,
-    })}</p>\n`;
-  } catch (error) {
+    result = `<p class='katex-block'>${renderToString(tex, options)}</p>\n`;
+  } catch (err) {
     /* istanbul ignore else -- @preserve */
-    if (error instanceof ParseError) {
-      console.error(error);
+    if (err instanceof ParseError) {
+      // oxlint-disable-next-line no-console
+      console.error(err);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
-        (error as Error).toString(),
+        (err as Error).toString(),
       )}'>${escapeHtml(tex)}</p>\n`;
     } else {
-      throw error;
+      throw err;
     }
   }
 
@@ -62,34 +58,41 @@ const katexBlock = (
 
 export const katex = <MarkdownItEnv = unknown>(
   md: MarkdownIt,
-  options: MarkdownItKatexOptions<MarkdownItEnv> = {},
-): void => {
-  const {
+  {
     allowInlineWithSpace = false,
     delimiters,
     mathFence,
     logger = (errorCode: string): "ignore" | "warn" | "error" | boolean | undefined =>
       errorCode === "newLineInDisplayMode" ? "ignore" : "warn",
-    // see https://github.com/vuepress/ecosystem/issues/261
-    // this ensures that `\gdef` works as expected
-    macros = {},
     transformer,
     ...userOptions
-  } = options;
+  }: MarkdownItKatexOptions<MarkdownItEnv> = {},
+): void => {
+  const commonKatexOptions: KatexOptions = Object.assign(
+    {
+      // see https://github.com/vuepress/ecosystem/issues/261
+      // this ensures that `\gdef` works as expected macros: {},
+      macros: {},
+      throwOnError: false,
+    },
+    userOptions,
+  );
 
   md.use(tex, {
     allowInlineWithSpace,
     delimiters,
     mathFence,
     render: (content: string, displayMode: boolean, env: MarkdownItEnv) => {
-      const katexOptions: KatexOptions = {
-        strict: (errorCode, errorMsg, token) =>
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          logger(errorCode, errorMsg, token, env) ?? "ignore",
-        macros,
-        throwOnError: false,
-        ...userOptions,
-      };
+      const katexOptions = Object.assign<KatexOptions, KatexOptions, KatexOptions>(
+        {},
+        commonKatexOptions,
+        {
+          strict: (errorCode, errorMsg, token) =>
+            // oxlint-disable-next-line typescript/no-unnecessary-condition
+            logger(errorCode, errorMsg, token, env) ?? "ignore",
+          displayMode,
+        },
+      );
 
       return displayMode
         ? katexBlock(content, katexOptions, transformer)

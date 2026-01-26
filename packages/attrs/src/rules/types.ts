@@ -11,15 +11,15 @@ export type DelimiterChecker = (content: string) => DelimiterRange | false;
  * Test function mapping for token properties used in rule matching
  */
 export type TokenPropTest = {
-  [K in keyof Token]?: K extends "nesting"
+  [Key in keyof Token]?: Key extends "nesting"
     ? Nesting | TestFunction<Nesting>
-    : K extends "attrs" | "map" | "children"
+    : Key extends "attrs" | "map" | "children"
       ? never
-      : K extends "content" | "info"
+      : Key extends "content" | "info"
         ? string | DelimiterChecker
-        : Token[K] extends (infer T) | null
+        : Token[Key] extends (infer T) | null
           ? T | TestFunction<T>
-          : Token[K] | TestFunction<Token[K]>;
+          : Token[Key] | TestFunction<Token[Key]>;
 };
 
 /**
@@ -92,3 +92,22 @@ export interface AttrRule {
   tests: AttrRuleSet[];
   transform: (tokens: Token[], index: number, childIndex: number, range: DelimiterRange) => void;
 }
+
+/**
+ * Define an attribute rule helper
+ *
+ * @param rule - Attribute rule definition / 属性规则定义
+ * @returns Attribute rule passed through without modification / 未被修改的属性规则
+ *
+ * @example
+ * ```ts
+ * const rule = defineAttrRule({
+ *   name: "example",
+ *   tests: [],
+ *   transform(tokens, index, childIndex, range) {
+ *     // transform logic
+ *   },
+ * });
+ * ```
+ */
+export const defineAttrRule = (rule: AttrRule): AttrRule => rule;

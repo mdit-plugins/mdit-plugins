@@ -1,6 +1,7 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 
 import type { AttrRule } from "./types.js";
+import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
@@ -8,7 +9,7 @@ export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
   /**
    * ## end of {#heading}
    */
-  ({
+  defineAttrRule({
     name: "end of block",
     tests: [
       {
@@ -29,7 +30,7 @@ export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
     ],
     transform: (tokens, index, childIndex, range): void => {
       const attrStartIndex = range[0] - options.left.length;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const { content } = token;
       const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));

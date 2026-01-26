@@ -69,7 +69,7 @@ export interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     env: any,
     self: Renderer,
   ) => string;
@@ -87,7 +87,7 @@ export interface MarkdownItTabOptions {
     tokens: Token[],
     index: number,
     options: Options,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     env: any,
     self: Renderer,
   ) => string;

@@ -1,3 +1,4 @@
+// oxlint-disable import/no-unassigned-import
 import "@mathjax/src/js/input/tex/action/ActionConfiguration.js";
 import "@mathjax/src/js/input/tex/ams/AmsConfiguration.js";
 import "@mathjax/src/js/input/tex/amscd/AmsCdConfiguration.js";

@@ -1,3 +1,4 @@
+// oxlint-disable unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
 import { demo as demoNew } from "../src/index.js";
@@ -62,9 +63,11 @@ This is another section in the small document.
 # Medium Document Demo
 This is a medium sized document for benchmarking the demo plugin.
 
-${Array(10)
-  .fill(
-    `
+${
+  // oxlint-disable-next-line unicorn/new-for-builtins
+  Array(10)
+    .fill(
+      `
 ## Section Title
 
 This is some paragraph text with **bold formatting** and *italics* and \`inline code\`.
@@ -113,8 +116,9 @@ class DemoClass {
 | Cell 1   | Cell 2   | Cell 3   |
 | Cell 4   | Cell 5   | Cell 6   |
 `,
-  )
-  .join("")}
+    )
+    .join("")
+}
 :::
 `;
 

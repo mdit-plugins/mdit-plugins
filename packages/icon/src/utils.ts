@@ -4,6 +4,9 @@ const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 
 /**
  * Extract size from content
+ *
+ * @param data input data with content string
+ * @returns data with size property and cleaned content string
  */
 export const extractSize = <T extends { content: string }>(
   data: T & { size?: string },
@@ -27,6 +30,9 @@ const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
 
 /**
  * Extract color from content
+ *
+ * @param data input data with content string
+ * @returns data with color property and cleaned content string
  */
 export const extractColor = <T extends { content: string }>(
   data: T & { color?: string },
@@ -51,7 +57,8 @@ export type AttrsInfo = Record<string, string>;
 const ATTR_NAME_REGEXP = "[A-z_][a-zA-Z0-9_-]*";
 
 const ATTR_REGEXP = new RegExp(
-  `\\b` +
+  // oxlint-disable-next-line prefer-template
+  String.raw`\b` +
     // attr name
     `(?<attr>${ATTR_NAME_REGEXP})` +
     // =
@@ -89,7 +96,7 @@ const ATTR_REGEXP = new RegExp(
     /**
      * case 3: value without quotes
      */
-    /**/ "(?<valueWithoutQuotes>\\S+)" +
+    /**/ String.raw`(?<valueWithoutQuotes>\S+)` +
     `)` +
     // optional space
     `(?:\\s+|$)`,
@@ -99,8 +106,8 @@ const ATTR_REGEXP = new RegExp(
 /**
  * Parse attrs string to object
  *
- * @param attrs
- * @returns
+ * @param data input data with content string
+ * @returns data with attrs object and cleaned content string
  */
 export const extractAttrs = <T extends { content: string }>(
   data: T & { attrs?: AttrsInfo },
@@ -110,6 +117,7 @@ export const extractAttrs = <T extends { content: string }>(
   const content = data.content
     .replace(
       ATTR_REGEXP,
+      // oxlint-disable-next-line max-params
       (
         _,
         _1,
@@ -136,8 +144,8 @@ export const extractAttrs = <T extends { content: string }>(
         attrs[attr] = emptyValue
           ? ""
           : (valueWithoutQuotes ??
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            valueWithQuotes!.replace(new RegExp(`\\\\${quote}`, "g"), quote!));
+            // oxlint-disable-next-line typescript/no-non-null-assertion
+            valueWithQuotes!.replaceAll(new RegExp(`\\\\${quote}`, "g"), quote!));
 
         return "";
       },
@@ -172,6 +180,9 @@ export const appendStyle = (
 
 /**
  * Stringify attrs object
+ *
+ * @param attrs Attrs object
+ * @returns stringified attrs
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)

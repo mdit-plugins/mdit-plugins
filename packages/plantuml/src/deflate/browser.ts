@@ -1,3 +1,4 @@
+// oxlint-disable-next-line import/no-namespace
 import * as deflateModule from "pako/lib/deflate.js";
 
 export const deflate = (data: string): string => {

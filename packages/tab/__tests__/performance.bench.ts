@@ -1,3 +1,4 @@
+// oxlint-disable unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
 import { tab as tabNew } from "../src/index.js";
@@ -355,6 +356,7 @@ Content of tab 3
 :::
 `;
 
+    // oxlint-disable-next-line max-params
     const customOpenRender = (
       info: any,
       _tokens: any,
