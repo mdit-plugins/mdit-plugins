@@ -10,6 +10,9 @@ const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCo
 /**
  * Parse image size information from label text in Obsidian format
  * Format: `alt | width x height`
+ *
+ * @param label - image label text
+ * @returns parsed size info or null if not valid
  */
 const parseObsidianImageSize = (
   label: string,
@@ -24,11 +27,12 @@ const parseObsidianImageSize = (
   if (pos === -1) return null;
 
   // Get original label part before the pipe
-  const origLabel = label.substring(0, pos++).trimEnd();
+  const origLabel = label.slice(0, pos++).trimEnd();
 
   // Skip spaces after pipe
   while (pos < max) {
     if (!isSpace(label.charCodeAt(pos))) break;
+
     pos++;
   }
 
@@ -36,17 +40,16 @@ const parseObsidianImageSize = (
 
   const widthStart = pos;
 
-  while (pos < max && isNumber(label.charCodeAt(pos))) {
-    pos++;
-  }
+  while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
   if (pos === widthStart || pos === max) return null;
 
-  const width = label.substring(widthStart, pos);
+  const width = label.slice(widthStart, pos);
 
   // Skip spaces after width
   while (pos < max) {
     if (!isSpace(label.charCodeAt(pos))) break;
+
     pos++;
   }
 
@@ -56,27 +59,24 @@ const parseObsidianImageSize = (
   // Skip spaces after 'x'
   while (pos < max) {
     if (!isSpace(label.charCodeAt(pos))) break;
+
     pos++;
   }
 
   const heightStart = pos;
 
-  while (pos < max && isNumber(label.charCodeAt(pos))) {
-    pos++;
-  }
+  while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
   if (pos === heightStart) return null;
 
   // 验证宽度是有效的数字序列
-  const height = label.substring(heightStart, pos);
+  const height = label.slice(heightStart, pos);
   const widthNum = Number(width);
   const heightNum = Number(height);
 
   if (!widthNum && !heightNum) return null;
 
-  while (pos < max) {
-    if (!isSpace(label.charCodeAt(pos++))) return null;
-  }
+  while (pos < max) if (!isSpace(label.charCodeAt(pos++))) return null;
 
   return {
     label: origLabel,
@@ -126,6 +126,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     while (pos < max) {
       if (!isSpace(state.src.charCodeAt(pos))) break;
+
       pos++;
     }
 
@@ -148,9 +149,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     //                ^^ skipping these spaces
     const start = pos;
 
-    for (; pos < max; pos++) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
-    }
+    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
 
     // [link](  <href>  "title"  )
     //                  ^^^^^^^ parsing link title
@@ -162,9 +161,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
-      for (; pos < max; pos++) {
-        if (!isSpace(state.src.charCodeAt(pos))) break;
-      }
+      for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
     } else {
       title = "";
     }
@@ -181,13 +178,11 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
-    for (; pos < max; pos++) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
-    }
+    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
 
     if (pos < max && state.src.charCodeAt(pos) === 91 /* [ */) {
       const start = pos + 1;
@@ -206,7 +201,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(referenceLabel)];
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
     if (!ref) {
       state.pos = oldPos;
 
@@ -231,6 +226,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     if (title) attrs.push(["title", title]);
 
     if (width) attrs.push(["width", width]);
+
     if (height) attrs.push(["height", height]);
 
     const tokens: Token[] = [];

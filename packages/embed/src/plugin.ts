@@ -7,6 +7,9 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
+const ESCAPED_OPENING_MARKER_REGEXP = /\\{%/g;
+const ESCAPED_CLOSING_MARKER_REGEXP = /%\\}/g;
+
 const checkInlineOpeningMarker = (src: string, current: number): boolean => {
   if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */)
     return false;
@@ -49,6 +52,7 @@ const getEmbedInline =
     // skip spaces
     while (contentStart < max) {
       if (!isSpace(state.src.charCodeAt(contentStart))) break;
+
       contentStart++;
     }
 
@@ -58,6 +62,7 @@ const getEmbedInline =
     for (; contentEnd + 1 < max; contentEnd++) {
       // must not include opening marker
       if (checkInlineOpeningMarker(state.src, contentEnd)) return false;
+
       if (checkClosingMarker(state.src, contentEnd)) {
         found = true;
         break;
@@ -72,6 +77,7 @@ const getEmbedInline =
 
     while (spacer < contentEnd) {
       if (isSpace(state.src.charCodeAt(spacer))) break;
+
       spacer++;
     }
 
@@ -87,8 +93,8 @@ const getEmbedInline =
         ? state.src
             .slice(spacer + 1, contentEnd)
             .trim()
-            .replace(/\\{%/g, "{%")
-            .replace(/%\\}/g, "%}")
+            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
         : "";
 
       token.markup = "{% %}";
@@ -110,7 +116,7 @@ const getEmbedBlock =
   (state, startLine, _, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
-    const { src } = state;
+    const src = state.src;
 
     // minimum length check for block embed - at least 5 characters: {%x%}
     if (max - start < 5) return false;
@@ -133,6 +139,7 @@ const getEmbedBlock =
     // skip spaces
     while (contentStart < contentEnd) {
       if (!isSpace(state.src.charCodeAt(contentStart))) break;
+
       contentStart++;
     }
 
@@ -141,8 +148,11 @@ const getEmbedBlock =
     for (let pos = contentStart; pos + 1 < contentEnd; pos++) {
       // must not include unescaped opening marker or closing marker
       if (checkInlineOpeningMarker(state.src, pos)) return false;
+
       if (checkClosingMarker(state.src, pos)) return false;
+
       if (spacer !== -1) continue;
+
       if (isSpace(state.src.charCodeAt(pos))) spacer = pos;
     }
 
@@ -163,8 +173,8 @@ const getEmbedBlock =
         : state.src
             .slice(spacer + 1, contentEnd)
             .trim()
-            .replace(/\\{%/g, "{%")
-            .replace(/%\\}/g, "%}");
+            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}");
 
     const token = state.push("embed_block", "embed", 0);
 
@@ -182,13 +192,13 @@ const getEmbedBlock =
 
 export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) => {
   if (typeof options !== "object" || !Array.isArray(options.config))
-    throw new Error("[@mdit/plugin-embed]: config is required and must be an array.");
+    throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
 
   // Get existing maps or create new ones to support multiple plugin instances
   const mdWithMaps = md as MarkdownIt & {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    // oxlint-disable-next-line typescript/naming-convention
     __embedMap?: Map<string, EmbedConfig>;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    // oxlint-disable-next-line typescript/naming-convention
     __inlineEmbedMap?: Map<string, EmbedConfig>;
   };
 
@@ -213,20 +223,20 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     md.renderer.rules.embed_block = (tokens: Token[], index: number): string => {
       const token = tokens[index];
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return embedMap.get(token.info)!.setup(token.content, false);
     };
   }
 
   // only register embed_inline rules if inline embeds are allowed
-  if (inlineEmbedMap.size && !("embed_inline" in md.renderer.rules)) {
+  if (inlineEmbedMap.size > 0 && !("embed_inline" in md.renderer.rules)) {
     // Register the inline rule
     md.inline.ruler.before("emphasis", "embed_inline", getEmbedInline(inlineEmbedMap));
 
     md.renderer.rules.embed_inline = (tokens: Token[], index: number): string => {
       const token = tokens[index];
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return inlineEmbedMap.get(token.info)!.setup(token.content, true);
     };
   }

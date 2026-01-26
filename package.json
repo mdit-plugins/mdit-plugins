@@ -8,9 +8,8 @@
     "clean": "pnpm run --stream -r clean",
     "docs:build": "pnpm run --filter=docs docs:build",
     "docs:dev": "pnpm run --filter=docs docs:dev",
-    "lint": "pnpm lint:eslint --fix && oxfmt",
-    "lint:check": "pnpm lint:eslint && oxfmt --check",
-    "lint:eslint": "eslint .",
+    "lint": "pnpm oxlint --fix && oxfmt",
+    "lint:check": "pnpm oxlint && oxfmt --check",
     "lint:md": "markdownlint-cli2 **/*.md",
     "packages:bootstrap": "tsx scripts/bootstrap.ts",
     "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
@@ -34,8 +33,6 @@
     "@vitest/coverage-istanbul": "4.0.18",
     "conventional-changelog-conventionalcommits": "9.1.0",
     "cross-env": "10.1.0",
-    "eslint": "9.39.2",
-    "eslint-config-mister-hope": "0.9.6",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.20.0",
     "nano-staged": "0.9.0",
@@ -52,7 +49,7 @@
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
-    "*.{js,ts}": "eslint --fix",
+    "*.{js,ts}": "oxlint",
     "*.md": "markdownlint-cli2 --fix"
   },
   "commitlint": {

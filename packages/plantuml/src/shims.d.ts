@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-duplicate-enum-values */
-/* eslint-disable @typescript-eslint/naming-convention */
+// oxlint-disable typescript/naming-convention typescript/no-duplicate-enum-values
 declare module "pako/lib/deflate.js" {
   enum constants {
     // FlushValues
@@ -38,7 +37,7 @@ declare module "pako/lib/deflate.js" {
     windowBits?: number | undefined;
     memLevel?: number | undefined;
     strategy?: StrategyValues | undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     dictionary?: any;
     raw?: boolean | undefined;
   }

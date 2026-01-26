@@ -356,6 +356,7 @@ Content of tab 3
 :::
 `;
 
+    // oxlint-disable-next-line max-params
     const customOpenRender = (
       info: any,
       _tokens: any,

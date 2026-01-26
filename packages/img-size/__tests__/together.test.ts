@@ -6,7 +6,7 @@ import { imgSize, legacyImgSize, obsidianImgSize } from "../src/index.js";
 describe("working together", () => {
   // legacyImgSize must be used before the other two
   const markdownIt = MarkdownIt({ linkify: true })
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    // oxlint-disable-next-line typescript/no-deprecated
     .use(legacyImgSize)
     .use(imgSize)
     .use(obsidianImgSize);

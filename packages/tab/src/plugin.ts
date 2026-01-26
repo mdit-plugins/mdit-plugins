@@ -10,9 +10,15 @@ import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from 
 
 const MIN_MARKER_NUM = 3;
 const TAB_MARKER = "@tab";
-const ACTIVE_TAB_MARKER = TAB_MARKER + ":active";
+const ACTIVE_TAB_MARKER = `${TAB_MARKER}:active`;
 const TAB_MARKER_LENGTH = TAB_MARKER.length;
 const ACTIVE_TAB_MARKER_LENGTH = ACTIVE_TAB_MARKER.length;
+
+interface TabMeta {
+  index: number;
+  active: boolean;
+  id?: string;
+}
 
 const checkTabMarker = (
   state: StateBlock,
@@ -77,13 +83,13 @@ const getTabRule =
         // marker should be indented same as opening one
         state.sCount[nextLine] === indent &&
         // match start
-        state.src[nextLineStart] === "@"
+        state.src[nextLineStart] === "@" &&
+        // check rest of marker
+        checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
       ) {
-        if (checkTabMarker(state, nextLineStart, state.eMarks[nextLine])) {
-          // found!
-          autoClosed = true;
-          break;
-        }
+        // found!
+        autoClosed = true;
+        break;
       }
     }
 
@@ -143,8 +149,9 @@ const getTabRule =
     openToken.meta = {
       active: tabMatch.isActive,
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // oxlint-disable-next-line typescript/no-unsafe-member-access
     if (id) openToken.meta.id = id;
+
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
     state.md.block.tokenize(state, startLine + 1, nextLine + (autoClosed ? 0 : 1));
@@ -178,6 +185,7 @@ const getTabsRule =
     // Check out the rest of the marker string
     while (pos <= max) {
       if (state.src.charCodeAt(pos) !== 58 /* : */) break;
+
       pos++;
     }
 
@@ -190,6 +198,7 @@ const getTabsRule =
     // check name is matched
     for (let i = 0; i < name.length; i++) {
       if (state.src.charCodeAt(pos) !== name.charCodeAt(i)) return false;
+
       pos++;
     }
 
@@ -224,11 +233,12 @@ const getTabsRule =
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < indent)
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < indent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
+      }
 
       if (
         // closing fence should be indented same as opening one
@@ -307,7 +317,7 @@ const getTabsRule =
 
 const getTabsDataGetter =
   (name: string): ((tokens: Token[], index: number) => MarkdownItTabInfo) =>
-  (tokens, index) => {
+  (tokens: Token[], index: number) => {
     const data: MarkdownItTabData[] = [];
     let activeIndex = -1;
     let isTabStart = false;
@@ -319,10 +329,11 @@ const getTabsDataGetter =
       i < tokens.length;
       i++
     ) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { block, meta, type, info } = tokens[i];
+      const token = tokens[i];
+      const meta = token.meta as TabMeta;
+      const type = token.type;
 
-      if (block) {
+      if (token.block) {
         // record the nesting depth of tabs
         if (type === `${name}_tabs_open`) {
           nestingDepth++;
@@ -331,6 +342,7 @@ const getTabsDataGetter =
 
         if (type === `${name}_tabs_close`) {
           if (nestingDepth === 0) break;
+
           nestingDepth--;
           continue;
         }
@@ -341,22 +353,18 @@ const getTabsDataGetter =
         if (type === `${name}_tab_open`) {
           isTabStart = true;
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           meta.index = data.length;
           // tab is active
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (meta.active)
+          if (meta.active) {
             if (activeIndex === -1) activeIndex = data.length;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             else meta.active = false;
+          }
 
           data.push({
-            title: info,
+            title: token.info,
             index: data.length,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            id: meta.id as string | undefined,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            isActive: meta.active as boolean,
+            id: meta.id,
+            isActive: meta.active,
           });
 
           continue;
@@ -379,17 +387,14 @@ const getTabsDataGetter =
   };
 
 const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { info, meta } = tokens[index];
+  const token = tokens[index];
+  const meta = token.meta as TabMeta;
 
   return {
-    title: info,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    index: meta.index as number,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    id: meta.id as string | undefined,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    isActive: meta.active as boolean,
+    title: token.info,
+    index: meta.index,
+    id: meta.id,
+    isActive: meta.active,
   };
 };
 
@@ -399,6 +404,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
 
+    // oxlint-disable-next-line max-params
     openRender = (
       info: MarkdownItTabInfo,
       tokens: Token[],
@@ -411,7 +417,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       const token = tokens[index];
 
       token.attrJoin("class", `${name}-tabs-wrapper`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      // oxlint-disable-next-line typescript/no-unsafe-member-access
       if (token.meta.id) token.attrJoin("data-id", token.meta.id as string);
 
       const tabs = data.map(
@@ -437,6 +443,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 </div>
 `,
 
+    // oxlint-disable-next-line max-params
     tabOpenRender = (
       info: MarkdownItTabData,
       tokens: Token[],
@@ -481,10 +488,10 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   md.renderer.rules[`${name}_tabs_close`] = closeRender;
 
-  md.renderer.rules[`${name}_tab_open`] = (tokens, index, ...args): string => {
+  md.renderer.rules[`${name}_tab_open`] = (tokens, index, options, env, self): string => {
     const data = tabDataGetter(tokens, index);
 
-    return tabOpenRender(data, tokens, index, ...args);
+    return tabOpenRender(data, tokens, index, options, env, self);
   };
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRender;

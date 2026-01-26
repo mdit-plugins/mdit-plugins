@@ -20,6 +20,57 @@ interface AbbrStateCore extends StateCore {
   };
 }
 
+const ESCAPE_RE = /\\(.)/g;
+
+const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
+  let labelEnd = -1;
+  let pos = state.bMarks[startLine] + state.tShift[startLine];
+  const max = state.eMarks[startLine];
+
+  if (
+    pos + 2 >= max ||
+    state.src.charCodeAt(pos++) !== 42 /* * */ ||
+    state.src.charCodeAt(pos++) !== 91 /* [ */
+  )
+    return false;
+
+  const labelStart = pos;
+
+  while (pos < max) {
+    const ch = state.src.charCodeAt(pos);
+
+    if (ch === 91 /* [ */) return false;
+
+    if (ch === 93 /* ] */) {
+      labelEnd = pos;
+      break;
+    }
+    if (ch === 92 /* \ */) pos++;
+
+    pos++;
+  }
+
+  if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
+
+  if (silent) return true;
+
+  const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$1");
+
+  pos = labelEnd + 2;
+  const titleStart = state.skipSpaces(pos);
+  const titleEnd = state.skipSpacesBack(max, titleStart);
+  const title = state.src.slice(titleStart, titleEnd);
+
+  if (label.length === 0 || title.length === 0) return false;
+
+  // prepend ':' to avoid conflict with Object.prototype members
+  (state.env.abbreviations ??= {})[`_${label}`] ??= title;
+
+  state.line = startLine + 1;
+
+  return true;
+};
+
 export const abbr: PluginSimple = (md) => {
   const { arrayReplaceAt, escapeRE, lib } = md.utils;
 
@@ -27,67 +78,23 @@ export const abbr: PluginSimple = (md) => {
   // you can check character classes here:
   // http://www.unicode.org/Public/UNIDATA/UnicodeData.txt
   const OTHER_CHARS = " \r\n$+<=>^`|~";
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // oxlint-disable-next-line typescript/no-unsafe-member-access
   const UNICODE_PUNCTUATION_REGEXP = (lib.ucmicro.P as RegExp).source;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // oxlint-disable-next-line typescript/no-unsafe-member-access
   const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
+  // oxlint-disable-next-line unicorn/no-array-callback-reference
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
-
-  const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
-    let labelEnd = -1;
-    let pos = state.bMarks[startLine] + state.tShift[startLine];
-    const max = state.eMarks[startLine];
-
-    if (
-      pos + 2 >= max ||
-      state.src.charCodeAt(pos++) !== 42 /* * */ ||
-      state.src.charCodeAt(pos++) !== 91 /* [ */
-    )
-      return false;
-
-    const labelStart = pos;
-
-    while (pos < max) {
-      const ch = state.src.charCodeAt(pos);
-
-      if (ch === 91 /* [ */) return false;
-      if (ch === 93 /* ] */) {
-        labelEnd = pos;
-        break;
-      }
-      if (ch === 92 /* \ */) pos++;
-      pos++;
-    }
-
-    if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
-    if (silent) return true;
-
-    const label = state.src.slice(labelStart, labelEnd).replace(/\\(.)/g, "$1");
-
-    pos = labelEnd + 2;
-    const titleStart = state.skipSpaces(pos);
-    const titleEnd = state.skipSpacesBack(max, titleStart);
-    const title = state.src.slice(titleStart, titleEnd);
-
-    if (!label.length || !title.length) return false;
-
-    // prepend ':' to avoid conflict with Object.prototype members
-    (state.env.abbreviations ??= {})["_" + label] ??= title;
-
-    state.line = startLine + 1;
-
-    return true;
-  };
 
   const abbrReplace: RuleCore = (state: AbbrStateCore) => {
     const tokens = state.tokens;
-    const { abbreviations } = state.env;
+    const abbreviations = state.env.abbreviations;
 
     if (!abbreviations) return;
 
     const abbreviationsRegExpText = Object.keys(abbreviations)
-      .map((x) => x.slice(1))
+      .map((item) => item.slice(1))
       .sort((a, b) => b.length - a.length)
+      // oxlint-disable-next-line unicorn/no-array-callback-reference
       .map(escapeRE)
       .join("|");
 
@@ -98,10 +105,14 @@ export const abbr: PluginSimple = (md) => {
       "g",
     );
 
-    for (const token of tokens) {
+    const tokensLength = tokens.length;
+
+    for (let i = 0; i < tokensLength; i++) {
+      const token = tokens[i];
+
       if (token.type !== "inline") continue;
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       let children = token.children!;
 
       // We scan from the end, to keep position when new tags added.
@@ -150,7 +161,7 @@ export const abbr: PluginSimple = (md) => {
           pos = regExp.lastIndex;
         }
 
-        if (!nodes.length) continue;
+        if (nodes.length === 0) continue;
 
         if (pos < text.length) {
           const token = new state.Token("text", "", 0);

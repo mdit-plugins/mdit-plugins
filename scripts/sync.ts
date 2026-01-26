@@ -19,7 +19,7 @@ export const sync = (): Promise<void[]> => {
             {
               method: "PUT",
               headers: {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
+                // oxlint-disable-next-line typescript/naming-convention
                 "Content-Length": 0,
               },
             },
@@ -41,8 +41,8 @@ export const sync = (): Promise<void[]> => {
 
 const npmmirrorSpinner = ora("Syncing npmmirror.com").start();
 
-void sync().then(() => {
-  npmmirrorSpinner.succeed();
+await sync();
 
-  ora("Release complete").succeed();
-});
+npmmirrorSpinner.succeed();
+
+ora("Release complete").succeed();

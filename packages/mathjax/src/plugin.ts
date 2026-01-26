@@ -97,8 +97,10 @@ export const createMathjaxInstance = async (
   const { OutputJax, InputJax } = documentOptions;
 
   const adaptor = liteAdaptor();
+  // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
 
+  // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {

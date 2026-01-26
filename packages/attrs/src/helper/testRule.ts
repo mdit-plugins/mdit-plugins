@@ -14,6 +14,11 @@ export interface TestRuleResult {
 /**
  * Test if rule matches token stream.
  *
+ * @param tokens - token stream
+ * @param index - current token index
+ * @param rule - rule to test
+ *
+ * @returns test result
  */
 export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): TestRuleResult => {
   const testResult: TestRuleResult = {
@@ -30,13 +35,19 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
 
   const token = getArrayItem(tokens, tokenIndex);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line typescript/no-unnecessary-condition
   if (!token) return testResult;
 
-  for (const key of Object.keys(rule) as (keyof typeof rule)[]) {
+  const ruleKeys = Object.keys(rule) as (keyof typeof rule)[];
+
+  const ruleKeysLength = ruleKeys.length;
+
+  for (let i = 0; i < ruleKeysLength; i++) {
+    const key = ruleKeys[i];
+
     if (key === "shift" || key === "position") continue;
 
-    if (token[key as keyof Token] == undefined) return testResult;
+    if (token[key as keyof Token] === undefined) return testResult;
 
     if (key === "children" && Array.isArray(rule.children)) {
       if (!token.children?.length) return testResult;
@@ -46,7 +57,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       let match;
       let range: [start: number, end: number] | null = null;
 
-      if (childTests.every((childTest) => childTest.position != undefined)) {
+      if (childTests.every((childTest) => childTest.position !== undefined)) {
         // positions instead of shifts, do not loop all children
         match = childTests.every((childTest) => {
           const result = testRule(children, childTest.position, childTest);
@@ -65,11 +76,12 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
           testResult.position = position >= 0 ? position : children.length + position;
 
           // set pos data
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           testResult.range = range!;
         }
       } else {
         for (let childIndex = 0; childIndex < children.length; childIndex++) {
+          // oxlint-disable-next-line no-loop-func
           match = childTests.every((childTest) => {
             const result = testRule(children, childIndex, childTest);
 
@@ -83,8 +95,9 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
           if (match) {
             testResult.position = childIndex;
             // set pos data
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // oxlint-disable-next-line max-depth typescript/no-unnecessary-condition
             if (range) testResult.range = range;
+
             // all tests passes. so the check is successful
             break;
           }
@@ -96,7 +109,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       continue;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // oxlint-disable-next-line typescript/no-unsafe-assignment
     const ruleDetail = rule[key];
 
     switch (typeof ruleDetail) {
@@ -109,7 +122,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       }
 
       case "function": {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        // oxlint-disable-next-line typescript/no-unsafe-call
         const result = ruleDetail(token[key]) as boolean | [start: number, end: number];
 
         if (!result) return testResult;

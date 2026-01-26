@@ -36,7 +36,7 @@ const tokenize: RuleInline = (state, silent) => {
 
     token.content = markerChar + markerChar;
 
-    if (scanned.can_open || scanned.can_close)
+    if (scanned.can_open || scanned.can_close) {
       state.delimiters.push({
         marker: 0x2b,
         length: 0, // disable "rule of 3" length checks meant for emphasis
@@ -45,6 +45,7 @@ const tokenize: RuleInline = (state, silent) => {
         open: scanned.can_open,
         close: scanned.can_close,
       });
+    }
   }
 
   state.pos += scanned.length;
@@ -97,8 +98,8 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
    * So, we have to move all those markers after subsequent s_close tags.
    *
    */
-  while (loneMarkers.length) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  while (loneMarkers.length > 0) {
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const i = loneMarkers.pop()!;
     let j = i + 1;
 
@@ -119,8 +120,15 @@ export const ins: PluginSimple = (md) => {
   md.inline.ruler2.before("emphasis", "ins", (state) => {
     postProcess(state, state.delimiters);
 
-    for (const tokenMeta of state.tokens_meta) {
-      if (tokenMeta?.delimiters) postProcess(state, tokenMeta.delimiters);
+    const tokensMeta = state.tokens_meta;
+    const tokensMetaLength = tokensMeta.length;
+
+    if (tokensMetaLength === 0) return true;
+
+    for (let i = 0; i < tokensMetaLength; i++) {
+      const tokenMeta = tokensMeta[i];
+
+      if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters);
     }
 
     return true;

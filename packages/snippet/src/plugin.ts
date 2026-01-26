@@ -21,12 +21,17 @@ const REGIONS_RE = [
 ];
 const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
 const SNIPPET_META_RE = /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
+const REGION_START_MARKER_RE = /^[rR]egion$/;
+const REGION_END_MARKER_RE = /^[Ee]nd ?[rR]egion$/;
 
 const testLine = (line: string, regexp: RegExp, regionName: string, end = false): boolean => {
   const [full, tag, name] = regexp.exec(line.trimStart()) ?? [];
 
   return Boolean(
-    full && tag && name === regionName && tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
+    full &&
+    tag &&
+    name === regionName &&
+    tag.match(end ? REGION_END_MARKER_RE : REGION_START_MARKER_RE),
   );
 };
 
@@ -37,31 +42,39 @@ const findRegion = (
   let regexp: RegExp | null = null;
   let start = -1;
 
-  for (const [lineId, line] of lines.entries())
+  for (let lineId = 0; lineId < lines.length; ++lineId) {
+    const line = lines[lineId];
+
     if (regexp === null) {
-      for (const reg of REGIONS_RE)
+      for (let i = 0; i < REGIONS_RE.length; ++i) {
+        const reg = REGIONS_RE[i];
+
         if (testLine(line, reg, regionName)) {
           start = lineId + 1;
           regexp = reg;
           break;
         }
+      }
     } else if (testLine(line, regexp, regionName, true)) {
       return { start, end: lineId, regexp };
     }
+  }
 
   return null;
 };
 
 const getSnippetRule =
-  ({ currentPath, resolvePath }: Required<MarkdownItSnippetOptions>): RuleBlock =>
+  (
+    currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
+    resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
+  ): RuleBlock =>
   (state, startLine, _endLine, silent) => {
     const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
-    for (let index = 0; index < 3; ++index) {
+    for (let index = 0; index < 3; ++index)
       if (state.src.charCodeAt(pos + index) !== 60 /* < */ || pos + index >= max) return false;
-    }
 
     if (silent) return true;
 
@@ -78,7 +91,7 @@ const getSnippetRule =
     const currentFilePath = currentPath(env);
     const snippetContent = state.src.slice(start, end).trim();
     // the regexp supposes to match any possible snippet format
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
     const [, region = "", lines = "", lang = ""] = SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
@@ -102,15 +115,17 @@ const getSnippetRule =
     return true;
   };
 
+const defaultPathResolver = (path: string): string => path;
+
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
-  const { currentPath, resolvePath = (path: string): string => path } = options ?? {};
+  const { currentPath, resolvePath = defaultPathResolver } = options ?? {};
 
   if (typeof currentPath !== "function")
-    throw new Error('[@mdit/plugin-snippet]: "currentPath" is required');
+    throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
 
-  md.block.ruler.before("fence", "snippet", getSnippetRule({ currentPath, resolvePath }));
+  md.block.ruler.before("fence", "snippet", getSnippetRule(currentPath, resolvePath));
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const originalFence = md.renderer.rules.fence!;
 
   md.renderer.rules.fence = (
@@ -126,7 +141,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
       region: string;
     };
 
-    if (src)
+    if (src) {
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
         let content = fs.readFileSync(src, "utf8");
 
@@ -134,13 +149,14 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
           const lines = content.split(NEWLINE_RE);
           const regionInfo = findRegion(lines, region);
 
-          if (regionInfo)
+          if (regionInfo) {
             content = dedent(
               lines
                 .slice(regionInfo.start, regionInfo.end)
                 .filter((line: string) => !regionInfo.regexp.test(line.trim()))
                 .join("\n"),
             );
+          }
         }
 
         token.content = content;
@@ -150,6 +166,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
         token.content = `Code snippet path not found: ${src}`;
         token.info = "";
       }
+    }
 
     return originalFence(tokens, index, options, env, self);
   };

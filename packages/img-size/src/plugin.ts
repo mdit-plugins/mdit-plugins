@@ -10,6 +10,9 @@ const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCo
 /**
  * Parse image size information from label text
  * Format: `alt =width x height`
+ *
+ * @param label - label text to parse
+ * @returns parsed size info or null if not found
  */
 const parseImageSize = (
   label: string,
@@ -18,9 +21,10 @@ const parseImageSize = (
   let pos = label.lastIndexOf("=");
 
   if (pos === -1 || pos + 3 > max) return null;
+
   if (pos !== 0 && !isSpace(label.charCodeAt(pos - 1))) return null;
 
-  const origLabel = label.substring(0, pos++).trimEnd();
+  const origLabel = label.slice(0, pos++).trimEnd();
 
   let width: string | null = null;
   let height: string | null = null;
@@ -28,11 +32,9 @@ const parseImageSize = (
   if (isNumber(label.charCodeAt(pos))) {
     const startPos = pos;
 
-    while (pos < max && isNumber(label.charCodeAt(pos))) {
-      pos++;
-    }
+    while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
-    width = label.substring(startPos, pos);
+    width = label.slice(startPos, pos);
 
     if (label.charCodeAt(pos++) !== 120 /* x */) return null;
   } else if (label.charCodeAt(pos++) === 120 /* x */) {
@@ -44,15 +46,14 @@ const parseImageSize = (
   if (pos < max) {
     const startPos = pos;
 
-    while (pos < max && isNumber(label.charCodeAt(pos))) {
-      pos++;
-    }
+    while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
-    if (pos > startPos) height = label.substring(startPos, pos);
+    if (pos > startPos) height = label.slice(startPos, pos);
   }
 
   while (pos < max) {
     if (!isSpace(label.charCodeAt(pos))) return null;
+
     pos++;
   }
 
@@ -104,6 +105,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
 
     while (pos < max) {
       if (!isSpace(state.src.charCodeAt(pos))) break;
+
       pos++;
     }
 
@@ -126,9 +128,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     //                ^^ skipping these spaces
     const start = pos;
 
-    for (; pos < max; pos++) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
-    }
+    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
 
     // [link](  <href>  "title"  )
     //                  ^^^^^^^ parsing link title
@@ -140,9 +140,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
 
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
-      for (; pos < max; pos++) {
-        if (!isSpace(state.src.charCodeAt(pos))) break;
-      }
+      for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
     } else {
       title = "";
     }
@@ -159,13 +157,11 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
-    for (; pos < max; pos++) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
-    }
+    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
 
     if (pos < max && state.src.charCodeAt(pos) === 91 /* [ */) {
       const start = pos + 1;
@@ -184,7 +180,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(referenceLabel)];
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
     if (!ref) {
       state.pos = oldPos;
 
@@ -207,7 +203,9 @@ export const imgSizeRule: RuleInline = (state, silent) => {
     ];
 
     if (title) attrs.push(["title", title]);
+
     if (width) attrs.push(["width", width]);
+
     if (height) attrs.push(["height", height]);
 
     const tokens: Token[] = [];

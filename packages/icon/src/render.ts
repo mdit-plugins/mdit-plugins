@@ -2,11 +2,15 @@ import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 
 /**
  * Default render for icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const defaultRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
 
   if (size) appendStyle(attrs, `font-size:${size}`);
+
   if (color) appendStyle(attrs, `color:${color}`);
 
   return `\
@@ -16,11 +20,15 @@ export const defaultRender = (icon: string): string => {
 
 /**
  * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const iconifyRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
 
   if (size) appendStyle(attrs, `font-size:${size}`);
+
   if (color) appendStyle(attrs, `color:${color}`);
 
   return `<iconify-icon icon="${content}"${stringifyAttrs(attrs)}></iconify-icon>`;
@@ -96,28 +104,41 @@ export const FONTAWESOME_FAMILIES_AND_STYLES = [...FONTAWESOME_FAMILIES, ...FONT
 
 /**
  * Check if a class is a valid fontawesome short alias
+ *
+ * @param cls class string
+ * @returns whether the class is a fontawesome short alias
  */
 export const isFontawesomeShortAlias = (cls: string): boolean =>
   FONTAWESOME_SHORT_ALIAS.includes(cls);
 
 /**
  * Check if a class is a valid fontawesome family
+ *
+ * @param cls class string
+ * @returns whether the class is a fontawesome family
  */
 export const isFontawesomeFamily = (cls: string): boolean => FONTAWESOME_FAMILIES.includes(cls);
 
 /**
  * Ensure every class is prefixed with `fa-` or a valid short alias
+ *
+ * @param icon icon class string
+ * @returns prefixed icon class string
  */
 export const appendFontawesomePrefix = (icon: string): string =>
   icon.startsWith("fa-") || isFontawesomeShortAlias(icon) ? icon : `fa-${icon}`;
 
 /**
  * Render for [fontawesome](https://fontawesome.com/) icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const fontawesomeRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
 
   if (size) appendStyle(attrs, `font-size:${size}`);
+
   if (color) appendStyle(attrs, `color:${color}`);
 
   const classes = content.split(/\s+/);
@@ -126,12 +147,11 @@ export const fontawesomeRender = (icon: string): string => {
 
   // a icon name with explicit family (possibly with style) not found
   if (iconNameIndex === -1) {
+    // oxlint-disable-next-line unicorn/no-array-callback-reference
     finalClasses.push(...classes.map(appendFontawesomePrefix));
 
     // if no family is specified, default to solid
-    if (finalClasses.every((cls) => !isFontawesomeFamily(cls))) {
-      finalClasses.push("fa-solid");
-    }
+    if (finalClasses.every((cls) => !isFontawesomeFamily(cls))) finalClasses.push("fa-solid");
   } else {
     // get explicit icon name and it's family
     const [iconName] = classes.splice(iconNameIndex, 1);
@@ -141,6 +161,7 @@ export const fontawesomeRender = (icon: string): string => {
     finalClasses.push(
       type.length <= 2 ? `fa${type}` : appendFontawesomePrefix(type),
       appendFontawesomePrefix(name),
+      // oxlint-disable-next-line unicorn/no-array-callback-reference
       ...classes.map(appendFontawesomePrefix),
     );
   }
@@ -152,11 +173,15 @@ export const fontawesomeRender = (icon: string): string => {
 
 /**
  * Render for [iconfont](https://www.iconfont.cn/) icons
+ *
+ * @param icon icon string
+ * @returns rendered icon content
  */
 export const iconfontRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
 
   if (size) appendStyle(attrs, `font-size:${size}`);
+
   if (color) appendStyle(attrs, `color:${color}`);
 
   // add `iconfont` class and `icon-` prefix for first class

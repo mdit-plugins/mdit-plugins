@@ -1,4 +1,5 @@
 import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 export interface MarkdownItUMLOptions {
   /**
@@ -29,3 +30,9 @@ export interface MarkdownItUMLOptions {
    */
   render: RenderRule;
 }
+
+export const defaultRender = (tokens: Token[], index: number): string => {
+  const token = tokens[index];
+
+  return `<div class="${token.type}" title="${token.info}">${token.content}</div>`;
+};
