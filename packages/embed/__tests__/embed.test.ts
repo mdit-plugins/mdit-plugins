@@ -588,9 +588,9 @@ Continue {% icon middle %} and {% badge final %} end.`;
           name: "style-aware",
           allowInline: true,
           setup: (content: string, isInline: boolean): string => {
-            if (isInline) {
+            if (isInline)
               return `<span class="inline-style" data-content="${content}">📍 ${content}</span>`;
-            }
+
             return `<div class="block-style" data-content="${content}"><h3>Block: ${content}</h3></div>`;
           },
         },
@@ -681,9 +681,8 @@ Here is some text with {% style-aware inline-item %} embedded.
             setup: (params: string, isInline: boolean): string => {
               const [id, title = "Video"] = params.split("|");
 
-              if (isInline) {
-                return `<a href="/video/${id}" class="video-link">${title}</a>`;
-              }
+              if (isInline) return `<a href="/video/${id}" class="video-link">${title}</a>`;
+
               return `<iframe src="/embed/${id}" title="${title}" class="video-player"></iframe>`;
             },
           },
