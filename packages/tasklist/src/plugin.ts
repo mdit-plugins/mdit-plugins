@@ -24,14 +24,26 @@ interface TaskListStateCore extends StateCore {
 // The leading whitespace in a list item (token.content) is already trimmed off by markdown-it.
 // The regex below checks for '[ ] ' or '[x] ' or '[X] ' at the start of the string token.content,
 // where the space is either a normal space or a non-breaking space (character 160 = \u00A0).
-const startsWithTodoMarkdown = (token: Token): boolean =>
-  /^\[[xX \u00A0]\][ \u00A0]/.test(token.content);
+const startsWithTodoMarkdown = (token: Token): "checked" | boolean => {
+  const content = token.content;
 
-const isTaskListItem = (tokens: Token[], index: number): boolean =>
-  isInlineToken(tokens[index]) &&
-  isParagraphToken(tokens[index - 1]) &&
-  isListItemToken(tokens[index - 2]) &&
-  startsWithTodoMarkdown(tokens[index]);
+  // minimal length is 4: "[ ] "
+  if (content.length < 4) return false;
+
+  if (content.charCodeAt(0) !== 91 /* [ */) return false;
+
+  if (content.charCodeAt(2) !== 93 /* ] */) return false;
+
+  const spacer = content.charCodeAt(3);
+
+  if (spacer !== 32 /* space */ && spacer !== 160 /* \u00A0 */) return false;
+
+  const contentChar = content.charCodeAt(1);
+
+  if (contentChar === 120 /* x */ || contentChar === 88 /* X */) return "checked";
+
+  return contentChar === 32 /* space */ || contentChar === 160 /* \u00A0 */;
+};
 
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   md,
@@ -49,50 +61,60 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
     state.env.tasklistId ||= 0;
 
-    for (let i = 2; i < tokens.length; i++)
-      if (isTaskListItem(tokens, i)) {
-        const token = tokens[i];
+    for (let index = 2; index < tokens.length; index++) {
+      const token = tokens[index];
 
-        token.children ??= [];
+      // check if the token is an inline token inside a list item and starts with todo markdown
+      if (
+        !isInlineToken(token) ||
+        !isParagraphToken(tokens[index - 1]) ||
+        !isListItemToken(tokens[index - 2])
+      )
+        continue;
 
-        // remove the checkbox syntax letter
-        token.children[0].content = token.children[0].content.slice(3);
+      const todoState = startsWithTodoMarkdown(token);
 
-        const id = `task-item-${state.env.tasklistId++}`;
+      if (todoState === false) continue;
 
-        if (label) {
-          // add label
-          const labelToken = new state.Token("label_open", "label", 1);
+      token.children ??= [];
 
-          labelToken.attrs = [
-            ["class", labelClass],
-            ["for", id],
-          ];
+      // remove the checkbox syntax letter
+      token.children[0].content = token.children[0].content.slice(3);
 
-          token.children.unshift(labelToken);
-          token.children.push(new state.Token("label_close", "label", -1));
-        }
+      const id = `task-item-${state.env.tasklistId++}`;
 
-        const checkboxToken = new state.Token("checkbox_input", "input", 0);
+      if (label) {
+        // add label
+        const labelToken = new state.Token("label_open", "label", 1);
 
-        checkboxToken.attrs = [
-          ["type", "checkbox"],
-          ["class", checkboxClass],
-          ["id", id],
+        labelToken.attrs = [
+          ["class", labelClass],
+          ["for", id],
         ];
 
-        // if token.content starts with '[x] ' or '[X] '
-        if (/^\[[xX]\][ \u00A0]/.test(token.content))
-          checkboxToken.attrs.push(["checked", "checked"]);
-
-        if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
-
-        // checkbox
-        token.children.unshift(checkboxToken);
-
-        setTokenAttr(tokens[i - 2], "class", itemClass);
-        setTokenAttr(tokens[getParentTokenIndex(tokens, i - 2)], "class", containerClass);
+        token.children.unshift(labelToken);
+        token.children.push(new state.Token("label_close", "label", -1));
       }
+
+      const checkboxToken = new state.Token("checkbox_input", "input", 0);
+
+      checkboxToken.attrs = [
+        ["type", "checkbox"],
+        ["class", checkboxClass],
+        ["id", id],
+      ];
+
+      // if token.content starts with '[x] ' or '[X] '
+      if (todoState === "checked") checkboxToken.attrs.push(["checked", "checked"]);
+
+      if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
+
+      // checkbox
+      token.children.unshift(checkboxToken);
+
+      setTokenAttr(tokens[index - 2], "class", itemClass);
+      setTokenAttr(tokens[getParentTokenIndex(tokens, index - 2)], "class", containerClass);
+    }
 
     return true;
   };

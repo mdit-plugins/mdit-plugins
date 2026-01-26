@@ -8,9 +8,11 @@ const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
 it("should render", () => {
   const result = markdownIt.render(`
 - [ ] unchecked item 1
-- [ ] unchecked item 2
-- [ ] unchecked item 3
+- [\u00A0] unchecked item 2
+- [X] checked item 3
 - [x] checked item 4
+- [ ]\u00A0unchecked item 4
+- [\u00A0]\u00A0unchecked item 6
 `);
 
   expect(result).toContain("label");
@@ -24,8 +26,9 @@ it("should render ordered list", () => {
   const result = markdownIt.render(`
 1. [x] checked ordered 1
 2. [ ] unchecked ordered 2
-3. [x] checked ordered 3
-4. [ ] unchecked ordered 4
+3. [X] checked ordered 3
+4. [\u00A0] unchecked ordered 4
+5. [ ]\u00A0unchecked ordered 5
 `);
 
   expect(result).toContain("label");
@@ -65,20 +68,6 @@ it("should render nested list", () => {
   expect(olResult).toContain("</ol>");
   expect(olResult).toContain("</li>");
   expect(olResult).toMatchSnapshot();
-});
-
-it("should not render", () => {
-  const result = markdownIt.render(`
-- [ ]
-- [  ] not a todo item 2
-- [ x] not a todo item 3
-- [x ] not a todo item 4
-- [ x ] not a todo item 5
-`);
-
-  expect(result).not.toContain("label");
-  expect(result).not.toContain("input");
-  expect(result).toMatchSnapshot();
 });
 
 it("should not render label", () => {
@@ -149,5 +138,23 @@ it("should support disabled option", () => {
 
   expect(result).toContain("label");
   expect(result).not.toContain("disabled");
+  expect(result).toMatchSnapshot();
+});
+
+it("should not render", () => {
+  const result = markdownIt.render(`
+- [ ]
+- [  ] not a todo item 2
+- [ x] not a todo item 3
+- [x ] not a todo item 4
+- [ x ] not a todo item 5
+- [a] not a todo item 6
+- [ ]not a todo item 7
+- [x]not a todo item 8
+- [X]not a todo item 9
+`);
+
+  expect(result).not.toContain("label");
+  expect(result).not.toContain("input");
   expect(result).toMatchSnapshot();
 });
