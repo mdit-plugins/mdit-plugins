@@ -27,7 +27,7 @@ const createToken = (overrides: Partial<Token> = {}): Token =>
     ...overrides,
   }) as Token;
 
-describe("getMatchingOpeningToken", () => {
+describe(getMatchingOpeningToken, () => {
   it("should return null for softbreak tokens", () => {
     const tokens = [createToken({ type: "softbreak" })];
 

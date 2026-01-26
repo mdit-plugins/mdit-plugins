@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { escapeHtml, escapeRegExp } from "../src/index.js";
 
-describe("escapeHtml", () => {
+describe(escapeHtml, () => {
   it("should escape & to &amp;", () => {
     expect(escapeHtml("&")).toBe("&amp;");
   });
@@ -30,18 +30,18 @@ describe("escapeHtml", () => {
   });
 });
 
-describe("escapeRegExp", () => {
+describe(escapeRegExp, () => {
   it("should escape special characters for RegExp", () => {
-    expect(escapeRegExp("[test]")).toBe("\\[test\\]");
-    expect(escapeRegExp("a+b")).toBe("a\\+b");
-    expect(escapeRegExp("a*b")).toBe("a\\*b");
-    expect(escapeRegExp("a?b")).toBe("a\\?b");
-    expect(escapeRegExp("a.b")).toBe("a\\.b");
-    expect(escapeRegExp("a(b)c")).toBe("a\\(b\\)c");
-    expect(escapeRegExp("a{b}c")).toBe("a\\{b\\}c");
-    expect(escapeRegExp("a|b")).toBe("a\\|b");
-    expect(escapeRegExp("a^b")).toBe("a\\^b");
-    expect(escapeRegExp("a$b")).toBe("a\\$b");
-    expect(escapeRegExp("a\\b")).toBe("a\\\\b");
+    expect(escapeRegExp("[test]")).toBe(String.raw`\[test\]`);
+    expect(escapeRegExp("a+b")).toBe(String.raw`a\+b`);
+    expect(escapeRegExp("a*b")).toBe(String.raw`a\*b`);
+    expect(escapeRegExp("a?b")).toBe(String.raw`a\?b`);
+    expect(escapeRegExp("a.b")).toBe(String.raw`a\.b`);
+    expect(escapeRegExp("a(b)c")).toBe(String.raw`a\(b\)c`);
+    expect(escapeRegExp("a{b}c")).toBe(String.raw`a\{b\}c`);
+    expect(escapeRegExp("a|b")).toBe(String.raw`a\|b`);
+    expect(escapeRegExp("a^b")).toBe(String.raw`a\^b`);
+    expect(escapeRegExp("a$b")).toBe(String.raw`a\$b`);
+    expect(escapeRegExp(String.raw`a\b`)).toBe(String.raw`a\\b`);
   });
 });

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { defaultRender, fontawesomeRender, iconfontRender, iconifyRender } from "../src/render.js";
 
-describe("defaultRender", () => {
+describe(defaultRender, () => {
   it("should render default icon", () => {
     expect(defaultRender("test")).toBe('<i icon="test"></i>');
   });
@@ -24,7 +24,7 @@ describe("defaultRender", () => {
   });
 });
 
-describe("iconifyRender", () => {
+describe(iconifyRender, () => {
   it("should render iconify icon", () => {
     expect(iconifyRender("test:icon")).toBe('<iconify-icon icon="test:icon"></iconify-icon>');
   });
@@ -36,7 +36,7 @@ describe("iconifyRender", () => {
   });
 });
 
-describe("iconfontRender", () => {
+describe(iconfontRender, () => {
   it("should render iconfont icon", () => {
     expect(iconfontRender("test")).toBe('<span class="iconfont icon-test"></span>');
   });
@@ -60,7 +60,7 @@ describe("iconfontRender", () => {
   });
 });
 
-describe("fontawesomeRender", () => {
+describe(fontawesomeRender, () => {
   it("should render fontawesome icon with classes", () => {
     expect(fontawesomeRender("fa-test")).toBe('<i class="fa-test fa-solid"></i>');
 

@@ -1,3 +1,4 @@
+// oxlint-disable unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
 import { container as containerNew } from "../src/index.js";

@@ -79,7 +79,7 @@ it("extractSize", () => {
   });
 });
 
-describe("extractAttrs", () => {
+describe(extractAttrs, () => {
   it("Only classes", () => {
     expect(extractAttrs({ content: "class1 class2" })).toEqual({
       attrs: {},
@@ -271,7 +271,7 @@ describe("extractAttrs", () => {
   });
 });
 
-describe("extractInfo", () => {
+describe(extractInfo, () => {
   it("should extract info", () => {
     expect(
       extractInfo({
@@ -289,7 +289,7 @@ describe("extractInfo", () => {
   });
 });
 
-describe("appendStyle", () => {
+describe(appendStyle, () => {
   it("Empty style", () => {
     expect(appendStyle({}, "color: red;")).toEqual({
       style: "color: red;",
@@ -315,7 +315,7 @@ describe("appendStyle", () => {
   });
 });
 
-describe("stringifyAttrs", () => {
+describe(stringifyAttrs, () => {
   it("Empty attrs", () => {
     expect(stringifyAttrs({})).toBe("");
   });
