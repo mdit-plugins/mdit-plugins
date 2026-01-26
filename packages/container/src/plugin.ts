@@ -11,10 +11,10 @@ import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
+// oxlint-disable-next-line max-lines-per-function
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
-  if (typeof options !== "object" || !options.name) {
+  if (typeof options !== "object" || !options.name)
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");
-  }
 
   const {
     name,
@@ -59,6 +59,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
       if (marker[(pos - currentLineStart) % markerLength] !== state.src[pos]) break;
+
       pos++;
     }
 
@@ -91,11 +92,12 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent)
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
+      }
 
       if (
         // closing fence should be indented same as opening one

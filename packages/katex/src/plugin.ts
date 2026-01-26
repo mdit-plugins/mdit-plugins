@@ -88,7 +88,7 @@ export const katex = <MarkdownItEnv = unknown>(
         commonKatexOptions,
         {
           strict: (errorCode, errorMsg, token) =>
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // oxlint-disable-next-line typescript/no-unnecessary-condition
             logger(errorCode, errorMsg, token, env) ?? "ignore",
           displayMode,
         },

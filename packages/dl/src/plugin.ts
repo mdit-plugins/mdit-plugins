@@ -35,7 +35,7 @@ const checkAndSkipMarker = (state: StateBlock, line: number): number => {
 const markTightParagraphs = (state: StateBlock, index: number): void => {
   const level = state.level + 2;
 
-  for (let i = index + 2, l = state.tokens.length - 2; i < l; i++) {
+  for (let i = index + 2, length = state.tokens.length - 2; i < length; i++) {
     if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
       state.tokens[i + 2].hidden = true;
       state.tokens[i].hidden = true;
@@ -92,6 +92,7 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
   // Thus, there is two loops here, and label is
   // needed to break out of the second one
   //
+  // oxlint-disable-next-line no-labels
   OUTER: for (;;) {
     let prevEmptyEnd = false;
 
@@ -147,7 +148,7 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       state.md.block.tokenize(state, ddLine, endLine, true);
 
       // If any of list item is tight, mark list as tight
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line typescript/no-unnecessary-condition
       if (!state.tight || prevEmptyEnd) tight = false;
 
       // Item become loose if finish with empty line,
@@ -165,8 +166,10 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
       itemLines[1] = nextLine = state.line;
 
+      // oxlint-disable-next-line no-labels
       if (nextLine >= endLine) break OUTER;
 
+      // oxlint-disable-next-line no-labels
       if (state.sCount[nextLine] < state.blkIndent) break OUTER;
 
       contentStart = checkAndSkipMarker(state, nextLine);

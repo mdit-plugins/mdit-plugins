@@ -6,6 +6,8 @@ import { UNESCAPE_RE } from "@mdit/helper";
 import type { PluginSimple } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 
+const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(^|[^\\])(\\\\)*\s/u;
+
 const superscriptRender: RuleInline = (state, silent) => {
   const max = state.posMax;
   const start = state.pos;
@@ -40,7 +42,7 @@ const superscriptRender: RuleInline = (state, silent) => {
   const content = state.src.slice(start + 1, state.pos);
 
   // don’t allow unescaped spaces/newlines inside
-  if (/(^|[^\\])(\\\\)*\s/u.exec(content)) {
+  if (UNESCAPED_SPACES_OR_NEW_LINES_RE.test(content)) {
     state.pos = start;
 
     return false;

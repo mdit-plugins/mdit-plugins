@@ -8,7 +8,7 @@ export interface FootNoteToken extends Token {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export interface FootNoteEnv extends Record<any, any> {
   docId?: string;
   footnotes: {

@@ -2,13 +2,18 @@
  * Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js
  */
 
-import type { PluginWithOptions } from "markdown-it";
+import type { Options, PluginWithOptions } from "markdown-it";
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItTexOptions } from "./options.js";
+
+const BLOCK_MARKER = String.raw`\[`;
+const INLINE_MARKER = String.raw`\(`;
 
 /*
  * Count preceding backslashes from a position
@@ -177,7 +182,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
   if (!silent) {
     const token = state.push("math_inline", "math", 0);
 
-    token.markup = "\\(";
+    token.markup = INLINE_MARKER;
     token.content = state.src.slice(start + 2, pos);
   }
 
@@ -327,7 +332,7 @@ const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) 
     state.getLines(startLine + 1, current, state.tShift[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
-  token.markup = "\\[";
+  token.markup = BLOCK_MARKER;
 
   return true;
 };
@@ -338,7 +343,7 @@ const ruleOptions = {
 
 export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (typeof options?.render !== "function")
-    throw new Error('[@mdit/plugin-tex]: "render" option should be a function');
+    throw new TypeError('[@mdit/plugin-tex]: "render" option should be a function');
 
   const {
     allowInlineWithSpace = false,
@@ -351,15 +356,19 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (mathFence) {
     const fence = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (...args): string => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const [tokens, index, , env] = args;
-      const { content, info } = tokens[index];
+    md.renderer.rules.fence = (
+      tokens: Token[],
+      index: number,
+      options: Options,
+      env: unknown,
+      self: Renderer,
+    ): string => {
+      const token = tokens[index];
 
-      if (info.trim() === "math") return render(content, true, env);
+      if (token.info.trim() === "math") return render(token.content, true, env);
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return fence!(...args);
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      return fence!(tokens, index, options, env, self);
     };
   }
 

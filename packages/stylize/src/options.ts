@@ -38,7 +38,7 @@ export interface MarkdownItStylizeConfig {
     tag: string;
     content: string;
     attrs: Record<string, string>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     env?: any;
   }) => MarkdownItStylizeResult | null | void;
 }
@@ -63,7 +63,7 @@ export interface MarkdownItStylizeOptions {
    * @returns 本地格式化配置
    */
   localConfigGetter?: (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     env?: any,
   ) => MarkdownItStylizeConfig[] | null;
 }

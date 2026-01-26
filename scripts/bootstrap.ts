@@ -37,12 +37,12 @@ files.forEach((pkgName) => {
       },
       type: "module",
       exports: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+        // oxlint-disable-next-line typescript/naming-convention
         ".": {
           type: "./lib/index.d.ts",
           default: "./lib/index.js",
         },
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+        // oxlint-disable-next-line typescript/naming-convention
         "./package.json": "./package.json",
       },
       main: "lib/index.js",
@@ -74,7 +74,7 @@ files.forEach((pkgName) => {
   const readmePath = join(packagesDir, pkgName, "README.md");
 
   // generate README.md
-  if (!existsSync(readmePath))
+  if (!existsSync(readmePath)) {
     writeFileSync(
       readmePath,
       `\
@@ -96,4 +96,5 @@ yarn add -D @mdit/plugin-${pkgName}
 \`\`\`
 `,
     );
+  }
 });

@@ -60,17 +60,25 @@ const findRegion = (
   let regexp = null;
   let lineStart = -1;
 
-  for (const [lineId, line] of lines.entries())
+  const lineEnd = lines.length;
+
+  for (let lineIndex = 0; lineIndex < lineEnd; lineIndex++) {
+    const line = lines[lineIndex];
+
     if (regexp === null) {
-      for (const reg of REGIONS_RE)
+      for (let i = 0; i < REGIONS_RE.length; i++) {
+        const reg = REGIONS_RE[i];
+
         if (testLine(line, reg, regionName)) {
-          lineStart = lineId + 1;
+          lineStart = lineIndex + 1;
           regexp = reg;
           break;
         }
+      }
     } else if (testLine(line, regexp, regionName, true)) {
-      return { lineStart, lineEnd: lineId };
+      return { lineStart, lineEnd: lineIndex };
     }
+  }
 
   return null;
 };
@@ -86,6 +94,7 @@ export const handleInclude = (
     // if the importPath is relative path, we need to resolve it
     // according to the markdown filePath
     if (!cwd) {
+      // oxlint-disable-next-line no-console
       console.error(`[@mdit/plugin-include]: Error when resolving path: ${filePath}`);
 
       return "\nError when resolving path\n";
@@ -98,6 +107,7 @@ export const handleInclude = (
 
   // check file existence
   if (!fs.existsSync(realPath)) {
+    // oxlint-disable-next-line no-console
     console.error(`[@mdit/plugin-include]: ${realPath} not found`);
 
     return "\nFile not found\n";
@@ -147,6 +157,7 @@ export const resolveInclude = (
 ): string =>
   content.replace(
     options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE,
+    // oxlint-disable-next-line max-params
     (
       _,
       indent: string,
@@ -257,7 +268,7 @@ const resolveRelatedLink = (
 
       const resolvedPath = path.join(includeDir, url);
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       token.attrs![attrIndex][1] = resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
     }
   }
@@ -273,9 +284,8 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
     useComment = true,
   } = options ?? {};
 
-  if (typeof currentPath !== "function") {
-    throw new Error('[@mdit/plugin-include]: "currentPath" is required');
-  }
+  if (typeof currentPath !== "function")
+    throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
 
   const includeRule: RuleCore = (state): void => {
     const env = state.env as IncludeEnv;
@@ -324,13 +334,15 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
       /* istanbul ignore else -- @preserve */
       if (Array.isArray(includedPaths)) includedPaths.pop();
+
+      // oxlint-disable-next-line no-console
       else console.error(`[@mdit/plugin-include]: include_end failed, no include_start.`);
 
       return "";
     };
 
     if (resolveImagePath) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const defaultImageRender = md.renderer.rules.image!;
 
       md.renderer.rules.image = (tokens, index, options, env: IncludeEnv, self): string => {

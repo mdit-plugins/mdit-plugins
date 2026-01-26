@@ -73,6 +73,7 @@ const parseImageSize = (
   };
 };
 
+// oxlint-disable-next-line max-lines-per-function
 const legacyImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
   const oldPos = state.pos;
@@ -109,6 +110,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
     while (pos < max) {
       if (!isSpace(state.src.charCodeAt(pos))) break;
+
       pos++;
     }
 
@@ -132,9 +134,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //                ^^ skipping these spaces
     const start = pos;
 
-    for (; pos < max; pos++) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
-    }
+    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
 
     // [link](  <href>  "title"  )
     //                  ^^^^^^^ parsing link title
@@ -167,9 +167,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
       // [link](  <href>  "title" =WxH  )
       //                              ^^ skipping these spaces
-      for (; pos < max; pos++) {
-        if (!isSpace(state.src.charCodeAt(pos))) break;
-      }
+      for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
     }
 
     if (pos >= max || state.src.charCodeAt(pos) !== 41 /* ) */) {
@@ -184,7 +182,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (typeof env.references === "undefined") return false;
+    if (env.references === undefined) return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
@@ -210,7 +208,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(label)];
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
     if (!ref) {
       state.pos = oldPos;
 
@@ -239,8 +237,11 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     ];
 
     if (title) attrs.push(["title", title]);
+
     if (width) attrs.push(["width", width]);
+
     if (height) attrs.push(["height", height]);
+
     token.attrs = attrs;
 
     token.children = tokens;
@@ -255,6 +256,8 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
 /**
  * @deprecated Recommended to use `imgSize` instead.
+ *
+ * @param md Markdown-it instance
  */
 export const legacyImgSize: PluginSimple = (md) => {
   md.inline.ruler.before("emphasis", "image", legacyImgSizeRule);

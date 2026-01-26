@@ -3,21 +3,11 @@ import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
 import type { MarkdownItUMLOptions } from "./options.js";
+import { defaultRender } from "./options.js";
 
-export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
-  md,
-  { name, open, close, render } = {
-    name: "uml",
-    open: "start",
-    close: "end",
-    render: (tokens, index): string => {
-      const token = tokens[index];
-      const { content, info, type } = token;
+export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
+  const { name = "uml", open = "start", close = "end", render = defaultRender } = options ?? {};
 
-      return `<div class="${type}" title="${info}">${content}</div>`;
-    },
-  },
-) => {
   const OPEN_MARKER = `@${open}`;
   const CLOSE_MARKER = `@${close}`;
 
@@ -55,11 +45,12 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       start = state.bMarks[nextLine] + state.tShift[nextLine];
       max = state.eMarks[nextLine];
 
-      if (start < max && state.sCount[nextLine] < state.blkIndent)
+      if (start < max && state.sCount[nextLine] < state.blkIndent) {
         // non-empty line with negative indent should stop the list:
         // - @umlstart
         //  test
         break;
+      }
 
       if (
         // didn’t find the closing fence
@@ -69,11 +60,12 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (
       ) {
         let closeMarkerMatched = true;
 
-        for (index = 0; index < CLOSE_MARKER.length; ++index)
+        for (index = 0; index < CLOSE_MARKER.length; ++index) {
           if (CLOSE_MARKER[index] !== state.src[start + index]) {
             closeMarkerMatched = false;
             break;
           }
+        }
 
         if (
           closeMarkerMatched &&

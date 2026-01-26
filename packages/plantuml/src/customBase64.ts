@@ -2,6 +2,9 @@
  * @see https://plantuml.com/en/text-encoding
  *
  * PlantUML uses a custom Base64 encoding scheme for text data.
+ *
+ * @param byte - 6-bit byte value
+ * @returns encoded character
  */
 const encode6bit = (byte: number): string =>
   byte < 10
@@ -39,13 +42,10 @@ export const customEncodeBase64 = (data: string): string => {
   let result = "";
 
   for (let i = 0; i < data.length; i += 3) {
-    if (i + 2 === data.length) {
+    if (i + 2 === data.length)
       result += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), 0);
-    } else if (i + 1 === data.length) {
-      result += append3bytes(data.charCodeAt(i), 0, 0);
-    } else {
-      result += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), data.charCodeAt(i + 2));
-    }
+    else if (i + 1 === data.length) result += append3bytes(data.charCodeAt(i), 0, 0);
+    else result += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), data.charCodeAt(i + 2));
   }
 
   return result;

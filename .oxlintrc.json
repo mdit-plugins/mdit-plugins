@@ -75,8 +75,10 @@
     // toSorted can introduce memory overhead
     // in some chained calls it is better to use reverse as the "sorted" array is also a temp variable.
     "unicorn/no-array-sort": "off",
-    // sometimes nested ternary is considerable
-    "unicorn/no-nested-ternary": "warn",
+    // conflicts with oxfmt code style
+    "unicorn/no-nested-ternary": "off",
+    // conflicts with oxfmt code style
+    "unicorn/number-literal-case": "off",
     // Array.at() is too modern for browser targets
     "unicorn/prefer-at": "off",
     // support starts with chrome71, firefox68. safari12.1, node12
@@ -86,35 +88,61 @@
     // stylistic rules with default being tweaked
 
     "catch-error-name": ["warn", { "name": "err" }],
-    "curly": ["warn", "multi-line"],
+    // FIXME: https://github.com/oxc-project/oxc/issues/18566
+    // "curly": ["warn", "multi-or-nest", "consistent"],
+    "curly": "off",
     "max-dependencies": ["warn", { "ignoreTypeImports": true, "max": 15 }],
     "max-lines": ["warn", { "max": 500, "skipBlankLines": true, "skipComments": true }],
     "max-lines-per-function": [
       "warn",
       { "max": 100, "skipBlankLines": true, "skipComments": true }
     ],
-    "max-params": ["warn", 4],
-    "max-statements": ["warn", { "max": 30 }],
 
     // per project settings
-    "id-length": "off"
+    "id-length": ["warn", { "min": 2, "exceptions": ["a", "b", "i", "j", "T", "_"] }],
+    "max-depth": ["warn", 5],
+    "max-params": ["warn", 5],
+    "max-statements": "off",
+    "new-cap": ["warn", { "capIsNewExceptionPattern": "MarkdownIt" }],
+    "no-multi-assign": "off"
   },
   "overrides": [
     {
       "files": ["**/*.ts"],
       "plugins": ["typescript"],
       "rules": {
-        // we make type casts only when necessary
-        // "typescript/no-unsafe-type-assertion": "off",
-        // skipping it for now, may enable it later
-        // "typescript/switch-exhaustiveness-check": "off",
-        // a lot of time we are just want to check existence
-        // "typescript/strict-boolean-expressions": "off"
+        // we need `export {}` to convert a file to a module
+        "unicorn/require-module-specifiers": "off"
       }
     },
+
     {
-      "files": ["**/__tests__/**"],
-      "plugins": ["vitest"]
+      "files": ["packages/*/src/**/*.ts"],
+      "plugins": ["typescript"],
+      "rules": {
+        // some rules are disabled due to performance consideration
+        "prefer-destructuring": "off",
+        "prefer-object-spread": "off",
+        "prefer-spread": "off",
+        "typescript/prefer-for-of": "off",
+        "unicorn/no-for-loop": "off",
+        "unicorn/prefer-array-flat": "off",
+        "unicorn/prefer-code-point": "off",
+        "unicorn/prefer-spread": "off"
+      }
+    },
+
+    {
+      "files": ["**/__tests__/**/*.ts"],
+      "plugins": ["typescript", "vitest"],
+      "rules": {
+        "max-lines-per-function": "off",
+        "max-lines": "off",
+        "typescript/ban-ts-comment": "off",
+        "typescript/prefer-ts-expect-error": "off",
+        "vitest/prefer-called-once": "off",
+        "unicorn/consistent-function-scoping": "off"
+      }
     }
   ]
 }

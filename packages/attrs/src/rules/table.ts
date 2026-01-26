@@ -2,6 +2,7 @@ import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 import type { AttrRule } from "./types.js";
+import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
@@ -14,8 +15,9 @@ interface TokenWithColumnCount extends Token {
     | undefined;
 }
 
+// oxlint-disable-next-line max-lines-per-function
 export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
-  {
+  defineAttrRule({
     /**
      * | h1 |
      * | -- |
@@ -51,12 +53,12 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove the paragraph tokens containing the attributes
       tokens.splice(index + 1, 3);
     },
-  },
+  }),
   /**
    * Handle table cell attributes: title {.class}
    * This rule processes attributes within table cell text content
    */
-  {
+  defineAttrRule({
     name: "table cell attributes",
     tests: [
       {
@@ -77,7 +79,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
     ],
     transform: (tokens, index, childIndex, range): void => {
       const attrStartIndex = range[0] - options.left.length;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const token = tokens[index].children![childIndex];
       const cellOpenToken = tokens[index - 1];
       const { content } = token;
@@ -91,8 +93,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
       // Remove attribute syntax from content
       token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
-  },
-  {
+  }),
+  defineAttrRule({
     /**
      * | A | B |
      * | -- | -- |
@@ -140,9 +142,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         }
 
         // Count th_close tokens at the same level
-        if (currentToken.level === thCloseToken.level && currentToken.type === thCloseToken.type) {
+        if (currentToken.level === thCloseToken.level && currentToken.type === thCloseToken.type)
           columnCount++;
-        }
 
         currentIndex--;
       }
@@ -155,8 +156,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         columnCount,
       };
     },
-  },
-  {
+  }),
+  defineAttrRule({
     /**
      * | A | B | C | D |
      * | -- | -- | -- | -- |
@@ -175,9 +176,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
     transform: (tokens, index): void => {
       let tbodyOpenIndex = index - 2;
 
-      while (tbodyOpenIndex >= 0 && tokens[tbodyOpenIndex].type !== "tbody_open") {
-        tbodyOpenIndex--;
-      }
+      while (tbodyOpenIndex >= 0 && tokens[tbodyOpenIndex].type !== "tbody_open") tbodyOpenIndex--;
 
       const columnCount = (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
 
@@ -196,9 +195,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
         // Find tr_close
         let trCloseIndex = trOpenIndex + 1;
 
-        while (trCloseIndex < index && tokens[trCloseIndex].type !== "tr_close") {
-          trCloseIndex++;
-        }
+        while (trCloseIndex < index && tokens[trCloseIndex].type !== "tr_close") trCloseIndex++;
 
         // Collect cell info
         const cells: [openIndex: number, closeIndex: number][] = [];
@@ -214,9 +211,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
             closeIndex < trCloseIndex &&
             tokens[closeIndex].type !== "td_close" &&
             tokens[closeIndex].type !== "th_close"
-          ) {
+          )
             closeIndex++;
-          }
 
           cells.push([cellSearchIndex, closeIndex]);
           // move to next token
@@ -250,23 +246,18 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
             // colspan should not overflow table columns
             if (colIndex + colSpanIndex < columnCount) {
               // the column is not occupied by rowspan
-              if (remainingCellRemovedByRowSpan[colIndex + colSpanIndex] === 0) {
-                realColspan++;
-              } else {
-                break;
-              }
+              if (remainingCellRemovedByRowSpan[colIndex + colSpanIndex] === 0) realColspan++;
+              else break;
             }
           }
 
-          if (colspan > 1 && realColspan < colspan) {
+          if (colspan > 1 && realColspan < colspan)
             cellOpenToken.attrSet("colspan", String(realColspan));
-          }
 
           // Mark columns as occupied
           for (let i = 0; i < realColspan; i++) {
-            if (colIndex + i < columnCount) {
+            if (colIndex + i < columnCount)
               remainingCellRemovedByRowSpan[colIndex + i] = rowspan - 1;
-            }
           }
 
           // Consume merged cells
@@ -288,9 +279,7 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
 
       // Remove tokens in reverse order
       rangesToRemove.sort((a, b) => b[0] - a[0]);
-      for (const [start, end] of rangesToRemove) {
-        tokens.splice(start, end - start + 1);
-      }
+      for (const [start, end] of rangesToRemove) tokens.splice(start, end - start + 1);
     },
-  },
+  }),
 ];

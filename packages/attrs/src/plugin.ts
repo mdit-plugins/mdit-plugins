@@ -21,14 +21,17 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
     rule,
   });
 
-  const attrsRule: RuleCore = ({ tokens }) => {
-    for (let index = 0; index < tokens.length; index++)
+  const attrsRule: RuleCore = (state) => {
+    const tokens = state.tokens;
+
+    for (let index = 0; index < tokens.length; index++) {
       for (let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
         const pattern = rules[ruleIndex];
         // position of child with offset 0
         let position: null | number = null;
         let range: DelimiterRange | null = null;
 
+        // oxlint-disable-next-line no-loop-func
         const match = pattern.tests.every((test) => {
           const result = testRule(tokens, index, test);
 
@@ -39,14 +42,19 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         });
 
         if (match) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           pattern.transform(tokens, index, position!, range!);
 
-          if (pattern.name === "inline attributes" || pattern.name === "inline nesting self-close")
+          if (
+            pattern.name === "inline attributes" ||
+            pattern.name === "inline nesting self-close"
+          ) {
             // retry, may be several inline attributes
             ruleIndex--;
+          }
         }
       }
+    }
   };
 
   md.core.ruler.before("linkify", "attrs", attrsRule);
