@@ -1,7 +1,8 @@
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
-
+import type { MathJaxNewcmFont as MathJaxNewcmHTMLFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
+import type { MathJaxNewcmFont as MathJaxNewcmSVGFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
@@ -22,15 +23,20 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { texPackages } from "./tex/index.js";
 
+// oxlint-disable-next-line import/no-unassigned-import
+import "./tex/importer.js";
+
 let isMathJaxFullInstalled = true;
 let mathjaxLib: typeof mathjaxType;
 let TeX: typeof TeXType;
 let CHTML: typeof CHTMLType;
 let SVG: typeof SVGType;
 let liteAdaptor: typeof liteAdaptorType;
-// move type import to front
 let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
 let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
+let isMathJaxTexFontInstalled = true;
+let chtmlFont: typeof MathJaxNewcmHTMLFont;
+let svgFont: typeof MathJaxNewcmSVGFont;
 
 try {
   ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
@@ -46,6 +52,16 @@ try {
   isMathJaxFullInstalled = false;
 }
 
+try {
+  // oxlint-disable-next-line unicorn/no-await-expression-member
+  chtmlFont = (await import("@mathjax/mathjax-newcm-font/js/chtml.js")).MathJaxNewcmFont;
+  // oxlint-disable-next-line unicorn/no-await-expression-member
+  svgFont = (await import("@mathjax/mathjax-newcm-font/js/svg.js")).MathJaxNewcmFont;
+} catch {
+  /* istanbul ignore next -- @preserve */
+  isMathJaxTexFontInstalled = false;
+}
+
 export interface DocumentOptions {
   InputJax: TeXType<LiteElement, string, HTMLElement>;
   OutputJax:
@@ -59,6 +75,9 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
   if (!isMathJaxFullInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
 
+  /* istanbul ignore if -- @preserve */
+  if (!isMathJaxTexFontInstalled)
+    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-tex-font" is not installed!');
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
       packages: ["base", ...texPackages],
@@ -67,11 +86,25 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
     OutputJax:
       options.output === "chtml"
         ? new CHTML<LiteElement, string, HTMLElement>({
-            adaptiveCSS: true,
+            fontData: chtmlFont,
+            // fontURL can be set to undefined if you want to bundle the fonts yourself
+            // it shall be synced with fontData, so set it to undefined if fontData is customized
+            ...(options.chtml?.fontData
+              ? {}
+              : {
+                  fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2",
+                  dynamicPrefix:
+                    "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/dynamic",
+                }),
             ...options.chtml,
           })
         : new SVG<LiteElement, string, HTMLElement>({
-            fontCache: "none",
+            fontData: svgFont,
+            // fontURL can be set to undefined if you want to bundle the fonts yourself
+            // it shall be synced with fontData, so set it to undefined if fontData is customized
+            ...(options.svg?.fontData
+              ? {}
+              : { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/svg/woff2" }),
             ...options.svg,
           }),
     enableAssistiveMml: options.a11y !== false,
@@ -130,6 +163,8 @@ export const createMathjaxInstance = (
 
   // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+
+  // FIXME: load all fontData or try to only load syncly
 
   const clearStyle = (): void => {
     // clear style cache

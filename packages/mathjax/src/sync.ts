@@ -1,7 +1,8 @@
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
-
+import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
+import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
@@ -37,11 +38,25 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
   OutputJax:
     options.output === "chtml"
       ? new CHTML<LiteElement, string, HTMLElement>({
-          adaptiveCSS: true,
+          fontData: chtmlFont,
+          // fontURL can be set to undefined if you want to bundle the fonts yourself
+          // it shall be synced with fontData, so set it to undefined if fontData is customized
+          ...(options.chtml?.fontData
+            ? {}
+            : {
+                fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2",
+                dynamicPrefix:
+                  "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/dynamic",
+              }),
           ...options.chtml,
         })
       : new SVG<LiteElement, string, HTMLElement>({
-          fontCache: "none",
+          fontData: svgFont,
+          // fontURL can be set to undefined if you want to bundle the fonts yourself
+          // it shall be synced with fontData, so set it to undefined if fontData is customized
+          ...(options.svg?.fontData
+            ? {}
+            : { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/svg/woff2" }),
           ...options.svg,
         }),
   enableAssistiveMml: options.a11y !== false,
@@ -99,6 +114,8 @@ export const createMathjaxInstance = (
 
   // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+
+  // FIXME: load all fontData or try to only load syncly
 
   const clearStyle = (): void => {
     // clear style cache

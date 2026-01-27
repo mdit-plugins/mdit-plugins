@@ -1,6 +1,15 @@
 import type { MmlNode } from "@mathjax/src/js/core/MmlTree/MmlNode.js";
 import type TexError from "@mathjax/src/js/input/tex/TexError.js";
 import type { TeX } from "@mathjax/src/js/input/tex.js";
+import type { ChtmlFontData } from "@mathjax/src/js/output/chtml/FontData.js";
+import type { SvgFontData } from "@mathjax/src/js/output/svg/FontData.js";
+import type { MathItem } from "@mathjax/src/js/core/MathItem.js";
+import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
+import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
+import type { CssStyles } from "@mathjax/src/js/ui/menu/mj-context-menu.js";
+import type { LinebreakVisitor } from "@mathjax/src/js/output/common/LinebreakVisitor.js";
+import type { SvgWrapperFactory } from "@mathjax/src/js/output/svg/WrapperFactory.js";
+import type { ChtmlWrapperFactory } from "@mathjax/src/js/output/chtml/WrapperFactory.js";
 
 export type TexPackage =
   | "action"
@@ -47,7 +56,6 @@ export interface MathJaxTexInputOptions {
    * extensions to use
    *
    * @default [
-   *   'base',
    *   'action',
    *   'ams',
    *   'amscd',
@@ -136,6 +144,17 @@ export interface MathJaxTexInputOptions {
   formatError?: (jax: TeX<unknown, unknown, unknown>, error: typeof TexError) => MmlNode;
 }
 
+export interface MathjaxFilterData {
+  math: MathItem<LiteElement, string, HTMLElement>;
+  document: MathDocument<LiteElement, string, HTMLElement>;
+  data: any;
+}
+
+export type MathjaxFilter = (data: MathjaxFilterData) => void;
+
+/**
+ * @see https://docs.mathjax.org/en/latest/options/output/index.html#option-descriptions
+ */
 export interface MathjaxCommonOutputOptions {
   /**
    * Global scaling factor for all expressions
@@ -187,16 +206,6 @@ export interface MathjaxCommonOutputOptions {
   unknownFamily?: string;
 
   /**
-   * @default "center"
-   */
-  displayAlign?: "left" | "center" | "right";
-
-  /**
-   * @default 0
-   */
-  displayIndent?: string;
-
-  /**
    * - `true` for MathML spacing rules
    * - `false` for TeX rules
    *
@@ -215,6 +224,105 @@ export interface MathjaxCommonOutputOptions {
    * @default 0.5
    */
   exFactor?: number;
+
+  /**
+   * default for indentalign when set to 'auto'
+   *
+   * @default "center"
+   */
+  displayAlign?: "left" | "center" | "right";
+
+  /**
+   * default for indentshift when set to 'auto'
+   *
+   * @default 0
+   */
+  displayIndent?: string;
+
+  /**
+   * default for overflow
+   *
+   * @default "overflow"
+   */
+  displayOverflow?: "scroll" | "scale" | "truncate" | "elide" | "linebreak" | "overflow";
+
+  /**
+   * options for when overflow is linebreak
+   */
+  linebreaks?: {
+    /**
+     * true for browser-based breaking of inline equations
+     *
+     * @default true
+     */
+    inline?: boolean;
+
+    /**
+     * a fixed size or a percentage of the container width
+     *
+     * @default "100%"
+     */
+    width?: string;
+
+    /**
+     * the default lineleading in em units
+     *
+     * @default 0.2
+     */
+    lineleading?: number;
+
+    /**
+     * for developers only
+     */
+    LinebreakVisitor?: typeof LinebreakVisitor;
+  };
+
+  /**
+   * the font component to load
+   *
+   * @default ""
+   */
+  font?: string;
+
+  /**
+   * The path to the font definitions
+   *
+   * @default "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/"
+   */
+  fontPath?: string;
+
+  /**
+   * The font extensions to load
+   *
+   * @default []
+   */
+  fontExtensions?: string[];
+
+  /**
+   * 'use', 'force', or 'ignore' data-mjx-hdw attributes
+   *
+   * @default "auto"
+   */
+  htmlHDW?: "use" | "force" | "ignore";
+
+  /**
+   * A list of pre-filters to add to the output jax
+   *
+   * @default []
+   */
+  preFilters?: MathjaxFilter[];
+
+  /**
+   * A list of post-filters to add to the output jax
+   *
+   * @default []
+   */
+  postFilters?: MathjaxFilter[];
+
+  /**
+   * for developers only
+   */
+  cssStyles?: typeof CssStyles;
 }
 
 export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptions {
@@ -226,11 +334,25 @@ export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptio
   matchFontHeight?: boolean;
 
   /**
+   * Font data to use
+   *
+   * @default font data from `@mathjax/mathjax-newcm-font`
+   */
+  fontData?: typeof ChtmlFontData;
+
+  /**
    * The URL where the fonts are found
    *
-   * @default local from `@mathjax/src`
+   * @default jsdelivr CDN links for `@mathjax/mathjax-newcm-font`
    */
   fontURL?: string;
+
+  /**
+   * location where MathJax should look for font data that has to be loaded dynamically.
+   *
+   * @default jsdelivr CDN links for `@mathjax/mathjax-newcm-font`
+   */
+  dynamicPrefix?: string;
 
   /**
    * Whether only produce CSS that is used in the processed equations
@@ -238,13 +360,40 @@ export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptio
    * @default true
    */
   adaptiveCSS?: boolean;
+
+  /**
+   * for developers only
+   */
+  wrapperFactory?: typeof ChtmlWrapperFactory;
 }
 
 export interface MathjaxSVGOutputOptions extends MathjaxCommonOutputOptions {
   /**
-   * @default "none"
+   * stroke-width to use for SVG character paths in units that are 1/1000 of an em
+   *
+   * @default 3
+   */
+  blacker?: number;
+
+  /**
+   * @see https://docs.mathjax.org/en/latest/options/output/svg.html#option-descriptions
+   * @default "local"
    */
   fontCache?: "local" | "global" | "none";
+
+  /**
+   * Font data to use
+   *
+   * @default font data from `@mathjax/mathjax-newcm-font`
+   */
+  fontData?: typeof SvgFontData;
+
+  /**
+   * Whether the xlink namespace should be included in the href attributes or not
+   *
+   * @default true
+   */
+  useXlink?: boolean;
 
   /**
    * ID to use for local font cache (for single equation processing)
@@ -252,14 +401,7 @@ export interface MathjaxSVGOutputOptions extends MathjaxCommonOutputOptions {
   localID?: string | null;
 
   /**
-   * insert <title> tags with speech content
-   *
-   * @default true
+   * for developers only
    */
-  internalSpeechTitles?: boolean;
-
-  /**
-   * initial id number to use for aria-labeledby titles
-   */
-  titleID?: number;
+  wrapperFactory?: typeof SvgWrapperFactory;
 }

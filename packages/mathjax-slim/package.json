@@ -54,10 +54,14 @@
     "@mathjax/src": "4.1.0"
   },
   "peerDependencies": {
+    "@mathjax/mathjax-newcm-font": "^4.1.0",
     "@mathjax/src": "^4.0.0",
     "markdown-it": "^14.1.0"
   },
   "peerDependenciesMeta": {
+    "@mathjax/mathjax-newcm-font": {
+      "optional": true
+    },
     "@mathjax/src": {
       "optional": true
     },

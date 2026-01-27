@@ -178,12 +178,12 @@ $$
 
 describe("generating Style", () => {
   it("should generate correct CSS with svg", async () => {
-    const mathjaxInstance = await createMathjaxInstance({ output: "svg" });
+    const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    expect(mathjaxInstance!.outputStyle().split("\n").length).toMatchSnapshot("style");
+    expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 
   it("should generate correct CSS with HTML", async () => {
@@ -197,7 +197,7 @@ describe("generating Style", () => {
 });
 
 describe("check label result pre page", () => {
-  it("should generate correct label and CSS with svg", async () => {
+  it("should generate correct label and CSS with SVG", async () => {
     const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
@@ -225,9 +225,9 @@ describe("check label result pre page", () => {
 });
 
 it("should work with transformer", async () => {
-  const mathjaxInstance = await createMathjaxInstance({
+  const mathjaxInstance = (await createMathjaxInstance({
     transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
-  });
+  }))!;
   const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
   expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");

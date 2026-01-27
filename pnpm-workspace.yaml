@@ -20,8 +20,6 @@ overrides:
   "@mdit/plugin-img-mark": workspace:*
   "@mdit/plugin-img-size": workspace:*
   "@mdit/plugin-include": workspace:*
-  # FIXME: temporarily disabled due to build issues
-  # "@mdit/plugin-katex-slim": workspace:*
   "@mdit/plugin-mark": workspace:*
   "@mdit/plugin-mathjax-slim": workspace:*
   "@mdit/plugin-plantuml": workspace:*
@@ -40,3 +38,6 @@ packageExtensions:
     peerDependenciesMeta:
       rollup:
         optional: true
+
+patchedDependencies:
+  "@vuepress/plugin-markdown-math": patches/@vuepress__plugin-markdown-math.patch

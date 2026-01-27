@@ -177,7 +177,7 @@ $$
 });
 
 describe("generating Style", () => {
-  it("should generate correct CSS with svg", () => {
+  it("should generate correct CSS with svg", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
@@ -186,7 +186,7 @@ describe("generating Style", () => {
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should generate correct CSS with HTML", () => {
+  it("should generate correct CSS with HTML", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
@@ -197,7 +197,7 @@ describe("generating Style", () => {
 });
 
 describe("check label result pre page", () => {
-  it("should generate correct label and CSS with svg", () => {
+  it("should generate correct label and CSS with SVG", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
@@ -210,7 +210,7 @@ describe("check label result pre page", () => {
     expect(mathjaxInstance.outputStyle().split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should generate correct label and CSS with HTML", () => {
+  it("should generate correct label and CSS with HTML", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 

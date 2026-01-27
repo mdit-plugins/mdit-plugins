@@ -16,9 +16,13 @@ import { CHTML } from "@mathjax/src/js/output/chtml.js";
 import { SVG } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
+import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
+import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
+
+mathjaxLib.asyncLoad = (file) => import(file);
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;
@@ -29,6 +33,25 @@ export interface DocumentOptions {
 export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
 ): Promise<DocumentOptions> => {
+  const isCHTML = options.output === "chtml";
+  const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+  const outputOptions = Object.assign(
+    {
+      fontData: isCHTML ? chtmlFont : svgFont,
+    },
+    // fontURL can be set to undefined if you want to bundle the fonts yourself
+    // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
+    userOptions?.fontData
+      ? {}
+      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+    isCHTML && !userOptions.fontData
+      ? {
+          fontURL: `https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/${isCHTML ? "chtml" : "svg"}/woff2`,
+        }
+      : {},
+    userOptions,
+  );
+
   await loadTexPackages(options.tex?.packages);
 
   return {
@@ -36,16 +59,7 @@ export const getDocumentOptions = async (
       packages: ["base", ...texPackages],
       ...options.tex,
     }),
-    OutputJax:
-      options.output === "chtml"
-        ? new CHTML<LiteElement, string, HTMLElement>({
-            adaptiveCSS: true,
-            ...options.chtml,
-          })
-        : new SVG<LiteElement, string, HTMLElement>({
-            fontCache: "none",
-            ...options.svg,
-          }),
+    OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
     enableAssistiveMml: options.a11y !== false,
   };
 };
@@ -76,7 +90,7 @@ export interface MathjaxInstance extends Required<
    *
    * @returns style
    */
-  outputStyle: () => string;
+  outputStyle: () => Promise<string>;
 
   /**
    * Reset tex (including labels)
@@ -112,7 +126,9 @@ export const createMathjaxInstance = async (
     InputJax.reset();
   };
 
-  const outputStyle = (): string => {
+  const outputStyle = async (): Promise<string> => {
+    await OutputJax.font.loadDynamicFiles();
+
     const style = adaptor.innerHTML(
       OutputJax.styleSheet(
         mathjaxLib.document("", documentOptions) as MathDocument<LiteElement, string, HTMLElement>,

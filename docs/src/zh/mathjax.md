@@ -23,7 +23,7 @@ const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
-const style = mathjaxInstance.outputStyle();
+const style = await mathjaxInstance.outputStyle();
 ```
 
 这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。

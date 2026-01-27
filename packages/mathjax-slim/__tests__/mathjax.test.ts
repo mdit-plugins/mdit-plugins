@@ -197,7 +197,7 @@ describe("generating Style", () => {
 });
 
 describe("check label result pre page", () => {
-  it("should generate correct label and CSS with svg", async () => {
+  it("should generate correct label and CSS with SVG", async () => {
     const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
