@@ -20,6 +20,8 @@ overrides:
   "@mdit/plugin-img-mark": workspace:*
   "@mdit/plugin-img-size": workspace:*
   "@mdit/plugin-include": workspace:*
+  "@mdit/plugin-katex": workspace:*
+  "@mdit/plugin-katex-slim": workspace:*
   "@mdit/plugin-mark": workspace:*
   "@mdit/plugin-mathjax-slim": workspace:*
   "@mdit/plugin-plantuml": workspace:*
