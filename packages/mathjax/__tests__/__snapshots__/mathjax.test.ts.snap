@@ -3091,12 +3091,12 @@ mjx-c.mjx-c1D44F {
 "
 `;
 
-exports[`generating Style > should generate correct CSS with svg > content 1`] = `
+exports[`generating Style > should generate correct CSS with SVG > content 1`] = `
 "<mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true" style="position: relative;"><svg style="vertical-align: -1.577ex;" xmlns="http://www.w3.org/2000/svg" width="2.192ex" height="4.106ex" role="img" focusable="false" viewBox="0 -1118 969 1815" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"><defs><path id="MJX-1-NCM-I-1D44E" d="M498 144C498 153 493 158 482 158C474 158 468 151 465 137C445 58 421 18 394 18C377 18 368 32 368 60C368 73 372 97 381 132L438 357C443 376 445 387 445 392C445 412 434 422 412 422C391 422 377 410 370 387C349 424 319 442 281 442C216 442 159 409 109 343C63 281 40 217 40 150C40 63 91-11 175-11C218-11 260 12 300 58C311 20 345-11 392-11C461-11 482 70 498 144M341 374C350 353 355 339 355 330C355 326 354 321 353 314L304 122C301 111 294 99 285 87C248 41 212 18 177 18C138 18 118 48 118 107C118 131 124 167 136 215C157 300 187 357 224 388C244 405 263 413 282 413C309 413 329 400 341 374Z"></path><path id="MJX-1-NCM-I-1D44F" d="M281 445C245 445 209 428 174 394L243 679C241 688 238 694 226 694C193 694 120 685 107 684C92 682 84 675 84 660C84 650 93 645 112 645C131 645 157 646 157 632C157 628 152 608 143 571L63 249C52 207 47 173 47 148C47 62 93-11 175-11C240-11 297 22 347 89C392 151 415 216 415 283C415 370 364 445 281 445M279 415C318 415 337 385 337 326C337 299 331 263 319 218C297 133 268 75 233 44C213 27 194 19 175 19C134 19 114 51 114 115C114 137 119 170 129 214L151 304C154 319 159 330 165 338C204 389 242 415 279 415Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\\frac{a}{b}
 "><g data-mml-node="mfrac" data-latex="\\frac{a}{b}"><g data-mml-node="mi" data-latex="a" transform="translate(220,676)"><use data-c="1D44E" xlink:href="#MJX-1-NCM-I-1D44E"></use></g><g data-mml-node="mi" data-latex="b" transform="translate(270,-686)"><use data-c="1D44F" xlink:href="#MJX-1-NCM-I-1D44F"></use></g><rect width="729" height="60" x="120" y="220"></rect></g></g></g></svg><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" data-latex="\\frac{a}{b}" display="block"><mfrac data-latex="\\frac{a}{b}"><mi data-latex="a">a</mi><mi data-latex="b">b</mi></mfrac></math></mjx-assistive-mml></mjx-container>"
 `;
 
-exports[`generating Style > should generate correct CSS with svg > style 1`] = `
+exports[`generating Style > should generate correct CSS with SVG > style 1`] = `
 "
 mjx-container[overflow="scroll"][display] {
   overflow: auto clip;

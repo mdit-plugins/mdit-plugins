@@ -177,7 +177,7 @@ $$
 });
 
 describe("generating Style", () => {
-  it("should generate correct CSS with svg", async () => {
+  it("should generate correct CSS with SVG", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
