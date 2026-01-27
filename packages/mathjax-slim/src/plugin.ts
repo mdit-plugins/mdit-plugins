@@ -93,9 +93,7 @@ export const getDocumentOptions = async (
       ? {}
       : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
     isCHTML && !userOptions.fontData
-      ? {
-          fontURL: `https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/${isCHTML ? "chtml" : "svg"}/woff2`,
-        }
+      ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
       : {},
     userOptions,
   );
