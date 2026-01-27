@@ -30,37 +30,33 @@ export interface DocumentOptions {
   enableAssistiveMml: boolean;
 }
 
-export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => ({
-  InputJax: new TeX<LiteElement, string, HTMLElement>({
-    packages: ["base", ...texPackages],
-    ...options.tex,
-  }),
-  OutputJax:
-    options.output === "chtml"
-      ? new CHTML<LiteElement, string, HTMLElement>({
-          fontData: chtmlFont,
-          // fontURL can be set to undefined if you want to bundle the fonts yourself
-          // it shall be synced with fontData, so set it to undefined if fontData is customized
-          ...(options.chtml?.fontData
-            ? {}
-            : {
-                fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2",
-                dynamicPrefix:
-                  "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/dynamic",
-              }),
-          ...options.chtml,
-        })
-      : new SVG<LiteElement, string, HTMLElement>({
-          fontData: svgFont,
-          // fontURL can be set to undefined if you want to bundle the fonts yourself
-          // it shall be synced with fontData, so set it to undefined if fontData is customized
-          ...(options.svg?.fontData
-            ? {}
-            : { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/svg/woff2" }),
-          ...options.svg,
-        }),
-  enableAssistiveMml: options.a11y !== false,
-});
+export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => {
+  const isCHTML = options.output === "chtml";
+  const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+  const outputOptions = Object.assign(
+    {
+      fontData: isCHTML ? chtmlFont : svgFont,
+    },
+    // fontURL can be set to undefined if you want to bundle the fonts yourself
+    // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
+    userOptions?.fontData
+      ? {}
+      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+    isCHTML && !userOptions.fontData
+      ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
+      : {},
+    userOptions,
+  );
+
+  return {
+    InputJax: new TeX<LiteElement, string, HTMLElement>({
+      packages: ["base", ...texPackages],
+      ...options.tex,
+    }),
+    OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
+    enableAssistiveMml: options.a11y !== false,
+  };
+};
 
 /**
  * Mathjax instance

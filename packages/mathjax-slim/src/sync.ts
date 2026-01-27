@@ -34,7 +34,7 @@ let SVG: typeof SVGType;
 let liteAdaptor: typeof liteAdaptorType;
 let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
 let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
-let isMathJaxTexFontInstalled = true;
+let isMathJaxNewcmFontInstalled = true;
 let chtmlFont: typeof MathJaxNewcmHTMLFont;
 let svgFont: typeof MathJaxNewcmSVGFont;
 
@@ -59,7 +59,7 @@ try {
   svgFont = (await import("@mathjax/mathjax-newcm-font/js/svg.js")).MathJaxNewcmFont;
 } catch {
   /* istanbul ignore next -- @preserve */
-  isMathJaxTexFontInstalled = false;
+  isMathJaxNewcmFontInstalled = false;
 }
 
 export interface DocumentOptions {
@@ -75,38 +75,35 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
   if (!isMathJaxFullInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
 
+  const isCHTML = options.output === "chtml";
+  const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxTexFontInstalled)
-    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-tex-font" is not installed!');
+  if (!userOptions.fontData && !isMathJaxNewcmFontInstalled)
+    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-newcm-font" is not installed!');
+
+  const outputOptions = Object.assign(
+    {
+      fontData: isCHTML ? chtmlFont : svgFont,
+    },
+    // fontURL can be set to undefined if you want to bundle the fonts yourself
+    // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
+    userOptions?.fontData
+      ? {}
+      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+    isCHTML && !userOptions.fontData
+      ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
+      : {},
+    userOptions,
+  );
+
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
       packages: ["base", ...texPackages],
       ...options.tex,
     }),
-    OutputJax:
-      options.output === "chtml"
-        ? new CHTML<LiteElement, string, HTMLElement>({
-            fontData: chtmlFont,
-            // fontURL can be set to undefined if you want to bundle the fonts yourself
-            // it shall be synced with fontData, so set it to undefined if fontData is customized
-            ...(options.chtml?.fontData
-              ? {}
-              : {
-                  fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2",
-                  dynamicPrefix:
-                    "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/dynamic",
-                }),
-            ...options.chtml,
-          })
-        : new SVG<LiteElement, string, HTMLElement>({
-            fontData: svgFont,
-            // fontURL can be set to undefined if you want to bundle the fonts yourself
-            // it shall be synced with fontData, so set it to undefined if fontData is customized
-            ...(options.svg?.fontData
-              ? {}
-              : { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/svg/woff2" }),
-            ...options.svg,
-          }),
+    OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
+
     enableAssistiveMml: options.a11y !== false,
   };
 };
