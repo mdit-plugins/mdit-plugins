@@ -144,12 +144,18 @@ export interface MathJaxTexInputOptions {
   formatError?: (jax: TeX<unknown, unknown, unknown>, error: typeof TexError) => MmlNode;
 }
 
+/**
+ * Data passed to MathJax filters
+ */
 export interface MathjaxFilterData {
   math: MathItem<LiteElement, string, HTMLElement>;
   document: MathDocument<LiteElement, string, HTMLElement>;
   data: any;
 }
 
+/**
+ * MathJax filter function
+ */
 export type MathjaxFilter = (data: MathjaxFilterData) => void;
 
 /**
