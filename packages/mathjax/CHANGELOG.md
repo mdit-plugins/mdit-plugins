@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-mathjax@0.24.1...@mdit/plugin-mathjax@0.25.0) (2026-01-28)
+
+### ✨ Features
+
+- **mathjax:** update options types ([a7e5df7](https://github.com/mdit-plugins/mdit-plugins/commit/a7e5df768be5bbebd32ddd849445fbaec627e5e8))
+
+### 🐛 Bug Fixes
+
+- **mathjax:** support dynamic font loading ([#315](https://github.com/mdit-plugins/mdit-plugins/issues/315)) ([394fb4b](https://github.com/mdit-plugins/mdit-plugins/commit/394fb4b9b7b6595f7ec130a5ea3578c591ffb87a))
+
 ## [0.24.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-mathjax@0.24.0...@mdit/plugin-mathjax@0.24.1) (2025-12-01)
 
 **Note:** Version bump only for package @mdit/plugin-mathjax

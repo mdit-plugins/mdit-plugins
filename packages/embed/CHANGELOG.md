@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-embed@0.24.0...@mdit/plugin-embed@0.24.1) (2026-01-28)
+
+**Note:** Version bump only for package @mdit/plugin-embed
+
 ## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-embed@0.23.0...@mdit/plugin-embed@0.24.0) (2025-12-01)
 
 ### ⚠ BREAKING CHANGES

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.5](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-snippet@0.22.4...@mdit/plugin-snippet@0.22.5) (2026-01-28)
+
+**Note:** Version bump only for package @mdit/plugin-snippet
+
 ## [0.22.4](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-snippet@0.22.3...@mdit/plugin-snippet@0.22.4) (2025-12-01)
 
 **Note:** Version bump only for package @mdit/plugin-snippet

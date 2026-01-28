@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-dl",
-  "version": "0.22.2",
+  "version": "0.22.3",
   "description": "dl plugin for MarkdownIt",
   "keywords": [
     "definition-list",

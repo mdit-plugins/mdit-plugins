@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-abbr",
-  "version": "0.22.1",
+  "version": "0.22.2",
   "description": "abbr plugin for MarkdownIt",
   "keywords": [
     "abbr",

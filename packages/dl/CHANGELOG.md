@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.3](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-dl@0.22.2...@mdit/plugin-dl@0.22.3) (2026-01-28)
+
+**Note:** Version bump only for package @mdit/plugin-dl
+
 ## [0.22.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-dl@0.22.1...@mdit/plugin-dl@0.22.2) (2025-12-01)
 
 ### 🐛 Bug Fixes

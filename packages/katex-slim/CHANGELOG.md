@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.25.1...@mdit/plugin-katex-slim@0.25.2) (2026-01-28)
+
+### 🚀 Performance Improvements
+
+- **katex:** void object spread ([2178698](https://github.com/mdit-plugins/mdit-plugins/commit/21786982447c815b4b62132c618d64904c974ed8))
+
 ## [0.25.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-katex-slim@0.25.0...@mdit/plugin-katex-slim@0.25.1) (2025-12-04)
 
 ### 🐛 Bug Fixes
