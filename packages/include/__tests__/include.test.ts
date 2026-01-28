@@ -696,14 +696,57 @@ foo
   });
 });
 
-it("should throw if currentPath is not a function", () => {
-  expect(() => {
-    MarkdownIt({ html: true }).use(include, {
-      currentPath: "not a function",
-    });
-  }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+describe("currentPath", () => {
+  it("should throw if currentPath is not a function", () => {
+    expect(() => {
+      MarkdownIt({ html: true }).use(include, {
+        currentPath: "not a function",
+      });
+    }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
 
-  expect(() => {
-    MarkdownIt({ html: true }).use(include);
-  }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+    expect(() => {
+      MarkdownIt({ html: true }).use(include);
+    }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+  });
+
+  it("should work with absolute path if currentPath is not return", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: () => null,
+    });
+
+    const source = `\
+<!-- @include: ${mdFixtureSimpleIncludePath} -->
+`;
+
+    const expected = `\
+<h1>ABC</h1>
+<p>DEF</p>
+`;
+
+    const env: IncludeEnv = {};
+    const rendered = md.render(source, env);
+
+    expect(rendered).toEqual(expected);
+    expect(env.includedFiles).toEqual([mdFixtureSimpleIncludePath]);
+  });
+
+  it("should fail with relative path if currentPath is not return", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: () => null,
+    });
+
+    const source = `\
+<!-- @include: ./relative/path.md -->
+`;
+
+    const expected = `\
+<p>Error when resolving path</p>
+`;
+
+    const env: IncludeEnv = {};
+    const rendered = md.render(source, env);
+
+    expect(rendered).toEqual(expected);
+    expect(env.includedFiles).toEqual([]);
+  });
 });

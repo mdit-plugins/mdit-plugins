@@ -12,8 +12,8 @@ import type { IncludeEnv } from "./types.js";
 
 interface ImportFileLineInfo {
   filePath: string;
-  lineStart?: number;
-  lineEnd?: number;
+  lineStart?: number | undefined;
+  lineEnd?: number | undefined;
 }
 
 interface ImportFileRegionInfo {
@@ -170,15 +170,15 @@ export const resolveInclude = (
       const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
 
       const content = handleInclude(
-        {
-          filePath: actualPath,
-          ...(region
+        Object.assign(
+          { filePath: actualPath },
+          region
             ? { region }
             : {
-                ...(lineStart ? { lineStart: Number(lineStart) } : {}),
-                ...(lineEnd ? { lineEnd: Number(lineEnd) } : {}),
-              }),
-        },
+                lineStart: lineStart ? Number(lineStart) : undefined,
+                lineEnd: lineEnd ? Number(lineEnd) : undefined,
+              },
+        ),
         { cwd, includedFiles, resolvedPath },
       );
 
