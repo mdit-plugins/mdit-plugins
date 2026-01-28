@@ -1,0 +1,132 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn"
+  },
+  "rules": {
+    // we should not enforce capitalized comments
+    "capitalized-comments": "off",
+    // prefer to export declarations instead of exporting at the end
+    "group-exports": "off",
+    // this rule is too restrictive
+    "init-declarations": "off",
+    // allow continue in complicated loops
+    "no-continue": "off",
+    // warn about console usage but allow it
+    "no-console": "warn",
+    // type imports can be duplicated with value imports
+    "no-duplicate-imports": ["error", { "allowSeparateTypeImports": true }],
+    // inline comments shall be allowed
+    "no-inline-comments": "off",
+    "no-magic-numbers": "off",
+    // allow nested ternary for better readability in some cases
+    "no-nested-ternary": "off",
+    // allow null usage
+    "no-null": "off",
+    // ternary operator shall be allowed for simple expressions
+    "no-ternary": "off",
+    // normally we do not enforce numeric separator usage
+    "numeric-separators-style": "off",
+    // we prefer to sort imports with its pkg name
+    "sort-imports": "off",
+    // object keys are not supposed to be sorted in many cases
+    "sort-keys": "off",
+
+    // import plugin rules
+
+    "import/exports-last": "off",
+    // usually we just export vue components as default export without naming it
+    "import/no-anonymous-default-export": "off",
+    // a rule that shall not be enabled anyway
+    "import/no-named-export": "off",
+    // allow importing stylesheets
+    "import/no-unassigned-import": ["error", { "allow": ["**/*.css", "**/*.scss"] }],
+    // named export is preferred
+    "import/prefer-default-export": "off",
+
+    // jsdoc plugin rules
+
+    // duplicated typescript related jsdoc shall be warned
+    "jsdoc/check-tag-names": ["warn", { "typed": true }],
+    // we do not require types in jsdoc since we use TypeScript
+    "jsdoc/require-param-type": "off",
+    // we do not require types in jsdoc since we use TypeScript
+    "jsdoc/require-returns-type": "off",
+
+    "promise/always-return": "off",
+    // we sometimes need to create new Promise instance
+    "promise/avoid-new": "off",
+    // we prefer async/await syntax
+    "promise/prefer-await-to-then": "off",
+
+    // unicorn plugin rules
+    // filename should not be enforced strictly, e.g. Vue SFC files shall be PascalCased
+    // we shall expect a project level setting
+    "unicorn/filename-case": "off",
+    // toReversed can introduce memory overhead,
+    // in some chained calls it is better to use reverse as the "reversed" array is also a temp variable.
+    "unicorn/no-array-reverse": "off",
+    // toSorted can introduce memory overhead
+    // in some chained calls it is better to use reverse as the "sorted" array is also a temp variable.
+    "unicorn/no-array-sort": "off",
+    // conflicts with oxfmt code style
+    "unicorn/no-nested-ternary": "off",
+    // conflicts with oxfmt code style
+    "unicorn/number-literal-case": "off",
+    // Array.at() is too modern for browser targets
+    "unicorn/prefer-at": "off",
+    // support starts with chrome71, firefox68. safari12.1, node12
+    // leaving it to warn for edge cases
+    "unicorn/prefer-global-this": "warn",
+
+    // stylistic rules with default being tweaked
+    "catch-error-name": ["warn", { "name": "err" }],
+    // FIXME: https://github.com/oxc-project/oxc/issues/18566
+    // "curly": ["warn", "multi-or-nest", "consistent"],
+    "curly": "off",
+    "id-length": [
+      "warn",
+      {
+        "min": 2,
+        "exceptions": [
+          // sorting
+          "a",
+          "b",
+          // loops
+          "i",
+          "j",
+          // type generics
+          "T",
+          // parameter name for unused variables
+          "_"
+        ]
+      }
+    ],
+    "max-dependencies": ["warn", { "ignoreTypeImports": true, "max": 15 }],
+    "max-lines": ["warn", { "max": 500, "skipBlankLines": true, "skipComments": true }],
+    "max-lines-per-function": [
+      "warn",
+      { "max": 100, "skipBlankLines": true, "skipComments": true }
+    ],
+    "max-params": ["warn", 4],
+    "max-statements": ["warn", { "max": 30 }]
+  },
+  "overrides": [
+    {
+      "files": ["*.bench.ts", "*.test.ts"],
+      "plugins": ["vitest"],
+      "rules": {
+        "max-lines-per-function": "off",
+        "max-lines": "off",
+        "typescript/ban-ts-comment": "off",
+        "typescript/prefer-ts-expect-error": "off",
+        "vitest/prefer-called-once": "off",
+        "unicorn/consistent-function-scoping": "off"
+      }
+    }
+  ]
+}
