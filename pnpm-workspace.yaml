@@ -40,3 +40,6 @@ packageExtensions:
     peerDependenciesMeta:
       rollup:
         optional: true
+
+patchedDependencies:
+  "@vuepress/plugin-markdown-math": patches/@vuepress__plugin-markdown-math.patch

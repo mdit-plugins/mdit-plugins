@@ -34,6 +34,11 @@ overrides:
 
 packageExtensionsChecksum: sha256-CEUcWf6oJiuvpDhK+INoqkFynjN68zO2tDn3fugux9E=
 
+patchedDependencies:
+  '@vuepress/plugin-markdown-math':
+    hash: ad94722a4ae3bcf825a08321d72777783610a9dc67fd0f7b2de29d432ae9af57
+    path: patches/@vuepress__plugin-markdown-math.patch
+
 importers:
 
   .:
@@ -396,6 +401,9 @@ importers:
 
   packages/mathjax:
     dependencies:
+      '@mathjax/mathjax-newcm-font':
+        specifier: ^4.1.0
+        version: 4.1.0
       '@mathjax/src':
         specifier: ^4.1.0
         version: 4.1.0
@@ -411,6 +419,9 @@ importers:
 
   packages/mathjax-slim:
     dependencies:
+      '@mathjax/mathjax-newcm-font':
+        specifier: ^4.1.0
+        version: 4.1.0
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../tex
@@ -7152,7 +7163,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vuepress/plugin-markdown-math@2.0.0-rc.121(@mathjax/src@4.1.0)(katex@0.16.28)(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))':
+  '@vuepress/plugin-markdown-math@2.0.0-rc.121(patch_hash=ad94722a4ae3bcf825a08321d72777783610a9dc67fd0f7b2de29d432ae9af57)(@mathjax/src@4.1.0)(katex@0.16.28)(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))':
     dependencies:
       '@mdit/plugin-katex-slim': link:packages/katex-slim
       '@mdit/plugin-mathjax-slim': link:packages/mathjax-slim
@@ -9911,7 +9922,7 @@ snapshots:
       '@vuepress/plugin-markdown-hint': 2.0.0-rc.121(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@vuepress/plugin-markdown-image': 2.0.0-rc.121(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@vuepress/plugin-markdown-include': 2.0.0-rc.121(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
-      '@vuepress/plugin-markdown-math': 2.0.0-rc.121(@mathjax/src@4.1.0)(katex@0.16.28)(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
+      '@vuepress/plugin-markdown-math': 2.0.0-rc.121(patch_hash=ad94722a4ae3bcf825a08321d72777783610a9dc67fd0f7b2de29d432ae9af57)(@mathjax/src@4.1.0)(katex@0.16.28)(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@vuepress/plugin-markdown-preview': 2.0.0-rc.121(markdown-it@14.1.0)(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@vuepress/plugin-markdown-stylize': 2.0.0-rc.121(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@vuepress/plugin-markdown-tab': 2.0.0-rc.121(typescript@5.9.3)(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@25.0.10)(esbuild@0.27.2)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))

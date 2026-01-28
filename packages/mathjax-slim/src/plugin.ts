@@ -18,6 +18,8 @@ import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
 import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
+import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
+import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
 
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
@@ -31,6 +33,9 @@ let liteAdaptor: typeof liteAdaptorType;
 // move type import to front
 let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
 let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
+let isMathJaxNewcmFontInstalled = true;
+let chtmlFont: typeof chtmlFontType;
+let svgFont: typeof svgFontType;
 
 try {
   ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
@@ -40,9 +45,20 @@ try {
   ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
   ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
   ({ AssistiveMmlHandler } = await import("@mathjax/src/js/a11y/assistive-mml.js"));
+  mathjaxLib.asyncLoad = (file) => import(file);
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxFullInstalled = false;
+}
+
+try {
+  // oxlint-disable-next-line unicorn/no-await-expression-member
+  chtmlFont = (await import("@mathjax/mathjax-newcm-font/js/chtml.js")).MathJaxNewcmFont;
+  // oxlint-disable-next-line unicorn/no-await-expression-member
+  svgFont = (await import("@mathjax/mathjax-newcm-font/js/svg.js")).MathJaxNewcmFont;
+} catch {
+  /* istanbul ignore next -- @preserve */
+  isMathJaxNewcmFontInstalled = false;
 }
 
 export interface DocumentOptions {
@@ -60,6 +76,28 @@ export const getDocumentOptions = async (
   if (!isMathJaxFullInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
 
+  const isCHTML = options.output === "chtml";
+  const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+
+  /* istanbul ignore if -- @preserve */
+  if (!isMathJaxNewcmFontInstalled && !userOptions.fontData)
+    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-newcm-font" is not installed!');
+
+  const outputOptions = Object.assign(
+    {
+      fontData: isCHTML ? chtmlFont : svgFont,
+    },
+    // fontURL can be set to undefined if you want to bundle the fonts yourself
+    // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
+    userOptions?.fontData
+      ? {}
+      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+    isCHTML && !userOptions.fontData
+      ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
+      : {},
+    userOptions,
+  );
+
   await loadTexPackages(options.tex?.packages);
 
   return {
@@ -67,16 +105,7 @@ export const getDocumentOptions = async (
       packages: ["base", ...texPackages],
       ...options.tex,
     }),
-    OutputJax:
-      options.output === "chtml"
-        ? new CHTML<LiteElement, string, HTMLElement>({
-            adaptiveCSS: true,
-            ...options.chtml,
-          })
-        : new SVG<LiteElement, string, HTMLElement>({
-            fontCache: "none",
-            ...options.svg,
-          }),
+    OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
     enableAssistiveMml: options.a11y !== false,
   };
 };
@@ -107,7 +136,7 @@ export interface MathjaxInstance extends Required<
    *
    * @returns style
    */
-  outputStyle: () => string;
+  outputStyle: () => Promise<string>;
 
   /**
    * Reset tex (including labels)
@@ -135,16 +164,20 @@ export const createMathjaxInstance = async (
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {
-    // clear style cache
-    if (OutputJax instanceof CHTML) OutputJax.clearCache();
+    // if there is no adaptor, output jax is not initialized yet, so nothing to clear
+    if (!OutputJax.adaptor) return;
+
+    OutputJax.reset();
   };
 
   const reset = (): void => {
     InputJax.reset();
   };
 
-  const outputStyle = (): string => {
-    const style = adaptor.innerHTML(
+  const outputStyle = async (): Promise<string> => {
+    await OutputJax.font.loadDynamicFiles();
+
+    const style = adaptor.cssText(
       OutputJax.styleSheet(
         mathjaxLib.document("", documentOptions) as MathDocument<LiteElement, string, HTMLElement>,
       ),

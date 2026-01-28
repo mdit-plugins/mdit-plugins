@@ -23,7 +23,7 @@ const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
-const style = mathjaxInstance.outputStyle();
+const style = await mathjaxInstance.outputStyle();
 ```
 
 This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
