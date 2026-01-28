@@ -51,6 +51,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
+    "@mathjax/mathjax-tex-font": "^4.1.0",
     "@mathjax/src": "4.1.0"
   },
   "peerDependencies": {

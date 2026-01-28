@@ -52,6 +52,9 @@
     "@mdit/plugin-tex": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
+  "devDependencies": {
+    "@mathjax/mathjax-tex-font": "^4.1.0"
+  },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },

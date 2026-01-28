@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`mathjax-html > should support custom font data > content 1`] = `
+"<mjx-container class="MathJax" jax="CHTML" overflow="overflow" display="true" style="position: relative;"><mjx-math data-latex="\\frac{a}{b}
+" display="true" class="TEX-N" aria-hidden="true"><mjx-mfrac data-latex="\\frac{a}{b}"><mjx-frac type="d"><mjx-num><mjx-nstrut type="d"></mjx-nstrut><mjx-mi data-latex="a"><mjx-c class="mjx-c1D44E">𝑎</mjx-c></mjx-mi></mjx-num><mjx-dbox><mjx-dtable><mjx-line type="d"></mjx-line><mjx-row><mjx-den><mjx-dstrut type="d"></mjx-dstrut><mjx-mi data-latex="b"><mjx-c class="mjx-c1D44F">𝑏</mjx-c></mjx-mi></mjx-den></mjx-row></mjx-dtable></mjx-dbox></mjx-frac></mjx-mfrac></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" data-latex="\\frac{a}{b}" display="block"><mfrac data-latex="\\frac{a}{b}"><mi data-latex="a">a</mi><mi data-latex="b">b</mi></mfrac></math></mjx-assistive-mml></mjx-container>"
+`;
+
+exports[`mathjax-html > should support custom font data > style 1`] = `583`;

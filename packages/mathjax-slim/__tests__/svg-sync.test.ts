@@ -1,29 +1,28 @@
-// oxlint-disable unicorn/no-await-expression-member
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { createMathjaxInstance, mathjax } from "../src/sync.js";
 import { examples } from "./utils.js";
 
-describe("mathjax-html", () => {
+describe("mathjax-svg", () => {
   describe("inline mathjax", () => {
-    const instance = createMathjaxInstance({ output: "chtml" })!;
+    const instance = createMathjaxInstance()!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
 
-    it("should output HTML", () => {
+    it("should output SVG", () => {
       examples.forEach((example) => {
         const inline = markdownIt.render(`$${example}$`);
         const inlineInText = markdownIt.render(`A tex equation $${example}$ inline.`);
 
         expect(inline).toMatchSnapshot();
-        expect(inline).toMatch(/jax="CHTML"/);
+        expect(inline).toMatch(/jax="SVG"/);
         expect(inline).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
-        expect(inline).toMatch(/<mjx-math .*>[\s\S]*<\/mjx-math>/);
+        expect(inline).toMatch(/<svg .*>[\s\S]*<\/svg>/);
 
         expect(inlineInText).toMatchSnapshot();
-        expect(inlineInText).toMatch(/jax="CHTML"/);
+        expect(inlineInText).toMatch(/jax="SVG"/);
         expect(inlineInText).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
-        expect(inlineInText).toMatch(/<mjx-math .*>[\s\S]*<\/mjx-math>/);
+        expect(inlineInText).toMatch(/<svg .*>[\s\S]*<\/svg>/);
       });
     });
 
@@ -40,7 +39,7 @@ describe("mathjax-html", () => {
     it("should not output A11y", () => {
       const markdownIt = MarkdownIt({ linkify: true }).use(
         mathjax,
-        createMathjaxInstance({ a11y: false, output: "chtml" }),
+        createMathjaxInstance({ a11y: false }),
       );
 
       examples.forEach((example) => {
@@ -61,10 +60,7 @@ describe("mathjax-html", () => {
   });
 
   describe("block mathjax", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(
-      mathjax,
-      createMathjaxInstance({ output: "chtml" }),
-    );
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
 
     it("should render", () => {
       const blocks = [
@@ -78,9 +74,9 @@ $$
 
       blocks.forEach((block) => {
         expect(block).toMatchSnapshot();
-        expect(block).toMatch(/jax="CHTML"/);
+        expect(block).toMatch(/jax="SVG"/);
         expect(block).toMatch(/<mjx-container.*>[\s\S]+<\/mjx-container>/);
-        expect(block).toMatch(/<mjx-math[\s\S]*>[\s\S]+<\/mjx-math>/);
+        expect(block).toMatch(/<svg[\s\S]*>[\s\S]+<\/svg>/);
       });
     });
 
@@ -115,7 +111,7 @@ $$
   });
 
   it("generating style", () => {
-    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+    const mathjaxInstance = createMathjaxInstance()!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
@@ -129,7 +125,7 @@ $$
     const source = String.raw`$$\label{eq:1}\frac{a}{b}$$`;
 
     it("should log error when label is multiply defined", () => {
-      const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
+      const mathjaxInstance = createMathjaxInstance()!;
       const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
@@ -141,7 +137,7 @@ $$
     });
 
     it("should reset label with reset", () => {
-      const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
+      const mathjaxInstance = createMathjaxInstance()!;
       const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       const content1 = markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`);
@@ -165,7 +161,6 @@ $$
   it("should work with transformer", () => {
     const mathjaxInstance = createMathjaxInstance({
       transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
-      output: "chtml",
     })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
