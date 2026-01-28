@@ -31,9 +31,7 @@ describe("inline mathjax", () => {
   it("should output HTML", () => {
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({
-        output: "chtml",
-      }),
+      createMathjaxInstance({ output: "chtml" }),
     );
 
     examples.forEach((example) => {
@@ -58,9 +56,7 @@ describe("inline mathjax", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance());
     const markdownItHTML = MarkdownIt({ linkify: true }).use(
       mathjax,
-      createMathjaxInstance({
-        output: "chtml",
-      }),
+      createMathjaxInstance({ output: "chtml" }),
     );
 
     examples.forEach((example) => {
@@ -184,16 +180,20 @@ describe("generating Style", () => {
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    expect((await mathjaxInstance.outputStyle()).split("\n").length).toMatchSnapshot("style");
+    const style = await mathjaxInstance.outputStyle();
+
+    expect(style.split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should generate correct CSS with HTML", async () => {
+  it.only("should generate correct CSS with HTML", async () => {
     const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    expect((await mathjaxInstance.outputStyle()).split("\n").length).toMatchSnapshot("style");
+    const style = await mathjaxInstance.outputStyle();
+
+    expect(style.split("\n").length).toMatchSnapshot("style");
   });
 });
 
@@ -208,7 +208,9 @@ describe("check label result pre page", () => {
 
     expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
-    expect((await mathjaxInstance.outputStyle()).split("\n").length).toMatchSnapshot("style");
+    const style = await mathjaxInstance.outputStyle();
+
+    expect(style.split("\n").length).toMatchSnapshot("style");
   });
 
   it("should generate correct label and CSS with HTML", async () => {
@@ -221,7 +223,9 @@ describe("check label result pre page", () => {
 
     expect(markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`)).toMatchSnapshot("content2");
 
-    expect((await mathjaxInstance.outputStyle()).split("\n").length).toMatchSnapshot("style");
+    const style = await mathjaxInstance.outputStyle();
+
+    expect(style.split("\n").length).toMatchSnapshot("style");
   });
 });
 

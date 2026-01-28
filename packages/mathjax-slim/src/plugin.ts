@@ -164,8 +164,10 @@ export const createMathjaxInstance = async (
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {
-    // clear style cache
-    if (OutputJax instanceof CHTML) OutputJax.clearCache();
+    // if there is no adaptor, output jax is not initialized yet, so nothing to clear
+    if (!OutputJax.adaptor) return;
+
+    OutputJax.reset();
   };
 
   const reset = (): void => {
@@ -175,7 +177,7 @@ export const createMathjaxInstance = async (
   const outputStyle = async (): Promise<string> => {
     await OutputJax.font.loadDynamicFiles();
 
-    const style = adaptor.innerHTML(
+    const style = adaptor.cssText(
       OutputJax.styleSheet(
         mathjaxLib.document("", documentOptions) as MathDocument<LiteElement, string, HTMLElement>,
       ),
