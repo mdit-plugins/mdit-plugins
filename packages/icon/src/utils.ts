@@ -127,13 +127,7 @@ export const extractAttrs = <T extends { content: string }>(
         _5,
         _6,
         _7,
-        {
-          attr,
-          emptyValue,
-          valueWithoutQuotes,
-          valueWithQuotes,
-          quote,
-        }: {
+        info: {
           attr: string;
           emptyValue: string | undefined;
           valueWithoutQuotes: string | undefined;
@@ -141,18 +135,18 @@ export const extractAttrs = <T extends { content: string }>(
           quote: string | undefined;
         },
       ) => {
-        attrs[attr] = emptyValue
+        attrs[info.attr] = info.emptyValue
           ? ""
-          : (valueWithoutQuotes ??
+          : (info.valueWithoutQuotes ??
             // oxlint-disable-next-line typescript/no-non-null-assertion
-            valueWithQuotes!.replaceAll(new RegExp(`\\\\${quote}`, "g"), quote!));
+            info.valueWithQuotes!.replaceAll(new RegExp(`\\\\${info.quote}`, "g"), info.quote!));
 
         return "";
       },
     )
     .trim();
 
-  return { ...data, attrs, content };
+  return Object.assign({}, data, { attrs, content });
 };
 
 export const extractInfo = <T extends { content: string }>(
