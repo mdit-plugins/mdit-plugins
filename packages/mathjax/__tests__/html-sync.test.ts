@@ -9,6 +9,13 @@ describe("mathjax-html", () => {
     const instance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
 
+    it("reset and clearStyle should not throw", () => {
+      expect(() => {
+        instance.clearStyle();
+        instance.reset();
+      }).not.toThrow();
+    });
+
     it("should output HTML", () => {
       examples.forEach((example) => {
         const inline = markdownIt.render(`$${example}$`);

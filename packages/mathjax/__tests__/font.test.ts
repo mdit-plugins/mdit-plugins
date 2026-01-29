@@ -1,4 +1,3 @@
-// oxlint-disable unicorn/no-await-expression-member
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 import { MathJaxTexFont } from "@mathjax/mathjax-tex-font/js/chtml.js";

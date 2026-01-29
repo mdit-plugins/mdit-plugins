@@ -117,8 +117,9 @@ export const createMathjaxInstance = async (
 
   const clearStyle = (): void => {
     // if there is no adaptor, output jax is not initialized yet, so nothing to clear
-    if (!OutputJax.adaptor) return;
+    if (OutputJax.adaptor === null) return;
 
+    InputJax.reset();
     OutputJax.reset();
   };
 
