@@ -1,4 +1,3 @@
-// oxlint-disable unicorn/no-await-expression-member
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
@@ -9,6 +8,13 @@ describe("mathjax-svg", () => {
   describe("inline mathjax", async () => {
     const instance = (await createMathjaxInstance())!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
+
+    it("reset and clearStyle should not throw", () => {
+      expect(() => {
+        instance.clearStyle();
+        instance.reset();
+      }).not.toThrow();
+    });
 
     it("should output SVG", () => {
       examples.forEach((example) => {

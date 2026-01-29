@@ -9,6 +9,13 @@ describe("mathjax-svg", () => {
     const instance = createMathjaxInstance()!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
 
+    it("reset and clearStyle should not throw", () => {
+      expect(() => {
+        instance.clearStyle();
+        instance.reset();
+      }).not.toThrow();
+    });
+
     it("should output SVG", () => {
       examples.forEach((example) => {
         const inline = markdownIt.render(`$${example}$`);
