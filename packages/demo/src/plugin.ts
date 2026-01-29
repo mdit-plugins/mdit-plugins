@@ -20,7 +20,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     showCodeFirst = false,
   } = {},
 ) => {
-  // oxlint-disable-next-line max-lines-per-function
+  // oxlint-disable-next-line  max-lines-per-function
   const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];

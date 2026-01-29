@@ -1,5 +1,7 @@
 {
   "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.typeAware": true,
+  "oxc.unusedDisableDirectives": "deny",
   "cSpell.words": [
     "blockquotes",
     "chtml",

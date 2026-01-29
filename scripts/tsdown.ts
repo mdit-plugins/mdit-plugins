@@ -113,6 +113,7 @@ export const tsdownConfig = (
       moduleSideEffects: false,
     },
     noExternal = [],
+    // oxlint-disable-next-line no-undefined
     inlineOnly = browser ? false : undefined,
   } = options;
   const isObject = typeof filePath === "object";

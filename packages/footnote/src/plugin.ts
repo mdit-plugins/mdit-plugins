@@ -152,7 +152,6 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
 
   pos++;
 
-  // oxlint-disable-next-line typescript/no-unnecessary-condition
   (state.env.footnotes ??= {}).refs ??= {};
 
   const label = state.src.slice(start + 2, pos - 2);
@@ -232,7 +231,6 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
    *
    */
   if (!silent) {
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
     const list = ((state.env.footnotes ??= {}).list ??= []);
     const footnoteId = list.length;
     const tokens: Token[] = [];
@@ -264,7 +262,6 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   if (
     // should be at least 4 chars - "[^x]"
     start + 3 > max ||
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
     !state.env.footnotes?.refs ||
     state.src.charCodeAt(start) !== 91 /* [ */ ||
     state.src.charCodeAt(start + 1) !== 94 /* ^ */
@@ -289,7 +286,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   const label = state.src.slice(start + 2, pos - 1);
 
-  if (state.env.footnotes.refs[`:${label}`] === undefined) return false;
+  if (typeof state.env.footnotes.refs[`:${label}`] !== "number") return false;
 
   if (!silent) {
     const list = (state.env.footnotes.list ??= []);
@@ -329,7 +326,6 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
   let currentLabel: string;
   let isInsideRef = false;
 
-  // oxlint-disable-next-line typescript/no-unnecessary-condition
   if (!state.env.footnotes?.list) {
     // If no footnotes list, remove all footnote reference tokens
     state.tokens = state.tokens.filter((stateToken) => {
@@ -407,7 +403,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const tokens = refTokens[`:${list[index].label!}`];
 
-      // oxlint-disable-next-line typescript/no-unnecessary-condition
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
       if (tokens) state.tokens.push(...tokens);
     }
 
@@ -415,12 +411,8 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       lastParagraph = state.tokens.pop() ?? null;
     else lastParagraph = null;
 
-    for (
-      let j = 0;
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      j < (Number(list[index].count) > 0 ? list[index].count! : 1);
-      j++
-    ) {
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    for (let j = 0; j < (Number(list[index].count) > 0 ? list[index].count! : 1); j++) {
       const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
 
       footnoteAnchorToken.meta = {

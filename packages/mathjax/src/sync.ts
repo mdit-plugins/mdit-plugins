@@ -27,7 +27,8 @@ import "./tex/importer.js";
 
 const require = createRequire(import.meta.url);
 
-mathjaxLib.asyncLoad = (file) => {
+mathjaxLib.asyncLoad = (file): void => {
+  // oxlint-disable-next-line import/no-dynamic-require
   require(file);
 };
 mathjaxLib.asyncIsSynchronous = true;

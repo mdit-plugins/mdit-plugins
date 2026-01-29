@@ -8,8 +8,8 @@
     "clean": "pnpm run --stream -r clean",
     "docs:build": "pnpm run --filter=docs docs:build",
     "docs:dev": "pnpm run --filter=docs docs:dev",
-    "lint": "pnpm oxlint --fix && oxfmt",
-    "lint:check": "pnpm oxlint && oxfmt --check",
+    "lint": "oxlint --fix --type-aware --report-unused-disable-directives && oxfmt",
+    "lint:check": "oxlint --type-aware --report-unused-disable-directives && oxfmt --check",
     "lint:md": "markdownlint-cli2 **/*.md",
     "packages:bootstrap": "tsx scripts/bootstrap.ts",
     "packages:check-update": "pnpm dlx npm-check-updates -u --deep --timeout 600000",
@@ -49,7 +49,7 @@
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
-    "*.{js,ts}": "oxlint",
+    "*.{js,ts}": "oxlint --fix --type-check --type-aware --report-unused-disable-directives",
     "*.md": "markdownlint-cli2 --fix"
   },
   "commitlint": {

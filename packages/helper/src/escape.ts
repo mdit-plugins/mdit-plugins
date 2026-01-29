@@ -23,6 +23,6 @@ export const escapeHtml = (unsafeHTML: string): string =>
  * @returns The escaped string.
  */
 // NOTE:  This should be a bug of oxlint
-// oxlint-disable-next-line jsdoc/require-param jsdoc/require-returns
+// oxlint-disable-next-line jsdoc/require-param, jsdoc/require-returns
 export const escapeRegExp = (regexp: string): string =>
   regexp.replaceAll(ESCAPE_REGEXP, REPLACE_WITH);

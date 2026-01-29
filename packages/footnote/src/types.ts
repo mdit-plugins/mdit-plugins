@@ -9,7 +9,7 @@ export interface FootNoteToken extends Token {
 }
 
 // oxlint-disable-next-line typescript/no-explicit-any
-export interface FootNoteEnv extends Record<any, any> {
+export interface FootNoteEnv extends Record<string, any> {
   docId?: string;
   footnotes: {
     label?: string;

@@ -45,7 +45,7 @@ try {
   ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
   ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
   ({ AssistiveMmlHandler } = await import("@mathjax/src/js/a11y/assistive-mml.js"));
-  mathjaxLib.asyncLoad = (file) => import(file);
+  mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxFullInstalled = false;

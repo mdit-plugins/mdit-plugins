@@ -129,7 +129,7 @@ export const handleInclude = (
   else {
     const { lineStart, lineEnd } = info;
 
-    if (lineStart) {
+    if (typeof lineStart === "number" && lineStart > 0) {
       results = lines.slice(lineStart - 1, lineEnd);
     } else if (lines[0] === "---") {
       const endLineIndex = lines.findIndex((line, index) => index !== 0 && line === "---");
@@ -175,7 +175,9 @@ export const resolveInclude = (
           region
             ? { region }
             : {
+                // oxlint-disable-next-line no-undefined
                 lineStart: lineStart ? Number(lineStart) : undefined,
+                // oxlint-disable-next-line no-undefined
                 lineEnd: lineEnd ? Number(lineEnd) : undefined,
               },
         ),

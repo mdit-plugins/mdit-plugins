@@ -43,7 +43,10 @@ export interface MarkdownItStylizeConfig {
   }) => MarkdownItStylizeResult | null | void;
 }
 
-export interface MarkdownItStylizeOptions {
+export interface MarkdownItStylizeOptions<
+  // oxlint-disable-next-line typescript/no-explicit-any
+  MarkdownEnv extends Record<string, any> = Record<string, any>,
+> {
   /**
    * Stylize config
    *
@@ -62,8 +65,5 @@ export interface MarkdownItStylizeOptions {
    * @param env Markdown 环境对象
    * @returns 本地格式化配置
    */
-  localConfigGetter?: (
-    // oxlint-disable-next-line typescript/no-explicit-any
-    env?: any,
-  ) => MarkdownItStylizeConfig[] | null;
+  localConfigGetter?: (env?: MarkdownEnv) => MarkdownItStylizeConfig[] | null;
 }

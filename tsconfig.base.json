@@ -9,6 +9,7 @@
     "strict": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
+    "noImplicitAny": true,
     "noUncheckedIndexedAccess": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,7 +22,6 @@
     // Emit
     "downlevelIteration": false,
     "importHelpers": true,
-    "importsNotUsedAsValues": "remove",
     "newLine": "lf",
     "noEmitOnError": true,
     "removeComments": false,
@@ -38,7 +38,7 @@
     "forceConsistentCasingInFileNames": true,
 
     // lib
-    "lib": ["DOM", "ESNext"],
+    "lib": ["ESNext"],
     "target": "ES2022",
 
     // Compiler Diagnostics

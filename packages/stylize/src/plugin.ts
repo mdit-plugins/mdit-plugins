@@ -65,7 +65,8 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
     let effectiveConfig = globalConfig;
 
     if (localConfigGetter) {
-      const localConfig = localConfigGetter(state.env);
+      // oxlint-disable-next-line typescript/no-explicit-any
+      const localConfig = localConfigGetter(state.env as Record<string, any>);
 
       if (localConfig && localConfig.length > 0) {
         effectiveConfig =

@@ -20,12 +20,17 @@ const encode6bit = (byte: number): string =>
             : "?";
 
 const append3bytes = (b1: number, b2: number, b3: number): string => {
+  // oxlint-disable-next-line no-bitwise
   const c1 = b1 >> 2;
+  // oxlint-disable-next-line no-bitwise
   const c2 = ((b1 & 0x3) << 4) | (b2 >> 4);
+  // oxlint-disable-next-line no-bitwise
   const c3 = ((b2 & 0xf) << 2) | (b3 >> 6);
+  // oxlint-disable-next-line no-bitwise
   const c4 = b3 & 0x3f;
 
   return (
+    // oxlint-disable-next-line no-bitwise
     encode6bit(c1 & 0x3f) + encode6bit(c2 & 0x3f) + encode6bit(c3 & 0x3f) + encode6bit(c4 & 0x3f)
   );
 };

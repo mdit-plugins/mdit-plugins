@@ -128,6 +128,7 @@ export const ins: PluginSimple = (md) => {
     for (let i = 0; i < tokensMetaLength; i++) {
       const tokenMeta = tokensMeta[i];
 
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
       if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters);
     }
 

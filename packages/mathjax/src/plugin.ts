@@ -22,7 +22,7 @@ import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.
 import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-mathjaxLib.asyncLoad = (file) => import(file);
+mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 
 export interface DocumentOptions {
   InputJax: TeX<LiteElement, string, HTMLElement>;

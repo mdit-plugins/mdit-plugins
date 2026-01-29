@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-argument
 // oxlint-disable unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
@@ -6,7 +7,6 @@ import { demo as demoNew } from "../src/index.js";
 import { demo as demoOld } from "../src-old/index.js";
 
 describe("Demo Plugin Benchmark", () => {
-  // 初始化 MarkdownIt 实例并使用插件，避免在 bench 中重复 use
   const mdOld = new MarkdownIt().use(demoOld);
   const mdNew = new MarkdownIt().use(demoNew);
 
