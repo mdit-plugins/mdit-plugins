@@ -6,10 +6,7 @@ import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/sr
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import type {
-  LiteAdaptor,
-  liteAdaptor as liteAdaptorType,
-} from "@mathjax/src/js/adaptors/liteAdaptor.js";
+import type { liteAdaptor as liteAdaptorType } from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
 import type { RegisterHTMLHandler as RegisterHTMLHandlerType } from "@mathjax/src/js/handlers/html.js";
 import type { TeX as TeXType } from "@mathjax/src/js/input/tex.js";
@@ -21,10 +18,10 @@ import type MarkdownIt from "markdown-it";
 import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
 
-import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
+import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-let isMathJaxFullInstalled = true;
+let isMathJaxInstalled = true;
 let mathjaxLib: typeof mathjaxType;
 let TeX: typeof TeXType;
 let CHTML: typeof CHTMLType;
@@ -48,7 +45,7 @@ try {
   mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 } catch {
   /* istanbul ignore next -- @preserve */
-  isMathJaxFullInstalled = false;
+  isMathJaxInstalled = false;
 }
 
 try {
@@ -61,19 +58,11 @@ try {
   isMathJaxNewcmFontInstalled = false;
 }
 
-export interface DocumentOptions {
-  InputJax: TeXType<LiteElement, string, HTMLElement>;
-  OutputJax:
-    | CHTMLType<LiteElement, string, HTMLElement>
-    | SVGType<LiteElement, string, HTMLElement>;
-  enableAssistiveMml: boolean;
-}
-
 export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
 ): Promise<DocumentOptions> => {
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxFullInstalled)
+  if (!isMathJaxInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
 
   const isCHTML = options.output === "chtml";
@@ -109,45 +98,6 @@ export const getDocumentOptions = async (
     enableAssistiveMml: options.a11y !== false,
   };
 };
-
-/**
- * Mathjax instance
- */
-export interface MathjaxInstance extends Required<
-  Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
-> {
-  /**
-   * Mathjax adaptor
-   */
-  adaptor: LiteAdaptor;
-
-  /**
-   * Mathjax document options
-   */
-  documentOptions: DocumentOptions;
-
-  /**
-   * Clear style cache
-   */
-  clearStyle: () => void;
-
-  /**
-   * Output style for rendered content and clears it
-   *
-   * @returns style
-   */
-  outputStyle: () => Promise<string>;
-
-  /**
-   * Reset tex (including labels)
-   */
-  reset: () => void;
-
-  /**
-   * Output content transformer
-   */
-  transformer: TeXTransformer | null;
-}
 
 export const createMathjaxInstance = async (
   options: MarkdownItMathjaxOptions = {},

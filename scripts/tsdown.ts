@@ -108,7 +108,7 @@ export const tsdownConfig = (
   const {
     browser = false,
     dts = !browser,
-    alias: aliasOptions,
+    alias,
     treeshake = {
       moduleSideEffects: false,
     },
@@ -136,7 +136,7 @@ export const tsdownConfig = (
     minify: isProduction,
     target: browser ? ["chrome107", "edge107", "firefox104", "safari16"] : "node20",
     platform: browser ? "browser" : "node",
-    ...(aliasOptions ? { alias: aliasOptions } : {}),
+    ...(alias ? { alias: alias } : {}),
     treeshake,
     fixedExtension: false,
     noExternal: noExternalOptions,
