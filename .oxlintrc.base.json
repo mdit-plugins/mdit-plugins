@@ -10,6 +10,8 @@
   "rules": {
     // we should not enforce capitalized comments
     "capitalized-comments": "off",
+    // function names can be omitted if the name can be inferred from the context
+    "func-names": ["warn", "as-needed"],
     // prefer to export declarations instead of exporting at the end
     "group-exports": "off",
     // this rule is too restrictive
