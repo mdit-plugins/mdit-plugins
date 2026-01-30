@@ -148,7 +148,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       state.md.block.tokenize(state, ddLine, endLine, true);
 
       // If any of list item is tight, mark list as tight
-      // oxlint-disable-next-line typescript/no-unnecessary-condition
       if (!state.tight || prevEmptyEnd) tight = false;
 
       // Item become loose if finish with empty line,

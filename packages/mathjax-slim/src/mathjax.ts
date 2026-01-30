@@ -150,6 +150,7 @@ export interface MathJaxTexInputOptions {
 export interface MathjaxFilterData {
   math: MathItem<LiteElement, string, HTMLElement>;
   document: MathDocument<LiteElement, string, HTMLElement>;
+  // oxlint-disable-next-line typescript/no-explicit-any
   data: any;
 }
 

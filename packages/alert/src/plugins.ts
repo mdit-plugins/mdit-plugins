@@ -216,7 +216,6 @@ const getAlertRule =
         }
 
         // Case 2: line is not inside the blockquote, and the last line was empty.
-        // oxlint-disable-next-line typescript/no-unnecessary-condition
         if (lastLineEmpty) break;
 
         // Case 3: another tag found.

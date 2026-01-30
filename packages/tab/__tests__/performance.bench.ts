@@ -1,6 +1,7 @@
-// oxlint-disable unicorn/new-for-builtins
+// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
+import type { MarkdownItTabData } from "../src/index.js";
 import { tab as tabNew } from "../src/index.js";
 // @ts-ignore
 import { tab as tabOld } from "../src-old/index.js";
@@ -356,20 +357,11 @@ Content of tab 3
 :::
 `;
 
-    // oxlint-disable-next-line max-params
-    const customOpenRender = (
-      info: any,
-      _tokens: any,
-      _index: number,
-      _options: any,
-      _env: any,
-      _self: any,
-    ): string => {
-      const { active, data } = info;
-      const tabs = data.map(
-        ({ title }: any, index: number) =>
+    const customOpenRender = (info: MarkdownItTabData[]): string => {
+      const tabs = info.map(
+        ({ title, isActive }, index) =>
           `<div class="custom-tab${
-            active === index ? " custom-active" : ""
+            isActive ? " custom-active" : ""
           }" data-index="${index}">${title}</div>`,
       );
 

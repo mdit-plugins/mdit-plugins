@@ -85,6 +85,7 @@ const getTabRule =
         // match start
         state.src[nextLineStart] === "@" &&
         // check rest of marker
+        // oxlint-disable-next-line typescript/strict-boolean-expressions
         checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
       ) {
         // found!
@@ -417,7 +418,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       const token = tokens[index];
 
       token.attrJoin("class", `${name}-tabs-wrapper`);
-      // oxlint-disable-next-line typescript/no-unsafe-member-access
+      // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/strict-boolean-expressions
       if (token.meta.id) token.attrJoin("data-id", token.meta.id as string);
 
       const tabs = data.map(

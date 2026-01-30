@@ -16,6 +16,7 @@ export const getMatchingOpeningToken = (tokens: Token[], index: number): Token |
 
     if (currentToken.type === type && currentToken.level === level) return currentToken;
 
+    // oxlint-disable-next-line no-param-reassign
     index--;
   }
 

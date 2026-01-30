@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-argument
 import { bench, describe } from "vitest";
 import MarkdownIt from "markdown-it";
 

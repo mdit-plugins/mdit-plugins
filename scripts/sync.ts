@@ -19,7 +19,6 @@ export const sync = (): Promise<void[]> => {
             {
               method: "PUT",
               headers: {
-                // oxlint-disable-next-line typescript/naming-convention
                 "Content-Length": 0,
               },
             },

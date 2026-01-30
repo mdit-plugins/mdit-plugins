@@ -6,7 +6,6 @@ import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import type { LiteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
 import { RegisterHTMLHandler } from "@mathjax/src/js/handlers/html.js";
@@ -19,16 +18,10 @@ import type MarkdownIt from "markdown-it";
 import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 
-import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
+import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-mathjaxLib.asyncLoad = (file) => import(file);
-
-export interface DocumentOptions {
-  InputJax: TeX<LiteElement, string, HTMLElement>;
-  OutputJax: CHTML<LiteElement, string, HTMLElement> | SVG<LiteElement, string, HTMLElement>;
-  enableAssistiveMml: boolean;
-}
+mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 
 export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
@@ -61,45 +54,6 @@ export const getDocumentOptions = async (
     enableAssistiveMml: options.a11y !== false,
   };
 };
-
-/**
- * Mathjax instance
- */
-export interface MathjaxInstance extends Required<
-  Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
-> {
-  /**
-   * Mathjax adaptor
-   */
-  adaptor: LiteAdaptor;
-
-  /**
-   * Mathjax document options
-   */
-  documentOptions: DocumentOptions;
-
-  /**
-   * Clear style cache
-   */
-  clearStyle: () => void;
-
-  /**
-   * Output style for rendered content and clears it
-   *
-   * @returns style
-   */
-  outputStyle: () => Promise<string>;
-
-  /**
-   * Reset tex (including labels)
-   */
-  reset: () => void;
-
-  /**
-   * Output content transformer
-   */
-  transformer: TeXTransformer | null;
-}
 
 export const createMathjaxInstance = async (
   options: MarkdownItMathjaxOptions = {},

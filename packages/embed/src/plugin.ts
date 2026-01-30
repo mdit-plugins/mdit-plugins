@@ -196,9 +196,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
 
   // Get existing maps or create new ones to support multiple plugin instances
   const mdWithMaps = md as MarkdownIt & {
-    // oxlint-disable-next-line typescript/naming-convention
     __embedMap?: Map<string, EmbedConfig>;
-    // oxlint-disable-next-line typescript/naming-convention
     __inlineEmbedMap?: Map<string, EmbedConfig>;
   };
 

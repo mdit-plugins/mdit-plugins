@@ -5,7 +5,6 @@ export const setTokenAttr = (token: Token, name: string, value: string): void =>
   const attr: [string, string] = [name, value];
 
   if (index < 0) token.attrPush(attr);
-
   // oxlint-disable-next-line typescript/no-non-null-assertion
   else token.attrs![index] = attr;
 };

@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-argument
 import { bench, describe } from "vitest";
 import MarkdownIt from "markdown-it";
 
@@ -9,6 +10,7 @@ const generateTestContent = (size: "small" | "medium" | "large"): string => {
   const alertTypes = ["note", "tip", "warning", "caution", "important"];
   let content = "";
 
+  // oxlint-disable-next-line default-case
   switch (size) {
     case "small": {
       for (let i = 0; i < 10; i++) {

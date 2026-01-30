@@ -1,4 +1,4 @@
-// oxlint-disable unicorn/new-for-builtins
+// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
 import { bench, describe } from "vitest";
 

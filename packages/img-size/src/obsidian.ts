@@ -178,7 +178,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (env.references === undefined) return false;
+    if (typeof env.references !== "object") return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
@@ -201,7 +201,7 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(referenceLabel)];
 
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/strict-boolean-expressions
     if (!ref) {
       state.pos = oldPos;
 

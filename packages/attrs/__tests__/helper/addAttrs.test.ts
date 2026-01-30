@@ -119,6 +119,8 @@ describe(addAttrs, () => {
     const allowed: string[] = [];
 
     // Should not throw and do nothing
-    expect(() => addAttrs(null, content, range, allowed)).not.toThrow();
+    expect(() => {
+      addAttrs(null, content, range, allowed);
+    }).not.toThrow();
   });
 });

@@ -26,7 +26,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
     position: null,
     range: null,
   };
-  const isShift = rule.shift !== undefined;
+  const isShift = typeof rule.shift === "number";
 
   const tokenIndex = isShift ? index + rule.shift : rule.position;
 
@@ -35,7 +35,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
 
   const token = getArrayItem(tokens, tokenIndex);
 
-  // oxlint-disable-next-line typescript/no-unnecessary-condition
+  // oxlint-disable-next-line typescript/strict-boolean-expressions
   if (!token) return testResult;
 
   const ruleKeys = Object.keys(rule) as (keyof typeof rule)[];
@@ -47,9 +47,12 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
 
     if (key === "shift" || key === "position") continue;
 
-    if (token[key as keyof Token] === undefined) return testResult;
+    // undefined and null are treated as non-existing keys
+    // oxlint-disable-next-line eqeqeq, no-undefined
+    if (token[key as keyof Token] == undefined) return testResult;
 
     if (key === "children" && Array.isArray(rule.children)) {
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
       if (!token.children?.length) return testResult;
 
       const childTests = rule.children;
@@ -57,7 +60,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       let match;
       let range: [start: number, end: number] | null = null;
 
-      if (childTests.every((childTest) => childTest.position !== undefined)) {
+      if (childTests.every((childTest) => typeof childTest.position === "number")) {
         // positions instead of shifts, do not loop all children
         match = childTests.every((childTest) => {
           const result = testRule(children, childTest.position, childTest);
@@ -95,7 +98,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
           if (match) {
             testResult.position = childIndex;
             // set pos data
-            // oxlint-disable-next-line max-depth typescript/no-unnecessary-condition
+            // oxlint-disable-next-line max-depth typescript/strict-boolean-expressions
             if (range) testResult.range = range;
 
             // all tests passes. so the check is successful
@@ -112,6 +115,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
     // oxlint-disable-next-line typescript/no-unsafe-assignment
     const ruleDetail = rule[key];
 
+    // oxlint-disable-next-line typescript/switch-exhaustiveness-check
     switch (typeof ruleDetail) {
       case "boolean":
       case "number":
@@ -125,6 +129,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
         // oxlint-disable-next-line typescript/no-unsafe-call
         const result = ruleDetail(token[key]) as boolean | [start: number, end: number];
 
+        // oxlint-disable-next-line typescript/strict-boolean-expressions
         if (!result) return testResult;
 
         if (Array.isArray(result)) testResult.range = result;

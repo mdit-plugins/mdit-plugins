@@ -27,6 +27,7 @@ const parseNumber = (
   char = str.charCodeAt(pos);
 
   while ((pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ || char === 37 /* % */)
+    // oxlint-disable-next-line no-param-reassign
     char = str.charCodeAt(++pos);
 
   result.ok = true;
@@ -43,6 +44,7 @@ const parseImageSize = (
 ): { pos: number; width: string; height: string } | null => {
   if (str.charCodeAt(pos) !== 61 /* = */) return null;
 
+  // oxlint-disable-next-line no-param-reassign
   pos++;
 
   // size must follow = without any white spaces as follows
@@ -56,14 +58,17 @@ const parseImageSize = (
   // parse width
   const width = parseNumber(str, pos, max);
 
+  // oxlint-disable-next-line no-param-reassign
   pos = width.pos;
 
   // next character must be 'x'
+  // oxlint-disable-next-line no-param-reassign
   if (str.charCodeAt(pos++) !== 120 /* x */) return null;
 
   // parse height
   const height = parseNumber(str, pos, max);
 
+  // oxlint-disable-next-line no-param-reassign
   pos = height.pos;
 
   return {
@@ -182,7 +187,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //
     // Link reference
     //
-    if (env.references === undefined) return false;
+    if (typeof env.references !== "object") return false;
 
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
@@ -208,7 +213,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
     const ref = env.references[state.md.utils.normalizeReference(label)];
 
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/strict-boolean-expressions
     if (!ref) {
       state.pos = oldPos;
 

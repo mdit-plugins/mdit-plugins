@@ -1,4 +1,4 @@
-// oxlint-disable typescript/naming-convention typescript/no-duplicate-enum-values
+// oxlint-disable typescript/no-duplicate-enum-values
 declare module "pako/lib/deflate.js" {
   enum constants {
     // FlushValues

@@ -195,7 +195,8 @@ describe(testRule, () => {
       shift: 0,
       type: "heading",
       level: 1,
-      tag: { complex: "object", that: "continues" } as any,
+      // @ts-expect-error Testing unsupported type
+      tag: { complex: "object", that: "continues" },
     };
 
     expect(() => testRule(tokens, 0, rule1)).toThrow(

@@ -1,4 +1,4 @@
-// oxlint-disable unicorn/new-for-builtins
+// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
 import { container as containerNew } from "../src/index.js";
@@ -6,7 +6,6 @@ import { container as containerNew } from "../src/index.js";
 import { container as containerOld } from "../src-old/index.js";
 
 describe("Container Plugin Benchmark", () => {
-  // 初始化 MarkdownIt 实例并使用插件，避免在 bench 中重复 use
   const mdOld = new MarkdownIt().use(containerOld, { name: "info" });
   const mdNew = new MarkdownIt().use(containerNew, { name: "info" });
 

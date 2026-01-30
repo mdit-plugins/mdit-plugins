@@ -37,12 +37,10 @@ files.forEach((pkgName) => {
       },
       type: "module",
       exports: {
-        // oxlint-disable-next-line typescript/naming-convention
         ".": {
           type: "./lib/index.d.ts",
           default: "./lib/index.js",
         },
-        // oxlint-disable-next-line typescript/naming-convention
         "./package.json": "./package.json",
       },
       main: "lib/index.js",

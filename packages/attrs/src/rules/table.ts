@@ -1,3 +1,4 @@
+// oxlint-disable typescript/explicit-function-return-type
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 

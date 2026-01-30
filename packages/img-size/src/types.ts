@@ -4,6 +4,6 @@ export interface MarkdownReference {
 }
 
 // oxlint-disable-next-line typescript/no-explicit-any
-export interface ImgSizeEnv extends Record<any, any> {
+export interface ImgSizeEnv extends Record<string, any> {
   references?: Record<string, MarkdownReference>;
 }

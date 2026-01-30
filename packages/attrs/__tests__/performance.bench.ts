@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-argument
 import { describe, bench } from "vitest";
 import MarkdownIt from "markdown-it";
 // @ts-ignore
@@ -93,8 +94,8 @@ const mediumContent = createTestContent("medium");
 const largeContent = createTestContent("large");
 
 // Create markdown-it instances for original and optimized versions
-const createOriginalRenderer = () => new MarkdownIt().use(attrsOriginal);
-const createOptimizedRenderer = () => new MarkdownIt().use(attrsOptimized);
+const createOriginalRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOriginal);
+const createOptimizedRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOptimized);
 
 describe("Original vs Optimized Performance Comparison", () => {
   describe("Small document (approx. 2000-3000 characters)", () => {
