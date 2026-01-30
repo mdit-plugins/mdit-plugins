@@ -1,4 +1,4 @@
-name: Test
+name: Unit Test
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   linter-and-unit:
-    name: Linter and Unit test
+    name: Unit test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -38,18 +38,11 @@ jobs:
       - name: Build project and upload bundle
         env:
           CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || ''}}
-          NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run build
-
-      - name: Linter test
-        run: |
-          pnpm run lint:check
-          pnpm run lint:md
 
       - name: Unit test and save results
         env:
           CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || '' }}
-          NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run test:coverage
 
       - name: Upload coverage
