@@ -1,7 +1,3 @@
-import { basename } from "node:path";
-import { cwd } from "node:process";
-
-import { codecovRollupPlugin } from "@codecov/rollup-plugin";
 import type { UserConfig } from "tsdown";
 import { defineConfig } from "tsdown";
 
@@ -141,18 +137,5 @@ export const tsdownConfig = (
     fixedExtension: false,
     noExternal: noExternalOptions,
     inlineOnly: inlineOnly ?? noExternalOptions,
-    plugins: [
-      process.env.CODECOV_TOKEN
-        ? codecovRollupPlugin({
-            enableBundleAnalysis: true,
-            bundleName: `${basename(cwd())}${browser ? "-browser" : ""}`,
-            oidc: {
-              useGitHubOIDC: true,
-            },
-            telemetry: false,
-          })
-        : null,
-    ].filter((item) => item !== null) as UserConfig["plugins"],
-    clean: false,
   });
 };

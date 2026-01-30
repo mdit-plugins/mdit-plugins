@@ -35,25 +35,23 @@ jobs:
       - name: Install Deps
         run: pnpm install --frozen-lockfile
 
-      - name: Build project and upload bundle
-        env:
-          CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || ''}}
-        run: pnpm run build
+      - name: Build project
+        run: pnpm build
 
       - name: Unit test and save results
         env:
           CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || '' }}
         run: pnpm run test:coverage
 
-      - name: Upload coverage
-        if: ${{ !cancelled() && matrix.node-version == 24 }}
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
       - name: Upload test results
         if: ${{ !cancelled() && matrix.node-version == 24 }}
         uses: codecov/test-results-action@v1
         with:
           file: ./coverage/test-report.junit.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage
+        if: ${{ !cancelled() && matrix.node-version == 24 }}
+        uses: codecov/codecov-action@v5
+        with:
           token: ${{ secrets.CODECOV_TOKEN }}

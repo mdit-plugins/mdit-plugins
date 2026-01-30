@@ -35,11 +35,5 @@ overrides:
   "@mdit/plugin-uml": workspace:*
   vite@7: npm:rolldown-vite@7
 
-packageExtensions:
-  "@codecov/rollup-plugin":
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
 patchedDependencies:
   "@vuepress/plugin-markdown-math": patches/@vuepress__plugin-markdown-math.patch

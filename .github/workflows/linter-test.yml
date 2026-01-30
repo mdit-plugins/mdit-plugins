@@ -1,4 +1,4 @@
-name: Linter Test
+name: Build and Linter Test
 
 on:
   push:
@@ -27,10 +27,12 @@ jobs:
       - name: Install Deps
         run: pnpm install --frozen-lockfile
 
-      - name: Build project and upload bundle
-        env:
-          CODECOV_TOKEN: ${{ matrix.node-version == 24 && secrets.CODECOV_TOKEN || ''}}
+      - name: Build project
         run: pnpm run build
+
+      - name: Upload bundle analysis
+        if: ${{ !cancelled() && matrix.node-version == 24 }}
+        run: pnpm bundle:analyze
 
       - name: Linter test
         run: |
