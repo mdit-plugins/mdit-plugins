@@ -8,6 +8,7 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 overrides:
+  "@codecov/bundle-analyzer>undici": npm:undici@7
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
   "@mdit/plugin-attrs": workspace:*

@@ -17,7 +17,7 @@ export default defineConfig({
     benchmark: {
       include: ["**/*.bench.ts"],
     },
-    ...(process.env.CODECOV_TOKEN
+    ...(process.env.TEST_REPORT
       ? {
           reporters: ["junit"],
           outputFile: {
