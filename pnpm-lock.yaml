@@ -5,6 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  '@codecov/bundle-analyzer>undici': npm:undici@7
   '@mdit/plugin-alert': workspace:*
   '@mdit/plugin-align': workspace:*
   '@mdit/plugin-attrs': workspace:*
@@ -32,8 +33,6 @@ overrides:
   '@mdit/plugin-uml': workspace:*
   vite@7: npm:rolldown-vite@7
 
-packageExtensionsChecksum: sha256-CEUcWf6oJiuvpDhK+INoqkFynjN68zO2tDn3fugux9E=
-
 patchedDependencies:
   '@vuepress/plugin-markdown-math':
     hash: ad94722a4ae3bcf825a08321d72777783610a9dc67fd0f7b2de29d432ae9af57
@@ -43,9 +42,9 @@ importers:
 
   .:
     devDependencies:
-      '@codecov/rollup-plugin':
+      '@codecov/bundle-analyzer':
         specifier: 1.9.1
-        version: 1.9.1(rollup@4.56.0)
+        version: 1.9.1
       '@commitlint/cli':
         specifier: 20.3.1
         version: 20.3.1(@types/node@25.0.10)(typescript@5.9.3)
@@ -675,18 +674,15 @@ packages:
   '@bufbuild/protobuf@2.11.0':
     resolution: {integrity: sha512-sBXGT13cpmPR5BMgHE6UEEfEaShh5Ror6rfN3yEK5si7QVrtZg8LEPQb0VVhiLRUslD2yLnXtnRzG035J/mZXQ==}
 
+  '@codecov/bundle-analyzer@1.9.1':
+    resolution: {integrity: sha512-WVWZIV0v09RueL0L2x8pgaWzGsJsKMsMFjsFgzfjeApq9cE6bZ+0fQC3f/pTQ8h40Y3D5Gk9o4W6jd/if3ohSA==}
+    engines: {node: '>=18.0.0'}
+    os: [darwin, linux]
+    hasBin: true
+
   '@codecov/bundler-plugin-core@1.9.1':
     resolution: {integrity: sha512-dt3ic7gMswz4p/qdkYPVJwXlLiLsz55rBBn2I7mr0HTG8pCoLRqnANJIwo5WrqGBZgPyVSMPBqBra6VxLWfDyA==}
     engines: {node: '>=18.0.0'}
-
-  '@codecov/rollup-plugin@1.9.1':
-    resolution: {integrity: sha512-osRI84VBvm8kL0/7w6FLTHsooYGkGbXp1KiVM8d3cH488bvR+E3au+09KxaLQtNNjcZXDGW5m8071EJLN7olAw==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      rollup: 3.x || 4.x
-    peerDependenciesMeta:
-      rollup:
-        optional: true
 
   '@commitlint/cli@20.3.1':
     resolution: {integrity: sha512-NtInjSlyev/+SLPvx/ulz8hRE25Wf5S9dLNDcIwazq0JyB4/w1ROF/5nV0ObPTX8YpRaKYeKtXDYWqumBNHWsw==}
@@ -5376,6 +5372,12 @@ snapshots:
 
   '@bufbuild/protobuf@2.11.0': {}
 
+  '@codecov/bundle-analyzer@1.9.1':
+    dependencies:
+      '@codecov/bundler-plugin-core': 1.9.1
+      micromatch: 4.0.8
+      yargs: 17.7.2
+
   '@codecov/bundler-plugin-core@1.9.1':
     dependencies:
       '@actions/core': 1.11.1
@@ -5384,13 +5386,6 @@ snapshots:
       semver: 7.7.3
       unplugin: 1.16.1
       zod: 3.25.76
-
-  '@codecov/rollup-plugin@1.9.1(rollup@4.56.0)':
-    dependencies:
-      '@codecov/bundler-plugin-core': 1.9.1
-      unplugin: 1.16.1
-    optionalDependencies:
-      rollup: 4.56.0
 
   '@commitlint/cli@20.3.1(@types/node@25.0.10)(typescript@5.9.3)':
     dependencies:

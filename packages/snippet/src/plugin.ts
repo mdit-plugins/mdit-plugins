@@ -45,7 +45,7 @@ const findRegion = (
   for (let lineId = 0; lineId < lines.length; ++lineId) {
     const line = lines[lineId];
 
-    if (regexp === null) {
+    if (regexp == null) {
       for (let i = 0; i < REGIONS_RE.length; ++i) {
         const reg = REGIONS_RE[i];
 

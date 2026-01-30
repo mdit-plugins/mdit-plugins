@@ -35,7 +35,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         const match = pattern.tests.every((test) => {
           const result = testRule(tokens, index, test);
 
-          if (result.position !== null) ({ position } = result);
+          if (result.position != null) ({ position } = result);
           if (result.range) range = result.range;
 
           return result.match;

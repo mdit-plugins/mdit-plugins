@@ -8,6 +8,7 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 overrides:
+  "@codecov/bundle-analyzer>undici": npm:undici@7
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
   "@mdit/plugin-attrs": workspace:*
@@ -34,12 +35,6 @@ overrides:
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
   vite@7: npm:rolldown-vite@7
-
-packageExtensions:
-  "@codecov/rollup-plugin":
-    peerDependenciesMeta:
-      rollup:
-        optional: true
 
 patchedDependencies:
   "@vuepress/plugin-markdown-math": patches/@vuepress__plugin-markdown-math.patch
