@@ -55,5 +55,4 @@ jobs:
         if: ${{ !cancelled() && matrix.node-version == 24 }}
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage/test-report.junit.xml
           use_oidc: true

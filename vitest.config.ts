@@ -13,6 +13,7 @@ export default defineConfig({
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],
       exclude: ["packages/plantuml/src/**/browser.ts"],
+      reporter: process.env.TEST_REPORT ? ["cobertura", "text"] : ["text", "html"],
     },
     benchmark: {
       include: ["**/*.bench.ts"],
