@@ -8,7 +8,9 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 overrides:
-  "@codecov/bundle-analyzer>undici": npm:undici@7
+  # FIXME: avoid outdated dependencies introducing vulnerable undici
+  "@codecov/bundler-plugin-core>@actions/github": npm:@actions/github@8
+  "@codecov/bundler-plugin-core>@actions/http-client": npm:@actions/github@3
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
   "@mdit/plugin-attrs": workspace:*
