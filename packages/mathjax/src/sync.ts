@@ -1,7 +1,9 @@
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
+// oxlint-disable-next-line import/no-nodejs-modules
 import { createRequire } from "node:module";
+
 import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";

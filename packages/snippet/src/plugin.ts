@@ -1,3 +1,4 @@
+// oxlint-disable-next-line import/no-nodejs-modules
 import fs from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";

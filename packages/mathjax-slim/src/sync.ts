@@ -1,6 +1,9 @@
 /**
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
+// oxlint-disable-next-line import/no-nodejs-modules
+import { createRequire } from "node:module";
+
 import type { MathJaxNewcmFont as MathJaxNewcmHTMLFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import type { MathJaxNewcmFont as MathJaxNewcmSVGFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
 import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
@@ -19,8 +22,6 @@ import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "./options.js";
 import { texPackages } from "./tex/index.js";
-
-import { createRequire } from "node:module";
 
 let isMathJaxInstalled = true;
 let mathjaxLib: typeof mathjaxType;

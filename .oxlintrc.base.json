@@ -65,6 +65,8 @@
     "import/no-default-export": "off",
     // a rule that shall not be enabled anyway
     "import/no-named-export": "off",
+    // we allow relative parent imports in some cases, e.g. for monorepo packages
+    "import/no-relative-parent-imports": "off",
     // allow importing stylesheets
     "import/no-unassigned-import": ["error", { "allow": ["**/*.css", "**/*.scss"] }],
     // named export is preferred
@@ -214,7 +216,7 @@
   },
   "overrides": [
     {
-      "files": ["scripts/**/*.{js,ts}", "*.config.{js,ts}"],
+      "files": ["scripts/**/*.{js,ts}", "*.config.{js,ts,mjs,mts,cjs,cts}"],
       "plugins": ["node"],
       "rules": {
         // allow console usage in scripts and config files
@@ -223,6 +225,13 @@
         "import/no-nodejs-modules": "off",
         // config files shall be allowed to access process.env
         "node/no-process-env": "off"
+      }
+    },
+    {
+      "files": ["**/node/**/*.{js,ts}", "**/node.{js,ts}"],
+      "rules": {
+        // allow importing node built-in modules in node files
+        "import/no-nodejs-modules": "off"
       }
     },
     {
@@ -256,14 +265,17 @@
         "max-statements": "off",
         "no-empty-function": "off",
         "no-undefined": "off",
-        "import/no-relative-parent-imports": "off",
+        "import/no-nodejs-modules": "off",
         "typescript/ban-ts-comment": "off",
         "typescript/no-non-null-assertion": "off",
         "typescript/prefer-ts-expect-error": "off",
         "typescript/require-array-sort-compare": "off",
         "vitest/consistent-test-filename": [
           "warn",
-          { "allTestPattern": "(^|\\/)__tests__\\/", "pattern": ".*\\.(bench|spec)\\.[tj]sx?$" }
+          {
+            "allTestPattern": "(^|\\/)__tests__\\/",
+            "pattern": ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$"
+          }
         ],
         "vitest/prefer-called-once": "off",
         "vitest/prefer-to-be-falsy": "off",
