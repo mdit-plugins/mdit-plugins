@@ -143,7 +143,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
     if (src) {
       if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
-        let content = fs.readFileSync(src, "utf8");
+        let content = fs.readFileSync(src, "utf-8");
 
         if (region) {
           const lines = content.split(NEWLINE_RE);

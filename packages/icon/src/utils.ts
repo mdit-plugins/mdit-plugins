@@ -8,9 +8,9 @@ const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
  * @param data input data with content string
  * @returns data with size property and cleaned content string
  */
-export const extractSize = <T extends { content: string }>(
-  data: T & { size?: string },
-): T & { size?: string } => {
+export const extractSize = <Data extends { content: string }>(
+  data: Data & { size?: string },
+): Data & { size?: string } => {
   let size = "";
 
   data.content = data.content
@@ -34,9 +34,9 @@ const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
  * @param data input data with content string
  * @returns data with color property and cleaned content string
  */
-export const extractColor = <T extends { content: string }>(
-  data: T & { color?: string },
-): T & { color?: string } => {
+export const extractColor = <Data extends { content: string }>(
+  data: Data & { color?: string },
+): Data & { color?: string } => {
   let color = "";
 
   data.content = data.content
@@ -109,9 +109,9 @@ const ATTR_REGEXP = new RegExp(
  * @param data input data with content string
  * @returns data with attrs object and cleaned content string
  */
-export const extractAttrs = <T extends { content: string }>(
-  data: T & { attrs?: AttrsInfo },
-): T & { attrs: AttrsInfo } => {
+export const extractAttrs = <Data extends { content: string }>(
+  data: Data & { attrs?: AttrsInfo },
+): Data & { attrs: AttrsInfo } => {
   const attrs: AttrsInfo = {};
 
   const content = data.content
@@ -149,9 +149,9 @@ export const extractAttrs = <T extends { content: string }>(
   return Object.assign({}, data, { attrs, content });
 };
 
-export const extractInfo = <T extends { content: string }>(
-  data: T & { attrs?: AttrsInfo; size?: string; color?: string },
-): T & { attrs: AttrsInfo; size?: string; color?: string } =>
+export const extractInfo = <Data extends { content: string }>(
+  data: Data & { attrs?: AttrsInfo; size?: string; color?: string },
+): Data & { attrs: AttrsInfo; size?: string; color?: string } =>
   extractColor(extractSize(extractAttrs(data)));
 
 /**

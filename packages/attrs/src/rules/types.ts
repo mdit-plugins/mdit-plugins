@@ -17,8 +17,8 @@ export type TokenPropTest = {
       ? never
       : Key extends "content" | "info"
         ? string | DelimiterChecker
-        : Token[Key] extends (infer T) | null
-          ? T | TestFunction<T>
+        : Token[Key] extends (infer KeyType) | null
+          ? KeyType | TestFunction<KeyType>
           : Token[Key] | TestFunction<Token[Key]>;
 };
 

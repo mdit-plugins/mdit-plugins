@@ -35,63 +35,63 @@ describe(testRule, () => {
     const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
 
     // Should match when types are equal
-    expect(testRule(tokens, 0, { shift: 0, type: "paragraph" }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, type: "paragraph" }).match).toBe(true);
 
     // Should not match when types differ
-    expect(testRule(tokens, 1, { shift: 0, type: "paragraph" }).match).toBeFalsy();
+    expect(testRule(tokens, 1, { shift: 0, type: "paragraph" }).match).toBe(false);
   });
 
   it("function rules", () => {
     const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
 
     // Should match when function returns true
-    expect(testRule(tokens, 0, { shift: 0, type: checkParagraph }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, type: checkParagraph }).match).toBe(true);
 
     // Should not match when function returns false
-    expect(testRule(tokens, 1, { shift: 0, type: checkParagraph }).match).toBeFalsy();
+    expect(testRule(tokens, 1, { shift: 0, type: checkParagraph }).match).toBe(false);
   });
 
   it("boolean rules", () => {
     const tokens = [createToken({ block: true }), createToken({ block: false })];
 
     // Should match when values are equal
-    expect(testRule(tokens, 0, { shift: 0, block: true }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, block: true }).match).toBe(true);
 
     // Should not match when values differ
-    expect(testRule(tokens, 0, { shift: 0, block: false }).match).toBeFalsy();
+    expect(testRule(tokens, 0, { shift: 0, block: false }).match).toBe(false);
   });
 
   it("number rules", () => {
     const tokens = [createToken({ nesting: 1 }), createToken({ nesting: 0 })];
 
     // Should match when values are equal
-    expect(testRule(tokens, 0, { shift: 0, nesting: 1 }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, nesting: 1 }).match).toBe(true);
 
     // Should not match when values differ
-    expect(testRule(tokens, 0, { shift: 0, nesting: 0 }).match).toBeFalsy();
+    expect(testRule(tokens, 0, { shift: 0, nesting: 0 }).match).toBe(false);
   });
 
   it("position and shift", () => {
     const tokens = [createToken({ type: "text" }), createToken({ type: "paragraph" })];
 
     // Should handle shift correctly
-    expect(testRule(tokens, 0, { shift: 1, type: "paragraph" }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 1, type: "paragraph" }).match).toBe(true);
 
     // Should handle position correctly
-    expect(testRule(tokens, 0, { position: 0, type: "text" }).match).toBeTruthy();
+    expect(testRule(tokens, 0, { position: 0, type: "text" }).match).toBe(true);
 
     // Should return false when shift results in negative index
-    expect(testRule(tokens, 0, { shift: -2, type: "text" }).match).toBeFalsy();
+    expect(testRule(tokens, 0, { shift: -2, type: "text" }).match).toBe(false);
 
     // Should return false when out of bounds
-    expect(testRule(tokens, 0, { shift: 5, type: "text" }).match).toBeFalsy();
+    expect(testRule(tokens, 0, { shift: 5, type: "text" }).match).toBe(false);
   });
 
   it("undefined properties", () => {
     const tokens = [createToken({ type: "text" })];
 
     // Should return false when token property is undefined
-    expect(testRule(tokens, 0, { shift: 0, info: "some-info" }).match).toBeFalsy();
+    expect(testRule(tokens, 0, { shift: 0, info: "some-info" }).match).toBe(false);
   });
 
   it("children with positions", () => {
@@ -112,7 +112,7 @@ describe(testRule, () => {
 
     const result = testRule(tokens, 0, rule);
 
-    expect(result.match).toBeTruthy();
+    expect(result.match).toBe(true);
     expect(result.position).toBe(1); // Position of last child test
   });
 
@@ -134,7 +134,7 @@ describe(testRule, () => {
 
     const result = testRule(tokens, 0, rule);
 
-    expect(result.match).toBeTruthy();
+    expect(result.match).toBe(true);
     expect(result.position).toBe(0); // Position where match was found
   });
 
@@ -154,18 +154,18 @@ describe(testRule, () => {
         type: "inline",
         children: [{ shift: 0, type: "text" }],
       }).match,
-    ).toBeFalsy();
+    ).toBe(false);
 
     // Should handle children as function
     const childrenFunc = (children: unknown): boolean =>
       Array.isArray(children) && children.length > 0;
 
-    expect(
-      testRule(tokens, 0, { shift: 0, type: "inline", children: childrenFunc }).match,
-    ).toBeFalsy();
-    expect(
-      testRule(tokens, 1, { shift: 0, type: "inline", children: childrenFunc }).match,
-    ).toBeTruthy();
+    expect(testRule(tokens, 0, { shift: 0, type: "inline", children: childrenFunc }).match).toBe(
+      false,
+    );
+    expect(testRule(tokens, 1, { shift: 0, type: "inline", children: childrenFunc }).match).toBe(
+      true,
+    );
   });
 
   it("negative position in children", () => {
@@ -183,7 +183,7 @@ describe(testRule, () => {
 
     const result = testRule(tokens, 0, rule);
 
-    expect(result.match).toBeTruthy();
+    expect(result.match).toBe(true);
     expect(result.position).toBe(1); // Should resolve to actual index 1
   });
 

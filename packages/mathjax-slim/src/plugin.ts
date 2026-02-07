@@ -49,9 +49,7 @@ try {
 }
 
 try {
-  // oxlint-disable-next-line unicorn/no-await-expression-member
   chtmlFont = (await import("@mathjax/mathjax-newcm-font/js/chtml.js")).MathJaxNewcmFont;
-  // oxlint-disable-next-line unicorn/no-await-expression-member
   svgFont = (await import("@mathjax/mathjax-newcm-font/js/svg.js")).MathJaxNewcmFont;
 } catch {
   /* istanbul ignore next -- @preserve */

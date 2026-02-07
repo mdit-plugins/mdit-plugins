@@ -48,6 +48,9 @@
     "no-void": "off",
     // normally we do not enforce numeric separator usage
     "numeric-separators-style": "off",
+    // some functions that return promise and plain values in different conditions
+    // need an async declaration while not always using await
+    "require-await": "off",
     // we prefer to sort imports with its pkg name
     "sort-imports": "off",
     // object keys are not supposed to be sorted in many cases
@@ -115,7 +118,10 @@
         },
         {
           "selector": "variable",
-          "filter": { "regex": "^(?:_{0,2})[A-Z][A-z0-9]*(?:_[A-Z][A-z0-9]*)*$", "match": true },
+          "filter": {
+            "regex": "^(?:_{0,2})[A-Z][A-z0-9]*(?:_[A-Z][A-z0-9]*)*$",
+            "match": true
+          },
           "format": null
         },
         {
@@ -151,6 +157,8 @@
     // filename should not be enforced strictly, e.g. Vue SFC files shall be PascalCased
     // we shall expect a project level setting
     "unicorn/filename-case": "off",
+    // this rule introduce too many false positives
+    "unicorn/explicit-length-check": "off",
     // toReversed can introduce memory overhead,
     // in some chained calls it is better to use reverse as the "reversed" array is also a temp variable.
     "unicorn/no-array-reverse": "off",
@@ -159,6 +167,8 @@
     "unicorn/no-array-sort": "off",
     // Array.forEach has its use cases
     "unicorn/no-array-for-each": "off",
+    // for code simplicity we may not want to create temp variables for single use
+    "unicorn/no-await-expression-member": "off",
     // conflicts with oxfmt code style
     "unicorn/no-nested-ternary": "off",
     // conflicts with oxfmt code style
@@ -168,6 +178,8 @@
     // support starts with chrome71, firefox68. safari12.1, node12
     // leaving it to warn for edge cases
     "unicorn/prefer-global-this": "warn",
+    // prefer utf-8 over utf8
+    "unicorn/text-encoding-identifier-case": ["error", { "withDash": true }],
 
     // stylistic rules with default being tweaked
     "catch-error-name": ["warn", { "name": "err" }],
@@ -185,8 +197,7 @@
           // loops
           "i",
           "j",
-          // type generics
-          "T",
+          "k",
           // parameter name for unused variables
           "_"
         ]
@@ -206,7 +217,10 @@
       "files": ["scripts/**/*.{js,ts}", "*.config.{js,ts}"],
       "plugins": ["node"],
       "rules": {
+        // allow console usage in scripts and config files
         "no-console": "off",
+        // allow importing node built-in modules in config files and scripts
+        "import/no-nodejs-modules": "off",
         // config files shall be allowed to access process.env
         "node/no-process-env": "off"
       }
@@ -232,7 +246,7 @@
       }
     },
     {
-      "files": ["*.bench.{js,ts}", "*.test.{js,ts}"],
+      "files": ["*.{bench,spec,test}.{js,ts}", "*.{spec,test}.{js,ts}", "*.{spec,test}-d.ts"],
       "plugins": ["vitest"],
       "rules": {
         "id-length": "off",
@@ -242,11 +256,18 @@
         "max-statements": "off",
         "no-empty-function": "off",
         "no-undefined": "off",
+        "import/no-relative-parent-imports": "off",
         "typescript/ban-ts-comment": "off",
         "typescript/no-non-null-assertion": "off",
         "typescript/prefer-ts-expect-error": "off",
         "typescript/require-array-sort-compare": "off",
+        "vitest/consistent-test-filename": [
+          "warn",
+          { "allTestPattern": "(^|\\/)__tests__\\/", "pattern": ".*\\.(bench|spec)\\.[tj]sx?$" }
+        ],
         "vitest/prefer-called-once": "off",
+        "vitest/prefer-to-be-falsy": "off",
+        "vitest/prefer-to-be-truthy": "off",
         "unicorn/consistent-function-scoping": "off"
       }
     }

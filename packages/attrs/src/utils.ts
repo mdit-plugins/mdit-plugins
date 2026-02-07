@@ -7,5 +7,5 @@
  * @param index - Index of item / 项的索引
  * @returns Array item / 数组项
  */
-export const getArrayItem = <T>(arr: T[], index: number): T =>
+export const getArrayItem = <Item>(arr: Item[], index: number): Item =>
   index >= 0 ? arr[index] : arr[arr.length + index];
