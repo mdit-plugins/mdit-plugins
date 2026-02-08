@@ -1,39 +1,40 @@
 import MarkdownIt from "markdown-it";
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { uml } from "../src/index.js";
 
-it("should render without options", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+describe(uml, () => {
+  it("should render without options", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 @start
 
 abc
 
 @end
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <div class="uml" title="">
 abc
 </div>\
 `);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 text.
 @start
 abc
 @end
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <p>text.</p>
 <div class="uml" title="">abc</div>\
 `);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 - @start
 
   abc
@@ -42,7 +43,7 @@ abc
 
 ghi
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <ul>
 <li>
 <div class="uml" title="">
@@ -53,73 +54,73 @@ def
 </ul>
 <p>ghi</p>
 `);
-});
+  });
 
-it("should not render", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+  it("should not render", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 start
 
 abc
 
 end
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <p>start</p>
 <p>abc</p>
 <p>end</p>
 `);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 @star
 
 abc
 
 @end
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <p>@star</p>
 <p>abc</p>
 <p>@end</p>
 `);
-});
+  });
 
-it("should keep content as is", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+  it("should keep content as is", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
 
-  expect(
-    markdownIt.render(`
+    expect(
+      markdownIt.render(`
 @start
 
 Text with **bold** and \`code\`.
 
 @end
     `),
-  ).toEqual(`\
+    ).toEqual(`\
 <div class="uml" title="">
 Text with **bold** and \`code\`.
 </div>\
 `);
-});
-
-it("should render with options", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
-    name: "test",
-    open: "teststart",
-    close: "testend",
-    render: (tokens, index): string => {
-      const token = tokens[index];
-      const { content, info, type } = token;
-
-      return `<Test class="${type}" title="${info}">${content}</Test>`;
-    },
   });
 
-  expect(
-    markdownIt.render(`
+  it("should render with options", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
+      name: "test",
+      open: "teststart",
+      close: "testend",
+      render: (tokens, index): string => {
+        const token = tokens[index];
+        const { content, info, type } = token;
+
+        return `<Test class="${type}" title="${info}">${content}</Test>`;
+      },
+    });
+
+    expect(
+      markdownIt.render(`
 @teststart
 
 abc
@@ -128,11 +129,12 @@ def
 
 @testend
 `),
-  ).toEqual(`\
+    ).toEqual(`\
 <Test class="test" title="">
 abc
 
 def
 </Test>\
 `);
+  });
 });

@@ -1,12 +1,13 @@
 import MarkdownIt from "markdown-it";
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { tasklist } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
 
-it("should render", () => {
-  const result = markdownIt.render(`
+describe(tasklist, () => {
+  it("should render", () => {
+    const result = markdownIt.render(`
 - [ ] unchecked item 1
 - [\u00A0] unchecked item 2
 - [X] checked item 3
@@ -15,15 +16,15 @@ it("should render", () => {
 - [\u00A0]\u00A0unchecked item 6
 `);
 
-  expect(result).toContain("label");
-  expect(result).toContain("disabled");
-  expect(result).toContain("</ul>");
-  expect(result).toContain("</li>");
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toContain("label");
+    expect(result).toContain("disabled");
+    expect(result).toContain("</ul>");
+    expect(result).toContain("</li>");
+    expect(result).toMatchSnapshot();
+  });
 
-it("should render ordered list", () => {
-  const result = markdownIt.render(`
+  it("should render ordered list", () => {
+    const result = markdownIt.render(`
 1. [x] checked ordered 1
 2. [ ] unchecked ordered 2
 3. [X] checked ordered 3
@@ -31,15 +32,15 @@ it("should render ordered list", () => {
 5. [ ]\u00A0unchecked ordered 5
 `);
 
-  expect(result).toContain("label");
-  expect(result).toContain("disabled");
-  expect(result).toContain("</ol>");
-  expect(result).toContain("</li>");
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toContain("label");
+    expect(result).toContain("disabled");
+    expect(result).toContain("</ol>");
+    expect(result).toContain("</li>");
+    expect(result).toMatchSnapshot();
+  });
 
-it("should render nested list", () => {
-  const ulResult = markdownIt.render(`
+  it("should render nested list", () => {
+    const ulResult = markdownIt.render(`
 - foo
   - [ ] nested unchecked item 1
   - [ ] nested unchecked item 2
@@ -47,13 +48,13 @@ it("should render nested list", () => {
   - [X] nested checked item 4
 `);
 
-  expect(ulResult).toContain("label");
-  expect(ulResult).toContain("disabled");
-  expect(ulResult).toContain("</ul>");
-  expect(ulResult).toContain("</li>");
-  expect(ulResult).toMatchSnapshot();
+    expect(ulResult).toContain("label");
+    expect(ulResult).toContain("disabled");
+    expect(ulResult).toContain("</ul>");
+    expect(ulResult).toContain("</li>");
+    expect(ulResult).toMatchSnapshot();
 
-  const olResult = markdownIt.render(`
+    const olResult = markdownIt.render(`
 1. foo
    * [ ] nested unchecked item 1
    * not a todo item 2
@@ -63,32 +64,32 @@ it("should render nested list", () => {
 3. spam
 `);
 
-  expect(olResult).toContain("label");
-  expect(olResult).toContain("disabled");
-  expect(olResult).toContain("</ol>");
-  expect(olResult).toContain("</li>");
-  expect(olResult).toMatchSnapshot();
-});
-
-it("should not render label", () => {
-  const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
-    label: false,
+    expect(olResult).toContain("label");
+    expect(olResult).toContain("disabled");
+    expect(olResult).toContain("</ol>");
+    expect(olResult).toContain("</li>");
+    expect(olResult).toMatchSnapshot();
   });
 
-  const result = markdownItWithOutLabel.render(`
+  it("should not render label", () => {
+    const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
+      label: false,
+    });
+
+    const result = markdownItWithOutLabel.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
 `);
 
-  expect(result).not.toContain("label");
-  expect(result).toContain("disabled");
-  expect(result).toMatchSnapshot();
-});
+    expect(result).not.toContain("label");
+    expect(result).toContain("disabled");
+    expect(result).toMatchSnapshot();
+  });
 
-it("should increase id", () => {
-  const result = markdownIt.render(`
+  it("should increase id", () => {
+    const result = markdownIt.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
@@ -106,43 +107,43 @@ Some content
   - [x] checked item 4
 `);
 
-  expect(result).toContain("label");
-  expect(result).toContain("disabled");
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toContain("label");
+    expect(result).toContain("disabled");
+    expect(result).toMatchSnapshot();
+  });
 
-it("should render with items containing other markdown syntax", () => {
-  const result = markdownIt.render(`
+  it("should render with items containing other markdown syntax", () => {
+    const result = markdownIt.render(`
 - [ ] unchecked [link](https://example.com)
 - [ ] unchecked **item 2**
 - [ ] _unchecked_ item 3
 - [x] ~~checked item 4~~
 `);
 
-  expect(result).toContain("label");
-  expect(result).toContain("disabled");
-  expect(result).toMatchSnapshot();
-});
-
-it("should support disabled option", () => {
-  const markdownItWithDisabledFalse = MarkdownIt({ linkify: true }).use(tasklist, {
-    disabled: false,
+    expect(result).toContain("label");
+    expect(result).toContain("disabled");
+    expect(result).toMatchSnapshot();
   });
 
-  const result = markdownItWithDisabledFalse.render(`
+  it("should support disabled option", () => {
+    const markdownItWithDisabledFalse = MarkdownIt({ linkify: true }).use(tasklist, {
+      disabled: false,
+    });
+
+    const result = markdownItWithDisabledFalse.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
 - [ ] unchecked item 3
 - [x] checked item 4
 `);
 
-  expect(result).toContain("label");
-  expect(result).not.toContain("disabled");
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toContain("label");
+    expect(result).not.toContain("disabled");
+    expect(result).toMatchSnapshot();
+  });
 
-it("should not render", () => {
-  const result = markdownIt.render(`
+  it("should not render", () => {
+    const result = markdownIt.render(`
 - [ ]
 - [  ] not a todo item 2
 - [ x] not a todo item 3
@@ -154,7 +155,8 @@ it("should not render", () => {
 - [X]not a todo item 9
 `);
 
-  expect(result).not.toContain("label");
-  expect(result).not.toContain("input");
-  expect(result).toMatchSnapshot();
+    expect(result).not.toContain("label");
+    expect(result).not.toContain("input");
+    expect(result).toMatchSnapshot();
+  });
 });
