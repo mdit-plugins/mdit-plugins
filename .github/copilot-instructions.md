@@ -14,6 +14,16 @@
 - Test should be grouped by testing cases with `describe`
 - Test should target 100% code coverage unless some cases are really edge cases
 
+### How to run tests
+
+First, cd to the plugin directory (e.g.: `cd packages/alert`), then run:
+
+```bash
+pnpm vitest run --coverage
+```
+
+This should only run tests in the current plugin and generate coverage report for it. Do NOT run `pnpm vitest run --coverage` in the root directory, which will run all tests and generate a long report.
+
 ## Performance
 
 - Usage of RegExp should be avoided, especially in performance-critical paths. Prefer using a pos pointer to access characters in string with logic instead.

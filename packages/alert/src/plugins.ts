@@ -133,6 +133,7 @@ const getAlertRule =
       //     ```
       let currentLine = startLine;
       let lastLineEmpty = false;
+      let hasBodyContent = false;
 
       for (; currentLine < endLine; currentLine++) {
         // check if it's outdented, i.e. it's inside list item and indented
@@ -201,6 +202,7 @@ const getAlertRule =
           }
 
           lastLineEmpty = pos >= max;
+          if (currentLine > startLine && !lastLineEmpty) hasBodyContent = true;
 
           if (!silent) {
             oldBSCount.push(state.bsCount[currentLine]);
@@ -254,6 +256,8 @@ const getAlertRule =
           break;
         }
 
+        hasBodyContent = true;
+
         if (!silent) {
           oldBMarks.push(state.bMarks[currentLine]);
           oldBSCount.push(state.bsCount[currentLine]);
@@ -261,7 +265,8 @@ const getAlertRule =
           oldTShift.push(state.tShift[currentLine]);
 
           // A negative indentation means that this is a paragraph continuation
-          state.sCount[currentLine] = -1;
+          // we only set it if it's not the first line of the body
+          if (currentLine > startLine + 1) state.sCount[currentLine] = -1;
         }
       }
 
@@ -280,7 +285,7 @@ const getAlertRule =
       };
 
       // If we didn't find any alert body, so we don't have a valid alert
-      if (startLine + 1 >= currentLine) {
+      if (startLine + 1 >= currentLine || !hasBodyContent) {
         // If we are in silent mode, we don't need to restore the state
         if (!silent) restoreState();
 
