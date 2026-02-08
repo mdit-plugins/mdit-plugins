@@ -8,7 +8,8 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { MarkdownItFigureOptions } from "./options.js";
 
 const removeAttribute = (token: Token, attribute: string): void => {
-  token.attrs = token.attrs?.filter(([key]) => key !== attribute) ?? null;
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  token.attrs = token.attrs!.filter(([key]) => key !== attribute);
 };
 
 const getCaption = (image: Token): string => {
@@ -48,11 +49,12 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
         if (isEnclosed) continue;
       }
 
-      // prev token is paragraph open
-      if (state.tokens[index - 1].type !== "paragraph_open") continue;
-
-      // next token is paragraph close
-      if (state.tokens[index + 1].type !== "paragraph_close") continue;
+      // check prev token is paragraph open and next token is paragraph close
+      if (
+        state.tokens[index - 1].type !== "paragraph_open" ||
+        state.tokens[index + 1].type !== "paragraph_close"
+      )
+        continue;
 
       // We have inline token containing an image only.
       // Previous token is paragraph open.
@@ -69,10 +71,15 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
       const image = token.children.length === 1 ? token.children[0] : token.children[1];
 
       const figCaption = getCaption(image);
-      const [captionContent] = md.parseInline(figCaption, state.env);
 
       token.children.push(new state.Token("figcaption_open", "figcaption", 1));
-      token.children.push(...(captionContent.children ?? []));
+
+      const [captionContent] = md.parseInline(figCaption, state.env);
+      const children = captionContent.children;
+
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
+      if (children?.length) token.children.push(...children);
+
       token.children.push(new state.Token("figcaption_close", "figcaption", -1));
 
       if (options.focusable !== false) image.attrPush(["tabindex", "0"]);
