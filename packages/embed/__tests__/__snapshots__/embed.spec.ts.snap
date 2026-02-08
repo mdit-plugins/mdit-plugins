@@ -76,76 +76,41 @@ exports[`embed > inline embeds > should handle inline embed 1`] = `
 `;
 
 exports[`embed > inline embeds > should handle inline embed 2`] = `
-"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 3`] = `
-"<p>Click the <i class="icon icon-home"></i> button to go home.</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 4`] = `
 "<p><span class="icon-warning"></span></p>
 "
 `;
 
-exports[`embed > inline embeds > should handle inline embed 5`] = `
+exports[`embed > inline embeds > should handle inline embed 3`] = `
+"<p>a <span class="icon-warning"></span> b</p>
+"
+`;
+
+exports[`embed > inline embeds > should handle inline embed 4`] = `
 "<p>Status: <span class="badge">active</span></p>
 "
 `;
 
+exports[`embed > inline embeds > should handle inline embed 5`] = `
+"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
+"
+`;
+
 exports[`embed > inline embeds > should handle inline embed 6`] = `
-"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 7`] = `
-"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 8`] = `
-"<p><i class="icon icon-star"></i> Rating: <span class="badge">5 stars</span> <i class="icon icon-thumbs-up"></i></p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 9`] = `
 "<p>Check out {% youtube dQw4w9WgXcQ %} video.</p>
 "
 `;
 
-exports[`embed > inline embeds > should handle inline embed 10`] = `
+exports[`embed > inline embeds > should handle inline embed 7`] = `
 "<p>Use {% unknown-inline param %} here.</p>
 "
 `;
 
-exports[`embed > inline embeds > should handle inline embed 11`] = `
+exports[`embed > inline embeds > should handle inline embed 8`] = `
 "<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
 "
 `;
 
-exports[`embed > inline embeds > should handle inline embed 12`] = `
-"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 13`] = `
-"<p>Click the {% icon <i class="icon icon-home"></i> home %} button to go home.</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 14`] = `
-"<p>{% icon <i class="icon icon-home"></i> home %}</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 15`] = `
-"<p>{% icon <i class="icon icon-home"></i> home %}</p>
-"
-`;
-
-exports[`embed > inline embeds > should handle inline embed 16`] = `
+exports[`embed > inline embeds > should handle inline embed 9`] = `
 "<p>{% icon <i class="icon icon-home"></i> home %}</p>
 "
 `;

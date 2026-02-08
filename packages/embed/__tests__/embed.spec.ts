@@ -56,8 +56,8 @@ describe(embed, () => {
 
         expected.forEach((expectedContent) => {
           expect(result).toContain(expectedContent);
-          expect(result).toMatchSnapshot();
         });
+        expect(result).toMatchSnapshot();
       });
     });
 
@@ -92,8 +92,9 @@ Some text
 
         expected.forEach((expectedContent) => {
           expect(result).toContain(expectedContent);
-          expect(result).toMatchSnapshot();
+          expect(result).toContain("iframe");
         });
+        expect(result).toMatchSnapshot();
       });
     });
   });
@@ -102,9 +103,10 @@ Some text
     const inlineTests: [string, string[]][] = [
       [
         "Click the {% icon home %} button to go home.",
-        ['<i class="icon icon-home"></i>', "<p>Click the", "button to go home.</p>"],
+        ['<i class="icon icon-home"></i>', "Click the", "button to go home."],
       ],
       ["{%warning%}", ['<span class="icon-warning"></span>']],
+      ["a {%warning%} b", ['a <span class="icon-warning"></span> b']],
       ["Status: {% badge active %}", ['<span class="badge">active</span>']],
       [
         "{% icon star %} Rating: {% badge 5 stars %} {% icon thumbs-up %}",
@@ -124,27 +126,40 @@ Some text
       ],
       [
         "Click the {% icon {% icon home %} home %} button to go home.",
-        [
-          '<i class="icon icon-home"></i>',
-          "<p>Click the {% icon",
-          "home %} button to go home.</p>",
-        ], // find nearest marker
+        ['<i class="icon icon-home"></i>', "Click the {% icon", "home %} button to go home."], // find nearest marker
       ],
       [
         "{% icon {% icon home %} home %}",
-        ['<i class="icon icon-home"></i>', "<p>{% icon", "home %}</p>"], // find nearest marker
+        ['<i class="icon icon-home"></i>', "{% icon", "home %}"], // find nearest marker
       ],
     ];
 
     it("should handle inline embed", () => {
       inlineTests.forEach(([input, expected]) => {
         const result = md.render(input);
+        const inlineResult = md.renderInline(input);
 
         expected.forEach((expectedContent) => {
           expect(result).toContain(expectedContent);
-          expect(result).toMatchSnapshot();
+          expect(inlineResult).toContain(expectedContent);
         });
+        expect(inlineResult).not.toContain("<p>");
+        expect(result).toContain("<p>");
+        expect(result).toMatchSnapshot();
       });
+    });
+
+    it("should handle silent mode for inline and block embeds", () => {
+      const inlineResult = md.render("[{% icon search %}](https://example.com)");
+
+      expect(inlineResult).toContain(
+        '<a href="https://example.com"><i class="icon icon-search"></i></a>',
+      );
+
+      const blockResult = md.render("Paragraph\n\n{% warning %}");
+
+      expect(blockResult).toContain("<p>Paragraph</p>");
+      expect(blockResult).toContain('<span class="icon-warning"></span>');
     });
 
     it("should support allowInline embeds in both inline and block contexts", () => {
@@ -300,6 +315,22 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
       // Double backslash should escape the backslash, not the embed
       expect(result).toContain('<i class="icon icon-test"></i>');
       expect(result).toContain("\\");
+    });
+
+    it("should should not render with forbidden content", () => {
+      const mdInstance = MarkdownIt().use(embed, {
+        config: [
+          { name: "block", setup: (): string => "block" },
+          { name: "inline", setup: (): string => "inline", allowInline: true },
+        ],
+      });
+
+      // Nested opening marker for block
+      expect(mdInstance.render("{% block {% %}")).toContain("{% block {% %}");
+      // Nested closing marker for block
+      expect(mdInstance.render("{% block %} %}")).toContain("{% block %} %}");
+      // Nested opening marker for inline
+      expect(mdInstance.render("abc {% inline {% %} def")).toContain("{% inline {% %}");
     });
   });
 
@@ -702,6 +733,15 @@ Here is some text with {% style-aware inline-item %} embedded.
       expect(inlineResult).toContain('class="video-link"');
       expect(inlineResult).toContain(">this video</a>");
     });
+  });
+
+  it("should cover multiple plugin instances and rules already registered", () => {
+    const multiMd = MarkdownIt()
+      .use(embed, { config: [{ name: "a", setup: (): string => "a" }] })
+      .use(embed, { config: [{ name: "b", setup: (): string => "b" }] });
+
+    expect(multiMd.render("{% a %}")).toContain("a");
+    expect(multiMd.render("{% b %}")).toContain("b");
   });
 
   it("should throw without options", () => {

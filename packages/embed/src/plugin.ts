@@ -89,19 +89,19 @@ const getEmbedInline =
 
     if (!silent) {
       const token = state.push("embed_inline", "embed", 0);
-      const params = spacer
-        ? state.src
-            .slice(spacer + 1, contentEnd)
-            .trim()
-            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
-            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
-        : "";
+      const params =
+        spacer < contentEnd
+          ? state.src
+              .slice(spacer + 1, contentEnd)
+              .trim()
+              .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+              .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
+          : "";
 
       token.markup = "{% %}";
       token.info = name;
       token.content = params;
     }
-
     // Move past the closing %} marker
     state.pos = contentEnd + 2;
 
@@ -159,11 +159,15 @@ const getEmbedBlock =
     // Extract content between {% and %}
     const name =
       spacer === -1
-        ? state.src.slice(contentStart, contentEnd + 1).trimEnd()
+        ? state.src.slice(contentStart, contentEnd).trimEnd()
         : state.src.slice(contentStart, spacer);
 
     // Check if embed name exists in the map
     if (!embedMap.has(name)) return false;
+
+    // Fallback to inline if it's an inline-allowed embed without params
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    if (spacer === -1 && embedMap.get(name)!.allowInline) return false;
 
     if (silent) return true;
 
