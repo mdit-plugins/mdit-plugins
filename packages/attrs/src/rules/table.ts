@@ -179,7 +179,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
 
       while (tbodyOpenIndex >= 0 && tokens[tbodyOpenIndex].type !== "tbody_open") tbodyOpenIndex--;
 
-      const columnCount = (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta?.columnCount ?? 0;
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      const columnCount = (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta!.columnCount!;
 
       if (columnCount < 2) return;
 
@@ -256,10 +257,8 @@ export const getTableRules = (options: DelimiterConfig): AttrRule[] => [
             cellOpenToken.attrSet("colspan", String(realColspan));
 
           // Mark columns as occupied
-          for (let i = 0; i < realColspan; i++) {
-            if (colIndex + i < columnCount)
-              remainingCellRemovedByRowSpan[colIndex + i] = rowspan - 1;
-          }
+          for (let i = 0; i < realColspan; i++)
+            remainingCellRemovedByRowSpan[colIndex + i] = rowspan - 1;
 
           // Consume merged cells
           const cellsToMerge = realColspan - 1;

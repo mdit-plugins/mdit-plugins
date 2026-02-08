@@ -123,6 +123,60 @@ const createDualRuleTests = (
 </table>
 `,
           ],
+          // colspan overflow should be handled
+          [
+            `\
+| A | B |
+|---|---|
+| 1 {colspan=3} |
+`,
+            `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">1</td>
+</tr>
+</tbody>
+</table>
+`,
+          ],
+          // colspan should be reduced if it hits occupied columns
+          [
+            `\
+| A | B | C |
+|---|---|---|
+| A1 | B1 {rowspan=2} | C1 |
+| A2 {colspan=2} | B2 |
+`,
+            `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td rowspan="2">B1</td>
+<td>C1</td>
+</tr>
+<tr>
+<td colspan="1">A2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+`,
+          ],
           // colspan should work even out of borders
           [
             `\
