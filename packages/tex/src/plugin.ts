@@ -79,15 +79,10 @@ const getDollarInlineTex =
      * be the first character in state.src, which is known since
      * we have found an opening delimiter already.
      */
-    const start = state.pos + 1;
-
-    let match = start;
+    let match = state.pos + 1;
     let pos: number;
-    const max = state.src.lastIndexOf("$");
 
-    if (max === -1) return false;
-
-    while ((match = state.src.indexOf("$", match)) <= max) {
+    while ((match = state.src.indexOf("$", match)) !== -1) {
       /*
        * Found potential $, look for escapes, pos will point to
        * first non escape when complete
@@ -105,16 +100,16 @@ const getDollarInlineTex =
     if (match === -1) {
       if (!silent) state.pending += "$";
 
-      state.pos = start;
+      state.pos += 1;
 
       return true;
     }
 
     // Check if we have empty content, ie: $$.  Do not parse.
-    if (match - start === 0) {
+    if (match - (state.pos + 1) === 0) {
       if (!silent) state.pending += "$$";
 
-      state.pos = start + 1;
+      state.pos += 2;
 
       return true;
     }
@@ -125,7 +120,7 @@ const getDollarInlineTex =
     if (!delimState.canClose) {
       if (!silent) state.pending += "$";
 
-      state.pos = start;
+      state.pos += 1;
 
       return true;
     }
@@ -134,7 +129,7 @@ const getDollarInlineTex =
       const token = state.push("math_inline", "math", 0);
 
       token.markup = "$";
-      token.content = state.src.slice(start, match);
+      token.content = state.src.slice(state.pos + 1, match);
     }
 
     state.pos = match + 1;
@@ -197,8 +192,6 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
 const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
-
-  if (start + 2 > end) return false;
 
   if (state.src.charCodeAt(start) !== 36 /* $ */ || state.src.charCodeAt(start + 1) !== 36 /* $ */)
     return false;
@@ -269,8 +262,6 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
 const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
-
-  if (start + 2 > end) return false;
 
   if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 91 /* [ */)
     return false;

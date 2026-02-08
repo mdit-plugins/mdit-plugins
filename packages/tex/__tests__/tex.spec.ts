@@ -698,5 +698,84 @@ $$`,
     it("should handle incomplete markdown structures", () => {
       expect(defaultMarkdownIt.render("![alt $incomplete")).toEqual("<p>![alt $incomplete</p>\n");
     });
+
+    it("should handle silent mode for inline and block rules", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
+      // getDollarInlineTex
+      expect(md.renderInline("[link $ a=1$](url)")).toBe('<a href="url">link $ a=1$</a>');
+      expect(md.renderInline("[link $a=1](url)")).toBe('<a href="url">link $a=1</a>');
+      expect(md.renderInline("[link $$](url)")).toBe('<a href="url">link $$</a>');
+      expect(md.renderInline("[link $a=1 $](url)")).toBe('<a href="url">link $a=1 $</a>');
+
+      // getBracketInlineTex
+      expect(md.renderInline(String.raw`[link \(a=1\)](url)`)).toBe(
+        '<a href="url">link {Tex content: a=1}</a>',
+      );
+      expect(md.renderInline(String.raw`[link \\(a=1\)](url)`)).toBe(
+        String.raw`<a href="url">link \(a=1)</a>`,
+      );
+      expect(md.renderInline(String.raw`[link \(a=1 \\) \)](url)`)).toBe(
+        String.raw`<a href="url">link {Tex content: a=1 \\)}</a>`,
+      );
+
+      // block rules silent mode
+      expect(md.render("- \n  $$\n  a=1\n  $$")).toContain("{Tex content: a=1}");
+      expect(md.render("- \n  \\[\n  a=1\n  \\]")).toContain("{Tex content: a=1}");
+    });
+
+    it("should handle negative indent", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
+      expect(md.render(" - $$\n   a=1\n b=2\n   $$")).toMatch(/b=2/);
+      expect(md.render(" - \\[\n   a=1\n b=2\n   \\]")).toMatch(/b=2/);
+    });
+
+    it("should handle multi-line blocks with both empty and non-empty last lines", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
+      expect(md.render("$$\na=1\n$$")).toContain("a=1");
+      expect(md.render("$$\na=1\nb=2$$")).toContain("a=1\nb=2");
+      expect(
+        md.render(`\\[
+a=1
+\\]`),
+      ).toContain("a=1");
+      expect(
+        md.render(`\\[
+a=1
+b=2\\]`),
+      ).toContain("a=1\nb=2");
+    });
+
+    it("should handle unclosed and edge cases", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
+      expect(md.renderInline("$$ a=1")).toContain("$$ a=1");
+      expect(md.renderInline(String.raw`\[ a=1`)).toContain("[ a=1");
+      expect(md.renderInline("$")).toBe("$");
+      expect(md.renderInline("\\")).toBe("\\");
+      expect(md.renderInline(String.raw`\( a=1`)).toBe("( a=1");
+    });
+
+    it("should handle coverage edge cases for bracket rules", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
+      expect(
+        md.render(`\
+paragraph
+\\[
+a=1
+\\]
+`),
+      ).toBe(`\
+<p>paragraph</p>
+<p>{Tex content: a=1}</p>
+`);
+
+      md.inline.ruler.disable("escape");
+
+      expect(md.renderInline(String.raw`\\(a=1\)`)).toBe(String.raw`\\(a=1\)`);
+    });
   });
 });
