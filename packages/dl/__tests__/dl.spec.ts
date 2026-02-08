@@ -583,4 +583,112 @@ Term 2
       expect(markdownIt.render(content)).toEqual(expected);
     });
   });
+
+  it("should handle edge cases", () => {
+    const testCases = [
+      // Term followed by empty line at end of file
+      [
+        `\
+Term
+
+`,
+        `\
+<p>Term</p>
+`,
+      ],
+      // Term 2 followed by a DD that is less indented than blkIndent
+      [
+        `\
+- Term 1
+  : Def 1
+
+  Term 2
+ : Def 2
+`,
+        `\
+<ul>
+<li>
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+</dl>
+<p>Term 2
+: Def 2</p>
+</li>
+</ul>
+`,
+      ],
+      // Term 2 is less indented than blkIndent
+      [
+        `
+- Term 1
+  : Def 1
+Term 2
+`,
+        `\
+<ul>
+<li>
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1
+Term 2</dd>
+</dl>
+</li>
+</ul>
+`,
+      ],
+      // Term 1 followed by empty line then Term 2
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+: Def 2
+`,
+        `<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+<dt>Term 2</dt>
+<dd>Def 2</dd>
+</dl>
+`,
+      ],
+      // Term 2 followed by something not a DD
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+Not a DD
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+</dl>
+<p>Term 2
+Not a DD</p>
+`,
+      ],
+      // Marker followed by only spaces
+      [
+        `\
+Term 1
+:    
+Next line
+`,
+        `\
+<p>Term 1
+:<br>
+Next line</p>
+`,
+      ],
+    ];
+
+    testCases.forEach(([src, expected]) => {
+      expect(markdownIt.render(src)).toEqual(expected);
+    });
+  });
 });

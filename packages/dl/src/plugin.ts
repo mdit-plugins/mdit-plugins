@@ -181,12 +181,7 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       // insert DD tag and repeat checking
     }
 
-    if (nextLine >= endLine) break;
-
     dtLine = nextLine;
-
-    if (state.isEmpty(dtLine) || state.sCount[dtLine] < state.blkIndent) break;
-
     ddLine = dtLine + 1;
 
     if (ddLine >= endLine) break;
