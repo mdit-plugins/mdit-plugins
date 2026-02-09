@@ -7,7 +7,6 @@
 export const dedent = (text: string): string => {
   const lines = text.split("\n");
 
-  // oxlint-disable-next-line unicorn/no-array-reduce
   const minIndentLength = lines.reduce((acc, line) => {
     for (let i = 0; i < line.length; i++)
       if (line[i] !== " " && line[i] !== "\t") return Math.min(i, acc);
