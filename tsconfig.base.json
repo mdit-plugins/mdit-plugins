@@ -23,11 +23,17 @@
     "downlevelIteration": false,
     "importHelpers": true,
     "newLine": "lf",
+    "noEmit": true,
     "noEmitOnError": true,
     "removeComments": false,
     "inlineSources": true,
     "inlineSourceMap": false,
     "sourceMap": true,
+
+    // declaration
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedDeclarations": true,
 
     // JavaScript
     "allowJs": false,

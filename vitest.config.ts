@@ -19,7 +19,7 @@ export default defineConfig({
     },
     ...(process.env.TEST_REPORT
       ? {
-          reporters: ["junit"],
+          reporters: ["default", "junit"],
           outputFile: {
             junit: "coverage/test-report.junit.xml",
           },

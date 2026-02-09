@@ -110,6 +110,9 @@
     "react/react-in-jsx-scope": "off",
 
     // typescript plugin rules
+    // shall be disabled with isolateDeclarations: true since type that can be inferred
+    // will be required to be explicitly declared
+    "typescript/no-inferrable-types": "off",
     // disable unsafe type assertion checks
     "typescript/no-unsafe-type-assertion": "off",
     // enforce naming conventions

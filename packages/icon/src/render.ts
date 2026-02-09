@@ -37,7 +37,7 @@ export const iconifyRender = (icon: string): string => {
 /**
  * Fontawesome families short aliases
  */
-export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
+export const FONTAWESOME_FAMILY_SHORT_ALIAS: string[] = [
   // free
   "fas",
   "fab",
@@ -55,7 +55,7 @@ export const FONTAWESOME_FAMILY_SHORT_ALIAS = [
 /**
  * Fontawesome styles short aliases
  */
-export const FONTAWESOME_STYLES_SHORT_ALIAS = [
+export const FONTAWESOME_STYLES_SHORT_ALIAS: string[] = [
   // pro only
   "fad",
   "fass",
@@ -65,7 +65,7 @@ export const FONTAWESOME_STYLES_SHORT_ALIAS = [
 /**
  * Fontawesome short aliases
  */
-export const FONTAWESOME_SHORT_ALIAS = [
+export const FONTAWESOME_SHORT_ALIAS: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
 ];
@@ -73,7 +73,7 @@ export const FONTAWESOME_SHORT_ALIAS = [
 /**
  * Fontawesome families classes
  */
-export const FONTAWESOME_FAMILIES = [
+export const FONTAWESOME_FAMILIES: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   // free
   "fa-solid",
@@ -90,7 +90,7 @@ export const FONTAWESOME_FAMILIES = [
 /**
  * Fontawesome styles classes
  */
-export const FONTAWESOME_STYLES = [
+export const FONTAWESOME_STYLES: string[] = [
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
   "fa-duotone",
   "fa-sharp",
@@ -100,7 +100,10 @@ export const FONTAWESOME_STYLES = [
 /**
  * All fontawesome families and styles classes
  */
-export const FONTAWESOME_FAMILIES_AND_STYLES = [...FONTAWESOME_FAMILIES, ...FONTAWESOME_STYLES];
+export const FONTAWESOME_FAMILIES_AND_STYLES: string[] = [
+  ...FONTAWESOME_FAMILIES,
+  ...FONTAWESOME_STYLES,
+];
 
 /**
  * Check if a class is a valid fontawesome short alias
