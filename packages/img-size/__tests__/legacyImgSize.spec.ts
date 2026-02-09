@@ -249,3 +249,14 @@ describe("work with figure plugin", () => {
     });
   });
 });
+
+describe("legacy-img-size silent mode", () => {
+  // oxlint-disable-next-line typescript/no-deprecated
+  const markdownIt = MarkdownIt().use(legacyImgSize);
+
+  it("should handle silent mode", () => {
+    expect(markdownIt.render('[![image](/logo.svg "title" =100x200)](url)')).toContain(
+      '<a href="url"><img src="/logo.svg" alt="image" title="title" width="100" height="200"></a>',
+    );
+  });
+});

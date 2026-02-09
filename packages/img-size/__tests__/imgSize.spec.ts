@@ -387,3 +387,19 @@ describe("work with figure plugin", () => {
     });
   });
 });
+
+describe("img-size silent mode", () => {
+  const markdownIt = MarkdownIt().use(imgSize);
+
+  it("should handle silent mode", () => {
+    expect(markdownIt.render("[![alt =100x200](/logo.svg)](url)")).toContain(
+      '<a href="url"><img src="/logo.svg" alt="alt" width="100" height="200"></a>',
+    );
+  });
+
+  it("should handle reference link without title", () => {
+    expect(markdownIt.render("![alt =100x200][logo]\n\n[logo]: /logo.svg")).toContain(
+      '<img src="/logo.svg" alt="alt" width="100" height="200">',
+    );
+  });
+});
