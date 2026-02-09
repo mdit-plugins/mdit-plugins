@@ -10,8 +10,7 @@
 
 <!-- markdownlint-restore -->
 
-[![code cov](https://codecov.io/gh/mdit-plugins/mdit-plugins/branch/main/graph/badge.svg?token=TNYMbGlxQ9)](https://codecov.io/gh/mdit-plugins/mdit-plugins)
-![Test](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/test.yml/badge.svg)
+[![codecov](https://codecov.io/gh/mdit-plugins/mdit-plugins/branch/main/graph/badge.svg?token=jMO2LCLUP5)](https://codecov.io/gh/mdit-plugins/mdit-plugins)
 [![DeepScan grade](https://deepscan.io/api/teams/15982/projects/29808/branches/954935/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=15982&pid=29808&bid=954935)
 ![CodeQL](https://github.com/mdit-plugins/mdit-plugins/actions/workflows/codeql.yml/badge.svg)
 
