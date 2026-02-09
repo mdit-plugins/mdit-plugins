@@ -1,5 +1,43 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`snippet > should give warnings with not exist path 1`] = `
+"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"
+`;
+
+exports[`snippet > should give warnings with not exist path 2`] = `
+"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"
+`;
+
+exports[`snippet > should give warnings with not exist path 3`] = `
+"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"
+`;
+
+exports[`snippet > should give warnings with not exist path 4`] = `
+"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"
+`;
+
+exports[`snippet > should handle invalid meta 1`] = `
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
+
+// #region snippet
+const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});
+// #endregion snippet
+
+mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
+  filePath: &quot;path/to/current/file.md&quot;,
+});
+</code></pre>
+"
+`;
+
 exports[`snippet > should import all lines 1`] = `
 "<pre><code>plain text
 
@@ -462,6 +500,109 @@ Module Module1
    End Sub
    # EndRegion
 End Module
+</code></pre>
+"
+`;
+
+exports[`snippet > should support region and lines 1`] = `
+"<pre><code class="language-js{1-2}">const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});</code></pre>
+"
+`;
+
+exports[`snippet > should support region and lines 2`] = `
+"<pre><code class="language-js{1-2}">const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});</code></pre>
+"
+`;
+
+exports[`snippet > should support region and lines 3`] = `
+"<pre><code class="language-js">const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});</code></pre>
+"
+`;
+
+exports[`snippet > should work with empty currentPath 1`] = `
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
+
+// #region snippet
+const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});
+// #endregion snippet
+
+mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
+  filePath: &quot;path/to/current/file.md&quot;,
+});
+</code></pre>
+"
+`;
+
+exports[`snippet > should work with invalid meta 1`] = `
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
+
+// #region snippet
+const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});
+// #endregion snippet
+
+mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
+  filePath: &quot;path/to/current/file.md&quot;,
+});
+</code></pre>
+"
+`;
+
+exports[`snippet > should work with non-existent region 1`] = `
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
+
+// #region snippet
+const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});
+// #endregion snippet
+
+mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
+  filePath: &quot;path/to/current/file.md&quot;,
+});
+</code></pre>
+"
+`;
+
+exports[`snippet > should work with unclosed region 1`] = `
+"<pre><code class="language-js">// #region unclosed
+const x = 1;
+</code></pre>
+"
+`;
+
+exports[`snippet > should work without env.filePath 1`] = `
+"<pre><code class="language-js">const { snippet } = require(&quot;@mdit/plugin-snippet&quot;);
+const MarkdownIt = require(&quot;markdown-it&quot;);
+
+// #region snippet
+const mdIt = MarkdownIt().use(snippet, {
+  // your options, currentPath is required
+  currentPath: (env) =&gt; env.filePath,
+});
+// #endregion snippet
+
+mdIt.render(&quot;&lt;&lt;&lt; snippet.js&quot;, {
+  filePath: &quot;path/to/current/file.md&quot;,
+});
 </code></pre>
 "
 `;

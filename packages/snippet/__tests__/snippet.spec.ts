@@ -109,6 +109,9 @@ describe(snippet, () => {
   });
 
   it("should give warnings with not exist path", () => {
+    const mdError = MarkdownIt({ html: true }).use(snippet, {
+      currentPath: () => "/fake/path.md",
+    });
     const source = [
       "<<< not-exisit.md#snippet{1-3}",
       "<<< not-exisit.md",
@@ -117,13 +120,10 @@ describe(snippet, () => {
     ];
 
     source.forEach((item) => {
-      const env: SnippetEnv = {
-        filePath: __filename,
-      };
-      const rendered = md.render(item, env);
+      const rendered = mdError.render(item);
 
       expect(rendered).toContain("Code snippet path not found");
-      expect(env.snippetFiles?.length).toBe(undefined);
+      expect(rendered).toMatchSnapshot();
     });
   });
 
@@ -137,5 +137,92 @@ describe(snippet, () => {
     expect(() => {
       MarkdownIt({ html: true }).use(snippet);
     }).toThrowError('[@mdit/plugin-snippet]: "currentPath" is required');
+  });
+
+  it("should support region and lines", () => {
+    const source = [
+      "<<< ./__fixtures__/example.js#snippet{1-2}",
+      "<<< ./__fixtures__/example.js#snippet{1-2 js}",
+      "<<< ./__fixtures__/example.js#snippet{js}",
+    ];
+
+    source.forEach((item) => {
+      const env: SnippetEnv = {
+        filePath: __filename,
+      };
+      const rendered = md.render(item, env);
+
+      expect(rendered).toMatchSnapshot();
+      expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example.js"));
+    });
+  });
+
+  it("should work with non-existent region", () => {
+    const source = "<<< ./__fixtures__/example.js#non-existent";
+    const env: SnippetEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should work with unclosed region", () => {
+    const source = "<<< ./__fixtures__/unclosed.js#unclosed";
+    const env: SnippetEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should work with invalid meta", () => {
+    const source = "<<< ./__fixtures__/example.js#snippet junk {!!}";
+    const env: SnippetEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should work without env.filePath", () => {
+    const mdNoEnv = MarkdownIt({ html: true }).use(snippet, {
+      currentPath: () => __filename,
+    });
+    const source = "<<< ./__fixtures__/example.js";
+    const env: SnippetEnv = {};
+    const rendered = mdNoEnv.render(source, env);
+
+    expect(rendered).toContain('<pre><code class="language-js">');
+    expect(rendered).toContain('require("@mdit/plugin-snippet")'.replaceAll('"', "&quot;"));
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should work with empty currentPath", () => {
+    const mdNoPath = MarkdownIt({ html: true }).use(snippet, {
+      currentPath: () => "",
+    });
+    const absolutePath = path.resolve(__dirname, "./__fixtures__/example.js");
+    const source = `<<< ${absolutePath}`;
+    const env: SnippetEnv = {};
+    const rendered = mdNoPath.render(source, env);
+
+    expect(rendered).toContain('<pre><code class="language-js">');
+    expect(rendered).toContain('require("@mdit/plugin-snippet")'.replaceAll('"', "&quot;"));
+    expect(env.snippetFiles?.length).toBe(1);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should handle invalid meta", () => {
+    const source = "<<< ./__fixtures__/example.js#snippet{1-2} extra";
+    const env: SnippetEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain('<pre><code class="language-js">');
+    expect(rendered).toContain('require("@mdit/plugin-snippet")'.replaceAll('"', "&quot;"));
+    expect(rendered).toContain("// #region snippet");
+    expect(rendered).toMatchSnapshot();
   });
 });

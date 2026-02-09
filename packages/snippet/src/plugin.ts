@@ -69,15 +69,13 @@ const getSnippetRule =
     currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
     resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
   ): RuleBlock =>
-  (state, startLine, _endLine, silent) => {
+  (state, startLine, _endLine) => {
     const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
     for (let index = 0; index < 3; ++index)
       if (state.src.charCodeAt(pos + index) !== 60 /* < */ || pos + index >= max) return false;
-
-    if (silent) return true;
 
     const start = pos + 3;
     const end = state.skipSpacesBack(max, pos);
