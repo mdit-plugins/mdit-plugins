@@ -67,7 +67,7 @@ export const getDocumentOptions = async (
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
 
   /* istanbul ignore if -- @preserve */
-  if (!isMathJaxNewcmFontInstalled && !userOptions.fontData)
+  if (!userOptions.fontData && !isMathJaxNewcmFontInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-newcm-font" is not installed!');
 
   const outputOptions = Object.assign(
