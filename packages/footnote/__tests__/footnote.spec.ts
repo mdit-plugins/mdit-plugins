@@ -286,6 +286,26 @@ isn’t indented.
   });
 
   it("should support footnoteDef silent", () => {
-    expect(markdownIt.render(`paragraph\n[^1]: foo`)).toMatchSnapshot();
+    const rendered = markdownIt.render(`paragraph\n[^1]: foo`);
+
+    expect(rendered).toContain("<p>paragraph</p>");
+    expect(rendered).not.toContain("foo");
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it("should support footnote silent elegantly", () => {
+    const rendered1 = markdownIt.render("[link ^[inline]](url)");
+
+    // In markdown-it, footnotes inside links might cause the link to fail or render as text
+    // depending on the parser state. The main goal here is to ensure silent mode coverage.
+    expect(rendered1).toContain('link <sup class="footnote-ref">');
+    expect(rendered1).toContain('<li id="footnote1" class="footnote-item"><p>inline');
+    expect(rendered1).toMatchSnapshot();
+
+    const rendered2 = markdownIt.render("[link [^ref]](url)\n\n[^ref]: foo");
+
+    expect(rendered2).toContain('link <sup class="footnote-ref">');
+    expect(rendered2).toContain('<li id="footnote1" class="footnote-item"><p>foo');
+    expect(rendered2).toMatchSnapshot();
   });
 });

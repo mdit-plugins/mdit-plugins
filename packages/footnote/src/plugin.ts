@@ -232,7 +232,6 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
    */
   // silent mode is hard to trigger with standard syntax
   // this is more like a guard to prevent run tokenizer in silent mode
-  /* istanbul ignore else -- @preserve */
   if (!silent) {
     const list = ((state.env.footnotes ??= {}).list ??= []);
     const footnoteId = list.length;
@@ -293,7 +292,6 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   // silent mode is hard to trigger with standard syntax
   // this is more like a guard to prevent run tokenizer in silent mode
-  /* istanbul ignore else -- @preserve */
   if (!silent) {
     const list = (state.env.footnotes.list ??= []);
     const { refs } = state.env.footnotes;

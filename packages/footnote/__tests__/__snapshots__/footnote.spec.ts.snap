@@ -195,6 +195,30 @@ multi-paragraph list items. <a href="#footnote-ref2" class="footnote-backref">�
 "
 `;
 
+exports[`footnote > should support footnote silent elegantly 1`] = `
+"<p><a href="url">link <sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></a></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>inline <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > should support footnote silent elegantly 2`] = `
+"<p>[link <sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup>](url)</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+"
+`;
+
 exports[`footnote > should support footnoteDef silent 1`] = `
 "<p>paragraph</p>
 "
