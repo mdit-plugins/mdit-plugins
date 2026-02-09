@@ -48,6 +48,8 @@
     "no-void": "off",
     // normally we do not enforce numeric separator usage
     "numeric-separators-style": "off",
+    // Only warn if all variables in a destructuring assignment should be const
+    "prefer-const": ["warn", { "destructuring": "all" }],
     // some functions that return promise and plain values in different conditions
     // need an async declaration while not always using await
     "require-await": "off",
@@ -59,6 +61,8 @@
     // import plugin rules
     // exports shall be at their declaration location
     "import/exports-last": "off",
+    // type imports should be ignored
+    "import/max-dependencies": ["warn", { "ignoreTypeImports": true, "max": 15 }],
     // usually we just export vue components as default export without naming it
     "import/no-anonymous-default-export": "off",
     // config file may use default export
@@ -75,6 +79,7 @@
     // jsdoc plugin rules
     // duplicated typescript related jsdoc shall be warned
     "jsdoc/check-tag-names": ["warn", { "typed": true }],
+    "jsdoc/require-param": ["warn", { "checkConstructors": true, "checkDestructuredRoots": false }],
     // we do not require types in jsdoc since we use TypeScript
     "jsdoc/require-param-type": "off",
     // getter does not need a @returns tag
@@ -161,6 +166,8 @@
     "unicorn/filename-case": "off",
     // this rule introduce too many false positives
     "unicorn/explicit-length-check": "off",
+    // sometimes we do need to use reduce for better readability
+    "unicorn/no-array-reduce": "off",
     // toReversed can introduce memory overhead,
     // in some chained calls it is better to use reverse as the "reversed" array is also a temp variable.
     "unicorn/no-array-reverse": "off",
@@ -183,6 +190,9 @@
     // prefer utf-8 over utf8
     "unicorn/text-encoding-identifier-case": ["error", { "withDash": true }],
 
+    // allow 5 props in vue components
+    "vue/max-props": ["warn", { "maxProps": 5 }],
+
     // stylistic rules with default being tweaked
     "catch-error-name": ["warn", { "name": "err" }],
     // FIXME: https://github.com/oxc-project/oxc/issues/18566
@@ -200,6 +210,12 @@
           "i",
           "j",
           "k",
+          // position
+          "x",
+          "y",
+          "z",
+          // Type parameter
+          "T",
           // parameter name for unused variables
           "_"
         ]
@@ -228,10 +244,16 @@
       }
     },
     {
-      "files": ["**/node/**/*.{js,ts}", "**/node.{js,ts}"],
+      "files": ["**/{cli,node}/**/*.{js,ts}", "**/{cli,node}.{js,ts}"],
       "rules": {
         // allow importing node built-in modules in node files
         "import/no-nodejs-modules": "off"
+      }
+    },
+    {
+      "files": ["**/worker/**/*.{js,ts}", "*.worker.{js,ts}", "worker.{js,ts}"],
+      "rules": {
+        "unicorn/require-post-message-target-origin": "off"
       }
     },
     {
@@ -243,6 +265,20 @@
         "jsdoc/require-returns": "off",
         // allow loose boolean expressions in react components
         "typescript/strict-boolean-expressions": "off"
+      }
+    },
+    {
+      "files": ["**/components/**/*.{ts,vue}"],
+      "rules": {
+        // loose max lines for components setup blocks
+        "max-lines-per-function": [
+          "warn",
+          { "max": 300, "skipBlankLines": true, "skipComments": true }
+        ]
+
+        // FIXME: This does not work unless plugin vue is enabled
+        // increase max props for vue components to 5
+        // "vue/max-props": ["warn", { "maxProps": 5 }]
       }
     },
     {
@@ -281,6 +317,14 @@
         "vitest/prefer-to-be-falsy": "off",
         "vitest/prefer-to-be-truthy": "off",
         "unicorn/consistent-function-scoping": "off"
+      }
+    },
+    // for playwright e2e tests
+    {
+      "files": ["e2e/**/*.{spec,test}.{js,ts}"],
+      "rules": {
+        // e2e tests navigation and locators are async
+        "no-await-in-loop": "off"
       }
     }
   ]

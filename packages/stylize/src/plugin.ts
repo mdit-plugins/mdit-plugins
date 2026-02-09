@@ -4,17 +4,13 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
-const scanTokens = (
-  tokens: Token[],
-  config: MarkdownItStylizeConfig[],
-  skipContents: string[] = [],
-): void => {
+const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void => {
   for (let index = 1, len = tokens.length; index < len - 1; index++) {
     const token = tokens[index];
     const content = token.content;
 
     // skip current token
-    if (token.type !== "text" || skipContents.includes(content)) continue;
+    if (token.type !== "text") continue;
 
     const tokenPrev = tokens[index - 1];
     const tokenNext = tokens[index + 1];
