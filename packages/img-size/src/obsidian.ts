@@ -209,7 +209,8 @@ export const obsidianImgSizeRule: RuleInline = (state, silent) => {
     }
 
     href = ref.href;
-    title = ref.title ?? "";
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    title = ref.title!;
   }
 
   //
