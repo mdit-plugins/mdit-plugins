@@ -749,4 +749,25 @@ describe("currentPath", () => {
     expect(rendered).toEqual(expected);
     expect(env.includedFiles).toEqual([]);
   });
+
+  it("should handle include-env-start edge cases", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: () => "/path/to/current.md",
+    });
+
+    // this matches startsWith but not the regex
+    md.render("<!-- #include-env-start: foo");
+  });
+
+  it("should ignore external links when resolving related links", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: () => "/path/to/current.md",
+    });
+
+    const rendered = md.render(
+      `<!-- #include-env-start: /path/to/included.md -->\n![](https://example.com/img.png)\n<!-- #include-env-end -->`,
+    );
+
+    expect(rendered).toContain('src="https://example.com/img.png"');
+  });
 });

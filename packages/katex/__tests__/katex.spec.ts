@@ -199,44 +199,46 @@ $$
   });
 });
 
-it("should support custom logger", () => {
-  const logger1 = vi.fn();
+describe("options", () => {
+  it("should support custom logger", () => {
+    const logger1 = vi.fn();
 
-  const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
-    logger: logger1,
-  });
+    const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
+      logger: logger1,
+    });
 
-  markdownIt1.render(`$$中文$$`);
+    markdownIt1.render(`$$中文$$`);
 
-  markdownIt1.render(`
+    markdownIt1.render(`
 $$
 中文
 $$
 `);
 
-  expect(logger1).toHaveBeenCalledTimes(4);
+    expect(logger1).toHaveBeenCalledTimes(4);
 
-  const logger2 = vi.fn();
+    const logger2 = vi.fn();
 
-  const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
-    logger: logger2,
-  });
+    const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
+      logger: logger2,
+    });
 
-  markdownIt2.render(`
+    markdownIt2.render(`
 $$
 a = 1\\\\
 b = 2
 $$
 `);
 
-  expect(logger2).toHaveBeenCalledTimes(1);
-});
-
-it("should work with transformer", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
-    transformer: (content: string) => content.replaceAll(/^(<[a-z]+ )/g, "$1v-pre "),
+    expect(logger2).toHaveBeenCalledTimes(1);
   });
 
-  expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
-  expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
+  it("should work with transformer", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
+      transformer: (content: string) => content.replaceAll(/^(<[a-z]+ )/g, "$1v-pre "),
+    });
+
+    expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
+    expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
+  });
 });

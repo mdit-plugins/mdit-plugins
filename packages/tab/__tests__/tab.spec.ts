@@ -5,15 +5,16 @@ import { tab } from "../src/index.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(tab);
 
-it("should render single block", () => {
-  const sources = [
-    `
+describe(tab, () => {
+  it("should render single block", () => {
+    const sources = [
+      `
 ::: tabs
 @tab test
 A **bold** text.
 :::
 `,
-    `
+      `
 ::: tabs
 
 @tab test
@@ -22,22 +23,22 @@ A **bold** text.
 
 :::
 `,
-  ];
+    ];
 
-  sources.forEach((item) => {
-    const result = markdownIt.render(item);
+    sources.forEach((item) => {
+      const result = markdownIt.render(item);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
-    );
-    expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
+      );
+      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+    });
   });
-});
 
-it("should render multiple block", () => {
-  const sources = [
-    `
+  it("should render multiple block", () => {
+    const sources = [
+      `
 ::: tabs
 @tab test1
 A **bold** text 1.
@@ -45,7 +46,7 @@ A **bold** text 1.
 A **bold** text 2.
 :::
 `,
-    `
+      `
 ::: tabs
 
 @tab test1
@@ -58,26 +59,26 @@ A **bold** text 2.
 
 :::
 `,
-  ];
+    ];
 
-  sources.forEach((item) => {
-    const result = markdownIt.render(item);
+    sources.forEach((item) => {
+      const result = markdownIt.render(item);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
-    );
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
-    );
-    expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
-    expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+      );
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
+      );
+      expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
+      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+    });
   });
-});
 
-it("should ignore other markers", () => {
-  const sources = [
-    `
+  it("should ignore other markers", () => {
+    const sources = [
+      `
 ::: tabs
 @tab test1
 A **bold** text 1.
@@ -86,33 +87,33 @@ A **bold** text 1.
 A **bold** text 2.
 :::
 `,
-  ];
+    ];
 
-  sources.forEach((item) => {
-    const result = markdownIt.render(item);
+    sources.forEach((item) => {
+      const result = markdownIt.render(item);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
-    );
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
-    );
-    expect(result).toContain("<p>A <strong>bold</strong> text 1.\n@tac</p>");
-    expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+      );
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
+      );
+      expect(result).toContain("<p>A <strong>bold</strong> text 1.\n@tac</p>");
+      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+    });
   });
-});
 
-describe("Should support tabs id", () => {
-  it("simple id", () => {
-    const source = [
-      `
+  describe("Should support tabs id", () => {
+    it("simple id", () => {
+      const source = [
+        `
 ::: tabs#event
 @tab test
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs#event
 
 @tab test
@@ -121,29 +122,29 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain('data-id="event');
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain('data-id="event');
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("id with space", () => {
-    const source = [
-      `
+    it("id with space", () => {
+      const source = [
+        `
 ::: tabs#id with space
 @tab test
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs#id with space
 
 @tab test
@@ -152,58 +153,58 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain('data-id="id with space');
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain('data-id="id with space');
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("should handle tabs with only spaces before ID", () => {
-    const source = `
+    it("should handle tabs with only spaces before ID", () => {
+      const source = `
 ::: tabs   #id
 @tab test
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain('data-id="id"');
-  });
+      expect(result).toMatchSnapshot();
+      expect(result).toContain('data-id="id"');
+    });
 
-  it("should handle tabs with empty ID", () => {
-    const source = `
+    it("should handle tabs with empty ID", () => {
+      const source = `
 ::: tabs#
 @tab test
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain('class="tabs-tabs-wrapper"');
-    expect(result).not.toContain("data-id");
+      expect(result).toMatchSnapshot();
+      expect(result).toContain('class="tabs-tabs-wrapper"');
+      expect(result).not.toContain("data-id");
+    });
   });
-});
 
-describe("Should support tab id", () => {
-  it("simple id", () => {
-    const source = [
-      `
+  describe("Should support tab id", () => {
+    it("simple id", () => {
+      const source = [
+        `
 ::: tabs
 @tab test#id
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs
 
 @tab test#id
@@ -212,29 +213,29 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain('data-id="id');
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain('data-id="id');
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("id with space", () => {
-    const source = [
-      `
+    it("id with space", () => {
+      const source = [
+        `
 ::: tabs
 @tab test#id with space
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs
 
 @tab test#id with space
@@ -243,29 +244,29 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain('data-id="id with space');
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain('data-id="id with space');
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("id with multiple #", () => {
-    const source = [
-      `
+    it("id with multiple #", () => {
+      const source = [
+        `
 ::: tabs
 @tab test#abc#def
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs
 
 @tab test#abc#def
@@ -274,28 +275,28 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("id with escape #", () => {
-    const source = [
-      `
+    it("id with escape #", () => {
+      const source = [
+        `
 ::: tabs
 @tab test\\#abc
 A **bold** text.
 :::
 `,
-      `
+        `
 ::: tabs
 
 @tab test\\#abc
@@ -304,105 +305,105 @@ A **bold** text.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
     });
-  });
 
-  it("should handle tab with trailing spaces but no ID", () => {
-    const source = `
+    it("should handle tab with trailing spaces but no ID", () => {
+      const source = `
 ::: tabs
 @tab test  
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
-    );
-    expect(result).not.toContain("data-id");
-  });
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
+      );
+      expect(result).not.toContain("data-id");
+    });
 
-  it("should handle tab with even escaped #", () => {
-    const source = `
+    it("should handle tab with even escaped #", () => {
+      const source = `
 ::: tabs
 @tab title\\\\#id
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    // Even number of escapes before # means it IS an ID separator.
-    expect(result).toContain('data-id="id"');
-  });
+      // Even number of escapes before # means it IS an ID separator.
+      expect(result).toContain('data-id="id"');
+    });
 
-  it("should handle tab with ID and title", () => {
-    const source = `
+    it("should handle tab with ID and title", () => {
+      const source = `
 ::: tabs
 @tab title #id
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toContain('data-id="id"');
-  });
-});
-
-describe("active", () => {
-  it("should handle :active", () => {
-    const source = [
-      `
-::: tabs
-@tab test1
-A **bold** text 1.
-@tab:active test2
-A **bold** text 2.
-:::
-`,
-      `
-::: tabs
-
-@tab test1
-
-A **bold** text 1.
-
-@tab:active test2
-
-A **bold** text 2.
-
-:::
-`,
-    ];
-
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
-
-      expect(result).toMatchSnapshot();
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
-      );
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
-      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+      expect(result).toContain('data-id="id"');
     });
   });
 
-  it("should resolve first :active", () => {
-    const source = [
-      `
+  describe("active", () => {
+    it("should handle :active", () => {
+      const source = [
+        `
+::: tabs
+@tab test1
+A **bold** text 1.
+@tab:active test2
+A **bold** text 2.
+:::
+`,
+        `
+::: tabs
+
+@tab test1
+
+A **bold** text 1.
+
+@tab:active test2
+
+A **bold** text 2.
+
+:::
+`,
+      ];
+
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
+
+        expect(result).toMatchSnapshot();
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+        );
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
+        expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+      });
+    });
+
+    it("should resolve first :active", () => {
+      const source = [
+        `
 ::: tabs
 @tab test1
 A **bold** text 1.
@@ -412,7 +413,7 @@ A **bold** text 2.
 A **bold** text 3.
 :::
 `,
-      `
+        `
 ::: tabs
 
 @tab test1
@@ -429,29 +430,29 @@ A **bold** text 3.
 
 :::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
-      );
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
-      );
-      expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="2">test3</button>',
-      );
-      expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
-      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
-      expect(result).toContain("<p>A <strong>bold</strong> text 3.</p>");
+        expect(result).toMatchSnapshot();
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+        );
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
+        );
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="2">test3</button>',
+        );
+        expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
+        expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+        expect(result).toContain("<p>A <strong>bold</strong> text 3.</p>");
+      });
     });
-  });
 
-  it("should handle multiple active tabs (only first one stays active)", () => {
-    const source = `
+    it("should handle multiple active tabs (only first one stays active)", () => {
+      const source = `
 ::: tabs
 @tab:active 1
 1
@@ -459,55 +460,55 @@ A **bold** text 3.
 2
 :::
 `;
-    const result = markdownIt.render(source);
-
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button active" data-tab="0" data-active>1</button>',
-    );
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="1">2</button>',
-    );
-  });
-});
-
-describe("hidden content", () => {
-  it("should ignore items before first @tab", () => {
-    const source = [
-      `
-::: tabs
-bala bala
-@tab test\\#abc
-A **bold** text.
-:::
-`,
-      `
-::: tabs
-
-bala bala
-
-@tab test\\#abc
-
-A **bold** text.
-
-:::
-`,
-    ];
-
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      const result = markdownIt.render(source);
 
       expect(result).toMatchSnapshot();
       expect(result).toContain(
-        '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
+        '<button type="button" class="tabs-tab-button active" data-tab="0" data-active>1</button>',
       );
-      expect(result).not.contain("bala bala");
-      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="1">2</button>',
+      );
     });
   });
 
-  it("should hide deep content before first tab", () => {
-    const source = `
+  describe("hidden content", () => {
+    it("should ignore items before first @tab", () => {
+      const source = [
+        `
+::: tabs
+bala bala
+@tab test\\#abc
+A **bold** text.
+:::
+`,
+        `
+::: tabs
+
+bala bala
+
+@tab test\\#abc
+
+A **bold** text.
+
+:::
+`,
+      ];
+
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
+
+        expect(result).toMatchSnapshot();
+        expect(result).toContain(
+          '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
+        );
+        expect(result).not.contain("bala bala");
+        expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+      });
+    });
+
+    it("should hide deep content before first tab", () => {
+      const source = `
 ::: tabs
 
 - list
@@ -516,106 +517,106 @@ A **bold** text.
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).not.toContain("list");
-    expect(result).toContain("content");
-  });
-});
-
-it("should work with multiple instance", () => {
-  const markdownItWithMultipleInstance = MarkdownIt({ linkify: true })
-    .use(tab)
-    .use(tab, {
-      name: "test",
-      openRender: () => "<TestTabs>",
-      closeRender: () => "</TestTabs>",
-      tabOpenRender: () => "<TestTab>",
-      tabCloseRender: () => "</TestTab>",
+      expect(result).not.toContain("list");
+      expect(result).toContain("content");
     });
-
-  const source = [
-    `
-::: tabs
-@tab test1
-A **bold** text 1.
-@tab:active test2
-A **bold** text 2.
-:::
-::: test
-@tab test3
-A **bold** text 3.
-@tab:active test4
-A **bold** text 4.
-:::
-`,
-    `
-::: tabs
-
-@tab test1
-
-A **bold** text 1.
-
-@tab:active test2
-
-A **bold** text 2.
-
-:::
-
-::: test
-
-@tab test3
-
-A **bold** text 3.
-
-@tab:active test4
-
-A **bold** text 4.
-
-:::
-`,
-  ];
-
-  source.forEach((item) => {
-    const result = markdownItWithMultipleInstance.render(item);
-
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
-    );
-    expect(result).toContain(
-      '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
-    );
-    expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
-    expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>");
-
-    expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
-    expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>");
   });
-});
 
-it("should not render", () => {
-  const source = [
-    `
+  it("should work with multiple instance", () => {
+    const markdownItWithMultipleInstance = MarkdownIt({ linkify: true })
+      .use(tab)
+      .use(tab, {
+        name: "test",
+        openRender: () => "<TestTabs>",
+        closeRender: () => "</TestTabs>",
+        tabOpenRender: () => "<TestTab>",
+        tabCloseRender: () => "</TestTab>",
+      });
+
+    const source = [
+      `
+::: tabs
+@tab test1
+A **bold** text 1.
+@tab:active test2
+A **bold** text 2.
+:::
+::: test
+@tab test3
+A **bold** text 3.
+@tab:active test4
+A **bold** text 4.
+:::
+`,
+      `
+::: tabs
+
+@tab test1
+
+A **bold** text 1.
+
+@tab:active test2
+
+A **bold** text 2.
+
+:::
+
+::: test
+
+@tab test3
+
+A **bold** text 3.
+
+@tab:active test4
+
+A **bold** text 4.
+
+:::
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownItWithMultipleInstance.render(item);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+      );
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button active" data-tab="1" data-active>test2</button>',
+      );
+      expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
+      expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 3.</p>\n</TestTab>");
+
+      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+      expect(result).toContain("<TestTab><p>A <strong>bold</strong> text 4.</p>\n</TestTab>");
+    });
+  });
+
+  it("should not render", () => {
+    const source = [
+      `
 :: tabs
 bala bala
 @tab test\\#abc
 A **bold** text.
 ::
 `,
-  ];
+    ];
 
-  source.forEach((item) => {
-    const result = markdownIt.render(item);
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain("@tab");
+      expect(result).toMatchSnapshot();
+      expect(result).toContain("@tab");
+    });
   });
-});
 
-describe("marker", () => {
-  it("should not match @tab without space or title", () => {
-    const source = `
+  describe("marker", () => {
+    it("should not match @tab without space or title", () => {
+      const source = `
 ::: tabs
 @tab valid
 Valid content
@@ -624,33 +625,33 @@ Valid content
 @tabtitle
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(`\
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(`\
 Valid content
 @tab
 @tab
 @tabtitle\
 `);
-  });
+    });
 
-  it("should handle tab with partial active marker", () => {
-    const source = `
+    it("should handle tab with partial active marker", () => {
+      const source = `
 ::: tabs
 @tab valid
 content
 @tab:act
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain("@tab:act");
-  });
+      expect(result).toMatchSnapshot();
+      expect(result).toContain("@tab:act");
+    });
 
-  it("should support being interrupted by tab", () => {
-    const source = `
+    it("should support being interrupted by tab", () => {
+      const source = `
 ::: tabs
 @tab test
 - item
@@ -658,18 +659,18 @@ content
   content
 :::
 `;
-    // The second @tab has a deeper indent and is inside a list, so it should not be treated as a tab marker for parent tabs.
-    const result = markdownIt.render(source);
+      // The second @tab has a deeper indent and is inside a list, so it should not be treated as a tab marker for parent tabs.
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).not.toContain('data-tab="1"');
-    expect(result).toContain("@tab test2");
+      expect(result).toMatchSnapshot();
+      expect(result).not.toContain('data-tab="1"');
+      expect(result).toContain("@tab test2");
+    });
   });
-});
 
-describe("starting correctly", () => {
-  it("should work with inline tokens ahead", () => {
-    const source = `
+  describe("starting correctly", () => {
+    it("should work with inline tokens ahead", () => {
+      const source = `
 test
 ::: tabs
 bala bala
@@ -678,43 +679,43 @@ A **bold** text.
 :::
 `;
 
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(`<p>test</p>`);
-    expect(result).not.toContain("bala bala");
-  });
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(`<p>test</p>`);
+      expect(result).not.toContain("bala bala");
+    });
 
-  it("should not match tabs with invalid content after name", () => {
-    const source = `
+    it("should not match tabs with invalid content after name", () => {
+      const source = `
 ::: tabs-invalid
 @tab test
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toContain("::: tabs-invalid");
-  });
+      expect(result).toContain("::: tabs-invalid");
+    });
 
-  it("should support being interrupted by tabs", () => {
-    const source = `
+    it("should support being interrupted by tabs", () => {
+      const source = `
 - item
   ::: tabs
   @tab test
   content
   :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toContain("tabs-tabs-wrapper");
+      expect(result).toContain("tabs-tabs-wrapper");
+    });
   });
-});
 
-describe("ending correctly", () => {
-  it("should end container when a negative indent text found", () => {
-    const source = [
-      `
+  describe("ending correctly", () => {
+    it("should end container when a negative indent text found", () => {
+      const source = [
+        `
   ::: tabs
   bala bala
   @tab test\\#abc
@@ -722,7 +723,7 @@ describe("ending correctly", () => {
 
 test
 `,
-      `
+        `
 - item 1
 
   ::: tabs
@@ -732,18 +733,18 @@ test
 
 test
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toMatch(/<p>test<\/p>\n$/);
+        expect(result).toMatchSnapshot();
+        expect(result).toMatch(/<p>test<\/p>\n$/);
+      });
     });
-  });
 
-  it("should not end when ending marker number is less than start", () => {
-    const result = markdownIt.render(`
+    it("should not end when ending marker number is less than start", () => {
+      const result = markdownIt.render(`
 :::: tabs
 @tab test
 A **bold** text.
@@ -753,43 +754,43 @@ A **bold** text 2.
 ::::
 `);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toContain(":::");
-  });
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(":::");
+    });
 
-  it("should handle tabs closing with more markers", () => {
-    const source = `
+    it("should handle tabs closing with more markers", () => {
+      const source = `
 ::: tabs
 @tab test
 content
 :::::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).not.toContain(":");
-    expect(result).toContain("tabs-tabs-wrapper");
-  });
+      expect(result).not.toContain(":");
+      expect(result).toContain("tabs-tabs-wrapper");
+    });
 
-  it("should not close tabs with trailing content", () => {
-    const source = `
+    it("should not close tabs with trailing content", () => {
+      const source = `
 ::: tabs
 @tab test
 content
 ::: invalid
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).toMatchSnapshot();
-    expect(result).toMatch(/<\/div>\s*$/);
-    expect(result).toContain("::: invalid");
+      expect(result).toMatchSnapshot();
+      expect(result).toMatch(/<\/div>\s*$/);
+      expect(result).toContain("::: invalid");
+    });
   });
-});
 
-describe("nesting", () => {
-  it("should render nested tabs", () => {
-    const source = [
-      `
+  describe("nesting", () => {
+    it("should render nested tabs", () => {
+      const source = [
+        `
 :::: tabs
 @tab test1
 
@@ -806,18 +807,18 @@ A text 1.
 A **bold** text 3.
 ::::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
+      });
     });
-  });
 
-  it("should support nesting with others", () => {
-    const source = [
-      `
+    it("should support nesting with others", () => {
+      const source = [
+        `
 > :::: tabs
 > @tab test1
 > 
@@ -834,7 +835,7 @@ A **bold** text 3.
 > A **bold** text 3.
 > ::::
 `,
-      `
+        `
 - :::: tabs
   @tab test1
   
@@ -851,17 +852,17 @@ A **bold** text 3.
   A **bold** text 3.
   ::::
 `,
-    ];
+      ];
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+      source.forEach((item) => {
+        const result = markdownIt.render(item);
 
-      expect(result).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
+      });
     });
-  });
 
-  it("should handle nested tabs with more depth", () => {
-    const source = `
+    it("should handle nested tabs with more depth", () => {
+      const source = `
 ::: tabs
 @tab root
 ::: tabs
@@ -870,15 +871,15 @@ content
 :::
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    // the second tabs do no have any tab content
-    expect(result).toMatchSnapshot();
-    expect(result).toContain("tabs-tabs-wrapper");
-  });
+      // the second tabs do no have any tab content
+      expect(result).toMatchSnapshot();
+      expect(result).toContain("tabs-tabs-wrapper");
+    });
 
-  it("should handle complex nested content", () => {
-    const source = `
+    it("should handle complex nested content", () => {
+      const source = `
 ::: tabs
 - ::: tabs
   @tab nested
@@ -887,9 +888,10 @@ content
 content
 :::
 `;
-    const result = markdownIt.render(source);
+      const result = markdownIt.render(source);
 
-    expect(result).not.toContain("nested");
-    expect(result).toContain("content");
+      expect(result).not.toContain("nested");
+      expect(result).toContain("content");
+    });
   });
 });
