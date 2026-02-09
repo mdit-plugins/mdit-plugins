@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Can have arbitrary markup 1`] = `
+exports[`footnote > Can have arbitrary markup 1`] = `
 "<p>foo<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -12,7 +12,7 @@ exports[`Can have arbitrary markup 1`] = `
 "
 `;
 
-exports[`Can inside blockquotes, and are lazy 1`] = `
+exports[`footnote > Can inside blockquotes, and are lazy 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <blockquote></blockquote>
 <hr class="footnotes-sep">
@@ -26,7 +26,7 @@ baz <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
 "
 `;
 
-exports[`Duplicate footnotes should have suffix 1`] = `
+exports[`footnote > Duplicate footnotes should have suffix 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote1">[1:1]</a><a class="footnote-anchor" id="footnote-ref1:1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -38,7 +38,7 @@ exports[`Duplicate footnotes should have suffix 1`] = `
 "
 `;
 
-exports[`Indent 1`] = `
+exports[`footnote > Indent 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -52,7 +52,7 @@ exports[`Indent 1`] = `
 "
 `;
 
-exports[`Indents for the first line 1`] = `
+exports[`footnote > Indents for the first line 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -67,7 +67,7 @@ exports[`Indents for the first line 1`] = `
 "
 `;
 
-exports[`Indents for the first line 2`] = `
+exports[`footnote > Indents for the first line 2`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -79,14 +79,14 @@ exports[`Indents for the first line 2`] = `
 "
 `;
 
-exports[`Label cannot contain spaces or newlines 1`] = `
+exports[`footnote > Label cannot contain spaces or newlines 1`] = `
 "<p>[^ foo]: bar baz</p>
 <p>[^foo
 ]: bar baz</p>
 "
 `;
 
-exports[`Nested footnotes 1`] = `
+exports[`footnote > Nested footnotes 1`] = `
 "<p>foo<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> bar<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup>.</p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -99,7 +99,7 @@ exports[`Nested footnotes 1`] = `
 "
 `;
 
-exports[`custom docId in env 1`] = `
+exports[`footnote > custom docId in env 1`] = `
 "<p>Here is a footnote reference,<sup class="footnote-ref"><a href="#footnote-test-doc-id-1">[1]</a><a class="footnote-anchor" id="footnote-ref-test-doc-id-1"></a></sup> and another.<sup class="footnote-ref"><a href="#footnote-test-doc-id-2">[2]</a><a class="footnote-anchor" id="footnote-ref-test-doc-id-2"></a></sup></p>
 <p>This paragraph won’t be part of the note, because it
 isn’t indented.</p>
@@ -122,7 +122,7 @@ multi-paragraph list items. <a href="#footnote-ref-test-doc-id-2" class="footnot
 "
 `;
 
-exports[`should allow links in inline footnotes 1`] = `
+exports[`footnote > should allow links in inline footnotes 1`] = `
 "<p>Example<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -134,7 +134,7 @@ exports[`should allow links in inline footnotes 1`] = `
 "
 `;
 
-exports[`should contain Security 1`] = `
+exports[`footnote > should contain Security 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -146,7 +146,7 @@ exports[`should contain Security 1`] = `
 "
 `;
 
-exports[`should contain Security 2`] = `
+exports[`footnote > should contain Security 2`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -158,7 +158,21 @@ exports[`should contain Security 2`] = `
 "
 `;
 
-exports[`should render 1`] = `
+exports[`footnote > should handle footnote without trailing paragraph 1`] = `
+"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><ul>
+<li>item</li>
+</ul>
+ <a href="#footnote-ref1" class="footnote-backref">↩︎</a></li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > should render 1`] = `
 "<p>Here is a footnote reference,<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> and another.<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
 <p>This paragraph won’t be part of the note, because it
 isn’t indented.</p>
@@ -181,7 +195,12 @@ multi-paragraph list items. <a href="#footnote-ref2" class="footnote-backref">�
 "
 `;
 
-exports[`should support inline note 1`] = `
+exports[`footnote > should support footnoteDef silent 1`] = `
+"<p>paragraph</p>
+"
+`;
+
+exports[`footnote > should support inline note 1`] = `
 "<p>Here is an inline note.<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -195,7 +214,7 @@ note. <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
 "
 `;
 
-exports[`should support xhtml output 1`] = `
+exports[`footnote > should support xhtml output 1`] = `
 "<p>Here is a footnote reference,<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> and another.<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
 <p>This paragraph won’t be part of the note, because it
 isn’t indented.</p>
@@ -218,7 +237,7 @@ multi-paragraph list items. <a href="#footnote-ref2" class="footnote-backref">�
 "
 `;
 
-exports[`should terminate each other 1`] = `
+exports[`footnote > should terminate each other 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup><sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup><sup class="footnote-ref"><a href="#footnote3">[3]</a><a class="footnote-anchor" id="footnote-ref3"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">

@@ -230,6 +230,9 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
    * so all that’s left to do is to call tokenizer.
    *
    */
+  // silent mode is hard to trigger with standard syntax
+  // this is more like a guard to prevent run tokenizer in silent mode
+  /* istanbul ignore else -- @preserve */
   if (!silent) {
     const list = ((state.env.footnotes ??= {}).list ??= []);
     const footnoteId = list.length;
@@ -288,6 +291,9 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 
   if (typeof state.env.footnotes.refs[`:${label}`] !== "number") return false;
 
+  // silent mode is hard to trigger with standard syntax
+  // this is more like a guard to prevent run tokenizer in silent mode
+  /* istanbul ignore else -- @preserve */
   if (!silent) {
     const list = (state.env.footnotes.list ??= []);
     const { refs } = state.env.footnotes;
@@ -374,7 +380,9 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
 
   state.tokens.push(footnoteBlockOpenToken);
 
-  for (let index = 0, { length } = list; index < length; index++) {
+  const listLength = list.length;
+
+  for (let index = 0; index < listLength; index++) {
     const footnoteOpenToken = new state.Token("footnote_open", "", 1);
 
     footnoteOpenToken.meta = { id: index, label: list[index].label };
@@ -399,7 +407,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       paragraphCloseToken.block = true;
 
       state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
-    } else if (list[index].label) {
+    } else {
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const tokens = refTokens[`:${list[index].label!}`];
 
@@ -408,7 +416,8 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
     }
 
     if (state.tokens[state.tokens.length - 1].type === "paragraph_close")
-      lastParagraph = state.tokens.pop() ?? null;
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      lastParagraph = state.tokens.pop()!;
     else lastParagraph = null;
 
     // oxlint-disable-next-line typescript/no-non-null-assertion
