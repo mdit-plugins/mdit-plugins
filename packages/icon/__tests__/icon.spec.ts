@@ -116,3 +116,16 @@ describe("should work with render: undefined", () => {
     );
   });
 });
+
+describe("silent mode", () => {
+  it("should handle silent mode accurately", () => {
+    const md = MarkdownIt().use(icon);
+    const src = "::icon::";
+    const state = new md.inline.State(src, md, {}, []);
+
+    state.md.inline.skipToken(state);
+
+    expect(state.pos).toBe(src.length);
+    expect(state.tokens.length).toBe(0);
+  });
+});
