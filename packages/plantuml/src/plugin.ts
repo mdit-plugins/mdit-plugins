@@ -59,11 +59,11 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       self: Renderer,
     ): string => {
       const token = tokens[index];
-
-      const [fenceName, alt] = token.info.split(" ", 2);
+      const spaceIndex = token.info.indexOf(" ");
+      const fenceName = spaceIndex === -1 ? token.info : token.info.slice(0, spaceIndex);
 
       if (fenceName === fence) {
-        token.info = alt;
+        token.info = spaceIndex === -1 ? "" : token.info.slice(spaceIndex + 1).trim();
 
         return render(tokens, index, options, env, self);
       }

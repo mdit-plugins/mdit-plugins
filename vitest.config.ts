@@ -12,7 +12,6 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],
-      exclude: ["packages/plantuml/src/**/browser.ts"],
       reporter: process.env.TEST_REPORT ? ["cobertura", "text"] : ["text", "html"],
     },
     benchmark: {

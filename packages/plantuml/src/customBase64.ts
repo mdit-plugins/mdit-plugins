@@ -15,9 +15,7 @@ const encode6bit = (byte: number): string =>
         ? String.fromCharCode(97 + byte - 36)
         : byte === 62
           ? "-"
-          : byte === 63
-            ? "_"
-            : "?";
+          : "_";
 
 const append3bytes = (b1: number, b2: number, b3: number): string => {
   // oxlint-disable-next-line no-bitwise

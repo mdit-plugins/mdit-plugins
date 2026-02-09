@@ -89,6 +89,13 @@ describe("customBase64", () => {
     expect(customEncodeBase64("ABCDEF")).toBe("GK93H4L6"); // 6 bytes
   });
 
+  it("should handle characters resulting in - and _", () => {
+    // 62 -> -
+    // 63 -> _
+    expect(customEncodeBase64("\u003E\u003E\u003E")).toBe("FZu-");
+    expect(customEncodeBase64("\u003F\u003F\u003F")).toBe("Fpy_");
+  });
+
   it("should handle strings requiring padding", () => {
     // Test strings that are not multiples of 3 bytes
     expect(customEncodeBase64("A")).toBe("GG00"); // 1 byte
