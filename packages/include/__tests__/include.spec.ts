@@ -1,7 +1,7 @@
 import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
 import path from "upath";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { IncludeEnv } from "../src/index.js";
 import { include } from "../src/index.js";
@@ -769,5 +769,83 @@ describe("currentPath", () => {
     );
 
     expect(rendered).toContain('src="https://example.com/img.png"');
+  });
+
+  it("should deep include with relative path and no cwd", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+      deep: true,
+    });
+    const env: IncludeEnv = { filePath: null };
+    const source = "<!-- @include: ./non-existent.md -->";
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("Error when resolving path");
+  });
+
+  it("should support includePushRule in silent mode", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const state = new md.block.State("<!-- #include-env-start: /foo -->", md, {}, []);
+    const result = md.block.ruler.getRules("")[0](state, 0, 1, true);
+
+    expect(result).toBe(true);
+  });
+
+  it("should resolveRelatedLink correctly with different paths", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const env: IncludeEnv = {
+      filePath: "/a/main.md",
+      includedPaths: ["/a/subdir"],
+    };
+
+    const rendered = md.render("![img2](./img2.png)", env);
+
+    expect(rendered).toContain('src="./subdir/img2.png"');
+
+    const env2: IncludeEnv = {
+      filePath: "/a/b/main.md",
+      includedPaths: ["/a"],
+    };
+    const rendered2 = md.render("![img](./img.png)", env2);
+
+    expect(rendered2).toContain('src="../img.png"');
+  });
+
+  it("should handle include_end failed", () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const md = MarkdownIt().use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const state = new md.core.State("", md, {});
+    const token = new state.Token("include_end", "", 0);
+    const tokens = [token];
+
+    md.renderer.render(tokens, md.options, {});
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("include_end failed"));
+    consoleSpy.mockRestore();
+  });
+
+  it("should handle falsy path in renderer", () => {
+    const md = MarkdownIt().use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const env: IncludeEnv = {
+      filePath: null,
+      includedPaths: ["/foo/bar.md"],
+    };
+
+    const rendered = md.render("![img](./img.png) [link](./link.md)", env);
+
+    expect(rendered).toContain('src="./img.png"');
+    expect(rendered).toContain('href="./link.md"');
   });
 });
