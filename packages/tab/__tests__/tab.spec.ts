@@ -165,6 +165,33 @@ A **bold** text.
       expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
     });
   });
+
+  it("should handle tabs with only spaces before ID", () => {
+    const source = `
+::: tabs   #id
+@tab test
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain('data-id="id"');
+  });
+
+  it("should handle tabs with empty ID", () => {
+    const source = `
+::: tabs#
+@tab test
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain('class="tabs-tabs-wrapper"');
+    expect(result).not.toContain("data-id");
+  });
 });
 
 describe("Should support tab id", () => {
@@ -289,6 +316,47 @@ A **bold** text.
       expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
     });
   });
+
+  it("should handle tab with trailing spaces but no ID", () => {
+    const source = `
+::: tabs
+@tab test  
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(
+      '<button type="button" class="tabs-tab-button" data-tab="0">test</button>',
+    );
+    expect(result).not.toContain("data-id");
+  });
+
+  it("should handle tab with even escaped #", () => {
+    const source = `
+::: tabs
+@tab title\\\\#id
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    // Even number of escapes before # means it IS an ID separator.
+    expect(result).toContain('data-id="id"');
+  });
+
+  it("should handle tab with ID and title", () => {
+    const source = `
+::: tabs
+@tab title #id
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toContain('data-id="id"');
+  });
 });
 
 describe("active", () => {
@@ -381,39 +449,77 @@ A **bold** text 3.
       expect(result).toContain("<p>A <strong>bold</strong> text 3.</p>");
     });
   });
-});
 
-it("should ignore items before first @tab", () => {
-  const source = [
-    `
+  it("should handle multiple active tabs (only first one stays active)", () => {
+    const source = `
 ::: tabs
-bala bala
-@tab test\\#abc
-A **bold** text.
+@tab:active 1
+1
+@tab:active 2
+2
 :::
-`,
-    `
-::: tabs
-
-bala bala
-
-@tab test\\#abc
-
-A **bold** text.
-
-:::
-`,
-  ];
-
-  source.forEach((item) => {
-    const result = markdownIt.render(item);
+`;
+    const result = markdownIt.render(source);
 
     expect(result).toMatchSnapshot();
     expect(result).toContain(
-      '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
+      '<button type="button" class="tabs-tab-button active" data-tab="0" data-active>1</button>',
     );
-    expect(result).not.contain("bala bala");
-    expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+    expect(result).toContain(
+      '<button type="button" class="tabs-tab-button" data-tab="1">2</button>',
+    );
+  });
+});
+
+describe("hidden content", () => {
+  it("should ignore items before first @tab", () => {
+    const source = [
+      `
+::: tabs
+bala bala
+@tab test\\#abc
+A **bold** text.
+:::
+`,
+      `
+::: tabs
+
+bala bala
+
+@tab test\\#abc
+
+A **bold** text.
+
+:::
+`,
+    ];
+
+    source.forEach((item) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>',
+      );
+      expect(result).not.contain("bala bala");
+      expect(result).toContain("<p>A <strong>bold</strong> text.</p>");
+    });
+  });
+
+  it("should hide deep content before first tab", () => {
+    const source = `
+::: tabs
+
+- list
+
+@tab test
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).not.toContain("list");
+    expect(result).toContain("content");
   });
 });
 
@@ -507,25 +613,101 @@ A **bold** text.
   });
 });
 
+describe("marker", () => {
+  it("should not match @tab without space or title", () => {
+    const source = `
+::: tabs
+@tab valid
+Valid content
+@tab
+@tab 
+@tabtitle
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(`\
+Valid content
+@tab
+@tab
+@tabtitle\
+`);
+  });
+
+  it("should handle tab with partial active marker", () => {
+    const source = `
+::: tabs
+@tab valid
+content
+@tab:act
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain("@tab:act");
+  });
+
+  it("should support being interrupted by tab", () => {
+    const source = `
+::: tabs
+@tab test
+- item
+  @tab test2
+  content
+:::
+`;
+    // The second @tab has a deeper indent and is inside a list, so it should not be treated as a tab marker for parent tabs.
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).not.toContain('data-tab="1"');
+    expect(result).toContain("@tab test2");
+  });
+});
+
 describe("starting correctly", () => {
   it("should work with inline tokens ahead", () => {
-    const source = [
-      `
+    const source = `
 test
 ::: tabs
 bala bala
 @tab test\\#abc
 A **bold** text.
 :::
-`,
-    ];
+`;
 
-    source.forEach((item) => {
-      const result = markdownIt.render(item);
+    const result = markdownIt.render(source);
 
-      expect(result).toMatchSnapshot();
-      expect(result).toContain(`<p>test</p>`);
-    });
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(`<p>test</p>`);
+    expect(result).not.toContain("bala bala");
+  });
+
+  it("should not match tabs with invalid content after name", () => {
+    const source = `
+::: tabs-invalid
+@tab test
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toContain("::: tabs-invalid");
+  });
+
+  it("should support being interrupted by tabs", () => {
+    const source = `
+- item
+  ::: tabs
+  @tab test
+  content
+  :::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toContain("tabs-tabs-wrapper");
   });
 });
 
@@ -573,6 +755,34 @@ A **bold** text 2.
 
     expect(result).toMatchSnapshot();
     expect(result).toContain(":::");
+  });
+
+  it("should handle tabs closing with more markers", () => {
+    const source = `
+::: tabs
+@tab test
+content
+:::::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).not.toContain(":");
+    expect(result).toContain("tabs-tabs-wrapper");
+  });
+
+  it("should not close tabs with trailing content", () => {
+    const source = `
+::: tabs
+@tab test
+content
+::: invalid
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toMatch(/<\/div>\s*$/);
+    expect(result).toContain("::: invalid");
   });
 });
 
@@ -648,5 +858,38 @@ A **bold** text 3.
 
       expect(result).toMatchSnapshot();
     });
+  });
+
+  it("should handle nested tabs with more depth", () => {
+    const source = `
+::: tabs
+@tab root
+::: tabs
+@tab nested
+content
+:::
+:::
+`;
+    const result = markdownIt.render(source);
+
+    // the second tabs do no have any tab content
+    expect(result).toMatchSnapshot();
+    expect(result).toContain("tabs-tabs-wrapper");
+  });
+
+  it("should handle complex nested content", () => {
+    const source = `
+::: tabs
+- ::: tabs
+  @tab nested
+  :::
+@tab test
+content
+:::
+`;
+    const result = markdownIt.render(source);
+
+    expect(result).not.toContain("nested");
+    expect(result).toContain("content");
   });
 });

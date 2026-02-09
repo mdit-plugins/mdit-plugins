@@ -84,6 +84,20 @@ exports[`Should support tab id > id with space 2`] = `
 "
 `;
 
+exports[`Should support tab id > should handle tab with trailing spaces but no ID 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`Should support tab id > simple id 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
@@ -134,6 +148,34 @@ exports[`Should support tabs id > id with space 2`] = `
   <div class="tabs-tabs-container">
 <div class="tabs-tab-content" data-index="0">
 <p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`Should support tabs id > should handle tabs with empty ID 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`Should support tabs id > should handle tabs with only spaces before ID 1`] = `
+"<div class="tabs-tabs-wrapper" data-id="id">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
 </div>
   </div>
 </div>
@@ -198,6 +240,24 @@ exports[`active > should handle :active 2`] = `
 </div>
 <div class="tabs-tab-content active" data-index="1" data-active="">
 <p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`active > should handle multiple active tabs (only first one stays active) 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button active" data-tab="0" data-active>1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content active" data-index="0" data-active="">
+<p>1</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>2</p>
 </div>
   </div>
 </div>
@@ -283,6 +343,21 @@ exports[`ending correctly > should end container when a negative indent text fou
 "
 `;
 
+exports[`ending correctly > should not close tabs with trailing content 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content
+::: invalid</p>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`ending correctly > should not end when ending marker number is less than start 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
@@ -299,6 +374,109 @@ exports[`ending correctly > should not end when ending marker number is less tha
 </div>
   </div>
 </div>
+"
+`;
+
+exports[`hidden content > should ignore items before first @tab 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`hidden content > should ignore items before first @tab 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`marker > should handle tab with partial active marker 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">valid</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content
+@tab:act</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`marker > should not match @tab without space or title 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">valid</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>Valid content
+@tab
+@tab
+@tabtitle</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`marker > should support being interrupted by tab 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<ul>
+<li>item
+@tab test2
+content</li>
+</ul>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`nesting > should handle nested tabs with more depth 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">root</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">nested</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    
+  </div>
+  <div class="tabs-tabs-container">
+  </div>
+</div>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>content</p>
+</div>
+  </div>
+</div>
+<p>:::</p>
 "
 `;
 
@@ -410,34 +588,6 @@ exports[`nesting > should support nesting with others 2`] = `
 </div>
 </li>
 </ul>
-"
-`;
-
-exports[`should ignore items before first @tab 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`should ignore items before first @tab 2`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
 "
 `;
 

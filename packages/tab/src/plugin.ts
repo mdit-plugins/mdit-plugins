@@ -20,6 +20,15 @@ interface TabMeta {
   id?: string;
 }
 
+interface TabEnv extends Record<string, unknown> {
+  tabName: string;
+  tabLevel: number;
+}
+
+interface TabStateBlock extends StateBlock {
+  env: TabEnv;
+}
+
 const checkTabMarker = (
   state: StateBlock,
   start: number,
@@ -50,9 +59,9 @@ const checkTabMarker = (
 };
 
 const getTabRule =
-  (name: string, store: { state: string | null }): RuleBlock =>
-  (state, startLine, endLine, silent) => {
-    if (store.state !== name) return false;
+  (name: string): RuleBlock =>
+  (state: TabStateBlock, startLine, endLine, silent) => {
+    if (state.env.tabName !== name || state.level !== state.env.tabLevel) return false;
 
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -171,8 +180,8 @@ const getTabRule =
   };
 
 const getTabsRule =
-  (name: string, store: { state: string | null }): RuleBlock =>
-  (state, startLine, endLine, silent) => {
+  (name: string): RuleBlock =>
+  (state: TabStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
     const indent = state.sCount[startLine];
@@ -268,7 +277,8 @@ const getTabsRule =
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
-    const oldState = store.state;
+    const oldName = state.env.tabName;
+    const oldLevel = state.env.tabLevel;
 
     // @ts-expect-error: We are creating a new type called "${name}_tabs"
     state.parentType = `${name}_tabs`;
@@ -297,11 +307,13 @@ const getTabsRule =
     openToken.meta = { id };
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    store.state = name;
+    state.env.tabName = name;
+    state.env.tabLevel = state.level;
 
     state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
 
-    store.state = oldState;
+    state.env.tabName = oldName;
+    state.env.tabLevel = oldLevel;
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
@@ -323,6 +335,7 @@ const getTabsDataGetter =
     let activeIndex = -1;
     let isTabStart = false;
     let nestingDepth = 0;
+    const { level } = tokens[index];
 
     for (
       // skip the current tabs_open token
@@ -334,51 +347,55 @@ const getTabsDataGetter =
       const meta = token.meta as TabMeta;
       const type = token.type;
 
-      if (token.block) {
-        // record the nesting depth of tabs
-        if (type === `${name}_tabs_open`) {
-          nestingDepth++;
-          continue;
-        }
+      // record the nesting depth of tabs
+      if (type === `${name}_tabs_open`) {
+        nestingDepth++;
+        continue;
+      }
 
-        if (type === `${name}_tabs_close`) {
-          if (nestingDepth === 0) break;
+      if (type === `${name}_tabs_close`) {
+        if (token.level === level) break;
 
-          nestingDepth--;
-          continue;
-        }
+        nestingDepth--;
+        continue;
+      }
 
-        // if we are in a nesting tabs, skip processing
-        if (nestingDepth > 0) continue;
-
-        if (type === `${name}_tab_open`) {
-          isTabStart = true;
-
-          meta.index = data.length;
-          // tab is active
-          if (meta.active) {
-            if (activeIndex === -1) activeIndex = data.length;
-            else meta.active = false;
-          }
-
-          data.push({
-            title: token.info,
-            index: data.length,
-            id: meta.id,
-            isActive: meta.active,
-          });
-
-          continue;
-        }
-
-        if (type === `${name}_tab_close`) continue;
-
+      // skip processing tokens deep inside other blocks
+      if (token.level > level + 1 || nestingDepth > 0) {
         // hide contents before first tab
         if (!isTabStart) {
-          tokens[i].type = `${name}_tabs_empty`;
-          tokens[i].hidden = true;
+          token.type = `${name}_tabs_empty`;
+          token.hidden = true;
         }
+
+        continue;
       }
+
+      if (type === `${name}_tab_open`) {
+        isTabStart = true;
+
+        meta.index = data.length;
+        // tab is active
+        if (meta.active) {
+          if (activeIndex === -1) activeIndex = data.length;
+          else meta.active = false;
+        }
+
+        data.push({
+          title: token.info,
+          index: data.length,
+          id: meta.id,
+          isActive: meta.active,
+        });
+
+        continue;
+      }
+
+      if (type === `${name}_tab_close`) continue;
+
+      // hide contents before first tab
+      token.type = `${name}_tabs_empty`;
+      token.hidden = true;
     }
 
     return {
@@ -398,8 +415,6 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
     isActive: meta.active,
   };
 };
-
-const store = { state: null };
 
 export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
@@ -473,11 +488,11 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   const tabsDataGetter = getTabsDataGetter(name);
 
-  md.block.ruler.before("fence", `${name}_tabs`, getTabsRule(name, store), {
+  md.block.ruler.before("fence", `${name}_tabs`, getTabsRule(name), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.block.ruler.before("paragraph", `${name}_tab`, getTabRule(name, store), {
+  md.block.ruler.before("paragraph", `${name}_tab`, getTabRule(name), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
