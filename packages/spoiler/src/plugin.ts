@@ -121,11 +121,9 @@ const postProcess = (
 
     j--;
 
-    if (i !== j) {
-      token = state.tokens[j];
-      state.tokens[j] = state.tokens[i];
-      state.tokens[i] = token;
-    }
+    token = state.tokens[j];
+    state.tokens[j] = state.tokens[i];
+    state.tokens[i] = token;
   }
 };
 

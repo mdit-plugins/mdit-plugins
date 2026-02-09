@@ -107,11 +107,9 @@ const postProcess = (state: StateInline, delimiters: Delimiter[]): void => {
 
     j--;
 
-    if (i !== j) {
-      token = state.tokens[j];
-      state.tokens[j] = state.tokens[i];
-      state.tokens[i] = token;
-    }
+    token = state.tokens[j];
+    state.tokens[j] = state.tokens[i];
+    state.tokens[i] = token;
   }
 };
 
