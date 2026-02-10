@@ -1,16 +1,17 @@
-// oxlint-disable typescript/explicit-function-return-type
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
+import type MarkdownIt from "markdown-it";
 
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
-export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
+export const getHeadingRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+  const isSpace = md.utils.isSpace;
+
   /**
    * ## end of {#heading}
    */
-  defineAttrRule({
+  return defineAttrRule({
     name: "end of block",
     tests: [
       {
@@ -46,3 +47,4 @@ export const getHeadingRule = (options: DelimiterConfig): AttrRule =>
       token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
   });
+};

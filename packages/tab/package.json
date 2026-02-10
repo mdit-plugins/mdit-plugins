@@ -23,15 +23,15 @@
     "directory": "packages/tab"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "type": "module",
-  "browser": "./lib/browser.js",
-  "types": "./lib/index.d.ts",
+  "unpkg": "dist/cdn.js",
+  "jsdelivr": "dist/cdn.js",
   "exports": {
     ".": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "clean": "rimraf ./lib"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@mdit/helper": "workspace:*",

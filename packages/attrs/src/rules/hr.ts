@@ -1,13 +1,14 @@
-// oxlint-disable typescript/explicit-function-return-type
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
+import type MarkdownIt from "markdown-it";
 
 import type { AttrRule, DelimiterRange } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker } from "../helper/index.js";
 
-export const getHrRule = (options: DelimiterConfig): AttrRule =>
-  defineAttrRule({
+export const getHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+  const isSpace = md.utils.isSpace;
+
+  return defineAttrRule({
     /**
      * horizontal rule --- {#id}
      */
@@ -72,3 +73,4 @@ export const getHrRule = (options: DelimiterConfig): AttrRule =>
       tokens.splice(index + 1, 2);
     },
   });
+};

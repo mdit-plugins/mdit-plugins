@@ -23,16 +23,13 @@
     "directory": "packages/tex"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "type": "module",
-  "main": "./lib/index.js",
-  "browser": "./lib/browser.js",
-  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -41,7 +38,7 @@
   },
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "clean": "rimraf ./lib"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@types/markdown-it": "^14.1.2"

@@ -1,6 +1,5 @@
 import { escapeHtml } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
@@ -221,7 +220,7 @@ const getTabsRule =
         hasId = true;
         break;
       }
-      if (!isSpace(char)) return false;
+      if (!state.md.utils.isSpace(char)) return false;
     }
 
     // Since start is found, we can report success here in validation mode

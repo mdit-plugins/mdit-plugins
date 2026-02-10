@@ -3,7 +3,6 @@
  */
 
 import type { PluginSimple } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -81,6 +80,7 @@ const parseImageSize = (
 // oxlint-disable-next-line max-lines-per-function
 const legacyImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
+  const isSpace = state.md.utils.isSpace;
   const oldPos = state.pos;
   const max = state.posMax;
 

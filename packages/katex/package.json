@@ -23,20 +23,21 @@
     "directory": "packages/katex"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "type": "module",
-  "main": "./lib/index.js",
-  "browser": "./lib/browser.js",
-  "types": "./lib/index.d.ts",
+  "unpkg": "dist/cdn.js",
+  "jsdelivr": "dist/cdn.js",
   "exports": {
     ".": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./mhchem": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./dist/mhchem.d.ts",
+      "unpkg": "./dist/mhchem-cdn.js",
+      "jsdelivr": "./dist/mhchem-cdn.js",
+      "default": "./dist/mhchem.js"
     },
     "./package.json": "./package.json"
   },
@@ -45,7 +46,7 @@
   },
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "clean": "rimraf ./lib"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@mdit/helper": "workspace:*",

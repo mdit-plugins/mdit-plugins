@@ -1,5 +1,4 @@
 import type { PluginSimple } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -12,10 +11,12 @@ const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCo
  * Format: `alt =width x height`
  *
  * @param label - label text to parse
+ * @param isSpace - function to check if a character code is a space
  * @returns parsed size info or null if not found
  */
 const parseImageSize = (
   label: string,
+  isSpace: (charCode: number) => boolean,
 ): { label: string; width: string | null; height: string | null } | null => {
   const max = label.length;
   let pos = label.lastIndexOf("=");
@@ -65,6 +66,7 @@ const parseImageSize = (
 };
 
 export const imgSizeRule: RuleInline = (state, silent) => {
+  const isSpace = state.md.utils.isSpace;
   const env = state.env as ImgSizeEnv;
   const oldPos = state.pos;
   const max = state.posMax;
@@ -84,7 +86,7 @@ export const imgSizeRule: RuleInline = (state, silent) => {
   const rawLabel = state.src.slice(labelStart, labelEnd);
 
   // check if label has img size
-  const sizeInfo = parseImageSize(rawLabel);
+  const sizeInfo = parseImageSize(rawLabel, isSpace);
 
   if (!sizeInfo) return false;
 

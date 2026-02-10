@@ -3,7 +3,6 @@
  */
 
 import type { Options, PluginWithOptions } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
@@ -41,6 +40,7 @@ const isValidDollarDelim = (
 ): { canOpen: boolean; canClose: boolean } => {
   const prevCharCode = state.src.charCodeAt(pos - 1);
   const nextCharCode = state.src.charCodeAt(pos + 1);
+  const isSpace = state.md.utils.isSpace;
 
   return {
     canOpen: allowInlineWithSpace || !isSpace(nextCharCode),

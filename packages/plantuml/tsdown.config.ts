@@ -4,12 +4,13 @@ import { tsdownConfig } from "../../scripts/tsdown.js";
 
 export default [
   tsdownConfig("index", {
+    type: "node",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/node.ts"),
     },
   }),
   tsdownConfig("index", {
-    browser: true,
+    type: "browser",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },

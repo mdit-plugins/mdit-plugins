@@ -1,5 +1,5 @@
 // oxlint-disable-next-line import/no-nodejs-modules
-import fs from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
@@ -107,7 +107,7 @@ export const handleInclude = (
   includedFiles.push(realPath);
 
   // check file existence
-  if (!fs.existsSync(realPath)) {
+  if (!existsSync(realPath)) {
     // oxlint-disable-next-line no-console
     console.error(`[@mdit/plugin-include]: ${realPath} not found`);
 
@@ -115,7 +115,7 @@ export const handleInclude = (
   }
 
   // read file content
-  const fileContent = fs.readFileSync(realPath).toString();
+  const fileContent = readFileSync(realPath).toString();
 
   const lines = fileContent.replace(NEWLINE_RE, "\n").split("\n");
   let results: string[] = [];

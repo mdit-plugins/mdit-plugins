@@ -14,7 +14,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   md,
   { left = "{", right = "}", allowed = [], rule = "all" } = {},
 ) => {
-  const rules = getRules({
+  const rules = getRules(md, {
     left,
     right,
     allowed,
