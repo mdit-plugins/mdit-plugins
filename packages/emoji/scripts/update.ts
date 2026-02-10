@@ -5,11 +5,13 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, ".."); // packages/emoji
 
-const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json";
+const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/rhysd/gemoji/unicode-16.0/db/emoji.json";
+// const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json";
 
-const obj2esm = (obj: unknown): string => `\
+const emojiDataToFile = (emojiData: unknown, light = false): string => `\
+// oxlint-disable id-length${light ? "" : ", max-lines"}
 // Generated, don't edit
-export default ${JSON.stringify(obj, null, 2)};
+export const emoji${light ? "Light" : ""}Data: Record<string, string> = ${JSON.stringify(emojiData, null, 2)};
 `;
 
 const main = async (): Promise<void> => {
@@ -17,43 +19,35 @@ const main = async (): Promise<void> => {
 
   if (!response.ok) throw new Error(`Bad response code: ${response.status}`);
 
-  const defs = (await response.json()) as { emoji: string; aliases: string[] }[];
+  const definitions = (await response.json()) as { emoji: string; aliases: string[] }[];
 
   // Drop aliases without names (with names "uXXXX")
-  defs.forEach((def) => {
-    def.aliases = def.aliases.filter((a) => !/^u[0-9a-b]{4,}$/i.test(a));
+  definitions.forEach((definition) => {
+    definition.aliases = definition.aliases.filter((a) => !/^u[0-9a-b]{4,}$/i.test(a));
   });
-
-  //
-  // Write full set
-  //
 
   const emojis: Record<string, string> = {};
 
-  defs.forEach((def) => {
+  definitions.forEach((def) => {
     def.aliases.forEach((alias) => {
       emojis[alias] = def.emoji;
     });
   });
 
-  writeFileSync(resolve(root, "src/data/full.ts"), obj2esm(emojis), "utf-8");
-
-  //
-  // Write light set
-  //
+  writeFileSync(resolve(root, "src/data/full.ts"), emojiDataToFile(emojis), "utf-8");
 
   const visible = readFileSync(resolve(root, "visible.txt"), "utf-8");
 
-  const emoji_light: Record<string, string> = {};
+  const emojiLight: Record<string, string> = {};
 
   Object.keys(emojis).forEach((name) => {
     const val = emojis[name];
     if (visible.includes(val.replaceAll("\uFE0F", ""))) {
-      emoji_light[name] = val;
+      emojiLight[name] = val;
     }
   });
 
-  writeFileSync(resolve(root, "src/data/light.ts"), obj2esm(emoji_light), "utf-8");
+  writeFileSync(resolve(root, "src/data/light.ts"), emojiDataToFile(emojiLight, true), "utf-8");
 };
 
 await main();

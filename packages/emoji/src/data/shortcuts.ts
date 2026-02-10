@@ -10,7 +10,7 @@
 // - http://factoryjoe.com/projects/emoticons/
 //
 
-export default {
+export const emojiShortCuts: Record<string, string[]> = {
   angry: [">:(", ">:-("],
   blush: [':")', ':-")'],
   broken_heart: ["</3", String.raw`<\3`],

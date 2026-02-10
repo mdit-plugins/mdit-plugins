@@ -1,5 +1,6 @@
+// oxlint-disable id-length
 // Generated, don't edit
-export default {
+export const emojiLightData: Record<string, string> = {
   grinning: "😀",
   smiley: "😃",
   smile: "😄",

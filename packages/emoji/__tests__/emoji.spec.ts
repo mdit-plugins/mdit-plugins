@@ -2,16 +2,16 @@ import markdownit from "markdown-it";
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
 
-import { bare as emoji_bare, light as emoji_light, full as emoji_full } from "../src/index.js";
+import { bareEmoji, lightEmoji, fullEmoji } from "../src/index.js";
 
 // data for integrity check testing
-import emojies_shortcuts from "../src/data/shortcuts.js";
-import emojies_defs from "../src/data/full.js";
-import emojies_defs_light from "../src/data/light.js";
+import { emojiLightData } from "../src/data/light.js";
+import { emojiData } from "../src/data/full.js";
+import { emojiShortCuts } from "../src/data/shortcuts.js";
 
 describe("markdown-it-emoji", () => {
   describe("default", () => {
-    const md = markdownit().use(emoji_full);
+    const md = markdownit().use(fullEmoji);
 
     describe("aliases", () => {
       it("alias + original", () => {
@@ -71,8 +71,8 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(emoji_full, {
-      defs: {
+    const md = markdownit().use(fullEmoji, {
+      definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",
       },
@@ -96,7 +96,7 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("whitelist", () => {
-    const md = markdownit().use(emoji_full, { enabled: ["smile", "grin"] });
+    const md = markdownit().use(fullEmoji, { enabled: ["smile", "grin"] });
 
     it("Show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
@@ -104,7 +104,7 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("autolinks", () => {
-    const md = markdownit({ linkify: true }).use(emoji_full);
+    const md = markdownit({ linkify: true }).use(fullEmoji);
 
     it("disallow shortcuts inside autolinks", () => {
       expect(md.render("<http://www.example.org/wiki/Special:Preferences> :P")).toBe(
@@ -138,7 +138,7 @@ describe("markdown-it-emoji", () => {
 
 describe("markdown-it-emoji-light", () => {
   describe("default", () => {
-    const md = markdownit().use(emoji_light);
+    const md = markdownit().use(lightEmoji);
 
     describe("aliases", () => {
       it("alias + original", () => {
@@ -198,8 +198,8 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(emoji_light, {
-      defs: {
+    const md = markdownit().use(lightEmoji, {
+      definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",
       },
@@ -223,7 +223,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("whitelist", () => {
-    const md = markdownit().use(emoji_light, { enabled: ["smile", "grin"] });
+    const md = markdownit().use(lightEmoji, { enabled: ["smile", "grin"] });
 
     it("Show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
@@ -231,7 +231,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("autolinks", () => {
-    const md = markdownit({ linkify: true }).use(emoji_full);
+    const md = markdownit({ linkify: true }).use(fullEmoji);
 
     it("disallow shortcuts inside autolinks", () => {
       expect(md.render("<http://www.example.org/wiki/Special:Preferences> :P")).toBe(
@@ -265,7 +265,7 @@ describe("markdown-it-emoji-light", () => {
 
 describe("markdown-it-emoji-bare", () => {
   describe("default", () => {
-    const md = markdownit().use(emoji_bare);
+    const md = markdownit().use(bareEmoji);
 
     describe("bare", () => {
       it("don't convert emojis without definitions", () => {
@@ -275,8 +275,8 @@ describe("markdown-it-emoji-bare", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(emoji_bare, {
-      defs: {
+    const md = markdownit().use(bareEmoji, {
+      definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",
       },
@@ -302,15 +302,15 @@ describe("markdown-it-emoji-bare", () => {
 
 describe("integrity", () => {
   it("all shortcuts should exist", () => {
-    Object.keys(emojies_shortcuts).forEach((name) => {
-      expect(emojies_defs[name], "shortcut doesn't exist: " + name).toBeTruthy();
+    Object.keys(emojiShortCuts).forEach((name) => {
+      expect(emojiData[name], `shortcut doesn't exist: ${name}`).toBeTruthy();
     });
   });
 
   it('no chars with "uXXXX" names allowed', () => {
-    Object.keys(emojies_defs).forEach((name) => {
+    Object.keys(emojiData).forEach((name) => {
       if (/^u[0-9a-b]{4,}$/i.test(name)) {
-        throw new Error("Name " + name + " not allowed");
+        throw new Error(`Name ${name} not allowed`);
       }
     });
   });
@@ -319,17 +319,18 @@ describe("integrity", () => {
     const visible = readFileSync(new URL("../visible.txt", import.meta.url), "utf-8");
 
     const available = new Set(
-      Object.keys(emojies_defs_light).map((k) => emojies_defs_light[k].replaceAll("\uFE0F", "")),
+      Object.keys(emojiLightData).map((k) => emojiLightData[k].replaceAll("\uFE0F", "")),
     );
 
     let missed = "";
 
-    [...visible].forEach((ch) => {
-      if (!available.has(ch)) missed += ch;
+    // oxlint-disable-next-line unicorn/prefer-spread
+    visible.split("").forEach((char) => {
+      if (!available.has(char)) missed += char;
     });
 
     if (missed) {
-      throw new Error("Characters " + missed + " missed.");
+      throw new Error(`Characters ${missed} missed.`);
     }
   });
 });

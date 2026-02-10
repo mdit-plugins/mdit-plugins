@@ -37,7 +37,7 @@ const md = markdownit().use(emoji /* , options */);
 
 Options are not mandatory:
 
-- **defs** (Object) - rewrite available emoji definitions
+- **definitions** (Object) - rewrite available emoji definitions
   - example: `{ name1: char1, name2: char2, ... }`
 - **enabled** (Array) - disable all emojis except whitelisted
 - **shortcuts** (Object) - rewrite default shortcuts

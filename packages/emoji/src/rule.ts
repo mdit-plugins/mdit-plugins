@@ -18,19 +18,21 @@ export const emojiRule = (
   replaceRE: RegExp,
 ): RuleCore => {
   const arrayReplaceAt = md.utils.arrayReplaceAt;
+  // oxlint-disable-next-line id-length
   const { Z, P, Cc } = (md.utils.lib as { ucmicro: UCMicro }).ucmicro;
   const REG_ZPCc = new RegExp([Z.source, P.source, Cc.source].join("|"));
 
   const splitTextToken = (text: string, level: number, TokenConstructor: typeof Token): Token[] => {
-    let last_pos = 0;
+    let lastPos = 0;
     const nodes: Token[] = [];
 
     text.replace(replaceRE, (match, offset: number, src: string) => {
-      let emoji_name;
+      let emojiName;
+
       // Validate emoji name
       if (Object.hasOwn(shortcuts, match)) {
         // replace shortcut with full name
-        emoji_name = shortcuts[match];
+        emojiName = shortcuts[match];
 
         // Don't allow letters before any shortcut (as in no ":/" in http://)
         if (offset > 0 && !REG_ZPCc.test(src[offset - 1])) return "";
@@ -40,30 +42,30 @@ export const emojiRule = (
           return "";
         }
       } else {
-        emoji_name = match.slice(1, -1);
+        emojiName = match.slice(1, -1);
       }
 
       // Add new tokens to pending list
-      if (offset > last_pos) {
+      if (offset > lastPos) {
         const token = new TokenConstructor("text", "", 0);
-        token.content = text.slice(last_pos, offset);
+        token.content = text.slice(lastPos, offset);
         token.level = level;
         nodes.push(token);
       }
 
       const token = new TokenConstructor("emoji", "", 0);
-      token.markup = emoji_name;
-      token.content = emojis[emoji_name];
+      token.markup = emojiName;
+      token.content = emojis[emojiName];
       token.level = level;
       nodes.push(token);
 
-      last_pos = offset + match.length;
+      lastPos = offset + match.length;
       return "";
     });
 
-    if (last_pos < text.length) {
+    if (lastPos < text.length) {
       const token = new TokenConstructor("text", "", 0);
-      token.content = text.slice(last_pos);
+      token.content = text.slice(lastPos);
       token.level = level;
       nodes.push(token);
     }
@@ -73,9 +75,10 @@ export const emojiRule = (
 
   return (state) => {
     const blockTokens = state.tokens;
+    const blockTokensLength = blockTokens.length;
     let autolinkLevel = 0;
 
-    for (let j = 0, l = blockTokens.length; j < l; j++) {
+    for (let j = 0; j < blockTokensLength; j++) {
       if (blockTokens[j].type !== "inline") {
         continue;
       }

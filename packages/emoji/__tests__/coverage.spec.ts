@@ -4,9 +4,9 @@ import { emojiRule } from "../src/rule.js";
 import MarkdownIt from "markdown-it";
 
 describe("coverage", () => {
-  it("normalize_opts handles undefined defs/shortcuts", () => {
+  it("normalize_opts handles undefined definitions/shortcuts", () => {
     const res = normalizeOption({});
-    expect(res.defs).toEqual({});
+    expect(res.definitions).toEqual({});
     expect(res.shortcuts).toEqual({});
   });
 

@@ -6,47 +6,46 @@ import type { EmojiPluginOptions } from "./options.js";
 const quoteRE = (str: string): string => str.replaceAll(/[.?*+^$[\]\\(){}|-]/g, String.raw`\$&`);
 
 export interface NormalizedEmojiPluginOptions {
-  defs: Record<string, string>;
+  definitions: Record<string, string>;
   shortcuts: Record<string, string>;
   scanRE: RegExp;
   replaceRE: RegExp;
 }
 
-export const normalizeOption = (options: EmojiPluginOptions): NormalizedEmojiPluginOptions => {
-  let emojies = options.defs ?? {};
+export const normalizeOption = ({
+  definitions = {},
+  enabled = [],
+  shortcuts: shortcutsOption = {},
+}: EmojiPluginOptions): NormalizedEmojiPluginOptions => {
+  // Filter emojis by whitelist, if needed
+  if (enabled.length > 0) {
+    const enabledSet = new Set(enabled);
 
-  // Filter emojies by whitelist, if needed
-  if (options.enabled?.length) {
-    const enabled = options.enabled;
-    emojies = Object.keys(emojies).reduce<Record<string, string>>((acc, key) => {
-      if (enabled.includes(key)) acc[key] = emojies[key];
-      return acc;
-    }, {});
+    // oxlint-disable-next-line no-param-reassign
+    definitions = Object.fromEntries(
+      Object.entries(definitions).filter(([key]) => enabledSet.has(key)),
+    );
   }
 
   // Flatten shortcuts to simple object: { alias: emoji_name }
-  const shortcuts = Object.keys(options.shortcuts ?? {}).reduce<Record<string, string>>(
-    (acc, key) => {
-      // Skip aliases for filtered emojies, to reduce regexp
-      if (!emojies[key]) return acc;
+  const shortcuts = Object.keys(shortcutsOption).reduce<Record<string, string>>((acc, key) => {
+    // Skip aliases for filtered emojis, to reduce regexp
+    if (!definitions[key]) return acc;
 
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const shortcut = options.shortcuts![key];
+    const shortcut = shortcutsOption[key];
 
-      if (Array.isArray(shortcut)) {
-        shortcut.forEach((alias) => {
-          acc[alias] = key;
-        });
-        return acc;
-      }
-
-      acc[shortcut] = key;
+    if (Array.isArray(shortcut)) {
+      shortcut.forEach((alias) => {
+        acc[alias] = key;
+      });
       return acc;
-    },
-    {},
-  );
+    }
 
-  const keys = Object.keys(emojies);
+    acc[shortcut] = key;
+    return acc;
+  }, {});
+
+  const keys = Object.keys(definitions);
   let names: string;
 
   // If no definitions are given, return empty regex to avoid replacements with 'undefined'.
@@ -66,7 +65,7 @@ export const normalizeOption = (options: EmojiPluginOptions): NormalizedEmojiPlu
   const replaceRE = new RegExp(names, "g");
 
   return {
-    defs: emojies,
+    definitions,
     shortcuts,
     scanRE,
     replaceRE,
