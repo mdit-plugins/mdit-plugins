@@ -893,5 +893,30 @@ content
       expect(result).not.toContain("nested");
       expect(result).toContain("content");
     });
+
+    it("should not parse @tab in fence content", () => {
+      const sources = `
+::: tabs
+@tab test
+
+To declare tabs, use the following syntax:
+\`\`\`
+@tab
+\`\`\`
+:::
+`;
+
+      const result = markdownIt.render(sources);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain(
+        `\
+<pre><code>@tab
+</code></pre>
+`,
+      );
+      expect(result).toContain('data-tab="0"');
+      expect(result).not.toContain('data-tab="1"');
+    });
   });
 });

@@ -480,6 +480,22 @@ exports[`tab > nesting > should handle nested tabs with more depth 1`] = `
 "
 `;
 
+exports[`tab > nesting > should not parse @tab in fence content 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>To declare tabs, use the following syntax:</p>
+<pre><code>@tab
+</code></pre>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`tab > nesting > should render nested tabs 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
