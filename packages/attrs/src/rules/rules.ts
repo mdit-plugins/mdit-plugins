@@ -1,3 +1,4 @@
+import type MarkdownIt from "markdown-it";
 import type { AttrRule } from "./types.js";
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { getBlockRule } from "./block.js";
@@ -20,7 +21,7 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "block",
 ];
 
-export const getRules = (options: Required<MarkdownItAttrsOptions>): AttrRule[] => {
+export const getRules = (md: MarkdownIt, options: Required<MarkdownItAttrsOptions>): AttrRule[] => {
   const enabledRules =
     // disable
     options.rule === false
@@ -32,15 +33,15 @@ export const getRules = (options: Required<MarkdownItAttrsOptions>): AttrRule[] 
 
   const rules: AttrRule[] = [];
 
-  if (enabledRules.includes("fence")) rules.push(getFenceRule(options));
+  if (enabledRules.includes("fence")) rules.push(getFenceRule(md, options));
   if (enabledRules.includes("inline")) rules.push(...getInlineRules(options));
-  if (enabledRules.includes("table")) rules.push(...getTableRules(options));
-  if (enabledRules.includes("list")) rules.push(...getListRules(options));
+  if (enabledRules.includes("table")) rules.push(...getTableRules(md, options));
+  if (enabledRules.includes("list")) rules.push(...getListRules(md, options));
   if (enabledRules.includes("softbreak")) rules.push(getSoftBreakRule(options));
-  if (enabledRules.includes("hr")) rules.push(getHrRule(options));
-  if (enabledRules.includes("block")) rules.push(getBlockRule(options));
+  if (enabledRules.includes("hr")) rules.push(getHrRule(md, options));
+  if (enabledRules.includes("block")) rules.push(getBlockRule(md, options));
   // heading rule is fully covered by block rules
-  else if (enabledRules.includes("heading")) rules.push(getHeadingRule(options));
+  else if (enabledRules.includes("heading")) rules.push(getHeadingRule(md, options));
 
   return rules;
 };

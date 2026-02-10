@@ -1,6 +1,5 @@
 import type MarkdownIt from "markdown-it";
 import type { PluginWithOptions } from "markdown-it";
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
@@ -38,6 +37,7 @@ const checkClosingMarker = (src: string, current: number): boolean =>
 const getEmbedInline =
   (inlineEmbedMap: Map<string, EmbedConfig>): RuleInline =>
   (state, silent) => {
+    const isSpace = state.md.utils.isSpace;
     const start = state.pos;
     const max = state.src.length;
 
@@ -114,6 +114,7 @@ const getEmbedInline =
 const getEmbedBlock =
   (embedMap: Map<string, EmbedConfig>): RuleBlock =>
   (state, startLine, _, silent) => {
+    const isSpace = state.md.utils.isSpace;
     const start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
     const src = state.src;

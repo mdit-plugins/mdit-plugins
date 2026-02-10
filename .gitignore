@@ -2,7 +2,7 @@
 **/node_modules/**
 
 # Dist files
-packages/*/lib/**
+**/dist/**
 
 # Test Coverage
 coverage/

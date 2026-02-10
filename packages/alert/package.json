@@ -24,15 +24,13 @@
   },
   "files": [
     "alert.css",
-    "lib"
+    "dist"
   ],
   "type": "module",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
-      "type": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./style": "./alert.css",
     "./package.json": "./package.json"
@@ -42,7 +40,7 @@
   },
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "clean": "rimraf ./lib"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@types/markdown-it": "^14.1.2"

@@ -7,17 +7,17 @@ export default [
       moduleSideEffects: ["katex", "katex/contrib/mhchem"],
     },
   }),
-  tsdownConfig(
-    {
-      base: "",
-      files: ["index", "mhchem"],
+  tsdownConfig(["index", "mhchem"], {
+    type: "cdn",
+    treeshake: {
+      moduleSideEffects: [
+        {
+          test: /^katex($|\/)/,
+          sideEffects: true,
+          external: false,
+        },
+      ],
     },
-    {
-      browser: true,
-      treeshake: {
-        moduleSideEffects: ["katex", "katex/contrib/mhchem"],
-      },
-      noExternal: ["katex", "katex/contrib/mhchem", "mdurl"],
-    },
-  ),
+    noExternal: ["katex", "katex/contrib/mhchem"],
+  }),
 ];

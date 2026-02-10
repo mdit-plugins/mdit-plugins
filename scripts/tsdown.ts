@@ -4,47 +4,19 @@ import { defineConfig } from "tsdown";
 const isProduction = process.env.NODE_ENV === "production";
 
 /**
- * File information
- *
- * 文件信息
- */
-export interface FileInfo {
-  /**
-   * Base directory
-   *
-   * 基础目录
-   */
-  base: string;
-
-  /**
-   * Files to bundle
-   *
-   * 待打包的文件
-   */
-  files: string[];
-
-  /**
-   * Target directory
-   *
-   * 目标目录
-   */
-  target?: string;
-}
-
-/**
  * Tsdown options
  *
  * Tsdown 选项
  */
 export interface TsdownOptions {
   /**
-   * Whether it's a browser build
+   * Output type
    *
-   * 是否为浏览器构建
+   * 输出类型
    *
-   * @default false
+   * @default "esm"
    */
-  browser?: boolean;
+  type?: "esm" | "cdn" | "node" | "browser";
 
   /**
    * Whether to generate dts files
@@ -72,15 +44,6 @@ export interface TsdownOptions {
   treeshake?: UserConfig["treeshake"];
 
   /**
-   * Inline options
-   *
-   * 内联选项
-   *
-   * @default browser ? false : undefined
-   */
-  inlineOnly?: (string | RegExp)[] | false;
-
-  /**
    * Packages not to treat as external
    *
    * 不作为外部处理的包
@@ -93,49 +56,50 @@ export interface TsdownOptions {
  *
  * 创建 tsdown 配置
  *
- * @param filePath - File path or file info / 文件路径或文件信息
+ * @param fileInfo - Entry file name or names (without extension) / 入口文件名或文件名列表（不带扩展名）
  * @param options - Tsdown options / Tsdown 选项
  * @returns Tsdown configuration / Tsdown 配置
  */
 export const tsdownConfig = (
-  filePath: string | FileInfo,
+  fileInfo: string | string[],
   options: TsdownOptions = {},
 ): UserConfig => {
   const {
-    browser = false,
-    dts = !browser,
-    alias,
+    type = "esm",
+    dts = type !== "cdn",
+    alias = {},
+    noExternal: noExternalOptions = [],
     treeshake = {
       moduleSideEffects: false,
     },
-    noExternal = [],
-    // oxlint-disable-next-line no-undefined
-    inlineOnly = browser ? false : undefined,
   } = options;
-  const isObject = typeof filePath === "object";
-  const base = isObject ? (filePath.base ? `${filePath.base}/` : "") : "";
-  const files = isObject ? filePath.files : [filePath];
-  const targetDir = isObject ? (filePath.target ?? filePath.base) : "";
-  const noExternalOptions = browser ? [/^@mdit\//, /^markdown-it/, ...noExternal] : noExternal;
+  const files = Array.isArray(fileInfo) ? fileInfo : [fileInfo];
+  const noExternal =
+    // bundle markdown-it and @mdit packages for cdn builds
+    type === "cdn" ? [/^@mdit\//, /^markdown-it/, ...noExternalOptions] : noExternalOptions;
 
   return defineConfig({
     entry: Object.fromEntries(
       files.map((item) => [
-        browser ? (item === "index" ? "browser" : `${item}-browser`) : item,
-        `./src/${base}${item}.ts`,
+        type === "esm" ? item : item === "index" ? type : `${item}-${type}`,
+        `./src/${item}.ts`,
       ]),
     ),
     format: "esm",
-    outDir: `./lib${targetDir ? `/${targetDir}` : ""}`,
+    outDir: "./dist",
     sourcemap: true,
     dts,
     minify: isProduction,
-    target: browser ? ["chrome107", "edge107", "firefox104", "safari16"] : "node20",
-    platform: browser ? "browser" : "node",
-    ...(alias ? { alias: alias } : {}),
+    target:
+      type === "cdn" || type === "browser"
+        ? ["chrome107", "edge107", "firefox104", "safari16"]
+        : "node20",
+    platform: type === "cdn" || type === "browser" ? "browser" : "node",
+    alias,
     treeshake,
     fixedExtension: false,
-    noExternal: noExternalOptions,
-    inlineOnly: inlineOnly ?? noExternalOptions,
+    inlineOnly: false,
+    noExternal,
+    publint: true,
   });
 };

@@ -1,5 +1,5 @@
 // oxlint-disable-next-line import/no-nodejs-modules
-import fs from "node:fs";
+import { lstatSync, readFileSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
@@ -141,8 +141,8 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
     };
 
     if (src) {
-      if (fs.lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
-        let content = fs.readFileSync(src, "utf-8");
+      if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
+        let content = readFileSync(src, "utf-8");
 
         if (region) {
           const lines = content.split(NEWLINE_RE);

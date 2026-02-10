@@ -1,11 +1,13 @@
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
+import type MarkdownIt from "markdown-it";
 
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, getDelimiterChecker } from "../helper/index.js";
 
-export const getFenceRule = (options: DelimiterConfig): AttrRule =>
+export const getFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+  const isSpace = md.utils.isSpace;
+
   /**
    * fenced code blocks
    *
@@ -14,7 +16,7 @@ export const getFenceRule = (options: DelimiterConfig): AttrRule =>
    *     print(i)
    * ```
    */
-  defineAttrRule({
+  return defineAttrRule({
     name: "code-block",
     tests: [
       {
@@ -36,3 +38,4 @@ export const getFenceRule = (options: DelimiterConfig): AttrRule =>
       token.info = info.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
     },
   });
+};
