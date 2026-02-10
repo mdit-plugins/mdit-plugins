@@ -44,6 +44,11 @@ features:
     details: 创建自定义嵌入
     link: ./embed.html
 
+  - title: emoji
+    icon: face-smile
+    details: 添加表情支持
+    link: ./emoji.html
+
   - title: figure
     icon: image
     details: 生成带有标题的图片

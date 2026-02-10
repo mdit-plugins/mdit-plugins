@@ -1,0 +1,50 @@
+{
+  "name": "@mdit/plugin-emoji",
+  "version": "0.1.0",
+  "description": "emoji plugin for MarkdownIt",
+  "keywords": [
+    "emoji",
+    "emojis",
+    "emoticon",
+    "emoticons",
+    "markdown",
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
+  "homepage": "https://github.com/mdit-plugins/mdit-plugins",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/emoji"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown --config-loader unrun",
+    "clean": "rimraf ./dist",
+    "update-emoji": "node --experimental-strip-types scripts/update.ts"
+  },
+  "dependencies": {
+    "@types/markdown-it": "^14.1.2"
+  },
+  "devDependencies": {
+    "markdown-it": "^14.1.0",
+    "rimraf": "^6.0.0"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.1.0"
+  }
+}

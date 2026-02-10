@@ -235,7 +235,7 @@
   },
   "overrides": [
     {
-      "files": ["scripts/**/*.{js,ts}", "*.config.{js,ts,mjs,mts,cjs,cts}"],
+      "files": ["**/scripts/**/*.{js,ts}", "*.config.{js,ts,mjs,mts,cjs,cts}"],
       "plugins": ["node"],
       "rules": {
         // allow console usage in scripts and config files
