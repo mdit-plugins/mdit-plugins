@@ -324,8 +324,8 @@ describe("integrity", () => {
 
     let missed = "";
 
-    // oxlint-disable-next-line unicorn/prefer-spread
-    visible.split("").forEach((char) => {
+    // oxlint-disable-next-line typescript/no-misused-spread
+    [...visible].forEach((char) => {
       if (!available.has(char)) missed += char;
     });
 
