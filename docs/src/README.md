@@ -44,6 +44,11 @@ features:
     details: Add custom embeds
     link: ./embed.html
 
+  - title: emoji
+    icon: face-smile
+    details: Add emoji support
+    link: ./emoji.html
+
   - title: figure
     icon: image
     details: Generating figures with captions from images
