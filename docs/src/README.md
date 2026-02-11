@@ -84,6 +84,11 @@ features:
     details: Include other files in markdown
     link: ./include.html
 
+  - title: inline-rule
+    icon: wand-magic-sparkles
+    details: Unified inline syntax factory
+    link: ./inline-rule.html
+
   - title: ins
     icon: square-plus
     details: Ins tag support
