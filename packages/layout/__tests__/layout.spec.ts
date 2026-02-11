@@ -1,10 +1,14 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { parseAttributes } from "../src/directive.js";
 import { layout } from "../src/index.js";
 
 const markdownIt = MarkdownIt().use(layout);
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe(layout, () => {
   describe("flexbox layout", () => {
@@ -894,6 +898,8 @@ Not parsed as nested</p>
     });
 
     it("should reject nested container with indent < 2", () => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
       expect(
         markdownIt.render(`\
 @flexs
@@ -914,6 +920,7 @@ Content
 </div>
 </div>
 `);
+      expect(warnSpy).toHaveBeenCalled();
     });
 
     it("should reject nested container with indent >= 4 (code block territory)", () => {
@@ -935,6 +942,243 @@ Content
 Content
 @end
 </code></pre>
+</div>
+</div>
+`);
+    });
+  });
+
+  describe("prefix-based nesting (@@)", () => {
+    it("should support basic @@ nesting", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+Nested content
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should support @@ nesting with utilities", () => {
+      expect(
+        markdownIt.render(`\
+@flexs gap-4
+@flex
+@@grids grid-cols-2
+@@grid
+Item 1
+@@grid
+Item 2
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex;gap:1rem">
+<div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
+<div>
+<p>Item 1</p>
+</div>
+<div>
+<p>Item 2</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should support @@@ deeper nesting", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+@@@grids
+@@@grid
+Deep content
+@@@end
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Deep content</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should reject @@ at top level", () => {
+      expect(
+        markdownIt.render(`\
+@@flexs
+@@flex
+Content
+@@end
+`),
+      ).toBe(`\
+<p>@@flexs
+@@flex
+Content
+@@end</p>
+`);
+    });
+
+    it("should reject depth mismatch (@@@ inside @, skipping @@)", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@@flexs
+@@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>@@@flexs
+@@@end</p>
+</div>
+</div>
+`);
+    });
+
+    it("should not confuse @end depths", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+Inner
+@@end
+Outer content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Inner</p>
+</div>
+</div>
+<p>Outer content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should support @@ items with class and id selectors", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs.inner#nested gap-4
+@@flex.item flex-1
+Content
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex;gap:1rem" class="inner" id="nested">
+<div style="flex:1 1 0%" class="item">
+<p>Content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should warn when nested indent is insufficient (formatter likely stripped)", () => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      markdownIt.render(`\
+@flexs
+@flex
+@flexs
+@end
+@end
+`);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("insufficient indent"));
+    });
+
+    it("should support mixing indent-mode inside prefix container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+  @grids
+  @grid
+  Content
+  @end
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Content</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should auto-close prefix container at end of document", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+Content
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Content</p>
+</div>
+</div>
 </div>
 </div>
 `);

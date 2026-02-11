@@ -49,20 +49,43 @@ mdIt.render(`\
 
 ### 嵌套
 
-嵌套容器必须缩进 2 或 3 个空格:
+插件支持两种嵌套容器的模式:
 
+**模式 A: 缩进模式**（单 `@`）—— 嵌套容器必须缩进 2–3 个空格:
+
+<!-- prettier-ignore-start -->
 ```md
 @grids grid-cols-2
 @grid
-内容在这里
-@flexs flex-col
-@flex
-嵌套内容
-@end
+  @flexs flex-col
+  @flex
+  嵌套内容
+  @end
 @grid
 外层内容
 @end
 ```
+<!-- prettier-ignore-end -->
+
+::: warning 格式化工具兼容性
+
+Prettier 等代码格式化工具会删除行首空格，从而破坏缩进模式的嵌套。请使用 `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->` 包裹缩进嵌套块，或改用前缀模式。
+
+:::
+
+**模式 B: 前缀模式**（多 `@`）—— 嵌套深度由 `@` 符号数量决定（推荐用于兼容格式化工具）:
+
+```md
+@flexs
+@flex
+@@flexs
+@@flex
+内容（通过 @@ 识别为深度 1，无需缩进）
+@@end
+@end
+```
+
+在前缀模式下，`@@` = 深度 1，`@@@` = 深度 2，以此类推。子项和 `@end` 必须使用与其容器相同数量的 `@`。
 
 ## 支持的工具类
 

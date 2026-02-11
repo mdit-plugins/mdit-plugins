@@ -49,20 +49,43 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Nested containers must be indented by 2 or 3 spaces:
+The plugin supports two modes for nesting containers:
 
+**Mode A: Indent-based** (single `@`) — nested containers must be indented by 2–3 spaces:
+
+<!-- prettier-ignore-start -->
 ```md
 @grids grid-cols-2
 @grid
-Content here
-@flexs flex-col
-@flex
-Nested content
-@end
+  @flexs flex-col
+  @flex
+  Nested content
+  @end
 @grid
 Outer content
 @end
 ```
+<!-- prettier-ignore-end -->
+
+::: warning Formatter Compatibility
+
+Code formatters like Prettier strip leading spaces, breaking indent-based nesting. Wrap indent-based nesting in `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->`, or use prefix mode instead.
+
+:::
+
+**Mode B: Prefix-based** (multiple `@`) — nesting depth is indicated by the number of `@` symbols (recommended for formatter compatibility):
+
+```md
+@flexs
+@flex
+@@flexs
+@@flex
+Content (depth 1 via @@, no indent needed)
+@@end
+@end
+```
+
+In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container.
 
 ## Supported Utilities
 

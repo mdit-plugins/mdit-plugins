@@ -1,9 +1,13 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { layoutSlim } from "../src/slim.js";
 
 const markdownIt = MarkdownIt().use(layoutSlim);
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe(layoutSlim, () => {
   describe("flexbox layout", () => {
@@ -375,6 +379,8 @@ Normal
     });
 
     it("should reject nested container with indent < 2", () => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
       expect(
         markdownIt.render(`\
 @flexs
@@ -392,6 +398,130 @@ Normal
 @grid
 Content
 @end</p>
+</div>
+</div>
+`);
+      expect(warnSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe("prefix-based nesting (@@)", () => {
+    it("should support basic @@ nesting", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+Nested content
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should support @@ nesting with utilities as classes", () => {
+      expect(
+        markdownIt.render(`\
+@flexs gap-4
+@flex
+@@grids grid-cols-2
+@@grid
+Item
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex" class="gap-4">
+<div>
+<div style="display:grid" class="grid-cols-2">
+<div>
+<p>Item</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should reject @@ at top level", () => {
+      expect(
+        markdownIt.render(`\
+@@flexs
+@@flex
+Content
+@@end
+`),
+      ).toBe(`\
+<p>@@flexs
+@@flex
+Content
+@@end</p>
+`);
+    });
+
+    it("should support @@@ deeper nesting", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+@@@grids
+@@@grid
+Deep
+@@@end
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Deep</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should not confuse @end depths", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+Inner
+@@end
+Outer
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Inner</p>
+</div>
+</div>
+<p>Outer</p>
 </div>
 </div>
 `);

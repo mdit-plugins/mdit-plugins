@@ -38,6 +38,11 @@ export const isDirectiveBoundary = (code: number): boolean =>
 
 /**
  * Detect the type of layout directive at the given position.
+ * Supports both single `@` (indent-based, depth 0) and multiple `@@...`
+ * (prefix-based, depth = number of `@` - 1) modes.
+ *
+ * 检测给定位置的布局指令类型。
+ * 支持单 `@`（缩进模式，depth 0）和多 `@@...`（前缀模式，depth = `@` 数量 - 1）。
  *
  * @param src - source string / 源字符串
  * @param pos - position (should point to '@') / 位置（应指向 '@'）
@@ -48,17 +53,26 @@ export const detectDirective = (
   src: string,
   pos: number,
   max: number,
-): { kind: "container" | "item" | "end"; type: number; nameEnd: number } | null => {
+): { kind: "container" | "item" | "end"; type: number; nameEnd: number; depth: number } | null => {
   if (src.charCodeAt(pos) !== AT) return null;
 
-  const afterAt = pos + 1;
+  // Count consecutive @ symbols for prefix-based nesting
+  let atCount = 1;
+  let afterAt = pos + 1;
+
+  while (afterAt < max && src.charCodeAt(afterAt) === AT) {
+    atCount++;
+    afterAt++;
+  }
+
+  const depth = atCount - 1;
 
   // Check for "end"
   if (matchString(src, afterAt, END) && afterAt + END.length <= max) {
     const endPos = afterAt + END.length;
 
     if (endPos >= max || src.charCodeAt(endPos) === SPACE)
-      return { kind: "end", type: 0, nameEnd: endPos };
+      return { kind: "end", type: 0, nameEnd: endPos, depth };
   }
 
   // Check for "flex" / "flexs"
@@ -71,11 +85,11 @@ export const detectDirective = (
       src.charCodeAt(afterFlex) === 115 /* s */ &&
       (afterFlex + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterFlex + 1)))
     )
-      return { kind: "container", type: LAYOUT_FLEX, nameEnd: afterFlex + 1 };
+      return { kind: "container", type: LAYOUT_FLEX, nameEnd: afterFlex + 1, depth };
 
     // "flex" (item)
     if (afterFlex >= max || isDirectiveBoundary(src.charCodeAt(afterFlex)))
-      return { kind: "item", type: LAYOUT_FLEX, nameEnd: afterFlex };
+      return { kind: "item", type: LAYOUT_FLEX, nameEnd: afterFlex, depth };
   }
 
   // Check for "grid" / "grids"
@@ -88,11 +102,11 @@ export const detectDirective = (
       src.charCodeAt(afterGrid) === 115 /* s */ &&
       (afterGrid + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterGrid + 1)))
     )
-      return { kind: "container", type: LAYOUT_GRID, nameEnd: afterGrid + 1 };
+      return { kind: "container", type: LAYOUT_GRID, nameEnd: afterGrid + 1, depth };
 
     // "grid" (item)
     if (afterGrid >= max || isDirectiveBoundary(src.charCodeAt(afterGrid)))
-      return { kind: "item", type: LAYOUT_GRID, nameEnd: afterGrid };
+      return { kind: "item", type: LAYOUT_GRID, nameEnd: afterGrid, depth };
   }
 
   // Check for "column" / "columns"
@@ -105,11 +119,11 @@ export const detectDirective = (
       src.charCodeAt(afterColumn) === 115 /* s */ &&
       (afterColumn + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterColumn + 1)))
     )
-      return { kind: "container", type: LAYOUT_COLUMN, nameEnd: afterColumn + 1 };
+      return { kind: "container", type: LAYOUT_COLUMN, nameEnd: afterColumn + 1, depth };
 
     // "column" (item)
     if (afterColumn >= max || isDirectiveBoundary(src.charCodeAt(afterColumn)))
-      return { kind: "item", type: LAYOUT_COLUMN, nameEnd: afterColumn };
+      return { kind: "item", type: LAYOUT_COLUMN, nameEnd: afterColumn, depth };
   }
 
   return null;
