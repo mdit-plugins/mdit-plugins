@@ -49,11 +49,12 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Nested containers must be indented by 2 spaces relative to the parent item:
+Nested containers must be indented by 2 or 3 spaces. The indentation must be at least as deep as the first content line inside the parent item (First-Line Anchor Rule):
 
 ```md
 @grids grid-cols-2
 @grid
+Content here
 @flexs flex-col
 @flex
 Nested content
@@ -62,6 +63,14 @@ Nested content
 Outer content
 @end
 ```
+
+::: warning Indentation Rules
+
+- Nested container indent must be **2 or 3 spaces**
+- Indent must be **≥ the first content line's indent** inside the item
+- **4+ spaces** triggers a Markdown code block (CommonMark)
+
+:::
 
 ## Supported Utilities
 
@@ -102,18 +111,16 @@ Outer content
 
 ## Options
 
+The default bundle (`@mdit/plugin-layout`) converts utility classes to inline CSS styles. For use with Tailwind CSS or custom stylesheets, use the slim bundle:
+
 ```ts
-interface MarkdownItLayoutOptions {
-  /**
-   * Whether to generate inline styles for layout utilities
-   *
-   * @default true
-   */
-  inlineStyles?: boolean;
-}
+import MarkdownIt from "markdown-it";
+import { layoutSlim } from "@mdit/plugin-layout-slim";
+
+const mdIt = MarkdownIt().use(layoutSlim);
 ```
 
-When `inlineStyles` is `true` (default), utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
+The slim bundle passes utilities as CSS class names instead of converting them to inline styles.
 
 ## Demo
 

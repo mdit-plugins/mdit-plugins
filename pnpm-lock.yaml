@@ -409,6 +409,18 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
 
+  packages/layout-slim:
+    dependencies:
+      '@mdit/plugin-layout':
+        specifier: workspace:*
+        version: link:../layout
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/mark:
     dependencies:
       '@types/markdown-it':

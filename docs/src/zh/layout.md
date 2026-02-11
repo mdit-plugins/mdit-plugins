@@ -49,11 +49,12 @@ mdIt.render(`\
 
 ### 嵌套
 
-嵌套容器必须相对于父子项缩进 2 个空格:
+嵌套容器必须缩进 2 或 3 个空格。缩进量必须不小于父子项内第一行内容的缩进量（首行锚定法）:
 
 ```md
 @grids grid-cols-2
 @grid
+内容在这里
 @flexs flex-col
 @flex
 嵌套内容
@@ -62,6 +63,14 @@ mdIt.render(`\
 外层内容
 @end
 ```
+
+::: warning 缩进规则
+
+- 嵌套容器缩进必须为 **2 或 3 个空格**
+- 缩进必须 **≥ 子项内第一行内容的缩进量**
+- **4 个及以上空格** 会触发 Markdown 代码块（CommonMark）
+
+:::
 
 ## 支持的工具类
 
@@ -102,18 +111,16 @@ mdIt.render(`\
 
 ## 选项
 
+默认包（`@mdit/plugin-layout`）将工具类转换为内联 CSS 样式。如需配合 Tailwind CSS 或自定义样式表使用，请使用精简包:
+
 ```ts
-interface MarkdownItLayoutOptions {
-  /**
-   * 是否为布局工具类生成内联样式
-   *
-   * @default true
-   */
-  inlineStyles?: boolean;
-}
+import MarkdownIt from "markdown-it";
+import { layoutSlim } from "@mdit/plugin-layout-slim";
+
+const mdIt = MarkdownIt().use(layoutSlim);
 ```
 
-当 `inlineStyles` 为 `true`（默认值）时，工具类会被转换为内联 CSS 样式。为 `false` 时，工具类会作为 CSS 类名添加，可配合 Tailwind CSS 或自定义样式表使用。
+精简包将工具类作为 CSS 类名传递，而不是转换为内联样式。
 
 ## 示例
 
