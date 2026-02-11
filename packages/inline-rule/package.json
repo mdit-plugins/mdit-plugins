@@ -1,0 +1,58 @@
+{
+  "name": "@mdit/plugin-inline-rule",
+  "version": "0.22.0",
+  "description": "Unified inline syntax factory plugin for MarkdownIt",
+  "keywords": [
+    "inline-rule",
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
+  "homepage": "https://mdit-plugins.github.io/inline-rule.html",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mr.Hope",
+    "email": "mister-hope@outlook.com",
+    "url": "https://mister-hope.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/inline-rule"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown --config-loader unrun",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@mdit/helper": "workspace:*",
+    "@types/markdown-it": "^14.1.2"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">= 18"
+  }
+}
