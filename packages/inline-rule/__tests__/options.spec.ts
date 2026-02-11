@@ -4,6 +4,23 @@ import { describe, expect, it } from "vitest";
 import { inlineRule } from "../src/index.js";
 
 describe("options", () => {
+  it("should throw error if required options are missing", () => {
+    const md = MarkdownIt();
+
+    expect(() => md.use(inlineRule, {})).toThrow(
+      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+    );
+    expect(() => md.use(inlineRule, { marker: "*", token: "star" })).toThrow(
+      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+    );
+    expect(() => md.use(inlineRule, { marker: "*", tag: "star" })).toThrow(
+      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+    );
+    expect(() => md.use(inlineRule, { token: "star", tag: "star" })).toThrow(
+      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+    );
+  });
+
   describe("placement option", () => {
     it("should register before emphasis with placement: 'before-emphasis'", () => {
       const md = MarkdownIt().use(inlineRule, {

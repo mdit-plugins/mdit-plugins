@@ -223,8 +223,18 @@ const createRuler2Handler =
   };
 
 export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options!;
+  if (
+    !options ||
+    typeof options.marker !== "string" ||
+    typeof options.token !== "string" ||
+    typeof options.tag !== "string"
+  ) {
+    throw new Error(
+      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+    );
+  }
+
+  const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options;
 
   const double = nested ? true : (options?.double ?? false);
   const allowSpace = nested ? false : ((options as { allowSpace?: boolean })?.allowSpace ?? false);
