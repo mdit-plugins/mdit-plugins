@@ -607,6 +607,46 @@ exports[`tab > nesting > should support nesting with others 2`] = `
 "
 `;
 
+exports[`tab > nesting > should support nesting with others 3`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+    <button type="button" class="tabs-tab-button active" data-tab="2" data-active>test3</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<ul>
+<li>
+<p>item1</p>
+<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">sub-test1</button>
+    <button type="button" class="tabs-tab-button active" data-tab="1" data-active>sub-test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content active" data-index="1" data-active="">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+</li>
+</ul>
+</div>
+<div class="tabs-tab-content active" data-index="2" data-active="">
+<p>A <strong>bold</strong> text 3.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`tab > should handle auto-close 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
