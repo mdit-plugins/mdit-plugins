@@ -852,6 +852,26 @@ A **bold** text 3.
   A **bold** text 3.
   ::::
 `,
+        `
+:::: tabs
+@tab test1
+
+A text 1.
+
+@tab test2
+
+- item1
+
+  ::: tabs
+  @tab sub-test1
+  A **bold** text 1.
+  @tab:active sub-test2
+  A **bold** text 2.
+  :::
+@tab:active test3
+A **bold** text 3.
+::::
+`,
       ];
 
       source.forEach((item) => {
