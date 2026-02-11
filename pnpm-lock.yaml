@@ -19,6 +19,7 @@ overrides:
   '@mdit/plugin-img-mark': workspace:*
   '@mdit/plugin-img-size': workspace:*
   '@mdit/plugin-include': workspace:*
+  '@mdit/plugin-inline-rule': workspace:*
   '@mdit/plugin-katex': workspace:*
   '@mdit/plugin-katex-slim': workspace:*
   '@mdit/plugin-mark': workspace:*
