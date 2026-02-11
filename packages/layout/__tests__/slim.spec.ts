@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { layoutSlim } from "../src/index.js";
+import { layoutSlim } from "../src/slim.js";
 
 const markdownIt = MarkdownIt().use(layoutSlim);
 

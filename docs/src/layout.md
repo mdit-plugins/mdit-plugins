@@ -115,7 +115,7 @@ The default bundle (`@mdit/plugin-layout`) converts utility classes to inline CS
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { layoutSlim } from "@mdit/plugin-layout-slim";
+import { layoutSlim } from "@mdit/plugin-layout/slim";
 
 const mdIt = MarkdownIt().use(layoutSlim);
 ```

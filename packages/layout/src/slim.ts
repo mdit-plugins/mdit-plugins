@@ -1,10 +1,10 @@
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
-import { AT, CONTAINER_DISPLAY, detectDirective, parseAttributes } from "@mdit/plugin-layout";
-import type { LayoutMeta, LayoutStateBlock } from "@mdit/plugin-layout";
-
-import type { MarkdownItLayoutSlimOptions } from "./options.js";
+import { detectDirective, parseAttributes } from "./directive.js";
+import type { MarkdownItLayoutOptions } from "./options.js";
+import type { LayoutMeta, LayoutStateBlock } from "./types.js";
+import { AT, CONTAINER_DISPLAY } from "./types.js";
 
 /**
  * Find the anchor indent for the First-Line Anchor Rule.
@@ -187,7 +187,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   return true;
 };
 
-export const layoutSlim: PluginWithOptions<MarkdownItLayoutSlimOptions> = (md) => {
+export const layoutSlim: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
   md.block.ruler.before("fence", "layout_container", getContainerRule(), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });

@@ -34,6 +34,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./slim": {
+      "types": "./dist/slim.d.ts",
+      "default": "./dist/slim.js"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

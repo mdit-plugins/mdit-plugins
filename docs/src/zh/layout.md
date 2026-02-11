@@ -115,7 +115,7 @@ mdIt.render(`\
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { layoutSlim } from "@mdit/plugin-layout-slim";
+import { layoutSlim } from "@mdit/plugin-layout/slim";
 
 const mdIt = MarkdownIt().use(layoutSlim);
 ```
