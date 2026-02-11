@@ -395,15 +395,7 @@ Content
 
     describe("nesting inside block elements", () => {
       it("should work inside unordered list", () => {
-        expect(
-          markdownIt.render(`\
-- item 1
-  @flexs
-  @flex
-  Flex inside list
-  @end
-`),
-        ).toBe(`\
+        const expected = `\
 <ul>
 <li>item 1<div style="display:flex">
 <div>
@@ -412,21 +404,31 @@ Content
 </div>
 </li>
 </ul>
-`);
+`;
+
+        expect(
+          markdownIt.render(`\
+- item 1
+  @flexs
+  @flex
+  Flex inside list
+  @end
+`),
+        ).toBe(expected);
+
+        expect(
+          markdownIt.render(`\
+-  item 1
+   @flexs
+   @flex
+   Flex inside list
+   @end
+`),
+        ).toBe(expected);
       });
 
       it("should work inside ordered list", () => {
-        expect(
-          markdownIt.render(`\
-1. item 1
-   @grids grid-cols-2
-   @grid
-   Grid A
-   @grid
-   Grid B
-   @end
-`),
-        ).toBe(`\
+        const expected = `\
 <ol>
 <li>item 1<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
 <div>
@@ -438,7 +440,31 @@ Content
 </div>
 </li>
 </ol>
-`);
+`;
+
+        expect(
+          markdownIt.render(`\
+1. item 1
+   @grids grid-cols-2
+   @grid
+   Grid A
+   @grid
+   Grid B
+   @end
+`),
+        ).toBe(expected);
+
+        expect(
+          markdownIt.render(`\
+1.  item 1
+    @grids grid-cols-2
+    @grid
+    Grid A
+    @grid
+    Grid B
+    @end
+`),
+        ).toBe(expected);
       });
 
       it("should work inside blockquote", () => {
@@ -460,7 +486,7 @@ Content
 `);
       });
 
-      it("should work in nested list inside layout", () => {
+      it("should work in nested content inside layout", () => {
         expect(
           markdownIt.render(`\
 @flexs
@@ -483,6 +509,31 @@ Content
 </div>
 </li>
 </ul>
+</div>
+</div>
+`);
+        expect(
+          markdownIt.render(`\
+@flexs
+@flex
+> item 1
+> @flexs
+> @flex
+> Nested item
+> @end
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<blockquote>
+<p>item 1</p>
+<div style="display:flex">
+<div>
+<p>Nested item</p>
+</div>
+</div>
+</blockquote>
 </div>
 </div>
 `);
