@@ -3,9 +3,9 @@ import type MarkdownIt from "markdown-it";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker } from "../helper/index.js";
 
-export const getFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+export const createFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
   /**
@@ -22,7 +22,7 @@ export const getFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
       {
         shift: 0,
         block: true,
-        info: getDelimiterChecker(options, "end"),
+        info: createDelimiterChecker(options, "end"),
       },
     ],
     transform: (tokens, index, _, range): void => {

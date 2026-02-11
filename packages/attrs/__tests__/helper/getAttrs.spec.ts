@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getAttrs } from "../../src/helper/getAttrs.js";
-import { getDelimiterChecker } from "../../src/helper/getDelimiterChecker.js";
+import { createDelimiterChecker } from "../../src/helper/getDelimiterChecker.js";
 import type { DelimiterConfig } from "../../src/helper/types.js";
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
 import type { DelimiterRange } from "../../src/rules/types.js";
@@ -24,7 +24,7 @@ const createDelimiterTests = (
           ["class", "class.with.dot"],
         ];
 
-        const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
+        const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
         expect(getAttrs(src, range, options.allowed)).toEqual(expected);
       },
@@ -34,7 +34,7 @@ const createDelimiterTests = (
       const src = replaceDelimiters("{link=/some/page/in/app/id=1}", options);
       const expected = [["link", "/some/page/in/app/id=1"]];
 
-      const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
+      const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
       expect(getAttrs(src, range, options.allowed)).toEqual(expected);
     });
@@ -53,7 +53,7 @@ const createDelimiterTests = (
           ["query", ""],
         ];
 
-        const range = getDelimiterChecker(options, "only")(src) as DelimiterRange;
+        const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
         expect(getAttrs(src, range, options.allowed)).toEqual(expected);
       },

@@ -4,7 +4,7 @@ import type Token from "markdown-it/lib/token.mjs";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
 interface TokenWithColumnCount extends Token {
   meta:
@@ -16,7 +16,7 @@ interface TokenWithColumnCount extends Token {
 }
 
 // oxlint-disable-next-line max-lines-per-function
-export const getTableRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
+export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
   const allowed = options.allowed;
 
@@ -44,7 +44,7 @@ export const getTableRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
         {
           shift: 2,
           type: "inline",
-          content: getDelimiterChecker(options, "only"),
+          content: createDelimiterChecker(options, "only"),
         },
       ],
       transform: (tokens, index, _, range): void => {
@@ -76,7 +76,7 @@ export const getTableRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
             {
               shift: 0,
               type: "text",
-              content: getDelimiterChecker(options, "end"),
+              content: createDelimiterChecker(options, "end"),
             },
           ],
         },
