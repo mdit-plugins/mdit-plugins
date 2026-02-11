@@ -34,6 +34,7 @@ This repo contains the following plugins:
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
 - @mdit/plugin-include (Node.js only as it needs the `fs` api)
+- @mdit/plugin-inline-rule
 - @mdit/plugin-ins
 - @mdit/plugin-katex
 - @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
