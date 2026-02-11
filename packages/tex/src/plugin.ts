@@ -58,7 +58,7 @@ const isValidDollarDelim = (
 /*
  * Parse inline math with dollar signs: $...$
  */
-const getDollarInlineTex =
+const createDollarInlineTexRule =
   (allowInlineWithSpace: boolean): RuleInline =>
   (state, silent) => {
     if (state.src[state.pos] !== "$") return false;
@@ -140,7 +140,7 @@ const getDollarInlineTex =
 /*
  * Parse inline math with bracket syntax: \(...\)
  */
-const getBracketInlineTex = (): RuleInline => (state, silent) => {
+const createBracketInlineTexRule = (): RuleInline => (state, silent) => {
   const start = state.pos;
 
   // Check for opening \(
@@ -189,7 +189,7 @@ const getBracketInlineTex = (): RuleInline => (state, silent) => {
 /*
  * Parse block math with dollar signs: $$...$$
  */
-const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
+const dollarBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
 
@@ -259,7 +259,7 @@ const dollarBlockTex: RuleBlock = (state, startLine, endLine, silent) => {
 /*
  * Parse block math with bracket syntax: \[...\]
  */
-const getBracketBlockTex = (): RuleBlock => (state, startLine, endLine, silent) => {
+const bracketBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
 
@@ -365,13 +365,17 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
 
   // Register inline and block rules based on delimiters option
   if (delimiters === "dollars" || delimiters === "all") {
-    md.inline.ruler.after("escape", "math_inline_dollar", getDollarInlineTex(allowInlineWithSpace));
-    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTex, ruleOptions);
+    md.inline.ruler.after(
+      "escape",
+      "math_inline_dollar",
+      createDollarInlineTexRule(allowInlineWithSpace),
+    );
+    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
   }
 
   if (delimiters === "brackets" || delimiters === "all") {
-    md.inline.ruler.before("escape", "math_inline_bracket", getBracketInlineTex());
-    md.block.ruler.after("blockquote", "math_block_bracket", getBracketBlockTex(), ruleOptions);
+    md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
+    md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
   }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>

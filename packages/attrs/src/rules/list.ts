@@ -3,9 +3,9 @@ import type MarkdownIt from "markdown-it";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
-export const getListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
+export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
   const allowed = options.allowed;
 
@@ -32,7 +32,7 @@ export const getListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule
             {
               position: -1,
               type: "text",
-              content: getDelimiterChecker(options, "only"),
+              content: createDelimiterChecker(options, "only"),
             },
           ],
         },
@@ -82,7 +82,7 @@ export const getListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule
         {
           shift: 2,
           type: "inline",
-          content: getDelimiterChecker(options, "only"),
+          content: createDelimiterChecker(options, "only"),
           children: (children) => children.length === 1,
         },
         {
@@ -119,7 +119,7 @@ export const getListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule
             {
               position: -1,
               type: "text",
-              content: getDelimiterChecker(options, "end"),
+              content: createDelimiterChecker(options, "end"),
             },
           ],
         },

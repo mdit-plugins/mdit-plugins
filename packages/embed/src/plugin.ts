@@ -34,7 +34,7 @@ const checkClosingMarker = (src: string, current: number): boolean =>
 /*
  * Parse inline embed with bracket syntax: {%...%}
  */
-const getEmbedInline =
+const createInlineEmbedRule =
   (inlineEmbedMap: Map<string, EmbedConfig>): RuleInline =>
   (state, silent) => {
     const isSpace = state.md.utils.isSpace;
@@ -111,7 +111,7 @@ const getEmbedInline =
 /*
  * Parse block embed with syntax: {% ... %}
  */
-const getEmbedBlock =
+const createBlockEmbedRule =
   (embedMap: Map<string, EmbedConfig>): RuleBlock =>
   (state, startLine, _, silent) => {
     const isSpace = state.md.utils.isSpace;
@@ -218,7 +218,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
   // check embed_block rules here
   if (!("embed_block" in md.renderer.rules)) {
     // Register the block rule
-    md.block.ruler.before("paragraph", "embed_block", getEmbedBlock(embedMap), {
+    md.block.ruler.before("paragraph", "embed_block", createBlockEmbedRule(embedMap), {
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
 
@@ -234,7 +234,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
   // only register embed_inline rules if inline embeds are allowed
   if (inlineEmbedMap.size > 0 && !("embed_inline" in md.renderer.rules)) {
     // Register the inline rule
-    md.inline.ruler.before("emphasis", "embed_inline", getEmbedInline(inlineEmbedMap));
+    md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
 
     md.renderer.rules.embed_inline = (tokens: Token[], index: number): string => {
       const token = tokens[index];
