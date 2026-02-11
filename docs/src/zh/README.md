@@ -84,6 +84,11 @@ features:
     details: 在 Markdown 中包含其他文件
     link: ./include.html
 
+  - title: inline-rule
+    icon: wand-magic-sparkles
+    details: 统一的内联语法工厂
+    link: ./inline-rule.html
+
   - title: ins
     icon: square-plus
     details: 插入标签支持

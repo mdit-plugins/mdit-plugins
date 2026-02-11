@@ -1,14 +1,13 @@
 {
-  "name": "@mdit/plugin-sup",
-  "version": "0.23.1",
-  "description": "sup plugin for MarkdownIt",
+  "name": "@mdit/plugin-inline-rule",
+  "version": "0.22.0",
+  "description": "Unified inline syntax factory plugin for MarkdownIt",
   "keywords": [
+    "inline-rule",
     "markdown-it",
-    "markdown-it-plugin",
-    "sup",
-    "superscript"
+    "markdown-it-plugin"
   ],
-  "homepage": "https://mdit-plugins.github.io/sup.html",
+  "homepage": "https://mdit-plugins.github.io/inline-rule.html",
   "bugs": {
     "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
   },
@@ -21,14 +20,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/sup"
+    "directory": "packages/inline-rule"
   },
   "files": [
     "dist"
   ],
   "type": "module",
-  "unpkg": "dist/cdn.js",
-  "jsdelivr": "dist/cdn.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -44,7 +41,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/plugin-inline-rule": "workspace:*",
+    "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
   "peerDependencies": {

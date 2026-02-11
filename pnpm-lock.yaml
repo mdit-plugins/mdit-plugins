@@ -19,6 +19,7 @@ overrides:
   '@mdit/plugin-img-mark': workspace:*
   '@mdit/plugin-img-size': workspace:*
   '@mdit/plugin-include': workspace:*
+  '@mdit/plugin-inline-rule': workspace:*
   '@mdit/plugin-katex': workspace:*
   '@mdit/plugin-katex-slim': workspace:*
   '@mdit/plugin-mark': workspace:*
@@ -357,8 +358,23 @@ importers:
         specifier: workspace:*
         version: link:../container
 
+  packages/inline-rule:
+    dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+
   packages/ins:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -421,6 +437,9 @@ importers:
 
   packages/mark:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -514,6 +533,9 @@ importers:
 
   packages/spoiler:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -532,9 +554,9 @@ importers:
 
   packages/sub:
     dependencies:
-      '@mdit/helper':
+      '@mdit/plugin-inline-rule':
         specifier: workspace:*
-        version: link:../helper
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -544,9 +566,9 @@ importers:
 
   packages/sup:
     dependencies:
-      '@mdit/helper':
+      '@mdit/plugin-inline-rule':
         specifier: workspace:*
-        version: link:../helper
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
