@@ -227,7 +227,7 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
   const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options!;
 
   const double = nested ? true : (options?.double ?? false);
-  const allowSpace = nested ? false : (options as { allowSpace?: boolean })?.allowSpace ?? false;
+  const allowSpace = nested ? false : ((options as { allowSpace?: boolean })?.allowSpace ?? false);
 
   const markerCode = marker.charCodeAt(0);
   const markup = double ? marker + marker : marker;

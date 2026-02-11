@@ -188,4 +188,93 @@ describe("mixing", () => {
       );
     });
   });
+
+  describe("rule ordering and priority", () => {
+    it("last registered rule takes precedence for same marker", () => {
+      const md = MarkdownIt()
+        .use(inlineRule, {
+          marker: "^",
+          tag: "sup",
+          token: "sup",
+        })
+        .use(inlineRule, {
+          marker: "^",
+          tag: "sub",
+          token: "sub",
+        });
+
+      // Last registration (sub) wins because it is added after in the ruler chain
+      expect(md.render("^test^")).toEqual("<p><sub>test</sub></p>\n");
+    });
+
+    it("rules registered with different placements do not interfere", () => {
+      const md = MarkdownIt()
+        .use(inlineRule, {
+          marker: "=",
+          tag: "mark",
+          token: "mark",
+          nested: true,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "!",
+          tag: "span",
+          token: "spoiler",
+          nested: true,
+          placement: "after-emphasis",
+          attrs: [["class", "spoiler"]],
+        });
+
+      expect(md.render("==mark== and !!spoiler!!")).toEqual(
+        '<p><mark>mark</mark> and <span class="spoiler">spoiler</span></p>\n',
+      );
+    });
+
+    it("ordering between custom rules is handled by registration order, not dependency arrays", () => {
+      // This test demonstrates that simple before/after emphasis is sufficient
+      // and complex dependency arrays (e.g., [['before', 'mark'], ['after', 'emphasis']])
+      // are not needed — rules work correctly regardless of registration order
+      const md1 = MarkdownIt()
+        .use(inlineRule, {
+          marker: "=",
+          tag: "mark",
+          token: "mark",
+          nested: true,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "!",
+          tag: "span",
+          token: "spoiler",
+          nested: true,
+          placement: "before-emphasis",
+          attrs: [["class", "spoiler"]],
+        });
+
+      const md2 = MarkdownIt()
+        .use(inlineRule, {
+          marker: "!",
+          tag: "span",
+          token: "spoiler",
+          nested: true,
+          placement: "before-emphasis",
+          attrs: [["class", "spoiler"]],
+        })
+        .use(inlineRule, {
+          marker: "=",
+          tag: "mark",
+          token: "mark",
+          nested: true,
+          placement: "before-emphasis",
+        });
+
+      // Both orderings produce the same correct output
+      const input = "!!spoiler with ==mark== inside!!";
+      const expected =
+        '<p><span class="spoiler">spoiler with <mark>mark</mark> inside</span></p>\n';
+
+      expect(md1.render(input)).toEqual(expected);
+      expect(md2.render(input)).toEqual(expected);
+    });
+  });
 });

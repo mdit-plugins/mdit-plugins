@@ -200,6 +200,18 @@ describe("options", () => {
       expect(md.render("^foo bar^")).toEqual("<p><sup>foo bar</sup></p>\n");
     });
 
+    it("non-nested + single + allowSpace: false (explicit)", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "^",
+        tag: "sup",
+        token: "sup",
+        allowSpace: false,
+      });
+
+      expect(md.render("^foo bar^")).toEqual("<p>^foo bar^</p>\n");
+      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+    });
+
     it("non-nested + double + allowSpace: true", () => {
       const md = MarkdownIt().use(inlineRule, {
         marker: "%",
@@ -212,16 +224,68 @@ describe("options", () => {
       expect(md.render("%%foo bar%%")).toEqual("<p><span>foo bar</span></p>\n");
     });
 
-    it("non-nested + attrs + allowSpace: false", () => {
+    it("non-nested + double + allowSpace: false (explicit)", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "%",
+        tag: "span",
+        token: "custom",
+        double: true,
+        allowSpace: false,
+      });
+
+      expect(md.render("%%foo bar%%")).toEqual("<p>%%foo bar%%</p>\n");
+      expect(md.render("%%test%%")).toEqual("<p><span>test</span></p>\n");
+    });
+
+    it("non-nested + single + attrs + before-emphasis", () => {
       const md = MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "span",
         token: "custom",
         attrs: [["class", "test"]],
+        placement: "before-emphasis",
+      });
+
+      expect(md.render("^test^")).toEqual('<p><span class="test">test</span></p>\n');
+    });
+
+    it("non-nested + single + attrs + after-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "^",
+        tag: "span",
+        token: "custom",
+        attrs: [["class", "test"]],
+        placement: "after-emphasis",
       });
 
       expect(md.render("^test^")).toEqual('<p><span class="test">test</span></p>\n');
       expect(md.render("^a b^")).toEqual("<p>^a b^</p>\n");
+    });
+
+    it("non-nested + double + attrs + before-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "%",
+        tag: "span",
+        token: "custom",
+        double: true,
+        attrs: [["data-type", "custom"]],
+        placement: "before-emphasis",
+      });
+
+      expect(md.render("%%test%%")).toEqual('<p><span data-type="custom">test</span></p>\n');
+    });
+
+    it("non-nested + double + attrs + after-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "%",
+        tag: "span",
+        token: "custom",
+        double: true,
+        attrs: [["data-type", "custom"]],
+        placement: "after-emphasis",
+      });
+
+      expect(md.render("%%test%%")).toEqual('<p><span data-type="custom">test</span></p>\n');
     });
 
     it("nested + before-emphasis (mark-like)", () => {
@@ -291,6 +355,9 @@ describe("options", () => {
       });
 
       // _abc_ should now be <u> instead of <em>
+      expect(md.render("_abc_")).toEqual("<p><u>abc</u></p>\n");
+
+      // __abc__ should now be <u> instead of <strong>
       expect(md.render("__abc__")).toEqual("<p><u>abc</u></p>\n");
 
       // *abc* asterisk-based italics should still work
