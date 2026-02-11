@@ -10,6 +10,18 @@ describe(layout, () => {
   describe("nesting", () => {
     describe("simple nesting", () => {
       it("should support nesting same type", () => {
+        const expected = `\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+</div>
+`;
+
         expect(
           markdownIt.render(`\
 @flexs
@@ -20,17 +32,20 @@ Nested content
 @end
 @end
 `),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<p>Nested content</p>
-</div>
-</div>
-</div>
-</div>
-`);
+        ).toBe(expected);
+
+        // nested style
+        expect(
+          markdownIt.render(`\
+@flexs
+  @flex
+    @flexs
+      @flex
+      Nested content
+    @end
+@end
+`),
+        ).toBe(expected);
       });
 
       it("should support nesting different types", () => {

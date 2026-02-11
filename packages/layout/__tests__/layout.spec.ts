@@ -6,6 +6,30 @@ import { layout } from "../src/index.js";
 const markdownIt = MarkdownIt().use(layout);
 
 describe(layout, () => {
+  describe("indent", () => {
+    it("should support a 1-3 spaces indent", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+  @flex
+    Content A
+   @flex
+     Content B
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content A</p>
+</div>
+<div>
+<p>Content B</p>
+</div>
+</div>
+`);
+    });
+  });
+
   describe("markdown content", () => {
     it("should render markdown inside items", () => {
       expect(
