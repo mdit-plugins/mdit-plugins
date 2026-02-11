@@ -7,30 +7,6 @@ markdown-it 的表情插件。
 
 <!-- more -->
 
-## 安装
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm add @mdit/plugin-emoji
-```
-
-@tab yarn
-
-```bash
-yarn add @mdit/plugin-emoji
-```
-
-@tab npm
-
-```bash
-npm i @mdit/plugin-emoji
-```
-
-:::
-
 ## 使用
 
 ```ts

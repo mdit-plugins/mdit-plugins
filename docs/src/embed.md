@@ -4,30 +4,6 @@ Embed external content in your Markdown.
 
 <!-- more -->
 
-## Install
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm add @mdit/plugin-embed
-```
-
-@tab yarn
-
-```bash
-yarn add @mdit/plugin-embed
-```
-
-@tab npm
-
-```bash
-npm i @mdit/plugin-embed
-```
-
-:::
-
 ## Usage
 
 ::: code-tabs#language
