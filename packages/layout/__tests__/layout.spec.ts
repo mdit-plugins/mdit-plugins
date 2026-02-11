@@ -794,6 +794,150 @@ Outer content
 </div>
 `);
     });
+
+    it("Case A: standard alignment - content and nested container at same indent", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+  This is content
+  @flexs
+  @flex
+    Nested item
+  @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>This is content</p>
+<div style="display:flex">
+<div>
+<p>Nested item</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("Case B: visual staircase - nested container indent > content indent", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+ Text with 1 space indent
+   @grids
+   @grid
+     Content
+   @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Text with 1 space indent</p>
+<div style="display:grid">
+<div>
+<p>Content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("Case C: reverse indent - nested container indent < content indent, degrade to plain text", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+   Text indented deeply
+  @flexs
+  Not parsed as nested
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Text indented deeply
+@flexs
+Not parsed as nested</p>
+</div>
+</div>
+`);
+    });
+
+    it("Case D: no content before nested container - anchor is 0", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+  @columns
+  @column
+    Content
+  @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div>
+<div>
+<p>Content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should reject nested container with indent < 2", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+ @grids
+ @grid
+ Content
+ @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>@grids
+@grid
+Content
+@end</p>
+</div>
+</div>
+`);
+    });
+
+    it("should reject nested container with indent >= 4 (code block territory)", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+    @grids
+    @grid
+    Content
+    @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<pre><code>@grids
+@grid
+Content
+@end
+</code></pre>
+</div>
+</div>
+`);
+    });
   });
 
   describe("auto-closing", () => {

@@ -34,6 +34,7 @@ export interface LayoutMeta {
 export interface LayoutEnv extends Record<string, unknown> {
   layoutType: number;
   layoutLevel: number;
+  layoutItemStart: number;
 }
 
 export interface LayoutStateBlock extends StateBlock {
