@@ -1,3 +1,4 @@
+import { escapeHtml } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
@@ -128,8 +129,10 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   // First-Line Anchor Rule: validate nested containers
   if (state.env.layoutType) {
-    // Nested container must be indented 2-3 spaces (safe zone)
-    if (indentNested < 2 || indentNested > 3) return false;
+    // Nested container must be indented 2-3 spaces relative to parent block
+    const relativeIndent = indentNested - state.blkIndent;
+
+    if (relativeIndent < 2 || relativeIndent > 3) return false;
 
     // Check anchor: indent must be >= first content line's indent
     const anchorIndent = findAnchorIndent(state, state.env.layoutItemStart, startLine);
@@ -173,7 +176,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   const openToken = state.push("layout_container_open", "div", 1);
 
   openToken.block = true;
-  openToken.map = [startLine, nextLine + 1];
+  openToken.map = [startLine, nextLine < endLine ? nextLine + 1 : nextLine];
   openToken.meta = {
     type: directive.type,
     classes: parsedAttrs.classes,
@@ -223,16 +226,16 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
       const style = buildStyleString(meta.utilities, baseDisplay);
 
       if (style) attrs.push(`style="${style}"`);
-      if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeHtml(meta.classes.join(" "))}"`);
     } else {
       if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
 
       const classNames = [...meta.classes, ...meta.utilities];
 
-      if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
+      if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
     }
 
-    if (meta.id) attrs.push(`id="${meta.id}"`);
+    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };
@@ -259,14 +262,14 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
       }
 
       if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
-      if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeHtml(meta.classes.join(" "))}"`);
     } else {
       const classNames = [...meta.classes, ...meta.utilities];
 
-      if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
+      if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
     }
 
-    if (meta.id) attrs.push(`id="${meta.id}"`);
+    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };

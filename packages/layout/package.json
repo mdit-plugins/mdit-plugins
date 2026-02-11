@@ -48,6 +48,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
+    "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
   "peerDependencies": {

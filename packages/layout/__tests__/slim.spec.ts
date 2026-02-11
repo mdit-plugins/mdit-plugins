@@ -397,4 +397,57 @@ Content
 `);
     });
   });
+
+  describe("XSS prevention", () => {
+    it("should escape special characters in class names", () => {
+      expect(
+        markdownIt.render(`\
+@flexs.foo&bar gap-4
+@flex
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex" class="foo&amp;bar gap-4">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should escape special characters in id", () => {
+      expect(
+        markdownIt.render(`\
+@flexs#id"dquote
+@flex
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex" id="id&quot;dquote">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should escape item class and id", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex.cls'q#id&amp
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div class="cls&#39;q" id="id&amp;amp">
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+  });
 });

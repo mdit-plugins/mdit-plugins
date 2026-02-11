@@ -1,3 +1,4 @@
+import { escapeHtml } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 
@@ -118,7 +119,10 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   // First-Line Anchor Rule: validate nested containers
   if (state.env.layoutType) {
-    if (indentNested < 2 || indentNested > 3) return false;
+    // Nested container must be indented 2-3 spaces relative to parent block
+    const relativeIndent = indentNested - state.blkIndent;
+
+    if (relativeIndent < 2 || relativeIndent > 3) return false;
 
     const anchorIndent = findAnchorIndent(state, state.env.layoutItemStart, startLine);
 
@@ -159,7 +163,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   const openToken = state.push("layout_container_open", "div", 1);
 
   openToken.block = true;
-  openToken.map = [startLine, nextLine + 1];
+  openToken.map = [startLine, nextLine < endLine ? nextLine + 1 : nextLine];
   openToken.meta = {
     type: directive.type,
     classes: parsedAttrs.classes,
@@ -208,9 +212,9 @@ export const layoutSlim: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
 
     const classNames = [...meta.classes, ...meta.utilities];
 
-    if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
+    if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
 
-    if (meta.id) attrs.push(`id="${meta.id}"`);
+    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };
@@ -225,9 +229,9 @@ export const layoutSlim: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
 
     const classNames = [...meta.classes, ...meta.utilities];
 
-    if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
+    if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
 
-    if (meta.id) attrs.push(`id="${meta.id}"`);
+    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };
