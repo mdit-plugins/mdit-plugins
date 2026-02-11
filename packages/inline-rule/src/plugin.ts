@@ -8,44 +8,40 @@ import type { InlineRuleOptions } from "./options.js";
 
 const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(^|[^\\])(\\\\)*\s/u;
 
-const createLinearRule = (
-  markerCode: number,
-  tag: string,
-  token: string,
-  markup: string,
-  allowSpace: boolean,
-  attrs: [string, string][] | undefined,
-): RuleInline => {
+interface LinearRuleConfig {
+  markerCode: number;
+  tag: string;
+  token: string;
+  markup: string;
+  allowSpace: boolean;
+  attrs: [string, string][] | undefined;
+}
+
+const createLinearRule = (config: LinearRuleConfig): RuleInline => {
+  const { markerCode, tag, token, markup, allowSpace, attrs } = config;
   const markerLength = markup.length;
 
   return (state, silent): boolean => {
     const max = state.posMax;
     const start = state.pos;
 
-    if (
-      state.src.charCodeAt(start) !== markerCode ||
-      silent ||
-      start + 2 * markerLength > max
-    )
+    if (state.src.charCodeAt(start) !== markerCode || silent || start + 2 * markerLength > max)
       return false;
 
     // For double markers, check second char matches
-    if (markerLength === 2 && state.src.charCodeAt(start + 1) !== markerCode)
-      return false;
+    if (markerLength === 2 && state.src.charCodeAt(start + 1) !== markerCode) return false;
 
     state.pos = start + markerLength;
 
     let found = false;
 
     while (state.pos <= max - markerLength) {
-      if (state.src.charCodeAt(state.pos) === markerCode) {
-        if (
-          markerLength === 1 ||
-          state.src.charCodeAt(state.pos + 1) === markerCode
-        ) {
-          found = true;
-          break;
-        }
+      if (
+        state.src.charCodeAt(state.pos) === markerCode &&
+        (markerLength === 1 || state.src.charCodeAt(state.pos + 1) === markerCode)
+      ) {
+        found = true;
+        break;
       }
 
       state.md.inline.skipToken(state);
@@ -90,9 +86,9 @@ const createLinearRule = (
   };
 };
 
-const createNestedTokenize = (
-  markerCode: number,
-): RuleInline => (state, silent): boolean => {
+const createNestedTokenize =
+  (markerCode: number): RuleInline =>
+  (state, silent): boolean => {
     const start = state.pos;
     const marker = state.src.charCodeAt(start);
 
@@ -134,13 +130,18 @@ const createNestedTokenize = (
     return true;
   };
 
+interface NestedPostProcessConfig {
+  markerCode: number;
+  tag: string;
+  token: string;
+  markup: string;
+  attrs: [string, string][] | undefined;
+}
+
 const createNestedPostProcess = (
-  markerCode: number,
-  tag: string,
-  token: string,
-  markup: string,
-  attrs: [string, string][] | undefined,
+  config: NestedPostProcessConfig,
 ): ((state: StateInline, delimiters: Delimiter[]) => void) => {
+  const { markerCode, tag, token, markup, attrs } = config;
   const closeType = `${token}_close`;
 
   return (state, delimiters): void => {
@@ -171,8 +172,7 @@ const createNestedPostProcess = (
 
         if (
           state.tokens[endDelim.token - 1].type === "text" &&
-          state.tokens[endDelim.token - 1].content ===
-            String.fromCharCode(markerCode)
+          state.tokens[endDelim.token - 1].content === String.fromCharCode(markerCode)
         )
           loneMarkers.push(endDelim.token - 1);
       }
@@ -187,8 +187,7 @@ const createNestedPostProcess = (
       const ii = loneMarkers.pop()!;
       let jj = ii + 1;
 
-      while (jj < state.tokens.length && state.tokens[jj].type === closeType)
-        jj++;
+      while (jj < state.tokens.length && state.tokens[jj].type === closeType) jj++;
 
       jj--;
 
@@ -199,10 +198,29 @@ const createNestedPostProcess = (
   };
 };
 
-export const inlineRule: PluginWithOptions<InlineRuleOptions> = (
-  md,
-  options,
-) => {
+const createRuler2Handler =
+  (
+    postProcess: (state: StateInline, delimiters: Delimiter[]) => void,
+  ): ((state: StateInline) => boolean) =>
+  (state): boolean => {
+    if (state.delimiters.length > 0) postProcess(state, state.delimiters);
+
+    const tokensMeta = state.tokens_meta;
+    const tokensMetaLength = tokensMeta.length;
+
+    if (tokensMetaLength === 0) return true;
+
+    for (let ii = 0; ii < tokensMetaLength; ii++) {
+      const tokenMeta = tokensMeta[ii];
+
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
+      if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters);
+    }
+
+    return true;
+  };
+
+export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
   const {
     marker,
     tag,
@@ -220,64 +238,31 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (
 
   if (nested) {
     const tokenize = createNestedTokenize(markerCode);
-    const postProcess = createNestedPostProcess(
+    const postProcess = createNestedPostProcess({
       markerCode,
       tag,
       token,
       markup,
       attrs,
-    );
+    });
+    const ruler2Handler = createRuler2Handler(postProcess);
 
     if (at === "before") {
       md.inline.ruler.before("emphasis", ruleName, tokenize);
-      md.inline.ruler2.before("emphasis", ruleName, (state) => {
-        if (state.delimiters.length > 0) postProcess(state, state.delimiters);
-
-        const tokensMeta = state.tokens_meta;
-        const tokensMetaLength = tokensMeta.length;
-
-        if (tokensMetaLength === 0) return true;
-
-        for (let ii = 0; ii < tokensMetaLength; ii++) {
-          const tokenMeta = tokensMeta[ii];
-
-          // oxlint-disable-next-line typescript/strict-boolean-expressions
-          if (tokenMeta?.delimiters.length)
-            postProcess(state, tokenMeta.delimiters);
-        }
-
-        return true;
-      });
+      md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
     } else {
       md.inline.ruler.after("emphasis", ruleName, tokenize);
-      md.inline.ruler2.after("emphasis", ruleName, (state) => {
-        if (state.delimiters.length > 0) postProcess(state, state.delimiters);
-
-        const tokensMeta = state.tokens_meta;
-        const tokensMetaLength = tokensMeta.length;
-
-        if (tokensMetaLength === 0) return true;
-
-        for (let ii = 0; ii < tokensMetaLength; ii++) {
-          const tokenMeta = tokensMeta[ii];
-
-          // oxlint-disable-next-line typescript/strict-boolean-expressions
-          if (tokenMeta?.delimiters.length)
-            postProcess(state, tokenMeta.delimiters);
-        }
-
-        return true;
-      });
+      md.inline.ruler2.after("emphasis", ruleName, ruler2Handler);
     }
   } else {
-    const rule = createLinearRule(
+    const rule = createLinearRule({
       markerCode,
       tag,
       token,
       markup,
       allowSpace,
       attrs,
-    );
+    });
 
     if (at === "before") {
       md.inline.ruler.before("emphasis", ruleName, rule);

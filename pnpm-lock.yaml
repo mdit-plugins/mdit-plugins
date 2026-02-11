@@ -368,6 +368,9 @@ importers:
 
   packages/ins:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -414,6 +417,9 @@ importers:
 
   packages/mark:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -507,6 +513,9 @@ importers:
 
   packages/spoiler:
     dependencies:
+      '@mdit/plugin-inline-rule':
+        specifier: workspace:*
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -525,9 +534,9 @@ importers:
 
   packages/sub:
     dependencies:
-      '@mdit/helper':
+      '@mdit/plugin-inline-rule':
         specifier: workspace:*
-        version: link:../helper
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -537,9 +546,9 @@ importers:
 
   packages/sup:
     dependencies:
-      '@mdit/helper':
+      '@mdit/plugin-inline-rule':
         specifier: workspace:*
-        version: link:../helper
+        version: link:../inline-rule
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
