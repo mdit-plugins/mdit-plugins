@@ -21,6 +21,14 @@ describe("options", () => {
     );
   });
 
+  it("should throw error if marker is not a single character", () => {
+    const md = MarkdownIt();
+
+    expect(() => md.use(inlineRule, { marker: "**", token: "bold", tag: "strong" })).toThrow(
+      "Invalid marker for inlineRule plugin: 'marker' must be a single character.",
+    );
+  });
+
   describe("placement option", () => {
     it("should register before emphasis with placement: 'before-emphasis'", () => {
       const md = MarkdownIt().use(inlineRule, {

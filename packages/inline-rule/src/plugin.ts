@@ -236,6 +236,10 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
 
   const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options;
 
+  if (marker.length !== 1) {
+    throw new Error("Invalid marker for inlineRule plugin: 'marker' must be a single character.");
+  }
+
   const double = nested ? true : (options?.double ?? false);
   const allowSpace = nested ? false : ((options as { allowSpace?: boolean })?.allowSpace ?? false);
 
