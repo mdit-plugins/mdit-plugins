@@ -49,7 +49,7 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Containers can be nested inside items at the same indentation level. The parser uses counter-based matching to correctly pair each `@end` with its container:
+Same or different containers can be nested inside items at the same indentation level.
 
 ```md
 @flexs
@@ -73,7 +73,7 @@ Content (depth 1 via @@)
 @end
 ```
 
-In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container.
+In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
 
 Layout directives also work inside list items and blockquotes:
 
