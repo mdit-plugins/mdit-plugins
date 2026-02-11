@@ -170,6 +170,10 @@ const createNestedPostProcess = (
         tk.markup = markup;
         tk.content = "";
 
+        // Mark delimiters as consumed so other handlers (e.g., emphasis) won't re-process
+        endDelim.end = -1;
+        startDelim.end = -1;
+
         if (
           state.tokens[endDelim.token - 1].type === "text" &&
           state.tokens[endDelim.token - 1].content === String.fromCharCode(markerCode)
@@ -203,12 +207,10 @@ const createRuler2Handler =
     postProcess: (state: StateInline, delimiters: Delimiter[]) => void,
   ): ((state: StateInline) => boolean) =>
   (state): boolean => {
-    if (state.delimiters.length > 0) postProcess(state, state.delimiters);
+    postProcess(state, state.delimiters);
 
     const tokensMeta = state.tokens_meta;
     const tokensMetaLength = tokensMeta.length;
-
-    if (tokensMetaLength === 0) return true;
 
     for (let ii = 0; ii < tokensMetaLength; ii++) {
       const tokenMeta = tokensMeta[ii];
@@ -221,20 +223,16 @@ const createRuler2Handler =
   };
 
 export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
-  const {
-    marker,
-    tag,
-    token,
-    double = false,
-    attrs,
-    nested = false,
-    at = "after",
-    allowSpace = false,
-  } = options ?? ({} as InlineRuleOptions);
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options!;
+
+  const double = nested ? true : (options?.double ?? false);
+  const allowSpace = nested ? false : ((options as { allowSpace?: boolean })?.allowSpace ?? false);
 
   const markerCode = marker.charCodeAt(0);
   const markup = double ? marker + marker : marker;
   const ruleName = `${token}_${marker}`;
+  const isBefore = placement === "before-emphasis";
 
   if (nested) {
     const tokenize = createNestedTokenize(markerCode);
@@ -247,7 +245,7 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
     });
     const ruler2Handler = createRuler2Handler(postProcess);
 
-    if (at === "before") {
+    if (isBefore) {
       md.inline.ruler.before("emphasis", ruleName, tokenize);
       md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
     } else {
@@ -264,7 +262,7 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
       attrs,
     });
 
-    if (at === "before") {
+    if (isBefore) {
       md.inline.ruler.before("emphasis", ruleName, rule);
     } else {
       md.inline.ruler.after("emphasis", ruleName, rule);

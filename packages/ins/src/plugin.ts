@@ -7,8 +7,7 @@ export const ins: PluginSimple = (md) => {
     marker: "+",
     tag: "ins",
     token: "ins",
-    double: true,
     nested: true,
-    at: "before",
+    placement: "before-emphasis",
   });
 };

@@ -10,9 +10,8 @@ describe(inlineRule, () => {
         marker: "!",
         tag: "span",
         token: "spoiler",
-        double: true,
         nested: true,
-        at: "before",
+        placement: "before-emphasis",
       });
 
       expect(md.render("!!not closed")).toEqual("<p>!!not closed</p>\n");
@@ -71,15 +70,14 @@ describe(inlineRule, () => {
       expect(md.render("%test%")).toEqual("<p>%test%</p>\n");
     });
 
-    it("should support nested rule with at: 'after' and tokens_meta", () => {
+    it("should support nested rule with placement: 'after-emphasis' and tokens_meta", () => {
       // This tests the "after" nested path with token meta processing
       const md = MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
-        double: true,
         nested: true,
-        at: "after",
+        placement: "after-emphasis",
       });
 
       // Use emphasis that creates token meta entries

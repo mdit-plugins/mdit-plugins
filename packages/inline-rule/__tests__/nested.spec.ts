@@ -12,7 +12,7 @@ describe(inlineRule, () => {
         token: "ins",
         double: true,
         nested: true,
-        at: "before",
+        placement: "before-emphasis",
       });
 
       it("should render", () => {
@@ -80,7 +80,7 @@ describe(inlineRule, () => {
         token: "mark",
         double: true,
         nested: true,
-        at: "before",
+        placement: "before-emphasis",
       });
 
       it("should render", () => {
@@ -149,7 +149,7 @@ describe(inlineRule, () => {
         token: "spoiler",
         double: true,
         nested: true,
-        at: "before",
+        placement: "before-emphasis",
         attrs: [
           ["class", "spoiler"],
           ["tabindex", "-1"],
