@@ -7,12 +7,33 @@
 - Use `src/options.ts` for options definition
 - Use `src/plugin.ts` for plugin implementation
 
+Logic that is not directly related to the plugin implementation should be extracted to other files in `src` directory, e.g.:
+
+- Rules: `src/rules.ts`
+- Utils: `src/utils.ts`
+- Default render: `src/defaultRender.ts`
+
 ## Test Rules
 
 - Test files must be in `__tests__` directory
 - Use `vitest` for testing
 - Test should be grouped by testing cases with `describe`
-- Test should target 100% code coverage unless some cases are really edge cases
+- Tests should target 100% branch coverage
+- A test file should not have too many lines, if it exceeds 300-500 lines, consider splitting it into multiple files if possible, e.g.:
+  - `__tests__/basic.spec.ts` for basic syntax tests
+  - `__tests__/nesting.spec.ts` for nesting related tests
+  - `__tests__/options.spec.ts` for options related tests
+
+## Committing in CI
+
+When committing in CI, please make sure to run tests and check coverage before pushing. You can use the following command to run tests and check coverage:
+
+```bash
+pnpm lint
+pnpm test:coverage
+```
+
+Also, make sure you are using `HUSKY=0` to disable husky when committing in CI, otherwise the commit may fail due to lint errors or test failures, leading an agent task failure.
 
 ### How to run tests
 
@@ -26,7 +47,9 @@ This should only run tests in the current plugin and generate coverage report fo
 
 ## Performance
 
-- Usage of RegExp should be avoided, especially in performance-critical paths. Prefer using a pos pointer to access characters in string with logic instead.
+- Perform quick checks and return early if possible to avoid unnecessary computations, especially in performance-critical paths, especially checks the cost for silent mode checking (`if (silent) return true;`).
+
+- Usage of RegExp should be avoided, especially in performance-critical paths. Prefer using a pos pointer to access characters in string with logic instead. Unless it is clear that using RegExp is more efficient and does not cause performance issues.
 
 - Operating strings with `slice`, `substring` and similar methods that create new strings shall be avoided if possible
 
