@@ -116,11 +116,6 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
     utilities: parsedAttrs.utilities,
   } satisfies LayoutMeta;
 
-  // Handle .span-all for column items
-  if (directive.type === LAYOUT_COLUMN && parsedAttrs.classes.includes("span-all")) {
-    openToken.attrJoin("style", "column-span:all");
-  }
-
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
   const closeToken = state.push("layout_item_close", "div", -1);
