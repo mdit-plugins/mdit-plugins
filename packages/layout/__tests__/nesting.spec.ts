@@ -1,3 +1,4 @@
+import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
@@ -534,6 +535,42 @@ Content
 </div>
 </div>
 </blockquote>
+</div>
+</div>
+`);
+      });
+
+      it("should work inside other plugins tokens (e.g. container)", () => {
+        const mdItWithContainer = MarkdownIt().use(container, { name: "test" }).use(layout);
+
+        expect(
+          mdItWithContainer.render(`\
+:::: test
+@flexs
+@flex
+Content in container
+::: test
+@flexs
+@flex
+content in nested container
+@end
+:::
+@end
+::::
+`),
+        ).toBe(`\
+<div class="test">
+<div style="display:flex">
+<div>
+<p>Content in container</p>
+<div class="test">
+<div style="display:flex">
+<div>
+<p>content in nested container</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 `);

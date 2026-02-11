@@ -414,6 +414,10 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+    devDependencies:
+      '@mdit/plugin-container':
+        specifier: workspace:*
+        version: link:../container
 
   packages/mark:
     dependencies:
