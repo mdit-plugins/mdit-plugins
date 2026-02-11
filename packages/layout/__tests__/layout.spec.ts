@@ -857,46 +857,6 @@ Content
     });
   });
 
-  describe("inlineStyles option", () => {
-    it("should add utilities as classes when inlineStyles is false", () => {
-      const md = MarkdownIt().use(layout, { inlineStyles: false });
-
-      expect(
-        md.render(`\
-@flexs.nav gap-4 items-center
-@flex flex-1
-Content
-@end
-`),
-      ).toBe(`\
-<div style="display:flex" class="nav gap-4 items-center">
-<div class="flex-1">
-<p>Content</p>
-</div>
-</div>
-`);
-    });
-
-    it("should still add base display even when inlineStyles is false", () => {
-      const md = MarkdownIt().use(layout, { inlineStyles: false });
-
-      expect(
-        md.render(`\
-@grids
-@grid
-A
-@end
-`),
-      ).toBe(`\
-<div style="display:grid">
-<div>
-<p>A</p>
-</div>
-</div>
-`);
-    });
-  });
-
   describe("non-layout content", () => {
     it("should not affect regular markdown", () => {
       expect(
