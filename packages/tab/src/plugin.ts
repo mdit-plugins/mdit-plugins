@@ -74,6 +74,7 @@ const createTabItemRule =
 
     const indent = state.sCount[startLine];
     let nextLine = startLine + 1;
+    let autoClosed = false;
 
     // Search for the end of the block
     for (
@@ -96,6 +97,7 @@ const createTabItemRule =
         checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
       ) {
         // found!
+        autoClosed = true;
         break;
       }
     }
@@ -108,7 +110,7 @@ const createTabItemRule =
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine;
+    state.lineMax = nextLine - (autoClosed ? 1 : 0);
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -160,9 +162,9 @@ const createTabItemRule =
     // oxlint-disable-next-line typescript/no-unsafe-member-access
     if (id) openToken.meta.id = id;
 
-    openToken.map = [startLine, nextLine];
+    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    state.md.block.tokenize(state, startLine + 1, nextLine);
+    state.md.block.tokenize(state, startLine + 1, nextLine + (autoClosed ? 0 : 1));
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -172,7 +174,7 @@ const createTabItemRule =
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
     state.blkIndent = oldBlkIndent;
-    state.line = nextLine;
+    state.line = nextLine + (autoClosed ? 0 : 1);
 
     return true;
   };
@@ -281,7 +283,7 @@ const createTabContainerRule =
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine;
+    state.lineMax = nextLine - (autoClosed ? 1 : 0);
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -302,12 +304,12 @@ const createTabContainerRule =
     openToken.block = true;
     openToken.info = name;
     openToken.meta = { id };
-    openToken.map = [startLine, nextLine + (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
     state.env.tabName = name;
     state.env.tabLevel = state.level;
 
-    state.md.block.tokenize(state, startLine + 1, nextLine);
+    state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
 
     state.env.tabName = oldName;
     state.env.tabLevel = oldLevel;
