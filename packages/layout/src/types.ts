@@ -31,11 +31,14 @@ export interface LayoutMeta {
   utilities: string[];
 }
 
+export interface LayoutContext {
+  type: number;
+  level: number;
+  depth: number;
+}
+
 export interface LayoutEnv extends Record<string, unknown> {
-  layoutType: number;
-  layoutLevel: number;
-  layoutItemStart: number;
-  layoutDepth: number;
+  layout?: LayoutContext | undefined;
 }
 
 export interface LayoutStateBlock extends StateBlock {

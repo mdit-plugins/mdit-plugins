@@ -49,43 +49,43 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-The plugin supports two modes for nesting containers:
+Containers can be nested inside items at the same indentation level. The parser uses counter-based matching to correctly pair each `@end` with its container:
 
-**Mode A: Indent-based** (single `@`) — nested containers must be indented by 2–3 spaces:
-
-<!-- prettier-ignore-start -->
 ```md
+@flexs
+@flex
 @grids grid-cols-2
 @grid
-  @flexs flex-col
-  @flex
-  Nested content
-  @end
-@grid
-Outer content
+Nested content
+@end
 @end
 ```
-<!-- prettier-ignore-end -->
 
-::: warning Formatter Compatibility
-
-Code formatters like Prettier strip leading spaces, breaking indent-based nesting. Wrap indent-based nesting in `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->`, or use prefix mode instead.
-
-:::
-
-**Mode B: Prefix-based** (multiple `@`) — nesting depth is indicated by the number of `@` symbols (recommended for formatter compatibility):
+**Prefix mode** (multiple `@`) provides an explicit depth indicator — recommended for complex nesting:
 
 ```md
 @flexs
 @flex
 @@flexs
 @@flex
-Content (depth 1 via @@, no indent needed)
+Content (depth 1 via @@)
 @@end
 @end
 ```
 
 In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container.
+
+Layout directives also work inside list items and blockquotes:
+
+<!-- prettier-ignore-start -->
+```md
+- list item
+  @flexs
+  @flex
+  Content in list
+  @end
+```
+<!-- prettier-ignore-end -->
 
 ## Supported Utilities
 

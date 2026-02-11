@@ -1,14 +1,10 @@
 import MarkdownIt from "markdown-it";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { parseAttributes } from "../src/directive.js";
 import { layout } from "../src/index.js";
 
 const markdownIt = MarkdownIt().use(layout);
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
 
 describe(layout, () => {
   describe("flexbox layout", () => {
@@ -765,86 +761,24 @@ Content
     });
   });
 
-  describe("nesting", () => {
-    it("should support nested containers", () => {
-      expect(
-        markdownIt.render(`\
-@grids grid-cols-2
-@grid
-  @flexs flex-col
-  @flex
-  Nested A
-  @flex
-  Nested B
-  @end
-@grid
-Outer content
-@end
-`),
-      ).toBe(`\
-<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
-<div>
-<div style="display:flex;flex-direction:column">
-<div>
-<p>Nested A</p>
-</div>
-<div>
-<p>Nested B</p>
-</div>
-</div>
-</div>
-<div>
-<p>Outer content</p>
-</div>
-</div>
-`);
-    });
-
-    it("Case A: standard alignment - content and nested container at same indent", () => {
+  describe("zero-indent nesting", () => {
+    it("should support zero-indent nesting (same level)", () => {
       expect(
         markdownIt.render(`\
 @flexs
 @flex
-  This is content
-  @flexs
-  @flex
-    Nested item
-  @end
+@grids
+@grid
+Nested content
+@end
 @end
 `),
       ).toBe(`\
 <div style="display:flex">
 <div>
-<p>This is content</p>
-<div style="display:flex">
-<div>
-<p>Nested item</p>
-</div>
-</div>
-</div>
-</div>
-`);
-    });
-
-    it("Case B: visual staircase - nested container indent > content indent", () => {
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
- Text with 1 space indent
-   @grids
-   @grid
-     Content
-   @end
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<p>Text with 1 space indent</p>
 <div style="display:grid">
 <div>
-<p>Content</p>
+<p>Nested content</p>
 </div>
 </div>
 </div>
@@ -852,96 +786,118 @@ Outer content
 `);
     });
 
-    it("Case C: reverse indent - nested container indent < content indent, degrade to plain text", () => {
+    it("should handle multiple levels of zero-indent nesting", () => {
       expect(
         markdownIt.render(`\
 @flexs
 @flex
-   Text indented deeply
-  @flexs
-  Not parsed as nested
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<p>Text indented deeply
-@flexs
-Not parsed as nested</p>
-</div>
-</div>
-`);
-    });
-
-    it("Case D: no content before nested container - anchor is 0", () => {
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
-  @columns
-  @column
-    Content
-  @end
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<div>
-<div>
-<p>Content</p>
-</div>
-</div>
-</div>
-</div>
-`);
-    });
-
-    it("should reject nested container with indent < 2", () => {
-      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
- @grids
- @grid
- Content
- @end
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<p>@grids
+@grids
 @grid
-Content
-@end</p>
-</div>
-</div>
-`);
-      expect(warnSpy).toHaveBeenCalled();
-    });
-
-    it("should reject nested container with indent >= 4 (code block territory)", () => {
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
-    @grids
-    @grid
-    Content
-    @end
+@columns
+@column
+Deep content
+@end
+@end
 @end
 `),
       ).toBe(`\
 <div style="display:flex">
 <div>
-<pre><code>@grids
+<div style="display:grid">
+<div>
+<div>
+<div>
+<p>Deep content</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should handle content before nested container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Some text before
+@grids grid-cols-2
 @grid
-Content
+Item A
+@grid
+Item B
 @end
-</code></pre>
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Some text before</p>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
+<div>
+<p>Item A</p>
+</div>
+<div>
+<p>Item B</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should handle content after nested container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@grids
+@grid
+Inner
+@end
+After nested
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Inner</p>
+</div>
+</div>
+<p>After nested</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle multiple siblings after nested container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@grids
+@grid
+Inner
+@end
+@flex
+Outer sibling
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Inner</p>
+</div>
+</div>
+</div>
+<div>
+<p>Outer sibling</p>
 </div>
 </div>
 `);
@@ -1118,50 +1074,6 @@ Content
 `);
     });
 
-    it("should warn when nested indent is insufficient (formatter likely stripped)", () => {
-      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-
-      markdownIt.render(`\
-@flexs
-@flex
-@flexs
-@end
-@end
-`);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("insufficient indent"));
-    });
-
-    it("should support mixing indent-mode inside prefix container", () => {
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
-@@flexs
-@@flex
-  @grids
-  @grid
-  Content
-  @end
-@@end
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<div style="display:grid">
-<div>
-<p>Content</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-`);
-    });
-
     it("should auto-close prefix container at end of document", () => {
       expect(
         markdownIt.render(`\
@@ -1181,6 +1093,164 @@ Content
 </div>
 </div>
 </div>
+`);
+    });
+
+    it("should reject depth-0 inside prefix-mode container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+@grids
+@end
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>@grids
+@end</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+  });
+
+  describe("nesting inside block elements", () => {
+    it("should work inside unordered list", () => {
+      expect(
+        markdownIt.render(`\
+- item 1
+  @flexs
+  @flex
+  Flex inside list
+  @end
+`),
+      ).toBe(`\
+<ul>
+<li>item 1<div style="display:flex">
+<div>
+<p>Flex inside list</p>
+</div>
+</div>
+</li>
+</ul>
+`);
+    });
+
+    it("should work inside ordered list", () => {
+      expect(
+        markdownIt.render(`\
+1. item 1
+   @grids grid-cols-2
+   @grid
+   Grid A
+   @grid
+   Grid B
+   @end
+`),
+      ).toBe(`\
+<ol>
+<li>item 1<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
+<div>
+<p>Grid A</p>
+</div>
+<div>
+<p>Grid B</p>
+</div>
+</div>
+</li>
+</ol>
+`);
+    });
+
+    it("should work inside blockquote", () => {
+      expect(
+        markdownIt.render(`\
+> @flexs
+> @flex
+> Content in quote
+> @end
+`),
+      ).toBe(`\
+<blockquote>
+<div style="display:flex">
+<div>
+<p>Content in quote</p>
+</div>
+</div>
+</blockquote>
+`);
+    });
+
+    it("should work in nested list inside layout", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+- item 1
+  @flexs
+  @flex
+  Nested item
+  @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<ul>
+<li>item 1<div style="display:flex">
+<div>
+<p>Nested item</p>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+`);
+    });
+
+    it("should NOT trigger inside fenced code block", () => {
+      expect(
+        markdownIt.render(`\
+\`\`\`markdown
+@flexs
+@flex
+Content
+@end
+\`\`\`
+`),
+      ).toBe(`\
+<pre><code class="language-markdown">@flexs
+@flex
+Content
+@end
+</code></pre>
+`);
+    });
+
+    it("should NOT trigger inside indented code block", () => {
+      expect(
+        markdownIt.render(`\
+    @flexs
+    @flex
+    Content
+    @end
+`),
+      ).toBe(`\
+<pre><code>@flexs
+@flex
+Content
+@end
+</code></pre>
 `);
     });
   });

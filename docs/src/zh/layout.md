@@ -49,43 +49,43 @@ mdIt.render(`\
 
 ### 嵌套
 
-插件支持两种嵌套容器的模式:
+容器可以在相同缩进层级嵌套于子项内。解析器使用计数匹配来正确配对每个 `@end` 与其容器:
 
-**模式 A: 缩进模式**（单 `@`）—— 嵌套容器必须缩进 2–3 个空格:
-
-<!-- prettier-ignore-start -->
 ```md
+@flexs
+@flex
 @grids grid-cols-2
 @grid
-  @flexs flex-col
-  @flex
-  嵌套内容
-  @end
-@grid
-外层内容
+嵌套内容
+@end
 @end
 ```
-<!-- prettier-ignore-end -->
 
-::: warning 格式化工具兼容性
-
-Prettier 等代码格式化工具会删除行首空格，从而破坏缩进模式的嵌套。请使用 `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->` 包裹缩进嵌套块，或改用前缀模式。
-
-:::
-
-**模式 B: 前缀模式**（多 `@`）—— 嵌套深度由 `@` 符号数量决定（推荐用于兼容格式化工具）:
+**前缀模式**（多 `@`）提供显式深度标识 —— 推荐用于复杂嵌套:
 
 ```md
 @flexs
 @flex
 @@flexs
 @@flex
-内容（通过 @@ 识别为深度 1，无需缩进）
+内容（通过 @@ 识别为深度 1）
 @@end
 @end
 ```
 
 在前缀模式下，`@@` = 深度 1，`@@@` = 深度 2，以此类推。子项和 `@end` 必须使用与其容器相同数量的 `@`。
+
+布局指令也可以在列表项和块引用内使用:
+
+<!-- prettier-ignore-start -->
+```md
+- 列表项
+  @flexs
+  @flex
+  列表中的内容
+  @end
+```
+<!-- prettier-ignore-end -->
 
 ## 支持的工具类
 

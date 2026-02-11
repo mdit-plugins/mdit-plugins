@@ -8,8 +8,51 @@ import type { LayoutMeta, LayoutStateBlock } from "./types.js";
 import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN } from "./types.js";
 import { buildStyleString, resolveUtility } from "./utilities.js";
 
+/**
+ * Count matching container opens/ends to find the `@end` that closes the
+ * container opened at startLine. Works at the same `@` depth.
+ *
+ * 通过计数匹配的容器开/闭来找到关闭 startLine 处容器的 `@end`。
+ *
+ * @param state - parser state / 解析器状态
+ * @param startLine - first line after the container open / 容器开始后的第一行
+ * @param endLine - search boundary / 搜索边界
+ * @param depth - `@` depth of the container / 容器的 `@` 深度
+ * @returns line number of matching `@end`, or endLine if not found / 匹配 `@end` 的行号，未找到则返回 endLine
+ */
+const findMatchingEnd = (
+  state: LayoutStateBlock,
+  startLine: number,
+  endLine: number,
+  depth: number,
+): number => {
+  let nesting = 1;
+
+  for (let line = startLine; line < endLine; line++) {
+    const lineStart = state.bMarks[line] + state.tShift[line];
+    const lineMax = state.eMarks[line];
+
+    if (lineStart >= lineMax) continue;
+    if (state.src.charCodeAt(lineStart) !== AT) continue;
+
+    const dir = detectDirective(state.src, lineStart, lineMax);
+
+    if (!dir || dir.depth !== depth) continue;
+
+    if (dir.kind === "container") nesting++;
+    else if (dir.kind === "end") {
+      nesting--;
+      if (nesting === 0) return line;
+    }
+  }
+
+  return endLine;
+};
+
 const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLine, silent) => {
-  if (!state.env.layoutType || state.level !== state.env.layoutLevel) return false;
+  const ctx = state.env.layout;
+
+  if (!ctx || state.level !== ctx.level) return false;
 
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
@@ -19,20 +62,20 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
   if (
     !directive ||
     directive.kind !== "item" ||
-    directive.type !== state.env.layoutType ||
-    directive.depth !== (state.env.layoutDepth ?? 0)
+    directive.type !== ctx.type ||
+    directive.depth !== ctx.depth
   )
     return false;
 
   if (silent) return true;
 
   const indent = state.sCount[startLine];
-  const currentDepth = state.env.layoutDepth ?? 0;
   const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max);
 
   let nextLine = startLine + 1;
+  let nesting = 0;
 
-  // Search for the next item marker or end of container
+  // Search for the next item marker or end of container, counting nested containers
   for (; nextLine < endLine; nextLine++) {
     const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
     const nextLineMax = state.eMarks[nextLine];
@@ -40,30 +83,27 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
     if (nextLineStart >= nextLineMax) continue;
     if (state.src.charCodeAt(nextLineStart) !== AT) continue;
 
-    // For indent mode, check indent level
-    if (currentDepth === 0 && state.sCount[nextLine] !== indent) continue;
+    const nextDir = detectDirective(state.src, nextLineStart, nextLineMax);
 
-    const nextDirective = detectDirective(state.src, nextLineStart, nextLineMax);
+    if (!nextDir || nextDir.depth !== ctx.depth) continue;
 
-    if (!nextDirective || nextDirective.depth !== currentDepth) continue;
-
-    if (
-      (nextDirective.kind === "item" && nextDirective.type === state.env.layoutType) ||
-      nextDirective.kind === "end"
-    )
+    if (nextDir.kind === "container") {
+      nesting++;
+    } else if (nextDir.kind === "end" && nesting > 0) {
+      nesting--;
+    } else if (nextDir.kind === "item" && nextDir.type === ctx.type && nesting === 0) {
       break;
+    }
   }
 
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
   const oldBlkIndent = state.blkIndent;
-  const oldItemStart = state.env.layoutItemStart;
 
-  // @ts-expect-error: We are creating a new parent type called "layout_item"
+  // @ts-expect-error: custom parent type
   state.parentType = "layout_item";
   state.lineMax = nextLine;
   state.blkIndent = indent;
-  state.env.layoutItemStart = startLine;
 
   const openToken = state.push("layout_item_open", "div", 1);
 
@@ -90,38 +130,9 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
   state.parentType = oldParent;
   state.lineMax = oldLineMax;
   state.blkIndent = oldBlkIndent;
-  state.env.layoutItemStart = oldItemStart;
   state.line = nextLine;
 
   return true;
-};
-
-/**
- * Find the anchor indent for the First-Line Anchor Rule.
- * Scans from itemStart+1 to containerLine (exclusive) to find
- * the first non-empty content line's indentation.
- *
- * @param state - parser state / 解析器状态
- * @param itemStart - start line of the parent item / 父子项的起始行
- * @param containerLine - line of the nested container / 嵌套容器所在行
- * @returns anchor indent, or 0 if no content found / 锚点缩进量，无内容时为 0
- */
-const findAnchorIndent = (
-  state: LayoutStateBlock,
-  itemStart: number,
-  containerLine: number,
-): number => {
-  for (let line = itemStart + 1; line < containerLine; line++) {
-    const lineStart = state.bMarks[line] + state.tShift[line];
-    const lineEnd = state.eMarks[line];
-
-    // Skip empty lines
-    if (lineStart >= lineEnd) continue;
-
-    return state.sCount[line];
-  }
-
-  return 0;
 };
 
 const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLine, silent) => {
@@ -133,34 +144,13 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   if (!directive || directive.kind !== "container") return false;
 
   const depth = directive.depth;
-  const indentNested = state.sCount[startLine];
+  const ctx = state.env.layout;
 
-  if (state.env.layoutType) {
-    // Inside an existing container
-    if (depth > 0) {
-      // Prefix mode: depth must be exactly parent + 1
-      if (depth !== (state.env.layoutDepth ?? 0) + 1) return false;
-    } else {
-      // Indent mode: validate 2-3 relative indent + anchor rule
-      const relativeIndent = indentNested - state.blkIndent;
-
-      if (relativeIndent < 2 || relativeIndent > 3) {
-        // Warn if indent is too small (likely stripped by formatter)
-        if (relativeIndent < 2)
-          // oxlint-disable-next-line no-console
-          console.warn(
-            `[layout] Nested container at line ${startLine + 1} has insufficient indent. ` +
-              `Use prefix mode (@@) or add <!-- prettier-ignore --> around the block.`,
-          );
-
-        return false;
-      }
-
-      // Check anchor: indent must be >= first content line's indent
-      const anchorIndent = findAnchorIndent(state, state.env.layoutItemStart, startLine);
-
-      if (indentNested < anchorIndent) return false;
-    }
+  // Validate depth consistency
+  if (ctx) {
+    // Inside an existing container: prefix depth must be parent + 1, or 0 (same)
+    if (depth > 0 && depth !== ctx.depth + 1) return false;
+    if (depth === 0 && ctx.depth > 0) return false;
   } else if (depth > 0) {
     // Top level: only depth 0 allowed
     return false;
@@ -168,42 +158,19 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   if (silent) return true;
 
+  const indent = state.sCount[startLine];
   const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max);
-
-  let nextLine = startLine + 1;
-
-  // Search for the matching @end
-  for (; nextLine < endLine; nextLine++) {
-    const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
-    const nextLineMax = state.eMarks[nextLine];
-
-    if (nextLineStart >= nextLineMax) continue;
-    if (state.src.charCodeAt(nextLineStart) !== AT) continue;
-
-    const nextDirective = detectDirective(state.src, nextLineStart, nextLineMax);
-
-    if (!nextDirective || nextDirective.kind !== "end") continue;
-
-    if (depth > 0) {
-      // Prefix mode: match by depth
-      if (nextDirective.depth === depth) break;
-    } else if (state.sCount[nextLine] === indentNested && nextDirective.depth === 0) {
-      // Indent mode: match by indent and depth 0
-      break;
-    }
-  }
+  const nextLine = findMatchingEnd(state, startLine + 1, endLine, depth);
 
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
   const oldBlkIndent = state.blkIndent;
-  const oldLayoutType = state.env.layoutType;
-  const oldLayoutLevel = state.env.layoutLevel;
-  const oldLayoutDepth = state.env.layoutDepth;
+  const oldLayout = state.env.layout;
 
-  // @ts-expect-error: We are creating a new parent type called "layout_container"
+  // @ts-expect-error: custom parent type
   state.parentType = "layout_container";
   state.lineMax = nextLine;
-  state.blkIndent = indentNested;
+  state.blkIndent = indent;
 
   const openToken = state.push("layout_container_open", "div", 1);
 
@@ -216,15 +183,11 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
     utilities: parsedAttrs.utilities,
   } satisfies LayoutMeta;
 
-  state.env.layoutType = directive.type;
-  state.env.layoutLevel = state.level;
-  state.env.layoutDepth = depth;
+  state.env.layout = { type: directive.type, level: state.level, depth };
 
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
-  state.env.layoutType = oldLayoutType;
-  state.env.layoutLevel = oldLayoutLevel;
-  state.env.layoutDepth = oldLayoutDepth;
+  state.env.layout = oldLayout;
 
   const closeToken = state.push("layout_container_close", "div", -1);
 
@@ -289,8 +252,8 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
       if (meta.type === LAYOUT_COLUMN && meta.classes.includes("span-all"))
         styleParts.push("column-span:all");
 
-      for (let i = 0; i < meta.utilities.length; i++) {
-        const style = resolveUtility(meta.utilities[i]);
+      for (let idx = 0; idx < meta.utilities.length; idx++) {
+        const style = resolveUtility(meta.utilities[idx]);
 
         if (style) styleParts.push(style);
       }

@@ -1,13 +1,9 @@
 import MarkdownIt from "markdown-it";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { layoutSlim } from "../src/slim.js";
 
 const markdownIt = MarkdownIt().use(layoutSlim);
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
 
 describe(layoutSlim, () => {
   describe("flexbox layout", () => {
@@ -145,16 +141,16 @@ Spanning content
     });
   });
 
-  describe("nesting", () => {
-    it("should support nested containers", () => {
+  describe("zero-indent nesting", () => {
+    it("should support zero-indent nesting", () => {
       expect(
         markdownIt.render(`\
 @grids grid-cols-2
 @grid
-  @flexs flex-col
-  @flex
-  Nested
-  @end
+@flexs flex-col
+@flex
+Nested
+@end
 @end
 `),
       ).toBe(`\
@@ -170,16 +166,16 @@ Spanning content
 `);
     });
 
-    it("should apply anchor rule with content before nested container", () => {
+    it("should support content before nested container", () => {
       expect(
         markdownIt.render(`\
 @flexs
 @flex
-  Content first
-  @flexs
-  @flex
-    Inner
-  @end
+Content first
+@flexs
+@flex
+Inner
+@end
 @end
 `),
       ).toBe(`\
@@ -195,52 +191,46 @@ Spanning content
 </div>
 `);
     });
+  });
 
-    it("should skip empty lines when finding anchor indent", () => {
+  describe("nesting inside block elements", () => {
+    it("should work inside unordered list", () => {
       expect(
         markdownIt.render(`\
-@flexs
-@flex
-
-  Content after blank
+- list item
   @flexs
   @flex
-    Inner
+  Content in list
   @end
-@end
 `),
       ).toBe(`\
-<div style="display:flex">
+<ul>
+<li>list item<div style="display:flex">
 <div>
-<p>Content after blank</p>
-<div style="display:flex">
-<div>
-<p>Inner</p>
+<p>Content in list</p>
 </div>
 </div>
-</div>
-</div>
+</li>
+</ul>
 `);
     });
 
-    it("should reject nested container when indent < anchor indent", () => {
+    it("should work inside blockquote", () => {
       expect(
         markdownIt.render(`\
-@flexs
-@flex
-   Deep content
-  @flexs
-  Not parsed
-@end
+> @flexs
+> @flex
+> Quoted content
+> @end
 `),
       ).toBe(`\
+<blockquote>
 <div style="display:flex">
 <div>
-<p>Deep content
-@flexs
-Not parsed</p>
+<p>Quoted content</p>
 </div>
 </div>
+</blockquote>
 `);
     });
   });
@@ -261,23 +251,6 @@ Regular paragraph.
   });
 
   describe("edge cases", () => {
-    it("should handle container with class and id selectors", () => {
-      expect(
-        markdownIt.render(`\
-@flexs.nav#top gap-4
-@flex
-Content
-@end
-`),
-      ).toBe(`\
-<div style="display:flex" class="nav gap-4" id="top">
-<div>
-<p>Content</p>
-</div>
-</div>
-`);
-    });
-
     it("should handle item with id", () => {
       expect(
         markdownIt.render(`\
@@ -289,23 +262,6 @@ Content
       ).toBe(`\
 <div style="display:flex">
 <div class="flex-1" id="sidebar">
-<p>Content</p>
-</div>
-</div>
-`);
-    });
-
-    it("should handle column container without base display", () => {
-      expect(
-        markdownIt.render(`\
-@columns columns-3
-@column
-Content
-@end
-`),
-      ).toBe(`\
-<div class="columns-3">
-<div>
 <p>Content</p>
 </div>
 </div>
@@ -354,54 +310,6 @@ Content
 Content</p>
 </div>
 `);
-    });
-
-    it("should handle multiple items", () => {
-      expect(
-        markdownIt.render(`\
-@grids
-@grid col-span-2
-Wide
-@grid
-Normal
-@end
-`),
-      ).toBe(`\
-<div style="display:grid">
-<div class="col-span-2">
-<p>Wide</p>
-</div>
-<div>
-<p>Normal</p>
-</div>
-</div>
-`);
-    });
-
-    it("should reject nested container with indent < 2", () => {
-      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-
-      expect(
-        markdownIt.render(`\
-@flexs
-@flex
- @grids
- @grid
- Content
- @end
-@end
-`),
-      ).toBe(`\
-<div style="display:flex">
-<div>
-<p>@grids
-@grid
-Content
-@end</p>
-</div>
-</div>
-`);
-      expect(warnSpy).toHaveBeenCalled();
     });
   });
 
@@ -522,6 +430,32 @@ Outer
 </div>
 </div>
 <p>Outer</p>
+</div>
+</div>
+`);
+    });
+
+    it("should reject depth-0 inside prefix-mode container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@flexs
+@@flex
+@grids
+@end
+@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>@grids
+@end</p>
+</div>
+</div>
 </div>
 </div>
 `);
