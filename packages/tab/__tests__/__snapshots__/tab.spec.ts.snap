@@ -607,6 +607,42 @@ exports[`tab > nesting > should support nesting with others 2`] = `
 "
 `;
 
+exports[`tab > should handle auto-close 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should handle auto-close 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test1</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">test2</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text 1.</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>A <strong>bold</strong> text 2.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
 exports[`tab > should ignore other markers 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">

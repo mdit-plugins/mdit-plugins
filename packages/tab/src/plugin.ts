@@ -64,7 +64,6 @@ const getTabRule =
 
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
-    const indent = state.sCount[startLine];
 
     const tabMatch = checkTabMarker(state, start, max);
 
@@ -73,8 +72,8 @@ const getTabRule =
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
+    const indent = state.sCount[startLine];
     let nextLine = startLine + 1;
-    let autoClosed = false;
 
     // Search for the end of the block
     for (
@@ -97,7 +96,6 @@ const getTabRule =
         checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
       ) {
         // found!
-        autoClosed = true;
         break;
       }
     }
@@ -110,7 +108,7 @@ const getTabRule =
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -143,13 +141,14 @@ const getTabRule =
     let title;
     let id = "";
 
-    const hasId = pos !== infoStart;
-
-    if (hasId) {
+    // no id
+    if (pos === infoStart) {
+      title = state.src.slice(infoStart, infoEnd);
+    }
+    // id found
+    else {
       id = state.src.slice(state.skipSpaces(pos + 1), infoEnd);
       title = state.src.slice(infoStart, state.skipSpacesBack(pos, infoStart));
-    } else {
-      title = state.src.slice(infoStart, infoEnd);
     }
 
     openToken.block = true;
@@ -161,9 +160,9 @@ const getTabRule =
     // oxlint-disable-next-line typescript/no-unsafe-member-access
     if (id) openToken.meta.id = id;
 
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine];
 
-    state.md.block.tokenize(state, startLine + 1, nextLine + (autoClosed ? 0 : 1));
+    state.md.block.tokenize(state, startLine + 1, nextLine);
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -173,7 +172,7 @@ const getTabRule =
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
     state.blkIndent = oldBlkIndent;
-    state.line = nextLine + (autoClosed ? 0 : 1);
+    state.line = nextLine;
 
     return true;
   };
@@ -182,13 +181,12 @@ const getTabsRule =
   (name: string): RuleBlock =>
   (state: TabStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
-    const max = state.eMarks[startLine];
-    const indent = state.sCount[startLine];
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
     if (state.src.charCodeAt(start) !== 58 /* : */) return false;
 
+    const max = state.eMarks[startLine];
     let pos = start + 1;
 
     // Check out the rest of the marker string
@@ -211,24 +209,24 @@ const getTabsRule =
       pos++;
     }
 
-    let hasId = false;
-    let char: number;
+    let idStart = 0;
+    let charCode: number;
 
     while (pos !== max) {
-      char = state.src.charCodeAt(pos++);
-      if (char === 35 /* # */) {
-        hasId = true;
+      charCode = state.src.charCodeAt(pos++);
+      if (charCode === 35 /* # */) {
+        idStart = pos;
         break;
       }
-      if (!state.md.utils.isSpace(char)) return false;
+      if (!state.md.utils.isSpace(charCode)) return false;
     }
 
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
+    const indent = state.sCount[startLine];
     let nextLine = startLine + 1;
     let autoClosed = false;
-    let idStart = pos;
 
     // Search for the end of the block
     for (
@@ -283,7 +281,7 @@ const getTabsRule =
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -291,7 +289,7 @@ const getTabsRule =
     const markup = ":".repeat(markerCount);
     let id = "";
 
-    if (hasId) {
+    if (idStart) {
       idStart = state.skipSpaces(idStart);
       const idEnd = state.skipSpacesBack(max, idStart);
 
@@ -304,12 +302,12 @@ const getTabsRule =
     openToken.block = true;
     openToken.info = name;
     openToken.meta = { id };
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine + (autoClosed ? 1 : 0)];
 
     state.env.tabName = name;
     state.env.tabLevel = state.level;
 
-    state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
+    state.md.block.tokenize(state, startLine + 1, nextLine);
 
     state.env.tabName = oldName;
     state.env.tabLevel = oldLevel;

@@ -919,4 +919,65 @@ To declare tabs, use the following syntax:
       expect(result).not.toContain('data-tab="1"');
     });
   });
+
+  it("should handle auto-close", () => {
+    const sources = [
+      `
+::: tabs
+@tab test1
+A **bold** text 1.
+@tab test2
+A **bold** text 2.
+`,
+      `
+::: tabs
+
+@tab test1
+
+A **bold** text 1.
+
+@tab test2
+
+A **bold** text 2.
+`,
+    ];
+    const closedSources = [
+      `
+::: tabs
+@tab test1
+A **bold** text 1.
+@tab test2
+A **bold** text 2.
+:::
+`,
+      `
+::: tabs
+
+@tab test1
+
+A **bold** text 1.
+
+@tab test2
+
+A **bold** text 2.
+
+:::
+`,
+    ];
+
+    sources.forEach((item, index) => {
+      const result = markdownIt.render(item);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toBe(markdownIt.render(closedSources[index]));
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="0">test1</button>',
+      );
+      expect(result).toContain(
+        '<button type="button" class="tabs-tab-button" data-tab="1">test2</button>',
+      );
+      expect(result).toContain("<p>A <strong>bold</strong> text 1.</p>");
+      expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
+    });
+  });
 });
