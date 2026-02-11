@@ -328,7 +328,7 @@ A line with break
 
 :::
 
-<style scope>
+<style scoped>
 .block,
 .break,
 .horizontal,
