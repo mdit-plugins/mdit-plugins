@@ -311,6 +311,47 @@ Content</p>
 </div>
 `);
     });
+
+    it("should handle empty lines between items", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+A
+
+@flex
+B
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+<div>
+<p>B</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle empty lines between container and end", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Content
+
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
   });
 
   describe("prefix-based nesting (@@)", () => {
@@ -456,6 +497,29 @@ Outer
 @end</p>
 </div>
 </div>
+</div>
+</div>
+`);
+    });
+
+    it("should reject skipped depth (@@@ directly inside depth-0)", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@@@flexs
+@@@flex
+Content
+@@@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>@@@flexs
+@@@flex
+Content
+@@@end</p>
 </div>
 </div>
 `);

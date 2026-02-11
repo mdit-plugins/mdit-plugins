@@ -160,8 +160,17 @@ describe(resolveUtility, () => {
 
     it("should return empty string for parameterized utilities with non-numeric values", () => {
       expect(resolveUtility("gap-abc")).toBe("");
+      expect(resolveUtility("gap-x-abc")).toBe("");
+      expect(resolveUtility("gap-y-abc")).toBe("");
       expect(resolveUtility("grid-cols-abc")).toBe("");
+      expect(resolveUtility("grid-rows-abc")).toBe("");
       expect(resolveUtility("col-span-xyz")).toBe("");
+      expect(resolveUtility("col-start-abc")).toBe("");
+      expect(resolveUtility("col-end-abc")).toBe("");
+      expect(resolveUtility("row-span-abc")).toBe("");
+      expect(resolveUtility("row-start-abc")).toBe("");
+      expect(resolveUtility("row-end-abc")).toBe("");
+      expect(resolveUtility("columns-abc")).toBe("");
       expect(resolveUtility("order-abc")).toBe("");
     });
   });

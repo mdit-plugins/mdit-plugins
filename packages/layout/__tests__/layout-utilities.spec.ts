@@ -236,6 +236,23 @@ A
 </div>
 `);
       });
+
+      it("should ignore unrecognized utilities on items in inline mode", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+@flex unknown-item-class
+A
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+</div>
+`);
+      });
     });
   });
 });
