@@ -15,7 +15,6 @@ const parseNumber = (
   pos: number,
   max: number,
 ): { ok: boolean; pos: number; value: string } => {
-  let char: number;
   const start = pos;
   const result = {
     ok: false,
@@ -23,11 +22,11 @@ const parseNumber = (
     value: "",
   };
 
-  char = str.charCodeAt(pos);
+  let charCode = str.charCodeAt(pos);
 
-  while ((pos < max && char >= 48 /* 0 */ && char <= 57) /* 9 */ || char === 37 /* % */)
+  while ((pos < max && charCode >= 48 /* 0 */ && charCode <= 57) /* 9 */ || charCode === 37 /* % */)
     // oxlint-disable-next-line no-param-reassign
-    char = str.charCodeAt(++pos);
+    charCode = str.charCodeAt(++pos);
 
   result.ok = true;
   result.pos = pos;
@@ -97,7 +96,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
   if (labelEnd < 0) return false;
 
   let pos = labelEnd + 1;
-  let char: number;
+  let charCode: number;
 
   let href = "";
   let title = "";
@@ -192,8 +191,8 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     // [foo]  [bar]
     //      ^^ optional whitespace (can include newlines)
     for (; pos < max; pos++) {
-      char = state.src.charCodeAt(pos);
-      if (char !== 32 /* space */ && char !== 9 /* \t */) break;
+      charCode = state.src.charCodeAt(pos);
+      if (charCode !== 32 /* space */ && charCode !== 9 /* \t */) break;
     }
 
     if (pos < max && state.src.charCodeAt(pos) === 91 /* [ */) {

@@ -259,7 +259,6 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
 const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
   const start = state.pos;
   const max = state.posMax;
-  let char: number;
 
   if (
     // should be at least 4 chars - "[^x]"
@@ -271,12 +270,13 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
     return false;
 
   let pos = start + 2;
+  let charCode: number;
 
   while (pos < max) {
-    char = state.src.charCodeAt(pos);
-    if (char === 32 /* space */ || char === 10 /* \n */) return false;
+    charCode = state.src.charCodeAt(pos);
+    if (charCode === 32 /* space */ || charCode === 10 /* \n */) return false;
 
-    if (char === 93 /* ] */) break;
+    if (charCode === 93 /* ] */) break;
 
     pos++;
   }
