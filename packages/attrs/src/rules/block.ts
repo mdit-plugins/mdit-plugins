@@ -3,9 +3,9 @@ import type MarkdownIt from "markdown-it";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
-export const getBlockRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+export const createBlockRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
   /**
@@ -20,7 +20,7 @@ export const getBlockRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
         children: [
           {
             position: -1,
-            content: getDelimiterChecker(options, "end"),
+            content: createDelimiterChecker(options, "end"),
             type: (type) => type !== "code_inline" && type !== "math_inline",
           },
         ],

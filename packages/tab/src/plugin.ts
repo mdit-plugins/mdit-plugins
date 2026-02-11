@@ -57,7 +57,7 @@ const checkTabMarker = (
   return false;
 };
 
-const getTabRule =
+const createTabItemRule =
   (name: string): RuleBlock =>
   (state: TabStateBlock, startLine, endLine, silent) => {
     if (state.env.tabName !== name || state.level !== state.env.tabLevel) return false;
@@ -179,7 +179,7 @@ const getTabRule =
     return true;
   };
 
-const getTabsRule =
+const createTabContainerRule =
   (name: string): RuleBlock =>
   (state: TabStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
@@ -327,7 +327,7 @@ const getTabsRule =
     return true;
   };
 
-const getTabsDataGetter =
+const createTabsDataGetter =
   (name: string): ((tokens: Token[], index: number) => MarkdownItTabInfo) =>
   (tokens: Token[], index: number) => {
     const data: MarkdownItTabData[] = [];
@@ -485,13 +485,13 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 `,
   } = options ?? {};
 
-  const tabsDataGetter = getTabsDataGetter(name);
+  const tabsDataGetter = createTabsDataGetter(name);
 
-  md.block.ruler.before("fence", `${name}_tabs`, getTabsRule(name), {
+  md.block.ruler.before("fence", `${name}_tabs`, createTabContainerRule(name), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.block.ruler.before("paragraph", `${name}_tab`, getTabRule(name), {
+  md.block.ruler.before("paragraph", `${name}_tab`, createTabItemRule(name), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 

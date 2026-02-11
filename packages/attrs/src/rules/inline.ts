@@ -1,9 +1,9 @@
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
-export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
+export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
   /**
    * bla `click()`{.c} ![](img.png){.d}
    *
@@ -25,7 +25,7 @@ export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
           {
             shift: 0,
             type: "text",
-            content: getDelimiterChecker(options, "start"),
+            content: createDelimiterChecker(options, "start"),
           },
         ],
       },
@@ -62,7 +62,7 @@ export const getInlineRules = (options: DelimiterConfig): AttrRule[] => [
           {
             shift: 0,
             type: "text",
-            content: getDelimiterChecker(options, "start"),
+            content: createDelimiterChecker(options, "start"),
           },
         ],
       },

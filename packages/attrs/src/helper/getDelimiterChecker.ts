@@ -10,7 +10,7 @@ import type { DelimiterChecker } from "../rules/types.js";
  * @param where - Position for matching: start, end, or only / 匹配位置：开始、结束或仅匹配
  * @returns A function that checks if content matches the delimiter pattern / 检查内容是否匹配分隔符模式的函数
  */
-export const getDelimiterChecker = (
+export const createDelimiterChecker = (
   options: DelimiterConfig,
   where: "start" | "end" | "only",
 ): DelimiterChecker => {

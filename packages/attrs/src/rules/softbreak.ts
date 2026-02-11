@@ -1,9 +1,9 @@
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
-import { addAttrs, getDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 
-export const getSoftBreakRule = (options: DelimiterConfig): AttrRule =>
+export const createSoftBreakRule = (options: DelimiterConfig): AttrRule =>
   defineAttrRule({
     /**
      * something with softbreak
@@ -23,7 +23,7 @@ export const getSoftBreakRule = (options: DelimiterConfig): AttrRule =>
           {
             position: -1,
             type: "text",
-            content: getDelimiterChecker(options, "only"),
+            content: createDelimiterChecker(options, "only"),
           },
         ],
       },

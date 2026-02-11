@@ -173,7 +173,7 @@ const a = 1;
 
 :::
 
-<style scope>
+<style scoped>
 .block,
 .break,
 .horizontal,

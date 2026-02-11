@@ -64,7 +64,7 @@ const findRegion = (
   return null;
 };
 
-const getSnippetRule =
+const createSnippetRule =
   (
     currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
     resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
@@ -122,7 +122,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
   if (typeof currentPath !== "function")
     throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
 
-  md.block.ruler.before("fence", "snippet", getSnippetRule(currentPath, resolvePath));
+  md.block.ruler.before("fence", "snippet", createSnippetRule(currentPath, resolvePath));
 
   // oxlint-disable-next-line typescript/no-non-null-assertion
   const originalFence = md.renderer.rules.fence!;
