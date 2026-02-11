@@ -25,7 +25,7 @@ const createLinearRule = (config: LinearRuleConfig): RuleInline => {
     const max = state.posMax;
     const start = state.pos;
 
-    if (state.src.charCodeAt(start) !== markerCode || silent || start + 2 * markerLength > max)
+    if (state.src.charCodeAt(start) !== markerCode || silent || start + 2 * markerLength >= max)
       return false;
 
     // For double markers, check second char matches
