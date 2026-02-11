@@ -84,7 +84,7 @@ Content
       expect(
         markdownIt.render(`\
 @flexs
-@flex.flex-1
+@flex.sidebar
 Content A
 @flex flex-none
 Content B
@@ -92,7 +92,7 @@ Content B
 `),
       ).toBe(`\
 <div style="display:flex">
-<div class="flex-1">
+<div class="sidebar">
 <p>Content A</p>
 </div>
 <div style="flex:none">

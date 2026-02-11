@@ -580,7 +580,7 @@ const getItemRule =
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
 
-    // @ts-expect-error: custom parent type
+    // @ts-expect-error: We are creating a new parent type called "layout_item"
     state.parentType = "layout_item";
     state.lineMax = nextLine;
     state.blkIndent = indent;
@@ -661,7 +661,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   const oldLayoutType = state.env.layoutType;
   const oldLayoutLevel = state.env.layoutLevel;
 
-  // @ts-expect-error: custom parent type
+  // @ts-expect-error: We are creating a new parent type called "layout_container"
   state.parentType = "layout_container";
   state.lineMax = nextLine;
   state.blkIndent = indent;
