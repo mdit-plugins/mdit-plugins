@@ -786,6 +786,30 @@ Nested content
 `);
     });
 
+    it("should support nesting the same container type (e.g. @flex inside @flex)", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+@flexs
+@flex
+Nested content
+@end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
     it("should handle multiple levels of zero-indent nesting", () => {
       expect(
         markdownIt.render(`\
