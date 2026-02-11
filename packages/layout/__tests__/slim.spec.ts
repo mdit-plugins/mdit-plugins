@@ -165,6 +165,80 @@ Spanning content
 </div>
 `);
     });
+
+    it("should apply anchor rule with content before nested container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+  Content first
+  @flexs
+  @flex
+    Inner
+  @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content first</p>
+<div style="display:flex">
+<div>
+<p>Inner</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should skip empty lines when finding anchor indent", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+
+  Content after blank
+  @flexs
+  @flex
+    Inner
+  @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content after blank</p>
+<div style="display:flex">
+<div>
+<p>Inner</p>
+</div>
+</div>
+</div>
+</div>
+`);
+    });
+
+    it("should reject nested container when indent < anchor indent", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+   Deep content
+  @flexs
+  Not parsed
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Deep content
+@flexs
+Not parsed</p>
+</div>
+</div>
+`);
+    });
   });
 
   describe("non-layout content", () => {
@@ -178,6 +252,148 @@ Regular paragraph.
       ).toBe(`\
 <h1>Heading</h1>
 <p>Regular paragraph.</p>
+`);
+    });
+  });
+
+  describe("edge cases", () => {
+    it("should handle container with class and id selectors", () => {
+      expect(
+        markdownIt.render(`\
+@flexs.nav#top gap-4
+@flex
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex" class="nav gap-4" id="top">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle item with id", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex#sidebar flex-1
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div class="flex-1" id="sidebar">
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle column container without base display", () => {
+      expect(
+        markdownIt.render(`\
+@columns columns-3
+@column
+Content
+@end
+`),
+      ).toBe(`\
+<div class="columns-3">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle auto-closing at end of document", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Content
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
+    it("should handle empty container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+</div>
+`);
+    });
+
+    it("should not match grid items inside flex container", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@grid
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<p>@grid
+Content</p>
+</div>
+`);
+    });
+
+    it("should handle multiple items", () => {
+      expect(
+        markdownIt.render(`\
+@grids
+@grid col-span-2
+Wide
+@grid
+Normal
+@end
+`),
+      ).toBe(`\
+<div style="display:grid">
+<div class="col-span-2">
+<p>Wide</p>
+</div>
+<div>
+<p>Normal</p>
+</div>
+</div>
+`);
+    });
+
+    it("should reject nested container with indent < 2", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+ @grids
+ @grid
+ Content
+ @end
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>@grids
+@grid
+Content
+@end</p>
+</div>
+</div>
 `);
     });
   });

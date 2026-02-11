@@ -1,6 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { buildStyleString, parseNumber, resolveUtility } from "../src/utilities.js";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe(resolveUtility, () => {
   describe("static utilities", () => {
@@ -111,18 +115,12 @@ describe(resolveUtility, () => {
     });
 
     it("should resolve grid-cols-{n}", () => {
-      expect(resolveUtility("grid-cols-3")).toBe(
-        "grid-template-columns:repeat(3,minmax(0,1fr))",
-      );
-      expect(resolveUtility("grid-cols-12")).toBe(
-        "grid-template-columns:repeat(12,minmax(0,1fr))",
-      );
+      expect(resolveUtility("grid-cols-3")).toBe("grid-template-columns:repeat(3,minmax(0,1fr))");
+      expect(resolveUtility("grid-cols-12")).toBe("grid-template-columns:repeat(12,minmax(0,1fr))");
     });
 
     it("should resolve grid-rows-{n}", () => {
-      expect(resolveUtility("grid-rows-2")).toBe(
-        "grid-template-rows:repeat(2,minmax(0,1fr))",
-      );
+      expect(resolveUtility("grid-rows-2")).toBe("grid-template-rows:repeat(2,minmax(0,1fr))");
     });
 
     it("should resolve col-span-{n}", () => {
@@ -177,9 +175,7 @@ describe(buildStyleString, () => {
   });
 
   it("should build style from utilities without base display", () => {
-    expect(buildStyleString(["gap-4", "items-center"], "")).toBe(
-      "gap:1rem;align-items:center",
-    );
+    expect(buildStyleString(["gap-4", "items-center"], "")).toBe("gap:1rem;align-items:center");
   });
 
   it("should return base display only when no utilities resolve", () => {
@@ -190,20 +186,25 @@ describe(buildStyleString, () => {
     expect(buildStyleString([], "")).toBe("");
   });
 
-  it("should skip unrecognized utilities", () => {
-    expect(buildStyleString(["unknown", "gap-4"], "display:flex")).toBe(
-      "display:flex;gap:1rem",
-    );
+  it("should skip unrecognized utilities and warn", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    expect(buildStyleString(["unknown", "gap-4"], "display:flex")).toBe("display:flex;gap:1rem");
+    expect(warnSpy).toHaveBeenCalledWith(`[layout] Unrecognized utility "unknown" ignored.`);
   });
 
   it("should handle all unrecognized utilities with base display", () => {
-    expect(buildStyleString(["unknown", "nope"], "display:flex")).toBe(
-      "display:flex",
-    );
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    expect(buildStyleString(["unknown", "nope"], "display:flex")).toBe("display:flex");
+    expect(warnSpy).toHaveBeenCalledTimes(2);
   });
 
   it("should handle all unrecognized utilities without base display", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
     expect(buildStyleString(["unknown", "nope"], "")).toBe("");
+    expect(warnSpy).toHaveBeenCalledTimes(2);
   });
 });
 

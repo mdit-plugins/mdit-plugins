@@ -34,7 +34,7 @@ export const matchString = (src: string, pos: number, target: string): boolean =
  * @returns whether it's a valid boundary / 是否是有效的边界
  */
 export const isDirectiveBoundary = (code: number): boolean =>
-  Number.isNaN(code) || code === DOT || code === HASH || code === SPACE;
+  code === DOT || code === HASH || code === SPACE;
 
 /**
  * Detect the type of layout directive at the given position.

@@ -49,7 +49,7 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Nested containers must be indented by 2 or 3 spaces. The indentation must be at least as deep as the first content line inside the parent item (First-Line Anchor Rule):
+Nested containers must be indented by 2 or 3 spaces:
 
 ```md
 @grids grid-cols-2
@@ -63,14 +63,6 @@ Nested content
 Outer content
 @end
 ```
-
-::: warning Indentation Rules
-
-- Nested container indent must be **2 or 3 spaces**
-- Indent must be **≥ the first content line's indent** inside the item
-- **4+ spaces** triggers a Markdown code block (CommonMark)
-
-:::
 
 ## Supported Utilities
 
@@ -111,20 +103,26 @@ Outer content
 
 ## Options
 
-The default bundle (`@mdit/plugin-layout`) converts utility classes to inline CSS styles. For use with Tailwind CSS or custom stylesheets, use the slim bundle:
-
 ```ts
-import MarkdownIt from "markdown-it";
-import { layoutSlim } from "@mdit/plugin-layout/slim";
-
-const mdIt = MarkdownIt().use(layoutSlim);
+interface MarkdownItLayoutOptions {
+  /**
+   * Whether to convert utility classes to inline CSS styles.
+   *
+   * @default true
+   */
+  inlineStyles?: boolean;
+}
 ```
 
-The slim bundle passes utilities as CSS class names instead of converting them to inline styles.
+When `inlineStyles` is `true` (default), utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
+
+A slim bundle without the utility conversion is also available:
+
+```ts
+import { layoutSlim } from "@mdit/plugin-layout/slim";
+```
 
 ## Demo
-
-### Flexbox Layout
 
 ```md
 @flexs gap-4 items-center
@@ -133,54 +131,12 @@ The slim bundle passes utilities as CSS class names instead of converting them t
 ### Left Column
 
 This content grows to fill available space.
+
 @flex
 
 ### Right Column
 
 This content takes its natural width.
-@end
-```
 
-### Grid Layout
-
-```md
-@grids.gallery grid-cols-3 gap-8
-@grid
-
-### Item 1
-
-Standard content.
-@grid col-span-2
-
-### Item 2
-
-This item spans two columns.
-@grid
-
-### Item 3
-
-More content.
-@end
-```
-
-### Multi-column Layout
-
-```md
-@columns columns-3 gap-6
-@column
-
-# Introduction
-
-Text flows naturally.
-@column.span-all
-
-## Spanning Heading
-
-This heading spans all columns.
-@column
-
-# Conclusion
-
-Final notes.
 @end
 ```

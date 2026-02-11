@@ -15,8 +15,8 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
 
   const directive = detectDirective(state.src, start, max);
 
-  if (!directive || directive.kind !== "item") return false;
-  if (directive.type !== state.env.layoutType) return false;
+  if (!directive || directive.kind !== "item" || directive.type !== state.env.layoutType)
+    return false;
 
   if (silent) return true;
 
@@ -201,7 +201,9 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   return true;
 };
 
-export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
+export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) => {
+  const { inlineStyles = true } = options ?? {};
+
   md.block.ruler.before("fence", "layout_container", getContainerRule(), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
@@ -216,16 +218,22 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
     const meta = token.meta as LayoutMeta;
     const attrs: string[] = [];
 
-    // Build style
-    const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
-    const style = buildStyleString(meta.utilities, baseDisplay);
+    if (inlineStyles) {
+      const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
+      const style = buildStyleString(meta.utilities, baseDisplay);
 
-    if (style) attrs.push(`style="${style}"`);
+      if (style) attrs.push(`style="${style}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
+    } else {
+      const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
 
-    // Add classes
-    if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
+      if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
 
-    // Add id
+      const classNames = [...meta.classes, ...meta.utilities];
+
+      if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
+    }
+
     if (meta.id) attrs.push(`id="${meta.id}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
@@ -240,25 +248,26 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md) => {
     const meta = token.meta as LayoutMeta;
     const attrs: string[] = [];
 
-    // Build style
-    const styleParts: string[] = [];
+    if (inlineStyles) {
+      const styleParts: string[] = [];
 
-    // Handle .span-all for column items
-    if (meta.type === LAYOUT_COLUMN && meta.classes.includes("span-all"))
-      styleParts.push("column-span:all");
+      if (meta.type === LAYOUT_COLUMN && meta.classes.includes("span-all"))
+        styleParts.push("column-span:all");
 
-    for (let i = 0; i < meta.utilities.length; i++) {
-      const style = resolveUtility(meta.utilities[i]);
+      for (let i = 0; i < meta.utilities.length; i++) {
+        const style = resolveUtility(meta.utilities[i]);
 
-      if (style) styleParts.push(style);
+        if (style) styleParts.push(style);
+      }
+
+      if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
+    } else {
+      const classNames = [...meta.classes, ...meta.utilities];
+
+      if (classNames.length > 0) attrs.push(`class="${classNames.join(" ")}"`);
     }
 
-    if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
-
-    // Add classes
-    if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
-
-    // Add id
     if (meta.id) attrs.push(`id="${meta.id}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;

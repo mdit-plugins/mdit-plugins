@@ -49,7 +49,7 @@ mdIt.render(`\
 
 ### 嵌套
 
-嵌套容器必须缩进 2 或 3 个空格。缩进量必须不小于父子项内第一行内容的缩进量（首行锚定法）:
+嵌套容器必须缩进 2 或 3 个空格:
 
 ```md
 @grids grid-cols-2
@@ -63,14 +63,6 @@ mdIt.render(`\
 外层内容
 @end
 ```
-
-::: warning 缩进规则
-
-- 嵌套容器缩进必须为 **2 或 3 个空格**
-- 缩进必须 **≥ 子项内第一行内容的缩进量**
-- **4 个及以上空格** 会触发 Markdown 代码块（CommonMark）
-
-:::
 
 ## 支持的工具类
 
@@ -111,20 +103,26 @@ mdIt.render(`\
 
 ## 选项
 
-默认包（`@mdit/plugin-layout`）将工具类转换为内联 CSS 样式。如需配合 Tailwind CSS 或自定义样式表使用，请使用精简包:
-
 ```ts
-import MarkdownIt from "markdown-it";
-import { layoutSlim } from "@mdit/plugin-layout/slim";
-
-const mdIt = MarkdownIt().use(layoutSlim);
+interface MarkdownItLayoutOptions {
+  /**
+   * 是否将工具类转换为内联 CSS 样式。
+   *
+   * @default true
+   */
+  inlineStyles?: boolean;
+}
 ```
 
-精简包将工具类作为 CSS 类名传递，而不是转换为内联样式。
+当 `inlineStyles` 为 `true`（默认值）时，工具类会被转换为内联 CSS 样式。为 `false` 时，工具类会作为 CSS 类名添加，可配合 Tailwind CSS 或自定义样式表使用。
+
+精简包不含工具类转换功能:
+
+```ts
+import { layoutSlim } from "@mdit/plugin-layout/slim";
+```
 
 ## 示例
-
-### 弹性盒布局
 
 ```md
 @flexs gap-4 items-center
@@ -133,54 +131,12 @@ const mdIt = MarkdownIt().use(layoutSlim);
 ### 左列
 
 此内容会增长以填充可用空间。
+
 @flex
 
 ### 右列
 
 此内容使用其自然宽度。
-@end
-```
 
-### 网格布局
-
-```md
-@grids.gallery grid-cols-3 gap-8
-@grid
-
-### 项目 1
-
-标准内容。
-@grid col-span-2
-
-### 项目 2
-
-此项目跨越两列。
-@grid
-
-### 项目 3
-
-更多内容。
-@end
-```
-
-### 多列布局
-
-```md
-@columns columns-3 gap-6
-@column
-
-# 简介
-
-文本自然流动。
-@column.span-all
-
-## 跨列标题
-
-此标题跨越所有列。
-@column
-
-# 总结
-
-最后的说明。
 @end
 ```

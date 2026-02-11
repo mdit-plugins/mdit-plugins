@@ -39,8 +39,8 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
 
   const directive = detectDirective(state.src, start, max);
 
-  if (!directive || directive.kind !== "item") return false;
-  if (directive.type !== state.env.layoutType) return false;
+  if (!directive || directive.kind !== "item" || directive.type !== state.env.layoutType)
+    return false;
 
   if (silent) return true;
 

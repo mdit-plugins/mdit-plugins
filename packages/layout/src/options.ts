@@ -1,2 +1,10 @@
-// oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type
-export interface MarkdownItLayoutOptions {}
+export interface MarkdownItLayoutOptions {
+  /**
+   * Whether to convert utility classes to inline CSS styles.
+   *
+   * 是否将工具类转换为内联 CSS 样式。
+   *
+   * @default true
+   */
+  inlineStyles?: boolean;
+}

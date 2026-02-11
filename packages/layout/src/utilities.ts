@@ -301,7 +301,7 @@ export const resolveUtility = (utility: string): string =>
  * @param baseDisplay - base display style / 基础显示样式
  * @returns CSS style string / CSS 样式字符串
  */
-export const buildStyleString = (utilities: string[], baseDisplay: string): string => {
+export const buildStyleString = (utilities: string[], baseDisplay?: string): string => {
   const parts: string[] = [];
 
   if (baseDisplay) parts.push(baseDisplay);
@@ -309,7 +309,12 @@ export const buildStyleString = (utilities: string[], baseDisplay: string): stri
   for (let i = 0; i < utilities.length; i++) {
     const style = resolveUtility(utilities[i]);
 
-    if (style) parts.push(style);
+    if (style) {
+      parts.push(style);
+    } else {
+      // oxlint-disable-next-line no-console
+      console.warn(`[layout] Unrecognized utility "${utilities[i]}" ignored.`);
+    }
   }
 
   return parts.length > 0 ? parts.join(";") : "";
