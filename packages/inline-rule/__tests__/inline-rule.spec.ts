@@ -26,12 +26,8 @@ describe(inlineRule, () => {
       });
 
       it("should render when spaces are escaped", () => {
-        expect(md.render(String.raw`^foo\ bar\ baz^`)).toEqual(
-          "<p><sup>foo bar baz</sup></p>\n",
-        );
-        expect(md.render(String.raw`^\ foo\ ^`)).toEqual(
-          "<p><sup> foo </sup></p>\n",
-        );
+        expect(md.render(String.raw`^foo\ bar\ baz^`)).toEqual("<p><sup>foo bar baz</sup></p>\n");
+        expect(md.render(String.raw`^\ foo\ ^`)).toEqual("<p><sup> foo </sup></p>\n");
       });
 
       it("should render when having other symbols", () => {
@@ -44,15 +40,11 @@ describe(inlineRule, () => {
         expect(md.render(String.raw`^foo\\\\\\\ bar^`)).toEqual(
           "<p><sup>foo\\\\\\ bar</sup></p>\n",
         );
-        expect(md.render(String.raw`^foo\\\\\\ bar^`)).toEqual(
-          "<p>^foo\\\\\\ bar^</p>\n",
-        );
+        expect(md.render(String.raw`^foo\\\\\\ bar^`)).toEqual("<p>^foo\\\\\\ bar^</p>\n");
       });
 
       it("should work with other marker", () => {
-        expect(md.render("**^foo^ bar**")).toEqual(
-          "<p><strong><sup>foo</sup> bar</strong></p>\n",
-        );
+        expect(md.render("**^foo^ bar**")).toEqual("<p><strong><sup>foo</sup> bar</strong></p>\n");
         expect(md.render("*^f")).toEqual("<p>*^f</p>\n");
         expect(md.render("b*^")).toEqual("<p>b*^</p>\n");
       });
@@ -79,27 +71,17 @@ describe(inlineRule, () => {
       });
 
       it("should render when spaces are escaped", () => {
-        expect(md.render(String.raw`~foo\ bar\ baz~`)).toEqual(
-          "<p><sub>foo bar baz</sub></p>\n",
-        );
-        expect(md.render(String.raw`~\ foo\ ~`)).toEqual(
-          "<p><sub> foo </sub></p>\n",
-        );
+        expect(md.render(String.raw`~foo\ bar\ baz~`)).toEqual("<p><sub>foo bar baz</sub></p>\n");
+        expect(md.render(String.raw`~\ foo\ ~`)).toEqual("<p><sub> foo </sub></p>\n");
       });
 
       it(String.raw`should handle multiple '\'`, () => {
-        expect(md.render(String.raw`~foo\\\\\ bar~`)).toEqual(
-          "<p><sub>foo\\\\ bar</sub></p>\n",
-        );
-        expect(md.render(String.raw`~foo\\\\ bar~`)).toEqual(
-          "<p>~foo\\\\ bar~</p>\n",
-        );
+        expect(md.render(String.raw`~foo\\\\\ bar~`)).toEqual("<p><sub>foo\\\\ bar</sub></p>\n");
+        expect(md.render(String.raw`~foo\\\\ bar~`)).toEqual("<p>~foo\\\\ bar~</p>\n");
       });
 
       it("should work with other marker", () => {
-        expect(md.render("**~foo~ bar**")).toEqual(
-          "<p><strong><sub>foo</sub> bar</strong></p>\n",
-        );
+        expect(md.render("**~foo~ bar**")).toEqual("<p><strong><sub>foo</sub> bar</strong></p>\n");
         expect(md.render("*~f")).toEqual("<p>*~f</p>\n");
         expect(md.render("b*~")).toEqual("<p>b*~</p>\n");
       });
@@ -126,10 +108,7 @@ describe(inlineRule, () => {
           ["x ++++foo++ bar++", "<p>x <ins><ins>foo</ins> bar</ins></p>\n"],
           ["x ++foo ++bar++++", "<p>x <ins>foo <ins>bar</ins></ins></p>\n"],
           ["x ++++foo++++", "<p>x <ins><ins>foo</ins></ins></p>\n"],
-          [
-            "++foo ++bar++ baz++",
-            "<p><ins>foo <ins>bar</ins> baz</ins></p>\n",
-          ],
+          ["++foo ++bar++ baz++", "<p><ins>foo <ins>bar</ins> baz</ins></p>\n"],
           [
             "++f **o ++o b++ a** r++",
             "<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n",
@@ -142,36 +121,22 @@ describe(inlineRule, () => {
       });
 
       it("should handle multiple '+'", () => {
-        expect(md.render("x +++foo+++")).toEqual(
-          "<p>x +<ins>foo</ins>+</p>\n",
-        );
+        expect(md.render("x +++foo+++")).toEqual("<p>x +<ins>foo</ins>+</p>\n");
       });
 
       it("Have the same priority as emphases", () => {
-        expect(md.render("**++test**++")).toEqual(
-          "<p><strong>++test</strong>++</p>\n",
-        );
-        expect(md.render("++**test++**")).toEqual(
-          "<p><ins>**test</ins>**</p>\n",
-        );
+        expect(md.render("**++test**++")).toEqual("<p><strong>++test</strong>++</p>\n");
+        expect(md.render("++**test++**")).toEqual("<p><ins>**test</ins>**</p>\n");
       });
 
       it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[++link]()++")).toEqual(
-          '<p><a href="">++link</a>++</p>\n',
-        );
-        expect(md.render("++[link++]()")).toEqual(
-          '<p>++<a href="">link++</a></p>\n',
-        );
+        expect(md.render("[++link]()++")).toEqual('<p><a href="">++link</a>++</p>\n');
+        expect(md.render("++[link++]()")).toEqual('<p>++<a href="">link++</a></p>\n');
       });
 
       it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("++`code++`")).toEqual(
-          "<p>++<code>code++</code></p>\n",
-        );
-        expect(md.render("` ++ code`++")).toEqual(
-          "<p><code> ++ code</code>++</p>\n",
-        );
+        expect(md.render("++`code++`")).toEqual("<p>++<code>code++</code></p>\n");
+        expect(md.render("` ++ code`++")).toEqual("<p><code> ++ code</code>++</p>\n");
       });
 
       it('should not render with single "+"', () => {
@@ -186,15 +151,9 @@ describe(inlineRule, () => {
       });
 
       it("should not render a whitespace or newline between text and '++'", () => {
-        expect(md.render("foo ++ bar ++ baz")).toEqual(
-          "<p>foo ++ bar ++ baz</p>\n",
-        );
-        expect(md.render("++test\n++ a\n")).toEqual(
-          "<p>++test\n++ a</p>\n",
-        );
-        expect(md.render("++\ntest++\n")).toEqual(
-          "<p>++\ntest++</p>\n",
-        );
+        expect(md.render("foo ++ bar ++ baz")).toEqual("<p>foo ++ bar ++ baz</p>\n");
+        expect(md.render("++test\n++ a\n")).toEqual("<p>++test\n++ a</p>\n");
+        expect(md.render("++\ntest++\n")).toEqual("<p>++\ntest++</p>\n");
       });
     });
 
@@ -209,29 +168,15 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("==Mark==")).toEqual(
-          "<p><mark>Mark</mark></p>\n",
-        );
+        expect(md.render("==Mark==")).toEqual("<p><mark>Mark</mark></p>\n");
       });
 
       it("Can nested", () => {
         const testCases = [
-          [
-            "x ====foo== bar==",
-            "<p>x <mark><mark>foo</mark> bar</mark></p>\n",
-          ],
-          [
-            "x ==foo ==bar====",
-            "<p>x <mark>foo <mark>bar</mark></mark></p>\n",
-          ],
-          [
-            "x ====foo====",
-            "<p>x <mark><mark>foo</mark></mark></p>\n",
-          ],
-          [
-            "==foo ==bar== baz==",
-            "<p><mark>foo <mark>bar</mark> baz</mark></p>\n",
-          ],
+          ["x ====foo== bar==", "<p>x <mark><mark>foo</mark> bar</mark></p>\n"],
+          ["x ==foo ==bar====", "<p>x <mark>foo <mark>bar</mark></mark></p>\n"],
+          ["x ====foo====", "<p>x <mark><mark>foo</mark></mark></p>\n"],
+          ["==foo ==bar== baz==", "<p><mark>foo <mark>bar</mark> baz</mark></p>\n"],
           [
             "==f **o ==o b== a** r==",
             "<p><mark>f <strong>o <mark>o b</mark> a</strong> r</mark></p>\n",
@@ -244,36 +189,22 @@ describe(inlineRule, () => {
       });
 
       it("should handle multiple '='", () => {
-        expect(md.render("x ===foo===")).toEqual(
-          "<p>x =<mark>foo</mark>=</p>\n",
-        );
+        expect(md.render("x ===foo===")).toEqual("<p>x =<mark>foo</mark>=</p>\n");
       });
 
       it("Have the same priority as emphases", () => {
-        expect(md.render("**==test**==")).toEqual(
-          "<p><strong>==test</strong>==</p>\n",
-        );
-        expect(md.render("==**test==**")).toEqual(
-          "<p><mark>**test</mark>**</p>\n",
-        );
+        expect(md.render("**==test**==")).toEqual("<p><strong>==test</strong>==</p>\n");
+        expect(md.render("==**test==**")).toEqual("<p><mark>**test</mark>**</p>\n");
       });
 
       it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[==link]()==")).toEqual(
-          '<p><a href="">==link</a>==</p>\n',
-        );
-        expect(md.render("==[link==]()")).toEqual(
-          '<p>==<a href="">link==</a></p>\n',
-        );
+        expect(md.render("[==link]()==")).toEqual('<p><a href="">==link</a>==</p>\n');
+        expect(md.render("==[link==]()")).toEqual('<p>==<a href="">link==</a></p>\n');
       });
 
       it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("==`code==`")).toEqual(
-          "<p>==<code>code==</code></p>\n",
-        );
-        expect(md.render("` == code`==")).toEqual(
-          "<p><code> == code</code>==</p>\n",
-        );
+        expect(md.render("==`code==`")).toEqual("<p>==<code>code==</code></p>\n");
+        expect(md.render("` == code`==")).toEqual("<p><code> == code</code>==</p>\n");
       });
 
       it('should not render with single "="', () => {
@@ -288,18 +219,10 @@ describe(inlineRule, () => {
       });
 
       it("should not render a whitespace or newline between text and '=='", () => {
-        expect(md.render("foo == bar == baz")).toEqual(
-          "<p>foo == bar == baz</p>\n",
-        );
-        expect(md.render("==test\n== a\n")).toEqual(
-          "<p>==test\n== a</p>\n",
-        );
-        expect(md.render("==\ntest==\n")).toEqual(
-          "<p>==\ntest==</p>\n",
-        );
-        expect(md.render("==\ntest\n==\n")).toEqual(
-          "<h1>==\ntest</h1>\n",
-        );
+        expect(md.render("foo == bar == baz")).toEqual("<p>foo == bar == baz</p>\n");
+        expect(md.render("==test\n== a\n")).toEqual("<p>==test\n== a</p>\n");
+        expect(md.render("==\ntest==\n")).toEqual("<p>==\ntest==</p>\n");
+        expect(md.render("==\ntest\n==\n")).toEqual("<h1>==\ntest</h1>\n");
       });
     });
 
@@ -359,21 +282,15 @@ describe(inlineRule, () => {
       });
 
       it("Have the same priority as emphases", () => {
-        expect(md.render("**!!test**!!")).toEqual(
-          "<p><strong>!!test</strong>!!</p>\n",
-        );
+        expect(md.render("**!!test**!!")).toEqual("<p><strong>!!test</strong>!!</p>\n");
         expect(md.render("!!**test!!**")).toEqual(
           '<p><span class="spoiler" tabindex="-1">**test</span>**</p>\n',
         );
       });
 
       it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[!!link]()!!")).toEqual(
-          '<p><a href="">!!link</a>!!</p>\n',
-        );
-        expect(md.render("!![link!!]()")).toEqual(
-          '<p>!!<a href="">link!!</a></p>\n',
-        );
+        expect(md.render("[!!link]()!!")).toEqual('<p><a href="">!!link</a>!!</p>\n');
+        expect(md.render("!![link!!]()")).toEqual('<p>!!<a href="">link!!</a></p>\n');
       });
 
       it('should not render with single "!"', () => {
@@ -388,24 +305,14 @@ describe(inlineRule, () => {
       });
 
       it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("!!`code!!`")).toEqual(
-          "<p>!!<code>code!!</code></p>\n",
-        );
-        expect(md.render("` !! code`!!")).toEqual(
-          "<p><code> !! code</code>!!</p>\n",
-        );
+        expect(md.render("!!`code!!`")).toEqual("<p>!!<code>code!!</code></p>\n");
+        expect(md.render("` !! code`!!")).toEqual("<p><code> !! code</code>!!</p>\n");
       });
 
       it("should not render a whitespace or newline between text and '!!'", () => {
-        expect(md.render("foo !! bar !! baz")).toEqual(
-          "<p>foo !! bar !! baz</p>\n",
-        );
-        expect(md.render("!!test\n!! a\n")).toEqual(
-          "<p>!!test\n!! a</p>\n",
-        );
-        expect(md.render("!!\ntest!!\n")).toEqual(
-          "<p>!!\ntest!!</p>\n",
-        );
+        expect(md.render("foo !! bar !! baz")).toEqual("<p>foo !! bar !! baz</p>\n");
+        expect(md.render("!!test\n!! a\n")).toEqual("<p>!!test\n!! a</p>\n");
+        expect(md.render("!!\ntest!!\n")).toEqual("<p>!!\ntest!!</p>\n");
       });
     });
   });
@@ -419,9 +326,7 @@ describe(inlineRule, () => {
         allowSpace: true,
       });
 
-      expect(md.render("^foo bar^")).toEqual(
-        "<p><sup>foo bar</sup></p>\n",
-      );
+      expect(md.render("^foo bar^")).toEqual("<p><sup>foo bar</sup></p>\n");
     });
 
     it("should disallow spaces when allowSpace is false (default)", () => {
@@ -444,9 +349,7 @@ describe(inlineRule, () => {
         attrs: [["class", "custom"]],
       });
 
-      expect(md.render("^test^")).toEqual(
-        '<p><span class="custom">test</span></p>\n',
-      );
+      expect(md.render("^test^")).toEqual('<p><span class="custom">test</span></p>\n');
     });
 
     it("should apply attrs on nested rule", () => {
@@ -460,9 +363,7 @@ describe(inlineRule, () => {
         attrs: [["class", "highlight"]],
       });
 
-      expect(md.render("==text==")).toEqual(
-        '<p><span class="highlight">text</span></p>\n',
-      );
+      expect(md.render("==text==")).toEqual('<p><span class="highlight">text</span></p>\n');
     });
   });
 
@@ -477,9 +378,7 @@ describe(inlineRule, () => {
         at: "before",
       });
 
-      expect(md.render("==test==")).toEqual(
-        "<p><mark>test</mark></p>\n",
-      );
+      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
     });
 
     it("should register after emphasis with at: 'after' (default)", () => {
@@ -513,9 +412,7 @@ describe(inlineRule, () => {
         at: "after",
       });
 
-      expect(md.render("==test==")).toEqual(
-        "<p><mark>test</mark></p>\n",
-      );
+      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
     });
   });
 
@@ -533,9 +430,7 @@ describe(inlineRule, () => {
           token: "sub",
         });
 
-      expect(md.render("^sup^ and ~sub~")).toEqual(
-        "<p><sup>sup</sup> and <sub>sub</sub></p>\n",
-      );
+      expect(md.render("^sup^ and ~sub~")).toEqual("<p><sup>sup</sup> and <sub>sub</sub></p>\n");
     });
 
     it("should support mixing nested and non-nested rules", () => {
@@ -570,9 +465,7 @@ describe(inlineRule, () => {
       });
 
       // inner **bold** should NOT be parsed
-      expect(md.render("~sub **bold**~")).toEqual(
-        "<p><sub>sub **bold**</sub></p>\n",
-      );
+      expect(md.render("~sub **bold**~")).toEqual("<p><sub>sub **bold**</sub></p>\n");
     });
 
     it("nested: true should parse inner inline markup", () => {
@@ -630,9 +523,7 @@ describe(inlineRule, () => {
         at: "before",
       });
 
-      expect(md.render("!!not closed")).toEqual(
-        "<p>!!not closed</p>\n",
-      );
+      expect(md.render("!!not closed")).toEqual("<p>!!not closed</p>\n");
     });
 
     it("should not match unclosed non-nested markers", () => {
@@ -700,14 +591,10 @@ describe(inlineRule, () => {
       });
 
       // Use emphasis that creates token meta entries
-      expect(md.render("*==mark==*")).toEqual(
-        "<p><em><mark>mark</mark></em></p>\n",
-      );
+      expect(md.render("*==mark==*")).toEqual("<p><em><mark>mark</mark></em></p>\n");
 
       // Link content creates separate token_meta entries with delimiters
-      expect(md.render("[==link==](url)")).toEqual(
-        '<p><a href="url"><mark>link</mark></a></p>\n',
-      );
+      expect(md.render("[==link==](url)")).toEqual('<p><a href="url"><mark>link</mark></a></p>\n');
     });
   });
 });
