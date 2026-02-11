@@ -14,6 +14,7 @@
     "@mdit/plugin-dl": "workspace:*",
     "@mdit/plugin-img-size": "workspace:*",
     "@mdit/plugin-ins": "workspace:*",
+    "@mdit/plugin-layout": "workspace:*",
     "@mdit/plugin-mathjax-slim": "workspace:*",
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",

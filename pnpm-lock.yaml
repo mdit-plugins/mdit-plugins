@@ -127,6 +127,9 @@ importers:
       '@mdit/plugin-ins':
         specifier: workspace:*
         version: link:../packages/ins
+      '@mdit/plugin-layout':
+        specifier: workspace:*
+        version: link:../packages/layout
       '@mdit/plugin-mathjax-slim':
         specifier: workspace:*
         version: link:../packages/mathjax-slim

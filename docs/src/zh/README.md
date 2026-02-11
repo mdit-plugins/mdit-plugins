@@ -90,7 +90,7 @@ features:
     link: ./ins.html
 
   - title: layout
-    icon: table-columns
+    icon: grip
     details: 弹性盒、网格和多列布局
     link: ./layout.html
 

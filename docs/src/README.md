@@ -90,7 +90,7 @@ features:
     link: ./ins.html
 
   - title: layout
-    icon: table-columns
+    icon: grip
     details: Flexbox, Grid and Multi-column layouts
     link: ./layout.html
 

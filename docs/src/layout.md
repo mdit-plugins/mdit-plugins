@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-layout"
-icon: table-columns
+icon: grip
 ---
 
 Plugin for creating Flexbox, CSS Grid, and Multi-column layouts using directives.
@@ -68,38 +68,206 @@ Outer content
 
 ### Flexbox
 
-- **Direction**: `flex-row`, `flex-col`, `flex-row-reverse`, `flex-col-reverse`
-- **Wrap**: `flex-wrap`, `flex-nowrap`, `flex-wrap-reverse`
-- **Flex**: `flex-1`, `flex-auto`, `flex-initial`, `flex-none`
-- **Grow/Shrink**: `grow`, `grow-0`, `shrink`, `shrink-0`
-- **Order**: `order-{n}`, `order-first`, `order-last`, `order-none`
+@flexs flex-wrap gap-8
+
+@flex
+
+**Direction**:
+
+- `flex-row`
+- `flex-col`
+- `flex-row-reverse`
+- `flex-col-reverse`
+
+@flex
+
+**Wrap**:
+
+- `flex-wrap`
+- `flex-nowrap`
+- `flex-wrap-reverse`
+
+@flex
+
+**Flex**:
+
+- `flex-1`
+- `flex-auto`
+- `flex-initial`
+- `flex-none`
+
+@flex
+
+**Grow/Shrink**:
+
+- `grow`
+- `grow-0`
+- `shrink`
+- `shrink-0`
+
+@flex
+
+**Order**:
+
+- `order-{n}`
+- `order-first`
+- `order-last`
+- `order-none`
+
+@end
 
 ### Grid
 
-- **Columns**: `grid-cols-{n}`, `grid-cols-none`
-- **Rows**: `grid-rows-{n}`, `grid-rows-none`
-- **Span**: `col-span-{n}`, `col-span-full`, `row-span-{n}`, `row-span-full`
-- **Start/End**: `col-start-{n}`, `col-end-{n}`, `row-start-{n}`, `row-end-{n}`
-- **Auto Flow**: `grid-flow-row`, `grid-flow-col`, `grid-flow-dense`, `grid-flow-row-dense`, `grid-flow-col-dense`
-- **Auto Sizing**: `auto-cols-auto`, `auto-cols-min`, `auto-cols-max`, `auto-cols-fr`, `auto-rows-auto`, `auto-rows-min`, `auto-rows-max`, `auto-rows-fr`
+@flexs flex-wrap gap-8
+
+@flex
+
+**Columns**:
+
+- `grid-cols-{n}`
+- `grid-cols-none`
+
+@flex
+
+**Rows**:
+
+- `grid-rows-{n}`
+- `grid-rows-none`
+
+@flex
+
+**Span**:
+
+- `col-span-{n}`
+- `col-span-full`
+- `row-span-{n}`
+- `row-span-full`
+
+@flex
+
+**Start/End**:
+
+- `col-start-{n}`
+- `col-end-{n}`
+- `row-start-{n}`
+- `row-end-{n}`
+
+@flex
+
+**Auto Flow**:
+
+- `grid-flow-row`
+- `grid-flow-col`
+- `grid-flow-dense`
+- `grid-flow-row-dense`
+- `grid-flow-col-dense`
+
+@flex
+
+**Auto Sizing**:
+
+- `auto-cols-auto`
+- `auto-cols-min`
+- `auto-cols-max`
+- `auto-cols-fr`
+- `auto-rows-auto`
+- `auto-rows-min`
+- `auto-rows-max`
+- `auto-rows-fr`
+
+@end
 
 ### Spacing & Alignment
 
-- **Gap**: `gap-{n}`, `gap-x-{n}`, `gap-y-{n}`, `gap-px`, `gap-x-px`, `gap-y-px`
-- **Justify**: `justify-start`, `justify-end`, `justify-center`, `justify-between`, `justify-around`, `justify-evenly`, `justify-stretch`
-- **Justify Items/Self**: `justify-items-{value}`, `justify-self-{value}`
-- **Align Items/Self/Content**: `items-{value}`, `self-{value}`, `content-{value}`
-- **Place**: `place-content-{value}`, `place-items-{value}`, `place-self-{value}`
+@flexs flex-wrap gap-8
+
+@flex
+
+**Gap**:
+
+- `gap-{n}`
+- `gap-x-{n}`
+- `gap-y-{n}`
+- `gap-px`
+- `gap-x-px`
+- `gap-y-px`
+
+@flex
+
+**Justify**:
+
+- `justify-start`
+- `justify-end`
+- `justify-center`
+- `justify-between`
+- `justify-around`
+- `justify-evenly`
+- `justify-stretch`
+
+@flex
+
+**Justify Items/Self**:
+
+- `justify-items-{value}`
+- `justify-self-{value}`
+
+@flex
+
+**Align Items/Self/Content**:
+
+- `items-{value}`
+- `self-{value}`
+- `content-{value}`
+
+@flex
+
+**Place**:
+
+- `place-content-{value}`
+- `place-items-{value}`
+- `place-self-{value}`
+
+@end
 
 ### Multi-column
 
-- **Columns**: `columns-{n}`
-- **Breaks**: `break-after-{value}`, `break-before-{value}`, `break-inside-{value}`
-- **Span**: `.span-all` class maps to `column-span: all`
+@flexs flex-wrap gap-8
+
+@flex
+
+**Columns**:
+
+- `columns-{n}`
+
+@flex
+
+**Breaks**:
+
+- `break-after-{value}`
+- `break-before-{value}`
+- `break-inside-{value}`
+
+@flex
+
+**Span**:
+
+- `.span-all` class maps to `column-span: all`
+
+@end
 
 ### Other
 
-- **Aspect Ratio**: `aspect-auto`, `aspect-square`, `aspect-video`
+@flexs flex-wrap gap-8
+
+@flex
+
+**Aspect Ratio**:
+
+- `aspect-auto`
+- `aspect-square`
+- `aspect-video`
+
+@end
 
 ## Options
 
@@ -124,19 +292,28 @@ import { layoutSlim } from "@mdit/plugin-layout/slim";
 
 ## Demo
 
-```md
+::: preview
+
 @flexs gap-4 items-center
-@flex flex-1
+
+@flex.flex-demo flex-1
 
 ### Left Column
 
 This content grows to fill available space.
 
-@flex
+@flex.flex-demo
 
 ### Right Column
 
 This content takes its natural width.
 
 @end
-```
+
+:::
+
+<style scoped>
+.flex-demo {
+    border: 1px solid red;
+}
+</style>

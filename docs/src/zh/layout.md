@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-layout"
-icon: table-columns
+icon: grip
 ---
 
 用于创建 Flexbox、CSS Grid 和多列布局的指令式插件。
@@ -68,38 +68,206 @@ mdIt.render(`\
 
 ### 弹性盒
 
-- **方向**: `flex-row`、`flex-col`、`flex-row-reverse`、`flex-col-reverse`
-- **换行**: `flex-wrap`、`flex-nowrap`、`flex-wrap-reverse`
-- **弹性**: `flex-1`、`flex-auto`、`flex-initial`、`flex-none`
-- **增长/收缩**: `grow`、`grow-0`、`shrink`、`shrink-0`
-- **排序**: `order-{n}`、`order-first`、`order-last`、`order-none`
+@flexs flex-wrap gap-8
+
+@flex
+
+**方向**：
+
+- `flex-row`
+- `flex-col`
+- `flex-row-reverse`
+- `flex-col-reverse`
+
+@flex
+
+**换行**:
+
+- `flex-wrap`
+- `flex-nowrap`
+- `flex-wrap-reverse`
+
+@flex
+
+**弹性**:
+
+- `flex-1`
+- `flex-auto`
+- `flex-initial`
+- `flex-none`
+
+@flex
+
+**增长/收缩**:
+
+- `grow`
+- `grow-0`
+- `shrink`
+- `shrink-0`
+
+@flex
+
+**排序**:
+
+- `order-{n}`
+- `order-first`
+- `order-last`
+- `order-none`
+
+@end
 
 ### 网格
 
-- **列**: `grid-cols-{n}`、`grid-cols-none`
-- **行**: `grid-rows-{n}`、`grid-rows-none`
-- **跨越**: `col-span-{n}`、`col-span-full`、`row-span-{n}`、`row-span-full`
-- **起止**: `col-start-{n}`、`col-end-{n}`、`row-start-{n}`、`row-end-{n}`
-- **自动流**: `grid-flow-row`、`grid-flow-col`、`grid-flow-dense`、`grid-flow-row-dense`、`grid-flow-col-dense`
-- **自动尺寸**: `auto-cols-auto`、`auto-cols-min`、`auto-cols-max`、`auto-cols-fr`、`auto-rows-auto`、`auto-rows-min`、`auto-rows-max`、`auto-rows-fr`
+@flexs flex-wrap gap-8
+
+@flex
+
+**列**:
+
+- `grid-cols-{n}`
+- `grid-cols-none`
+
+@flex
+
+**行**:
+
+- `grid-rows-{n}`
+- `grid-rows-none`
+
+@flex
+
+**跨越**:
+
+- `col-span-{n}`
+- `col-span-full`
+- `row-span-{n}`
+- `row-span-full`
+
+@flex
+
+**起止**:
+
+- `col-start-{n}`
+- `col-end-{n}`
+- `row-start-{n}`
+- `row-end-{n}`
+
+@flex
+
+**自动流**:
+
+- `grid-flow-row`
+- `grid-flow-col`
+- `grid-flow-dense`
+- `grid-flow-row-dense`
+- `grid-flow-col-dense`
+
+@flex
+
+**自动尺寸**:
+
+- `auto-cols-auto`
+- `auto-cols-min`
+- `auto-cols-max`
+- `auto-cols-fr`
+- `auto-rows-auto`
+- `auto-rows-min`
+- `auto-rows-max`
+- `auto-rows-fr`
+
+@end
 
 ### 间距与对齐
 
-- **间距**: `gap-{n}`、`gap-x-{n}`、`gap-y-{n}`、`gap-px`、`gap-x-px`、`gap-y-px`
-- **主轴对齐**: `justify-start`、`justify-end`、`justify-center`、`justify-between`、`justify-around`、`justify-evenly`、`justify-stretch`
-- **项目/自身对齐**: `justify-items-{value}`、`justify-self-{value}`
-- **交叉轴对齐**: `items-{value}`、`self-{value}`、`content-{value}`
-- **放置**: `place-content-{value}`、`place-items-{value}`、`place-self-{value}`
+@flexs flex-wrap gap-8
+
+@flex
+
+**间距**:
+
+- `gap-{n}`
+- `gap-x-{n}`
+- `gap-y-{n}`
+- `gap-px`
+- `gap-x-px`
+- `gap-y-px`
+
+@flex
+
+**主轴对齐**:
+
+- `justify-start`
+- `justify-end`
+- `justify-center`
+- `justify-between`
+- `justify-around`
+- `justify-evenly`
+- `justify-stretch`
+
+@flex
+
+**项目/自身对齐**:
+
+- `justify-items-{value}`
+- `justify-self-{value}`
+
+@flex
+
+**交叉轴对齐**:
+
+- `items-{value}`
+- `self-{value}`
+- `content-{value}`
+
+@flex
+
+**放置**:
+
+- `place-content-{value}`
+- `place-items-{value}`
+- `place-self-{value}`
+
+@end
 
 ### 多列
 
-- **列数**: `columns-{n}`
-- **断裂**: `break-after-{value}`、`break-before-{value}`、`break-inside-{value}`
-- **跨列**: `.span-all` 类映射为 `column-span: all`
+@flexs flex-wrap gap-8
+
+@flex
+
+**列数**:
+
+- `columns-{n}`
+
+@flex
+
+**断裂**:
+
+- `break-after-{value}`
+- `break-before-{value}`
+- `break-inside-{value}`
+
+@flex
+
+**跨列**:
+
+- `.span-all` 类映射为 `column-span: all`
+
+@end
 
 ### 其他
 
-- **宽高比**: `aspect-auto`、`aspect-square`、`aspect-video`
+@flexs flex-wrap gap-8
+
+@flex
+
+**宽高比**:
+
+- `aspect-auto`
+- `aspect-square`
+- `aspect-video`
+
+@end
 
 ## 选项
 
@@ -124,19 +292,27 @@ import { layoutSlim } from "@mdit/plugin-layout/slim";
 
 ## 示例
 
-```md
+::: preview
+
 @flexs gap-4 items-center
-@flex flex-1
+@flex.flex-demo flex-1
 
 ### 左列
 
 此内容会增长以填充可用空间。
 
-@flex
+@flex.flex-demo
 
 ### 右列
 
 此内容使用其自然宽度。
 
 @end
-```
+
+:::
+
+<style scoped>
+.flex-demo {
+    border: 1px solid red;
+}
+</style>
