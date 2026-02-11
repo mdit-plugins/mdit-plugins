@@ -217,16 +217,14 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
     const token = tokens[index];
     const meta = token.meta as LayoutMeta;
     const attrs: string[] = [];
+    const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
 
     if (inlineStyles) {
-      const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
       const style = buildStyleString(meta.utilities, baseDisplay);
 
       if (style) attrs.push(`style="${style}"`);
       if (meta.classes.length > 0) attrs.push(`class="${meta.classes.join(" ")}"`);
     } else {
-      const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
-
       if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
 
       const classNames = [...meta.classes, ...meta.utilities];
