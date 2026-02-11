@@ -1,4 +1,5 @@
 import { matchString } from "./directive.js";
+import { DASH } from "./types.js";
 
 // Static utility-to-style mappings
 const STATIC_UTILITIES: Record<string, string> = {
@@ -161,8 +162,6 @@ const STATIC_UTILITIES: Record<string, string> = {
   "gap-x-px": "column-gap:1px",
   "gap-y-px": "row-gap:1px",
 };
-
-const DASH = 45; /* - */
 
 /**
  * Parse a number from a string starting at the given position.
