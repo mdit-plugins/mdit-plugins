@@ -6,15 +6,21 @@ exports[`content belonging > should handle different field containers nested wit
   <div class="field-header">
     <span class="field-name">prop1</span>
   </div>
-  <div class="field-content"><p>Prop content.</p>
+  <div class="field-content">
+<p>Prop content.</p>
 <div class="field-wrapper events-fields" data-kind="events">
 <div class="field-item" data-level="1">
   <div class="field-header">
     <span class="field-name">event1</span>
   </div>
-  <div class="field-content"><p>Event content.</p>
-</div></div></div>
-</div></div></div>
+  <div class="field-content">
+<p>Event content.</p>
+  </div>
+</div>
+</div>
+  </div>
+</div>
+</div>
 "
 `;
 
@@ -24,15 +30,87 @@ exports[`content belonging > should support nested containers with content 1`] =
   <div class="field-header">
     <span class="field-name">outer-prop</span>
   </div>
-  <div class="field-content"><p>Outer description.</p>
+  <div class="field-content">
+<p>Outer description.</p>
 <div class="field-wrapper fields-fields" data-kind="fields" id="inner">
 <div class="field-item" data-level="1">
   <div class="field-header">
     <span class="field-name">inner-prop</span>
   </div>
-  <div class="field-content"><p>Inner description</p>
-</div></div></div>
-</div></div></div>
+  <div class="field-content">
+<p>Inner description</p>
+  </div>
+</div>
+</div>
+  </div>
+</div>
+</div>
+"
+`;
+
+exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">zero</span>
+  </div>
+  <div class="field-content">
+  </div>
+</div>
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">one</span>
+  </div>
+  <div class="field-content">
+  </div>
+</div>
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">two</span>
+  </div>
+  <div class="field-content">
+  </div>
+</div>
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">three</span>
+  </div>
+  <div class="field-content">
+  </div>
+</div>
+</div>
+"
+`;
+
+exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 2`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content">
+<p>Parent description.</p>
+<div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">prop1.key1</span>    <span class="field-attr field-attr-type">Type: string</span>
+
+  </div>
+  <div class="field-content">
+<p>Key description.</p>
+  </div>
+</div>
+<div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">prop1.key2</span>    <span class="field-attr field-attr-type">Type: number</span>
+
+  </div>
+  <div class="field-content">
+<p>Key description.</p>
+  </div>
+</div>
+  </div>
+</div>
+</div>
 "
 `;
 
@@ -42,8 +120,11 @@ exports[`prefix-mode nesting > should handle cosmetic indentation without affect
   <div class="field-header">
     <span class="field-name">prop</span>
   </div>
-  <div class="field-content"><p>Description</p>
-</div></div></div>
+  <div class="field-content">
+<p>Description</p>
+  </div>
+</div>
+</div>
 "
 `;
 
@@ -53,19 +134,31 @@ exports[`prefix-mode nesting > should handle deep nesting 1`] = `
   <div class="field-header">
     <span class="field-name">level1</span>
   </div>
-  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-content">
+<div class="field-item" data-level="2">
   <div class="field-header">
     <span class="field-name">level2</span>
   </div>
-  <div class="field-content"><div class="field-item" data-level="3">
+  <div class="field-content">
+<div class="field-item" data-level="3">
   <div class="field-header">
     <span class="field-name">level3</span>
   </div>
-  <div class="field-content"><div class="field-item" data-level="4">
+  <div class="field-content">
+<div class="field-item" data-level="4">
   <div class="field-header">
     <span class="field-name">level4</span>
   </div>
-  <div class="field-content"></div></div></div></div></div></div></div></div></div>
+  <div class="field-content">
+  </div>
+</div>
+  </div>
+</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
 "
 `;
 
@@ -75,13 +168,19 @@ exports[`prefix-mode nesting > should handle prefix-mode nesting with content 1`
   <div class="field-header">
     <span class="field-name">parent</span>
   </div>
-  <div class="field-content"><p>Description parent.</p>
+  <div class="field-content">
+<p>Description parent.</p>
 <div class="field-item" data-level="2">
   <div class="field-header">
     <span class="field-name">child</span>
   </div>
-  <div class="field-content"><p>Description child.</p>
-</div></div></div></div></div>
+  <div class="field-content">
+<p>Description child.</p>
+  </div>
+</div>
+  </div>
+</div>
+</div>
 "
 `;
 
@@ -91,22 +190,37 @@ exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
   <div class="field-header">
     <span class="field-name">root</span>
   </div>
-  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-content">
+<div class="field-item" data-level="2">
   <div class="field-header">
     <span class="field-name">child1</span>
   </div>
-  <div class="field-content"></div></div><div class="field-item" data-level="2">
+  <div class="field-content">
+  </div>
+</div>
+<div class="field-item" data-level="2">
   <div class="field-header">
     <span class="field-name">child2</span>
   </div>
-  <div class="field-content"><div class="field-item" data-level="3">
+  <div class="field-content">
+<div class="field-item" data-level="3">
   <div class="field-header">
     <span class="field-name">grandchild</span>
   </div>
-  <div class="field-content"></div></div></div></div><div class="field-item" data-level="2">
+  <div class="field-content">
+  </div>
+</div>
+  </div>
+</div>
+<div class="field-item" data-level="2">
   <div class="field-header">
     <span class="field-name">child3</span>
   </div>
-  <div class="field-content"></div></div></div></div></div>
+  <div class="field-content">
+  </div>
+</div>
+  </div>
+</div>
+</div>
 "
 `;

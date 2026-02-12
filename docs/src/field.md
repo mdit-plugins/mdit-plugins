@@ -89,35 +89,60 @@ field(md, {
 });
 ```
 
-::: tip Nesting and escaping
+### Nesting
 
-- Nesting can be supported by adding 2 indents in your nested content:
+Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
 
-  ```md
-  ::: fields
-  @parent@
-  @child@
-  Child description
-  :::
-  ```
+```md
+:::: fields
+@option@
+Parent description.
+::: props
+@prop1@ type="string"
+Key description.
+@prop2@ type="number"
+Key description.
+:::
+@option2@
+Another parent description.
+::::
+```
 
-- You can also nest different field containers:
+To create a field item inside another field, increase the starting `@` by one for each level of nesting:
 
-  ```ts
-  import MarkdownIt from "markdown-it";
-  import { field } from "@mdit/plugin-field";
+```md
+::: fields
+@prop1@
+Parent description.
+@@prop1.key1@ type="string"
+Key description.
+@@prop1.key2@ type="number"
+Key description.
+@prop2@
+Another parent description.
+:::
+```
 
-  const mdIt = MarkdownIt().use(field, { name: "props" }).use(field, { name: "events" });
-  ```
+Now `prop1` has two nested keys `key1` and `key2`, while `prop2` has no nested keys.
 
-  ```md
-  ::: props
-  @prop1@
-  ::: events
-  @event1@
-  :::
-  :::
-  ```
+Though common tools like prettier is not happy with indention less than 4, the plugin is designed to be flexible with indentation as long as it is less than code fence indentation (4 spaces by default). This allows for more natural nesting without strict indentation requirements.
+
+```md
+<!-- prettier-ignore-start -->
+::: fields
+@prop1@
+  Parent description.
+
+  @@prop1.key1@ type="string"
+  Key description.
+
+  @@prop1.key2@ type="number"
+  Key description.
+:::
+<!-- prettier-ignore-end -->
+```
+
+::: tip Escaping
 
 - If you need to use `@` at the beginning of the line inside a field container, you can use `\` to escape it to `\@`.
 

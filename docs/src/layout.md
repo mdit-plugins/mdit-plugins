@@ -61,6 +61,27 @@ Nested content
 @end
 ```
 
+Though common tools like prettier is not happy with indention less than 4, the plugin is designed to be flexible with indentation as long as it is less than code fence indentation (4 spaces by default). This allows for more natural nesting without strict indentation requirements.
+
+```md
+<!-- prettier-ignore-start -->
+@flexs
+  @flex
+    Some Content
+
+    @grids grid-cols-2
+    @grid
+    Nested content
+    @end
+
+    More Content
+
+  @flex
+    Another Content
+@end
+<!-- prettier-ignore-end -->
+```
+
 **Prefix mode** (multiple `@`) provides an explicit depth indicator — recommended for complex nesting:
 
 ```md

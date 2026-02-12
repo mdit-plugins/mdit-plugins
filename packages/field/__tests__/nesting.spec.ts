@@ -119,6 +119,25 @@ Description child.
     expect(result).toContain('<span class="field-name">one</span>');
     expect(result).toContain('<span class="field-name">two</span>');
     expect(result).toContain('<span class="field-name">three</span>');
+    expect(result).toMatchSnapshot();
+
+    const result2 = md.render(`
+::: fields
+@prop1@
+  Parent description.
+
+  @@prop1.key1@ type="string"
+  Key description.
+
+  @@prop1.key2@ type="number"
+  Key description.
+:::
+`);
+
+    expect(result2).toContain('<span class="field-name">prop1</span>');
+    expect(result2).toContain('<span class="field-name">prop1.key1</span>');
+    expect(result2).toContain('<span class="field-name">prop1.key2</span>');
+    expect(result2).toMatchSnapshot();
   });
 
   it("should handle backtrack from deep to shallow depth", () => {

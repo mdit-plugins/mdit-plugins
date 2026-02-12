@@ -61,6 +61,27 @@ mdIt.render(`\
 @end
 ```
 
+尽管像 prettier 这样的常用工具不喜欢小于 4 的缩进，但插件设计为只要缩进小于代码块缩进（默认 4 个空格）就可以灵活使用。这允许更自然的嵌套，而不需要严格的缩进要求。
+
+```md
+<!-- prettier-ignore-start -->
+@flexs
+  @flex
+    一些内容
+
+    @grids grid-cols-2
+    @grid
+    嵌套内容
+    @end
+
+    更多内容
+
+  @flex
+    另一些内容
+@end
+<!-- prettier-ignore-end -->
+```
+
 **前缀模式**（多 `@`）提供显式深度标识 —— 推荐用于复杂嵌套:
 
 ```md

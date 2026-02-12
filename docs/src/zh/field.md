@@ -78,35 +78,59 @@ field(md, {
 });
 ```
 
+### 嵌套
+
+Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
+
+相同或不同的容器可以嵌套在项目内，缩进级别可以是相同的，也可以是部分缩进（小于代码块缩进级别，默认为4个空格）。
+
+```md
+:::: fields
+@option@
+父级描述。
+::: props
+@prop1@ type="string"
+键描述。
+@prop2@ type="number"
+键描述。
+:::
+```
+
+为了在另一个字段内创建字段项目，每个嵌套级别将起始 `@` 增加一个：
+
+```md
+::: fields
+@prop1@
+父级描述。
+@@prop1.key1@ type="string"
+键描述。
+@@prop1.key2@ type="number"
+键描述。
+@prop2@
+另一个父级描述。
+:::
+```
+
+现在 `prop1` 有两个嵌套键 `key1` 和 `key2`，而 `prop2` 没有嵌套键。
+
+虽然像 prettier 这样的常用工具不喜欢小于4个空格的缩进，但插件设计为只要缩进小于代码块缩进（默认为4个空格）就可以灵活处理。这允许更自然的嵌套，而不需要严格的缩进要求。
+
+```md
+<!-- prettier-ignore-start -->
+::: fields
+@prop1@
+  父级描述。
+
+  @@prop1.key1@ type="string"
+  键描述。
+
+  @@prop1.key2@ type="number"
+  键描述。
+:::
+<!-- prettier-ignore-end -->
+```
+
 ::: tip 嵌套和转义
-
-- 通过在嵌套内容中添加 2 个缩进可以支持嵌套：
-
-  ```md
-  ::: fields
-  @parent@
-  @child@
-  子项目描述
-  :::
-  ```
-
-- 你也可以嵌套不同名称的字段容器：
-
-  ```ts
-  import MarkdownIt from "markdown-it";
-  import { field } from "@mdit/plugin-field";
-
-  const mdIt = MarkdownIt().use(field, { name: "props" }).use(field, { name: "events" });
-  ```
-
-  ```md
-  ::: props
-  @prop1@
-  ::: events
-  @event1@
-  :::
-  :::
-  ```
 
 - 如果你需要在字段容器内的行首使用 `@`，你可以使用 `\` 将其转义为 `\@`。
 

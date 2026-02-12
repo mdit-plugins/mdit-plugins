@@ -97,12 +97,12 @@ describe("field inside block elements", () => {
         .use(field);
 
       const result = md.render(`
-::: warning
-:::: fields
+:::: warning
+::: fields
 @prop@
 Description
-::::
 :::
+::::
 `);
 
       expect(result).toContain('class="warning"');
@@ -193,5 +193,30 @@ Nested content.
     expect(result).toContain('<span class="field-name">nested-prop</span>');
     expect(result).toContain("standard field item content");
     expect(result).toContain("Nested content");
+  });
+
+  it("should support mix nesting", () => {
+    const md = MarkdownIt().use(field).use(field, { name: "props" });
+
+    const result = md.render(`
+:::: fields
+@option@
+Parent description.
+::: props
+@prop1@ type="string"
+Key description.
+@prop2@ type="number"
+Key description.
+:::
+@option2@
+Another parent description.
+::::
+`);
+
+    expect(result).toContain('<span class="field-name">option</span>');
+    expect(result).toContain('<span class="field-name">option2</span>');
+    expect(result).toContain("Parent description");
+    expect(result).toContain("Another parent description");
+    expect(result).toMatchSnapshot();
   });
 });

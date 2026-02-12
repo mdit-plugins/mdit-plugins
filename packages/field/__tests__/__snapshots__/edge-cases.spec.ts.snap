@@ -6,9 +6,12 @@ exports[`edge cases > should ignore malformed markers 1`] = `
   <div class="field-header">
     <span class="field-name">prop</span>
   </div>
-  <div class="field-content"><p>content</p>
+  <div class="field-content">
+<p>content</p>
 <p>@prop
 No closing marker</p>
-</div></div></div>
+  </div>
+</div>
+</div>
 "
 `;

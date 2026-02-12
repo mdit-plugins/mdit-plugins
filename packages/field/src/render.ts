@@ -32,10 +32,14 @@ export const getDefaultFieldOpenRender =
     <span class="${classPrefix}name">${escapeHtml(name)}</span>\
 ${metaHtml}
   </div>
-  <div class="${classPrefix}content">`;
+  <div class="${classPrefix}content">
+`;
   };
 
-export const defaultFieldCloseRender: RenderRule = () => `</div></div>`;
+export const defaultFieldCloseRender: RenderRule = () => `\
+  </div>
+</div>
+`;
 
 export const defaultFieldsOpenRender: RenderRule = (tokens, index, options, _env, self) =>
   self.renderToken(tokens, index, options);
