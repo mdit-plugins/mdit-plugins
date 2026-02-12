@@ -15,6 +15,7 @@ import { normalizeAttributes, parseAttributes } from "./utils.js";
 
 interface FieldStateEnv extends Record<string, unknown> {
   fieldName: string;
+  /** Stack tracking the depth of nested field items for proper closing */
   fieldDepthStack: number[];
 }
 
@@ -23,6 +24,8 @@ interface FieldStateBlock extends StateBlock {
 }
 
 const MIN_MARKER_NUM = 3;
+// Indentation from 0-3 spaces is cosmetic (visual only, does not affect nesting depth).
+// 4+ spaces triggers standard Markdown code block behavior.
 const MAX_COSMETIC_INDENT = 3;
 const ESCAPED_AT = String.raw`\@`;
 const ESCAPED_BACKSLASH = String.raw`\\`;
@@ -324,8 +327,9 @@ const getFieldItemRule =
     state.lineMax = oldLineMax;
     state.blkIndent = oldBlkIndent;
 
-    // Note: we do NOT push field_close here.
-    // The close is handled by the depth stack in getFieldsRule or by sibling/backtrack logic above.
+    // Note: field_close tokens are NOT pushed here. Closing is handled by:
+    // (1) depth stack cleanup in getFieldsRule when exiting the container, or
+    // (2) sibling/backtrack logic when encountering a field at equal or lower depth (lines 270-273).
 
     state.line = nextLine;
     return true;
