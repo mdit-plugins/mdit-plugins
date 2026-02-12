@@ -316,12 +316,6 @@ interface MarkdownItLayoutOptions {
 
 When `inlineStyles` is `true` (default), utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
 
-A slim bundle without the utility conversion is also available:
-
-```ts
-import { layoutSlim } from "@mdit/plugin-layout/slim";
-```
-
 ## Demo
 
 ::: preview

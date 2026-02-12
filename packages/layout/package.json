@@ -29,18 +29,12 @@
     "dist"
   ],
   "type": "module",
-  "unpkg": "dist/slim-cdn.js",
-  "jsdelivr": "dist/slim-cdn.js",
+  "unpkg": "./dist/cdn.js",
+  "jsdelivr": "./dist/cdn.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "unpkg": "./dist/cdn.js",
-      "jsdelivr": "./dist/cdn.js",
       "default": "./dist/index.js"
-    },
-    "./slim": {
-      "types": "./dist/slim.d.ts",
-      "default": "./dist/slim.js"
     },
     "./package.json": "./package.json"
   },
