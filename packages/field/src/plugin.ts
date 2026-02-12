@@ -27,13 +27,12 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
     allowedAttributes,
     fieldsOpenRender = defaultFieldsOpenRender,
     fieldsCloseRender = defaultFieldsCloseRender,
-    fieldOpenRender,
+    fieldOpenRender = getDefaultFieldOpenRender(classPrefix),
     fieldCloseRender = defaultFieldCloseRender,
   } = {},
 ) => {
   const normalizedAttributes = normalizeAttributes(allowedAttributes);
   const fieldsScanner = getFieldsScanner(name);
-  const resolvedFieldOpenRender = fieldOpenRender ?? getDefaultFieldOpenRender(classPrefix);
 
   md.block.ruler.before("fence", name, getFieldsRule(name, classPrefix), {
     alt: ["paragraph", "reference", "blockquote", "list"],
@@ -53,7 +52,7 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
   md.renderer.rules[`${name}_fields_inner_open`] = defaultFieldsOpenRender;
   md.renderer.rules[`${name}_fields_inner_close`] = defaultFieldsCloseRender;
 
-  md.renderer.rules[`${name}_field_open`] = resolvedFieldOpenRender;
+  md.renderer.rules[`${name}_field_open`] = fieldOpenRender;
   md.renderer.rules[`${name}_field_close`] = fieldCloseRender;
 
   // Run the scanner as a core rule to hide pre-field content in parse phase
