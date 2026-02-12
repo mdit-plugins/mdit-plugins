@@ -68,12 +68,12 @@ Nested content
 @flex
 @@flexs
 @@flex
-Content (depth 1 via @@)
+Content (depth 2 via @@)
 @@end
 @end
 ```
 
-In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
+In prefix mode, `@@` = depth 2, `@@@` = depth 3, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
 
 ## Supported Utilities
 
