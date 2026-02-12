@@ -46,9 +46,6 @@
     "@mdit/plugin-container": "workspace:*",
     "@types/markdown-it": "^14.1.2"
   },
-  "devDependencies": {
-    "markdown-it": "14.1.0"
-  },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },
@@ -58,6 +55,6 @@
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   }
 }

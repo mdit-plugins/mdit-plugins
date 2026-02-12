@@ -65,5 +65,8 @@
     "markdown-it": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">= 20"
   }
 }
