@@ -1,7 +1,3 @@
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-export default [
-  tsdownConfig(["index", "slim"]),
-  tsdownConfig("index", { type: "cdn" }),
-  tsdownConfig("slim", { type: "cdn" }),
-];
+export default [tsdownConfig("index"), tsdownConfig("index", { type: "cdn" })];

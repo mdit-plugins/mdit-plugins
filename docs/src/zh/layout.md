@@ -307,12 +307,6 @@ interface MarkdownItLayoutOptions {
 
 当 `inlineStyles` 为 `true`（默认值）时，工具类会被转换为内联 CSS 样式。为 `false` 时，工具类会作为 CSS 类名添加，可配合 Tailwind CSS 或自定义样式表使用。
 
-精简包不含工具类转换功能:
-
-```ts
-import { layoutSlim } from "@mdit/plugin-layout/slim";
-```
-
 ## 示例
 
 ::: preview
