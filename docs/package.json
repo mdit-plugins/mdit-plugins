@@ -12,6 +12,7 @@
     "@mdit/plugin-abbr": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
     "@mdit/plugin-dl": "workspace:*",
+    "@mdit/plugin-field": "workspace:*",
     "@mdit/plugin-img-size": "workspace:*",
     "@mdit/plugin-ins": "workspace:*",
     "@mdit/plugin-layout": "workspace:*",

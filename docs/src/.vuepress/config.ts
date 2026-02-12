@@ -10,6 +10,7 @@ import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
 
 import theme from "./theme.js";
+import { field } from "@mdit/plugin-field";
 
 const __dirname = getDirname(import.meta.url);
 
@@ -50,6 +51,14 @@ export default defineUserConfig({
     md.use(ins);
     md.use(layout);
     md.use(ruby);
+    md.use(field);
+    md.use(field, {
+      name: "props",
+      allowedAttributes: [
+        { attr: "type", name: "Property Type" },
+        { attr: "required", boolean: true },
+      ],
+    });
     md.use(snippet, {
       currentPath: (env: MarkdownEnv) => env.filePath,
 

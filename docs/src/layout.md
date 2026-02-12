@@ -49,7 +49,7 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Same or different containers can be nested inside items at the same indentation level.
+Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
 
 ```md
 @flexs
@@ -74,18 +74,6 @@ Content (depth 1 via @@)
 ```
 
 In prefix mode, `@@` = depth 1, `@@@` = depth 2, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
-
-Layout directives also work inside list items and blockquotes:
-
-<!-- prettier-ignore-start -->
-```md
-- list item
-  @flexs
-  @flex
-  Content in list
-  @end
-```
-<!-- prettier-ignore-end -->
 
 ## Supported Utilities
 

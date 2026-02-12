@@ -1,0 +1,268 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`field > Advanced Nesting > should break item on parent container end with less indentation 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Description</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Advanced Nesting > should handle different field containers nested 1`] = `
+"<div class="field-wrapper props-fields" data-kind="props">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><div class="field-wrapper events-fields" data-kind="events">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">event1</span>
+  </div>
+  <div class="field-content"></div></div></div>
+</div></div></div>
+"
+`;
+
+exports[`field > Advanced Nesting > should handle fields container inside fields container 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="outer">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">outer-prop</span>
+  </div>
+  <div class="field-content"><p>Outer description.</p>
+<div class="field-wrapper fields-fields" data-kind="fields" id="inner">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">inner-prop</span>
+  </div>
+  <div class="field-content"><p>Inner description</p>
+</div></div></div>
+</div></div></div>
+"
+`;
+
+exports[`field > Attributes > should handle attribute with trailing backslash (edge case) 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">test</span>    <span class="field-attr field-attr-attr">Attr: val\\</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`field > Attributes > should handle mixed attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: string</span>
+    <span class="field-attr field-attr-required">Required</span>
+    <span class="field-attr field-attr-default">Default: value</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`field > Attributes > should handle unquoted attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: number</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`field > Attributes > should render attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: string</span>
+    <span class="field-attr field-attr-required">Required</span>
+
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Basic Rendering > should render multiple fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div><div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop2</span>
+  </div>
+  <div class="field-content"><p>Description 2</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Basic Rendering > should render single field 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Complex Content > should support code blocks inside fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Here is code:</p>
+<pre><code class="language-js">console.log(&quot;test&quot;);
+</code></pre>
+</div></div></div>
+"
+`;
+
+exports[`field > Complex Content > should support lists inside fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><ul>
+<li>item 1</li>
+<li>item 2</li>
+</ul>
+</div></div></div>
+"
+`;
+
+exports[`field > Container ID > should support #id syntax in fence 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="my-id">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`field > Container ID > should support concatenated #id syntax 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="my-id-2">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`field > Edge Cases > should ignore malformed markers 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>content</p>
+<p>@prop
+No closing marker</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Escaping > should handle escaped name markers 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">@name@</span>
+  </div>
+  <div class="field-content"><p>Description</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Escaping > should ignore lines starting with escaped @ 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Description includes:
+@not-a-field</p>
+</div></div></div>
+"
+`;
+
+exports[`field > Nesting > should handle 2-space nesting 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">parent</span>
+  </div>
+  <div class="field-content"><p>Description parent.</p>
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">child</span>
+  </div>
+  <div class="field-content"><p>Description child.</p>
+</div></div></div></div></div>
+"
+`;
+
+exports[`field > Nesting > should handle deep nesting 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">level0</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">level1</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">level2</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="3">
+  <div class="field-header">
+    <span class="field-name">level3</span>
+  </div>
+  <div class="field-content"></div></div></div></div></div></div></div></div></div>
+"
+`;
+
+exports[`field > Nesting > should handle siblings at nested levels 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">root</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">child1</span>
+  </div>
+  <div class="field-content"></div></div><div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">child2</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">grandchild</span>
+  </div>
+  <div class="field-content"></div></div></div></div><div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">child3</span>
+  </div>
+  <div class="field-content"></div></div></div></div></div>
+"
+`;
