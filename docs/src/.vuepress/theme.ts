@@ -1,6 +1,7 @@
+import type { ThemeFunction } from "vuepress";
 import { hopeTheme } from "vuepress-theme-hope";
 
-export default hopeTheme({
+const theme: ThemeFunction = hopeTheme({
   hostname: "https://mdit-plugins.github.io",
 
   logo: "/logo.svg",
@@ -95,3 +96,5 @@ export default hopeTheme({
     },
   },
 });
+
+export default theme;

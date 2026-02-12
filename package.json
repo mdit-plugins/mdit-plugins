@@ -4,7 +4,7 @@
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_ENV=production pnpm run --stream -r build",
+    "build": "tsc --noEmit && cross-env NODE_ENV=production pnpm run --stream -r build",
     "bundle:analyze": "node --experimental-strip-types scripts/analyze.ts",
     "clean": "pnpm run --stream -r clean",
     "docs:build": "pnpm run --filter=docs docs:build",

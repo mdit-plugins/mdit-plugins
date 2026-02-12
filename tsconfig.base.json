@@ -34,6 +34,7 @@
     "declaration": true,
     "declarationMap": true,
     "isolatedDeclarations": true,
+    "skipLibCheck": true,
 
     // JavaScript
     "allowJs": false,

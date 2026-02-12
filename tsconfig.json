@@ -4,5 +4,6 @@
     "module": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"]
   },
-  "include": ["**/*.ts", "**/.vuepress/**/*.ts"]
+  "include": ["**/*.ts", "**/.vuepress/**/*.ts"],
+  "exclude": ["**/snippets/example.ts"]
 }
