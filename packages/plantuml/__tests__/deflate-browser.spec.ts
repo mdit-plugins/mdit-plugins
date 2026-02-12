@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, expectTypeOf } from "vitest";
 
 import { deflate } from "../src/deflate/browser.js";
 
@@ -8,6 +8,6 @@ describe("deflate-browser", () => {
     const result = deflate(data);
 
     expect(result).toBeDefined();
-    expect(typeof result).toBe("string");
+    expectTypeOf(result).toBeString();
   });
 });

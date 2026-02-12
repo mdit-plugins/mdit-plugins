@@ -53,6 +53,28 @@ export interface MarkdownItTabInfo {
   data: MarkdownItTabData[];
 }
 
+// oxlint-disable-next-line max-params
+export type TabsOpenRender = (
+  info: MarkdownItTabInfo,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  // oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
+  env: any,
+  self: Renderer,
+) => string;
+
+// oxlint-disable-next-line max-params
+export type TabOpenRender = (
+  data: MarkdownItTabData,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  // oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
+  env: any,
+  self: Renderer,
+) => string;
+
 export interface MarkdownItTabOptions {
   /**
    * The name of the tab container.
@@ -64,15 +86,7 @@ export interface MarkdownItTabOptions {
   /**
    * Tabs open render
    */
-  openRender?: (
-    info: MarkdownItTabInfo,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    // oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
-    env: any,
-    self: Renderer,
-  ) => string;
+  openRender?: TabsOpenRender;
 
   /**
    * Tabs close render
@@ -82,15 +96,7 @@ export interface MarkdownItTabOptions {
   /**
    * tab open render
    */
-  tabOpenRender?: (
-    data: MarkdownItTabData,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    // oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
-    env: any,
-    self: Renderer,
-  ) => string;
+  tabOpenRender?: TabOpenRender;
 
   /**
    * tab close render
