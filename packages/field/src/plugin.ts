@@ -50,6 +50,8 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
 
   md.renderer.rules[`${name}_fields_open`] = fieldsOpenRender;
   md.renderer.rules[`${name}_fields_close`] = fieldsCloseRender;
+  md.renderer.rules[`${name}_fields_inner_open`] = defaultFieldsOpenRender;
+  md.renderer.rules[`${name}_fields_inner_close`] = defaultFieldsCloseRender;
 
   md.renderer.rules[`${name}_field_open`] = resolvedFieldOpenRender;
   md.renderer.rules[`${name}_field_close`] = fieldCloseRender;

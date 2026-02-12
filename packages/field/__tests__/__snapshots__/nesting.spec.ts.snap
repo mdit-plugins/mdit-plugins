@@ -55,16 +55,20 @@ exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 2`] = 
 <dt class="field-name" data-level="1">prop1</dt>
 <dd class="field-content" data-level="1">
 <p>Parent description.</p>
+<dl>
 <dt class="field-name" data-level="2">prop1.key1</dt>
 <dd class="field-content" data-level="2">
 <span class="field-attr field-attr-type">Type: string</span>
 <p>Key description.</p>
 </dd>
+</dl>
+<dl>
 <dt class="field-name" data-level="2">prop1.key2</dt>
 <dd class="field-content" data-level="2">
 <span class="field-attr field-attr-type">Type: number</span>
 <p>Key description.</p>
 </dd>
+</dl>
 </dd>
 </dl>
 "
@@ -84,15 +88,21 @@ exports[`prefix-mode nesting > should handle deep nesting 1`] = `
 "<dl class="field-wrapper fields-fields" data-kind="fields">
 <dt class="field-name" data-level="1">level1</dt>
 <dd class="field-content" data-level="1">
+<dl>
 <dt class="field-name" data-level="2">level2</dt>
 <dd class="field-content" data-level="2">
+<dl>
 <dt class="field-name" data-level="3">level3</dt>
 <dd class="field-content" data-level="3">
+<dl>
 <dt class="field-name" data-level="4">level4</dt>
 <dd class="field-content" data-level="4">
 </dd>
+</dl>
 </dd>
+</dl>
 </dd>
+</dl>
 </dd>
 </dl>
 "
@@ -103,10 +113,12 @@ exports[`prefix-mode nesting > should handle prefix-mode nesting with content 1`
 <dt class="field-name" data-level="1">parent</dt>
 <dd class="field-content" data-level="1">
 <p>Description parent.</p>
+<dl>
 <dt class="field-name" data-level="2">child</dt>
 <dd class="field-content" data-level="2">
 <p>Description child.</p>
 </dd>
+</dl>
 </dd>
 </dl>
 "
@@ -116,18 +128,26 @@ exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
 "<dl class="field-wrapper fields-fields" data-kind="fields">
 <dt class="field-name" data-level="1">root</dt>
 <dd class="field-content" data-level="1">
+<dl>
 <dt class="field-name" data-level="2">child1</dt>
 <dd class="field-content" data-level="2">
 </dd>
+</dl>
+<dl>
 <dt class="field-name" data-level="2">child2</dt>
 <dd class="field-content" data-level="2">
+<dl>
 <dt class="field-name" data-level="3">grandchild</dt>
 <dd class="field-content" data-level="3">
 </dd>
+</dl>
 </dd>
+</dl>
+<dl>
 <dt class="field-name" data-level="2">child3</dt>
 <dd class="field-content" data-level="2">
 </dd>
+</dl>
 </dd>
 </dl>
 "

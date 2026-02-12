@@ -223,6 +223,10 @@ export const getFieldsRule =
     const depthStack = state.env.fieldContext.depthStack;
 
     for (let ii = depthStack.length - 1; ii >= 0; ii--) {
+      // Close inner <dl> wrapper before closing parent when backtracking
+      if (ii < depthStack.length - 1 && depthStack[ii + 1] > depthStack[ii]) {
+        state.push(`${name}_fields_inner_close`, "dl", -1);
+      }
       state.push(`${name}_field_close`, "", -1);
     }
 
@@ -282,9 +286,34 @@ export const getFieldItemRule =
     const depthStack = ctx.depthStack;
 
     // Close items that are at the same or deeper depth (sibling or backtrack)
+    let lastClosedDepth = -1;
+
     while (depthStack.length > 0 && depthStack[depthStack.length - 1] >= currentDepth) {
+      const closingDepth = depthStack[depthStack.length - 1];
+
       depthStack.pop();
+
+      // Close inner <dl> wrapper before closing parent when backtracking
+      if (lastClosedDepth > closingDepth) {
+        state.push(`${name}_fields_inner_close`, "dl", -1);
+      }
+
       state.push(`${name}_field_close`, "", -1);
+      lastClosedDepth = closingDepth;
+    }
+
+    // Close outermost inner <dl> wrapper when we backtracked to parent level
+    if (
+      lastClosedDepth > -1 &&
+      depthStack.length > 0 &&
+      lastClosedDepth > depthStack[depthStack.length - 1]
+    ) {
+      state.push(`${name}_fields_inner_close`, "dl", -1);
+    }
+
+    // Open inner <dl> wrapper when nesting deeper
+    if (depthStack.length > 0 && currentDepth > depthStack[depthStack.length - 1]) {
+      state.push(`${name}_fields_inner_open`, "dl", 1);
     }
 
     // Push current depth onto stack
@@ -388,7 +417,12 @@ export const getFieldsScanner =
           continue;
         }
 
-        if (type === `${name}_field_close`) continue;
+        if (
+          type === `${name}_field_close` ||
+          type === `${name}_fields_inner_open` ||
+          type === `${name}_fields_inner_close`
+        )
+          continue;
 
         // hide contents before first field
         innerToken.type = `${name}_fields_empty`;
