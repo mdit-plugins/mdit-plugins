@@ -476,7 +476,7 @@ Outer
 `);
     });
 
-    it("should reject depth-0 inside prefix-mode container", () => {
+    it("should reject depth-1 inside prefix-mode container", () => {
       expect(
         markdownIt.render(`\
 @flexs
@@ -502,7 +502,7 @@ Outer
 `);
     });
 
-    it("should reject skipped depth (@@@ directly inside depth-0)", () => {
+    it("should reject skipped depth (@@@ directly inside depth-1)", () => {
       expect(
         markdownIt.render(`\
 @flexs
