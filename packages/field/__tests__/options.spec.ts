@@ -14,8 +14,6 @@ Description
 `);
 
     expect(result).toContain('class="my-wrapper fields-fields"');
-    expect(result).toContain('class="my-item"');
-    expect(result).toContain('class="my-header"');
     expect(result).toContain('class="my-name"');
     expect(result).toContain('class="my-attr my-attr-type"');
     expect(result).toContain('class="my-content"');
@@ -30,7 +28,7 @@ Description
 `);
 
     expect(result).toContain('class="field-wrapper');
-    expect(result).toContain('class="field-item"');
+    expect(result).toContain('class="field-name"');
   });
 });
 
@@ -44,7 +42,7 @@ Description
 :::
 `);
 
-    expect(result).toContain('<span class="field-name">prop</span>');
+    expect(result).toContain(">prop</dt>");
     expect(result).not.toContain("field-attr");
     expect(result).not.toContain("Type:");
     expect(result).not.toContain("Required");
@@ -74,7 +72,7 @@ describe("CSS injection prevention", () => {
 
     // Invalid key is stripped during parse phase, so no attr renders at all
     expect(result).not.toContain("field-attr");
-    expect(result).toContain('<span class="field-name">prop</span>');
+    expect(result).toContain(">prop</dt>");
   });
 
   it("should keep valid attribute keys and strip invalid ones", () => {

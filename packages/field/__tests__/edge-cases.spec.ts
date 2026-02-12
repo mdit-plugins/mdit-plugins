@@ -283,7 +283,7 @@ Description
   :::
 `);
 
-    expect(result).not.toContain('class="field-item"');
+    expect(result).not.toContain('class="field-name"');
     expect(result).toContain("@prop@");
   });
 
@@ -352,7 +352,7 @@ not a fence
   :::
 `);
 
-    expect(result).not.toContain('class="field-item"');
+    expect(result).not.toContain('class="field-name"');
   });
 
   it("should handle nested fences with extra content in getFieldsRule", () => {

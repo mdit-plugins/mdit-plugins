@@ -42,7 +42,7 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
   md.block.ruler.before(
     "paragraph",
     `${name}_item`,
-    getFieldItemRule(name, classPrefix, normalizedAttributes, shouldParseAttributes),
+    getFieldItemRule(name, normalizedAttributes, shouldParseAttributes),
     {
       alt: ["paragraph", "reference", "blockquote", "list"],
     },

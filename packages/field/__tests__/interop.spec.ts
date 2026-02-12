@@ -17,7 +17,7 @@ describe("field inside block elements", () => {
 `);
 
       expect(result).toContain("<li>");
-      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).toContain('>prop</dt>');
       expect(result).toContain("Description");
     });
 
@@ -52,7 +52,7 @@ describe("field inside block elements", () => {
 `);
 
       expect(result).toContain("<ol>");
-      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).toContain('>prop</dt>');
       expect(result).toContain("Description");
     });
   });
@@ -68,7 +68,7 @@ describe("field inside block elements", () => {
 `);
 
       expect(result).toContain("<blockquote>");
-      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).toContain('>prop</dt>');
       expect(result).toContain("Description");
     });
 
@@ -106,7 +106,7 @@ Description
 `);
 
       expect(result).toContain('class="warning"');
-      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).toContain('>prop</dt>');
       expect(result).toContain("Description");
     });
   });
@@ -189,8 +189,8 @@ Nested content.
 ::::
 `);
 
-    expect(result).toContain('<span class="field-name">prop-item</span>');
-    expect(result).toContain('<span class="field-name">nested-prop</span>');
+    expect(result).toContain('>prop-item</dt>');
+    expect(result).toContain('>nested-prop</dt>');
     expect(result).toContain("standard field item content");
     expect(result).toContain("Nested content");
   });
@@ -213,8 +213,8 @@ Another parent description.
 ::::
 `);
 
-    expect(result).toContain('<span class="field-name">option</span>');
-    expect(result).toContain('<span class="field-name">option2</span>');
+    expect(result).toContain('>option</dt>');
+    expect(result).toContain('>option2</dt>');
     expect(result).toContain("Parent description");
     expect(result).toContain("Another parent description");
     expect(result).toMatchSnapshot();

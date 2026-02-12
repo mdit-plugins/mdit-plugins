@@ -202,7 +202,7 @@ export const getFieldsRule =
     // this will update the block indent
     state.blkIndent = indent;
 
-    const openToken = state.push(`${name}_fields_open`, "div", 1);
+    const openToken = state.push(`${name}_fields_open`, "dl", 1);
     const markup = ":".repeat(markerCount);
 
     openToken.markup = markup;
@@ -223,12 +223,12 @@ export const getFieldsRule =
     const depthStack = state.env.fieldContext.depthStack;
 
     for (let ii = depthStack.length - 1; ii >= 0; ii--) {
-      state.push(`${name}_field_close`, "div", -1);
+      state.push(`${name}_field_close`, "", -1);
     }
 
     state.env.fieldContext = oldContext;
 
-    const closeToken = state.push(`${name}_fields_close`, "div", -1);
+    const closeToken = state.push(`${name}_fields_close`, "dl", -1);
 
     closeToken.block = true;
     closeToken.markup = "";
@@ -244,7 +244,6 @@ export const getFieldsRule =
 export const getFieldItemRule =
   (
     name: string,
-    classPrefix: string,
     allowedAttributes: AllowedAttributes | null,
     shouldParseAttributes: boolean,
   ): RuleBlock =>
@@ -285,7 +284,7 @@ export const getFieldItemRule =
     // Close items that are at the same or deeper depth (sibling or backtrack)
     while (depthStack.length > 0 && depthStack[depthStack.length - 1] >= currentDepth) {
       depthStack.pop();
-      state.push(`${name}_field_close`, "div", -1);
+      state.push(`${name}_field_close`, "", -1);
     }
 
     // Push current depth onto stack
@@ -317,9 +316,8 @@ export const getFieldItemRule =
       }
     }
 
-    const tokenOpen = state.push(`${name}_field_open`, "div", 1);
+    const tokenOpen = state.push(`${name}_field_open`, "", 1);
 
-    tokenOpen.attrSet("class", `${classPrefix}item`);
     tokenOpen.attrSet("data-level", String(currentDepth));
     tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
     tokenOpen.map = [startLine, nextLine];

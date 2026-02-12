@@ -16,30 +16,19 @@ export const getDefaultFieldOpenRender =
       const escapedName = escapeHtml(name);
 
       if (value === true) {
-        metaHtml += `\
-    <span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}</span>
-`;
+        metaHtml += `<span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}</span>\n`;
       } else {
-        metaHtml += `\
-    <span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}: ${escapeHtml(String(value))}</span>
-`;
+        metaHtml += `<span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}: ${escapeHtml(String(value))}</span>\n`;
       }
     });
 
     return `\
-<div class="${classPrefix}item" data-level="${level}">
-  <div class="${classPrefix}header">
-    <span class="${classPrefix}name">${escapeHtml(name)}</span>\
-${metaHtml}
-  </div>
-  <div class="${classPrefix}content">
-`;
+<dt class="${classPrefix}name" data-level="${level}">${escapeHtml(name)}</dt>
+<dd class="${classPrefix}content" data-level="${level}">
+${metaHtml}`;
   };
 
-export const defaultFieldCloseRender: RenderRule = () => `\
-  </div>
-</div>
-`;
+export const defaultFieldCloseRender: RenderRule = () => `</dd>\n`;
 
 export const defaultFieldsOpenRender: RenderRule = (tokens, index, options, _env, self) =>
   self.renderToken(tokens, index, options);

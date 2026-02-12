@@ -15,8 +15,7 @@ Description 1
 `);
 
     expect(result).toMatchSnapshot();
-    expect(result).toContain('<div class="field-item" data-level="1">');
-    expect(result).toContain('<span class="field-name">prop1</span>');
+    expect(result).toContain('<dt class="field-name" data-level="1">prop1</dt>');
     expect(result).toContain("<p>Description 1</p>");
   });
 
@@ -32,8 +31,8 @@ Description 2
 `);
 
     expect(result).toMatchSnapshot();
-    expect(result).toContain('<span class="field-name">prop1</span>');
-    expect(result).toContain('<span class="field-name">prop2</span>');
+    expect(result).toContain("prop1</dt>");
+    expect(result).toContain("prop2</dt>");
     expect(result).toContain("<p>Description 1</p>");
     expect(result).toContain("<p>Description 2</p>");
   });
@@ -105,7 +104,7 @@ Description
 `);
 
     expect(result).toMatchSnapshot();
-    expect(result).toContain('<span class="field-name">@name@</span>');
+    expect(result).toContain(">@name@</dt>");
   });
 
   it("should ignore lines starting with escaped @", () => {
@@ -119,7 +118,7 @@ Description includes:
 
     expect(result).toMatchSnapshot();
     expect(result).toContain("@not-a-field");
-    expect(result).not.toContain('<span class="field-name">not-a-field</span>');
+    expect(result).not.toContain(">not-a-field</dt>");
   });
 
   it("should support #id syntax in fence", () => {
