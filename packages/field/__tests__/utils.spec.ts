@@ -1,5 +1,25 @@
 import { describe, it, expect } from "vitest";
+import { sanitizeKey } from "../src/render.js";
 import { normalizeAttributes, parseAttributes, ucFirst } from "../src/utils.js";
+
+describe(sanitizeKey, () => {
+  it("should keep alphanumeric and hyphens", () => {
+    expect(sanitizeKey("abc-123")).toBe("abc-123");
+    expect(sanitizeKey("valid-key")).toBe("valid-key");
+  });
+
+  it("should strip special characters", () => {
+    expect(sanitizeKey('evil"><script>')).toBe("evilscript");
+    expect(sanitizeKey("a.b")).toBe("ab");
+    expect(sanitizeKey("c/d")).toBe("cd");
+    expect(sanitizeKey("e_f")).toBe("ef");
+    expect(sanitizeKey("g h")).toBe("gh");
+  });
+
+  it("should handle empty string", () => {
+    expect(sanitizeKey("")).toBe("");
+  });
+});
 
 describe(ucFirst, () => {
   it("should capitalize first letter", () => {

@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`field > Advanced Nesting > should break item on parent container end with less indentation 1`] = `
+exports[`field > Advanced Nesting > should handle cosmetic indentation without affecting depth 1`] = `
 "<div class="field-wrapper fields-fields" data-kind="fields">
-<div class="field-item" data-level="1">
+<div class="field-item" data-level="0">
   <div class="field-header">
     <span class="field-name">prop</span>
   </div>
@@ -203,22 +203,6 @@ exports[`field > Escaping > should ignore lines starting with escaped @ 1`] = `
 "
 `;
 
-exports[`field > Nesting > should handle 2-space nesting 1`] = `
-"<div class="field-wrapper fields-fields" data-kind="fields">
-<div class="field-item" data-level="0">
-  <div class="field-header">
-    <span class="field-name">parent</span>
-  </div>
-  <div class="field-content"><p>Description parent.</p>
-<div class="field-item" data-level="1">
-  <div class="field-header">
-    <span class="field-name">child</span>
-  </div>
-  <div class="field-content"><p>Description child.</p>
-</div></div></div></div></div>
-"
-`;
-
 exports[`field > Nesting > should handle deep nesting 1`] = `
 "<div class="field-wrapper fields-fields" data-kind="fields">
 <div class="field-item" data-level="0">
@@ -238,6 +222,22 @@ exports[`field > Nesting > should handle deep nesting 1`] = `
     <span class="field-name">level3</span>
   </div>
   <div class="field-content"></div></div></div></div></div></div></div></div></div>
+"
+`;
+
+exports[`field > Nesting > should handle prefix-mode nesting 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="0">
+  <div class="field-header">
+    <span class="field-name">parent</span>
+  </div>
+  <div class="field-content"><p>Description parent.</p>
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">child</span>
+  </div>
+  <div class="field-content"><p>Description child.</p>
+</div></div></div></div></div>
 "
 `;
 

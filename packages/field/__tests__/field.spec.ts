@@ -104,14 +104,14 @@ Description 1
   });
 
   describe("Nesting", () => {
-    it("should handle 2-space nesting", () => {
+    it("should handle prefix-mode nesting", () => {
       const input = `
 ::: fields
 @parent@
-  Description parent.
-  
-  @child@
-  Description child.
+Description parent.
+
+@@child@
+Description child.
 :::
 `;
       const result = md.render(input);
@@ -130,9 +130,9 @@ Description 1
       const input = `
 ::: fields
 @level0@
-  @level1@
-    @level2@
-      @level3@
+@@level1@
+@@@level2@
+@@@@level3@
 :::
 `;
       const result = md.render(input);
@@ -147,11 +147,11 @@ Description 1
       const input = `
 ::: fields
 @root@
-  @child1@
-  
-  @child2@
-    @grandchild@
-  @child3@
+@@child1@
+
+@@child2@
+@@@grandchild@
+@@child3@
 :::
 `;
       const result = md.render(input);
@@ -399,14 +399,14 @@ Description 1
     it("should handle sibling items correctly (breaking loop)", () => {
       const input = `
 ::: fields
-  @item1@
-  content
-  @item2@
-  content
+@item1@
+content
+@item2@
+content
 :::
 `;
       const result = md.render(input);
-      expect(result).toContain('data-level="1"');
+      expect(result).toContain('data-level="0"');
       expect(result).toContain("item1");
       expect(result).toContain("item2");
     });
@@ -462,7 +462,7 @@ Description 1
       expect(result).toContain('<span class="field-name">event1</span>');
     });
 
-    it("should break item on parent container end with less indentation", () => {
+    it("should handle cosmetic indentation without affecting depth", () => {
       const input = `
 ::: fields
   @prop@
@@ -471,7 +471,7 @@ Description 1
 `;
       const result = md.render(input);
       expect(result).toMatchSnapshot();
-      expect(result).toContain('data-level="1"');
+      expect(result).toContain('data-level="0"');
     });
 
     it("should handle auto-close", () => {
@@ -699,7 +699,7 @@ not a fence
       expect(result).toContain("prop");
     });
 
-    it("should break item loop on less indented line in getFieldItemRule", () => {
+    it("should hide non-field content before first field item", () => {
       const input = `
 ::: fields
   @prop@
@@ -708,6 +708,7 @@ Text after prop
 `;
       const result = md.render(input);
       expect(result).toContain("prop");
+      // "Text after prop" is content within the field item now (0-3 space indent is cosmetic)
       expect(result).toContain("Text after prop");
     });
 
@@ -732,6 +733,205 @@ Text after prop
       expect(result).not.toContain("<script>");
       expect(result).toContain("&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;");
       expect(result).toContain("Title: &lt;img src=x onerror=alert(1)&gt;");
+    });
+  });
+
+  describe("Prefix Mode Nesting", () => {
+    it("should ignore visual indentation and trust only @ count", () => {
+      const input = `
+::: fields
+@parent@
+  @@child-1@
+@@child-2@
+ @@@grandchild@
+@parent-2@
+:::
+`;
+      const result = md.render(input);
+
+      expect(result).toContain('<span class="field-name">parent</span>');
+      expect(result).toContain('<span class="field-name">child-1</span>');
+      expect(result).toContain('<span class="field-name">child-2</span>');
+      expect(result).toContain('<span class="field-name">grandchild</span>');
+      expect(result).toContain('<span class="field-name">parent-2</span>');
+
+      // Check correct nesting levels
+      const parentMatch = result.indexOf('data-level="0"');
+      const child1Match = result.indexOf('data-level="1"');
+      const child2Match = result.indexOf('data-level="1"', child1Match + 1);
+      const grandchildMatch = result.indexOf('data-level="2"');
+
+      expect(parentMatch).toBeGreaterThan(-1);
+      expect(child1Match).toBeGreaterThan(-1);
+      expect(child2Match).toBeGreaterThan(-1);
+      expect(grandchildMatch).toBeGreaterThan(-1);
+    });
+
+    it("should reject field markers at 4+ spaces indent (code block)", () => {
+      const input = `
+::: fields
+@prop@
+    @too-deep@
+:::
+`;
+      const result = md.render(input);
+
+      // @too-deep@ should not be parsed as a field item (4 spaces = code block territory)
+      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).not.toContain('<span class="field-name">too-deep</span>');
+    });
+
+    it("should allow 0-3 spaces indent as cosmetic", () => {
+      const input = `
+::: fields
+@zero@
+ @one@
+  @two@
+   @three@
+:::
+`;
+      const result = md.render(input);
+
+      // All are valid root level items (all single @)
+      expect(result).toContain('<span class="field-name">zero</span>');
+      expect(result).toContain('<span class="field-name">one</span>');
+      expect(result).toContain('<span class="field-name">two</span>');
+      expect(result).toContain('<span class="field-name">three</span>');
+    });
+
+    it("should handle backtrack from deep to shallow depth", () => {
+      const input = `
+::: fields
+@root@
+@@child@
+@@@grandchild@
+@root2@
+:::
+`;
+      const result = md.render(input);
+
+      expect(result).toContain("root");
+      expect(result).toContain("child");
+      expect(result).toContain("grandchild");
+      expect(result).toContain("root2");
+
+      // root2 should be at depth 0
+      const lastLevelZero = result.lastIndexOf('data-level="0"');
+
+      expect(lastLevelZero).toBeGreaterThan(result.indexOf("root2") - 100);
+    });
+  });
+
+  describe("classPrefix Option", () => {
+    it("should use custom class prefix", () => {
+      const customMd = MarkdownIt().use(field, { classPrefix: "my-" });
+      const input = `
+::: fields
+@prop@ type="string"
+Description
+:::
+`;
+      const result = customMd.render(input);
+
+      expect(result).toContain('class="my-wrapper fields-fields"');
+      expect(result).toContain('class="my-item"');
+      expect(result).toContain('class="my-header"');
+      expect(result).toContain('class="my-name"');
+      expect(result).toContain('class="my-attr my-attr-type"');
+      expect(result).toContain('class="my-content"');
+    });
+
+    it("should use default class prefix when not specified", () => {
+      const input = `
+::: fields
+@prop@
+:::
+`;
+      const result = md.render(input);
+
+      expect(result).toContain('class="field-wrapper');
+      expect(result).toContain('class="field-item"');
+    });
+  });
+
+  describe("parseAttributes Option", () => {
+    it("should skip attribute parsing when parseAttributes is false", () => {
+      const noAttrMd = MarkdownIt().use(field, { parseAttributes: false });
+      const input = `
+::: fields
+@prop@ type="string" required
+Description
+:::
+`;
+      const result = noAttrMd.render(input);
+
+      expect(result).toContain('<span class="field-name">prop</span>');
+      expect(result).not.toContain("field-attr");
+      expect(result).not.toContain("Type:");
+      expect(result).not.toContain("Required");
+    });
+
+    it("should parse attributes by default", () => {
+      const input = `
+::: fields
+@prop@ type="string"
+:::
+`;
+      const result = md.render(input);
+
+      expect(result).toContain("field-attr");
+      expect(result).toContain("Type: string");
+    });
+  });
+
+  describe("CSS Injection Prevention", () => {
+    it("should sanitize attribute keys in CSS class names", () => {
+      const input = `
+::: fields
+@prop@ evil"><script>alert(1)</script>=yes
+:::
+`;
+      const result = md.render(input);
+
+      // The key should be sanitized to only alphanumeric and hyphens
+      expect(result).not.toContain('class="field-attr field-attr-evil"><script>');
+      expect(result).toContain("field-attr-evilscriptalert1script");
+    });
+
+    it("should handle attribute keys with special characters", () => {
+      const input = `
+::: fields
+@prop@ a.b=val c/d=val2 e_f=val3
+:::
+`;
+      const result = md.render(input);
+
+      // Special characters stripped from class names
+      expect(result).toContain("field-attr-ab");
+      expect(result).toContain("field-attr-cd");
+      expect(result).toContain("field-attr-ef");
+    });
+  });
+
+  describe("Container Nesting", () => {
+    it("should support nested containers with different marker counts", () => {
+      const input = `
+:::: fields
+@prop-item@
+This is a standard field item content.
+
+::: fields
+@nested-prop@
+Nested content.
+:::
+::::
+`;
+      const result = md.render(input);
+
+      expect(result).toContain('<span class="field-name">prop-item</span>');
+      expect(result).toContain('<span class="field-name">nested-prop</span>');
+      expect(result).toContain("standard field item content");
+      expect(result).toContain("Nested content");
     });
   });
 });

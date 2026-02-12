@@ -98,6 +98,24 @@ export interface MarkdownItFieldOptions {
   name?: string;
 
   /**
+   * CSS class prefix for generated class names
+   *
+   * 生成的 CSS 类名前缀
+   *
+   * @default "field-"
+   */
+  classPrefix?: string;
+
+  /**
+   * Whether to parse `key="val"` attributes after the field marker
+   *
+   * 是否解析字段标记后的 `key="val"` 属性
+   *
+   * @default true
+   */
+  parseAttributes?: boolean;
+
+  /**
    * Allowed attributes for fields, if not provided, all attributes will be allowed and displayed as-is.
    *
    * Attribute display will be sorted in the order of this array.

@@ -6,7 +6,7 @@ import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type { MarkdownItFieldOptions } from "./options.js";
 import {
   defaultFieldCloseRender,
-  defaultFieldOpenRender,
+  getDefaultFieldOpenRender,
   defaultFieldsCloseRender,
   defaultFieldsOpenRender,
 } from "./render.js";
@@ -15,7 +15,7 @@ import { normalizeAttributes, parseAttributes } from "./utils.js";
 
 interface FieldStateEnv extends Record<string, unknown> {
   fieldName: string;
-  fieldIndent: number;
+  fieldDepthStack: number[];
 }
 
 interface FieldStateBlock extends StateBlock {
@@ -23,6 +23,7 @@ interface FieldStateBlock extends StateBlock {
 }
 
 const MIN_MARKER_NUM = 3;
+const MAX_COSMETIC_INDENT = 3;
 const ESCAPED_AT = String.raw`\@`;
 const ESCAPED_BACKSLASH = String.raw`\\`;
 
@@ -30,10 +31,23 @@ const checkFieldMarker = (
   state: StateBlock,
   start: number,
   max: number,
-): false | { end: number; name: string } => {
+): false | { end: number; name: string; depth: number } => {
   if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
 
-  let pos = start + 1;
+  // Count leading @ chars for depth
+  let depth = 0;
+  let pos = start;
+
+  while (pos < max && state.src.charCodeAt(pos) === 64 /* @ */) {
+    depth++;
+    pos++;
+  }
+
+  // Need at least one non-@ character before the closing @
+  if (pos >= max) return false;
+
+  const nameStart = pos;
+
   while (pos < max) {
     const code = state.src.charCodeAt(pos);
 
@@ -44,9 +58,9 @@ const checkFieldMarker = (
 
     if (code === 64 /* @ */) {
       // Found closing @
-      const nameRaw = state.src.slice(start + 1, pos);
+      const nameRaw = state.src.slice(nameStart, pos);
       const name = nameRaw.replaceAll(ESCAPED_AT, "@").replaceAll(ESCAPED_BACKSLASH, "\\");
-      return { end: pos, name };
+      return { end: pos, name, depth: depth - 1 };
     }
 
     pos++;
@@ -56,7 +70,7 @@ const checkFieldMarker = (
 };
 
 const getFieldsRule =
-  (name: string): RuleBlock =>
+  (name: string, classPrefix: string): RuleBlock =>
   (state: FieldStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -82,8 +96,8 @@ const getFieldsRule =
     pos = state.skipSpaces(pos);
 
     // check name is matched
-    for (let i = 0; i < name.length; i++) {
-      if (state.src.charCodeAt(pos) !== name.charCodeAt(i)) return false;
+    for (let ii = 0; ii < name.length; ii++) {
+      if (state.src.charCodeAt(pos) !== name.charCodeAt(ii)) return false;
 
       pos++;
     }
@@ -101,9 +115,9 @@ const getFieldsRule =
     let id = "";
     let idStart = -1;
 
-    for (let i = pos; i < max; i++)
-      if (state.src.charCodeAt(i) === 35 /* # */) {
-        idStart = i + 1;
+    for (let ii = pos; ii < max; ii++)
+      if (state.src.charCodeAt(ii) === 35 /* # */) {
+        idStart = ii + 1;
         break;
       }
 
@@ -166,7 +180,7 @@ const getFieldsRule =
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
     const oldName = state.env.fieldName;
-    const oldIndent = state.env.fieldIndent;
+    const oldDepthStack = state.env.fieldDepthStack;
 
     // @ts-expect-error: We are setting state.parentType to a dynamic value like `${name}_field` that is not covered by the StateBlock type definition
     state.parentType = `${name}_field`;
@@ -183,18 +197,25 @@ const getFieldsRule =
     openToken.info = name;
     openToken.map = [startLine, nextLine + (autoClosed ? 1 : 0)];
     openToken.attrs = [
-      ["class", `field-wrapper ${name}-fields`],
+      ["class", `${classPrefix}wrapper ${name}-fields`],
       ["data-kind", name],
     ];
     if (id) openToken.attrSet("id", id);
 
     state.env.fieldName = name;
-    state.env.fieldIndent = state.blkIndent;
+    state.env.fieldDepthStack = [];
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
+    // Close any remaining open field items from the depth stack
+    const depthStack = state.env.fieldDepthStack;
+
+    for (let ii = depthStack.length - 1; ii >= 0; ii--) {
+      state.push(`${name}_field_close`, "div", -1);
+    }
+
     state.env.fieldName = oldName;
-    state.env.fieldIndent = oldIndent;
+    state.env.fieldDepthStack = oldDepthStack;
 
     const closeToken = state.push(`${name}_fields_close`, "div", -1);
 
@@ -210,7 +231,12 @@ const getFieldsRule =
   };
 
 const getFieldItemRule =
-  (name: string, allowedAttributes: AllowedAttributes | null): RuleBlock =>
+  (
+    name: string,
+    classPrefix: string,
+    allowedAttributes: AllowedAttributes | null,
+    shouldParseAttributes: boolean,
+  ): RuleBlock =>
   (state: FieldStateBlock, startLine, endLine, silent) => {
     if (state.env.fieldName !== name) return false;
 
@@ -219,53 +245,65 @@ const getFieldItemRule =
 
     const indent = state.sCount[startLine] - state.blkIndent;
 
-    // Must match @name@
+    // 0-3 spaces of indent are cosmetic; 4+ means code block, not a field item
+    if (indent > MAX_COSMETIC_INDENT) return false;
+
+    // Must match @name@ (with prefix depth)
     const marker = checkFieldMarker(state, start, max);
 
     if (marker === false) return false;
 
     if (silent) return true;
 
-    // Parse attributes
+    // Parse attributes (if enabled)
     const afterName = state.src.slice(marker.end + 1, max);
-    const attributes = parseAttributes(afterName, allowedAttributes);
+    const attributes = shouldParseAttributes ? parseAttributes(afterName, allowedAttributes) : [];
 
-    // Search for the end of the item block
+    const currentDepth = marker.depth;
+
+    // Manage depth stack: close items as needed
+    const depthStack = state.env.fieldDepthStack;
+
+    // Close items that are at the same or deeper depth (sibling or backtrack)
+    while (depthStack.length > 0 && depthStack[depthStack.length - 1] >= currentDepth) {
+      depthStack.pop();
+      state.push(`${name}_field_close`, "div", -1);
+    }
+
+    // Push current depth onto stack
+    depthStack.push(currentDepth);
+
+    // Search for the end of the item block content
     let nextLine = startLine + 1;
 
     for (; nextLine < endLine; nextLine++) {
-      // Skip empty lines? Markdown blocks usually include empty lines.
       if (state.isEmpty(nextLine)) continue;
 
       const nextStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextMax = state.eMarks[nextLine];
       const nextIndent = state.sCount[nextLine] - state.blkIndent;
 
-      // Check indentation to determine if it's a sibling or parent
-      // If indentation is equal or less than current item, it's a new item or end of current item
-      if (nextIndent < indent) break;
-
-      // We should stop if we hit a container marker at the same level (or parent level) as the current container
-      if (nextIndent <= 0 && state.src.charCodeAt(nextStart) === 58 /* : */) {
+      // A container marker at the container level ends the item
+      if (nextIndent <= MAX_COSMETIC_INDENT && state.src.charCodeAt(nextStart) === 58 /* : */) {
         break;
       }
 
-      // Check if it's a field marker
-      const nextMarker = checkFieldMarker(state, nextStart, nextMax);
+      // Check if it's a field marker within the cosmetic indent range
+      if (nextIndent <= MAX_COSMETIC_INDENT) {
+        const nextMarker = checkFieldMarker(state, nextStart, nextMax);
 
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (nextMarker && nextIndent <= indent) {
-        break;
+        // oxlint-disable-next-line typescript/strict-boolean-expressions
+        if (nextMarker) {
+          break;
+        }
       }
     }
 
     const tokenOpen = state.push(`${name}_field_open`, "div", 1);
-    tokenOpen.attrSet("class", "field-item");
 
-    const level = Math.floor((state.sCount[startLine] - state.env.fieldIndent) / 2);
-
-    tokenOpen.attrSet("data-level", String(level));
-    tokenOpen.meta = { name: marker.name, level, attributes };
+    tokenOpen.attrSet("class", `${classPrefix}item`);
+    tokenOpen.attrSet("data-level", String(currentDepth));
+    tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
     tokenOpen.map = [startLine, nextLine];
 
     const oldParentType = state.parentType;
@@ -277,8 +315,8 @@ const getFieldItemRule =
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;
 
-    // Shift block indent specifically for the content of this item.
-    state.blkIndent += indent;
+    // Adjust blkIndent for content within this item
+    // Cosmetic indentation does not affect block indent
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
@@ -286,62 +324,64 @@ const getFieldItemRule =
     state.lineMax = oldLineMax;
     state.blkIndent = oldBlkIndent;
 
-    state.push(`${name}_field_close`, "div", -1);
+    // Note: we do NOT push field_close here.
+    // The close is handled by the depth stack in getFieldsRule or by sibling/backtrack logic above.
 
     state.line = nextLine;
     return true;
   };
 
 const getFieldsScanner =
-  (name: string): ((tokens: Token[], index: number) => void) =>
-  (tokens: Token[], index: number) => {
-    let isFieldStart = false;
-    let nestingDepth = 0;
-    const { level } = tokens[index];
+  (name: string): ((tokens: Token[]) => void) =>
+  (tokens: Token[]) => {
+    for (let ii = 0; ii < tokens.length; ii++) {
+      const token = tokens[ii];
 
-    for (
-      // skip the current fields_open token
-      let i = index + 1;
-      i < tokens.length;
-      i++
-    ) {
-      const token = tokens[i];
-      const type = token.type;
+      if (token.type !== `${name}_fields_open`) continue;
 
-      // record the nesting depth of fields
-      if (type === `${name}_fields_open`) {
-        nestingDepth++;
-        continue;
-      }
+      const { level } = token;
+      let isFieldStart = false;
+      let nestingDepth = 0;
 
-      if (type === `${name}_fields_close`) {
-        if (token.level === level) break;
+      for (let jj = ii + 1; jj < tokens.length; jj++) {
+        const innerToken = tokens[jj];
+        const type = innerToken.type;
 
-        nestingDepth--;
-        continue;
-      }
-
-      // skip processing tokens deep inside other blocks
-      if (token.level > level + 1 || nestingDepth > 0) {
-        // hide contents before first field
-        if (!isFieldStart) {
-          token.type = `${name}_fields_empty`;
-          token.hidden = true;
+        // record the nesting depth of fields
+        if (type === `${name}_fields_open`) {
+          nestingDepth++;
+          continue;
         }
 
-        continue;
+        if (type === `${name}_fields_close`) {
+          if (innerToken.level === level) break;
+
+          nestingDepth--;
+          continue;
+        }
+
+        // skip processing tokens deep inside other blocks
+        if (innerToken.level > level + 1 || nestingDepth > 0) {
+          // hide contents before first field
+          if (!isFieldStart) {
+            innerToken.type = `${name}_fields_empty`;
+            innerToken.hidden = true;
+          }
+
+          continue;
+        }
+
+        if (type === `${name}_field_open`) {
+          isFieldStart = true;
+          continue;
+        }
+
+        if (type === `${name}_field_close`) continue;
+
+        // hide contents before first field
+        innerToken.type = `${name}_fields_empty`;
+        innerToken.hidden = true;
       }
-
-      if (type === `${name}_field_open`) {
-        isFieldStart = true;
-        continue;
-      }
-
-      if (type === `${name}_field_close`) continue;
-
-      // hide contents before first field
-      token.type = `${name}_fields_empty`;
-      token.hidden = true;
     }
   };
 
@@ -357,35 +397,42 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
   md,
   {
     name = "fields",
+    classPrefix = "field-",
+    parseAttributes: shouldParseAttributes = true,
     allowedAttributes,
     fieldsOpenRender = defaultFieldsOpenRender,
     fieldsCloseRender = defaultFieldsCloseRender,
-    fieldOpenRender = defaultFieldOpenRender,
+    fieldOpenRender,
     fieldCloseRender = defaultFieldCloseRender,
   } = {},
 ) => {
   const normalizedAttributes = normalizeAttributes(allowedAttributes);
   const fieldsScanner = getFieldsScanner(name);
+  const resolvedFieldOpenRender = fieldOpenRender ?? getDefaultFieldOpenRender(classPrefix);
 
-  md.block.ruler.before("fence", name, getFieldsRule(name), {
+  md.block.ruler.before("fence", name, getFieldsRule(name, classPrefix), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
   // Insert field_item before paragraph (and maybe other block things that could swallow it)
   // Inside fields container, paragraphs starting with @ should be field items.
-  md.block.ruler.before("paragraph", `${name}_item`, getFieldItemRule(name, normalizedAttributes), {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  md.block.ruler.before(
+    "paragraph",
+    `${name}_item`,
+    getFieldItemRule(name, classPrefix, normalizedAttributes, shouldParseAttributes),
+    {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    },
+  );
 
-  // oxlint-disable-next-line jsdoc/require-param, jsdoc/require-returns
-  md.renderer.rules[`${name}_fields_open`] = (tokens, index, options, env, self): string => {
-    fieldsScanner(tokens, index);
-
-    return fieldsOpenRender(tokens, index, options, env, self);
-  };
-
+  md.renderer.rules[`${name}_fields_open`] = fieldsOpenRender;
   md.renderer.rules[`${name}_fields_close`] = fieldsCloseRender;
 
-  md.renderer.rules[`${name}_field_open`] = fieldOpenRender;
+  md.renderer.rules[`${name}_field_open`] = resolvedFieldOpenRender;
   md.renderer.rules[`${name}_field_close`] = fieldCloseRender;
+
+  // Run the scanner as a core rule to move pre-field content hiding to parse phase
+  md.core.ruler.push(`${name}_fields_scanner`, (state) => {
+    fieldsScanner(state.tokens);
+  });
 };
