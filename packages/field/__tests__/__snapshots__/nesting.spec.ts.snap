@@ -61,8 +61,6 @@ exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 2`] = 
 <span class="field-attr field-attr-type">Type: string</span>
 <p>Key description.</p>
 </dd>
-</dl>
-<dl>
 <dt class="field-name" data-level="2">prop1.key2</dt>
 <dd class="field-content" data-level="2">
 <span class="field-attr field-attr-type">Type: number</span>
@@ -132,8 +130,6 @@ exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
 <dt class="field-name" data-level="2">child1</dt>
 <dd class="field-content" data-level="2">
 </dd>
-</dl>
-<dl>
 <dt class="field-name" data-level="2">child2</dt>
 <dd class="field-content" data-level="2">
 <dl>
@@ -142,8 +138,6 @@ exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
 </dd>
 </dl>
 </dd>
-</dl>
-<dl>
 <dt class="field-name" data-level="2">child3</dt>
 <dd class="field-content" data-level="2">
 </dd>

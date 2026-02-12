@@ -302,17 +302,17 @@ export const getFieldItemRule =
       lastClosedDepth = closingDepth;
     }
 
-    // Close outermost inner <dl> wrapper when we backtracked to parent level
-    if (
-      lastClosedDepth > -1 &&
-      depthStack.length > 0 &&
-      lastClosedDepth > depthStack[depthStack.length - 1]
-    ) {
+    // Close outermost inner <dl> wrapper only when backtracking to parent level
+    if (lastClosedDepth > currentDepth && depthStack.length > 0) {
       state.push(`${name}_fields_inner_close`, "dl", -1);
     }
 
-    // Open inner <dl> wrapper when nesting deeper
-    if (depthStack.length > 0 && currentDepth > depthStack[depthStack.length - 1]) {
+    // Open inner <dl> wrapper only on first descent to a deeper level
+    if (
+      depthStack.length > 0 &&
+      currentDepth > depthStack[depthStack.length - 1] &&
+      lastClosedDepth < currentDepth
+    ) {
       state.push(`${name}_fields_inner_open`, "dl", 1);
     }
 
