@@ -94,6 +94,11 @@ features:
     details: Ins tag support
     link: ./ins.html
 
+  - title: layout
+    icon: grip
+    details: Flexbox, Grid and Multi-column layouts
+    link: ./layout.html
+
   - title: katex
     icon: square-root-variable
     details: Render math expressions with KaTeX

@@ -38,6 +38,7 @@ This repo contains the following plugins:
 - @mdit/plugin-ins
 - @mdit/plugin-katex
 - @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
+- @mdit/plugin-layout
 - @mdit/plugin-mark
 - @mdit/plugin-mathjax (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-mathjax-slim (Workable in browser with bundlers, but no CDN scripts)

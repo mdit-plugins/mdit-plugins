@@ -94,6 +94,11 @@ features:
     details: 插入标签支持
     link: ./ins.html
 
+  - title: layout
+    icon: grip
+    details: 弹性盒、网格和多列布局
+    link: ./layout.html
+
   - title: katex
     icon: square-root-variable
     details: 使用 KaTeX 呈现数学表达式
