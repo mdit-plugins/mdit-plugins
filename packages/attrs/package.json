@@ -45,8 +45,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "@mdit/plugin-katex": "workspace:*",
-    "markdown-it": "14.1.0"
+    "@mdit/plugin-katex": "workspace:*"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"
@@ -57,6 +56,6 @@
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   }
 }

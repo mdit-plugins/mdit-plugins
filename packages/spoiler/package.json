@@ -27,6 +27,8 @@
     "spoiler.css"
   ],
   "type": "module",
+  "unpkg": "dist/cdn.js",
+  "jsdelivr": "dist/cdn.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -55,6 +57,6 @@
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   }
 }
