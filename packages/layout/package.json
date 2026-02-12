@@ -1,0 +1,69 @@
+{
+  "name": "@mdit/plugin-layout",
+  "version": "0.1.0",
+  "description": "layout plugin for MarkdownIt",
+  "keywords": [
+    "columns",
+    "flexbox",
+    "grid",
+    "layout",
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
+  "homepage": "https://mdit-plugins.github.io/layout.html",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mr.Hope",
+    "email": "mister-hope@outlook.com",
+    "url": "https://mister-hope.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/layout"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "unpkg": "dist/slim-cdn.js",
+  "jsdelivr": "dist/slim-cdn.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "unpkg": "./dist/cdn.js",
+      "jsdelivr": "./dist/cdn.js",
+      "default": "./dist/index.js"
+    },
+    "./slim": {
+      "types": "./dist/slim.d.ts",
+      "default": "./dist/slim.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown --config-loader unrun",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@mdit/helper": "workspace:*",
+    "@types/markdown-it": "^14.1.2"
+  },
+  "devDependencies": {
+    "@mdit/plugin-container": "workspace:*"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  }
+}

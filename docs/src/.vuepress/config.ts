@@ -2,6 +2,7 @@ import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 import { dl } from "@mdit/plugin-dl";
 import { ins } from "@mdit/plugin-ins";
+import { layout } from "@mdit/plugin-layout";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
 import { defineUserConfig } from "vuepress";
@@ -47,6 +48,7 @@ export default defineUserConfig({
     });
     md.use(dl);
     md.use(ins);
+    md.use(layout);
     md.use(ruby);
     md.use(snippet, {
       currentPath: (env: MarkdownEnv) => env.filePath,

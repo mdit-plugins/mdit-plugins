@@ -128,6 +128,9 @@ importers:
       '@mdit/plugin-ins':
         specifier: workspace:*
         version: link:../packages/ins
+      '@mdit/plugin-layout':
+        specifier: workspace:*
+        version: link:../packages/layout
       '@mdit/plugin-mathjax-slim':
         specifier: workspace:*
         version: link:../packages/mathjax-slim
@@ -415,6 +418,22 @@ importers:
       katex:
         specifier: 0.16.28
         version: 0.16.28
+
+  packages/layout:
+    dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+    devDependencies:
+      '@mdit/plugin-container':
+        specifier: workspace:*
+        version: link:../container
 
   packages/mark:
     dependencies:
