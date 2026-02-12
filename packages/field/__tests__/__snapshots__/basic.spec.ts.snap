@@ -1,0 +1,146 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic rendering > should handle attribute with trailing backslash (edge case) 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">test</span>    <span class="field-attr field-attr-attr">Attr: val\\</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`basic rendering > should handle escaped name markers 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">@name@</span>
+  </div>
+  <div class="field-content"><p>Description</p>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should handle mixed attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: string</span>
+    <span class="field-attr field-attr-required">Required</span>
+    <span class="field-attr field-attr-default">Default: value</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`basic rendering > should handle unquoted attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: number</span>
+
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`basic rendering > should ignore lines starting with escaped @ 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Description includes:
+@not-a-field</p>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should render attributes 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: string</span>
+    <span class="field-attr field-attr-required">Required</span>
+
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should render multiple fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div><div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop2</span>
+  </div>
+  <div class="field-content"><p>Description 2</p>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should render single field 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><p>Description 1</p>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should support #id syntax in fence 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="my-id">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`basic rendering > should support code blocks inside fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Here is code:</p>
+<pre><code class="language-js">console.log(&quot;test&quot;);
+</code></pre>
+</div></div></div>
+"
+`;
+
+exports[`basic rendering > should support concatenated #id syntax 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="my-id-2">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"></div></div></div>
+"
+`;
+
+exports[`basic rendering > should support lists inside fields 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><ul>
+<li>item 1</li>
+<li>item 2</li>
+</ul>
+</div></div></div>
+"
+`;

@@ -60,9 +60,9 @@ export interface FieldMeta {
   name: string;
 
   /**
-   * Field level, starting from 0
+   * Field level, starting from 1
    *
-   * 字段层级，从 0 开始
+   * 字段层级，从 1 开始
    */
   level: number;
 

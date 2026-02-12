@@ -141,9 +141,9 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   // Validate depth consistency
   if (ctx) {
-    if (depth > 0 && depth !== ctx.depth + 1) return false;
-    if (depth === 0 && ctx.depth > 0) return false;
-  } else if (depth > 0) {
+    if (depth > 1 && depth !== ctx.depth + 1) return false;
+    if (depth === 1 && ctx.depth > 1) return false;
+  } else if (depth > 1) {
     return false;
   }
 

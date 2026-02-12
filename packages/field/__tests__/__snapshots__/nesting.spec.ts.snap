@@ -1,0 +1,112 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`content belonging > should handle different field containers nested with content 1`] = `
+"<div class="field-wrapper props-fields" data-kind="props">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop1</span>
+  </div>
+  <div class="field-content"><p>Prop content.</p>
+<div class="field-wrapper events-fields" data-kind="events">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">event1</span>
+  </div>
+  <div class="field-content"><p>Event content.</p>
+</div></div></div>
+</div></div></div>
+"
+`;
+
+exports[`content belonging > should support nested containers with content 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields" id="outer">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">outer-prop</span>
+  </div>
+  <div class="field-content"><p>Outer description.</p>
+<div class="field-wrapper fields-fields" data-kind="fields" id="inner">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">inner-prop</span>
+  </div>
+  <div class="field-content"><p>Inner description</p>
+</div></div></div>
+</div></div></div>
+"
+`;
+
+exports[`prefix-mode nesting > should handle cosmetic indentation without affecting depth 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">prop</span>
+  </div>
+  <div class="field-content"><p>Description</p>
+</div></div></div>
+"
+`;
+
+exports[`prefix-mode nesting > should handle deep nesting 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">level1</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">level2</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="3">
+  <div class="field-header">
+    <span class="field-name">level3</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="4">
+  <div class="field-header">
+    <span class="field-name">level4</span>
+  </div>
+  <div class="field-content"></div></div></div></div></div></div></div></div></div>
+"
+`;
+
+exports[`prefix-mode nesting > should handle prefix-mode nesting with content 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">parent</span>
+  </div>
+  <div class="field-content"><p>Description parent.</p>
+<div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">child</span>
+  </div>
+  <div class="field-content"><p>Description child.</p>
+</div></div></div></div></div>
+"
+`;
+
+exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
+"<div class="field-wrapper fields-fields" data-kind="fields">
+<div class="field-item" data-level="1">
+  <div class="field-header">
+    <span class="field-name">root</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">child1</span>
+  </div>
+  <div class="field-content"></div></div><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">child2</span>
+  </div>
+  <div class="field-content"><div class="field-item" data-level="3">
+  <div class="field-header">
+    <span class="field-name">grandchild</span>
+  </div>
+  <div class="field-content"></div></div></div></div><div class="field-item" data-level="2">
+  <div class="field-header">
+    <span class="field-name">child3</span>
+  </div>
+  <div class="field-content"></div></div></div></div></div>
+"
+`;

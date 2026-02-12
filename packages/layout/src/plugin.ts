@@ -143,11 +143,11 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   // Validate depth consistency
   if (ctx) {
-    // Inside an existing container: prefix depth must be parent + 1, or 0 (same)
-    if (depth > 0 && depth !== ctx.depth + 1) return false;
-    if (depth === 0 && ctx.depth > 0) return false;
-  } else if (depth > 0) {
-    // Top level: only depth 0 allowed
+    // Inside an existing container: prefix depth must be parent + 1, or 1 (same)
+    if (depth > 1 && depth !== ctx.depth + 1) return false;
+    if (depth === 1 && ctx.depth > 1) return false;
+  } else if (depth > 1) {
+    // Top level: only depth 1 allowed
     return false;
   }
 
