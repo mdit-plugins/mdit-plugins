@@ -1,5 +1,27 @@
 import { describe, it, expect } from "vitest";
+
+import { isValidAttrKey } from "../src/rules.js";
 import { normalizeAttributes, parseAttributes, ucFirst } from "../src/utils.js";
+
+describe(isValidAttrKey, () => {
+  it("should accept alphanumeric and hyphens", () => {
+    expect(isValidAttrKey("abc-123")).toBe(true);
+    expect(isValidAttrKey("valid-key")).toBe(true);
+    expect(isValidAttrKey("type")).toBe(true);
+  });
+
+  it("should reject special characters", () => {
+    expect(isValidAttrKey('evil"><script>')).toBe(false);
+    expect(isValidAttrKey("a.b")).toBe(false);
+    expect(isValidAttrKey("c/d")).toBe(false);
+    expect(isValidAttrKey("e_f")).toBe(false);
+    expect(isValidAttrKey("g h")).toBe(false);
+  });
+
+  it("should reject empty string", () => {
+    expect(isValidAttrKey("")).toBe(false);
+  });
+});
 
 describe(ucFirst, () => {
   it("should capitalize first letter", () => {
@@ -188,10 +210,10 @@ describe(parseAttributes, () => {
     });
 
     it("should handle edge cases", () => {
-      expect(parseAttributes("key=")).toEqual([]); // Trailing = implies invalid or empty? Current logic might stop
+      expect(parseAttributes("key=")).toEqual([]);
       expect(parseAttributes('key="unterminated')).toEqual([
         { attr: "key", name: "Key", value: "unterminated" },
-      ]); // Current logic handles EOF
+      ]);
     });
 
     it("should parse boolean attributes", () => {

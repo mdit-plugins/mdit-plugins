@@ -419,7 +419,7 @@ Content
 `);
       });
 
-      it("should reject depth-0 inside prefix-mode container", () => {
+      it("should reject depth-1 inside prefix-mode container", () => {
         expect(
           markdownIt.render(`\
 @flexs

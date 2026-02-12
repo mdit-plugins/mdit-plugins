@@ -38,11 +38,11 @@ export const isDirectiveBoundary = (code: number): boolean =>
 
 /**
  * Detect the type of layout directive at the given position.
- * Supports both single `@` (indent-based, depth 0) and multiple `@@...`
- * (prefix-based, depth = number of `@` - 1) modes.
+ * Supports both single `@` (depth 1) and multiple `@@...`
+ * (depth = number of `@`) modes.
  *
  * 检测给定位置的布局指令类型。
- * 支持单 `@`（缩进模式，depth 0）和多 `@@...`（前缀模式，depth = `@` 数量 - 1）。
+ * 支持单 `@`（depth 1）和多 `@@...`（depth = `@` 数量）。
  *
  * @param src - source string / 源字符串
  * @param pos - position (should point to '@') / 位置（应指向 '@'）
@@ -65,7 +65,7 @@ export const detectDirective = (
     afterAt++;
   }
 
-  const depth = atCount - 1;
+  const depth = atCount;
 
   // Check for "end"
   if (matchString(src, afterAt, END) && afterAt + END.length <= max) {

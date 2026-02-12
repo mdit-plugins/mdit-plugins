@@ -60,9 +60,9 @@ export interface FieldMeta {
   name: string;
 
   /**
-   * Field level, starting from 0
+   * Field level, starting from 1
    *
-   * 字段层级，从 0 开始
+   * 字段层级，从 1 开始
    */
   level: number;
 
@@ -96,6 +96,24 @@ export interface MarkdownItFieldOptions {
    * @default "fields"
    */
   name?: string;
+
+  /**
+   * CSS class prefix for generated class names
+   *
+   * 生成的 CSS 类名前缀
+   *
+   * @default "field-"
+   */
+  classPrefix?: string;
+
+  /**
+   * Whether to parse `key="val"` attributes after the field marker
+   *
+   * 是否解析字段标记后的 `key="val"` 属性
+   *
+   * @default true
+   */
+  parseAttributes?: boolean;
 
   /**
    * Allowed attributes for fields, if not provided, all attributes will be allowed and displayed as-is.

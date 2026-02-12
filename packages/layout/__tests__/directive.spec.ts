@@ -6,7 +6,7 @@ describe(detectDirective, () => {
   it("should detect @end with trailing space", () => {
     const result = detectDirective("@end trailing", 0, 13);
 
-    expect(result).toEqual({ kind: "end", type: 0, nameEnd: 4, depth: 0 });
+    expect(result).toEqual({ kind: "end", type: 0, nameEnd: 4, depth: 1 });
   });
 
   it("should not detect @endfoo as end", () => {
