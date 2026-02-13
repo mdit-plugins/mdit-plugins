@@ -49,6 +49,11 @@ features:
     details: Add emoji support
     link: ./emoji.html
 
+  - title: field
+    icon: list
+    details: Field containers
+    link: ./field.html
+
   - title: figure
     icon: image
     details: Generating figures with captions from images

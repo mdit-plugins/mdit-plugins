@@ -49,7 +49,7 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Same or different containers can be nested inside items at the same indentation level.
+Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
 
 ```md
 @flexs
@@ -59,6 +59,27 @@ Same or different containers can be nested inside items at the same indentation 
 Nested content
 @end
 @end
+```
+
+Though common tools like prettier is not happy with indention less than 4, the plugin is designed to be flexible with indentation as long as it is less than code fence indentation (4 spaces by default). This allows for more natural nesting without strict indentation requirements.
+
+```md
+<!-- prettier-ignore-start -->
+@flexs
+  @flex
+    Some Content
+
+    @grids grid-cols-2
+    @grid
+    Nested content
+    @end
+
+    More Content
+
+  @flex
+    Another Content
+@end
+<!-- prettier-ignore-end -->
 ```
 
 **Prefix mode** (multiple `@`) provides an explicit depth indicator — recommended for complex nesting:
@@ -74,18 +95,6 @@ Content (depth 2 via @@)
 ```
 
 In prefix mode, `@@` = depth 2, `@@@` = depth 3, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
-
-Layout directives also work inside list items and blockquotes:
-
-<!-- prettier-ignore-start -->
-```md
-- list item
-  @flexs
-  @flex
-  Content in list
-  @end
-```
-<!-- prettier-ignore-end -->
 
 ## Supported Utilities
 

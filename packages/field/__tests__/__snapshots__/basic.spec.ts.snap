@@ -1,0 +1,133 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic rendering > should handle attribute with trailing backslash (edge case) 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">test</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-attr">Attr: val\\</span>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should handle escaped name markers 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">@name@</dt>
+<dd class="field-content" data-level="1">
+<p>Description</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should handle mixed attributes 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-type">Type: string</span>
+<span class="field-attr field-attr-required">Required</span>
+<span class="field-attr field-attr-default">Default: value</span>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should handle unquoted attributes 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-type">Type: number</span>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should ignore lines starting with escaped @ 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<p>Description includes:
+@not-a-field</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should render attributes 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-type">Type: string</span>
+<span class="field-attr field-attr-required">Required</span>
+<p>Description 1</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should render multiple fields 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<p>Description 1</p>
+</dd>
+<dt class="field-name" data-level="1">prop2</dt>
+<dd class="field-content" data-level="1">
+<p>Description 2</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should render single field 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<p>Description 1</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should support #id syntax in fence 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields" id="my-id">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should support code blocks inside fields 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<p>Here is code:</p>
+<pre><code class="language-js">console.log(&quot;test&quot;);
+</code></pre>
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should support concatenated #id syntax 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields" id="my-id-2">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+</dd>
+</dl>
+"
+`;
+
+exports[`basic rendering > should support lists inside fields 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<ul>
+<li>item 1</li>
+<li>item 2</li>
+</ul>
+</dd>
+</dl>
+"
+`;

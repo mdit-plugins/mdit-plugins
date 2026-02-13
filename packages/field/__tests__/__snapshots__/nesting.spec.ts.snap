@@ -1,0 +1,167 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`content belonging > should handle different field containers nested with content 1`] = `
+"<dl class="field-wrapper props-fields" data-kind="props">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<p>Prop content.</p>
+<dl class="field-wrapper events-fields" data-kind="events">
+<dt class="field-name" data-level="1">event1</dt>
+<dd class="field-content" data-level="1">
+<p>Event content.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`content belonging > should support nested containers with content 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields" id="outer">
+<dt class="field-name" data-level="1">outer-prop</dt>
+<dd class="field-content" data-level="1">
+<p>Outer description.</p>
+<dl class="field-wrapper fields-fields" data-kind="fields" id="inner">
+<dt class="field-name" data-level="1">inner-prop</dt>
+<dd class="field-content" data-level="1">
+<p>Inner description</p>
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">zero</dt>
+<dd class="field-content" data-level="1">
+</dd>
+<dt class="field-name" data-level="1">one</dt>
+<dd class="field-content" data-level="1">
+</dd>
+<dt class="field-name" data-level="1">two</dt>
+<dd class="field-content" data-level="1">
+</dd>
+<dt class="field-name" data-level="1">three</dt>
+<dd class="field-content" data-level="1">
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 2`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<p>Parent description.</p>
+<dl>
+<dt class="field-name" data-level="2">prop1.key1</dt>
+<dd class="field-content" data-level="2">
+<span class="field-attr field-attr-type">Type: string</span>
+<p>Key description.</p>
+</dd>
+<dt class="field-name" data-level="2">prop1.key2</dt>
+<dd class="field-content" data-level="2">
+<span class="field-attr field-attr-type">Type: number</span>
+<p>Key description.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should handle backtrack from skipped depth to mid level 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">root</dt>
+<dd class="field-content" data-level="1">
+<dl>
+<dt class="field-name" data-level="3">deep</dt>
+<dd class="field-content" data-level="3">
+</dd>
+</dl>
+<dl>
+<dt class="field-name" data-level="2">mid</dt>
+<dd class="field-content" data-level="2">
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should handle cosmetic indentation without affecting depth 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<p>Description</p>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should handle deep nesting 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">level1</dt>
+<dd class="field-content" data-level="1">
+<dl>
+<dt class="field-name" data-level="2">level2</dt>
+<dd class="field-content" data-level="2">
+<dl>
+<dt class="field-name" data-level="3">level3</dt>
+<dd class="field-content" data-level="3">
+<dl>
+<dt class="field-name" data-level="4">level4</dt>
+<dd class="field-content" data-level="4">
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should handle prefix-mode nesting with content 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">parent</dt>
+<dd class="field-content" data-level="1">
+<p>Description parent.</p>
+<dl>
+<dt class="field-name" data-level="2">child</dt>
+<dd class="field-content" data-level="2">
+<p>Description child.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
+exports[`prefix-mode nesting > should handle siblings at nested levels 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">root</dt>
+<dd class="field-content" data-level="1">
+<dl>
+<dt class="field-name" data-level="2">child1</dt>
+<dd class="field-content" data-level="2">
+</dd>
+<dt class="field-name" data-level="2">child2</dt>
+<dd class="field-content" data-level="2">
+<dl>
+<dt class="field-name" data-level="3">grandchild</dt>
+<dd class="field-content" data-level="3">
+</dd>
+</dl>
+</dd>
+<dt class="field-name" data-level="2">child3</dt>
+<dd class="field-content" data-level="2">
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;

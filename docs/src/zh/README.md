@@ -49,6 +49,11 @@ features:
     details: 添加表情支持
     link: ./emoji.html
 
+  - title: field
+    icon: list
+    details: 字段容器
+    link: ./field.html
+
   - title: figure
     icon: image
     details: 生成带有标题的图片

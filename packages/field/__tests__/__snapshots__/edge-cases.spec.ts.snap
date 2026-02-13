@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`edge cases > should ignore malformed markers 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<p>content</p>
+<p>@prop
+No closing marker</p>
+</dd>
+</dl>
+"
+`;
