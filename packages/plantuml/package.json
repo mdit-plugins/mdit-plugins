@@ -26,8 +26,8 @@
     "dist"
   ],
   "type": "module",
-  "unpkg": "dist/cdn.umd.js",
-  "jsdelivr": "dist/cdn.umd.js",
+  "unpkg": "./dist/cdn.umd.js",
+  "jsdelivr": "./dist/cdn.umd.js",
   "exports": {
     ".": {
       "types": "./dist/node.d.ts",
