@@ -49,6 +49,20 @@ export interface TsdownOptions {
    * 不作为外部处理的包
    */
   noExternal?: (string | RegExp)[];
+
+  /**
+   * Global name for UMD bundles
+   *
+   * UMD 包的全局变量名
+   */
+  globalName?: string;
+
+  /**
+   * External dependencies with their global names
+   *
+   * 外部依赖及其全局变量名映射
+   */
+  externals?: Record<string, string>;
 }
 
 /**
@@ -72,11 +86,20 @@ export const tsdownConfig = (
     treeshake = {
       moduleSideEffects: false,
     },
+    globalName,
+    externals = {},
   } = options;
   const files = Array.isArray(fileInfo) ? fileInfo : [fileInfo];
+
+  // For CDN builds, externalize specified dependencies, otherwise bundle @mdit and markdown-it
+  const external =
+    type === "cdn" && Object.keys(externals).length > 0 ? Object.keys(externals) : [];
+
   const noExternal =
-    // bundle markdown-it and @mdit packages for cdn builds
+    // bundle markdown-it and @mdit packages for cdn builds (unless externalized)
     type === "cdn" ? [/^@mdit\//, /^markdown-it/, ...noExternalOptions] : noExternalOptions;
+
+  const hasExternals = type === "cdn" && Object.keys(externals).length > 0;
 
   return defineConfig({
     entry: Object.fromEntries(
@@ -85,7 +108,7 @@ export const tsdownConfig = (
         `./src/${item}.ts`,
       ]),
     ),
-    format: "esm",
+    format: type === "cdn" ? "umd" : "esm",
     outDir: "./dist",
     sourcemap: true,
     dts,
@@ -99,7 +122,16 @@ export const tsdownConfig = (
     treeshake,
     fixedExtension: false,
     inlineOnly: false,
+    external,
     noExternal,
+    globalName,
+    ...(hasExternals
+      ? {
+          outputOptions: {
+            globals: externals,
+          },
+        }
+      : {}),
     publint: true,
-  });
+  } as UserConfig);
 };
