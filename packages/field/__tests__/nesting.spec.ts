@@ -160,6 +160,24 @@ Description child.
     expect(lastLevelOne).toBeGreaterThan(result.indexOf("root2") - 100);
   });
 
+  it("should handle backtrack from skipped depth to mid level", () => {
+    const result = md.render(`
+::: fields
+@root@
+@@@deep@
+@@mid@
+:::
+`);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(">root</dt>");
+    expect(result).toContain(">deep</dt>");
+    expect(result).toContain(">mid</dt>");
+    expect(result).toContain('data-level="1"');
+    expect(result).toContain('data-level="3"');
+    expect(result).toContain('data-level="2"');
+  });
+
   it("should handle cosmetic indentation without affecting depth", () => {
     const result = md.render(`
 ::: fields

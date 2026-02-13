@@ -227,7 +227,7 @@ export const getFieldsRule =
       if (ii < depthStack.length - 1 && depthStack[ii + 1] > depthStack[ii]) {
         state.push(`${name}_fields_inner_close`, "dl", -1);
       }
-      state.push(`${name}_field_close`, "", -1);
+      state.push(`${name}_field_close`, "div", -1);
     }
 
     state.env.fieldContext = oldContext;
@@ -298,7 +298,7 @@ export const getFieldItemRule =
         state.push(`${name}_fields_inner_close`, "dl", -1);
       }
 
-      state.push(`${name}_field_close`, "", -1);
+      state.push(`${name}_field_close`, "div", -1);
       lastClosedDepth = closingDepth;
     }
 
@@ -311,7 +311,7 @@ export const getFieldItemRule =
     if (
       depthStack.length > 0 &&
       currentDepth > depthStack[depthStack.length - 1] &&
-      lastClosedDepth < currentDepth
+      lastClosedDepth !== currentDepth
     ) {
       state.push(`${name}_fields_inner_open`, "dl", 1);
     }
@@ -345,7 +345,7 @@ export const getFieldItemRule =
       }
     }
 
-    const tokenOpen = state.push(`${name}_field_open`, "", 1);
+    const tokenOpen = state.push(`${name}_field_open`, "div", 1);
 
     tokenOpen.attrSet("data-level", String(currentDepth));
     tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };

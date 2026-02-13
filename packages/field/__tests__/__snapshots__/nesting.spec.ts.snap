@@ -72,6 +72,25 @@ exports[`prefix-mode nesting > should allow 0-3 spaces indent as cosmetic 2`] = 
 "
 `;
 
+exports[`prefix-mode nesting > should handle backtrack from skipped depth to mid level 1`] = `
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">root</dt>
+<dd class="field-content" data-level="1">
+<dl>
+<dt class="field-name" data-level="3">deep</dt>
+<dd class="field-content" data-level="3">
+</dd>
+</dl>
+<dl>
+<dt class="field-name" data-level="2">mid</dt>
+<dd class="field-content" data-level="2">
+</dd>
+</dl>
+</dd>
+</dl>
+"
+`;
+
 exports[`prefix-mode nesting > should handle cosmetic indentation without affecting depth 1`] = `
 "<dl class="field-wrapper fields-fields" data-kind="fields">
 <dt class="field-name" data-level="1">prop</dt>
