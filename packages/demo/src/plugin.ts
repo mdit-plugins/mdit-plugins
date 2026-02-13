@@ -152,7 +152,10 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       codeToken.map = [startLine, state.line];
       // oxlint-disable-next-line typescript/no-unsafe-member-access
       (codeToken.meta ??= {}).title = title;
-      if (!codeRender) codeToken.info = "md";
+      if (!codeRender) {
+        codeToken.info = "md";
+        codeToken.markup = "```";
+      }
     };
 
     if (showCodeFirst) pushCodeToken();

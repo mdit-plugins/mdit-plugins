@@ -1,43 +1,27 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`block elements inside field content > should support mix nesting 1`] = `
-"<div class="field-wrapper fields-fields" data-kind="fields">
-<div class="field-item" data-level="1">
-  <div class="field-header">
-    <span class="field-name">option</span>
-  </div>
-  <div class="field-content">
+"<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">option</dt>
+<dd class="field-content" data-level="1">
 <p>Parent description.</p>
-<div class="field-wrapper props-fields" data-kind="props">
-<div class="field-item" data-level="1">
-  <div class="field-header">
-    <span class="field-name">prop1</span>    <span class="field-attr field-attr-type">Type: string</span>
-
-  </div>
-  <div class="field-content">
+<dl class="field-wrapper props-fields" data-kind="props">
+<dt class="field-name" data-level="1">prop1</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-type">Type: string</span>
 <p>Key description.</p>
-  </div>
-</div>
-<div class="field-item" data-level="1">
-  <div class="field-header">
-    <span class="field-name">prop2</span>    <span class="field-attr field-attr-type">Type: number</span>
-
-  </div>
-  <div class="field-content">
+</dd>
+<dt class="field-name" data-level="1">prop2</dt>
+<dd class="field-content" data-level="1">
+<span class="field-attr field-attr-type">Type: number</span>
 <p>Key description.</p>
-  </div>
-</div>
-</div>
-  </div>
-</div>
-<div class="field-item" data-level="1">
-  <div class="field-header">
-    <span class="field-name">option2</span>
-  </div>
-  <div class="field-content">
+</dd>
+</dl>
+</dd>
+<dt class="field-name" data-level="1">option2</dt>
+<dd class="field-content" data-level="1">
 <p>Another parent description.</p>
-  </div>
-</div>
-</div>
+</dd>
+</dl>
 "
 `;

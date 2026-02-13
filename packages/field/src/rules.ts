@@ -202,7 +202,7 @@ export const getFieldsRule =
     // this will update the block indent
     state.blkIndent = indent;
 
-    const openToken = state.push(`${name}_fields_open`, "div", 1);
+    const openToken = state.push(`${name}_fields_open`, "dl", 1);
     const markup = ":".repeat(markerCount);
 
     openToken.markup = markup;
@@ -223,12 +223,16 @@ export const getFieldsRule =
     const depthStack = state.env.fieldContext.depthStack;
 
     for (let ii = depthStack.length - 1; ii >= 0; ii--) {
+      // Close inner <dl> wrapper before closing parent when backtracking
+      if (ii < depthStack.length - 1 && depthStack[ii + 1] > depthStack[ii]) {
+        state.push(`${name}_fields_inner_close`, "dl", -1);
+      }
       state.push(`${name}_field_close`, "div", -1);
     }
 
     state.env.fieldContext = oldContext;
 
-    const closeToken = state.push(`${name}_fields_close`, "div", -1);
+    const closeToken = state.push(`${name}_fields_close`, "dl", -1);
 
     closeToken.block = true;
     closeToken.markup = "";
@@ -244,7 +248,6 @@ export const getFieldsRule =
 export const getFieldItemRule =
   (
     name: string,
-    classPrefix: string,
     allowedAttributes: AllowedAttributes | null,
     shouldParseAttributes: boolean,
   ): RuleBlock =>
@@ -283,9 +286,34 @@ export const getFieldItemRule =
     const depthStack = ctx.depthStack;
 
     // Close items that are at the same or deeper depth (sibling or backtrack)
+    let lastClosedDepth = -1;
+
     while (depthStack.length > 0 && depthStack[depthStack.length - 1] >= currentDepth) {
+      const closingDepth = depthStack[depthStack.length - 1];
+
       depthStack.pop();
+
+      // Close inner <dl> wrapper before closing parent when backtracking
+      if (lastClosedDepth > closingDepth) {
+        state.push(`${name}_fields_inner_close`, "dl", -1);
+      }
+
       state.push(`${name}_field_close`, "div", -1);
+      lastClosedDepth = closingDepth;
+    }
+
+    // Close outermost inner <dl> wrapper only when backtracking to parent level
+    if (lastClosedDepth > currentDepth && depthStack.length > 0) {
+      state.push(`${name}_fields_inner_close`, "dl", -1);
+    }
+
+    // Open inner <dl> wrapper only on first descent to a deeper level
+    if (
+      depthStack.length > 0 &&
+      currentDepth > depthStack[depthStack.length - 1] &&
+      lastClosedDepth !== currentDepth
+    ) {
+      state.push(`${name}_fields_inner_open`, "dl", 1);
     }
 
     // Push current depth onto stack
@@ -319,7 +347,6 @@ export const getFieldItemRule =
 
     const tokenOpen = state.push(`${name}_field_open`, "div", 1);
 
-    tokenOpen.attrSet("class", `${classPrefix}item`);
     tokenOpen.attrSet("data-level", String(currentDepth));
     tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
     tokenOpen.map = [startLine, nextLine];
@@ -390,7 +417,12 @@ export const getFieldsScanner =
           continue;
         }
 
-        if (type === `${name}_field_close`) continue;
+        if (
+          type === `${name}_field_close` ||
+          type === `${name}_fields_inner_open` ||
+          type === `${name}_fields_inner_close`
+        )
+          continue;
 
         // hide contents before first field
         innerToken.type = `${name}_fields_empty`;

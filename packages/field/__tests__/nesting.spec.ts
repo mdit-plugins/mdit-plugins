@@ -20,12 +20,12 @@ Description child.
     expect(result).toMatchSnapshot();
 
     // Parent level 1
-    expect(result).toContain('<div class="field-item" data-level="1">');
-    expect(result).toContain('<span class="field-name">parent</span>');
+    expect(result).toContain('<dt class="field-name" data-level="1">');
+    expect(result).toContain("parent</dt>");
 
     // Child level 2 inside parent
-    expect(result).toContain('<div class="field-item" data-level="2">');
-    expect(result).toContain('<span class="field-name">child</span>');
+    expect(result).toContain('<dt class="field-name" data-level="2">');
+    expect(result).toContain("child</dt>");
   });
 
   it("should handle deep nesting", () => {
@@ -75,11 +75,11 @@ Description child.
 :::
 `);
 
-    expect(result).toContain('<span class="field-name">parent</span>');
-    expect(result).toContain('<span class="field-name">child-1</span>');
-    expect(result).toContain('<span class="field-name">child-2</span>');
-    expect(result).toContain('<span class="field-name">grandchild</span>');
-    expect(result).toContain('<span class="field-name">parent-2</span>');
+    expect(result).toContain(">parent</dt>");
+    expect(result).toContain(">child-1</dt>");
+    expect(result).toContain(">child-2</dt>");
+    expect(result).toContain(">grandchild</dt>");
+    expect(result).toContain(">parent-2</dt>");
 
     // Check correct nesting levels
     const parentMatch = result.indexOf('data-level="1"');
@@ -101,8 +101,8 @@ Description child.
 :::
 `);
 
-    expect(result).toContain('<span class="field-name">prop</span>');
-    expect(result).not.toContain('<span class="field-name">too-deep</span>');
+    expect(result).toContain(">prop</dt>");
+    expect(result).not.toContain(">too-deep</dt>");
   });
 
   it("should allow 0-3 spaces indent as cosmetic", () => {
@@ -115,10 +115,10 @@ Description child.
 :::
 `);
 
-    expect(result).toContain('<span class="field-name">zero</span>');
-    expect(result).toContain('<span class="field-name">one</span>');
-    expect(result).toContain('<span class="field-name">two</span>');
-    expect(result).toContain('<span class="field-name">three</span>');
+    expect(result).toContain(">zero</dt>");
+    expect(result).toContain(">one</dt>");
+    expect(result).toContain(">two</dt>");
+    expect(result).toContain(">three</dt>");
     expect(result).toMatchSnapshot();
 
     const result2 = md.render(`
@@ -134,9 +134,9 @@ Description child.
 :::
 `);
 
-    expect(result2).toContain('<span class="field-name">prop1</span>');
-    expect(result2).toContain('<span class="field-name">prop1.key1</span>');
-    expect(result2).toContain('<span class="field-name">prop1.key2</span>');
+    expect(result2).toContain(">prop1</dt>");
+    expect(result2).toContain(">prop1.key1</dt>");
+    expect(result2).toContain(">prop1.key2</dt>");
     expect(result2).toMatchSnapshot();
   });
 
@@ -158,6 +158,24 @@ Description child.
     const lastLevelOne = result.lastIndexOf('data-level="1"');
 
     expect(lastLevelOne).toBeGreaterThan(result.indexOf("root2") - 100);
+  });
+
+  it("should handle backtrack from skipped depth to mid level", () => {
+    const result = md.render(`
+::: fields
+@root@
+@@@deep@
+@@mid@
+:::
+`);
+
+    expect(result).toMatchSnapshot();
+    expect(result).toContain(">root</dt>");
+    expect(result).toContain(">deep</dt>");
+    expect(result).toContain(">mid</dt>");
+    expect(result).toContain('data-level="1"');
+    expect(result).toContain('data-level="3"');
+    expect(result).toContain('data-level="2"');
   });
 
   it("should handle cosmetic indentation without affecting depth", () => {
@@ -186,8 +204,8 @@ Child content here.
 `);
 
     // Parent content should be inside parent's content div
-    const parentIdx = result.indexOf("parent</span>");
-    const childIdx = result.indexOf("child</span>");
+    const parentIdx = result.indexOf("parent</dt>");
+    const childIdx = result.indexOf("child</dt>");
     const parentContentIdx = result.indexOf("Parent content here");
     const childContentIdx = result.indexOf("Child content here");
 
@@ -247,7 +265,7 @@ code in child
 
     const listIdx = result.indexOf("list in parent");
     const codeIdx = result.indexOf("code in child");
-    const childNameIdx = result.indexOf("child</span>");
+    const childNameIdx = result.indexOf("child</dt>");
 
     expect(listIdx).toBeLessThan(childNameIdx);
     expect(codeIdx).toBeGreaterThan(childNameIdx);
@@ -290,8 +308,8 @@ Root2 paragraph.
     expect(result).toMatchSnapshot();
     expect(result).toContain('id="outer"');
     expect(result).toContain('id="inner"');
-    expect(result).toContain('<span class="field-name">outer-prop</span>');
-    expect(result).toContain('<span class="field-name">inner-prop</span>');
+    expect(result).toContain(">outer-prop</dt>");
+    expect(result).toContain(">inner-prop</dt>");
     expect(result).toContain("Outer description");
     expect(result).toContain("Inner description");
   });
@@ -312,8 +330,8 @@ Prop content.
     expect(result).toMatchSnapshot();
     expect(result).toContain('class="field-wrapper props-fields"');
     expect(result).toContain('class="field-wrapper events-fields"');
-    expect(result).toContain('<span class="field-name">prop1</span>');
-    expect(result).toContain('<span class="field-name">event1</span>');
+    expect(result).toContain(">prop1</dt>");
+    expect(result).toContain(">event1</dt>");
     expect(result).toContain("Prop content");
     expect(result).toContain("Event content");
   });
