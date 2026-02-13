@@ -15,4 +15,16 @@ export default [
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
   }),
+  tsdownConfig("index", {
+    type: "cdn",
+    globalName: "mdItPluginPlantuml",
+    alias: {
+      "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
+    },
+    externals: {
+      "markdown-it": "markdownit",
+      "@mdit/plugin-uml": "mdItPluginUml",
+    },
+    noExternal: ["pako"],
+  }),
 ];
