@@ -101,6 +101,9 @@ export const tsdownConfig = (
 
   const hasExternals = type === "cdn" && Object.keys(externals).length > 0;
 
+  // Using type assertion here to work around tsdown's strict type checking with conditional properties
+  // The configuration is type-safe, but TypeScript's exactOptionalPropertyTypes makes it difficult
+  // to conditionally include outputOptions without assertion
   return defineConfig({
     entry: Object.fromEntries(
       files.map((item) => [
@@ -115,7 +118,7 @@ export const tsdownConfig = (
     minify: isProduction,
     target:
       type === "cdn" || type === "browser"
-        ? ["chrome107", "edge107", "firefox104", "safari16"]
+        ? (["chrome107", "edge107", "firefox104", "safari16"] as string[])
         : "node20",
     platform: type === "cdn" || type === "browser" ? "browser" : "node",
     alias,

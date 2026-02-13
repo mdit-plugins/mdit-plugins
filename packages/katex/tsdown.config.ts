@@ -15,7 +15,6 @@ export default [
       "@mdit/helper": "mdItHelper",
       "@mdit/plugin-tex": "mdItPluginTex",
       katex: "katex",
-      "katex/contrib/mhchem": "katex",
     },
   }),
   tsdownConfig("mhchem", {
@@ -26,7 +25,6 @@ export default [
       "@mdit/helper": "mdItHelper",
       "@mdit/plugin-tex": "mdItPluginTex",
       katex: "katex",
-      "katex/contrib/mhchem": "katex",
     },
   }),
 ];
