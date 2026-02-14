@@ -22,7 +22,8 @@
     "release:version": "lerna version",
     "test": "vitest run",
     "test:bench": "vitest bench --run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "1.9.1",

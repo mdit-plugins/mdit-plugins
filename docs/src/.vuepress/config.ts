@@ -5,6 +5,7 @@ import { ins } from "@mdit/plugin-ins";
 import { layout } from "@mdit/plugin-layout";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
+import type { UserConfig } from "vuepress";
 import { defineUserConfig } from "vuepress";
 import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
@@ -14,7 +15,7 @@ import { field } from "@mdit/plugin-field";
 
 const __dirname = getDirname(import.meta.url);
 
-export default defineUserConfig({
+const config: UserConfig = defineUserConfig({
   base: "/",
 
   locales: {
@@ -74,3 +75,5 @@ export default defineUserConfig({
 
   theme,
 });
+
+export default config;

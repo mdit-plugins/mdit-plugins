@@ -1,8 +1,9 @@
 import path from "node:path";
 
+import type { ViteUserConfigExport } from "vitest/config";
 import { defineConfig } from "vitest/config";
 
-export default defineConfig({
+const config: ViteUserConfigExport = defineConfig({
   resolve: {
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "packages/plantuml/src/deflate/node.js"),
@@ -27,3 +28,5 @@ export default defineConfig({
       : {}),
   },
 });
+
+export default config;

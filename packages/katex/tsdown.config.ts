@@ -1,6 +1,7 @@
+import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-export default [
+const config: UserConfig[] = [
   tsdownConfig("index"),
   tsdownConfig("mhchem", {
     treeshake: {
@@ -21,3 +22,5 @@ export default [
     noExternal: ["katex", "katex/contrib/mhchem"],
   }),
 ];
+
+export default config;

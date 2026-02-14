@@ -1,3 +1,6 @@
+import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-export default tsdownConfig("index");
+const config: UserConfig = tsdownConfig("index");
+
+export default config;
