@@ -4,7 +4,7 @@
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && cross-env NODE_ENV=production pnpm run --stream -r build",
+    "build": "cross-env NODE_ENV=production pnpm run --stream -r build",
     "bundle:analyze": "node --experimental-strip-types scripts/analyze.ts",
     "clean": "pnpm run --stream -r clean",
     "docs:build": "pnpm run --filter=docs docs:build",
@@ -22,7 +22,8 @@
     "release:version": "lerna version",
     "test": "vitest run",
     "test:bench": "vitest bench --run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "1.9.1",

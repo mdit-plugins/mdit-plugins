@@ -29,12 +29,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build project
-        run: pnpm run build
+        run: pnpm build
+
+      - name: Type check
+        run: pnpm type-check
 
       - name: Upload bundle analysis
         run: pnpm bundle:analyze
 
       - name: Linter test
         run: |
-          pnpm run lint:check
-          pnpm run lint:md
+          pnpm lint:check
+          pnpm lint:md
