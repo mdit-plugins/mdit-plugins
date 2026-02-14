@@ -4,5 +4,10 @@ export default [
   tsdownConfig("index"),
   tsdownConfig("index", {
     type: "cdn",
+    globalName: "mdItPluginSup",
+    externals: {
+      "markdown-it": "markdownit",
+      "@mdit/plugin-inline-rule": "mdItPluginInlineRule",
+    },
   }),
 ];

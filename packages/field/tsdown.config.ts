@@ -1,11 +1,13 @@
-import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-const config: UserConfig[] = [
+export default [
   tsdownConfig("index"),
   tsdownConfig("index", {
     type: "cdn",
+    globalName: "mdItPluginField",
+    externals: {
+      "markdown-it": "markdownit",
+      "@mdit/helper": "mdItHelper",
+    },
   }),
 ];
-
-export default config;

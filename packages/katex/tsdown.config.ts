@@ -7,17 +7,24 @@ export default [
       moduleSideEffects: ["katex", "katex/contrib/mhchem"],
     },
   }),
-  tsdownConfig(["index", "mhchem"], {
+  tsdownConfig("index", {
     type: "cdn",
-    treeshake: {
-      moduleSideEffects: [
-        {
-          test: /^katex($|\/)/,
-          sideEffects: true,
-          external: false,
-        },
-      ],
+    globalName: "mdItPluginKatex",
+    externals: {
+      "markdown-it": "markdownit",
+      "@mdit/helper": "mdItHelper",
+      "@mdit/plugin-tex": "mdItPluginTex",
+      katex: "katex",
     },
-    noExternal: ["katex", "katex/contrib/mhchem"],
+  }),
+  tsdownConfig("mhchem", {
+    type: "cdn",
+    globalName: "mdItPluginKatexMhchem",
+    externals: {
+      "markdown-it": "markdownit",
+      "@mdit/helper": "mdItHelper",
+      "@mdit/plugin-tex": "mdItPluginTex",
+      katex: "katex",
+    },
   }),
 ];
