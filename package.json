@@ -41,7 +41,7 @@
     "ora": "9.3.0",
     "oxfmt": "0.32.0",
     "oxlint": "1.47.0",
-    "oxlint-tsgolint": "0.12.2",
+    "oxlint-tsgolint": "0.13.0",
     "publint": "0.3.17",
     "rimraf": "6.1.2",
     "tsdown": "0.20.3",
