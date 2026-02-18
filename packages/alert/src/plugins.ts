@@ -1,5 +1,6 @@
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { ParentType } from "markdown-it/lib/rules_block/state_block.mjs";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
@@ -8,6 +9,11 @@ const getAlertRule =
   (types: Set<string>, deep: boolean): RuleBlock =>
     // oxlint-disable-next-line max-lines-per-function
     (state, startLine, endLine, silent) => {
+      // Prevent recursive silent re-entry when alert rule is invoked
+      // as a terminator while already parsing an alert block.
+      // This avoids stack overflows while preserving deep nesting in normal parse mode.
+      if (silent && (state.parentType as ParentType & "alert") === "alert") return false;
+
       if (
         // if it's indented more than 3 spaces, it should be a code block
         state.sCount[startLine] - state.blkIndent >= 4 ||

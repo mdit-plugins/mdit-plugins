@@ -981,4 +981,34 @@ code block
       expect(markdownItCustom.render(input)).toEqual(output);
     });
   });
+
+  it("should not recurse infinitely in deep mode after list content", () => {
+    const markdownItCustom = new MarkdownIt({ html: true }).use(alert, {
+      deep: true,
+    });
+
+    const input = `\
+1. step
+2. step
+3. step
+> [!TIP]
+> tip body
+`;
+
+    const output = `\
+<ol>
+<li>step</li>
+<li>step</li>
+<li>step</li>
+</ol>
+<div class="markdown-alert markdown-alert-tip">
+<p class="markdown-alert-title">Tip</p>
+<p>tip body</p>
+</div>
+`;
+
+    // Regression guard: used to throw "Maximum call stack size exceeded"
+    expect(() => markdownItCustom.render(input)).not.toThrow();
+    expect(markdownItCustom.render(input)).toEqual(output);
+  });
 });
