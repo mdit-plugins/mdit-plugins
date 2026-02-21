@@ -8,7 +8,7 @@
     "docs:dev": "vuepress-vite dev src"
   },
   "dependencies": {
-    "@mathjax/src": "4.1.0",
+    "@mathjax/src": "4.1.1",
     "@mdit/plugin-abbr": "workspace:*",
     "@mdit/plugin-container": "workspace:*",
     "@mdit/plugin-dl": "workspace:*",
