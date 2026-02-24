@@ -4,10 +4,14 @@ import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
 
+const md = MarkdownIt().use(field);
+const mdWithContainer = MarkdownIt({ html: true })
+  .use(container, { name: "warning", openRender: () => '<div class="warning">' })
+  .use(field);
+
 describe("field inside block elements", () => {
   describe("inside unordered list", () => {
     it("should work inside a list item", () => {
-      const md = MarkdownIt().use(field);
       const result = md.render(`
 - list item
   ::: fields
@@ -22,7 +26,6 @@ describe("field inside block elements", () => {
     });
 
     it("should work with nested fields inside a list item", () => {
-      const md = MarkdownIt().use(field);
       const result = md.render(`
 - item
   ::: fields
@@ -42,7 +45,6 @@ describe("field inside block elements", () => {
 
   describe("inside ordered list", () => {
     it("should work inside an ordered list item", () => {
-      const md = MarkdownIt().use(field);
       const result = md.render(`
 1. first item
    ::: fields
@@ -59,7 +61,6 @@ describe("field inside block elements", () => {
 
   describe("inside blockquote", () => {
     it("should work inside a blockquote", () => {
-      const md = MarkdownIt().use(field);
       const result = md.render(`
 > ::: fields
 > @prop@
@@ -73,7 +74,6 @@ describe("field inside block elements", () => {
     });
 
     it("should work with nested fields inside blockquote", () => {
-      const md = MarkdownIt().use(field);
       const result = md.render(`
 > ::: fields
 > @root@
@@ -92,11 +92,7 @@ describe("field inside block elements", () => {
 
   describe("inside @mdit/plugin-container", () => {
     it("should work inside a container plugin block", () => {
-      const md = MarkdownIt()
-        .use(container, { name: "warning", openRender: () => '<div class="warning">' })
-        .use(field);
-
-      const result = md.render(`
+      const result = mdWithContainer.render(`
 :::: warning
 ::: fields
 @prop@
@@ -113,8 +109,6 @@ Description
 });
 
 describe("block elements inside field content", () => {
-  const md = MarkdownIt({ html: true }).use(field);
-
   it("should support unordered list as field content", () => {
     const result = md.render(`
 ::: fields
@@ -156,24 +150,20 @@ describe("block elements inside field content", () => {
   });
 
   it("should support nested container inside field content", () => {
-    const md = MarkdownIt()
-      .use(container, { name: "tip", openRender: () => '<div class="tip">' })
-      .use(field);
-
-    const result = md.render(`
+    const result = mdWithContainer.render(`
 :::: fields
 @prop@
-Content before tip.
+Content before warning.
 
-::: tip
-This is a tip inside the field.
+::: warning
+This is a warning inside the field.
 :::
 ::::
 `);
 
-    expect(result).toContain("Content before tip");
-    expect(result).toContain('class="tip"');
-    expect(result).toContain("This is a tip inside the field");
+    expect(result).toContain("Content before warning");
+    expect(result).toContain('class="warning"');
+    expect(result).toContain("This is a warning inside the field");
   });
 
   it("should support nested field container inside field content", () => {
@@ -196,9 +186,9 @@ Nested content.
   });
 
   it("should support mix nesting", () => {
-    const md = MarkdownIt().use(field).use(field, { name: "props" });
+    const mdProps = MarkdownIt().use(field).use(field, { name: "props" });
 
-    const result = md.render(`
+    const result = mdProps.render(`
 :::: fields
 @option@
 Parent description.

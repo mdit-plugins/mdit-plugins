@@ -14,7 +14,7 @@ describe(stylize, () => {
       config: [
         {
           matcher: "MUST",
-          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
+          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | undefined => {
             if (tag === "strong" || tag === "em") {
               return {
                 tag,
@@ -26,7 +26,7 @@ describe(stylize, () => {
         },
         {
           matcher: "SHOULD",
-          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
+          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | undefined => {
             if (tag === "strong") {
               return {
                 tag,
@@ -38,19 +38,19 @@ describe(stylize, () => {
         },
         {
           matcher: "MAY",
-          replacer: ({ tag, attrs }): MarkdownItStylizeResult | void => {
+          replacer: ({ tag, attrs }): MarkdownItStylizeResult | undefined => {
             if (tag === "em") return { tag, attrs, content: "MAY:)" };
           },
         },
         {
           matcher: "NOT",
-          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
+          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | undefined => {
             if (tag === "em") return { tag, attrs, content: `MUST_${content}` };
           },
         },
         {
           matcher: /n't$/,
-          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | void => {
+          replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | undefined => {
             if (tag === "em") {
               return {
                 tag: "span",

@@ -137,10 +137,10 @@ export const abbr: PluginSimple = (md) => {
           const [, before, word, after] = match;
 
           if (match.index > 0 || before.length > 0) {
-            const token = new state.Token("text", "", 0);
+            const textToken = new state.Token("text", "", 0);
 
-            token.content = text.slice(pos, match.index + before.length);
-            nodes.push(token);
+            textToken.content = text.slice(pos, match.index + before.length);
+            nodes.push(textToken);
           }
 
           const abbrOpenToken = new state.Token("abbr_open", "abbr", 1);
@@ -164,10 +164,10 @@ export const abbr: PluginSimple = (md) => {
         if (nodes.length === 0) continue;
 
         if (pos < text.length) {
-          const token = new state.Token("text", "", 0);
+          const textToken = new state.Token("text", "", 0);
 
-          token.content = text.slice(pos);
-          nodes.push(token);
+          textToken.content = text.slice(pos);
+          nodes.push(textToken);
         }
 
         // replace current node

@@ -436,11 +436,11 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       if (token.meta.id) token.attrJoin("data-id", token.meta.id as string);
 
       const tabs = data.map(
-        ({ title, id }, index) =>
+        ({ title, id }, dataIndex) =>
           `<button type="button" class="${name}-tab-button${
-            active === index ? " active" : ""
-          }" data-tab="${index}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
-            active === index ? " data-active" : ""
+            active === dataIndex ? " active" : ""
+          }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
+            active === dataIndex ? " data-active" : ""
           }>${escapeHtml(md.renderInline(title))}</button>`,
       );
 
@@ -495,18 +495,18 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.renderer.rules[`${name}_tabs_open`] = (tokens, index, options, env, self): string => {
+  md.renderer.rules[`${name}_tabs_open`] = (tokens, index, mdItOptions, env, self): string => {
     const info = tabsDataGetter(tokens, index);
 
-    return openRender(info, tokens, index, options, env, self);
+    return openRender(info, tokens, index, mdItOptions, env, self);
   };
 
   md.renderer.rules[`${name}_tabs_close`] = closeRender;
 
-  md.renderer.rules[`${name}_tab_open`] = (tokens, index, options, env, self): string => {
+  md.renderer.rules[`${name}_tab_open`] = (tokens, index, mdItOptions, env, self): string => {
     const data = tabDataGetter(tokens, index);
 
-    return tabOpenRender(data, tokens, index, options, env, self);
+    return tabOpenRender(data, tokens, index, mdItOptions, env, self);
   };
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRender;

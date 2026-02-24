@@ -114,7 +114,7 @@ const createSnippetRule =
     return true;
   };
 
-const defaultPathResolver = (path: string): string => path;
+const defaultPathResolver = (filePath: string): string => filePath;
 
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
   const { currentPath, resolvePath = defaultPathResolver } = options ?? {};
@@ -130,7 +130,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
   md.renderer.rules.fence = (
     tokens: Token[],
     index: number,
-    options: Options,
+    mdItOptions: Options,
     env: SnippetEnv,
     self: Renderer,
   ): string => {
@@ -167,6 +167,6 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
       }
     }
 
-    return originalFence(tokens, index, options, env, self);
+    return originalFence(tokens, index, mdItOptions, env, self);
   };
 };

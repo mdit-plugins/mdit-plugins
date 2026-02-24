@@ -36,7 +36,7 @@ export const parseAttributes = (
   let pos = 0;
 
   while (pos < length) {
-    const charCode = content.charCodeAt(pos);
+    let charCode = content.charCodeAt(pos);
 
     // skip spaces
     if (isSpace(charCode)) {
@@ -48,9 +48,9 @@ export const parseAttributes = (
     const keyStart = pos;
 
     while (pos < length) {
-      const currentChar = content.charCodeAt(pos);
+      charCode = content.charCodeAt(pos);
 
-      if (isSpace(currentChar) || currentChar === 61 /* = */) break;
+      if (isSpace(charCode) || charCode === 61 /* = */) break;
       pos++;
     }
     const key = content.slice(keyStart, pos);
@@ -71,7 +71,7 @@ export const parseAttributes = (
         let valLast = pos;
 
         while (pos < length) {
-          const charCode = content.charCodeAt(pos);
+          charCode = content.charCodeAt(pos);
 
           if (charCode === 92 /* \ */) {
             // escaped char
@@ -102,7 +102,7 @@ export const parseAttributes = (
         const valStart = pos;
 
         while (pos < length) {
-          const charCode = content.charCodeAt(pos);
+          charCode = content.charCodeAt(pos);
 
           if (charCode === 32 || charCode === 9 || charCode === 10 || charCode === 13) break;
           pos++;

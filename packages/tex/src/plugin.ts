@@ -350,7 +350,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     md.renderer.rules.fence = (
       tokens: Token[],
       index: number,
-      options: Options,
+      mdItOptions: Options,
       env: unknown,
       self: Renderer,
     ): string => {
@@ -359,7 +359,7 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
       if (token.info.trim() === "math") return render(token.content, true, env);
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      return fence!(tokens, index, options, env, self);
+      return fence!(tokens, index, mdItOptions, env, self);
     };
   }
 

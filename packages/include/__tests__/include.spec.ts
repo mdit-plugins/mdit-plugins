@@ -8,10 +8,10 @@ import { include } from "../src/index.js";
 
 const mdFixturePathRelative = "./__fixtures__/include.md";
 const mdFixturePath = path.resolve(__dirname, mdFixturePathRelative);
-const mdFixtureDeepIncludeRelative = "./__fixtures__/deepInclude.md";
-const mdFixtureDeepIncludePath = path.resolve(__dirname, mdFixtureDeepIncludeRelative);
-const mdFixtureSimpleIncludePathRelative = "./__fixtures__/simpleInclude.md";
-const mdFixtureSimpleIncludePath = path.resolve(__dirname, mdFixtureSimpleIncludePathRelative);
+const mdFixtureDeepRelative = "./__fixtures__/deepInclude.md";
+const mdFixtureDeepPath = path.resolve(__dirname, mdFixtureDeepRelative);
+const mdFixtureSimplePathRelative = "./__fixtures__/simpleInclude.md";
+const mdFixtureSimplePath = path.resolve(__dirname, mdFixtureSimplePathRelative);
 const mdFixtureFrontmatterPathRelative = "./__fixtures__/frontmatter.md";
 const mdFixtureFrontmatterPath = path.resolve(__dirname, mdFixtureFrontmatterPathRelative);
 
@@ -187,7 +187,7 @@ describe("comment", () => {
 `;
 
       const simpleSource = `\
-<!-- @include: ${mdFixtureSimpleIncludePathRelative} -->
+<!-- @include: ${mdFixtureSimplePathRelative} -->
 `;
 
       const simpleExpected = `\
@@ -209,7 +209,7 @@ describe("comment", () => {
       const simpleRendered = md.render(simpleSource, env2);
 
       expect(simpleRendered).toEqual(simpleExpected);
-      expect(env2.includedFiles).toEqual([mdFixtureSimpleIncludePath]);
+      expect(env2.includedFiles).toEqual([mdFixtureSimplePath]);
     });
 
     it("should import partial lines", () => {
@@ -473,7 +473,7 @@ foo
 
     it("should support deep import", () => {
       const source1 = `\
-<!-- @include: ${mdFixtureDeepIncludeRelative} -->
+<!-- @include: ${mdFixtureDeepRelative} -->
 `;
       const expected1 = `\
 <h3>Heading 3</h3>
@@ -487,7 +487,7 @@ foo
 `;
 
       const source2 = `\
-<!-- @include: ${mdFixtureDeepIncludePath} -->
+<!-- @include: ${mdFixtureDeepPath} -->
 `;
       const expected2 = `\
 <h3>Heading 3</h3>
@@ -514,20 +514,20 @@ foo
       };
 
       expect(mdWithOptions.render(source1, env1)).toEqual(expected1);
-      expect(env1.includedFiles).toEqual([mdFixtureDeepIncludePath, mdFixturePath]);
+      expect(env1.includedFiles).toEqual([mdFixtureDeepPath, mdFixturePath]);
       expect(mdWithOptions.render(source2, env2)).toEqual(expected2);
-      expect(env2.includedFiles).toEqual([mdFixtureDeepIncludePath, mdFixturePath]);
+      expect(env2.includedFiles).toEqual([mdFixtureDeepPath, mdFixturePath]);
     });
 
     describe("the relative path of link/image", () => {
-      const mdFixturePathRelative = "./__fixtures__/relative/includeLink.md";
-      const mdFixturePath = path.resolve(__dirname, mdFixturePathRelative);
-      const mdFixtureDeepIncludeRelative = "./__fixtures__/deepIncludeLink.md";
-      const mdFixtureDeepIncludePath = path.resolve(__dirname, mdFixtureDeepIncludeRelative);
+      const mdFixturePathLinkRelative = "./__fixtures__/relative/includeLink.md";
+      const mdFixtureLinkPath = path.resolve(__dirname, mdFixturePathLinkRelative);
+      const mdFixtureDeepLinkRelative = "./__fixtures__/deepIncludeLink.md";
+      const mdFixtureDeepLinkPath = path.resolve(__dirname, mdFixtureDeepLinkRelative);
 
       it("should resolve the relative path of link/image in the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixturePathRelative} -->
+<!-- @include: ${mdFixturePathLinkRelative} -->
 `;
 
         const expected = `\
@@ -541,12 +541,12 @@ foo
         const rendered = md.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of link in the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixturePathRelative} -->
+<!-- @include: ${mdFixturePathLinkRelative} -->
   `;
 
         const expected = `<p><img src="./__fixtures__/relative/a.jpg" alt="Image1">
@@ -557,18 +557,18 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveLinkPath: false,
         });
         const rendered = mdWithOptions.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of image in the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixturePathRelative} -->
+<!-- @include: ${mdFixturePathLinkRelative} -->
   `;
 
         const expected = `<p><img src="./a.jpg" alt="Image1">
@@ -579,18 +579,18 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveImagePath: false,
         });
         const rendered = mdWithOptions.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of image/link in the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixturePathRelative} -->
+<!-- @include: ${mdFixturePathLinkRelative} -->
   `;
 
         const expected = `<p><img src="./a.jpg" alt="Image1">
@@ -601,19 +601,19 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveImagePath: false,
           resolveLinkPath: false,
         });
         const rendered = mdWithOptions.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
       });
 
       it("should deeply resolve the relative path of link/image in the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixtureDeepIncludeRelative} -->
+<!-- @include: ${mdFixtureDeepLinkRelative} -->
 `;
 
         const expected = `\
@@ -626,18 +626,18 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = MarkdownIt().use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           deep: true,
         });
         const rendered = mdWithOptions.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureDeepIncludePath, mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureDeepLinkPath, mdFixtureLinkPath]);
       });
 
       it("should resolve the correct relative path of link/image after the include md file", () => {
         const source = `\
-<!-- @include: ${mdFixturePathRelative} -->
+<!-- @include: ${mdFixturePathLinkRelative} -->
 [B](./b.md)
 `;
 
@@ -653,7 +653,7 @@ foo
         const rendered = md.render(source, env);
 
         expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
       });
     });
 
@@ -715,7 +715,7 @@ describe("currentPath", () => {
     });
 
     const source = `\
-<!-- @include: ${mdFixtureSimpleIncludePath} -->
+<!-- @include: ${mdFixtureSimplePath} -->
 `;
 
     const expected = `\
@@ -727,7 +727,7 @@ describe("currentPath", () => {
     const rendered = md.render(source, env);
 
     expect(rendered).toEqual(expected);
-    expect(env.includedFiles).toEqual([mdFixtureSimpleIncludePath]);
+    expect(env.includedFiles).toEqual([mdFixtureSimplePath]);
   });
 
   it("should fail with relative path if currentPath is not return", () => {

@@ -200,12 +200,12 @@ test
   });
 
   it("should not render when content has negative indentation", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItPreview = MarkdownIt({ linkify: true }).use(demo, {
       name: "preview",
     });
 
     expect(
-      markdownIt.render(`
+      markdownItPreview.render(`
   ::: preview Title text
 
 test
@@ -294,12 +294,12 @@ text2
   });
 
   it("customize container name", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItPreview = MarkdownIt({ linkify: true }).use(demo, {
       name: "preview",
     });
 
     expect(
-      markdownIt.render(`
+      markdownItPreview.render(`
 ::: preview Title text
 ${mdContent}
 :::
@@ -312,7 +312,7 @@ ${codeContent}
 `);
 
     expect(
-      markdownIt.render(`
+      markdownItPreview.render(`
 ::: preview Title text
 
 ${mdContent}
@@ -328,12 +328,12 @@ ${codeContent}
   });
 
   it("showCodeFirst", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItCodeFirst = MarkdownIt({ linkify: true }).use(demo, {
       showCodeFirst: true,
     });
 
     expect(
-      markdownIt.render(`
+      markdownItCodeFirst.render(`
 ::: demo Title text
 ${mdContent}
 :::
@@ -349,7 +349,7 @@ ${demoContent}
   });
 
   it("customRender", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItSummary = MarkdownIt({ linkify: true }).use(demo, {
       openRender: () => `<details><summary>\n`,
       codeRender: (tokens, index, options, _env, self) => {
         tokens[index].type = "fence";
@@ -363,7 +363,7 @@ ${demoContent}
     });
 
     expect(
-      markdownIt.render(`
+      markdownItSummary.render(`
 ::: demo Title text
 ${mdContent}
 :::

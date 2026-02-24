@@ -14,9 +14,10 @@ const generateMarkdownWithImages = (count: number, format: "normal" | "obsidian"
   let markdown = "";
 
   for (let i = 0; i < count; i++) {
-    if (format === "normal")
-      markdown += `![Image ${i} =300x200](/path/to/image-${i}.png "Image ${i} Title")\n\n`;
-    else markdown += `![Image ${i}|300x200](/path/to/image-${i}.png "Image ${i} Title")\n\n`;
+    markdown +=
+      format === "normal"
+        ? `![Image ${i} =300x200](/path/to/image-${i}.png "Image ${i} Title")\n\n`
+        : `![Image ${i}|300x200](/path/to/image-${i}.png "Image ${i} Title")\n\n`;
 
     markdown += `This is a paragraph with some text. It describes image ${i}.\n\n`;
   }

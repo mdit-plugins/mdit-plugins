@@ -40,7 +40,7 @@ export interface MarkdownItStylizeConfig {
     attrs: Record<string, string>;
     // oxlint-disable-next-line typescript/no-explicit-any
     env?: any;
-  }) => MarkdownItStylizeResult | null | void;
+  }) => MarkdownItStylizeResult | null | undefined;
 }
 
 export interface MarkdownItStylizeOptions<

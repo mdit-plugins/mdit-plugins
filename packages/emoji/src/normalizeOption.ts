@@ -46,21 +46,19 @@ export const normalizeOption = ({
   }, {});
 
   const keys = Object.keys(definitions);
-  let names: string;
+  const names =
+    // If no definitions are given, return empty regex to avoid replacements with 'undefined'.
+    keys.length === 0
+      ? "^$"
+      : // Compile regexp
+        keys
+          .map((name) => `:${name}:`)
+          .concat(Object.keys(shortcuts))
+          .sort()
+          .reverse()
+          .map((name) => quoteRE(name))
+          .join("|");
 
-  // If no definitions are given, return empty regex to avoid replacements with 'undefined'.
-  if (keys.length === 0) {
-    names = "^$";
-  } else {
-    // Compile regexp
-    names = keys
-      .map((name) => `:${name}:`)
-      .concat(Object.keys(shortcuts))
-      .sort()
-      .reverse()
-      .map((name) => quoteRE(name))
-      .join("|");
-  }
   const scanRE = new RegExp(names);
   const replaceRE = new RegExp(names, "g");
 
