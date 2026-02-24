@@ -5,6 +5,10 @@ const config: UserConfig[] = [
   tsdownConfig("index"),
   tsdownConfig("index", {
     type: "cdn",
+    globalName: "mdItPluginSup",
+    externals: {
+      "markdown-it": "markdownit",
+    },
   }),
 ];
 

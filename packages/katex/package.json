@@ -26,8 +26,8 @@
     "dist"
   ],
   "type": "module",
-  "unpkg": "dist/cdn.js",
-  "jsdelivr": "dist/cdn.js",
+  "unpkg": "./dist/cdn.umd.js",
+  "jsdelivr": "./dist/cdn.umd.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -35,8 +35,8 @@
     },
     "./mhchem": {
       "types": "./dist/mhchem.d.ts",
-      "unpkg": "./dist/mhchem-cdn.js",
-      "jsdelivr": "./dist/mhchem-cdn.js",
+      "unpkg": "./dist/mhchem-cdn.umd.js",
+      "jsdelivr": "./dist/mhchem-cdn.umd.js",
       "default": "./dist/mhchem.js"
     },
     "./package.json": "./package.json"

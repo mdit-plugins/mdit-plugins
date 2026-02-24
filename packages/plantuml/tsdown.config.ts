@@ -16,6 +16,17 @@ const config: UserConfig[] = [
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
   }),
+  tsdownConfig("index", {
+    type: "cdn",
+    globalName: "mdItPluginPlantuml",
+    alias: {
+      "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
+    },
+    externals: {
+      "markdown-it": "markdownit",
+    },
+    noExternal: ["pako"],
+  }),
 ];
 
 export default config;
