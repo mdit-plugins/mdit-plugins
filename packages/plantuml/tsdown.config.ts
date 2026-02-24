@@ -1,8 +1,9 @@
 import path from "node:path";
 
+import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-export default [
+const config: UserConfig[] = [
   tsdownConfig("index", {
     type: "node",
     alias: {
@@ -28,3 +29,5 @@ export default [
     noExternal: ["pako"],
   }),
 ];
+
+export default config;

@@ -170,7 +170,7 @@ export const resolveInclude = (
       const actualPath = options.resolvePath(includePath, cwd);
       const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
 
-      const content = handleInclude(
+      const fileContent = handleInclude(
         Object.assign(
           { filePath: actualPath },
           region
@@ -187,7 +187,7 @@ export const resolveInclude = (
 
       return (
         options.deep && actualPath.endsWith(".md")
-          ? resolveInclude(content, options, {
+          ? resolveInclude(fileContent, options, {
               cwd: path.isAbsolute(actualPath)
                 ? path.dirname(actualPath)
                 : cwd
@@ -195,7 +195,7 @@ export const resolveInclude = (
                   : null,
               includedFiles,
             })
-          : content
+          : fileContent
       )
         .split("\n")
         .map((line) => indent + line)
@@ -280,7 +280,7 @@ const resolveRelatedLink = (
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
   const {
     currentPath,
-    resolvePath = (path: string): string => path,
+    resolvePath = (filePath: string): string => filePath,
     deep = false,
     resolveLinkPath = true,
     resolveImagePath = true,
@@ -348,30 +348,31 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const defaultImageRender = md.renderer.rules.image!;
 
-      md.renderer.rules.image = (tokens, index, options, env: IncludeEnv, self): string => {
+      md.renderer.rules.image = (tokens, index, mdItOptions, env: IncludeEnv, self): string => {
         const token = tokens[index];
-        const path = currentPath(env);
+        const filePath = currentPath(env);
 
-        if (path) resolveRelatedLink("src", token, path, env.includedPaths);
+        if (filePath) resolveRelatedLink("src", token, filePath, env.includedPaths);
 
         // pass token to default renderer.
-        return defaultImageRender(tokens, index, options, env, self);
+        return defaultImageRender(tokens, index, mdItOptions, env, self);
       };
     }
 
     if (resolveLinkPath) {
       const defaultLinkRender =
         md.renderer.rules.link_open ??
-        ((tokens, index, options, _env, self): string => self.renderToken(tokens, index, options));
+        ((tokens, index, mdItOptions, _env, self): string =>
+          self.renderToken(tokens, index, mdItOptions));
 
-      md.renderer.rules.link_open = (tokens, index, options, env: IncludeEnv, self): string => {
+      md.renderer.rules.link_open = (tokens, index, mdItOptions, env: IncludeEnv, self): string => {
         const token = tokens[index];
-        const path = currentPath(env);
+        const filePath = currentPath(env);
 
-        if (path) resolveRelatedLink("href", token, path, env.includedPaths);
+        if (filePath) resolveRelatedLink("href", token, filePath, env.includedPaths);
 
         // pass token to default renderer.
-        return defaultLinkRender(tokens, index, options, env, self);
+        return defaultLinkRender(tokens, index, mdItOptions, env, self);
       };
     }
   }

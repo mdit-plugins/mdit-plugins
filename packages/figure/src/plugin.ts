@@ -60,10 +60,10 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
       // Previous token is paragraph open.
       // Next token is paragraph close.
       // Lets replace the paragraph tokens with figure tokens.
-      const figure = state.tokens[index - 1];
+      const figureToken = state.tokens[index - 1];
 
-      figure.type = "figure_open";
-      figure.tag = "figure";
+      figureToken.type = "figure_open";
+      figureToken.tag = "figure";
       state.tokens[index + 1].type = "figure_close";
       state.tokens[index + 1].tag = "figure";
 

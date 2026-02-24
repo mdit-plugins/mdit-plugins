@@ -1,6 +1,7 @@
+import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.js";
 
-export default [
+const config: UserConfig[] = [
   tsdownConfig("index"),
   tsdownConfig("sync"),
   tsdownConfig("index", {
@@ -13,3 +14,5 @@ export default [
     noExternal: ["@mathjax/mathjax-newcm-font", "@mathjax/src"],
   }),
 ];
+
+export default config;

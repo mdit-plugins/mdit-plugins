@@ -22,28 +22,28 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     openRender = (
       tokens: Token[],
       index: number,
-      options: Options,
+      mdItOptions: Options,
       _env: unknown,
       slf: Renderer,
     ): string => {
       // add a class to the opening tag
       tokens[index].attrJoin("class", name);
 
-      return slf.renderToken(tokens, index, options);
+      return slf.renderToken(tokens, index, mdItOptions);
     },
     closeRender = (
       tokens: Token[],
       index: number,
-      options: Options,
+      mdItOptions: Options,
       _env: unknown,
       slf: Renderer,
-    ): string => slf.renderToken(tokens, index, options),
+    ): string => slf.renderToken(tokens, index, mdItOptions),
   } = options;
 
   const markerStart = marker[0];
   const markerLength = marker.length;
 
-  const container: RuleBlock = (state, startLine, endLine, silent) => {
+  const containerRule: RuleBlock = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];
     const currentLineIndent = state.sCount[startLine];
@@ -158,7 +158,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     return true;
   };
 
-  md.block.ruler.before("fence", `container_${name}`, container, {
+  md.block.ruler.before("fence", `container_${name}`, containerRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
   md.renderer.rules[`container_${name}_open`] = openRender;

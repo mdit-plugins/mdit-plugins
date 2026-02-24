@@ -234,11 +234,11 @@ $$
   });
 
   it("should work with transformer", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(katex, {
+    const markdownItTransformer = MarkdownIt({ linkify: true }).use(katex, {
       transformer: (content: string) => content.replaceAll(/^(<[a-z]+ )/g, "$1v-pre "),
     });
 
-    expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
-    expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
+    expect(markdownItTransformer.render(`$$a=1$$`)).toContain(" v-pre ");
+    expect(markdownItTransformer.render(`$a=1$`)).toContain(" v-pre ");
   });
 });

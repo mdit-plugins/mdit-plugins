@@ -7,14 +7,14 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItKatexOptions, TeXTransformer } from "./options.js";
 
 const katexInline = (
-  tex: string,
+  content: string,
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
   let result: string;
 
   try {
-    result = renderToString(tex, options);
+    result = renderToString(content, options);
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof ParseError) {
@@ -22,7 +22,7 @@ const katexInline = (
       console.error(err);
       result = `<span class='katex-error' title='${escapeHtml(
         (err as Error).toString(),
-      )}'>${escapeHtml(tex)}</span>`;
+      )}'>${escapeHtml(content)}</span>`;
     } else {
       throw err;
     }
@@ -32,14 +32,14 @@ const katexInline = (
 };
 
 const katexBlock = (
-  tex: string,
+  content: string,
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
   let result: string;
 
   try {
-    result = `<p class='katex-block'>${renderToString(tex, options)}</p>\n`;
+    result = `<p class='katex-block'>${renderToString(content, options)}</p>\n`;
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof ParseError) {
@@ -47,7 +47,7 @@ const katexBlock = (
       console.error(err);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
         (err as Error).toString(),
-      )}'>${escapeHtml(tex)}</p>\n`;
+      )}'>${escapeHtml(content)}</p>\n`;
     } else {
       throw err;
     }

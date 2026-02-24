@@ -315,8 +315,10 @@ Root2 paragraph.
   });
 
   it("should handle different field containers nested with content", () => {
-    const md = MarkdownIt().use(field, { name: "props" }).use(field, { name: "events" });
-    const result = md.render(`
+    const mdMultipleFields = MarkdownIt()
+      .use(field, { name: "props" })
+      .use(field, { name: "events" });
+    const result = mdMultipleFields.render(`
 ::: props
 @prop1@
 Prop content.

@@ -16,8 +16,8 @@ const getAlertRule =
       )
         return false;
 
-      const pos = state.bMarks[startLine] + state.tShift[startLine];
-      const max = state.eMarks[startLine];
+      let pos = state.bMarks[startLine] + state.tShift[startLine];
+      let max = state.eMarks[startLine];
 
       // check the block quote marker
       if (state.src.charCodeAt(pos) !== 62 /* > */) return false;
@@ -146,8 +146,8 @@ const getAlertRule =
         // ```
         const isOutdented = state.sCount[currentLine] < state.blkIndent;
 
-        let pos = state.bMarks[currentLine] + state.tShift[currentLine];
-        const max = state.eMarks[currentLine];
+        pos = state.bMarks[currentLine] + state.tShift[currentLine];
+        max = state.eMarks[currentLine];
 
         // Case 1: line is not inside the blockquote, and this line is empty.
         if (pos >= max) break;
@@ -155,10 +155,10 @@ const getAlertRule =
         if (state.src.charCodeAt(pos++) === 62 /* > */ && !isOutdented) {
           // This line is inside the blockquote.
 
-          // set offset past spaces and ">"
-          let initial = state.sCount[currentLine] + 1;
           let spaceAfterMarker = false;
-          let adjustTab = false;
+          // set offset past spaces and ">"
+          initial = state.sCount[currentLine] + 1;
+          adjustTab = false;
 
           // skip one optional space after '>'
           if (state.src.charCodeAt(pos) === 32 /* space */) {
@@ -183,7 +183,7 @@ const getAlertRule =
             }
           }
 
-          let offset = initial;
+          offset = initial;
 
           if (!silent) {
             oldBMarks.push(state.bMarks[currentLine]);

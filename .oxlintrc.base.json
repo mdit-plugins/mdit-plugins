@@ -44,6 +44,7 @@
     "no-plusplus": "off",
     // ternary operator shall be allowed for simple expressions
     "no-ternary": "off",
+    "no-shadow": ["warn", { "allow": ["_"] }],
     // we use void operator to mark those promise that shall not be awaited
     "no-void": "off",
     // normally we do not enforce numeric separator usage
@@ -304,6 +305,8 @@
         "max-statements": "off",
         "no-empty-function": "off",
         "no-undefined": "off",
+        // vitest polyfills __dirname and __filename
+        "prefer-module": "off",
         "import/no-nodejs-modules": "off",
         "typescript/ban-ts-comment": "off",
         "typescript/no-non-null-assertion": "off",
@@ -316,6 +319,7 @@
             "pattern": ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$"
           }
         ],
+        "vitest/no-importing-vitest-globals": "off",
         "vitest/prefer-called-once": "off",
         "vitest/prefer-to-be-falsy": "off",
         "vitest/prefer-to-be-truthy": "off",
