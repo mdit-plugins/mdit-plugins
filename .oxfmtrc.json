@@ -7,7 +7,7 @@
     "**/.vuepress/.temp/**",
     "**/.vuepress/dist/**"
   ],
-  "experimentalSortPackageJson": {
+  "sortPackageJson": {
     "sortScripts": true
   }
 }
