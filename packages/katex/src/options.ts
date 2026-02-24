@@ -12,7 +12,7 @@ export type KatexLogger<MarkdownItEnv = unknown> = (
   errorMsg: string,
   token: Token,
   env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | boolean | void;
+) => "error" | "warn" | "ignore" | boolean | undefined;
 
 export type TeXTransformer = (content: string, displayMode: boolean) => string;
 

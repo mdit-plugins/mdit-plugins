@@ -18,14 +18,14 @@ try {
 }
 
 const katexInline = (
-  tex: string,
+  content: string,
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
   let result: string;
 
   try {
-    result = katexLib.renderToString(tex, options);
+    result = katexLib.renderToString(content, options);
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof katexLib.ParseError) {
@@ -33,7 +33,7 @@ const katexInline = (
       console.error(err);
       result = `<span class='katex-error' title='${escapeHtml(
         (err as Error).toString(),
-      )}'>${escapeHtml(tex)}</span>`;
+      )}'>${escapeHtml(content)}</span>`;
     } else {
       throw err;
     }
@@ -43,14 +43,14 @@ const katexInline = (
 };
 
 const katexBlock = (
-  tex: string,
+  content: string,
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
   let result: string;
 
   try {
-    result = `<p class='katex-block'>${katexLib.renderToString(tex, options)}</p>\n`;
+    result = `<p class='katex-block'>${katexLib.renderToString(content, options)}</p>\n`;
   } catch (err) {
     /* istanbul ignore else -- @preserve */
     if (err instanceof katexLib.ParseError) {
@@ -58,7 +58,7 @@ const katexBlock = (
       console.error(err);
       result = `<p class='katex-block katex-error' title='${escapeHtml(
         (err as Error).toString(),
-      )}'>${escapeHtml(tex)}</p>\n`;
+      )}'>${escapeHtml(content)}</p>\n`;
     } else {
       throw err;
     }

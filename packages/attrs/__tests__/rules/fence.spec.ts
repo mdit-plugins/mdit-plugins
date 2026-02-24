@@ -56,10 +56,8 @@ const createDualRuleTests = (
           "```js{1,3-5,7} {.class}\nconsole.log('test');\n```",
         ];
 
-        testCases.forEach((src) => {
-          const result = markdownIt.render(src);
-
-          expect(result).toContain('<code class="class language-js');
+        testCases.forEach((item) => {
+          expect(markdownIt.render(item)).toContain('<code class="class language-js');
         });
       });
     });

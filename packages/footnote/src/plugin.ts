@@ -119,7 +119,7 @@ const renderFootnoteAnchor: RenderRule = (
 const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
-  let char: number;
+  let charCode: number;
 
   if (
     // line should be at least 5 chars - "[^x]:"
@@ -132,10 +132,10 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
   let pos = start + 2;
 
   while (pos < max) {
-    char = state.src.charCodeAt(pos);
-    if (char === 32 /* space */) return false;
+    charCode = state.src.charCodeAt(pos);
+    if (charCode === 32 /* space */) return false;
 
-    if (char === 93 /* ] */) break;
+    if (charCode === 93 /* ] */) break;
 
     pos++;
   }
@@ -174,10 +174,10 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
   let offset = initial;
 
   while (pos < max) {
-    const char = state.src.charCodeAt(pos);
+    charCode = state.src.charCodeAt(pos);
 
-    if (char === 9 /* \t */) offset += 4 - (offset % 4);
-    else if (char === 32 /* space */) offset++;
+    if (charCode === 9 /* \t */) offset += 4 - (offset % 4);
+    else if (charCode === 32 /* space */) offset++;
     else break;
 
     pos++;
@@ -386,8 +386,6 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
     footnoteOpenToken.meta = { id: index, label: list[index].label };
     state.tokens.push(footnoteOpenToken);
 
-    let lastParagraph: FootNoteToken | null;
-
     if (list[index].tokens) {
       const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
 
@@ -413,10 +411,9 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       if (tokens) state.tokens.push(...tokens);
     }
 
-    if (state.tokens[state.tokens.length - 1].type === "paragraph_close")
+    const lastParagraph =
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      lastParagraph = state.tokens.pop()!;
-    else lastParagraph = null;
+      state.tokens[state.tokens.length - 1].type === "paragraph_close" ? state.tokens.pop()! : null;
 
     // oxlint-disable-next-line typescript/no-non-null-assertion
     for (let j = 0; j < (Number(list[index].count) > 0 ? list[index].count! : 1); j++) {

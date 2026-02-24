@@ -583,7 +583,7 @@ zzz</p>
   });
 
   it("renderer", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItRender = MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
       openRender: () => "<details><summary>click me</summary>\n",
       closeRender: () => "</details>\n",
@@ -597,12 +597,12 @@ zzz</p>
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toBe(expected);
+      expect(markdownItRender.render(content)).toBe(expected);
     });
   });
 
   it("2 char marker", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
       marker: "->",
     });
@@ -615,12 +615,12 @@ zzz</p>
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toBe(expected);
+      expect(markdownItMarker.render(content)).toBe(expected);
     });
   });
 
   it("marker should not collide with fence", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
       marker: "`",
     });
@@ -634,7 +634,7 @@ zzz</p>
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toBe(expected);
+      expect(markdownItMarker.render(content)).toBe(expected);
     });
   });
 
@@ -649,22 +649,22 @@ zzz</p>
 
   describe("validator", () => {
     it("should skip rule if return value is falsy", () => {
-      const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: () => false,
       });
 
-      expect(markdownIt.render(":::foo\nbar\n:::\n")).toBe("<p>:::foo\nbar\n:::</p>\n");
+      expect(markdownItValidate.render(":::foo\nbar\n:::\n")).toBe("<p>:::foo\nbar\n:::</p>\n");
     });
 
     it("should accept rule if return value is true", () => {
-      const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: () => true,
       });
 
       expect(
-        markdownIt.render(`\
+        markdownItValidate.render(`\
 :::foo
 bar
 :::
@@ -678,17 +678,17 @@ bar
 
     it("rule should call it", () => {
       const spy = vi.fn();
-      const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: spy,
       });
 
-      markdownIt.parse(":\n::\n:::\n::::\n:::::\n", {});
+      markdownItValidate.parse(":\n::\n:::\n::::\n:::::\n", {});
       expect(spy).toBeCalledTimes(6);
     });
 
     it("should not trim params", () => {
-      const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: (params) => {
           expect(params).toBe(" \tname ");
@@ -697,18 +697,18 @@ bar
         },
       });
 
-      markdownIt.parse("::: \tname \ncontent\n:::\n", {});
+      markdownItValidate.parse("::: \tname \ncontent\n:::\n", {});
     });
 
     it("should allow analyze mark", () => {
-      const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: (_, mark) => mark.length >= 4,
       });
 
-      expect(markdownIt.render(":::\nfoo\n:::\n")).toBe("<p>:::\nfoo\n:::</p>\n");
+      expect(markdownItValidate.render(":::\nfoo\n:::\n")).toBe("<p>:::\nfoo\n:::</p>\n");
 
-      expect(markdownIt.render("::::\nfoo\n::::\n")).toBe(
+      expect(markdownItValidate.render("::::\nfoo\n::::\n")).toBe(
         '<div class="name">\n<p>foo</p>\n</div>\n',
       );
     });

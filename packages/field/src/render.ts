@@ -11,15 +11,12 @@ export const getDefaultFieldOpenRender =
 
     let metaHtml = "";
 
-    attributes.forEach((attr) => {
-      const { name, value, attr: key } = attr;
-      const escapedName = escapeHtml(name);
+    attributes.forEach((attribute) => {
+      const escapedName = escapeHtml(attribute.name);
 
-      if (value === true) {
-        metaHtml += `<span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}</span>\n`;
-      } else {
-        metaHtml += `<span class="${classPrefix}attr ${classPrefix}attr-${key}">${escapedName}: ${escapeHtml(String(value))}</span>\n`;
-      }
+      metaHtml += `<span class="${classPrefix}attr ${classPrefix}attr-${attribute.attr}">${
+        attribute.value === true ? escapedName : `${escapedName}: ${escapeHtml(attribute.value)}`
+      }</span>\n`;
     });
 
     return `\

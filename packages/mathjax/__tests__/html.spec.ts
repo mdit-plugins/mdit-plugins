@@ -44,14 +44,14 @@ describe("mathjax-html", () => {
     });
 
     it("should not output A11y", async () => {
-      const markdownIt = MarkdownIt({ linkify: true }).use(
+      const markdownItNoA11y = MarkdownIt({ linkify: true }).use(
         mathjax,
         await createMathjaxInstance({ a11y: false, output: "chtml" }),
       );
 
       examples.forEach((example) => {
-        const inline = markdownIt.render(`$${example}$`);
-        const inlineInText = markdownIt.render(`A tex equation $${example}$ inline.`);
+        const inline = markdownItNoA11y.render(`$${example}$`);
+        const inlineInText = markdownItNoA11y.render(`A tex equation $${example}$ inline.`);
 
         expect(inline).not.toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
         expect(inlineInText).not.toMatch(/<mjx-assistive-mml .*>[\s\S]*<\/mjx-assistive-mml>/);
