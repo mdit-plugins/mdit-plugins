@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-demo@0.22.4...@mdit/plugin-demo@0.23.0) (2026-02-24)
+
+### ⚠ BREAKING CHANGES
+
+- optimize plugins entries (#336)
+
+### 🐛 Bug Fixes
+
+- **demo:** set markup on dynamically created fence token for highlight compatibility ([e7fb5f5](https://github.com/mdit-plugins/mdit-plugins/commit/e7fb5f5891e962c7705b328a6a34fb2f9e188225))
+- optimize plugins entries ([#336](https://github.com/mdit-plugins/mdit-plugins/issues/336)) ([0655a41](https://github.com/mdit-plugins/mdit-plugins/commit/0655a4136c1aafcae7d4ae7eff141112762b1f09))
+
 ## [0.22.4](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-demo@0.22.3...@mdit/plugin-demo@0.22.4) (2026-01-28)
 
 **Note:** Version bump only for package @mdit/plugin-demo

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-tab@0.23.1...@mdit/plugin-tab@0.24.0) (2026-02-24)
+
+### ⚠ BREAKING CHANGES
+
+- optimize plugins entries (#336)
+
+### 🐛 Bug Fixes
+
+- optimize plugins entries ([#336](https://github.com/mdit-plugins/mdit-plugins/issues/336)) ([0655a41](https://github.com/mdit-plugins/mdit-plugins/commit/0655a4136c1aafcae7d4ae7eff141112762b1f09))
+- **tab:** fix edge cases where [@tab](https://github.com/tab) is nested under other content ([ddcfbfe](https://github.com/mdit-plugins/mdit-plugins/commit/ddcfbfe1522efe8d36195e2c2c756af611c4805c))
+
 ## [0.23.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-tab@0.23.0...@mdit/plugin-tab@0.23.1) (2026-01-28)
 
 **Note:** Version bump only for package @mdit/plugin-tab

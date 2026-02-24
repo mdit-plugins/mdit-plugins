@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-alert@0.22.4...@mdit/plugin-alert@0.23.0) (2026-02-24)
+
+### ⚠ BREAKING CHANGES
+
+- optimize plugins entries (#336)
+
+### 🐛 Bug Fixes
+
+- **alert:** fix alert regression ([3d2dec1](https://github.com/mdit-plugins/mdit-plugins/commit/3d2dec16ebd41d7df59568d8c997804c671178cf))
+- **alert:** fix edge cases and improve coverage ([d8d57d0](https://github.com/mdit-plugins/mdit-plugins/commit/d8d57d070a13e1644d2826cf41c475cb699553a7))
+- optimize plugins entries ([#336](https://github.com/mdit-plugins/mdit-plugins/issues/336)) ([0655a41](https://github.com/mdit-plugins/mdit-plugins/commit/0655a4136c1aafcae7d4ae7eff141112762b1f09))
+
 ## [0.22.4](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-alert@0.22.3...@mdit/plugin-alert@0.22.4) (2026-01-28)
 
 **Note:** Version bump only for package @mdit/plugin-alert

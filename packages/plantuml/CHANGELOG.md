@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.0](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-plantuml@0.23.1...@mdit/plugin-plantuml@0.24.0) (2026-02-24)
+
+### ⚠ BREAKING CHANGES
+
+- optimize plugins entries (#336)
+
+### 🐛 Bug Fixes
+
+- optimize plugins entries ([#336](https://github.com/mdit-plugins/mdit-plugins/issues/336)) ([0655a41](https://github.com/mdit-plugins/mdit-plugins/commit/0655a4136c1aafcae7d4ae7eff141112762b1f09))
+- **plantuml:** remove dead code ([63f5b60](https://github.com/mdit-plugins/mdit-plugins/commit/63f5b6078785935722ce801080cc13cd5fecb65a))
+
 ## [0.23.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-plantuml@0.23.0...@mdit/plugin-plantuml@0.23.1) (2026-01-28)
 
 **Note:** Version bump only for package @mdit/plugin-plantuml
