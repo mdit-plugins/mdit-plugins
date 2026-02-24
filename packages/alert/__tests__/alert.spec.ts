@@ -742,6 +742,26 @@ This is a note</p>
 </div>
 `,
       ],
+
+      [
+        `\
+- List item 1
+  > [!note]
+  > This is a note inside a list
+- List item 2
+`,
+        `\
+<ul>
+<li>List item 1
+<div class="markdown-alert markdown-alert-note">
+<p class="markdown-alert-title">Note</p>
+<p>This is a note inside a list</p>
+</div>
+</li>
+<li>List item 2</li>
+</ul>
+`,
+      ],
     ];
 
     testCases.forEach(([input, output]) => {
@@ -973,6 +993,110 @@ code block
 </li>
 <li>Another list item</li>
 </ul>
+`,
+      ],
+      [
+        `\
+- > [!TIP]
+  > body
+  # Heading interrupting alert
+`,
+        `\
+<ul>
+<li>
+<div class="markdown-alert markdown-alert-tip">
+<p class="markdown-alert-title">Tip</p>
+<p>body</p>
+</div>
+<h1>Heading interrupting alert</h1>
+</li>
+</ul>
+`,
+      ],
+      [
+        `\
+- > [!warning]
+  > body
+  - nested list interrupting alert
+`,
+        `\
+<ul>
+<li>
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title">Warning</p>
+<p>body</p>
+</div>
+<ul>
+<li>nested list interrupting alert</li>
+</ul>
+</li>
+</ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownItCustom.render(input)).toEqual(output);
+    });
+  });
+
+  it("should work under silence mode", () => {
+    const markdownItCustom = new MarkdownIt().use(alert, { deep: true });
+
+    const testCases = [
+      [
+        `\
+1. step
+2. step
+> [!TIP]
+> tip body
+`,
+        `\
+<ol>
+<li>step</li>
+<li>step</li>
+</ol>
+<div class="markdown-alert markdown-alert-tip">
+<p class="markdown-alert-title">Tip</p>
+<p>tip body</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([input, output]) => {
+      expect(markdownItCustom.render(input)).toEqual(output);
+    });
+  });
+
+  it("should fallback to standard blockquote for invalid or standard markers", () => {
+    const markdownItCustom = new MarkdownIt().use(alert, { deep: true });
+
+    const testCases = [
+      // Not a valid alert type (assuming default types)
+      [
+        `\
+> [!UNKNOWN]
+> some text
+`,
+        `\
+<blockquote>
+<p>[!UNKNOWN]
+some text</p>
+</blockquote>
+`,
+      ],
+      // Standard blockquote without alert syntax
+      [
+        `\
+> Just a normal blockquote
+> Second line
+`,
+        `\
+<blockquote>
+<p>Just a normal blockquote
+Second line</p>
+</blockquote>
 `,
       ],
     ];

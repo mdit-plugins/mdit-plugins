@@ -217,6 +217,8 @@ const getAlertRule =
           continue;
         }
 
+        if (isOutdented) break;
+
         // Case 2: line is not inside the blockquote, and the last line was empty.
         if (lastLineEmpty) break;
 
@@ -272,7 +274,6 @@ const getAlertRule =
 
       const restoreState = (): void => {
         state.lineMax = oldLineMax;
-        state.parentType = oldParentType;
 
         // Restore original tShift; this might not be necessary since the parser
         // has already been here, but just to make sure we can do that.
@@ -286,6 +287,8 @@ const getAlertRule =
 
       // If we didn't find any alert body, so we don't have a valid alert
       if (startLine + 1 >= currentLine || !hasBodyContent) {
+        state.parentType = oldParentType;
+
         // If we are in silent mode, we don't need to restore the state
         if (!silent) restoreState();
 
@@ -324,6 +327,7 @@ const getAlertRule =
       contentLines[1] = state.line;
 
       state.blkIndent = oldIndent;
+      state.parentType = oldParentType;
       restoreState();
 
       return true;
