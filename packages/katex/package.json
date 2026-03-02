@@ -26,6 +26,9 @@
     "dist"
   ],
   "type": "module",
+  "sideEffects": [
+    "./dist/mhchem.js"
+  ],
   "unpkg": "./dist/cdn.umd.js",
   "jsdelivr": "./dist/cdn.umd.js",
   "exports": {

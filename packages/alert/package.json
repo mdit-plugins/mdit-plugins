@@ -27,6 +27,9 @@
     "dist"
   ],
   "type": "module",
+  "sideEffects": [
+    "./alert.css"
+  ],
   "unpkg": "./dist/cdn.umd.js",
   "jsdelivr": "./dist/cdn.umd.js",
   "exports": {

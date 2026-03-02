@@ -26,6 +26,9 @@
     "dist"
   ],
   "type": "module",
+  "sideEffects": [
+    "./dist/mhchem.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

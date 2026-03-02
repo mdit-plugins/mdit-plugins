@@ -27,6 +27,9 @@
     "spoiler.css"
   ],
   "type": "module",
+  "sideEffects": [
+    "./spoiler.css"
+  ],
   "unpkg": "./dist/cdn.umd.js",
   "jsdelivr": "./dist/cdn.umd.js",
   "exports": {

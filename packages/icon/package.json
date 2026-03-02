@@ -34,6 +34,7 @@
     "dist"
   ],
   "type": "module",
+  "sideEffects": false,
   "unpkg": "./dist/cdn.umd.js",
   "jsdelivr": "./dist/cdn.umd.js",
   "exports": {
