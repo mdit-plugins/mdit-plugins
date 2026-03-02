@@ -10,7 +10,7 @@ const packages = readdirSync(packagesDir);
 export const sync = async (): Promise<void> => {
   const promises = packages.map((packageName) =>
     import(`../packages/${packageName}/package.json`, {
-      assert: { type: "json" },
+      with: { type: "json" },
     }).then(
       ({ default: content }: { default: Record<string, unknown> }) =>
         new Promise<void>((resolve) => {
