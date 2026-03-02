@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-field@0.24.0...@mdit/plugin-field@0.24.1) (2026-03-02)
+
+**Note:** Version bump only for package @mdit/plugin-field
+
 ## 0.24.0 (2026-02-24)
 
 ### ✨ Features
