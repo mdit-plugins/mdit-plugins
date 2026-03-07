@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "1.9.1",
-    "@commitlint/cli": "20.4.2",
-    "@commitlint/config-conventional": "20.4.2",
+    "@commitlint/cli": "20.4.3",
+    "@commitlint/config-conventional": "20.4.3",
     "@lerna-lite/cli": "4.11.3",
     "@lerna-lite/publish": "4.11.3",
     "@types/node": "25.3.3",
