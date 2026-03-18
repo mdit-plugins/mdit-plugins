@@ -78,6 +78,14 @@ import "@mdit/plugin-katex/mhchem";
 
 ## 选项
 
+此插件扩展了 KaTeX 选项。可用选项包括：
+
+<!-- @include: ./tex.md#options -->
+
+### logger
+
+- 类型：`KatexLogger`
+
 ```ts
 type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
@@ -91,46 +99,14 @@ type KatexLogger<MarkdownItEnv = unknown> = (
   token: Token,
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | boolean | undefined | void;
-
-interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
-  /**
-   * 启用的数学分隔符语法
-   *
-   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
-   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
-   * - `"all"`: 启用括号和美元符号两种语法
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * 是否允许两端带空格的内联数学
-   *
-   * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-
-  /**
-   * 是否将解析的数学语言 fence 块转换为显示模式数学
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * 错误日志记录器
-   */
-  logger?: KatexLogger<MarkdownItEnv>;
-
-  /**
-   * 输出内容的转换器
-   */
-  transformer?: TeXTransformer;
-}
 ```
+
+- 详情：错误日志记录器函数。
+
+### transformer
+
+- 类型：`(content: string, displayMode: boolean) => string`
+- 详情：输出内容的转换器函数。
 
 ## 支持列表
 

@@ -332,23 +332,17 @@ namespace HelloWorldApp {
 
 ## Options
 
-```ts
-interface MarkdownItSnippetOptions {
-  /**
-   * Get current filePath
-   *
-   * @default (path) => path
-   */
-  currentPath: (env: any) => string;
+### currentPath
 
-  /**
-   * handle include filePath
-   *
-   * @default (path) => path
-   */
-  resolvePath?: (path: string, cwd: string | null) => string;
-}
-```
+- Type: `(env: any) => string`
+- Required: Yes
+- Details: Get current filePath.
+
+### resolvePath
+
+- Type: `(path: string, cwd: string | null) => string`
+- Default: `(path) => path`
+- Details: Handle include filePath.
 
 ## Demo
 

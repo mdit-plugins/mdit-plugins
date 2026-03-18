@@ -66,23 +66,17 @@ If the page theme mode is based on user preference, you should use:
 
 ## Options
 
-```ts
-interface MarkdownItImgMarkOptions {
-  /**
-   * lightmode only ids
-   *
-   * @default ["light"]
-   */
-  light?: string[];
+### light
 
-  /**
-   * darkmode only ids
-   *
-   * @default ["dark"]
-   */
-  dark?: string[];
-}
-```
+- Type: `string[]`
+- Default: `["light"]`
+- Details: Lightmode only ids.
+
+### dark
+
+- Type: `string[]`
+- Default: `["dark"]`
+- Details: Darkmode only ids.
 
 ## Demo
 

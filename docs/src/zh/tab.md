@@ -75,84 +75,125 @@ mdIt.render("content");
 
 ## 选项
 
+### name
+
+- 类型：`string`
+- 必填：是
+- 详情：选项卡容器的名称。
+
+### openRender
+
+- 类型：`TabsOpenRender`
+
 ```ts
 interface MarkdownItTabData {
   /**
-   * Tab 标题
+   * 选项卡标题
    */
   title: string;
 
   /**
-   * Tab 索引
+   * 选项卡索引
    */
   index: number;
 
   /**
-   * Tab 标识符
+   * 选项卡标识符
    */
   id?: string;
 
   /**
-   * Tab 是否激活
+   * 选项卡是否处于激活状态
    */
   isActive?: boolean;
 }
 
 interface MarkdownItTabInfo {
   /**
-   * 激活的 Tab
+   * 当前激活的选项卡
    *
-   * @description -1 表示没有 Tab 激活
+   * @description -1 表示没有选项卡处于激活状态
    */
   active: number;
 
   /**
-   * Tab 数据
+   * 选项卡数据
    */
   data: MarkdownItTabData[];
 }
 
-interface MarkdownItTabOptions {
-  /**
-   * Tab 容器的名称。
-   */
-  name: string;
-
-  /**
-   * 开始渲染器
-   */
-  openRender?: (
-    info: MarkdownItTabInfo,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: any,
-    self: Renderer,
-  ) => string;
-
-  /**
-   * 结束渲染器
-   */
-  closeRender?: RenderRule;
-
-  /**
-   * 选项卡开始渲染器
-   */
-  tabOpenRender?: (
-    data: MarkdownItTabData,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: any,
-    self: Renderer,
-  ) => string;
-
-  /**
-   * 选项卡结束渲染器
-   */
-  tabCloseRender?: RenderRule;
-}
+/**
+ * 选项卡容器打开渲染器
+ */
+type TabsOpenRender = (
+  info: MarkdownItTabInfo,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  env: any,
+  self: Renderer,
+) => string;
 ```
+
+- 详情：选项卡容器打开渲染函数。
+
+### closeRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：选项卡容器结束渲染函数。
+
+### tabOpenRender
+
+- 类型：`TabOpenRender`
+
+```ts
+interface MarkdownItTabData {
+  /**
+   * 选项卡标题
+   */
+  title: string;
+
+  /**
+   * 选项卡索引
+   */
+  index: number;
+
+  /**
+   * 选项卡标识符
+   */
+  id?: string;
+
+  /**
+   * 选项卡是否处于激活状态
+   */
+  isActive?: boolean;
+}
+
+/**
+ * 选项卡打开渲染器
+ */
+type TabOpenRender = (
+  info: MarkdownItTabData,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  env: any,
+  self: Renderer,
+) => string;
+```
+
+- 详情：选项卡开始渲染函数。
+
+### tabCloseRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：选项卡结束渲染函数。
 
 ## 示例
 

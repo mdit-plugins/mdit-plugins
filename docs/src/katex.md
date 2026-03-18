@@ -78,6 +78,14 @@ import "@mdit/plugin-katex/mhchem";
 
 ## Options
 
+This plugin extends KaTeX options. Available options include:
+
+<!-- @include: ./tex.md#options -->
+
+### logger
+
+- Type: `KatexLogger`
+
 ```ts
 type KatexLogger<MarkdownItEnv = unknown> = (
   errorCode:
@@ -91,48 +99,14 @@ type KatexLogger<MarkdownItEnv = unknown> = (
   token: Token,
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | boolean | undefined | void;
-
-type TeXTransformer = (content: string, displayMode: boolean) => string;
-
-interface MarkdownItKatexOptions<MarkdownItEnv = unknown> extends KatexOptions {
-  /**
-   * Math delimiter syntax to enable
-   *
-   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
-   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
-   * - `"all"`: Enable both bracket and dollar syntaxes
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * Whether to allow inline math with spaces on ends
-   *
-   * @description NOT recommended to set this to true, because it will likely break the default usage of $
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-
-  /**
-   * Whether parsed fence block with math language to display mode math
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * Error logger
-   */
-  logger?: KatexLogger<MarkdownItEnv>;
-
-  /**
-   * transformer on output content
-   */
-  transformer?: TeXTransformer;
-}
 ```
+
+- Details: Error logger function.
+
+### transformer
+
+- Type: `(content: string, displayMode: boolean) => string`
+- Details: Transformer function on output content.
 
 ## Support List
 

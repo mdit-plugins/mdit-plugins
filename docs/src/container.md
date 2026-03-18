@@ -87,20 +87,23 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 ## Options
 
-```ts
-interface MarkdownItContainerOptions {
-  /**
-   * Container name
-   */
-  name: string;
+### name
 
-  /**
-   * Container marker
-   *
-   * @default ":"
-   */
-  marker?: string;
+- Type: `string`
+- Required: Yes
+- Details: Container name.
 
+### marker
+
+- Type: `string`
+- Default: `":"`
+- Details: Container marker.
+
+### validate
+
+- Type: `Validator`
+
+  ```ts
   /**
    * Validate whether it should be regarded as this container type
    *
@@ -110,19 +113,26 @@ interface MarkdownItContainerOptions {
    *
    * @default params.trim().split(" ", 2)[0] === name
    */
-  validate?: (params: string, markup: string) => boolean;
+  type Validator = (params: string, markup: string) => boolean;
+  ```
 
-  /**
-   * Opening tag render function
-   */
-  openRender?: RenderRule;
+- Details: Validate whether it should be regarded as this container type.
 
-  /**
-   * Closing tag render function
-   */
-  closeRender?: RenderRule;
-}
-```
+### openRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Opening tag render function.
+
+### closeRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Closing tag render function.
 
 ## Demo
 

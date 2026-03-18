@@ -32,46 +32,51 @@ mdIt.render("$E=mc^2$");
 
 ## 选项
 
+<!-- #region options -->
+
+### delimiters
+
+- 类型：`"brackets" | "dollars" | "all"`
+- 默认值：`"dollars"`
+- 详情：启用的数学分隔符语法。
+  - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
+  - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
+  - `"all"`: 启用括号和美元符号两种语法。
+
+### mathFence
+
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：是否将解析的数学语言 fence 块转换为显示模式数学。
+
+### allowInlineWithSpace
+
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。
+
+<!-- #endregion options -->
+
+### render
+
+- 类型：`TexRender`
+
 ```ts
-interface MarkdownItTexOptions {
-  /**
-   * 启用的数学分隔符语法
-   *
-   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
-   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
-   * - `"all"`: 启用括号和美元符号两种语法
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * 是否将解析的数学语言 fence 块转换为显示模式数学
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * Tex 渲染函数
-   *
-   * @param content 文本内容
-   * @param displayMode 是否是显示模式
-   * @param env MarkdownIt 环境变量
-   * @returns 渲染结果
-   */
-  render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
-
-  /**
-   * 是否允许两端带空格的内联数学
-   *
-   * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-}
+/**
+ * Tex 渲染函数
+ *
+ * @param content 文本内容
+ * @param displayMode 是否为显示模式
+ * @param env MarkdownIt 环境
+ * @returns 渲染结果
+ */
+type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 ```
+
+- 必填：是
+- 详情：Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
+
+<!-- #endregion options -->
 
 ## 格式
 

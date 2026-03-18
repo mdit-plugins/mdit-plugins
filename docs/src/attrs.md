@@ -66,11 +66,11 @@ will be
 
 ## Advanced
 
-You can pass options to `@mdit-plugin-attrs` to customize plugin behavior.
+You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
 
-The `rule` option allows you to specify which rules to enable. The default is `"all"`, which enables all rules. This is the most important one, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
+### rule
 
-If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
+- Type: `"all" | boolean | MarkdownItAttrRuleName[]`
 
 ```ts
 type MarkdownItAttrRuleName =
@@ -82,39 +82,32 @@ type MarkdownItAttrRuleName =
   | "heading"
   | "softbreak"
   | "block";
-
-interface MarkdownItAttrsOptions {
-  /**
-   * left delimiter
-   *
-   * @default '{'
-   */
-  left?: string;
-
-  /**
-   * right delimiter
-   *
-   * @default '}'
-   */
-  right?: string;
-
-  /**
-   * allowed attributes
-   *
-   * @description An empty list means allowing all attribute
-   *
-   * @default []
-   */
-  allowed?: (string | RegExp)[];
-
-  /**
-   * Rules to enable
-   *
-   * @default "all"
-   */
-  rule?: "all" | boolean | MarkdownItAttrRuleName[];
-}
 ```
+
+- Default: `"all"`
+- Details: Rules to enable.
+
+  The default is `"all"`, which enables all rules. This is the most important option, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
+
+  If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
+
+### allowed
+
+- Type: `(string | RegExp)[]`
+- Default: `[]`
+- Details: Allowed attributes. An empty list means allowing all attributes.
+
+### left
+
+- Type: `string`
+- Default: `'{'`
+- Details: Left delimiter for attributes.
+
+### right
+
+- Type: `string`
+- Default: `'}'`
+- Details: Right delimiter for attributes.
 
 ## Demo
 

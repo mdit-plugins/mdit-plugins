@@ -42,76 +42,54 @@ Bob -> Alice : 你好
 
 ## Options
 
-```ts
-interface MarkdownItPlantumlOptions {
-  /**
-   * Plantuml parse type
-   *
-   * @default "uml"
-   */
-  type?: "uml" | "fence";
+### type
 
-  /**
-   * diagram type
-   *
-   * @description Only available when using default srcGetter
-   *
-   * @default "uml"
-   */
-  name?: string;
+- Type: `"uml" | "fence"`
+- Default: `"uml"`
+- Details: Plantuml parse type.
 
-  /**
-   * Fence info
-   *
-   * @default name
-   */
-  fence?: string;
+### name
 
-  /**
-   * Opening marker
-   *
-   * @description only available with type "uml"
-   *
-   * @default "start" + name
-   */
-  open?: string;
+- Type: `string`
+- Default: `"uml"`
+- Details: Diagram type. Only available when using default srcGetter.
 
-  /**
-   * Closing marker
-   *
-   * @description only available with type "uml"
-   */
-  close?: string;
+### fence
 
-  /**
-   * Plantuml server
-   *
-   * @description Only available when using default srcGetter
-   *
-   * @default "https://www.plantuml.com/plantuml"
-   */
-  server?: string;
+- Type: `string`
+- Details: Fence info. Defaults to the value of `name`.
 
-  /**
-   * Image format
-   *
-   * @description Only available when using default srcGetter
-   *
-   * @default "svg"
-   */
-  format?: string;
+### open
 
-  /**
-   * Image src getter
-   *
-   * @param content diagram content
-   * @returns image link
-   */
-  srcGetter?: (content: string) => string;
+- Type: `string`
+- Details: Opening marker. Only available with type "uml". Defaults to `"start" + name`.
 
-  /**
-   * Diagram renderer
-   */
-  render?: RenderRule;
-}
-```
+### close
+
+- Type: `string`
+- Details: Closing marker. Only available with type "uml". Defaults to `"end" + name`.
+
+### server
+
+- Type: `string`
+- Default: `"https://www.plantuml.com/plantuml"`
+- Details: Plantuml server. Only available when using default srcGetter.
+
+### format
+
+- Type: `string`
+- Default: `"svg"`
+- Details: Image format. Only available when using default srcGetter.
+
+### srcGetter
+
+- Type: `(content: string) => string`
+- Details: Image src getter. Takes diagram content and returns image link.
+
+### render
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Diagram renderer.

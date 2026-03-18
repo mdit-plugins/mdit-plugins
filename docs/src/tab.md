@@ -77,6 +77,16 @@ The plugin doesn't provide any styles, and will not register any events, so that
 
 ## Options
 
+### name
+
+- Type: `string`
+- Required: Yes
+- Details: The name of the tab container.
+
+### openRender
+
+- Type: `TabsOpenRender`
+
 ```ts
 interface MarkdownItTabData {
   /**
@@ -114,47 +124,78 @@ interface MarkdownItTabInfo {
   data: MarkdownItTabData[];
 }
 
-interface MarkdownItTabOptions {
-  /**
-   * The name of the tab container.
-   */
-  name: string;
-
-  /**
-   * Tabs open renderer
-   */
-  openRender?: (
-    info: MarkdownItTabInfo,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: any,
-    self: Renderer,
-  ) => string;
-
-  /**
-   * Tabs close renderer
-   */
-  closeRender?: RenderRule;
-
-  /**
-   * tab open renderer
-   */
-  tabOpenRender?: (
-    data: MarkdownItTabData,
-    tokens: Token[],
-    index: number,
-    options: Options,
-    env: any,
-    self: Renderer,
-  ) => string;
-
-  /**
-   * tab close renderer
-   */
-  tabCloseRender?: RenderRule;
-}
+/**
+ * Tabs open renderer
+ */
+type TabsOpenRender = (
+  info: MarkdownItTabInfo,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  env: any,
+  self: Renderer,
+) => string;
 ```
+
+- Details: Tabs open renderer.
+
+### closeRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Tabs close renderer.
+
+### tabOpenRender
+
+- Type: `TabOpenRender`
+
+```ts
+interface MarkdownItTabData {
+  /**
+   * Title of tab
+   */
+  title: string;
+
+  /**
+   * Tab index
+   */
+  index: number;
+
+  /**
+   * Identifier of tab
+   */
+  id?: string;
+
+  /**
+   * Whether the tab is active
+   */
+  isActive?: boolean;
+}
+
+/**
+ * Tabs open renderer
+ */
+type TabOpenRender = (
+  info: MarkdownItTabData,
+  tokens: Token[],
+  index: number,
+  options: Options,
+  env: any,
+  self: Renderer,
+) => string;
+```
+
+- Details: Tab open renderer.
+
+### tabCloseRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Tab close renderer.
 
 ## Demo
 

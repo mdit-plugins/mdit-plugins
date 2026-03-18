@@ -332,23 +332,17 @@ namespace HelloWorldApp {
 
 ## 选项
 
-```ts
-interface MarkdownItSnippetOptions {
-  /**
-   * 获得当前文件路径
-   *
-   * @default (path) => path
-   */
-  currentPath: (env: any) => string;
+### currentPath
 
-  /**
-   * 处理 include 文件路径
-   *
-   * @default (path) => path
-   */
-  resolvePath?: (path: string, cwd: string | null) => string;
-}
-```
+- 类型：`(env: any) => string`
+- 必填：是
+- 详情：获取当前文件路径。
+
+### resolvePath
+
+- 类型：`(path: string, cwd: string | null) => string`
+- 默认值：`(path) => path`
+- 详情：处理片段文件路径。
 
 ## 示例
 

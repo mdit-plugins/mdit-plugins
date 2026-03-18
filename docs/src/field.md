@@ -156,6 +156,28 @@ Though common tools like prettier is not happy with indention less than 4, the p
 
 ## Options
 
+### name
+
+- Type: `string`
+- Default: `"fields"`
+- Details: Field container name.
+
+### classPrefix
+
+- Type: `string`
+- Default: `"field-"`
+- Details: CSS class prefix for generated class names.
+
+### parseAttributes
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to parse `key="val"` attributes after the field marker.
+
+### allowedAttributes
+
+- Type: `FieldAttr[]`
+
 ```ts
 interface FieldAttr {
   /**
@@ -175,7 +197,15 @@ interface FieldAttr {
    */
   boolean?: boolean;
 }
+```
 
+- Details: Allowed attributes for fields. If not provided, all attributes will be allowed and displayed as-is.
+
+### fieldsOpenRender
+
+- Type: `MarkdownItFieldOpenRender`
+
+```ts
 interface FieldAttrInfo {
   name: string;
   value: string | true;
@@ -209,43 +239,33 @@ type MarkdownItFieldOpenRender = (
   env: any,
   self: Renderer,
 ) => string;
-
-interface MarkdownItFieldOptions {
-  /**
-   * field container name
-   *
-   * @default "fields"
-   */
-  name?: string;
-
-  /**
-   * Allowed attributes for fields, if not provided, all attributes will be allowed and displayed as-is.
-   *
-   * Attribute display will be sorted in the order of this array
-   */
-  allowedAttributes?: FieldAttr[];
-
-  /**
-   * fields container open renderer
-   */
-  fieldsOpenRender?: RenderRule;
-
-  /**
-   * fields container close renderer
-   */
-  fieldsCloseRender?: RenderRule;
-
-  /**
-   * field item open renderer
-   */
-  fieldOpenRender?: MarkdownItFieldOpenRender;
-
-  /**
-   * field item close renderer
-   */
-  fieldCloseRender?: RenderRule;
-}
 ```
+
+- Details: Fields container open render.
+
+### fieldsCloseRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Fields container close render.
+
+### fieldOpenRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Field item open render.
+
+### fieldCloseRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Field item close render.
 
 ## Demo
 

@@ -144,26 +144,56 @@ Same or different containers can be nested inside items at the same indentation 
 
 ## 选项
 
+### name
+
+- 类型：`string`
+- 默认值：`"fields"`
+- 详情：字段容器名称。
+
+### classPrefix
+
+- 类型：`string`
+- 默认值：`"field-"`
+- 详情：生成的 CSS 类名前缀。
+
+### parseAttributes
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否解析字段标记后的 `key="val"` 属性。
+
+### allowedAttributes
+
+- 类型：`FieldAttr[]`
+
 ```ts
 interface FieldAttr {
   /**
-   * 属性名称
+   * 属性名
    */
   attr: string;
 
   /**
-   * 属性的显示名称，如果不提供，将使用 `attr` 作为显示名称，首字母大写。
+   * 属性的显示名称。如果未提供，将使用 `attr` 作为显示名称，首字母大写。
    */
   name?: string;
 
   /**
-   * 是否为布尔属性，任何属性的存在都将被视为 true，其值将被忽略。
+   * 布尔属性，任何属性存在都将被视为 true，值将被忽略。
    *
    * @default false
    */
   boolean?: boolean;
 }
+```
 
+- 详情：允许的字段属性。如果不提供，所有属性都将被允许并按原样显示。
+
+### fieldsOpenRender
+
+- 类型：`MarkdownItFieldOpenRender`
+
+```ts
 interface FieldAttrInfo {
   name: string;
   value: string | true;
@@ -181,7 +211,7 @@ interface FieldMeta {
   level: number;
 
   /**
-   * 排序后的字段属性
+   * 排序后的字段属性，键为属性名，值为属性值。
    */
   attributes: FieldAttrInfo[];
 }
@@ -197,43 +227,33 @@ type MarkdownItFieldOpenRender = (
   env: any,
   self: Renderer,
 ) => string;
-
-interface MarkdownItFieldOptions {
-  /**
-   * 字段容器名称
-   *
-   * @default "fields"
-   */
-  name?: string;
-
-  /**
-   * 字段允许的属性，如果不提供，所有属性都将被允许并按原样显示。
-   *
-   * 属性显示将按照数组中的顺序进行排序。
-   */
-  allowedAttributes?: FieldAttr[];
-
-  /**
-   * fields 容器开启渲染函数
-   */
-  fieldsOpenRender?: RenderRule;
-
-  /**
-   * fields 容器关闭渲染函数
-   */
-  fieldsCloseRender?: RenderRule;
-
-  /**
-   * field 项目开启渲染函数
-   */
-  fieldOpenRender?: MarkdownItFieldOpenRender;
-
-  /**
-   * field 项目关闭渲染函数
-   */
-  fieldCloseRender?: RenderRule;
-}
 ```
+
+- 详情：字段容器打开渲染函数。
+
+### fieldsCloseRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：字段容器关闭渲染函数。
+
+### fieldOpenRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：字段项打开渲染函数。
+
+### fieldCloseRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：字段项关闭渲染函数。
 
 ## 演示
 

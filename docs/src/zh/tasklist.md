@@ -30,51 +30,41 @@ mdIt.render(`\
 
 ## 选项
 
-```ts
-interface MarkdownItTasklistOptions {
-  /**
-   * 是否禁用 checkbox
-   *
-   * @default true
-   */
-  disabled?: boolean;
+### disabled
 
-  /**
-   * 是否使用 `<label>` 来包裹文字
-   *
-   * @default true
-   */
-  label?: boolean;
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否禁用 checkbox。
 
-  /**
-   * tasklist 容器的 class
-   *
-   * @default 'task-list-container'
-   */
-  containerClass?: string;
+### label
 
-  /**
-   * tasklist item 的 class
-   *
-   * @default 'task-list-item'
-   */
-  itemClass?: string;
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否使用 `<label>` 来包裹文字。
 
-  /**
-   * tasklist item label 的 class
-   *
-   * @default 'task-list-item-label'
-   */
-  labelClass?: string;
+### containerClass
 
-  /**
-   * tasklist item checkbox 的 class
-   *
-   * @default 'task-list-item-checkbox'
-   */
-  checkboxClass?: string;
-}
-```
+- 类型：`string`
+- 默认值：`'task-list-container'`
+- 详情：tasklist 容器的 class。
+
+### itemClass
+
+- 类型：`string`
+- 默认值：`'task-list-item'`
+- 详情：tasklist item 的 class。
+
+### labelClass
+
+- 类型：`string`
+- 默认值：`'task-list-item-label'`
+- 详情：tasklist item label 的 class。
+
+### checkboxClass
+
+- 类型：`string`
+- 默认值：`'task-list-item-checkbox'`
+- 详情：tasklist item checkbox 的 class。
 
 ## 示例
 

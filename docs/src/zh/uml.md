@@ -50,28 +50,31 @@ Another content
 
 :::
 
-## Options
+## 选项
 
-```ts
-interface MarkdownItUMLOptions {
-  /**
-   * UML 名称
-   */
-  name: string;
+### name
 
-  /**
-   * 开始标记
-   */
-  open: string;
+- 类型：`string`
+- 必填：是
+- 详情：UML 名称。
 
-  /**
-   * 结束标记
-   */
-  close: string;
+### open
 
-  /**
-   * 渲染函数
-   */
-  render: RenderRule;
-}
-```
+- 类型：`string`
+- 必填：是
+- 详情：开始标记。
+
+### close
+
+- 类型：`string`
+- 必填：是
+- 详情：结束标记。
+
+### render
+
+- 类型：`RenderRule`
+- 必填：是
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：渲染函数。

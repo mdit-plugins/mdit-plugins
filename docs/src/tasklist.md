@@ -30,51 +30,41 @@ mdIt.render(`\
 
 ## Options
 
-```ts
-interface MarkdownItTasklistOptions {
-  /**
-   * Whether disable checkbox
-   *
-   * @default true
-   */
-  disabled?: boolean;
+### disabled
 
-  /**
-   * Whether use `<label>` to wrap text
-   *
-   * @default true
-   */
-  label?: boolean;
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to disable checkbox.
 
-  /**
-   * Class for tasklist container
-   *
-   * @default 'task-list-container'
-   */
-  containerClass?: string;
+### label
 
-  /**
-   * Class for tasklist item
-   *
-   * @default 'task-list-item'
-   */
-  itemClass?: string;
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to use `<label>` to wrap text.
 
-  /**
-   * Class for tasklist item label
-   *
-   * @default 'task-list-item-label'
-   */
-  labelClass?: string;
+### containerClass
 
-  /**
-   * Class for tasklist item checkbox
-   *
-   * @default 'task-list-item-checkbox'
-   */
-  checkboxClass?: string;
-}
-```
+- Type: `string`
+- Default: `'task-list-container'`
+- Details: Class for tasklist container.
+
+### itemClass
+
+- Type: `string`
+- Default: `'task-list-item'`
+- Details: Class for tasklist item.
+
+### labelClass
+
+- Type: `string`
+- Default: `'task-list-item-label'`
+- Details: Class for tasklist item label.
+
+### checkboxClass
+
+- Type: `string`
+- Default: `'task-list-item-checkbox'`
+- Details: Class for tasklist item checkbox.
 
 ## Demo
 

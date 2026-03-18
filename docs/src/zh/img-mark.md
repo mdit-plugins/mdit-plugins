@@ -66,23 +66,17 @@ darkmode-selector {
 
 ## 选项
 
-```ts
-interface MarkdownItImgMarkOptions {
-  /**
-   * 日间模式 ID
-   *
-   * @default ["light"]
-   */
-  light?: string[];
+### light
 
-  /**
-   * 夜间模式 ID
-   *
-   * @default ["dark"]
-   */
-  dark?: string[];
-}
-```
+- 类型：`string[]`
+- 默认值：`["light"]`
+- 详情：日间模式 ID。
+
+### dark
+
+- 类型：`string[]`
+- 默认值：`["dark"]`
+- 详情：夜间模式 ID。
 
 ## 示例
 

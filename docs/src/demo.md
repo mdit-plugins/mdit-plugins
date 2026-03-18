@@ -36,48 +36,57 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 ## Options
 
-```ts
-interface MarkdownItDemoOptions {
-  /**
-   * Container name
-   *
-   * @default "demo"
-   */
-  name?: string;
+### name
 
-  /**
-   * Whether code is displayed before result
-   *
-   * @default false
-   */
-  showCodeFirst?: boolean;
+- Type: `string`
+- Default: `"demo"`
+- Details: Container name.
 
-  /**
-   * Opening tag render function
-   */
-  openRender?: RenderRule;
+### showCodeFirst
 
-  /**
-   * Closing tag render function
-   */
-  closeRender?: RenderRule;
+- Type: `boolean`
+- Default: `false`
+- Details: Whether code is displayed before result.
 
-  /**
-   * Code render function
-   */
-  codeRender?: RenderRule;
+### openRender
 
-  /**
-   * Content open tag render function
-   */
-  contentOpenRender?: RenderRule;
+- Type: `RenderRule`
 
-  /**
-   * Content close tag render function
-   */
-  contentCloseRender?: RenderRule;
-}
-```
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Opening tag render function.
+
+### closeRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Closing tag render function.
+
+### codeRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Code render function.
+
+### contentOpenRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Content open tag render function.
+
+### contentCloseRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Content close tag render function.
 
 ## Demo
 

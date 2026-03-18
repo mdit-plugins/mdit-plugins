@@ -29,59 +29,50 @@ mdIt.render("==高亮文本==");
 
 ### marker
 
-- 类型: `string`
-- 必填
-
-用作标记的标点符号字符（例如 `"^"`、`"~"`、`"="`）。
+- 类型：`string`
+- 必填：是
+- 详情：用作标记的标点符号字符（例如 `"^"`、`"~"`、`"="`）。
 
 ### tag
 
-- 类型: `string`
-- 必填
-
-渲染元素的 HTML 标签名称（例如 `"sup"`、`"mark"`、`"span"`）。
+- 类型：`string`
+- 必填：是
+- 详情：渲染元素的 HTML 标签名称（例如 `"sup"`、`"mark"`、`"span"`）。
 
 ### token
 
-- 类型: `string`
-- 必填
-
-用于 markdown-it 令牌标识的令牌类型名称（例如 `"sup"`、`"mark"`）。
+- 类型：`string`
+- 必填：是
+- 详情：用于 markdown-it 令牌标识的令牌类型名称（例如 `"sup"`、`"mark"`）。
 
 ### nested
 
-- 类型: `boolean`
-- 默认值: `false`
-
-为 `false` 时使用高性能线性扫描，内部不解析内联标签（例如 sub/sup）。为 `true` 时使用分隔符状态机和双标记，支持嵌套粗体、斜体等（例如 mark/spoiler）。
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：为 `false` 时使用高性能线性扫描，内部不解析内联标签（例如 sub/sup）。为 `true` 时使用分隔符状态机和双标记，支持嵌套粗体、斜体等（例如 mark/spoiler）。
 
 ### double
 
-- 类型: `boolean`
-- 默认值: `false`（非嵌套），强制 `true`（嵌套）
-
-标记是否必须成对出现（例如 `!!` 而不是 `!`）。嵌套规则始终使用双标记。
+- 类型：`boolean`
+- 默认值：`false`（非嵌套），强制 `true`（嵌套）
+- 详情：标记是否必须成对出现（例如 `!!` 而不是 `!`）。嵌套规则始终使用双标记。
 
 ### placement
 
-- 类型: `"before-emphasis" | "after-emphasis"`
-- 默认值: `"after-emphasis"`
-
-相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
+- 类型：`"before-emphasis" | "after-emphasis"`
+- 默认值：`"after-emphasis"`
+- 详情：相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
 
 ### attrs
 
-- 类型: `[string, string][]`
-- 默认值: `undefined`
-
-渲染元素的自定义 HTML 属性。
+- 类型：`[attr: string, value: string][]`
+- 详情：渲染元素的自定义 HTML 属性。
 
 ### allowSpace
 
-- 类型: `boolean`
-- 默认值: `false`
-
-是否允许内容中的未转义空格。仅适用于非嵌套规则。
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：是否允许内容中的未转义空格。仅适用于非嵌套规则。
 
 ## 示例
 

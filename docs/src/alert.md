@@ -94,38 +94,38 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 ## Options
 
-```ts
-interface MarkdownItAlertOptions {
-  /**
-   * Allowed alert names
-   *
-   * @default ['important', 'note', 'tip', 'warning', 'caution']
-   */
-  alertNames?: string[];
+### alertNames
 
-  /**
-   * Whether handle deep alert syntax
-   *
-   * @default false
-   */
-  deep?: boolean;
+- Type: `string[]`
+- Default: `['important', 'note', 'tip', 'warning', 'caution']`
+- Details: Allowed alert names.
 
-  /**
-   * Hint opening tag render function
-   */
-  openRender?: RenderRule;
+### deep
 
-  /**
-   * Hint closing tag render function
-   */
-  closeRender?: RenderRule;
+- Type: `boolean`
+- Default: `false`
+- Details: Whether to handle deep alert syntax.
 
-  /**
-   * Hint title render function
-   */
-  titleRender?: RenderRule;
-}
-```
+### openRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Hint opening tag render function.
+
+### closeRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Hint closing tag render function.
+
+### titleRender
+
+- Type: `RenderRule`
+- Details: Hint title render function.
 
 ## Demo
 

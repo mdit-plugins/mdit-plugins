@@ -82,46 +82,49 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 
 ## Options
 
+<!-- #region options -->
+
+### delimiters
+
+- Type: `"brackets" | "dollars" | "all"`
+- Default: `"dollars"`
+- Details: Math delimiter syntax to enable.
+  - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style).
+  - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style).
+  - `"all"`: Enable both bracket and dollar syntaxes.
+
+### mathFence
+
+- Type: `boolean`
+- Default: `false`
+- Details: Whether parsed fence block with math language to display mode math.
+
+### allowInlineWithSpace
+
+- Type: `boolean`
+- Default: `false`
+- Details: Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`.
+
+### render
+
+- Type: `TexRender`
+
 ```ts
-interface MarkdownItTexOptions {
-  /**
-   * Math delimiter syntax to enable
-   *
-   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
-   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
-   * - `"all"`: Enable both bracket and dollar syntaxes
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * Whether parsed fence block with math language to display mode math
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * Tex Render function
-   *
-   * @param content Text content
-   * @param displayMode whether is display mode
-   * @param env MarkdownIt environment
-   * @returns render result
-   */
-  render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
-
-  /**
-   * Whether to allow inline math with spaces on ends
-   *
-   * @description NOT recommended to set this to true, because it will likely break the default usage of $
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-}
+/**
+ * Tex Render function
+ *
+ * @param content Text content
+ * @param displayMode whether is display mode
+ * @param env MarkdownIt environment
+ * @returns render result
+ */
+type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 ```
+
+- Required: Yes
+- Details: Tex Render function. Takes content, displayMode, and environment, returns rendered string.
+
+<!-- #endregion options -->
 
 ## Demo
 

@@ -36,48 +36,57 @@ Text
 
 ## 选项
 
-```ts
-interface MarkdownItDemoOptions {
-  /**
-   * 容器名称
-   *
-   * @default "demo"
-   */
-  name?: string;
+### name
 
-  /**
-   * 代码是否显示在内容前
-   *
-   * @default false
-   */
-  showCodeFirst?: boolean;
+- 类型：`string`
+- 默认值：`"demo"`
+- 详情：容器名称。
 
-  /**
-   * 开始标签渲染函数
-   */
-  openRender?: RenderRule;
+### showCodeFirst
 
-  /**
-   * 结束标签渲染函数
-   */
-  closeRender?: RenderRule;
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：代码是否显示在内容前。
 
-  /**
-   * 代码渲染函数
-   */
-  codeRender?: RenderRule;
+### openRender
 
-  /**
-   * 内容开始标签渲染函数
-   */
-  contentOpenRender?: RenderRule;
+- 类型：`RenderRule`
 
-  /**
-   * 内容结束标签渲染函数
-   */
-  contentCloseRender?: RenderRule;
-}
-```
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：开始标签渲染函数。
+
+### closeRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：结束标签渲染函数。
+
+### codeRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：代码渲染函数。
+
+### contentOpenRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：内容开始标签渲染函数。
+
+### contentCloseRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：内容结束标签渲染函数。
 
 ## 示例
 

@@ -333,51 +333,41 @@ namespace HelloWorldApp {
 
 ## Options
 
-```ts
-interface MarkdownItIncludeOptions {
-  /**
-   * Get current filePath
-   *
-   * @default (path) => path
-   */
-  currentPath: (env: any) => string;
+### currentPath
 
-  /**
-   * handle include filePath
-   *
-   * @default (path) => path
-   */
-  resolvePath?: (path: string, cwd: string | null) => string;
+- Type: `(env: any) => string`
+- Required: Yes
+- Details: Get current filePath.
 
-  /**
-   * Whether deep include files in included Markdown files
-   *
-   * @default false
-   */
-  deep?: boolean;
+### resolvePath
 
-  /**
-   * Whether use `<!-- @include: xxx -->` instead of `@include: xxx` to include files
-   *
-   * @default true
-   */
-  useComment?: boolean;
+- Type: `(path: string, cwd: string | null) => string`
+- Default: `(path) => path`
+- Details: Handle include filePath.
 
-  /**
-   * Whether resolve the image related path in the included Markdown file
-   *
-   * @default true
-   */
-  resolveImagePath?: boolean;
+### deep
 
-  /**
-   * Whether resolve the related file link path in the included Markdown file
-   *
-   * @default true
-   */
-  resolveLinkPath?: boolean;
-}
-```
+- Type: `boolean`
+- Default: `false`
+- Details: Whether to deep include files in included Markdown files.
+
+### useComment
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to use `<!-- @include: xxx -->` instead of `@include: xxx` to include files.
+
+### resolveImagePath
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to resolve the image related path in the included Markdown file.
+
+### resolveLinkPath
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to resolve the related file link path in the included Markdown file.
 
 ## Demo
 

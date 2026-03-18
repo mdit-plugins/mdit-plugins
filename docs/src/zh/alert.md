@@ -72,7 +72,7 @@ mdIt.render(`
   - > [!warning]
     > 警告文字
 
-- Escaping can be done by adding `\` to escape the `!` `[` or `]` marker:
+- 通过添加 `\` 转义 `!` `[` 或 `]` 标记来实现转义：
 
   ```md
   > [\!warning]
@@ -94,38 +94,38 @@ mdIt.render(`
 
 ## 选项
 
-```ts
-interface MarkdownItAlertOptions {
-  /**
-   * 允许的警告名称
-   *
-   * @default ['important', 'note', 'tip', 'warning', 'caution']
-   */
-  alertNames?: string[];
+### alertNames
 
-  /**
-   * 是否允许深层的警告语法
-   *
-   * @default false
-   */
-  deep?: boolean;
+- 类型：`string[]`
+- 默认值：`['important', 'note', 'tip', 'warning', 'caution']`
+- 详情：允许的警告名称。
 
-  /**
-   * 提示开始标签渲染函数
-   */
-  openRender?: RenderRule;
+### deep
 
-  /**
-   * 提示结束标签渲染函数
-   */
-  closeRender?: RenderRule;
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：是否允许深层的警告语法。
 
-  /**
-   * 提示标题渲染函数
-   */
-  titleRender?: RenderRule;
-}
-```
+### openRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：提示开始标签渲染函数。
+
+### closeRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：提示结束标签渲染函数。
+
+### titleRender
+
+- 类型：`RenderRule`
+- 详情：提示标题渲染函数。
 
 ## 示例
 

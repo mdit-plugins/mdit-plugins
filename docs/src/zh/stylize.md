@@ -108,10 +108,14 @@ mdIt.render("Check FAQ for more details._Recommended_", {
 
 ## 选项
 
+### config
+
+- 类型：`MarkdownItStylizeConfig[]`
+
 ```ts
 interface MarkdownItStylizeResult {
   /**
-   * 渲染的标签名称
+   * 标签名称
    */
   tag: string;
 
@@ -128,12 +132,12 @@ interface MarkdownItStylizeResult {
 
 interface MarkdownItStylizeConfig {
   /**
-   * 字符匹配
+   * 行内标记匹配器
    */
   matcher: string | RegExp;
 
   /**
-   * 内容替换
+   * 内容替换器
    */
   replacer: (options: {
     tag: string;
@@ -142,19 +146,11 @@ interface MarkdownItStylizeConfig {
     env?: any;
   }) => MarkdownItStylizeResult | void;
 }
-
-interface MarkdownItStylizeOptions {
-  /**
-   * 格式化配置
-   */
-  config?: MarkdownItStylizeConfig[];
-
-  /**
-   * 本地配置获取器
-   *
-   * @param env Markdown 环境对象
-   * @returns 本地格式化配置
-   */
-  localConfigGetter?: (env?: any) => MarkdownItStylizeConfig[] | null;
-}
 ```
+
+- 详情：格式化配置数组。每个配置包含一个 `matcher`（字符串或正则表达式）和一个 `replacer` 函数。
+
+### localConfigGetter
+
+- 类型：`(env?: any) => MarkdownItStylizeConfig[] | null`
+- 详情：本地配置获取器。接收环境对象并返回本地格式化配置。

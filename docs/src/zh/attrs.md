@@ -64,11 +64,11 @@ mdIt.render("# Heading 🎉{#heading}");
 
 ## 高级
 
-你可以向 `@mdit-plugin-attrs` 传递选项以自定义插件行为。
+你可以向 `@mdit/plugin-attrs` 传递选项以自定义插件行为。
 
-`rule` 选项允许你指定要启用的规则。默认值为 `"all"`，这会启用所有规则。这是最重要的选项，因为它控制哪些 Markdown 元素将启用属性功能，并影响插件的性能。
+### rule
 
-如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
+- 类型：`"all" | boolean | MarkdownItAttrRuleName[]`
 
 ```ts
 type MarkdownItAttrRuleName =
@@ -80,39 +80,32 @@ type MarkdownItAttrRuleName =
   | "heading"
   | "softbreak"
   | "block";
-
-interface MarkdownItAttrsOptions {
-  /**
-   * 左分隔符
-   *
-   * @default '{'
-   */
-  left?: string;
-
-  /**
-   * 右分隔符
-   *
-   * @default '}'
-   */
-  right?: string;
-
-  /**
-   * 允许的属性
-   *
-   * @description 设置空数组意味着允许所有属性
-   *
-   * @default []
-   */
-  allowed?: (string | RegExp)[];
-
-  /**
-   * 启用的规则
-   *
-   * @default "all"
-   */
-  rule?: "all" | boolean | MarkdownItAttrRuleName[];
-}
 ```
+
+- 默认值：`"all"`
+- 详情：启用的规则。
+
+  默认值为 `"all"`，这会启用所有规则。这是最重要的选项，因为它控制哪些 Markdown 元素将启用属性功能，并影响插件的性能。
+
+  如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
+
+### allowed
+
+- 类型：`(string | RegExp)[]`
+- 默认值：`[]`
+- 详情：允许的属性。设置空数组意味着允许所有属性。
+
+### left
+
+- 类型：`string`
+- 默认值：`'{'`
+- 详情：属性左分隔符。
+
+### right
+
+- 类型：`string`
+- 默认值：`'}'`
+- 详情：属性右分隔符。
 
 ## 示例
 

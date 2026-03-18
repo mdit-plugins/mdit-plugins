@@ -303,18 +303,11 @@ In prefix mode, `@@` = depth 2, `@@@` = depth 3, etc. Items and `@end` must use 
 
 ## Options
 
-```ts
-interface MarkdownItLayoutOptions {
-  /**
-   * Whether to convert utility classes to inline CSS styles.
-   *
-   * @default true
-   */
-  inlineStyles?: boolean;
-}
-```
+### inlineStyles
 
-When `inlineStyles` is `true` (default), utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
+- Type: `boolean`
+- Default: `true`
+- Details: When `true`, utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
 
 ## Demo
 

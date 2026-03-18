@@ -30,58 +30,49 @@ mdIt.render("==highlighted==");
 ### marker
 
 - Type: `string`
-- Required
-
-The punctuation character used as the marker (e.g., `"^"`, `"~"`, `"="`).
+- Required: Yes
+- Details: The punctuation character used as the marker (e.g., `"^"`, `"~"`, `"="`).
 
 ### tag
 
 - Type: `string`
-- Required
-
-HTML tag name for the rendered element (e.g., `"sup"`, `"mark"`, `"span"`).
+- Required: Yes
+- Details: HTML tag name for the rendered element (e.g., `"sup"`, `"mark"`, `"span"`).
 
 ### token
 
 - Type: `string`
-- Required
-
-Token type name used for markdown-it token identification (e.g., `"sup"`, `"mark"`).
+- Required: Yes
+- Details: Token type name used for markdown-it token identification (e.g., `"sup"`, `"mark"`).
 
 ### nested
 
 - Type: `boolean`
 - Default: `false`
-
-When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine with double markers. Supports nested bold, italic, etc. (e.g., mark/spoiler).
+- Details: When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine with double markers. Supports nested bold, italic, etc. (e.g., mark/spoiler).
 
 ### double
 
 - Type: `boolean`
 - Default: `false` (non-nested), forced `true` (nested)
-
-Whether markers must be doubled (e.g., `!!` vs `!`). Nested rules always use double markers.
+- Details: Whether markers must be doubled (e.g., `!!` vs `!`). Nested rules always use double markers.
 
 ### placement
 
 - Type: `"before-emphasis" | "after-emphasis"`
 - Default: `"after-emphasis"`
-
-Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
+- Details: Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
 
 ### attrs
 
-- Type: `[string, string][]`
-- Default: `undefined`
-
-Custom HTML attributes for the rendered element.
+- Type: `[attr: string, value: string][]`
+- Details: Custom HTML attributes for the rendered element.
 
 ### allowSpace
 
 - Type: `boolean`
 - Default: `false`
-
-Whether to allow unescaped spaces inside the content. Only applies to non-nested rules.
+- Details: Whether to allow unescaped spaces inside the content. Only applies to non-nested rules.
 
 ## Examples
 

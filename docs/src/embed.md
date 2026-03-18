@@ -1,4 +1,7 @@
-# Embed
+---
+title: "@mdit/plugin-embed"
+icon: code
+---
 
 Embed external content in your Markdown.
 
@@ -120,9 +123,6 @@ Click the <i class="icon icon-home"></i> button to go home.
 ### config
 
 - Type: `EmbedConfig[]`
-- Default: `[]`
-
-An array of embed configurations.
 
 ```ts
 interface EmbedConfig {
@@ -146,6 +146,9 @@ interface EmbedConfig {
   allowInline?: boolean;
 }
 ```
+
+- Default: `[]`
+- Details: An array of embed configurations.
 
 Each configuration must have:
 

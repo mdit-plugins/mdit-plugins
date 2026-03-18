@@ -30,16 +30,11 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 
 ## Options
 
-```ts
-interface MarkdownItFigureOptions {
-  /**
-   * Whether the figure is focusable
-   *
-   * @default true
-   */
-  focusable?: boolean;
-}
-```
+### focusable
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether the figure is focusable.
 
 ## Demo
 

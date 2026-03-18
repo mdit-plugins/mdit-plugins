@@ -28,16 +28,11 @@ mdIt.render("![image](https://example.com/image.png)");
 
 ## 选项
 
-```ts
-interface MarkdownItFigureOptions {
-  /**
-   * 图片是否可聚焦
-   *
-   * @default true
-   */
-  focusable?: boolean;
-}
-```
+### focusable
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：图片是否可聚焦。
 
 ## 示例
 

@@ -87,42 +87,52 @@ _here be dragons_
 
 ## 选项
 
+### name
+
+- 类型：`string`
+- 必填：是
+- 详情：容器名称。
+
+### marker
+
+- 类型：`string`
+- 默认值：`":"`
+- 详情：容器标识符。
+
+### validate
+
+- 类型：`Validator`
+
 ```ts
-interface MarkdownItContainerOptions {
-  /**
-   * 自定义容器的名称
-   */
-  name: string;
-
-  /**
-   * 自定义容器的标识符
-   *
-   * @default ":"
-   */
-  marker?: string;
-
-  /**
-   * 校验内容是否应该作为此类型容器
-   *
-   * @param params 标识符后面的内容
-   * @param markup 标识字符
-   * @returns 是否是此容器类型
-   *
-   * @default params.trim().split(" ", 2)[0] === name
-   */
-  validate?: (params: string, markup: string) => boolean;
-
-  /**
-   * 开始标签渲染函数
-   */
-  openRender?: RenderRule;
-
-  /**
-   * 结束标签渲染函数
-   */
-  closeRender?: RenderRule;
-}
+/**
+ * 校验内容是否应该作为此类型容器
+ *
+ * @param params 标识符后面的内容
+ * @param markup 标识字符
+ * @returns 是否是此容器类型
+ *
+ * @default params.trim().split(" ", 2)[0] === name
+ */
+type Validator = (params: string) => boolean;
 ```
+
+- 详情：校验内容是否应该作为此类型容器。
+
+### openRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：开始标签渲染函数。
+
+### closeRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：结束标签渲染函数。
 
 ## 示例
 

@@ -34,16 +34,14 @@ VuePress Theme Hope is !!powerful!!.
 
 ## Options
 
-```ts
-export interface MarkdownItSpoilerOptions {
-  /**
-   * @default "span"
-   */
-  tag?: string;
+### tag
 
-  /**
-   * @default [["class", "spoiler"], ["tabindex","-1"]]
-   */
-  attrs?: [string, string][];
-}
-```
+- Type: `string`
+- Default: `"span"`
+- Details: HTML tag name for the spoiler element.
+
+### attrs
+
+- Type: `[attr: string, value: string][]`
+- Default: `[["class", "spoiler"], ["tabindex","-1"]]`
+- Details: Custom HTML attributes for the spoiler element.

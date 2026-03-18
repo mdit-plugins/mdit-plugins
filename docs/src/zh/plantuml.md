@@ -34,76 +34,54 @@ Bob -> Alice : hello
 
 ## 选项
 
-```ts
-interface MarkdownItPlantumlOptions {
-  /**
-   * Plantuml 解析类型
-   *
-   * @default "uml"
-   */
-  type?: "uml" | "fence";
+### type
 
-  /**
-   * 图表类型
-   *
-   * @description 仅在使用默认地址获取器时可用
-   *
-   * @default "uml"
-   */
-  name?: string;
+- 类型：`"uml" | "fence"`
+- 默认值：`"uml"`
+- 详情：Plantuml 解析类型。
 
-  /**
-   * 代码块名称
-   *
-   * @default name
-   */
-  fence?: string;
+### name
 
-  /**
-   * 开始标记
-   *
-   * @description 仅当类型为 "uml" 时可用
-   *
-   * @default "start" + name
-   */
-  open?: string;
+- 类型：`string`
+- 默认值：`"uml"`
+- 详情：图表类型。仅在使用默认地址获取器时可用。
 
-  /**
-   * 结束标记
-   *
-   * @default  "end" + name
-   */
-  close?: string;
+### fence
 
-  /**
-   * Plantuml 服务器
-   *
-   * @description 仅在使用默认地址获取器时可用
-   *
-   * @default "https://www.plantuml.com/plantuml"
-   */
-  server?: string;
+- 类型：`string`
+- 详情：代码块名称。默认为 `name` 的值。
 
-  /**
-   * 图片格式
-   *
-   * @description 仅在使用默认地址获取器时可用
-   *
-   * @default "svg"
-   */
-  format?: string;
+### open
 
-  /**
-   * 图片地址获取器
-   *
-   * @param content 图表内容
-   * @returns 图片链接
-   */
-  srcGetter?: (content: string) => string;
+- 类型：`string`
+- 详情：开始标记。仅当类型为 "uml" 时可用。默认为 `"start" + name`。
 
-  /**
-   * 图表渲染器
-   */
-  render?: RenderRule;
-}
-```
+### close
+
+- 类型：`string`
+- 详情：结束标记。仅当类型为 "uml" 时可用。默认为 `"end" + name`。
+
+### server
+
+- 类型：`string`
+- 默认值：`"https://www.plantuml.com/plantuml"`
+- 详情：Plantuml 服务器。仅在使用默认地址获取器时可用。
+
+### format
+
+- 类型：`string`
+- 默认值：`"svg"`
+- 详情：图片格式。仅在使用默认地址获取器时可用。
+
+### srcGetter
+
+- 类型：`(content: string) => string`
+- 详情：图片地址获取器。接收图表内容并返回图片链接。
+
+### render
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：图表渲染器。

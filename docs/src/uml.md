@@ -52,26 +52,29 @@ The plugin is different from container plugin as contents inside container will 
 
 ## Options
 
-```ts
-interface MarkdownItUMLOptions {
-  /**
-   * UML name
-   */
-  name: string;
+### name
 
-  /**
-   * Opening marker
-   */
-  open: string;
+- Type: `string`
+- Required: Yes
+- Details: UML name.
 
-  /**
-   *  Closing marker
-   */
-  close: string;
+### open
 
-  /**
-   * Render function
-   */
-  render: RenderRule;
-}
-```
+- Type: `string`
+- Required: Yes
+- Details: Opening marker.
+
+### close
+
+- Type: `string`
+- Required: Yes
+- Details: Closing marker.
+
+### render
+
+- Type: `RenderRule`
+- Required: Yes
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Render function.

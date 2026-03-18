@@ -332,51 +332,41 @@ namespace HelloWorldApp {
 
 ## 选项
 
-```ts
-interface MarkdownItIncludeOptions {
-  /**
-   * 获得当前文件路径
-   *
-   * @default (path) => path
-   */
-  currentPath: (env: any) => string;
+### currentPath
 
-  /**
-   * 处理 include 文件路径
-   *
-   * @default (path) => path
-   */
-  resolvePath?: (path: string, cwd: string | null) => string;
+- 类型：`(env: any) => string`
+- 必填：是
+- 详情：获取当前文件路径。
 
-  /**
-   * 是否深度导入包含的 Markdown 文件
-   *
-   * @default false
-   */
-  deep?: boolean;
+### resolvePath
 
-  /**
-   * 是否使用 `<!-- @include: xxx -->` 代替 `@include: xxx` 导入文件
-   *
-   * @default true
-   */
-  useComment?: boolean;
+- 类型：`(path: string, cwd: string | null) => string`
+- 默认值：`(path) => path`
+- 详情：处理包含文件路径。
 
-  /**
-   * 是否解析包含的 Markdown 文件的里的相对图像路径
-   *
-   * @default true
-   */
-  resolveImagePath?: boolean;
+### deep
 
-  /**
-   * 是否解析包含的 Markdown 文件的里的文件相对路径
-   *
-   * @default true
-   */
-  resolveLinkPath?: boolean;
-}
-```
+- 类型：`boolean`
+- 默认值：`false`
+- 详情：是否深度导入包含的 Markdown 文件。
+
+### useComment
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否使用 `<!-- @include: xxx -->` 代替 `@include: xxx` 导入文件。
+
+### resolveImagePath
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否解析包含的 Markdown 文件的里的相对图像路径。
+
+### resolveLinkPath
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否解析包含的 Markdown 文件的里的文件相对路径。
 
 ## 示例
 
