@@ -5,27 +5,27 @@ import { tsdownConfig } from "../../scripts/tsdown.js";
 
 const config: UserConfig[] = [
   tsdownConfig("index", {
-    type: "node",
+    platform: "node",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/node.ts"),
     },
   }),
   tsdownConfig("index", {
-    type: "browser",
+    platform: "browser",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
   }),
   tsdownConfig("index", {
-    type: "cdn",
+    cdn: true,
     globalName: "mdItPluginPlantuml",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
     },
-    externals: {
+    globals: {
       "markdown-it": "markdownit",
     },
-    noExternal: ["pako"],
+    alwaysBundle: ["pako"],
   }),
 ];
 

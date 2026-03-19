@@ -1,4 +1,4 @@
-import type { UserConfig } from "tsdown";
+import type { UserConfig, CopyEntry } from "tsdown";
 import { defineConfig } from "tsdown";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -8,47 +8,8 @@ const isProduction = process.env.NODE_ENV === "production";
  *
  * Tsdown 选项
  */
-export interface TsdownOptions {
-  /**
-   * Output type
-   *
-   * 输出类型
-   *
-   * @default "esm"
-   */
-  type?: "esm" | "cdn" | "node" | "browser";
-
-  /**
-   * Whether to generate dts files
-   *
-   * 是否生成 dts 文件
-   *
-   * @default !browser
-   */
-  dts?: boolean;
-
-  /**
-   * Alias options
-   *
-   * 别名选项
-   */
-  alias?: Record<string, string>;
-
-  /**
-   * Whether to tree shake
-   *
-   * 是否进行树摇
-   *
-   * @default true
-   */
-  treeshake?: UserConfig["treeshake"];
-
-  /**
-   * Packages not to treat as external
-   *
-   * 不作为外部处理的包
-   */
-  noExternal?: (string | RegExp)[];
+export interface TsdownOptions extends Omit<UserConfig, "entry" | "copy"> {
+  cdn?: boolean;
 
   /**
    * Global name for UMD bundles
@@ -58,11 +19,75 @@ export interface TsdownOptions {
   globalName?: string;
 
   /**
-   * External dependencies with their global names
+   * Whitelist of dependencies allowed to be bundled
    *
-   * 外部依赖及其全局变量名映射
+   * 允许被打包的依赖白名单
+   *
+   * @default false
    */
-  externals?: Record<string, string>;
+  onlyBundle?: (string | RegExp)[] | false;
+
+  /**
+   * Packages to always bundle
+   *
+   * 永远打包的包
+   */
+  alwaysBundle?: (string | RegExp)[];
+
+  /**
+   * Global variable names for external dependencies in UMD bundles
+   *
+   * UMD 包中外部依赖的全局变量名
+   *
+   * Example:
+   * 例如：
+   * globals: {
+   *   "markdown-it": "markdownit",
+   * }
+   */
+  globals?: Record<string, string>;
+
+  /**
+   * Assets to never bundle
+   *
+   * 永远不打包的资源
+   *
+   * @description modules starting with `@temp/`, `@internal/` are never bundled.
+   */
+  neverBundle?: (string | RegExp)[];
+
+  /**
+   * Custom module side effects determination
+   *
+   * By default, only `.css` and `.scss` imports are considered to have side
+   * effects. Use this to add additional side-effect patterns. This is part
+   * of the `treeshake` option in tsdown/rolldown.
+   *
+   * 自定义模块副作用判定，默认仅保留 `.css` 和 `.scss` 导入的副作用。
+   *
+   * @param id - Module ID / 模块 ID
+   * @param external - Whether the module is external / 模块是否为外部模块
+   *
+   * @default (id) => id.endsWith('.css') || id.endsWith('.scss')
+   */
+  moduleSideEffects?: (id: string, external: boolean) => boolean | undefined;
+
+  /**
+   * Additional files to copy to the output directory
+   *
+   * 要复制到输出目录的额外文件
+   *
+   * Each item is a tuple of [from, to], where 'from' is the source path relative to src, and 'to' is the destination path relative to the output directory. To can be omitted to copy to the same relative path in the output directory.
+   * 每个项都是一个 [from, to] 的元组，其中 'from' 是相对于 src 目录的源路径，'to' 是相对于输出目录的目标路径。to 可以省略，表示复制到输出目录的相同相对路径。
+   *
+   * Example:
+   * 例如：
+   * copy: [
+   *   ['assets/'], // Copy src/assets/ folder to dist/assets/
+   *   ['types/global.d.ts', 'global.d.ts'], // Copy src/types/global.d.ts to dist/global.d.ts
+   * ]
+   */
+  copy?: (string | CopyEntry)[];
 }
 
 /**
@@ -70,68 +95,72 @@ export interface TsdownOptions {
  *
  * 创建 tsdown 配置
  *
- * @param fileInfo - Entry file name or names (without extension) / 入口文件名或文件名列表（不带扩展名）
+ * @param fileInfo - Entry options / 入口选项
  * @param options - Tsdown options / Tsdown 选项
  * @returns Tsdown configuration / Tsdown 配置
  */
 export const tsdownConfig = (
   fileInfo: string | string[],
-  options: TsdownOptions = {},
+  {
+    cdn = false,
+    platform = cdn ? "browser" : "neutral",
+    dts = !cdn,
+    alwaysBundle = [],
+    neverBundle = [],
+    onlyBundle = false,
+    treeshake = {},
+    copy = [],
+    publint = isProduction,
+    globals = {},
+    ...rest
+  }: TsdownOptions = {},
 ): UserConfig => {
-  const {
-    type = "esm",
-    dts = type !== "cdn",
-    alias = {},
-    noExternal: noExternalOptions = [],
-    treeshake = {
-      moduleSideEffects: false,
-    },
-    globalName,
-    externals = {},
-  } = options;
   const files = Array.isArray(fileInfo) ? fileInfo : [fileInfo];
 
-  // For CDN builds, externalize specified dependencies, otherwise bundle @mdit and markdown-it
-  const external =
-    type === "cdn" && Object.keys(externals).length > 0 ? Object.keys(externals) : [];
-
-  const noExternal =
-    // bundle markdown-it and @mdit packages for cdn builds (unless externalized)
-    type === "cdn" ? [/^@mdit\//, /^markdown-it/, ...noExternalOptions] : noExternalOptions;
-
-  const hasExternals = type === "cdn" && Object.keys(externals).length > 0;
+  const alwaysBundleOptions = cdn ? [/^@mdit\//, /^markdown-it/, ...alwaysBundle] : alwaysBundle;
 
   return defineConfig({
     entry: Object.fromEntries(
       files.map((item) => [
-        type === "esm" ? item : item === "index" ? type : `${item}-${type}`,
+        platform === "neutral"
+          ? item
+          : item === "index"
+            ? cdn
+              ? "cdn"
+              : platform
+            : `${item}-${cdn ? "cdn" : platform}`,
         `./src/${item}.ts`,
       ]),
     ),
-    format: type === "cdn" ? "umd" : "esm",
+    format: cdn ? "umd" : "esm",
     outDir: "./dist",
     sourcemap: true,
     dts,
     minify: isProduction,
     target:
-      type === "cdn" || type === "browser"
-        ? ["chrome107", "edge107", "firefox104", "safari16"]
-        : "node20",
-    platform: type === "cdn" || type === "browser" ? "browser" : "node",
-    alias,
+      cdn || platform === "browser" ? ["chrome107", "edge107", "firefox104", "safari16"] : "node20",
+    outputOptions: {
+      globals,
+    },
+    platform: cdn ? "browser" : platform,
     treeshake,
+    deps: {
+      alwaysBundle: alwaysBundleOptions,
+      neverBundle,
+      onlyBundle,
+    },
+    copy: copy.map((item) => {
+      if (typeof item === "string") {
+        return {
+          from: `./src/${item}`,
+          flatten: false,
+        };
+      }
+
+      return item;
+    }),
     fixedExtension: false,
-    inlineOnly: false,
-    external,
-    noExternal,
-    ...(globalName ? { globalName } : {}),
-    ...(hasExternals
-      ? {
-          outputOptions: {
-            globals: externals,
-          },
-        }
-      : {}),
-    publint: true,
+    publint,
+    ...rest,
   });
 };
