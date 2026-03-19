@@ -420,7 +420,7 @@ const createDualRuleTests = (
           fn();
         }
 
-        expect(fn).toBeCalledTimes(0);
+        expect(fn).toHaveBeenCalledTimes(0);
       });
 
       it(

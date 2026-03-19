@@ -9,17 +9,15 @@ const config: UserConfig[] = [
     },
   }),
   tsdownConfig("index", {
-    type: "cdn",
     globalName: "mdItPluginKatex",
-    externals: {
+    globals: {
       "markdown-it": "markdownit",
       katex: "katex",
     },
   }),
   tsdownConfig("mhchem", {
-    type: "cdn",
     globalName: "mdItPluginKatexMhchem",
-    externals: {
+    globals: {
       "markdown-it": "markdownit",
       katex: "katex",
     },

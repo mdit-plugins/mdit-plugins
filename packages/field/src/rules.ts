@@ -129,11 +129,12 @@ export const getFieldsRule =
     let id = "";
     let idStart = -1;
 
-    for (let ii = pos; ii < max; ii++)
+    for (let ii = pos; ii < max; ii++) {
       if (state.src.charCodeAt(ii) === 35 /* # */) {
         idStart = ii + 1;
         break;
       }
+    }
 
     if (idStart !== -1) {
       let idEnd = idStart;
@@ -224,9 +225,9 @@ export const getFieldsRule =
 
     for (let ii = depthStack.length - 1; ii >= 0; ii--) {
       // Close inner <dl> wrapper before closing parent when backtracking
-      if (ii < depthStack.length - 1 && depthStack[ii + 1] > depthStack[ii]) {
+      if (ii < depthStack.length - 1 && depthStack[ii + 1] > depthStack[ii])
         state.push(`${name}_fields_inner_close`, "dl", -1);
-      }
+
       state.push(`${name}_field_close`, "div", -1);
     }
 
@@ -294,27 +295,23 @@ export const getFieldItemRule =
       depthStack.pop();
 
       // Close inner <dl> wrapper before closing parent when backtracking
-      if (lastClosedDepth > closingDepth) {
-        state.push(`${name}_fields_inner_close`, "dl", -1);
-      }
+      if (lastClosedDepth > closingDepth) state.push(`${name}_fields_inner_close`, "dl", -1);
 
       state.push(`${name}_field_close`, "div", -1);
       lastClosedDepth = closingDepth;
     }
 
     // Close outermost inner <dl> wrapper only when backtracking to parent level
-    if (lastClosedDepth > currentDepth && depthStack.length > 0) {
+    if (lastClosedDepth > currentDepth && depthStack.length > 0)
       state.push(`${name}_fields_inner_close`, "dl", -1);
-    }
 
     // Open inner <dl> wrapper only on first descent to a deeper level
     if (
       depthStack.length > 0 &&
       currentDepth > depthStack[depthStack.length - 1] &&
       lastClosedDepth !== currentDepth
-    ) {
+    )
       state.push(`${name}_fields_inner_open`, "dl", 1);
-    }
 
     // Push current depth onto stack
     depthStack.push(currentDepth);
@@ -330,18 +327,15 @@ export const getFieldItemRule =
       const nextIndent = state.sCount[nextLine] - state.blkIndent;
 
       // A container marker at the container level ends the item
-      if (nextIndent <= MAX_COSMETIC_INDENT && state.src.charCodeAt(nextStart) === 58 /* : */) {
+      if (nextIndent <= MAX_COSMETIC_INDENT && state.src.charCodeAt(nextStart) === 58 /* : */)
         break;
-      }
 
       // Check if it's a field marker within the cosmetic indent range
       if (nextIndent <= MAX_COSMETIC_INDENT) {
         const nextMarker = checkFieldMarker(state, nextStart, nextMax);
 
         // oxlint-disable-next-line typescript/strict-boolean-expressions
-        if (nextMarker) {
-          break;
-        }
+        if (nextMarker) break;
       }
     }
 

@@ -1,4 +1,4 @@
-import type { UserConfig } from "tsdown";
+import type { UserConfig, CopyEntry } from "tsdown";
 import { defineConfig } from "tsdown";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -8,48 +8,7 @@ const isProduction = process.env.NODE_ENV === "production";
  *
  * Tsdown 选项
  */
-export interface TsdownOptions {
-  /**
-   * Output type
-   *
-   * 输出类型
-   *
-   * @default "esm"
-   */
-  type?: "esm" | "cdn" | "node" | "browser";
-
-  /**
-   * Whether to generate dts files
-   *
-   * 是否生成 dts 文件
-   *
-   * @default !browser
-   */
-  dts?: boolean;
-
-  /**
-   * Alias options
-   *
-   * 别名选项
-   */
-  alias?: Record<string, string>;
-
-  /**
-   * Whether to tree shake
-   *
-   * 是否进行树摇
-   *
-   * @default true
-   */
-  treeshake?: UserConfig["treeshake"];
-
-  /**
-   * Packages not to treat as external
-   *
-   * 不作为外部处理的包
-   */
-  noExternal?: (string | RegExp)[];
-
+export interface TsdownOptions extends Omit<UserConfig, "entry" | "copy"> {
   /**
    * Global name for UMD bundles
    *
@@ -58,11 +17,51 @@ export interface TsdownOptions {
   globalName?: string;
 
   /**
-   * External dependencies with their global names
+   * Whitelist of dependencies allowed to be bundled
    *
-   * 外部依赖及其全局变量名映射
+   * 允许被打包的依赖白名单
+   *
+   * @default false
    */
-  externals?: Record<string, string>;
+  onlyBundle?: (string | RegExp)[] | false;
+
+  /**
+   * Packages to always bundle
+   *
+   * 永远打包的包
+   */
+  alwaysBundle?: (string | RegExp)[];
+
+  /**
+   * Global variable names for external dependencies in UMD bundles
+   *
+   * UMD 包中外部依赖的全局变量名
+   *
+   * Example:
+   * 例如：
+   * globals: {
+   *   "markdown-it": "markdownit",
+   * }
+   */
+  globals?: Record<string, string>;
+
+  /**
+   * Assets to never bundle
+   *
+   * 永远不打包的资源
+   *
+   * @description modules starting with `@temp/`, `@internal/` are never bundled.
+   */
+  neverBundle?: (string | RegExp)[];
+
+  /**
+   * Additional files to copy to the output directory
+   *
+   * 要复制到输出目录的额外文件
+   *
+   * Each item is either a string (source path relative to src) or an copy entry object
+   */
+  copy?: (string | CopyEntry)[];
 }
 
 /**
@@ -70,68 +69,77 @@ export interface TsdownOptions {
  *
  * 创建 tsdown 配置
  *
- * @param fileInfo - Entry file name or names (without extension) / 入口文件名或文件名列表（不带扩展名）
+ * @param fileInfo - Entry file(s) without extension, relative to src (e.g. "index" or ["index", "cli"])
  * @param options - Tsdown options / Tsdown 选项
  * @returns Tsdown configuration / Tsdown 配置
  */
 export const tsdownConfig = (
   fileInfo: string | string[],
-  options: TsdownOptions = {},
-): UserConfig => {
-  const {
-    type = "esm",
-    dts = type !== "cdn",
-    alias = {},
-    noExternal: noExternalOptions = [],
-    treeshake = {
-      moduleSideEffects: false,
-    },
+  {
     globalName,
-    externals = {},
-  } = options;
+    globals = {},
+    platform = globalName ? "browser" : "neutral",
+    dts = !globalName,
+    alwaysBundle = [],
+    neverBundle = [],
+    onlyBundle = false,
+    treeshake = {},
+    copy = [],
+    publint = isProduction,
+    ...rest
+  }: TsdownOptions = {},
+): UserConfig => {
   const files = Array.isArray(fileInfo) ? fileInfo : [fileInfo];
 
-  // For CDN builds, externalize specified dependencies, otherwise bundle @mdit and markdown-it
-  const external =
-    type === "cdn" && Object.keys(externals).length > 0 ? Object.keys(externals) : [];
-
-  const noExternal =
-    // bundle markdown-it and @mdit packages for cdn builds (unless externalized)
-    type === "cdn" ? [/^@mdit\//, /^markdown-it/, ...noExternalOptions] : noExternalOptions;
-
-  const hasExternals = type === "cdn" && Object.keys(externals).length > 0;
+  const alwaysBundleOptions = globalName
+    ? [/^@mdit\//, /^markdown-it/, ...alwaysBundle]
+    : alwaysBundle;
 
   return defineConfig({
     entry: Object.fromEntries(
       files.map((item) => [
-        type === "esm" ? item : item === "index" ? type : `${item}-${type}`,
+        platform === "neutral"
+          ? item
+          : item === "index"
+            ? globalName
+              ? "cdn"
+              : platform
+            : `${item}-${globalName ? "cdn" : platform}`,
         `./src/${item}.ts`,
       ]),
     ),
-    format: type === "cdn" ? "umd" : "esm",
+    format: globalName ? "umd" : "esm",
     outDir: "./dist",
     sourcemap: true,
     dts,
     minify: isProduction,
     target:
-      type === "cdn" || type === "browser"
+      globalName || platform === "browser"
         ? ["chrome107", "edge107", "firefox104", "safari16"]
         : "node20",
-    platform: type === "cdn" || type === "browser" ? "browser" : "node",
-    alias,
+    outputOptions: {
+      globals,
+    },
+    globalName,
+    platform: globalName ? "browser" : platform,
     treeshake,
+    deps: {
+      alwaysBundle: alwaysBundleOptions,
+      neverBundle,
+      onlyBundle,
+    },
+    copy: copy.map((item) => {
+      if (typeof item === "string") {
+        return {
+          from: `./src/${item}`,
+          flatten: false,
+        };
+      }
+
+      return item;
+    }),
     fixedExtension: false,
-    inlineOnly: false,
-    external,
-    noExternal,
-    ...(globalName ? { globalName } : {}),
-    ...(hasExternals
-      ? {
-          outputOptions: {
-            globals: externals,
-          },
-        }
-      : {}),
-    publint: true,
+    publint,
+    ...rest,
   });
 };

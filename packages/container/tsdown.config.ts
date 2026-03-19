@@ -4,9 +4,8 @@ import { tsdownConfig } from "../../scripts/tsdown.js";
 const config: UserConfig[] = [
   tsdownConfig("index"),
   tsdownConfig("index", {
-    type: "cdn",
     globalName: "mdItPluginContainer",
-    externals: {
+    globals: {
       "markdown-it": "markdownit",
     },
   }),

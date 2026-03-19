@@ -309,9 +309,7 @@ describe("integrity", () => {
 
   it('no chars with "uXXXX" names allowed', () => {
     Object.keys(emojiData).forEach((name) => {
-      if (/^u[0-9a-b]{4,}$/i.test(name)) {
-        throw new Error(`Name ${name} not allowed`);
-      }
+      if (/^u[0-9a-b]{4,}$/i.test(name)) throw new Error(`Name ${name} not allowed`);
     });
   });
 
@@ -329,8 +327,6 @@ describe("integrity", () => {
       if (!available.has(char)) missed += char;
     });
 
-    if (missed) {
-      throw new Error(`Characters ${missed} missed.`);
-    }
+    if (missed) throw new Error(`Characters ${missed} missed.`);
   });
 });

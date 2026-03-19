@@ -747,10 +747,10 @@ Here is some text with {% style-aware inline-item %} embedded.
   it("should throw without options", () => {
     expect(() => {
       MarkdownIt().use(embed);
-    }).toThrowError("[@mdit/plugin-embed]: config is required and must be an array.");
+    }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
 
     expect(() => {
       MarkdownIt().use(embed, {});
-    }).toThrowError("[@mdit/plugin-embed]: config is required and must be an array.");
+    }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
   });
 });

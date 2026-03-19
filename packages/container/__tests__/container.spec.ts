@@ -641,10 +641,10 @@ zzz</p>
   it('should throw if "name" is not provided', () => {
     expect(() => {
       MarkdownIt({ linkify: true }).use(container);
-    }).toThrowError("[@mdit/plugin-container]: 'name' option is required.");
+    }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
     expect(() => {
       MarkdownIt({ linkify: true }).use(container, {});
-    }).toThrowError("[@mdit/plugin-container]: 'name' option is required.");
+    }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
   });
 
   describe("validator", () => {
@@ -684,7 +684,7 @@ bar
       });
 
       markdownItValidate.parse(":\n::\n:::\n::::\n:::::\n", {});
-      expect(spy).toBeCalledTimes(6);
+      expect(spy).toHaveBeenCalledTimes(6);
     });
 
     it("should not trim params", () => {

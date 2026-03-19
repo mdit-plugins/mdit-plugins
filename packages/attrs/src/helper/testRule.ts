@@ -98,7 +98,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
           if (match) {
             testResult.position = childIndex;
             // set pos data
-            // oxlint-disable-next-line max-depth typescript/strict-boolean-expressions
+            // oxlint-disable-next-line max-depth, typescript/strict-boolean-expressions
             if (range) testResult.range = range;
 
             // all tests passes. so the check is successful
@@ -115,7 +115,6 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
     // oxlint-disable-next-line typescript/no-unsafe-assignment
     const ruleDetail = rule[key];
 
-    // oxlint-disable-next-line typescript/switch-exhaustiveness-check
     switch (typeof ruleDetail) {
       case "boolean":
       case "number":

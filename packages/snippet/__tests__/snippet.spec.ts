@@ -132,11 +132,11 @@ describe(snippet, () => {
       MarkdownIt({ html: true }).use(snippet, {
         currentPath: "not a function",
       });
-    }).toThrowError('[@mdit/plugin-snippet]: "currentPath" is required');
+    }).toThrow('[@mdit/plugin-snippet]: "currentPath" is required');
 
     expect(() => {
       MarkdownIt({ html: true }).use(snippet);
-    }).toThrowError('[@mdit/plugin-snippet]: "currentPath" is required');
+    }).toThrow('[@mdit/plugin-snippet]: "currentPath" is required');
   });
 
   it("should support region and lines", () => {

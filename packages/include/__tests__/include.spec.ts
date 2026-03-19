@@ -702,11 +702,11 @@ describe("currentPath", () => {
       MarkdownIt({ html: true }).use(include, {
         currentPath: "not a function",
       });
-    }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+    }).toThrow('[@mdit/plugin-include]: "currentPath" is required');
 
     expect(() => {
       MarkdownIt({ html: true }).use(include);
-    }).toThrowError('[@mdit/plugin-include]: "currentPath" is required');
+    }).toThrow('[@mdit/plugin-include]: "currentPath" is required');
   });
 
   it("should work with absolute path if currentPath is not return", () => {

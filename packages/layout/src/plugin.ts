@@ -39,8 +39,9 @@ const findMatchingEnd = (
 
     if (!dir || dir.depth !== depth) continue;
 
-    if (dir.kind === "container") nesting++;
-    else if (dir.kind === "end") {
+    if (dir.kind === "container") {
+      nesting++;
+    } else if (dir.kind === "end") {
       nesting--;
       if (nesting === 0) return line;
     }
@@ -87,13 +88,9 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
 
     if (!nextDir || nextDir.depth !== ctx.depth) continue;
 
-    if (nextDir.kind === "container") {
-      nesting++;
-    } else if (nextDir.kind === "end" && nesting > 0) {
-      nesting--;
-    } else if (nextDir.kind === "item" && nextDir.type === ctx.type && nesting === 0) {
-      break;
-    }
+    if (nextDir.kind === "container") nesting++;
+    else if (nextDir.kind === "end" && nesting > 0) nesting--;
+    else if (nextDir.kind === "item" && nextDir.type === ctx.type && nesting === 0) break;
   }
 
   const oldParent = state.parentType;

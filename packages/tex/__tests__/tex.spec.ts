@@ -64,7 +64,7 @@ const noMathFenceMarkdownIt = MarkdownIt().use(tex, { render });
 describe(tex, () => {
   describe("config", () => {
     it("should require render option", () => {
-      expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrowError(
+      expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrow(
         '[@mdit/plugin-tex]: "render" option should be a function',
       );
     });
