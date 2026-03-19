@@ -42,9 +42,7 @@ const main = async (): Promise<void> => {
 
   Object.keys(emojis).forEach((name) => {
     const val = emojis[name];
-    if (visible.includes(val.replaceAll("\uFE0F", ""))) {
-      emojiLight[name] = val;
-    }
+    if (visible.includes(val.replaceAll("\uFE0F", ""))) emojiLight[name] = val;
   });
 
   writeFileSync(resolve(root, "src/data/light.ts"), emojiDataToFile(emojiLight, true), "utf-8");

@@ -72,9 +72,8 @@ ${mdContent}
     md.renderer.rules.fence = (tokens, idx, options, env, self): string => {
       const token = tokens[idx];
 
-      if (token.markup) {
+      if (token.markup)
         return `<div class="code-wrapper">${originalFence(tokens, idx, options, env, self)}</div>`;
-      }
 
       return originalFence(tokens, idx, options, env, self);
     };

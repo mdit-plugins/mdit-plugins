@@ -1,5 +1,4 @@
-// oxlint-disable import/no-commonjs, import/unambiguous
-// oxlint-disable-next-line typescript/no-require-imports, typescript/no-unsafe-call
+// oxlint-disable-next-line typescript/no-unsafe-call
 const { defineConfig } = require("npm-check-updates");
 
 module.exports = defineConfig({

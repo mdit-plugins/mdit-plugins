@@ -83,9 +83,9 @@ importers:
       npm-check-updates:
         specifier: 19.6.5
         version: 19.6.5
-      ora:
-        specifier: 9.3.0
-        version: 9.3.0
+      oxc-config-hope:
+        specifier: 0.0.8
+        version: 0.0.8(oxfmt@0.41.0)(oxlint-tsgolint@0.17.0)(oxlint@1.56.0(oxlint-tsgolint@0.17.0))
       oxfmt:
         specifier: 0.41.0
         version: 0.41.0
@@ -3942,6 +3942,20 @@ packages:
   ora@9.3.0:
     resolution: {integrity: sha512-lBX72MWFduWEf7v7uWf5DHp9Jn5BI8bNPGuFgtXMmr2uDz2Gz2749y3am3agSDdkhHPHYmmxEGSKH85ZLGzgXw==}
     engines: {node: '>=20'}
+
+  oxc-config-hope@0.0.8:
+    resolution: {integrity: sha512-BD5VY/+xUsrYM6UdHJ8rjcgwAIO+tR7tuzmA6vdpSrU+LzV5IHqAo+7gnRepbOJQ3JM/L4Ss5kNKzEIRT+UuKg==}
+    peerDependencies:
+      oxfmt: '>=0.40.0'
+      oxlint: ^1.55.0
+      oxlint-tsgolint: '>=0.17.0'
+    peerDependenciesMeta:
+      oxfmt:
+        optional: true
+      oxlint:
+        optional: true
+      oxlint-tsgolint:
+        optional: true
 
   oxfmt@0.41.0:
     resolution: {integrity: sha512-sKLdJZdQ3bw6x9qKiT7+eID4MNEXlDHf5ZacfIircrq6Qwjk0L6t2/JQlZZrVHTXJawK3KaMuBoJnEJPcqCEdg==}
@@ -8727,6 +8741,12 @@ snapshots:
       log-symbols: 7.0.1
       stdin-discarder: 0.3.1
       string-width: 8.2.0
+
+  oxc-config-hope@0.0.8(oxfmt@0.41.0)(oxlint-tsgolint@0.17.0)(oxlint@1.56.0(oxlint-tsgolint@0.17.0)):
+    optionalDependencies:
+      oxfmt: 0.41.0
+      oxlint: 1.56.0(oxlint-tsgolint@0.17.0)
+      oxlint-tsgolint: 0.17.0
 
   oxfmt@0.41.0:
     dependencies:

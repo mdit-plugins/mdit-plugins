@@ -38,9 +38,8 @@ export const emojiRule = (
         if (offset > 0 && !REG_ZPCc.test(src[offset - 1])) return "";
 
         // Don't allow letters after any shortcut
-        if (offset + match.length < src.length && !REG_ZPCc.test(src[offset + match.length])) {
+        if (offset + match.length < src.length && !REG_ZPCc.test(src[offset + match.length]))
           return "";
-        }
       } else {
         emojiName = match.slice(1, -1);
       }
@@ -79,9 +78,8 @@ export const emojiRule = (
     let autolinkLevel = 0;
 
     for (let j = 0; j < blockTokensLength; j++) {
-      if (blockTokens[j].type !== "inline") {
-        continue;
-      }
+      if (blockTokens[j].type !== "inline") continue;
+
       let tokens = blockTokens[j].children;
 
       if (!tokens) continue;
@@ -91,9 +89,8 @@ export const emojiRule = (
       for (let i = tokens.length - 1; i >= 0; i--) {
         const token: Token = tokens[i];
 
-        if ((token.type === "link_open" || token.type === "link_close") && token.info === "auto") {
+        if ((token.type === "link_open" || token.type === "link_close") && token.info === "auto")
           autolinkLevel -= token.nesting;
-        }
 
         if (token.type === "text" && autolinkLevel === 0 && scanRE.test(token.content)) {
           // replace current node
