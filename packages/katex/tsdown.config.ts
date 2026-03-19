@@ -9,7 +9,6 @@ const config: UserConfig[] = [
     },
   }),
   tsdownConfig("index", {
-    cdn: true,
     globalName: "mdItPluginKatex",
     globals: {
       "markdown-it": "markdownit",
@@ -17,7 +16,6 @@ const config: UserConfig[] = [
     },
   }),
   tsdownConfig("mhchem", {
-    cdn: true,
     globalName: "mdItPluginKatexMhchem",
     globals: {
       "markdown-it": "markdownit",

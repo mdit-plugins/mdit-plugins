@@ -17,7 +17,6 @@ const config: UserConfig[] = [
     },
   }),
   tsdownConfig("index", {
-    cdn: true,
     globalName: "mdItPluginPlantuml",
     alias: {
       "@deflate": path.resolve(import.meta.dirname, "./src/deflate/browser.ts"),
