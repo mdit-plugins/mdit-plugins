@@ -59,6 +59,9 @@ importers:
       '@lerna-lite/publish':
         specifier: 4.11.5
         version: 4.11.5(@types/node@25.5.0)(conventional-commits-filter@5.0.0)
+      '@mr-hope/tsconfig':
+        specifier: 0.0.3
+        version: 0.0.3(typescript@5.9.3)
       '@types/node':
         specifier: 25.5.0
         version: 25.5.0
@@ -1200,6 +1203,12 @@ packages:
     peerDependenciesMeta:
       markdown-it:
         optional: true
+
+  '@mr-hope/tsconfig@0.0.3':
+    resolution: {integrity: sha512-dpgwNf6puCRKL+JiR1CIXxlpon4eM/0yZN0c6W2riE4St/A+hu+GdbpLD9tgsGQw3E9abKj98mDTapt29Yg01g==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      typescript: '>=5.4.0'
 
   '@napi-rs/wasm-runtime@1.1.1':
     resolution: {integrity: sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==}
@@ -5851,6 +5860,10 @@ snapshots:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
       markdown-it: 14.1.1
+
+  '@mr-hope/tsconfig@0.0.3(typescript@5.9.3)':
+    dependencies:
+      typescript: 5.9.3
 
   '@napi-rs/wasm-runtime@1.1.1':
     dependencies:

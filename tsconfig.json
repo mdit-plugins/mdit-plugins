@@ -1,9 +1,5 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
-  },
+  "extends": "@mr-hope/tsconfig/web.json",
   "include": ["**/*.ts", "**/.vuepress/**/*.ts"],
   "exclude": ["**/snippets/example.ts"]
 }
