@@ -115,6 +115,13 @@ describe(getMatchingOpeningToken, () => {
     expect(getMatchingOpeningToken(tokens, 0)).toBe(null);
   });
 
+  it("should return null for out-of-bounds or negative index", () => {
+    const tokens = [createToken({ type: "paragraph_open", nesting: 1, level: 0 })];
+
+    expect(getMatchingOpeningToken(tokens, -1)).toBe(null);
+    expect(getMatchingOpeningToken(tokens, 5)).toBe(null);
+  });
+
   it("should handle edge case with single token", () => {
     const token = createToken({ type: "hr", nesting: 0 });
     const tokens = [token];

@@ -3,6 +3,9 @@ import type Token from "markdown-it/lib/token.mjs";
 export const getMatchingOpeningToken = (tokens: Token[], index: number): Token | null => {
   const token = tokens[index];
 
+  // oxlint-disable-next-line typescript/strict-boolean-expressions
+  if (!token) return null;
+
   if (token.type === "softbreak") return null;
 
   // non closing blocks, example img
