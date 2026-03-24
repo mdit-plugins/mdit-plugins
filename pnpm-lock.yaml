@@ -216,6 +216,9 @@ importers:
       '@mdit/plugin-katex':
         specifier: workspace:*
         version: link:../katex
+      '@mdit/plugin-mark':
+        specifier: workspace:*
+        version: link:../mark
 
   packages/container:
     dependencies:
