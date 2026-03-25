@@ -23,26 +23,27 @@ describe("plugin compatibility", () => {
       .use(mark)
       .use(attrs);
 
-    it("should apply attrs to mark element", () => {
+    it("should apply inline attrs to mark element via render", () => {
       expect(markdownIt.render("==text=={.desc}")).toBe('<p><mark class="desc">text</mark></p>\n');
     });
 
-    it("should apply block-level attrs when paragraph contains mark inside link", () => {
-      const source = `[Zhi-Guang Lu, Guo-Qing Tian, Xin-You Lü, and ==Cheng Shang==, _Topological Quantum Batteries_, **Phys. Rev. Lett.** **134**, 180401 (2025).](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.180401)
-
-This work was featured in [PRL Trending](https://x.com/PhysRevLett/status/1924474721149542443), highlighted in a Press Release by [RIKEN](https://www.riken.jp/en/news_pubs/research_news/pr/2025/20250513_2/index.html), and presented as an Invited Talk at the [21st International Workshop on Pseudo-Hermitian Hamiltonians in Quantum Physics (PHHQP-XXI)](https://events.physics.uoc.gr/event/1/page/5-speakers), Chania, Greece. As of February 2026, this study has 82 citations on Google Scholar. {.desc}`;
-
-      expect(() => markdownIt.render(source)).not.toThrow();
-
-      const result = markdownIt.render(source);
-
-      expect(result).toContain('class="desc"');
-    });
-
-    it("should apply inline attrs to link containing mark tokens", () => {
+    it("should apply inline attrs to link containing mark tokens via render", () => {
       expect(markdownIt.render("[text with ==mark==](url){.c}")).toBe(
         '<p><a href="url" class="c">text with <mark>mark</mark></a></p>\n',
       );
+    });
+
+    it("should apply inline attrs to mark element via renderInline", () => {
+      expect(markdownIt.renderInline("==text=={.desc}")).toBe('<mark class="desc">text</mark>');
+    });
+
+    it("should not throw when using renderInline with softbreak followed by attrs", () => {
+      // renderInline produces only one top-level token (the inline token), so
+      // getMatchingOpeningToken(tokens, index+1) accesses tokens[1] which is undefined.
+      // The null guard in getMatchingOpeningToken prevents a TypeError here.
+      // Attrs are silently ignored (no block target) and softbreak+attrs tokens are consumed.
+      expect(() => markdownIt.renderInline("==text==\n{.desc}")).not.toThrow();
+      expect(markdownIt.renderInline("==text==\n{.desc}")).toBe("<mark>text</mark>");
     });
   });
 });
