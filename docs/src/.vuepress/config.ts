@@ -1,6 +1,7 @@
 import { abbr } from "@mdit/plugin-abbr";
 import { container } from "@mdit/plugin-container";
 import { dl } from "@mdit/plugin-dl";
+import { field } from "@mdit/plugin-field";
 import { ins } from "@mdit/plugin-ins";
 import { layout } from "@mdit/plugin-layout";
 import { ruby } from "@mdit/plugin-ruby";
@@ -11,7 +12,6 @@ import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
 
 import theme from "./theme.js";
-import { field } from "@mdit/plugin-field";
 
 const __dirname = getDirname(import.meta.url);
 

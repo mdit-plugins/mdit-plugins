@@ -1,7 +1,7 @@
 import type Token from "markdown-it/lib/token.mjs";
 
-import { getAttrs } from "./getAttrs.js";
 import type { DelimiterRange } from "../rules/types.js";
+import { getAttrs } from "./getAttrs.js";
 
 export const addAttrs = (
   token: Token | null,

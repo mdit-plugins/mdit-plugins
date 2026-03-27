@@ -1,6 +1,7 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
 import { describe, bench } from "vitest";
-import MarkdownIt from "markdown-it";
+
 // @ts-ignore
 import { tasklist as tasklistOriginal } from "../src-old/index.js";
 import { tasklist as tasklistOptimized } from "../src/index.js";

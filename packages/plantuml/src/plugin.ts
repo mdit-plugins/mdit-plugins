@@ -1,8 +1,9 @@
-import { deflate } from "@deflate";
 import { uml } from "@mdit/plugin-uml";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type Token from "markdown-it/lib/token.mjs";
+
+import { deflate } from "@deflate";
 
 import { customEncodeBase64 } from "./customBase64.js";
 import type { MarkdownItPlantumlOptions } from "./options.js";

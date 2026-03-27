@@ -1,6 +1,7 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
 import { describe, bench } from "vitest";
-import MarkdownIt from "markdown-it";
+
 // @ts-ignore
 import { attrs as attrsOriginal } from "../src-old/index.js";
 import { attrs as attrsOptimized } from "../src/index.js";

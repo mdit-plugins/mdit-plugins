@@ -1,8 +1,9 @@
 import type { PluginWithOptions } from "markdown-it";
+
+import { normalizeOption } from "./normalizeOption.js";
 import type { EmojiPluginOptions } from "./options.js";
 import { emojiRender } from "./render.js";
 import { emojiRule } from "./rule.js";
-import { normalizeOption } from "./normalizeOption.js";
 
 export const bareEmoji: PluginWithOptions<EmojiPluginOptions> = (
   md,

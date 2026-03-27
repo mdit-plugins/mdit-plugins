@@ -2,6 +2,8 @@
  * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
  */
 
+import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
+import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
 import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
 import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
 import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
@@ -15,8 +17,6 @@ import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
 import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
-import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
-import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
 
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";

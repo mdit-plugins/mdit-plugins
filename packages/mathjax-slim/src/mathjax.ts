@@ -1,15 +1,15 @@
-import type { MmlNode } from "@mathjax/src/js/core/MmlTree/MmlNode.js";
-import type TexError from "@mathjax/src/js/input/tex/TexError.js";
-import type { TeX } from "@mathjax/src/js/input/tex.js";
-import type { ChtmlFontData } from "@mathjax/src/js/output/chtml/FontData.js";
-import type { SvgFontData } from "@mathjax/src/js/output/svg/FontData.js";
-import type { MathItem } from "@mathjax/src/js/core/MathItem.js";
 import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import type { CssStyles } from "@mathjax/src/js/ui/menu/mj-context-menu.js";
-import type { LinebreakVisitor } from "@mathjax/src/js/output/common/LinebreakVisitor.js";
-import type { SvgWrapperFactory } from "@mathjax/src/js/output/svg/WrapperFactory.js";
+import type { MathItem } from "@mathjax/src/js/core/MathItem.js";
+import type { MmlNode } from "@mathjax/src/js/core/MmlTree/MmlNode.js";
+import type { TeX } from "@mathjax/src/js/input/tex.js";
+import type TexError from "@mathjax/src/js/input/tex/TexError.js";
+import type { ChtmlFontData } from "@mathjax/src/js/output/chtml/FontData.js";
 import type { ChtmlWrapperFactory } from "@mathjax/src/js/output/chtml/WrapperFactory.js";
+import type { LinebreakVisitor } from "@mathjax/src/js/output/common/LinebreakVisitor.js";
+import type { SvgFontData } from "@mathjax/src/js/output/svg/FontData.js";
+import type { SvgWrapperFactory } from "@mathjax/src/js/output/svg/WrapperFactory.js";
+import type { CssStyles } from "@mathjax/src/js/ui/menu/mj-context-menu.js";
 
 export type TexPackage =
   | "action"

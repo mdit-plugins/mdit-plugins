@@ -1,7 +1,8 @@
+import MarkdownIt from "markdown-it";
 import { describe, it, expect } from "vitest";
+
 import { normalizeOption } from "../src/normalizeOption.js";
 import { emojiRule } from "../src/rule.js";
-import MarkdownIt from "markdown-it";
 
 describe("coverage", () => {
   it("normalize_opts handles undefined definitions/shortcuts", () => {

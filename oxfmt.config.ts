@@ -1,3 +1,8 @@
-import { config } from "oxc-config-hope/oxfmt";
+import { config, defineConfig } from "oxc-config-hope/oxfmt";
 
-export default config;
+export default defineConfig({
+  extends: config,
+  sortImports: {
+    internalPattern: ["@deflate"],
+  },
+});

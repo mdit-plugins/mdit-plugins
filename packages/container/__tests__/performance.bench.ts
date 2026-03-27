@@ -1,9 +1,10 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import { describe, bench } from "vitest";
-import MarkdownIt from "markdown-it";
-import { container as containerNew } from "../src/index.js";
+
 // @ts-ignore
 import { container as containerOld } from "../src-old/index.js";
+import { container as containerNew } from "../src/index.js";
 
 describe("Container Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(containerOld, { name: "info" });

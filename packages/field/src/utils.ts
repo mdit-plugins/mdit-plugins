@@ -1,4 +1,5 @@
 import { isSpace } from "markdown-it/lib/common/utils.mjs";
+
 import type { FieldAttr, FieldAttrInfo } from "./options.js";
 
 export interface AttrInfo {

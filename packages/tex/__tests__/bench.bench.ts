@@ -2,9 +2,9 @@
 import MarkdownIt from "markdown-it";
 import { bench, describe } from "vitest";
 
-import { tex as texCurrent } from "../src/index.js";
 // @ts-ignore: This file only exists for benchmarking against the old version
 import { tex as texOld } from "../src-old/index.js";
+import { tex as texCurrent } from "../src/index.js";
 
 const render = (content: string, displayMode: boolean): string =>
   displayMode ? `<p>{Tex content: ${content.trim()}}</p>\n` : `{Tex content: ${content.trim()}}`;

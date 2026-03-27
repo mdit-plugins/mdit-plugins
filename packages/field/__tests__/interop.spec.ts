@@ -1,5 +1,5 @@
-import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
+import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";

@@ -1,5 +1,5 @@
 import type MarkdownIt from "markdown-it";
-import type { AttrRule } from "./types.js";
+
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { createBlockRule } from "./block.js";
 import { createFenceRule } from "./fence.js";
@@ -9,6 +9,7 @@ import { createInlineRules } from "./inline.js";
 import { createListRules } from "./list.js";
 import { createSoftBreakRule } from "./softbreak.js";
 import { createTableRules } from "./table.js";
+import type { AttrRule } from "./types.js";
 
 const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "fence",
