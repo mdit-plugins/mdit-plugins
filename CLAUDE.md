@@ -38,23 +38,23 @@ mdit-plugins/
 
 ```bash
 # Build
-pnpm build                  # Build all packages
+pnpm run build                  # Build all packages
 
 # Test
-pnpm test                   # Run unit tests
-pnpm test:coverage          # Run tests with coverage
+pnpm run test                   # Run unit tests
+pnpm run test:coverage          # Run tests with coverage
 
 # Code Quality
-pnpm lint                   # Lint with auto-fix
-pnpm lint:check            # Lint without auto-fix
-pnpm type-check             # Type check all packages
+pnpm run lint                   # Lint with auto-fix
+pnpm run lint:check            # Lint without auto-fix
+pnpm run type-check             # Type check all packages
 
 # Documentation
-pnpm docs:dev               # Start docs dev server
-pnpm docs:build            # Build documentation
+pnpm run docs:dev               # Start docs dev server
+pnpm run docs:build            # Build documentation
 
 # Release
-pnpm release               # Clean, build, version bump and publish
+pnpm run release               # Clean, build, version bump and publish
 ```
 
 ## Testing Individual Plugins
@@ -63,10 +63,10 @@ Run tests in a plugin directory:
 
 ```bash
 cd packages/abbr
-pnpm vitest run --coverage
+pnpm exec vitest run --coverage
 ```
 
-This runs only the current plugin's tests. Do NOT run `pnpm vitest run --coverage` in the root directory.
+This runs only the current plugin's tests. Do NOT run `pnpm exec vitest run --coverage` in the root directory.
 
 ## CI/CD Workflows
 
@@ -94,4 +94,4 @@ packages/<name>/
 
 ## Coding Standards
 
-For detailed coding standards, see [.github/copilot-instructions.md](.github/copilot-instructions.md).
+For detailed coding standards, see [AGENTS.md](AGENTS.md).

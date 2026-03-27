@@ -41,17 +41,17 @@ mdit-plugins/
 
 ## Common Commands
 
-| Command              | Description                            |
-| -------------------- | -------------------------------------- |
-| `pnpm build`         | Build all packages                     |
-| `pnpm test`          | Run unit tests                         |
-| `pnpm test:coverage` | Run tests with coverage report         |
-| `pnpm lint`          | Run linting with auto-fix              |
-| `pnpm lint:check`    | Run linting without auto-fix           |
-| `pnpm type-check`    | Type check all packages                |
-| `pnpm docs:dev`      | Start docs dev server                  |
-| `pnpm docs:build`    | Build documentation                    |
-| `pnpm release`       | Clean, build, version bump and publish |
+| Command                  | Description                            |
+| ------------------------ | -------------------------------------- |
+| `pnpm run build`         | Build all packages                     |
+| `pnpm run test`          | Run unit tests                         |
+| `pnpm run test:coverage` | Run tests with coverage report         |
+| `pnpm run lint`          | Run linting with auto-fix              |
+| `pnpm run lint:check`    | Run linting without auto-fix           |
+| `pnpm run type-check`    | Type check all packages                |
+| `pnpm run docs:dev`      | Start docs dev server                  |
+| `pnpm run docs:build`    | Build documentation                    |
+| `pnpm run release`       | Clean, build, version bump and publish |
 
 ## CI/CD Workflows
 
@@ -109,8 +109,8 @@ Logic that is not directly related to the plugin implementation should be extrac
 When committing in CI, make sure to run tests and check coverage before pushing:
 
 ```bash
-pnpm lint
-pnpm test:coverage
+pnpm run lint
+pnpm run test:coverage
 ```
 
 Also, make sure you are using `HUSKY=0` to disable husky when committing in CI, otherwise the commit may fail due to lint errors or test failures.
@@ -120,10 +120,10 @@ Also, make sure you are using `HUSKY=0` to disable husky when committing in CI, 
 First, cd to the plugin directory (e.g., `cd packages/alert`), then run:
 
 ```bash
-pnpm vitest run --coverage
+pnpm exec vitest run --coverage
 ```
 
-This should only run tests in the current plugin and generate coverage report. Do NOT run `pnpm vitest run --coverage` in the root directory.
+This should only run tests in the current plugin and generate coverage report. Do NOT run `pnpm exec vitest run --coverage` in the root directory.
 
 ## Performance
 

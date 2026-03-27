@@ -37,4 +37,4 @@ jobs:
         run: pnpm publish -r --no-git-checks --tag ${{ github.ref_name == 'cjs' && 'cjs'|| 'latest' }}
 
       - name: Sync npmmirror
-        run: pnpm release:sync
+        run: pnpm run release:sync

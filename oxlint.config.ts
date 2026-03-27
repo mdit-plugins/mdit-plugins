@@ -15,6 +15,7 @@ export default defineConfig({
     ...defaultIgnorePatterns,
     "**/__tests__/__fixtures__/",
     "**/.vuepress/snippets/",
+    ",ncurc.js",
   ],
   rules: {
     complexity: "off",

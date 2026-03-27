@@ -2,10 +2,10 @@ packages:
   - docs/
   - packages/*
 
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - esbuild
-  - unrs-resolver
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
+  unrs-resolver: true
 
 overrides:
   # FIXME: avoid outdated dependencies introducing vulnerable undici
