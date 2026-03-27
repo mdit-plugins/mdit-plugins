@@ -1,10 +1,11 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import { describe, bench } from "vitest";
-import MarkdownIt from "markdown-it";
-import type { MarkdownItTabData } from "../src/index.js";
-import { tab as tabNew } from "../src/index.js";
+
 // @ts-ignore
 import { tab as tabOld } from "../src-old/index.js";
+import type { MarkdownItTabData } from "../src/index.js";
+import { tab as tabNew } from "../src/index.js";
 
 describe("Tab Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(tabOld);

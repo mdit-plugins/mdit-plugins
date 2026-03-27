@@ -1,9 +1,9 @@
-import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
+import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { LiteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
+import type { TeX } from "@mathjax/src/js/input/tex.js";
 import type { CHTML } from "@mathjax/src/js/output/chtml.js";
 import type { SVG } from "@mathjax/src/js/output/svg.js";
-import type { TeX } from "@mathjax/src/js/input/tex.js";
-import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
+import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
 
 import type {
   MathJaxTexInputOptions,

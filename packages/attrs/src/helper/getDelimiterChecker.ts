@@ -1,6 +1,6 @@
+import type { DelimiterChecker } from "../rules/types.js";
 import { CLASS_MARKER, ID_MARKER } from "./constants.js";
 import type { DelimiterConfig } from "./types.js";
-import type { DelimiterChecker } from "../rules/types.js";
 
 /**
  * Get a function to check if a string matches the delimiter pattern

@@ -1,9 +1,9 @@
 import type MarkdownIt from "markdown-it";
 
-import type { AttrRule } from "./types.js";
-import { defineAttrRule } from "./types.js";
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
+import type { AttrRule } from "./types.js";
+import { defineAttrRule } from "./types.js";
 
 export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;

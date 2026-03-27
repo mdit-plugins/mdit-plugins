@@ -1,13 +1,13 @@
-import markdownit from "markdown-it";
 import { readFileSync } from "node:fs";
+
+import markdownit from "markdown-it";
 import { describe, it, expect } from "vitest";
 
-import { bareEmoji, lightEmoji, fullEmoji } from "../src/index.js";
-
+import { emojiData } from "../src/data/full.js";
 // data for integrity check testing
 import { emojiLightData } from "../src/data/light.js";
-import { emojiData } from "../src/data/full.js";
 import { emojiShortCuts } from "../src/data/shortcuts.js";
+import { bareEmoji, lightEmoji, fullEmoji } from "../src/index.js";
 
 describe("markdown-it-emoji", () => {
   describe("default", () => {

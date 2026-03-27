@@ -1,5 +1,5 @@
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type MarkdownIt from "markdown-it";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 interface UCMicro {

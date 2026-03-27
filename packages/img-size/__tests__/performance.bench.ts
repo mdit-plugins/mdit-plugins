@@ -1,14 +1,13 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
 import { bench, describe } from "vitest";
-import MarkdownIt from "markdown-it";
-
-import { obsidianImgSize as newObsidianImgSize } from "../src/obsidian.js";
-import { imgSize as newImgSize } from "../src/plugin.js";
 
 // @ts-ignore: file may not exist
 import { obsidianImgSize as oldObsidianImgSize } from "../src-old/obsidian.js";
 // @ts-ignore: file may not exist
 import { imgSize as oldImgSize } from "../src-old/plugin.js";
+import { obsidianImgSize as newObsidianImgSize } from "../src/obsidian.js";
+import { imgSize as newImgSize } from "../src/plugin.js";
 
 const generateMarkdownWithImages = (count: number, format: "normal" | "obsidian"): string => {
   let markdown = "";

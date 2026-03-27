@@ -1,10 +1,10 @@
+import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
 import { bench, describe } from "vitest";
-import MarkdownIt from "markdown-it";
 
-import { alert } from "../src/index.js";
 // @ts-ignore
 import { alert as originalAlert } from "../src-old/index.js";
+import { alert } from "../src/index.js";
 
 const generateTestContent = (size: "small" | "medium" | "large"): string => {
   const alertTypes = ["note", "tip", "warning", "caution", "important"];

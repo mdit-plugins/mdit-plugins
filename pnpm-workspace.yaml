@@ -37,7 +37,8 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
-  vite@7: npm:rolldown-vite@7
+  # FIXME: Vulnerable dependencies introduced by @vuepress/cli@2.0.0-rc.27
+  "markdownlint-cli2@0.22.0>smol-toml": ^1.6.1
 
 patchedDependencies:
-  "@vuepress/plugin-markdown-math": patches/@vuepress__plugin-markdown-math.patch
+  "@vuepress/cli@2.0.0-rc.27": patches/@vuepress__cli@2.0.0-rc.27.patch

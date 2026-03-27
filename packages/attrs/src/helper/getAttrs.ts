@@ -1,3 +1,4 @@
+import type { DelimiterRange } from "../rules/types.js";
 import {
   CLASS_MARKER,
   ID_MARKER,
@@ -6,7 +7,6 @@ import {
   QUOTE_MARKER,
 } from "./constants.js";
 import type { Attr } from "./types.js";
-import type { DelimiterRange } from "../rules/types.js";
 
 const isAllowedKeyChar = (charCode: number): boolean =>
   !(

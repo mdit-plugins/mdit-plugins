@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import { createAndUploadReport } from "@codecov/bundle-analyzer";
 
 const packagesDir = path.resolve(import.meta.dirname, "..", "packages");

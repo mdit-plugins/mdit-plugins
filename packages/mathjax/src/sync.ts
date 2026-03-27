@@ -22,7 +22,6 @@ import type MarkdownIt from "markdown-it";
 
 import type { MathjaxInstance, DocumentOptions, MarkdownItMathjaxOptions } from "./options.js";
 import { texPackages } from "./tex/index.js";
-
 // oxlint-disable-next-line import/no-unassigned-import
 import "./importer.js";
 
