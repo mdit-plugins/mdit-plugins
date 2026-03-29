@@ -34,7 +34,7 @@
     "@mr-hope/tsconfig": "0.0.3",
     "@types/node": "25.5.0",
     "@vitest/coverage-istanbul": "4.1.2",
-    "conventional-changelog-conventionalcommits": "9.3.0",
+    "conventional-changelog-conventionalcommits": "9.3.1",
     "cross-env": "10.1.0",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.22.0",
