@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.25.1...@mdit/plugin-attrs@0.25.2) (2026-03-30)
+
+### 🐛 Bug Fixes
+
+- **attrs:** guard against out-of-bounds index in getMatchingOpeningToken ([89e749f](https://github.com/mdit-plugins/mdit-plugins/commit/89e749fbf484c9489ef2b2a8ba9d14a2ec46a940))
+
 ## [0.25.1](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-attrs@0.25.0...@mdit/plugin-attrs@0.25.1) (2026-03-02)
 
 **Note:** Version bump only for package @mdit/plugin-attrs
