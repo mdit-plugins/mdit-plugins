@@ -15,7 +15,6 @@ export default defineConfig({
     ...defaultIgnorePatterns,
     "**/__tests__/__fixtures__/",
     "**/.vuepress/snippets/",
-    ",ncurc.js",
   ],
   rules: {
     complexity: "off",
@@ -34,10 +33,11 @@ export default defineConfig({
         "unicorn/require-module-specifiers": "off",
       },
     },
+
+    // some rules are disabled due to performance consideration
     {
       files: ["packages/*/src/**"],
       rules: {
-        // some rules are disabled due to performance consideration
         "prefer-destructuring": "off",
         "prefer-object-spread": "off",
         "prefer-spread": "off",
