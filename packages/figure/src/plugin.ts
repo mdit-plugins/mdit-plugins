@@ -40,6 +40,9 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
 
       // three children, should be image enclosed in link
       if (token.children.length === 3) {
+        // skip linked images if linkImage is false
+        if (options.linkImage === false) continue;
+
         const [childrenA, childrenB, childrenC] = token.children;
         const isEnclosed =
           childrenA.type !== "link_open" ||

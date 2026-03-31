@@ -36,6 +36,12 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 - Default: `true`
 - Details: Whether the figure is focusable.
 
+### linkImage
+
+- Type: `boolean`
+- Default: `true`
+- Details: Whether to convert linked images (`[![image](url)](link)`) to figures.
+
 ## Demo
 
 ::: preview Demo

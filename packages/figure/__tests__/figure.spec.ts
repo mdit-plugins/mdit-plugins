@@ -75,6 +75,17 @@ test ![image](/logo.svg)
     );
   });
 
+  it("should support linkImage option", () => {
+    const md = new MarkdownIt().use(figure, { linkImage: false });
+
+    expect(md.render("![image](/logo.svg)")).toEqual(
+      '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
+    );
+    expect(md.render(`[![image](/logo.svg)](https://example.com)`)).toEqual(
+      '<p><a href="https://example.com"><img src="/logo.svg" alt="image"></a></p>\n',
+    );
+  });
+
   it("should not covert existing figure tags to markdown-it-figure", () => {
     expect(
       markdownIt.render(`\

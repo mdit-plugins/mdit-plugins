@@ -34,6 +34,12 @@ mdIt.render("![image](https://example.com/image.png)");
 - 默认值：`true`
 - 详情：图片是否可聚焦。
 
+### linkImage
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：是否将链接图片 (`[![image](url)](link)`) 转换为 figure。
+
 ## 示例
 
 ::: preview 示例
