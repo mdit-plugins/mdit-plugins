@@ -48,6 +48,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
+    "@mdit/plugin-figure": "workspace:*",
     "@mdit/plugin-katex": "workspace:*",
     "@mdit/plugin-mark": "workspace:*"
   },

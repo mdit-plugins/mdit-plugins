@@ -1,3 +1,4 @@
+import { figure } from "@mdit/plugin-figure";
 import { katex } from "@mdit/plugin-katex";
 import { mark } from "@mdit/plugin-mark";
 import MarkdownIt from "markdown-it";
@@ -44,6 +45,52 @@ describe("plugin compatibility", () => {
       // Attrs are silently ignored (no block target) and softbreak+attrs tokens are consumed.
       expect(() => markdownIt.renderInline("==text==\n{.desc}")).not.toThrow();
       expect(markdownIt.renderInline("==text==\n{.desc}")).toBe("<mark>text</mark>");
+    });
+  });
+
+  describe("should work with figure plugin", () => {
+    const markdownIt = MarkdownIt({ html: true }).use(attrs).use(figure);
+
+    it("should add class to image inside figure", () => {
+      // attrs processes inline content before figure transforms paragraph to figure
+      // so attrs are applied to the image token, which ends up inside the figure
+      expect(markdownIt.render(`![image](/logo.svg "caption"){.center}`)).toBe(
+        '<figure><img src="/logo.svg" alt="image" class="center" tabindex="0"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
+
+    it("should add id to image inside figure", () => {
+      expect(markdownIt.render(`![image](/logo.svg "caption"){#hero}`)).toBe(
+        '<figure><img src="/logo.svg" alt="image" id="hero" tabindex="0"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
+
+    it("should add attributes to image inside figure", () => {
+      expect(markdownIt.render(`![image](/logo.svg "caption"){data-theme=light}`)).toBe(
+        '<figure><img src="/logo.svg" alt="image" data-theme="light" tabindex="0"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
+
+    it("should add multiple attributes to image inside figure", () => {
+      expect(
+        markdownIt.render(`![image](/logo.svg "caption"){.center #hero data-theme=light}`),
+      ).toBe(
+        '<figure><img src="/logo.svg" alt="image" class="center" id="hero" data-theme="light" tabindex="0"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
+
+    it("should work with linked images in figure", () => {
+      // Linked images in figure without attrs work correctly
+      expect(markdownIt.render(`[![image](/logo.svg)](https://example.com)`)).toBe(
+        '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should work with figure disabled focusable", () => {
+      const md = MarkdownIt({ html: true }).use(attrs).use(figure, { focusable: false });
+      expect(md.render(`![image](/logo.svg "caption"){.center}`)).toBe(
+        '<figure><img src="/logo.svg" alt="image" class="center"><figcaption>caption</figcaption></figure>\n',
+      );
     });
   });
 });

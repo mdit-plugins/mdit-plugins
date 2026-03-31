@@ -87,8 +87,8 @@ importers:
         specifier: 19.6.6
         version: 19.6.6
       oxc-config-hope:
-        specifier: 0.0.13
-        version: 0.0.13(oxfmt@0.42.0)(oxlint-tsgolint@0.18.1)(oxlint@1.57.0(oxlint-tsgolint@0.18.1))
+        specifier: 0.1.3
+        version: 0.1.3(oxfmt@0.42.0)(oxlint-tsgolint@0.18.1)(oxlint@1.57.0(oxlint-tsgolint@0.18.1))
       oxfmt:
         specifier: 0.42.0
         version: 0.42.0
@@ -216,6 +216,9 @@ importers:
         specifier: ^14.1.0
         version: 14.1.1
     devDependencies:
+      '@mdit/plugin-figure':
+        specifier: workspace:*
+        version: link:../figure
       '@mdit/plugin-katex':
         specifier: workspace:*
         version: link:../katex
@@ -1193,8 +1196,8 @@ packages:
     resolution: {integrity: sha512-00aAZ0F0NLik6I6Yba2emGbHLxv+QYrPH00qQ5dFKXlAo1Ll2RHDXwY7nN2WAfrx2pP+WrvSRFTGFCNGdzBDHw==}
     engines: {node: '>=20.0.0'}
 
-  '@mdit/helper@0.23.1':
-    resolution: {integrity: sha512-ifWDG3VbUAx1ia7eBWEHm5vpv5QFUPY3kFLPPZzYBr15A7/d5w7D+8ZBg8xxqkvyC73Ys+zF14EQCq7eQAXYxg==}
+  '@mdit/helper@0.23.2':
+    resolution: {integrity: sha512-w4oja7kZYnkSiodfn4Neg1gmlIkvQtmCBJTLvLFOaET7xt8KomDNPQeumpGobQ9dWkXFqBKHlxjTYgroPH+CvA==}
     engines: {node: '>= 20'}
     peerDependencies:
       markdown-it: ^14.1.0
@@ -1202,8 +1205,8 @@ packages:
       markdown-it:
         optional: true
 
-  '@mdit/plugin-layout@0.2.1':
-    resolution: {integrity: sha512-znfck6af+IdUbnZYU1CIiw4MT+1Nt5c57+ijRQca/yqlExDsm7sVBNawBLNAOyN/VaV7MiAvxuyK+cBE2m3Nog==}
+  '@mdit/plugin-layout@0.2.2':
+    resolution: {integrity: sha512-lPeJULVt1s9rEA2aU5pKRRsqGpJVmmcLE08GKeuPb7xgJuJvsPnDHNqA4eVSHUR9WARMolygfTBT1yAQd715HA==}
     peerDependencies:
       markdown-it: ^14.1.0
     peerDependenciesMeta:
@@ -2695,8 +2698,8 @@ packages:
       typescript:
         optional: true
 
-  create-codepen@2.0.1:
-    resolution: {integrity: sha512-qFOOo1dxz8/j5Fn8tJHi61/r5ko7sn2RLPZ6HISi5SeKR61y8zA9szsG7UssLzWeBILvN3c1TZNXrz5UR7KlGw==}
+  create-codepen@2.0.2:
+    resolution: {integrity: sha512-BcA/Sd29ZRo/ug3JlT1yph3dfaLyR7iZKpC6FgqmqQEAc9cVwfPC7pa0MUjCCinetWwoVnybCqtHPKF3FcuCGQ==}
     engines: {node: '>=20'}
 
   cross-env@10.1.0:
@@ -2801,8 +2804,8 @@ packages:
       oxc-resolver:
         optional: true
 
-  electron-to-chromium@1.5.328:
-    resolution: {integrity: sha512-QNQ5l45DzYytThO21403XN3FvK0hOkWDG8viNf6jqS42msJ8I4tGDSpBCgvDRRPnkffafiwAym2X2eHeGD2V0w==}
+  electron-to-chromium@1.5.329:
+    resolution: {integrity: sha512-/4t+AS1l4S3ZC0Ja7PHFIWeBIxGA3QGqV8/yKsP36v7NcyUCl+bIcmw6s5zVuMIECWwBrAK/6QLzTmbJChBboQ==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -3599,8 +3602,8 @@ packages:
     resolution: {integrity: sha512-VP79XUPxV2CigYP3jWwAUFSku2aKqBH7uTAapFWCBqutsbmDo96KY5o8uh6U+/YSIn5OxJnXp73beVkpqMIGhA==}
     engines: {node: '>=18'}
 
-  minimatch@10.2.4:
-    resolution: {integrity: sha512-oRjTw/97aTBN0RHbYCdtF1MQfvusSIBQM0IZEgzl6426+8jSC0nF1a/GmnVLpfB9yyr6g6FTqWqiZVbxrtaCIg==}
+  minimatch@10.2.5:
+    resolution: {integrity: sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==}
     engines: {node: 18 || 20 || >=22}
 
   minimist@1.2.8:
@@ -3765,12 +3768,12 @@ packages:
     resolution: {integrity: sha512-lBX72MWFduWEf7v7uWf5DHp9Jn5BI8bNPGuFgtXMmr2uDz2Gz2749y3am3agSDdkhHPHYmmxEGSKH85ZLGzgXw==}
     engines: {node: '>=20'}
 
-  oxc-config-hope@0.0.13:
-    resolution: {integrity: sha512-HlU8EMF39wnqRZWVvm2gPxyFwOcsdCIzVCRqVGXhf7XSENJNGz9OTfhzGs1Oj87ha0xi7GSSTn2XqVWoErOs6Q==}
+  oxc-config-hope@0.1.3:
+    resolution: {integrity: sha512-aBYQpxhI9sVTuNm9Eqi+NNShTnF3fAO2C0/1PuMv20QsxtHRrLXg9kL904AAk4+WcWRNnKzRr9BZbtotbV4VBg==}
     peerDependencies:
-      oxfmt: '>=0.41.0'
-      oxlint: ^1.56.0
-      oxlint-tsgolint: '>=0.17.2'
+      oxfmt: '>=0.42.0'
+      oxlint: ^1.57.0
+      oxlint-tsgolint: '>=0.18.1'
     peerDependenciesMeta:
       oxfmt:
         optional: true
@@ -5650,15 +5653,15 @@ snapshots:
 
   '@mdit-vue/types@3.0.2': {}
 
-  '@mdit/helper@0.23.1(markdown-it@14.1.1)':
+  '@mdit/helper@0.23.2(markdown-it@14.1.1)':
     dependencies:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
       markdown-it: 14.1.1
 
-  '@mdit/plugin-layout@0.2.1(markdown-it@14.1.1)':
+  '@mdit/plugin-layout@0.2.2(markdown-it@14.1.1)':
     dependencies:
-      '@mdit/helper': 0.23.1(markdown-it@14.1.1)
+      '@mdit/helper': 0.23.2(markdown-it@14.1.1)
       '@types/markdown-it': 14.1.2
     optionalDependencies:
       markdown-it: 14.1.1
@@ -5716,7 +5719,7 @@ snapshots:
       hosted-git-info: 9.0.2
       json-stringify-nice: 1.1.4
       lru-cache: 11.2.7
-      minimatch: 10.2.4
+      minimatch: 10.2.5
       nopt: 9.0.0
       npm-install-checks: 8.0.0
       npm-package-arg: 13.0.2
@@ -5760,7 +5763,7 @@ snapshots:
       '@npmcli/name-from-folder': 4.0.0
       '@npmcli/package-json': 7.0.5
       glob: 13.0.6
-      minimatch: 10.2.4
+      minimatch: 10.2.5
 
   '@npmcli/metavuln-calculator@9.0.3':
     dependencies:
@@ -6226,7 +6229,7 @@ snapshots:
   '@tufjs/models@4.1.0':
     dependencies:
       '@tufjs/canonical-json': 2.0.0
-      minimatch: 10.2.4
+      minimatch: 10.2.5
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
@@ -6800,7 +6803,7 @@ snapshots:
 
   '@vuepress/plugin-markdown-preview@2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(markdown-it@14.1.1)(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))':
     dependencies:
-      '@mdit/helper': 0.23.1(markdown-it@14.1.1)
+      '@mdit/helper': 0.23.2(markdown-it@14.1.1)
       '@mdit/plugin-demo': link:packages/demo
       '@types/markdown-it': 14.1.2
       '@vuepress/helper': 2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))
@@ -6817,7 +6820,7 @@ snapshots:
     dependencies:
       '@mdit/plugin-align': link:packages/align
       '@mdit/plugin-attrs': link:packages/attrs
-      '@mdit/plugin-layout': 0.2.1(markdown-it@14.1.1)
+      '@mdit/plugin-layout': 0.2.2(markdown-it@14.1.1)
       '@mdit/plugin-mark': link:packages/mark
       '@mdit/plugin-spoiler': link:packages/spoiler
       '@mdit/plugin-stylize': link:packages/stylize
@@ -7106,7 +7109,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.12
       caniuse-lite: 1.0.30001782
-      electron-to-chromium: 1.5.328
+      electron-to-chromium: 1.5.329
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
 
@@ -7317,7 +7320,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.2
 
-  create-codepen@2.0.1: {}
+  create-codepen@2.0.2: {}
 
   cross-env@10.1.0:
     dependencies:
@@ -7400,7 +7403,7 @@ snapshots:
 
   dts-resolver@2.1.3: {}
 
-  electron-to-chromium@1.5.328: {}
+  electron-to-chromium@1.5.329: {}
 
   emoji-regex@10.6.0: {}
 
@@ -7605,7 +7608,7 @@ snapshots:
 
   glob@13.0.6:
     dependencies:
-      minimatch: 10.2.4
+      minimatch: 10.2.5
       minipass: 7.1.3
       path-scurry: 2.0.2
 
@@ -7760,7 +7763,7 @@ snapshots:
 
   ignore-walk@8.0.0:
     dependencies:
-      minimatch: 10.2.4
+      minimatch: 10.2.5
 
   ignore@7.0.5: {}
 
@@ -8314,7 +8317,7 @@ snapshots:
 
   mimic-function@5.0.1: {}
 
-  minimatch@10.2.4:
+  minimatch@10.2.5:
     dependencies:
       brace-expansion: 5.0.5
 
@@ -8499,7 +8502,7 @@ snapshots:
       stdin-discarder: 0.3.1
       string-width: 8.2.0
 
-  oxc-config-hope@0.0.13(oxfmt@0.42.0)(oxlint-tsgolint@0.18.1)(oxlint@1.57.0(oxlint-tsgolint@0.18.1)):
+  oxc-config-hope@0.1.3(oxfmt@0.42.0)(oxlint-tsgolint@0.18.1)(oxlint@1.57.0(oxlint-tsgolint@0.18.1)):
     optionalDependencies:
       oxfmt: 0.42.0
       oxlint: 1.57.0(oxlint-tsgolint@0.18.1)
@@ -9440,7 +9443,7 @@ snapshots:
       '@vuepress/plugin-sass-palette': 2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))
       '@vueuse/core': 14.2.1(vue@3.5.31(typescript@6.0.2))
       balloon-css: 1.2.0
-      create-codepen: 2.0.1
+      create-codepen: 2.0.2
       qrcode: 1.5.4
       vue: 3.5.31(typescript@6.0.2)
       vuepress: 2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2))
