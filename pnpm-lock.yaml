@@ -153,8 +153,8 @@ importers:
         specifier: 2.0.0-rc.27
         version: 2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3)
       '@vuepress/helper':
-        specifier: 2.0.0-rc.126
-        version: 2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))
+        specifier: 2.0.0-rc.128
+        version: 2.0.0-rc.128(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))
       '@vuepress/plugin-docsearch':
         specifier: 2.0.0-rc.126
         version: 2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))
@@ -2114,6 +2114,18 @@ packages:
       '@vuepress/bundler-vite': 2.0.0-rc.27
       '@vuepress/bundler-webpack': 2.0.0-rc.27
       vuepress: 2.0.0-rc.27
+    peerDependenciesMeta:
+      '@vuepress/bundler-vite':
+        optional: true
+      '@vuepress/bundler-webpack':
+        optional: true
+
+  '@vuepress/helper@2.0.0-rc.128':
+    resolution: {integrity: sha512-+QT/PWnjyn2/XvARBnhLmnWvckLjpak44Go1mSUCV0lDC/l5xkB7/Vk3KJad7k44ERfr2QFL19MEyj9rhe8WiQ==}
+    peerDependencies:
+      '@vuepress/bundler-vite': 2.0.0-rc.28
+      '@vuepress/bundler-webpack': 2.0.0-rc.28
+      vuepress: 2.0.0-rc.28
     peerDependenciesMeta:
       '@vuepress/bundler-vite':
         optional: true
@@ -6517,6 +6529,20 @@ snapshots:
       - typescript
 
   '@vuepress/helper@2.0.0-rc.126(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))':
+    dependencies:
+      '@vue/shared': 3.5.31
+      '@vueuse/core': 14.2.1(vue@3.5.31(typescript@6.0.2))
+      cheerio: 1.2.0
+      fflate: 0.8.2
+      gray-matter: 4.0.3
+      vue: 3.5.31(typescript@6.0.2)
+      vuepress: 2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2))
+    optionalDependencies:
+      '@vuepress/bundler-vite': 2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@vuepress/helper@2.0.0-rc.128(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vuepress@2.0.0-rc.27(@vue/compiler-sfc@3.5.31)(@vuepress/bundler-vite@2.0.0-rc.27(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.31)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(typescript@6.0.2)(yaml@2.8.3))(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))':
     dependencies:
       '@vue/shared': 3.5.31
       '@vueuse/core': 14.2.1(vue@3.5.31(typescript@6.0.2))
