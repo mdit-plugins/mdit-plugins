@@ -380,8 +380,8 @@ importers:
         specifier: ^14.1.0
         version: 14.1.1
       upath:
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: ^3.0.0
+        version: 3.0.6
     devDependencies:
       '@mdit/plugin-container':
         specifier: workspace:*
@@ -557,8 +557,8 @@ importers:
         specifier: ^14.1.0
         version: 14.1.1
       upath:
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: ^3.0.0
+        version: 3.0.6
 
   packages/spoiler:
     dependencies:
@@ -4577,6 +4577,10 @@ packages:
   upath@2.0.1:
     resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
     engines: {node: '>=4'}
+
+  upath@3.0.6:
+    resolution: {integrity: sha512-kZvdlBwUVscisAJC7EufEhT1H2orxYEpInA6vrM46pUqFW42iOYkyo0KsKvkdMKows2xdFmYUUI1IXDwvB06Dg==}
+    engines: {node: '>=20'}
 
   update-browserslist-db@1.2.3:
     resolution: {integrity: sha512-Js0m9cx+qOgDxo0eMiFGEueWztz+d4+M3rGlmKPT+T4IS/jP4ylw3Nwpu6cpTTP8R1MAC1kF4VbdLt3ARf209w==}
@@ -9290,6 +9294,8 @@ snapshots:
       - '@emnapi/runtime'
 
   upath@2.0.1: {}
+
+  upath@3.0.6: {}
 
   update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:
