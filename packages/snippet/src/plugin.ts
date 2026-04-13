@@ -6,7 +6,7 @@ import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type Token from "markdown-it/lib/token.mjs";
-import path from "upath";
+import { dirname, extname, resolve } from "upath";
 
 import type { MarkdownItSnippetOptions } from "./options.js";
 import type { SnippetEnv } from "./types.js";
@@ -94,10 +94,10 @@ const createSnippetRule =
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
     const [, region = "", lines = "", lang = ""] = SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
-    const cwd = currentFilePath ? path.dirname(currentFilePath) : ".";
+    const cwd = currentFilePath ? dirname(currentFilePath) : ".";
     const resolvedPath = resolvePath(snippetPath.trim(), cwd);
-    const absolutePath = path.resolve(cwd, resolvedPath);
-    const ext = path.extname(absolutePath).slice(1);
+    const absolutePath = resolve(cwd, resolvedPath);
+    const ext = extname(absolutePath).slice(1);
 
     state.line = startLine + 1;
 

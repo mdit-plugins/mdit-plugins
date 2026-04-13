@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import path from "upath";
+import { join, resolve } from "upath";
 import { describe, expect, it } from "vitest";
 
 import type { SnippetEnv } from "../src/index.js";
@@ -11,7 +11,7 @@ describe(snippet, () => {
   });
 
   const fixturesRelative = "./__fixtures__/";
-  const fixturesPath = path.resolve(__dirname, fixturesRelative);
+  const fixturesPath = resolve(__dirname, fixturesRelative);
 
   it("should not be parsed as snippet markdown syntax", () => {
     const source = [">>>", "><> test", "<>< test", "<< test"];
@@ -75,7 +75,7 @@ describe(snippet, () => {
 
       expect(rendered).toMatchSnapshot();
       expect(env.snippetFiles?.length).toBe(1);
-      expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example"));
+      expect(env.snippetFiles?.[0]).toContain(join(fixturesPath, "example"));
     });
   });
 
@@ -104,13 +104,13 @@ describe(snippet, () => {
 
       expect(rendered).toMatchSnapshot();
       expect(env.snippetFiles?.length).toBe(1);
-      expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example"));
+      expect(env.snippetFiles?.[0]).toContain(join(fixturesPath, "example"));
     });
   });
 
   it("should give warnings with not exist path", () => {
     const mdError = MarkdownIt({ html: true }).use(snippet, {
-      currentPath: () => "/fake/path.md",
+      currentPath: () => "/fake/md",
     });
     const source = [
       "<<< not-exisit.md#snippet{1-3}",
@@ -153,7 +153,7 @@ describe(snippet, () => {
       const rendered = md.render(item, env);
 
       expect(rendered).toMatchSnapshot();
-      expect(env.snippetFiles?.[0]).toContain(path.join(fixturesPath, "example.js"));
+      expect(env.snippetFiles?.[0]).toContain(join(fixturesPath, "example.js"));
     });
   });
 
@@ -204,7 +204,7 @@ describe(snippet, () => {
     const mdNoPath = MarkdownIt({ html: true }).use(snippet, {
       currentPath: () => "",
     });
-    const absolutePath = path.resolve(__dirname, "./__fixtures__/example.js");
+    const absolutePath = resolve(__dirname, "./__fixtures__/example.js");
     const source = `<<< ${absolutePath}`;
     const env: SnippetEnv = {};
     const rendered = mdNoPath.render(source, env);

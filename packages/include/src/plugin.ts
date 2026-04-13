@@ -6,7 +6,7 @@ import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type Token from "markdown-it/lib/token.mjs";
-import path from "upath";
+import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
 import type { MarkdownItIncludeOptions } from "./options.js";
 import type { IncludeEnv } from "./types.js";
@@ -91,7 +91,7 @@ export const handleInclude = (
   const { filePath } = info;
   let realPath = filePath;
 
-  if (!path.isAbsolute(filePath)) {
+  if (!isAbsolute(filePath)) {
     // if the importPath is relative path, we need to resolve it
     // according to the markdown filePath
     if (!cwd) {
@@ -101,7 +101,7 @@ export const handleInclude = (
       return "\nError when resolving path\n";
     }
 
-    realPath = path.resolve(cwd, filePath);
+    realPath = resolve(cwd, filePath);
   }
 
   includedFiles.push(realPath);
@@ -142,7 +142,7 @@ export const handleInclude = (
   }
 
   if (resolvedPath && realPath.endsWith(".md")) {
-    const dirName = path.dirname(realPath);
+    const dirName = dirname(realPath);
 
     results.unshift(`<!-- #include-env-start: ${dirName} -->`);
     results.push("<!-- #include-env-end -->");
@@ -188,10 +188,10 @@ export const resolveInclude = (
       return (
         options.deep && actualPath.endsWith(".md")
           ? resolveInclude(fileContent, options, {
-              cwd: path.isAbsolute(actualPath)
-                ? path.dirname(actualPath)
+              cwd: isAbsolute(actualPath)
+                ? dirname(actualPath)
                 : cwd
-                  ? path.resolve(cwd, path.dirname(actualPath))
+                  ? resolve(cwd, dirname(actualPath))
                   : null,
               includedFiles,
             })
@@ -267,12 +267,14 @@ const resolveRelatedLink = (
     const { length } = includedPaths;
 
     if (length) {
-      const includeDir = path.relative(path.dirname(filePath), includedPaths[length - 1]);
+      const includeDir = relative(dirname(filePath), includedPaths[length - 1]);
 
-      const resolvedPath = path.join(includeDir, url);
+      const resolvedPath = join(includeDir, url);
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      token.attrs![attrIndex][1] = resolvedPath[0] === "." ? resolvedPath : `./${resolvedPath}`;
+      token.attrs![attrIndex][1] = resolvedPath.startsWith(".")
+        ? resolvedPath
+        : `./${resolvedPath}`;
     }
   }
 };
@@ -306,7 +308,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
         useComment,
       },
       {
-        cwd: filePath ? path.dirname(filePath) : null,
+        cwd: filePath ? dirname(filePath) : null,
         includedFiles,
       },
     );

@@ -18,7 +18,7 @@ const parseNumber = (
   const start = pos;
   const result = {
     ok: false,
-    pos: pos,
+    pos,
     value: "",
   };
 

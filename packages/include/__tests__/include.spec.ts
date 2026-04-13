@@ -1,19 +1,19 @@
 import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
-import path from "upath";
+import { resolve } from "upath";
 import { describe, expect, it, vi } from "vitest";
 
 import type { IncludeEnv } from "../src/index.js";
 import { include } from "../src/index.js";
 
 const mdFixturePathRelative = "./__fixtures__/include.md";
-const mdFixturePath = path.resolve(__dirname, mdFixturePathRelative);
+const mdFixturePath = resolve(__dirname, mdFixturePathRelative);
 const mdFixtureDeepRelative = "./__fixtures__/deepInclude.md";
-const mdFixtureDeepPath = path.resolve(__dirname, mdFixtureDeepRelative);
+const mdFixtureDeepPath = resolve(__dirname, mdFixtureDeepRelative);
 const mdFixtureSimplePathRelative = "./__fixtures__/simpleInclude.md";
-const mdFixtureSimplePath = path.resolve(__dirname, mdFixtureSimplePathRelative);
+const mdFixtureSimplePath = resolve(__dirname, mdFixtureSimplePathRelative);
 const mdFixtureFrontmatterPathRelative = "./__fixtures__/frontmatter.md";
-const mdFixtureFrontmatterPath = path.resolve(__dirname, mdFixtureFrontmatterPathRelative);
+const mdFixtureFrontmatterPath = resolve(__dirname, mdFixtureFrontmatterPathRelative);
 
 describe("directive", () => {
   const md = MarkdownIt({ html: true })
@@ -335,7 +335,7 @@ describe("comment", () => {
       const rendered = md.render(source, env);
 
       expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/foo.md", path.resolve(__dirname, "./bar.md")]);
+      expect(env.includedFiles).toEqual(["/foo.md", resolve(__dirname, "./bar.md")]);
     });
 
     it("should resolve absolute path", () => {
@@ -399,7 +399,7 @@ describe("comment", () => {
       .use(include, {
         currentPath: (env: IncludeEnv) => env.filePath as string,
         resolvePath: (str: string): string =>
-          str.replace(/^@fixtures/, path.resolve(__dirname, "./__fixtures__")),
+          str.replace(/^@fixtures/, resolve(__dirname, "./__fixtures__")),
       })
       .use(container, { name: "tip" });
     const env: IncludeEnv = {
@@ -521,9 +521,9 @@ foo
 
     describe("the relative path of link/image", () => {
       const mdFixturePathLinkRelative = "./__fixtures__/relative/includeLink.md";
-      const mdFixtureLinkPath = path.resolve(__dirname, mdFixturePathLinkRelative);
+      const mdFixtureLinkPath = resolve(__dirname, mdFixturePathLinkRelative);
       const mdFixtureDeepLinkRelative = "./__fixtures__/deepIncludeLink.md";
-      const mdFixtureDeepLinkPath = path.resolve(__dirname, mdFixtureDeepLinkRelative);
+      const mdFixtureDeepLinkPath = resolve(__dirname, mdFixtureDeepLinkRelative);
 
       it("should resolve the relative path of link/image in the include md file", () => {
         const source = `\

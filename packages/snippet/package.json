@@ -45,7 +45,7 @@
   "dependencies": {
     "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2",
-    "upath": "^2.0.1"
+    "upath": "^3.0.6"
   },
   "peerDependencies": {
     "markdown-it": "^14.1.0"

@@ -1,8 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 const root = resolve(__dirname, ".."); // packages/emoji
 
 const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/rhysd/gemoji/unicode-16.0/db/emoji.json";

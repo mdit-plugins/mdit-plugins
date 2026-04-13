@@ -10,7 +10,7 @@ export const bareEmoji: PluginWithOptions<EmojiPluginOptions> = (
   { definitions = {}, shortcuts = {}, enabled = [] } = {},
 ) => {
   const options = normalizeOption({
-    definitions: definitions,
+    definitions,
     shortcuts,
     enabled,
   });

@@ -24,7 +24,6 @@ export default defineHopeConfig(
       "prefer-object-spread": "off",
       "prefer-spread": "off",
       "typescript/prefer-for-of": "off",
-      "unicorn/no-for-loop": "off",
       "unicorn/prefer-array-flat": "off",
       "unicorn/prefer-code-point": "off",
       "unicorn/prefer-spread": "off",

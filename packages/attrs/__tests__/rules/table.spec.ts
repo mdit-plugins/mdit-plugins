@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
 import { attrs } from "../../src/index.js";
@@ -411,16 +411,9 @@ const createDualRuleTests = (
       });
 
       it(replaceDelimiters("should support empty inline tokens", options), () => {
-        const fn = vi.fn();
         const src = " 1 | 2 \n --|-- \n a | ";
 
-        try {
-          markdownIt.render(replaceDelimiters(src, options));
-        } catch {
-          fn();
-        }
-
-        expect(fn).toHaveBeenCalledTimes(0);
+        expect(() => markdownIt.render(replaceDelimiters(src, options))).not.toThrow();
       });
 
       it(

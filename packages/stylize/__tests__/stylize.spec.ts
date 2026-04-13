@@ -22,6 +22,8 @@ describe(stylize, () => {
                 content,
               };
             }
+
+            return undefined;
           },
         },
         {
@@ -34,18 +36,24 @@ describe(stylize, () => {
                 content,
               };
             }
+
+            return undefined;
           },
         },
         {
           matcher: "MAY",
           replacer: ({ tag, attrs }): MarkdownItStylizeResult | undefined => {
             if (tag === "em") return { tag, attrs, content: "MAY:)" };
+
+            return undefined;
           },
         },
         {
           matcher: "NOT",
           replacer: ({ tag, attrs, content }): MarkdownItStylizeResult | undefined => {
             if (tag === "em") return { tag, attrs, content: `MUST_${content}` };
+
+            return undefined;
           },
         },
         {
@@ -58,6 +66,8 @@ describe(stylize, () => {
                 content,
               };
             }
+
+            return undefined;
           },
         },
       ],

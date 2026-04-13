@@ -73,7 +73,7 @@ describe("inline katex", () => {
   it("should render error msg when content is wrong", () => {
     const originalError = globalThis.console.error;
 
-    globalThis.console.error = vi.fn();
+    globalThis.console.error = vi.fn<(...args: unknown[]) => void>();
 
     expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toEqual(
       "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
@@ -154,7 +154,7 @@ $$
   it("should render error msg when content is wrong", () => {
     const originalError = globalThis.console.error;
 
-    globalThis.console.error = vi.fn();
+    globalThis.console.error = vi.fn<(...args: unknown[]) => void>();
     expect(markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toMatch(
       /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
@@ -175,7 +175,7 @@ $$
 describe("default logger", () => {
   it("should not give warnings about new lines", () => {
     const mockConsole = {
-      warn: vi.fn(),
+      warn: vi.fn<(...args: unknown[]) => void>(),
     };
 
     vi.stubGlobal("console", mockConsole);
@@ -201,7 +201,7 @@ $$
 
 describe("options", () => {
   it("should support custom logger", () => {
-    const logger1 = vi.fn();
+    const logger1 = vi.fn<(...args: unknown[]) => void>();
 
     const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
       logger: logger1,
@@ -217,7 +217,7 @@ $$
 
     expect(logger1).toHaveBeenCalledTimes(4);
 
-    const logger2 = vi.fn();
+    const logger2 = vi.fn<(...args: unknown[]) => void>();
 
     const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
       logger: logger2,

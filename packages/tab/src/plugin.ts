@@ -399,7 +399,7 @@ const createTabsDataGetter =
 
     return {
       active: activeIndex,
-      data: data,
+      data,
     };
   };
 

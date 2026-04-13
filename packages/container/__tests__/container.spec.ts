@@ -677,7 +677,7 @@ bar
     });
 
     it("rule should call it", () => {
-      const spy = vi.fn();
+      const spy = vi.fn<() => boolean>();
       const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: spy,

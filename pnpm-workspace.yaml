@@ -39,6 +39,3 @@ overrides:
   "@mdit/plugin-uml": workspace:*
   # FIXME: Vulnerable dependencies introduced by @vuepress/cli@2.0.0-rc.27
   "markdownlint-cli2@0.22.0>smol-toml": ^1.6.1
-
-patchedDependencies:
-  "@vuepress/cli@2.0.0-rc.27": patches/@vuepress__cli@2.0.0-rc.27.patch

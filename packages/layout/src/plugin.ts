@@ -205,7 +205,7 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
   });
 
   // Container open renderer
-  md.renderer.rules["layout_container_open"] = (tokens, index): string => {
+  md.renderer.rules.layout_container_open = (tokens, index): string => {
     const token = tokens[index];
     const meta = token.meta as LayoutMeta;
     const attrs: string[] = [];
@@ -230,10 +230,10 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
   };
 
   // Container close renderer
-  md.renderer.rules["layout_container_close"] = (): string => "</div>\n";
+  md.renderer.rules.layout_container_close = (): string => "</div>\n";
 
   // Item open renderer
-  md.renderer.rules["layout_item_open"] = (tokens, index): string => {
+  md.renderer.rules.layout_item_open = (tokens, index): string => {
     const token = tokens[index];
     const meta = token.meta as LayoutMeta;
     const attrs: string[] = [];
@@ -264,5 +264,5 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
   };
 
   // Item close renderer
-  md.renderer.rules["layout_item_close"] = (): string => "</div>\n";
+  md.renderer.rules.layout_item_close = (): string => "</div>\n";
 };
