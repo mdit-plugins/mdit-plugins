@@ -43,7 +43,7 @@
     "oxc-config-hope": "0.1.6",
     "oxfmt": "0.45.0",
     "oxlint": "1.59.0",
-    "oxlint-tsgolint": "0.20.0",
+    "oxlint-tsgolint": "0.21.1",
     "publint": "0.3.18",
     "rimraf": "6.1.3",
     "tsdown": "0.21.9",
