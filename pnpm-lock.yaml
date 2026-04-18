@@ -40,8 +40,8 @@ importers:
   .:
     devDependencies:
       '@codecov/bundle-analyzer':
-        specifier: 1.9.1
-        version: 1.9.1
+        specifier: 2.0.1
+        version: 2.0.1
       '@commitlint/cli':
         specifier: 20.5.0
         version: 20.5.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
@@ -644,20 +644,23 @@ importers:
 
 packages:
 
-  '@actions/core@2.0.3':
-    resolution: {integrity: sha512-Od9Thc3T1mQJYddvVPM4QGiLUewdh+3txmDYHHxoNdkqysR1MbCT+rFOtNUxYAz+7+6RIsqipVahY2GJqGPyxA==}
+  '@actions/core@3.0.0':
+    resolution: {integrity: sha512-zYt6cz+ivnTmiT/ksRVriMBOiuoUpDCJJlZ5KPl2/FRdvwU3f7MPh9qftvbkXJThragzUZieit2nyHUyw53Seg==}
 
-  '@actions/exec@2.0.0':
-    resolution: {integrity: sha512-k8ngrX2voJ/RIN6r9xB82NVqKpnMRtxDoiO+g3olkIUpQNqjArXrCQceduQZCQj3P3xm32pChRLqRrtXTlqhIw==}
+  '@actions/exec@3.0.0':
+    resolution: {integrity: sha512-6xH/puSoNBXb72VPlZVm7vQ+svQpFyA96qdDBvhB8eNZOE8LtPf9L4oAsfzK/crCL8YZ+19fKYVnM63Sl+Xzlw==}
 
-  '@actions/github@8.0.1':
-    resolution: {integrity: sha512-cue7mS+kx1/2Dnc/094pitRUm+0uPXVXYVaqOdZwD15BsXATWYHW3idJDYOlyBc5gJlzAQ/w5YLU4LR8D7hjVg==}
+  '@actions/github@9.1.0':
+    resolution: {integrity: sha512-u0hDGQeCS+7VNoLA8hYG65RLdPLMaPGfka0sZ0up7P0AiShqfX6xcuXNteGkQ7X7Tod7AMNwHd4p7DS63i8zzA==}
 
   '@actions/http-client@3.0.2':
     resolution: {integrity: sha512-JP38FYYpyqvUsz+Igqlc/JG6YO9PaKuvqjM3iGvaLqFnJ7TFmcLyy2IDrY0bI0qCQug8E9K+elv5ZNfw62ZJzA==}
 
-  '@actions/io@2.0.0':
-    resolution: {integrity: sha512-Jv33IN09XLO+0HS79aaODsvIRyduiF7NY/F6LYeK5oeUmrsz7aFdRphQjFoESF4jS7lMauDOttKALcpapVDIAg==}
+  '@actions/http-client@4.0.0':
+    resolution: {integrity: sha512-QuwPsgVMsD6qaPD57GLZi9sqzAZCtiJT8kVBCDpLtxhL5MydQ4gS+DrejtZZPdIYyB1e95uCK9Luyds7ybHI3g==}
+
+  '@actions/io@3.0.2':
+    resolution: {integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==}
 
   '@babel/code-frame@7.29.0':
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
@@ -750,15 +753,15 @@ packages:
   '@bufbuild/protobuf@2.11.0':
     resolution: {integrity: sha512-sBXGT13cpmPR5BMgHE6UEEfEaShh5Ror6rfN3yEK5si7QVrtZg8LEPQb0VVhiLRUslD2yLnXtnRzG035J/mZXQ==}
 
-  '@codecov/bundle-analyzer@1.9.1':
-    resolution: {integrity: sha512-WVWZIV0v09RueL0L2x8pgaWzGsJsKMsMFjsFgzfjeApq9cE6bZ+0fQC3f/pTQ8h40Y3D5Gk9o4W6jd/if3ohSA==}
-    engines: {node: '>=18.0.0'}
+  '@codecov/bundle-analyzer@2.0.1':
+    resolution: {integrity: sha512-SkL0+Ccs6VuHIA9Bxb8/J110CffRXpqtKt7m18FTWC0P6gDKEsoieUerDdcd6K9BFKujj6gaUdTt5i4I/v8GTA==}
+    engines: {node: '>=20.0.0'}
     os: [darwin, linux]
     hasBin: true
 
-  '@codecov/bundler-plugin-core@1.9.1':
-    resolution: {integrity: sha512-dt3ic7gMswz4p/qdkYPVJwXlLiLsz55rBBn2I7mr0HTG8pCoLRqnANJIwo5WrqGBZgPyVSMPBqBra6VxLWfDyA==}
-    engines: {node: '>=18.0.0'}
+  '@codecov/bundler-plugin-core@2.0.1':
+    resolution: {integrity: sha512-TkdKn/rEwZQ723M7DDUmHe5r0IJa23rUT4TAx5jXmg12wGZGAHGWWU7LKeQsYCsKdLMxK7bLaGk9M++4wSRD5w==}
+    engines: {node: '>=20.0.0'}
 
   '@commitlint/cli@20.5.0':
     resolution: {integrity: sha512-yNkyN/tuKTJS3wdVfsZ2tXDM4G4Gi7z+jW54Cki8N8tZqwKBltbIvUUrSbT4hz1bhW/h0CdR+5sCSpXD+wMKaQ==}
@@ -5080,16 +5083,16 @@ packages:
 
 snapshots:
 
-  '@actions/core@2.0.3':
+  '@actions/core@3.0.0':
     dependencies:
-      '@actions/exec': 2.0.0
-      '@actions/http-client': 3.0.2
+      '@actions/exec': 3.0.0
+      '@actions/http-client': 4.0.0
 
-  '@actions/exec@2.0.0':
+  '@actions/exec@3.0.0':
     dependencies:
-      '@actions/io': 2.0.0
+      '@actions/io': 3.0.2
 
-  '@actions/github@8.0.1':
+  '@actions/github@9.1.0':
     dependencies:
       '@actions/http-client': 3.0.2
       '@octokit/core': 7.0.6
@@ -5104,7 +5107,12 @@ snapshots:
       tunnel: 0.0.6
       undici: 6.24.1
 
-  '@actions/io@2.0.0': {}
+  '@actions/http-client@4.0.0':
+    dependencies:
+      tunnel: 0.0.6
+      undici: 6.24.1
+
+  '@actions/io@3.0.2': {}
 
   '@babel/code-frame@7.29.0':
     dependencies:
@@ -5230,16 +5238,16 @@ snapshots:
 
   '@bufbuild/protobuf@2.11.0': {}
 
-  '@codecov/bundle-analyzer@1.9.1':
+  '@codecov/bundle-analyzer@2.0.1':
     dependencies:
-      '@codecov/bundler-plugin-core': 1.9.1
+      '@codecov/bundler-plugin-core': 2.0.1
       micromatch: 4.0.8
       yargs: 17.7.2
 
-  '@codecov/bundler-plugin-core@1.9.1':
+  '@codecov/bundler-plugin-core@2.0.1':
     dependencies:
-      '@actions/core': 2.0.3
-      '@actions/github': 8.0.1
+      '@actions/core': 3.0.0
+      '@actions/github': 9.1.0
       chalk: 4.1.2
       semver: 7.7.4
       unplugin: 1.16.1
