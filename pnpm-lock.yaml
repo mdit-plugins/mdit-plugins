@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@codecov/bundler-plugin-core@1>@actions/core': npm:@actions/core@2
-  '@codecov/bundler-plugin-core@1>@actions/github': npm:@actions/github@8
+  '@codecov/bundler-plugin-core@1>@actions/github': npm:@actions/github@9
   '@mdit/plugin-alert': workspace:*
   '@mdit/plugin-align': workspace:*
   '@mdit/plugin-attrs': workspace:*
