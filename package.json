@@ -26,7 +26,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@codecov/bundle-analyzer": "1.9.1",
+    "@codecov/bundle-analyzer": "2.0.1",
     "@commitlint/cli": "20.5.0",
     "@commitlint/config-conventional": "20.5.0",
     "@lerna-lite/cli": "5.0.0",
