@@ -8,9 +8,7 @@ import { defineAttrRule } from "./types.js";
 export const createHeadingRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
-  /**
-   * ## end of {#heading}
-   */
+  /** ## end of {#heading} */
   return defineAttrRule({
     name: "end of block",
     tests: [

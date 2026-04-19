@@ -81,11 +81,10 @@ const createSnippetRule =
     const end = state.skipSpacesBack(max, pos);
 
     /**
-     * raw path format: "/path/to/file.extension#region {meta}"
-     *    where #region and {meta} are optional
-     *    and meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
+     * Raw path format: "/path/to/file.extension#region {meta}" where #region and {meta} are
+     * optional and meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
      *
-     * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
+     * Captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
     const currentFilePath = currentPath(env);
     const snippetContent = state.src.slice(start, end).trim();

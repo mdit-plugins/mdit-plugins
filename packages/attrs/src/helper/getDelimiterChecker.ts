@@ -3,8 +3,7 @@ import { CLASS_MARKER, ID_MARKER } from "./constants.js";
 import type { DelimiterConfig } from "./types.js";
 
 /**
- * Get a function to check if a string matches the delimiter pattern
- * 获取一个函数来检查字符串是否匹配分隔符模式
+ * Get a function to check if a string matches the delimiter pattern 获取一个函数来检查字符串是否匹配分隔符模式
  *
  * @param options - Delimiter configuration / 分隔符配置
  * @param where - Position for matching: start, end, or only / 匹配位置：开始、结束或仅匹配

@@ -37,5 +37,5 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
-  # FIXME: Vulnerable dependencies introduced by @vuepress/cli@2.0.0-rc.27
   "markdownlint-cli2@0.22.0>smol-toml": ^1.6.1
+  "@xmldom/xmldom": ^0.9.10

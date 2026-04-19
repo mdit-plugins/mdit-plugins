@@ -22,7 +22,7 @@ export interface MarkdownItMathjaxOptions extends Pick<
    *
    * 输出格式
    *
-   * @default 'svg'
+   * @default "svg"
    */
 
   output?: "chtml" | "svg";
@@ -58,7 +58,7 @@ export interface MarkdownItMathjaxOptions extends Pick<
   svg?: MathjaxSVGOutputOptions;
 
   /**
-   * transformer on output content
+   * Transformer on output content
    *
    * 输出内容的转换器
    */
@@ -71,41 +71,29 @@ export interface DocumentOptions {
   enableAssistiveMml: boolean;
 }
 
-/**
- * Mathjax instance common options
- */
+/** Mathjax instance common options */
 export interface MathjaxInstance<Sync extends boolean = false> extends Required<
   Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
 > {
-  /**
-   * Mathjax adaptor
-   */
+  /** Mathjax adaptor */
   adaptor: LiteAdaptor;
 
-  /**
-   * Mathjax document options
-   */
+  /** Mathjax document options */
   documentOptions: DocumentOptions;
 
   /**
    * Output style for rendered content and clears it
    *
-   * @returns style
+   * @returns Style
    */
   outputStyle: () => Sync extends true ? string : Promise<string>;
 
-  /**
-   * Reset tex (including labels)
-   */
+  /** Reset tex (including labels) */
   reset: () => void;
 
-  /**
-   * Clear style cache
-   */
+  /** Clear style cache */
   clearStyle: () => void;
 
-  /**
-   * Output content transformer
-   */
+  /** Output content transformer */
   transformer: TeXTransformer | null;
 }

@@ -135,7 +135,7 @@ mdIt.render(&quot;&lt;&lt;&lt; snippet.ts&quot;, {
 
 exports[`snippet > should import all lines 6`] = `
 "<pre><code class="language-ts">export interface SnippetEnv extends Record&lt;string, any&gt; {
-  /** included snippet files */
+  /** Included snippet files */
   snippetFiles?: string[];
 }
 
@@ -152,7 +152,7 @@ export interface MarkdownItSnippetOptions {
   currentPath: (env: SnippetEnv) =&gt; string;
 
   /**
-   * handle include filePath
+   * Handle include filePath
    *
    * 处理 include 文件路径
    *
@@ -417,7 +417,7 @@ exports[`snippet > should support region 6`] = `
   currentPath: (env: SnippetEnv) =&gt; string;
 
   /**
-   * handle include filePath
+   * Handle include filePath
    *
    * 处理 include 文件路径
    *

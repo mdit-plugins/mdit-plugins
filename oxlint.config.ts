@@ -2,7 +2,7 @@ import { defineHopeConfig } from "oxc-config-hope/oxlint";
 
 export default defineHopeConfig(
   {
-    ignorePatterns: ["**/__tests__/__fixtures__/", "**/.vuepress/snippets/"],
+    ignore: ["**/__tests__/__fixtures__/", "**/.vuepress/snippets/"],
     rules: {
       complexity: "off",
       "max-depth": ["warn", 5],

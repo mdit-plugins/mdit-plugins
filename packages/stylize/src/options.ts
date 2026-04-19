@@ -58,11 +58,9 @@ export interface MarkdownItStylizeOptions<
    * Local config getter
    *
    * @param env Markdown env object
-   * @returns local stylize config
-   *
-   * 本地配置获取器
-   *
    * @param env Markdown 环境对象
+   * @returns Local stylize config
+   * 本地配置获取器
    * @returns 本地格式化配置
    */
   localConfigGetter?: (env?: MarkdownEnv) => MarkdownItStylizeConfig[] | null;

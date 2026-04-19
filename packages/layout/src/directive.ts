@@ -15,10 +15,10 @@ import {
 /**
  * Check if a string matches a target starting at the given position.
  *
- * @param src - source string / 源字符串
- * @param pos - current position / 当前位置
- * @param target - target string to match / 要匹配的目标字符串
- * @returns whether the string matches / 是否匹配
+ * @param src - Source string / 源字符串
+ * @param pos - Current position / 当前位置
+ * @param target - Target string to match / 要匹配的目标字符串
+ * @returns Whether the string matches / 是否匹配
  */
 export const matchString = (src: string, pos: number, target: string): boolean => {
   for (let i = 0; i < target.length; i++)
@@ -30,24 +30,22 @@ export const matchString = (src: string, pos: number, target: string): boolean =
 /**
  * Check if a character code indicates the end of a directive name.
  *
- * @param code - character code / 字符编码
- * @returns whether it's a valid boundary / 是否是有效的边界
+ * @param code - Character code / 字符编码
+ * @returns Whether it's a valid boundary / 是否是有效的边界
  */
 export const isDirectiveBoundary = (code: number): boolean =>
   code === DOT || code === HASH || code === SPACE;
 
 /**
- * Detect the type of layout directive at the given position.
- * Supports both single `@` (depth 1) and multiple `@@...`
- * (depth = number of `@`) modes.
+ * Detect the type of layout directive at the given position. Supports both single `@` (depth 1) and
+ * multiple `@@...` (depth = number of `@`) modes.
  *
- * 检测给定位置的布局指令类型。
- * 支持单 `@`（depth 1）和多 `@@...`（depth = `@` 数量）。
+ * 检测给定位置的布局指令类型。 支持单 `@`（depth 1）和多 `@@...`（depth = `@` 数量）。
  *
- * @param src - source string / 源字符串
- * @param pos - position (should point to '@') / 位置（应指向 '@'）
- * @param max - end of line / 行尾位置
- * @returns detection result or null / 检测结果或 null
+ * @param src - Source string / 源字符串
+ * @param pos - Position (should point to '@') / 位置（应指向 '@'）
+ * @param max - End of line / 行尾位置
+ * @returns Detection result or null / 检测结果或 null
  */
 export const detectDirective = (
   src: string,
@@ -132,10 +130,10 @@ export const detectDirective = (
 /**
  * Parse selectors and utilities from the directive line after the directive name.
  *
- * @param src - source string / 源字符串
- * @param startPos - position after the directive name / 指令名称后的位置
- * @param max - end of line / 行尾位置
- * @returns parsed metadata / 解析后的元数据
+ * @param src - Source string / 源字符串
+ * @param startPos - Position after the directive name / 指令名称后的位置
+ * @param max - End of line / 行尾位置
+ * @returns Parsed metadata / 解析后的元数据
  */
 export const parseAttributes = (
   src: string,

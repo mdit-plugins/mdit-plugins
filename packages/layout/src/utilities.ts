@@ -166,10 +166,10 @@ const STATIC_UTILITIES: Record<string, string> = {
 /**
  * Parse a number from a string starting at the given position.
  *
- * @param str - source string / 源字符串
- * @param start - start position / 起始位置
- * @param end - end position / 结束位置
- * @returns parsed number or -1 if invalid / 解析的数字，无效时返回 -1
+ * @param str - Source string / 源字符串
+ * @param start - Start position / 起始位置
+ * @param end - End position / 结束位置
+ * @returns Parsed number or -1 if invalid / 解析的数字，无效时返回 -1
  */
 export const parseNumber = (str: string, start: number, end: number): number => {
   if (start >= end) return -1;
@@ -189,7 +189,7 @@ export const parseNumber = (str: string, start: number, end: number): number => 
 /**
  * Resolve a parameterized utility class to an inline style.
  *
- * @param utility - utility class name / 工具类名
+ * @param utility - Utility class name / 工具类名
  * @returns CSS style string or empty string / CSS 样式字符串或空字符串
  */
 export const resolveParameterizedUtility = (utility: string): string => {
@@ -288,7 +288,7 @@ export const resolveParameterizedUtility = (utility: string): string => {
 /**
  * Resolve a utility class to an inline style.
  *
- * @param utility - utility class name / 工具类名
+ * @param utility - Utility class name / 工具类名
  * @returns CSS style string or empty string / CSS 样式字符串或空字符串
  */
 export const resolveUtility = (utility: string): string =>
@@ -297,8 +297,8 @@ export const resolveUtility = (utility: string): string =>
 /**
  * Build inline style string from utilities and optional base display.
  *
- * @param utilities - utility class names / 工具类名列表
- * @param baseDisplay - base display style / 基础显示样式
+ * @param utilities - Utility class names / 工具类名列表
+ * @param baseDisplay - Base display style / 基础显示样式
  * @returns CSS style string / CSS 样式字符串
  */
 export const buildStyleString = (utilities: string[], baseDisplay?: string): string => {

@@ -1,5 +1,6 @@
 /**
- * Forked and modified from https://github.com/markdown-it/markdown-it-container/blob/master/index.mjs
+ * Forked and modified from
+ * https://github.com/markdown-it/markdown-it-container/blob/master/index.mjs
  */
 
 import type { Options, PluginWithOptions } from "markdown-it";

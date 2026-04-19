@@ -9,9 +9,7 @@ export const createHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
   const isSpace = md.utils.isSpace;
 
   return defineAttrRule({
-    /**
-     * horizontal rule --- {#id}
-     */
+    /** Horizontal rule --- {#id} */
     name: "horizontal rule",
     tests: [
       {
@@ -27,11 +25,7 @@ export const createHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
           let charCode;
           const markerCode = content.charCodeAt(pos++);
 
-          if (
-            markerCode !== 45 /** - */ &&
-            markerCode !== 42 /** * */ &&
-            markerCode !== 95 /** _ */
-          )
+          if (markerCode !== 45 /** - */ && markerCode !== 42 && markerCode !== 95 /** _ */)
             return false;
 
           let count = 1;

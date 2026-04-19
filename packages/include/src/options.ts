@@ -12,7 +12,7 @@ export interface MarkdownItIncludeOptions {
   currentPath: (env: IncludeEnv) => string;
 
   /**
-   * handle include filePath
+   * Handle include filePath
    *
    * 处理 include 文件路径
    *

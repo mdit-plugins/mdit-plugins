@@ -9,8 +9,8 @@ import { attrs as attrsOptimized } from "../src/index.js";
 /**
  * Create test content of different sizes
  *
- * @param size - size of the content ("small", "medium", "large")
- * @returns generated markdown content
+ * @param size - Size of the content ("small", "medium", "large")
+ * @returns Generated markdown content
  */
 const createTestContent = (size: "small" | "medium" | "large"): string => {
   // Test cases for all attrs formats

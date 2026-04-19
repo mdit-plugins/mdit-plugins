@@ -23,9 +23,9 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
   return [
     defineAttrRule({
       /**
-       * | h1 |
-       * | -- |
-       * | c1 |
+       * | h1  |
+       * | --- |
+       * | c1  |
        *
        * {.c}
        */
@@ -59,8 +59,8 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
       },
     }),
     /**
-     * Handle table cell attributes: title {.class}
-     * This rule processes attributes within table cell text content
+     * Handle table cell attributes: title {.class} This rule processes attributes within table cell
+     * text content
      */
     defineAttrRule({
       name: "table cell attributes",
@@ -100,14 +100,14 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
     }),
     defineAttrRule({
       /**
-       * | A | B |
-       * | -- | -- |
-       * | 1 | 2 |
+       * | A   | B   |
+       * | --- | --- |
+       * | 1   | 2   |
        *
-       * | C | D |
-       * | -- | -- |
+       * | C   | D   |
+       * | --- | --- |
        *
-       * only `| A | B |` sets the columnCount metadata
+       * Only `| A | B |` sets the columnCount metadata
        */
       name: "table thead metadata",
       tests: [
@@ -163,11 +163,11 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
     }),
     defineAttrRule({
       /**
-       * | A | B | C | D |
-       * | -- | -- | -- | -- |
-       * | 1 | 11 | 111 | 1111 {rowspan=3} |
-       * | 2 {colspan=2 rowspan=2} | 22 | 222 | 2222 |
-       * | 3 | 33 | 333 | 3333 |
+       * | A                       | B   | C   | D                |
+       * | ----------------------- | --- | --- | ---------------- |
+       * | 1                       | 11  | 111 | 1111 {rowspan=3} |
+       * | 2 {colspan=2 rowspan=2} | 22  | 222 | 2222             |
+       * | 3                       | 33  | 333 | 3333             |
        */
       name: "table tbody calculate",
       tests: [

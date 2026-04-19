@@ -1,6 +1,4 @@
-/**
- * Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs
- */
+/** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
 
 import type { PluginSimple } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
@@ -323,7 +321,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 };
 
 // Glue footnote tokens to end of token stream
-const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
+const footnoteTail: RuleCore = (state: FootNoteStateCore) => {
   const refTokens: Record<string, Token[]> = {};
 
   let current: Token[];
@@ -348,7 +346,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
       return !isInsideRef;
     });
 
-    return false;
+    return;
   }
 
   const { list } = state.env.footnotes;
@@ -433,8 +431,6 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore): boolean => {
   }
 
   state.tokens.push(new state.Token("footnote_block_close", "", -1));
-
-  return true;
 };
 
 export const footnote: PluginSimple = (md) => {

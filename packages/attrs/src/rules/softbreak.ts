@@ -5,10 +5,7 @@ import { defineAttrRule } from "./types.js";
 
 export const createSoftBreakRule = (options: DelimiterConfig): AttrRule =>
   defineAttrRule({
-    /**
-     * something with softbreak
-     * {.cls}
-     */
+    /** Something with softbreak {.cls} */
 
     name: "\n{.a} softbreak then curly in start",
     tests: [

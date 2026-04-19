@@ -53,7 +53,7 @@ export type TexPackage =
 
 export interface MathJaxTexInputOptions {
   /**
-   * extensions to use
+   * Extensions to use
    *
    * @default [
    *   'action',
@@ -100,42 +100,40 @@ export interface MathJaxTexInputOptions {
   packages?: TexPackage[];
 
   /**
-   * pattern for recognizing numbers
+   * Pattern for recognizing numbers
    *
-   * @default /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/
+   * @default /^(?:[0-9]+(?:\{,\}[0-9]{3})_(?:\.[0-9]_)?|\.[0-9]+)/
    */
   digits?: RegExp;
 
   tags?: "ams" | "all" | "none";
 
-  /**
-   * side for `\tag` macros
-   */
+  /** Side for `\tag` macros */
   tagSide?: "left" | "right";
 
   /**
-   * amount to indent tags
+   * Amount to indent tags
    *
    * @default "0.8em"
    */
   tagIndent?: "0.8em";
 
   /**
-   * use label name rather than tag for ids
+   * Use label name rather than tag for ids
    *
    * @default true;
    */
   useLabelIds?: boolean;
 
   /**
-   *  maximum number of macro substitutions per expression
+   * Maximum number of macro substitutions per expression
    *
    * @default 1000
    */
   maxMacros?: number;
 
   /**
-   * maximum size for the internal TeX string (in bytes)
+   * Maximum size for the internal TeX string (in bytes)
    *
    * @default 5120
    */
@@ -144,9 +142,7 @@ export interface MathJaxTexInputOptions {
   formatError?: (jax: TeX<unknown, unknown, unknown>, error: typeof TexError) => MmlNode;
 }
 
-/**
- * Data passed to MathJax filters
- */
+/** Data passed to MathJax filters */
 export interface MathjaxFilterData {
   math: MathItem<LiteElement, string, HTMLElement>;
   document: MathDocument<LiteElement, string, HTMLElement>;
@@ -154,14 +150,10 @@ export interface MathjaxFilterData {
   data: any;
 }
 
-/**
- * MathJax filter function
- */
+/** MathJax filter function */
 export type MathjaxFilter = (data: MathjaxFilterData) => void;
 
-/**
- * @see https://docs.mathjax.org/en/latest/options/output/index.html#option-descriptions
- */
+/** @see https://docs.mathjax.org/en/latest/options/output/index.html#option-descriptions */
 export interface MathjaxCommonOutputOptions {
   /**
    * Global scaling factor for all expressions
@@ -171,42 +163,42 @@ export interface MathjaxCommonOutputOptions {
   scale?: number;
 
   /**
-   * smallest scaling factor to use
+   * Smallest scaling factor to use
    *
    * @default 0.5
    */
   minScale?: number;
 
   /**
-   * make mtext elements use surrounding font
+   * Make mtext elements use surrounding font
    *
    * @default false
    */
   mtextInheritFont?: boolean;
 
   /**
-   * make merror text use surrounding font
+   * Make merror text use surrounding font
    *
    * @default true
    */
   merrorInheritFont?: boolean;
 
   /**
-   * font to use for mtext, if not inheriting (empty means use MathJax fonts)
+   * Font to use for mtext, if not inheriting (empty means use MathJax fonts)
    *
    * @default ""
    */
   mtextFont?: string;
 
   /**
-   * font to use for merror, if not inheriting (empty means use MathJax fonts)
+   * Font to use for merror, if not inheriting (empty means use MathJax fonts)
    *
    * @default "serif"
    */
   merrorFont?: string;
 
   /**
-   * font to use for character that aren’t in MathJax's fonts
+   * Font to use for character that aren’t in MathJax's fonts
    *
    * @default "serif"
    */
@@ -220,72 +212,66 @@ export interface MathjaxCommonOutputOptions {
    */
   mathmlSpacing?: boolean;
 
-  /**
-   * RFDa and other attributes NOT to copy to the output
-   */
+  /** RFDa and other attributes NOT to copy to the output */
   skipAttributes?: Record<string, boolean>;
 
   /**
-   * default size of ex in em units
+   * Default size of ex in em units
    *
    * @default 0.5
    */
   exFactor?: number;
 
   /**
-   * default for indentalign when set to 'auto'
+   * Default for indentalign when set to 'auto'
    *
    * @default "center"
    */
   displayAlign?: "left" | "center" | "right";
 
   /**
-   * default for indentshift when set to 'auto'
+   * Default for indentshift when set to 'auto'
    *
    * @default 0
    */
   displayIndent?: string;
 
   /**
-   * default for overflow
+   * Default for overflow
    *
    * @default "overflow"
    */
   displayOverflow?: "scroll" | "scale" | "truncate" | "elide" | "linebreak" | "overflow";
 
-  /**
-   * options for when overflow is linebreak
-   */
+  /** Options for when overflow is linebreak */
   linebreaks?: {
     /**
-     * true for browser-based breaking of inline equations
+     * True for browser-based breaking of inline equations
      *
      * @default true
      */
     inline?: boolean;
 
     /**
-     * a fixed size or a percentage of the container width
+     * A fixed size or a percentage of the container width
      *
      * @default "100%"
      */
     width?: string;
 
     /**
-     * the default lineleading in em units
+     * The default lineleading in em units
      *
      * @default 0.2
      */
     lineleading?: number;
 
-    /**
-     * for developers only
-     */
+    /** For developers only */
     LinebreakVisitor?: typeof LinebreakVisitor;
   };
 
   /**
-   * the font component to load
+   * The font component to load
    *
    * @default ""
    */
@@ -301,7 +287,7 @@ export interface MathjaxCommonOutputOptions {
   /**
    * The font extensions to load
    *
-   * @default []
+   * @default [ ]
    */
   fontExtensions?: string[];
 
@@ -315,20 +301,18 @@ export interface MathjaxCommonOutputOptions {
   /**
    * A list of pre-filters to add to the output jax
    *
-   * @default []
+   * @default [ ]
    */
   preFilters?: MathjaxFilter[];
 
   /**
    * A list of post-filters to add to the output jax
    *
-   * @default []
+   * @default [ ]
    */
   postFilters?: MathjaxFilter[];
 
-  /**
-   * for developers only
-   */
+  /** For developers only */
   cssStyles?: typeof CssStyles;
 }
 
@@ -355,7 +339,7 @@ export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptio
   fontURL?: string;
 
   /**
-   * location where MathJax should look for font data that has to be loaded dynamically.
+   * Location where MathJax should look for font data that has to be loaded dynamically.
    *
    * @default jsdelivr CDN links for `@mathjax/mathjax-newcm-font`
    */
@@ -368,23 +352,21 @@ export interface MathjaxCommonHTMLOutputOptions extends MathjaxCommonOutputOptio
    */
   adaptiveCSS?: boolean;
 
-  /**
-   * for developers only
-   */
+  /** For developers only */
   wrapperFactory?: typeof ChtmlWrapperFactory;
 }
 
 export interface MathjaxSVGOutputOptions extends MathjaxCommonOutputOptions {
   /**
-   * stroke-width to use for SVG character paths in units that are 1/1000 of an em
+   * Stroke-width to use for SVG character paths in units that are 1/1000 of an em
    *
    * @default 3
    */
   blacker?: number;
 
   /**
-   * @see https://docs.mathjax.org/en/latest/options/output/svg.html#option-descriptions
    * @default "local"
+   * @see https://docs.mathjax.org/en/latest/options/output/svg.html#option-descriptions
    */
   fontCache?: "local" | "global" | "none";
 
@@ -402,13 +384,9 @@ export interface MathjaxSVGOutputOptions extends MathjaxCommonOutputOptions {
    */
   useXlink?: boolean;
 
-  /**
-   * ID to use for local font cache (for single equation processing)
-   */
+  /** ID to use for local font cache (for single equation processing) */
   localID?: string | null;
 
-  /**
-   * for developers only
-   */
+  /** For developers only */
   wrapperFactory?: typeof SvgWrapperFactory;
 }

@@ -1,6 +1,4 @@
-/**
- * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
- */
+/** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
 
 import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";

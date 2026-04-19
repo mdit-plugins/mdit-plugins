@@ -2,33 +2,31 @@ export type Attr = [key: string, value: string];
 
 export interface DelimiterConfig {
   /**
-   * left delimiter
+   * Left delimiter
    *
    * 左分隔符
    *
-   * @default '{'
+   * @default "{"
    */
   left: string;
 
   /**
-   * right delimiter
+   * Right delimiter
    *
    * 右分隔符
    *
-   * @default '}'
+   * @default "}"
    */
   right: string;
 
   /**
-   * allowed attributes
+   * Allowed attributes
    *
-   * @description An empty list means allowing all attribute
+   * An empty list means allowing all attribute 允许的属性
    *
-   * 允许的属性
+   * 设置空数组意味着允许所有属性
    *
-   * @description 设置空数组意味着允许所有属性
-   *
-   * @default []
+   * @default [ ]
    */
   allowed: (string | RegExp)[];
 }

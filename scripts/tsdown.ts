@@ -37,11 +37,7 @@ export interface TsdownOptions extends Omit<UserConfig, "entry" | "copy"> {
    *
    * UMD 包中外部依赖的全局变量名
    *
-   * Example:
-   * 例如：
-   * globals: {
-   *   "markdown-it": "markdownit",
-   * }
+   * Example: 例如： globals: { "markdown-it": "markdownit", }
    */
   globals?: Record<string, string>;
 
@@ -50,7 +46,7 @@ export interface TsdownOptions extends Omit<UserConfig, "entry" | "copy"> {
    *
    * 永远不打包的资源
    *
-   * @description modules starting with `@temp/`, `@internal/` are never bundled.
+   * Modules starting with `@temp/`, `@internal/` are never bundled.
    */
   neverBundle?: (string | RegExp)[];
 
@@ -69,7 +65,8 @@ export interface TsdownOptions extends Omit<UserConfig, "entry" | "copy"> {
  *
  * 创建 tsdown 配置
  *
- * @param fileInfo - Entry file(s) without extension, relative to src (e.g. "index" or ["index", "cli"])
+ * @param fileInfo - Entry file(s) without extension, relative to src (e.g. "index" or ["index",
+ *   "cli"])
  * @param options - Tsdown options / Tsdown 选项
  * @returns Tsdown configuration / Tsdown 配置
  */

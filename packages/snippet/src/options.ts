@@ -12,7 +12,7 @@ export interface MarkdownItSnippetOptions {
   currentPath: (env: SnippetEnv) => string;
 
   /**
-   * handle include filePath
+   * Handle include filePath
    *
    * 处理 include 文件路径
    *

@@ -1,11 +1,7 @@
 export interface MarkdownItSpoilerOptions {
-  /**
-   * @default "span"
-   */
+  /** @default "span" */
   tag?: string;
 
-  /**
-   * @default [["class", "spoiler"], ["tabindex","-1"]]
-   */
+  /** @default [["class", "spoiler"], ["tabindex", "-1"]] */
   attrs?: [string, string][];
 }

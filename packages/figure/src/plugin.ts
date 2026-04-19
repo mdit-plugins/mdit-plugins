@@ -1,6 +1,4 @@
-/**
- * Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures
- */
+/** Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures */
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type Token from "markdown-it/lib/token.mjs";

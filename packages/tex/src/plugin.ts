@@ -1,6 +1,4 @@
-/**
- * Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js
- */
+/** Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js */
 
 import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";

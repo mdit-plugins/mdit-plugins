@@ -1,6 +1,4 @@
-/**
- * Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts
- */
+/** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
 // oxlint-disable-next-line import/no-nodejs-modules
 import { createRequire } from "node:module";
 

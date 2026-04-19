@@ -20,17 +20,14 @@ export interface MarkdownItContainerOptions {
   /**
    * Validate whether it should be regarded as this container type
    *
-   * @param params the content after the marker
-   * @param markup marker character
-   * @returns is this container type or not
-   *
-   * 校验内容是否应该作为此类型容器
-   *
+   * @default params.trim().split(" ", 2)[0] === name
+   * @param params The content after the marker
+   * @param markup Marker character
    * @param params 标识符后面的内容
    * @param markup 标识字符
+   * @returns Is this container type or not
+   * 校验内容是否应该作为此类型容器
    * @returns 是否是此容器类型
-   *
-   * @default params.trim().split(" ", 2)[0] === name
    */
   validate?: (params: string, markup: string) => boolean;
 

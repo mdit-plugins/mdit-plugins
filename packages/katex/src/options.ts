@@ -28,7 +28,7 @@ export interface MarkdownItKatexOptions<MarkdownItEnv = unknown>
   logger?: KatexLogger<MarkdownItEnv>;
 
   /**
-   * transformer on output content
+   * Transformer on output content
    *
    * 输出内容的转换器
    */

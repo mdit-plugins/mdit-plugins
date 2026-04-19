@@ -5,8 +5,8 @@ const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
 /**
  * Extract size from content
  *
- * @param data input data with content string
- * @returns data with size property and cleaned content string
+ * @param data Input data with content string
+ * @returns Data with size property and cleaned content string
  */
 export const extractSize = <Data extends { content: string }>(
   data: Data & { size?: string },
@@ -31,8 +31,8 @@ const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
 /**
  * Extract color from content
  *
- * @param data input data with content string
- * @returns data with color property and cleaned content string
+ * @param data Input data with content string
+ * @returns Data with color property and cleaned content string
  */
 export const extractColor = <Data extends { content: string }>(
   data: Data & { color?: string },
@@ -65,9 +65,7 @@ const ATTR_REGEXP = new RegExp(
     "=" +
     // attr value, should match on of the following
     `(?:` +
-    /**
-     * case 1: value with quotes
-     */
+    /** Case 1: value with quotes */
     //   starting quote
     /**/ `(?<quote>['"])` +
     //   value capture group
@@ -88,14 +86,10 @@ const ATTR_REGEXP = new RegExp(
     //   ending with same quote
     /**/ `\\k<quote>` +
     /**/ "|" +
-    /**
-     * case 2: empty values
-     */
+    /** Case 2: empty values */
     /**/ `(?<emptyValue>''|"")` +
     /**/ "|" +
-    /**
-     * case 3: value without quotes
-     */
+    /** Case 3: value without quotes */
     /**/ String.raw`(?<valueWithoutQuotes>\S+)` +
     `)` +
     // optional space
@@ -106,8 +100,8 @@ const ATTR_REGEXP = new RegExp(
 /**
  * Parse attrs string to object
  *
- * @param data input data with content string
- * @returns data with attrs object and cleaned content string
+ * @param data Input data with content string
+ * @returns Data with attrs object and cleaned content string
  */
 export const extractAttrs = <Data extends { content: string }>(
   data: Data & { attrs?: AttrsInfo },
@@ -155,11 +149,11 @@ export const extractInfo = <Data extends { content: string }>(
   extractColor(extractSize(extractAttrs(data)));
 
 /**
- * append styles to attrs object
+ * Append styles to attrs object
  *
  * @param attrs Attrs object
- * @param styleDefinition new style definition
- * @returns updated attrs object
+ * @param styleDefinition New style definition
+ * @returns Updated attrs object
  */
 export const appendStyle = (
   attrs: Record<string, string>,
@@ -176,7 +170,7 @@ export const appendStyle = (
  * Stringify attrs object
  *
  * @param attrs Attrs object
- * @returns stringified attrs
+ * @returns Stringified attrs
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)

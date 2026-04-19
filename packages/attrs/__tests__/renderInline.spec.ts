@@ -3,22 +3,19 @@
  *
  * Why renderInline() was crashing while render() was not:
  *
- * md.render() produces multiple top-level tokens, e.g.:
- *   [paragraph_open, inline, paragraph_close]
+ * Md.render() produces multiple top-level tokens, e.g.: [paragraph_open, inline, paragraph_close]
  *
- * md.renderInline() produces only ONE top-level token:
- *   [inline]
+ * Md.renderInline() produces only ONE top-level token: [inline]
  *
- * The softbreak rule searches forward from the current inline token index to
- * find a matching opening block token:
- *   getMatchingOpeningToken(tokens, index + 1)
+ * The softbreak rule searches forward from the current inline token index to find a matching
+ * opening block token: getMatchingOpeningToken(tokens, index + 1)
  *
- * With render, tokens[index+1] is paragraph_close — a valid token.
- * With renderInline, tokens[index+1] is undefined — out of bounds, causing:
- *   TypeError: Cannot read properties of undefined (reading 'type')
+ * With render, tokens[index+1] is paragraph_close — a valid token. With renderInline,
+ * tokens[index+1] is undefined — out of bounds, causing: TypeError: Cannot read properties of
+ * undefined (reading 'type')
  *
- * The null guard added to getMatchingOpeningToken() prevents this crash and
- * returns null, which addAttrs() handles safely by doing nothing.
+ * The null guard added to getMatchingOpeningToken() prevents this crash and returns null, which
+ * addAttrs() handles safely by doing nothing.
  */
 
 import MarkdownIt from "markdown-it";

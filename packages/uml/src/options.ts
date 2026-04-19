@@ -17,7 +17,7 @@ export interface MarkdownItUMLOptions {
   open: string;
 
   /**
-   *  Closing marker
+   * Closing marker
    *
    * 结束标记
    */

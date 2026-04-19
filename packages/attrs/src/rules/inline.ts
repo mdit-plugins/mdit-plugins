@@ -5,10 +5,9 @@ import { defineAttrRule } from "./types.js";
 
 export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
   /**
-   * bla `click()`{.c} ![](img.png){.d}
+   * Bla `click()`{.c} ![](img.png){.d}
    *
-   * differs from 'inline attributes' as it does
-   * not have a closing tag (nesting: -1)
+   * Differs from 'inline attributes' as it does not have a closing tag (nesting: -1)
    */
   defineAttrRule({
     name: "inline nesting self-close",
@@ -45,9 +44,7 @@ export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
     },
   }),
 
-  /**
-   * *emphasis*{.with attrs=1}
-   */
+  /** _emphasis_{.with attrs=1} */
   defineAttrRule({
     name: "inline attributes",
     tests: [

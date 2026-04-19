@@ -1,6 +1,4 @@
-/**
- * Forked and modified from https://github.com/lostandfound/markdown-it-ruby/blob/master/index.js
- */
+/** Forked and modified from https://github.com/lostandfound/markdown-it-ruby/blob/master/index.js */
 
 import type { PluginSimple } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";

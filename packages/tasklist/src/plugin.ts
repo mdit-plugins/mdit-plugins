@@ -1,6 +1,4 @@
-/**
- * Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js
- */
+/** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
@@ -115,8 +113,6 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
       setTokenAttr(tokens[index - 2], "class", itemClass);
       setTokenAttr(tokens[getParentTokenIndex(tokens, index - 2)], "class", containerClass);
     }
-
-    return true;
   };
 
   md.core.ruler.after("inline", "task_list", taskListRule);

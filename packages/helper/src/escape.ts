@@ -16,8 +16,8 @@ export const escapeHtml = (unsafeHTML: string): string =>
     .replaceAll("'", "&#39;");
 
 /**
- * Escapes special characters in string s such that the string
- * can be used in `new RegExp`. For example "[" becomes "\\[".
+ * Escapes special characters in string s such that the string can be used in `new RegExp`. For
+ * example "[" becomes "[".
  *
  * @param regexp The string to escape.
  * @returns The escaped string.

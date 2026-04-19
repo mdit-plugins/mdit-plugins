@@ -7,12 +7,11 @@ import type { ImgSizeEnv } from "./types.js";
 const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
 
 /**
- * Parse image size information from label text
- * Format: `alt =width x height`
+ * Parse image size information from label text Format: `alt =width x height`
  *
- * @param label - label text to parse
- * @param isSpace - function to check if a character code is a space
- * @returns parsed size info or null if not found
+ * @param label - Label text to parse
+ * @param isSpace - Function to check if a character code is a space
+ * @returns Parsed size info or null if not found
  */
 const parseImageSize = (
   label: string,

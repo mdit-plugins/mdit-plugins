@@ -1,8 +1,8 @@
 /** . */
 export const CLASS_MARKER = 46;
-/** # */
+/** #  */
 export const ID_MARKER = 35;
-/** space */
+/** Space */
 export const PAIR_SEPARATOR = 32;
 /** = */
 export const KEY_SEPARATOR = 61;

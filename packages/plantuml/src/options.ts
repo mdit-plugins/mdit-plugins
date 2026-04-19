@@ -11,13 +11,11 @@ export interface MarkdownItPlantumlOptions {
   type?: "uml" | "fence";
 
   /**
-   * diagram type
+   * Diagram type
    *
-   * @description Only available when using default srcGetter
+   * Only available when using default srcGetter 图表类型
    *
-   * 图表类型
-   *
-   * @description 仅在使用默认地址获取器时可用
+   * 仅在使用默认地址获取器时可用
    *
    * @default "uml"
    */
@@ -35,11 +33,9 @@ export interface MarkdownItPlantumlOptions {
   /**
    * Opening marker
    *
-   * @description only available with type "uml"
+   * Only available with type "uml" 开始标记
    *
-   * 开始标记
-   *
-   * @description 仅当类型为 "uml" 时可用
+   * 仅当类型为 "uml" 时可用
    *
    * @default "start" + name
    */
@@ -48,22 +44,18 @@ export interface MarkdownItPlantumlOptions {
   /**
    * Closing marker
    *
-   * @description only available with type "uml"
+   * Only available with type "uml" 结束标记
    *
-   * 结束标记
-   *
-   * @default  "end" + name
+   * @default "end" + name
    */
   close?: string;
 
   /**
    * Plantuml server
    *
-   * @description Only available when using default srcGetter
+   * Only available when using default srcGetter Plantuml 服务器
    *
-   * Plantuml 服务器
-   *
-   * @description 仅在使用默认地址获取器时可用
+   * 仅在使用默认地址获取器时可用
    *
    * @default "https://www.plantuml.com/plantuml"
    */
@@ -72,11 +64,9 @@ export interface MarkdownItPlantumlOptions {
   /**
    * Image format
    *
-   * @description Only available when using default srcGetter
+   * Only available when using default srcGetter 图片格式
    *
-   * 图片格式
-   *
-   * @description 仅在使用默认地址获取器时可用
+   * 仅在使用默认地址获取器时可用
    *
    * @default "svg"
    */
@@ -85,12 +75,10 @@ export interface MarkdownItPlantumlOptions {
   /**
    * Image src getter
    *
-   * @param content diagram content
-   * @returns image link
-   *
-   * 图片地址获取器
-   *
+   * @param content Diagram content
    * @param content 图表内容
+   * @returns Image link
+   * 图片地址获取器
    * @returns 图片链接
    */
   srcGetter?: (content: string) => string;

@@ -4,9 +4,9 @@ import type { AttrRuleSet } from "../rules/types.js";
 import { getArrayItem } from "../utils.js";
 
 export interface TestRuleResult {
-  /** whether rule matches token stream */
+  /** Whether rule matches token stream */
   match: boolean;
-  /** position of token */
+  /** Position of token */
   position: null | number;
   range: [start: number, end: number] | null;
 }
@@ -14,11 +14,10 @@ export interface TestRuleResult {
 /**
  * Test if rule matches token stream.
  *
- * @param tokens - token stream
- * @param index - current token index
- * @param rule - rule to test
- *
- * @returns test result
+ * @param tokens - Token stream
+ * @param index - Current token index
+ * @param rule - Rule to test
+ * @returns Test result
  */
 export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): TestRuleResult => {
   const testResult: TestRuleResult = {

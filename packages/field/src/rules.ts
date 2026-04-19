@@ -35,8 +35,8 @@ const INVALID_KEY_CHAR_RE = /[^a-zA-Z0-9-]/;
  *
  * 检查属性键是否只包含 CSS 类名的有效字符。
  *
- * @param key - attribute key / 属性键
- * @returns whether the key is valid / 键是否有效
+ * @param key - Attribute key / 属性键
+ * @returns Whether the key is valid / 键是否有效
  */
 export const isValidAttrKey = (key: string): boolean =>
   key.length > 0 && !INVALID_KEY_CHAR_RE.test(key);

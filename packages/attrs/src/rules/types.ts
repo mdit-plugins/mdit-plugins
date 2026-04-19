@@ -79,11 +79,10 @@ interface PositionAttrRuleSet extends BaseAttrRuleSet {
 }
 
 /**
- * 属性规则集，用于定义如何在 tokens 中查找匹配项
- * 必须指定 shift 或 position 中的一个
+ * 属性规则集，用于定义如何在 tokens 中查找匹配项 必须指定 shift 或 position 中的一个
  *
- * Attribute rule set for defining how to find matches in tokens
- * One of shift or position must be defined
+ * Attribute rule set for defining how to find matches in tokens One of shift or position must be
+ * defined
  */
 export type AttrRuleSet = ShiftAttrRuleSet | PositionAttrRuleSet;
 
@@ -96,18 +95,18 @@ export interface AttrRule {
 /**
  * Define an attribute rule helper
  *
+ * @example
+ *   ```ts
+ *   const rule = defineAttrRule({
+ *     name: "example",
+ *     tests: [],
+ *     transform(tokens, index, childIndex, range) {
+ *       // transform logic
+ *     },
+ *   });
+ *   ```;
+ *
  * @param rule - Attribute rule definition / 属性规则定义
  * @returns Attribute rule passed through without modification / 未被修改的属性规则
- *
- * @example
- * ```ts
- * const rule = defineAttrRule({
- *   name: "example",
- *   tests: [],
- *   transform(tokens, index, childIndex, range) {
- *     // transform logic
- *   },
- * });
- * ```
  */
 export const defineAttrRule = (rule: AttrRule): AttrRule => rule;

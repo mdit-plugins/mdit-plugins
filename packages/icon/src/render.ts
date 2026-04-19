@@ -3,8 +3,8 @@ import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 /**
  * Default render for icons
  *
- * @param icon icon string
- * @returns rendered icon content
+ * @param icon Icon string
+ * @returns Rendered icon content
  */
 export const defaultRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -21,8 +21,8 @@ export const defaultRender = (icon: string): string => {
 /**
  * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
  *
- * @param icon icon string
- * @returns rendered icon content
+ * @param icon Icon string
+ * @returns Rendered icon content
  */
 export const iconifyRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -34,9 +34,7 @@ export const iconifyRender = (icon: string): string => {
   return `<iconify-icon icon="${content}"${stringifyAttrs(attrs)}></iconify-icon>`;
 };
 
-/**
- * Fontawesome families short aliases
- */
+/** Fontawesome families short aliases */
 export const FONTAWESOME_FAMILY_SHORT_ALIAS: string[] = [
   // free
   "fas",
@@ -52,9 +50,7 @@ export const FONTAWESOME_FAMILY_SHORT_ALIAS: string[] = [
   "fasr",
 ];
 
-/**
- * Fontawesome styles short aliases
- */
+/** Fontawesome styles short aliases */
 export const FONTAWESOME_STYLES_SHORT_ALIAS: string[] = [
   // pro only
   "fad",
@@ -62,17 +58,13 @@ export const FONTAWESOME_STYLES_SHORT_ALIAS: string[] = [
   "fasr",
 ];
 
-/**
- * Fontawesome short aliases
- */
+/** Fontawesome short aliases */
 export const FONTAWESOME_SHORT_ALIAS: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
 ];
 
-/**
- * Fontawesome families classes
- */
+/** Fontawesome families classes */
 export const FONTAWESOME_FAMILIES: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   // free
@@ -87,9 +79,7 @@ export const FONTAWESOME_FAMILIES: string[] = [
   "fa-thin",
 ];
 
-/**
- * Fontawesome styles classes
- */
+/** Fontawesome styles classes */
 export const FONTAWESOME_STYLES: string[] = [
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
   "fa-duotone",
@@ -97,9 +87,7 @@ export const FONTAWESOME_STYLES: string[] = [
   "fa-sharp-duotone",
 ];
 
-/**
- * All fontawesome families and styles classes
- */
+/** All fontawesome families and styles classes */
 export const FONTAWESOME_FAMILIES_AND_STYLES: string[] = [
   ...FONTAWESOME_FAMILIES,
   ...FONTAWESOME_STYLES,
@@ -108,8 +96,8 @@ export const FONTAWESOME_FAMILIES_AND_STYLES: string[] = [
 /**
  * Check if a class is a valid fontawesome short alias
  *
- * @param cls class string
- * @returns whether the class is a fontawesome short alias
+ * @param cls Class string
+ * @returns Whether the class is a fontawesome short alias
  */
 export const isFontawesomeShortAlias = (cls: string): boolean =>
   FONTAWESOME_SHORT_ALIAS.includes(cls);
@@ -117,16 +105,16 @@ export const isFontawesomeShortAlias = (cls: string): boolean =>
 /**
  * Check if a class is a valid fontawesome family
  *
- * @param cls class string
- * @returns whether the class is a fontawesome family
+ * @param cls Class string
+ * @returns Whether the class is a fontawesome family
  */
 export const isFontawesomeFamily = (cls: string): boolean => FONTAWESOME_FAMILIES.includes(cls);
 
 /**
  * Ensure every class is prefixed with `fa-` or a valid short alias
  *
- * @param icon icon class string
- * @returns prefixed icon class string
+ * @param icon Icon class string
+ * @returns Prefixed icon class string
  */
 export const appendFontawesomePrefix = (icon: string): string =>
   icon.startsWith("fa-") || isFontawesomeShortAlias(icon) ? icon : `fa-${icon}`;
@@ -134,8 +122,8 @@ export const appendFontawesomePrefix = (icon: string): string =>
 /**
  * Render for [fontawesome](https://fontawesome.com/) icons
  *
- * @param icon icon string
- * @returns rendered icon content
+ * @param icon Icon string
+ * @returns Rendered icon content
  */
 export const fontawesomeRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -177,8 +165,8 @@ export const fontawesomeRender = (icon: string): string => {
 /**
  * Render for [iconfont](https://www.iconfont.cn/) icons
  *
- * @param icon icon string
- * @returns rendered icon content
+ * @param icon Icon string
+ * @returns Rendered icon content
  */
 export const iconfontRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });

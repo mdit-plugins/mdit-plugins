@@ -1,5 +1,5 @@
 export interface SnippetEnv extends Record<string, any> {
-  /** included snippet files */
+  /** Included snippet files */
   snippetFiles?: string[];
 }
 
@@ -16,7 +16,7 @@ export interface MarkdownItSnippetOptions {
   currentPath: (env: SnippetEnv) => string;
 
   /**
-   * handle include filePath
+   * Handle include filePath
    *
    * 处理 include 文件路径
    *

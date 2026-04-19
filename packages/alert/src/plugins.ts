@@ -54,7 +54,7 @@ const getAlertRule =
 
         if (ch === 9 /** \t */)
           offset += 4 - ((offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4);
-        else if (ch === 32 /** space */) offset++;
+        else if (ch === 32 /** Space */) offset++;
         else break;
 
         currentPos++;
@@ -195,7 +195,7 @@ const getAlertRule =
 
             if (ch === 9 /** \t */)
               offset += 4 - ((offset + state.bsCount[currentLine] + (adjustTab ? 1 : 0)) % 4);
-            else if (ch === 32 /** space */) offset++;
+            else if (ch === 32 /** Space */) offset++;
             else break;
 
             pos++;

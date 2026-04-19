@@ -9,16 +9,16 @@ import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN } from "./types.js";
 import { buildStyleString, resolveUtility } from "./utilities.js";
 
 /**
- * Count matching container opens/ends to find the `@end` that closes the
- * container opened at startLine. Works at the same `@` depth.
+ * Count matching container opens/ends to find the `@end` that closes the container opened at
+ * startLine. Works at the same `@` depth.
  *
  * 通过计数匹配的容器开/闭来找到关闭 startLine 处容器的 `@end`。
  *
- * @param state - parser state / 解析器状态
- * @param startLine - first line after the container open / 容器开始后的第一行
- * @param endLine - search boundary / 搜索边界
+ * @param state - Parser state / 解析器状态
+ * @param startLine - First line after the container open / 容器开始后的第一行
+ * @param endLine - Search boundary / 搜索边界
  * @param depth - `@` depth of the container / 容器的 `@` 深度
- * @returns line number of matching `@end`, or endLine if not found / 匹配 `@end` 的行号，未找到则返回 endLine
+ * @returns Line number of matching `@end`, or endLine if not found / 匹配 `@end` 的行号，未找到则返回 endLine
  */
 const findMatchingEnd = (
   state: LayoutStateBlock,

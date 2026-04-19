@@ -1,7 +1,7 @@
 // oxlint-disable-next-line typescript/no-explicit-any
 export interface IncludeEnv extends Record<string, any> {
-  /** included current paths */
+  /** Included current paths */
   includedPaths?: string[];
-  /** included files */
+  /** Included files */
   includedFiles?: string[];
 }

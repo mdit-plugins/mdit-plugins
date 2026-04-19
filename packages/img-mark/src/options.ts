@@ -1,6 +1,6 @@
 export interface MarkdownItImgMarkOptions {
   /**
-   * lightmode only ids
+   * Lightmode only ids
    *
    * 日间模式 ID
    *
@@ -9,7 +9,7 @@ export interface MarkdownItImgMarkOptions {
   light?: string[];
 
   /**
-   * darkmode only ids
+   * Darkmode only ids
    *
    * 夜间模式 ID
    *

@@ -1,6 +1,4 @@
-/**
- * Forked and modified from https://github.com/markdown-it/markdown-it-deflist/blob/master/index.mjs
- */
+/** Forked and modified from https://github.com/markdown-it/markdown-it-deflist/blob/master/index.mjs */
 
 import type { PluginSimple } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";

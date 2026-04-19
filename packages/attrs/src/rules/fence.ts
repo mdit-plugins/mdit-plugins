@@ -9,9 +9,9 @@ export const createFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrR
   const isSpace = md.utils.isSpace;
 
   /**
-   * fenced code blocks
+   * Fenced code blocks
    *
-   * ```python {.cls}
+   * ```python
    * for i in range(10):
    *     print(i)
    * ```

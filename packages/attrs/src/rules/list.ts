@@ -10,10 +10,7 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
   const allowed = options.allowed;
 
   return [
-    /**
-     * - item
-     * {.a}
-     */
+    /** - Item {.a} */
     defineAttrRule({
       name: "list softbreak",
       tests: [
@@ -60,9 +57,9 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
     }),
 
     /**
-     * - nested list
-     *   - with double \n
-     *   {.a} <-- apply to nested ul
+     * - Nested list
+     *
+     *   - With double \n {.a} <-- apply to nested ul
      *
      * {.b} <-- apply to root <ul>
      */
@@ -102,9 +99,7 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
       },
     }),
 
-    /**
-     * - end of {.list-item}
-     */
+    /** - End of {.list-item} */
     defineAttrRule({
       name: "list item end",
       tests: [
