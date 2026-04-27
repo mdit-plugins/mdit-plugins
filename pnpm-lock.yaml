@@ -143,6 +143,9 @@ importers:
       '@mdit/plugin-snippet':
         specifier: workspace:*
         version: link:../packages/snippet
+      '@mdit/plugin-spoiler':
+        specifier: workspace:*
+        version: link:../packages/spoiler
       '@vuepress/bundler-vite':
         specifier: 2.0.0-rc.28
         version: 2.0.0-rc.28(@types/node@25.6.0)(@vue/compiler-sfc@3.5.33)(esbuild@0.27.7)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.3)
