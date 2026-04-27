@@ -1,5 +1,5 @@
-import { MathJaxTexFont as MathJaxTexCHTMLFont } from "@mathjax/mathjax-tex-font/js/chtml.js";
-import { MathJaxTexFont as MathJaxTexSVGFont } from "@mathjax/mathjax-tex-font/js/svg.js";
+import { MathJaxTexFont as MathJaxTexCHTMLFont } from "@mathjax/mathjax-tex-font/cjs/chtml.js";
+import { MathJaxTexFont as MathJaxTexSVGFont } from "@mathjax/mathjax-tex-font/cjs/svg.js";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 

@@ -4,19 +4,19 @@
 // oxlint-disable unicorn/prefer-module
 /** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
 
-import type { MathJaxNewcmFont as MathJaxNewcmHTMLFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
-import type { MathJaxNewcmFont as MathJaxNewcmSVGFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
-import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
-import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
-import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
-import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import type { liteAdaptor as liteAdaptorType } from "@mathjax/src/js/adaptors/liteAdaptor.js";
-import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import type { RegisterHTMLHandler as RegisterHTMLHandlerType } from "@mathjax/src/js/handlers/html.js";
-import type { TeX as TeXType } from "@mathjax/src/js/input/tex.js";
-import type { mathjax as mathjaxType } from "@mathjax/src/js/mathjax.js";
-import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
-import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
+import type { MathJaxNewcmFont as MathJaxNewcmHTMLFont } from "@mathjax/mathjax-newcm-font/cjs/chtml.js";
+import type { MathJaxNewcmFont as MathJaxNewcmSVGFont } from "@mathjax/mathjax-newcm-font/cjs/svg.js";
+import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/cjs/a11y/assistive-mml.js";
+import type { LiteDocument } from "@mathjax/src/cjs/adaptors/lite/Document.js";
+import type { LiteElement, LiteNode } from "@mathjax/src/cjs/adaptors/lite/Element.js";
+import type { LiteText } from "@mathjax/src/cjs/adaptors/lite/Text.js";
+import type { liteAdaptor as liteAdaptorType } from "@mathjax/src/cjs/adaptors/liteAdaptor.js";
+import type { MathDocument } from "@mathjax/src/cjs/core/MathDocument.js";
+import type { RegisterHTMLHandler as RegisterHTMLHandlerType } from "@mathjax/src/cjs/handlers/html.js";
+import type { TeX as TeXType } from "@mathjax/src/cjs/input/tex.js";
+import type { mathjax as mathjaxType } from "@mathjax/src/cjs/mathjax.js";
+import type { CHTML as CHTMLType } from "@mathjax/src/cjs/output/chtml.js";
+import type { SVG as SVGType } from "@mathjax/src/cjs/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
@@ -36,13 +36,13 @@ let chtmlFont: typeof MathJaxNewcmHTMLFont;
 let svgFont: typeof MathJaxNewcmSVGFont;
 
 try {
-  ({ mathjax: mathjaxLib } = require("@mathjax/src/js/mathjax.js"));
-  ({ TeX } = require("@mathjax/src/js/input/tex.js"));
-  ({ CHTML } = require("@mathjax/src/js/output/chtml.js"));
-  ({ SVG } = require("@mathjax/src/js/output/svg.js"));
-  ({ liteAdaptor } = require("@mathjax/src/js/adaptors/liteAdaptor.js"));
-  ({ RegisterHTMLHandler } = require("@mathjax/src/js/handlers/html.js"));
-  ({ AssistiveMmlHandler } = require("@mathjax/src/js/a11y/assistive-mml.js"));
+  ({ mathjax: mathjaxLib } = require("@mathjax/src/cjs/mathjax.js"));
+  ({ TeX } = require("@mathjax/src/cjs/input/tex.js"));
+  ({ CHTML } = require("@mathjax/src/cjs/output/chtml.js"));
+  ({ SVG } = require("@mathjax/src/cjs/output/svg.js"));
+  ({ liteAdaptor } = require("@mathjax/src/cjs/adaptors/liteAdaptor.js"));
+  ({ RegisterHTMLHandler } = require("@mathjax/src/cjs/handlers/html.js"));
+  ({ AssistiveMmlHandler } = require("@mathjax/src/cjs/a11y/assistive-mml.js"));
   // oxlint-disable-next-line import/no-unassigned-import
   require("./importer.js");
 
@@ -57,8 +57,8 @@ try {
 }
 
 try {
-  ({ MathJaxNewcmFont: chtmlFont } = require("@mathjax/mathjax-newcm-font/js/chtml.js"));
-  ({ MathJaxNewcmFont: svgFont } = require("@mathjax/mathjax-newcm-font/js/svg.js"));
+  ({ MathJaxNewcmFont: chtmlFont } = require("@mathjax/mathjax-newcm-font/cjs/chtml.js"));
+  ({ MathJaxNewcmFont: svgFont } = require("@mathjax/mathjax-newcm-font/cjs/svg.js"));
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxNewcmFontInstalled = false;
@@ -84,7 +84,10 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
     // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
     userOptions?.fontData
       ? {}
-      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+      : {
+          // oxlint-disable-next-line unicorn/prefer-module
+          dynamicPrefix: `${require.resolve(`@mathjax/mathjax-newcm-font/package.json`).slice(0, /* length of /package.json */ -13)}/cjs/${isCHTML ? "chtml" : "svg"}/dynamic`,
+        },
     isCHTML && !userOptions.fontData
       ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
       : {},

@@ -1,18 +1,18 @@
 /** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
 
-import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
-import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
-import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
-import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
-import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
-import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
-import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import { RegisterHTMLHandler } from "@mathjax/src/js/handlers/html.js";
-import { TeX } from "@mathjax/src/js/input/tex.js";
-import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
-import { CHTML } from "@mathjax/src/js/output/chtml.js";
-import { SVG } from "@mathjax/src/js/output/svg.js";
+import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/cjs/chtml.js";
+import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/cjs/svg.js";
+import { AssistiveMmlHandler } from "@mathjax/src/cjs/a11y/assistive-mml.js";
+import type { LiteDocument } from "@mathjax/src/cjs/adaptors/lite/Document.js";
+import type { LiteElement, LiteNode } from "@mathjax/src/cjs/adaptors/lite/Element.js";
+import type { LiteText } from "@mathjax/src/cjs/adaptors/lite/Text.js";
+import { liteAdaptor } from "@mathjax/src/cjs/adaptors/liteAdaptor.js";
+import type { MathDocument } from "@mathjax/src/cjs/core/MathDocument.js";
+import { RegisterHTMLHandler } from "@mathjax/src/cjs/handlers/html.js";
+import { TeX } from "@mathjax/src/cjs/input/tex.js";
+import { mathjax as mathjaxLib } from "@mathjax/src/cjs/mathjax.js";
+import { CHTML } from "@mathjax/src/cjs/output/chtml.js";
+import { SVG } from "@mathjax/src/cjs/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
@@ -38,7 +38,10 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
     // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
     userOptions?.fontData
       ? {}
-      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+      : {
+          // oxlint-disable-next-line unicorn/prefer-module
+          dynamicPrefix: `${require.resolve(`@mathjax/mathjax-newcm-font/package.json`).slice(0, /* length of /package.json */ -13)}/cjs/${isCHTML ? "chtml" : "svg"}/dynamic`,
+        },
     isCHTML && !userOptions.fontData
       ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
       : {},
