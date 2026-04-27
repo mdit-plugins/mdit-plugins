@@ -25,25 +25,12 @@
   "files": [
     "dist"
   ],
-  "type": "module",
+  "type": "commonjs",
   "sideEffects": [
     "./dist/mhchem.js"
   ],
-  "unpkg": "./dist/cdn.umd.js",
-  "jsdelivr": "./dist/cdn.umd.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./mhchem": {
-      "types": "./dist/mhchem.d.ts",
-      "unpkg": "./dist/mhchem-cdn.umd.js",
-      "jsdelivr": "./dist/mhchem-cdn.umd.js",
-      "default": "./dist/mhchem.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },

@@ -1,4 +1,7 @@
 // oxlint-disable typescript/consistent-type-imports
+// oxlint-disable typescript/no-require-imports
+// oxlint-disable typescript/no-var-requires
+// oxlint-disable unicorn/prefer-module
 
 import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
@@ -11,7 +14,8 @@ let isKatexInstalled = true;
 let katexLib: typeof import("katex");
 
 try {
-  katexLib = await import("katex");
+  // oxlint-disable-next-line typescript/no-unsafe-assignment
+  katexLib = require("katex");
 } catch {
   /* istanbul ignore next -- @preserve */
   isKatexInstalled = false;

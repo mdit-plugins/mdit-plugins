@@ -3,41 +3,41 @@ import { MathJaxTexFont as MathJaxTexSVGFont } from "@mathjax/mathjax-tex-font/j
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/index.js";
+import { createMathjaxInstance, mathjax } from "../dist/index.js";
 
 describe("mathjax-html", () => {
-  it("should support custom chtml font data", async () => {
-    const mathjaxInstance = (await createMathjaxInstance({
+  it("should support custom chtml font data", () => {
+    const mathjaxInstance = createMathjaxInstance({
       output: "chtml",
       chtml: {
         fontData: MathJaxTexCHTMLFont,
         fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-tex-font/chtml/woff2",
       },
-    }))!;
+    })!;
 
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style).toContain("https://cdn.jsdelivr.net/npm/@mathjax/mathjax-tex-font/chtml/woff2");
     expect(style.split("\n").length).toMatchSnapshot("style");
   });
 
-  it("should support custom svg font data", async () => {
-    const mathjaxInstance = (await createMathjaxInstance({
+  it("should support custom svg font data", () => {
+    const mathjaxInstance = createMathjaxInstance({
       output: "svg",
       svg: {
         fontData: MathJaxTexSVGFont,
       },
-    }))!;
+    })!;
 
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content-svg");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style).toContain('mjx-container[jax="SVG"]');
   });

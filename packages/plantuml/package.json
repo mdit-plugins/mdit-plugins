@@ -25,22 +25,10 @@
   "files": [
     "dist"
   ],
-  "type": "module",
+  "type": "commonjs",
   "sideEffects": false,
-  "unpkg": "./dist/cdn.umd.js",
-  "jsdelivr": "./dist/cdn.umd.js",
-  "exports": {
-    ".": {
-      "types": "./dist/node.d.ts",
-      "browser": {
-        "types": "./dist/browser.d.ts",
-        "default": "./dist/browser.js"
-      },
-      "node": "./dist/node.js",
-      "default": "./dist/node.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/node.js",
+  "types": "./dist/node.d.ts",
   "publishConfig": {
     "access": "public"
   },

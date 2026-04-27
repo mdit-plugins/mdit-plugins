@@ -1,12 +1,12 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/index.js";
+import { createMathjaxInstance, mathjax } from "../dist/index.js";
 import { examples } from "./utils.js";
 
 describe("mathjax-html", () => {
-  describe("inline mathjax", async () => {
-    const instance = (await createMathjaxInstance({ output: "chtml" }))!;
+  describe("inline mathjax", () => {
+    const instance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
 
     it("reset and clearStyle should not throw", () => {
@@ -43,10 +43,10 @@ describe("mathjax-html", () => {
       });
     });
 
-    it("should not output A11y", async () => {
+    it("should not output A11y", () => {
       const markdownItNoA11y = MarkdownIt({ linkify: true }).use(
         mathjax,
-        await createMathjaxInstance({ a11y: false, output: "chtml" }),
+        createMathjaxInstance({ a11y: false, output: "chtml" }),
       );
 
       examples.forEach((example) => {
@@ -66,10 +66,10 @@ describe("mathjax-html", () => {
     });
   });
 
-  describe("block mathjax", async () => {
+  describe("block mathjax", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(
       mathjax,
-      await createMathjaxInstance({ output: "chtml" }),
+      createMathjaxInstance({ output: "chtml" }),
     );
 
     it("should render", () => {
@@ -120,13 +120,13 @@ $$
     });
   });
 
-  it("generating style", async () => {
-    const mathjaxInstance = (await createMathjaxInstance({ output: "chtml" }))!;
+  it("generating style", () => {
+    const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style.split("\n").length).toMatchSnapshot("style");
   });
@@ -134,20 +134,20 @@ $$
   describe("check label result pre page", () => {
     const source = String.raw`$$\label{eq:1}\frac{a}{b}$$`;
 
-    it("should log error when label is multiply defined", async () => {
-      const mathjaxInstance = (await createMathjaxInstance({ output: "svg" }))!;
+    it("should log error when label is multiply defined", () => {
+      const mathjaxInstance = createMathjaxInstance({ output: "svg" })!;
       const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
       expect(markdownIt.render(source)).toMatch(/mjx-error/);
 
-      const style = await mathjaxInstance.outputStyle();
+      const style = mathjaxInstance.outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
 
-    it("should reset label with reset", async () => {
-      const mathjaxInstance = (await createMathjaxInstance({ output: "chtml" }))!;
+    it("should reset label with reset", () => {
+      const mathjaxInstance = createMathjaxInstance({ output: "chtml" })!;
       const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       const content1 = markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`);
@@ -162,17 +162,17 @@ $$
       expect(content2).not.toMatch(/mjx-error/);
       expect(content2).toMatchSnapshot("content2");
 
-      const style = await mathjaxInstance.outputStyle();
+      const style = mathjaxInstance.outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
   });
 
-  it("should work with transformer", async () => {
-    const mathjaxInstance = (await createMathjaxInstance({
+  it("should work with transformer", () => {
+    const mathjaxInstance = createMathjaxInstance({
       transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
       output: "chtml",
-    }))!;
+    })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");

@@ -16,14 +16,18 @@ import { SVG } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
-import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
+import type { MathjaxInstance, DocumentOptions, MarkdownItMathjaxOptions } from "./options.js";
+import { texPackages } from "./tex/index.js";
+// oxlint-disable-next-line import/no-unassigned-import
+import "./importer.js";
 
-mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
+mathjaxLib.asyncLoad = (file): void => {
+  // oxlint-disable-next-line import/no-dynamic-require, typescript/no-require-imports, unicorn/prefer-module
+  require(file);
+};
+mathjaxLib.asyncIsSynchronous = true;
 
-export const getDocumentOptions = async (
-  options: MarkdownItMathjaxOptions,
-): Promise<DocumentOptions> => {
+export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => {
   const isCHTML = options.output === "chtml";
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
   const outputOptions = Object.assign(
@@ -41,8 +45,6 @@ export const getDocumentOptions = async (
     userOptions,
   );
 
-  await loadTexPackages(options.tex?.packages);
-
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
       packages: ["base", ...texPackages],
@@ -53,17 +55,15 @@ export const getDocumentOptions = async (
   };
 };
 
-export const createMathjaxInstance = async (
+export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
-): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
-
+): MathjaxInstance<true> | null => {
+  const documentOptions = getDocumentOptions(options);
   const { OutputJax, InputJax } = documentOptions;
 
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
-
   // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
@@ -79,8 +79,8 @@ export const createMathjaxInstance = async (
     InputJax.reset();
   };
 
-  const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+  const outputStyle = (): string => {
+    OutputJax.font.loadDynamicFilesSync();
 
     const style = adaptor.cssText(
       OutputJax.styleSheet(
