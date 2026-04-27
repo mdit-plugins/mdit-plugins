@@ -16,13 +16,6 @@ const config: UserConfig[] = [
       katex: "katex",
     },
   }),
-  tsdownConfig("mhchem", {
-    globalName: "mdItPluginKatexMhchem",
-    globals: {
-      "markdown-it": "markdownit",
-      katex: "katex",
-    },
-  }),
 ];
 
 export default config;

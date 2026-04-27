@@ -29,8 +29,8 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
     },
     "./package.json": "./package.json"
   },
@@ -44,7 +44,7 @@
   "dependencies": {
     "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2",
-    "upath": "^3.0.6"
+    "upath": "^3.0.7"
   },
   "devDependencies": {
     "@mdit/plugin-container": "workspace:*"

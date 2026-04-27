@@ -38,8 +38,6 @@
     },
     "./mhchem": {
       "types": "./dist/mhchem.d.ts",
-      "unpkg": "./dist/mhchem-cdn.umd.js",
-      "jsdelivr": "./dist/mhchem-cdn.umd.js",
       "default": "./dist/mhchem.js"
     },
     "./package.json": "./package.json"

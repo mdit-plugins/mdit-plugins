@@ -33,8 +33,8 @@
       "default": "./dist/index.js"
     },
     "./sync": {
-      "types": "./dist/sync.d.ts",
-      "default": "./dist/sync.js"
+      "types": "./dist/sync-node.d.ts",
+      "default": "./dist/sync-node.js"
     },
     "./package.json": "./package.json"
   },
