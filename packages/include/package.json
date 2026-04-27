@@ -39,7 +39,7 @@
   "dependencies": {
     "@mdit/helper": "workspace:*",
     "@types/markdown-it": "^14.1.2",
-    "upath": "^3.0.6"
+    "upath": "^3.0.7"
   },
   "devDependencies": {
     "@mdit/plugin-container": "workspace:*"
