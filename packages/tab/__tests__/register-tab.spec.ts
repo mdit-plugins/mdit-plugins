@@ -1,10 +1,37 @@
 // @vitest-environment happy-dom
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const createTabsWrapper = (): HTMLElement => {
+  const wrapper = document.createElement("div");
+
+  wrapper.className = "tabs-tabs-wrapper";
+
+  const btn = document.createElement("button");
+
+  btn.className = "tabs-tab-button";
+  btn.dataset.tab = "0";
+  wrapper.appendChild(btn);
+
+  const panel = document.createElement("div");
+
+  panel.className = "tabs-tab-content";
+  panel.dataset.index = "0";
+  wrapper.appendChild(panel);
+
+  return wrapper;
+};
 
 describe("register-tab entry", () => {
-  afterEach(() => {
+  beforeEach(() => {
     vi.resetModules();
     document.body.innerHTML = "";
+  });
+
+  afterEach(() => {
+    // clean up handler registered during import
+    import("../src/tab.js").then(({ destroy }) => {
+      destroy();
+    });
   });
 
   it("should call register immediately when document is not loading", async () => {
@@ -13,19 +40,16 @@ describe("register-tab entry", () => {
       value: "complete",
     });
 
-    const { register } = await import("../src/tab.js");
-    const spy = vi.spyOn({ register }, "register");
+    const wrapper = createTabsWrapper();
+
+    document.body.appendChild(wrapper);
 
     await import("../src/register-tab.js");
 
-    // The module has run; verify no errors and register was effectively called
-    // by checking that destroy (which removes an existing handler) works
-    const { destroy } = await import("../src/tab.js");
+    // initTabsWrapper should have activated the first tab, proving register() ran
+    const btn = wrapper.querySelector<HTMLButtonElement>(".tabs-tab-button")!;
 
-    // destroy should work without throwing (handler was registered on import)
-    expect(() => destroy()).not.toThrow();
-
-    spy.mockRestore();
+    expect(btn.classList.contains("active")).toBe(true);
   });
 
   it("should call register on DOMContentLoaded when document is loading", async () => {
@@ -34,13 +58,21 @@ describe("register-tab entry", () => {
       value: "loading",
     });
 
+    const wrapper = createTabsWrapper();
+
+    document.body.appendChild(wrapper);
+
     await import("../src/register-tab.js");
+
+    const btn = wrapper.querySelector<HTMLButtonElement>(".tabs-tab-button")!;
+
+    // register has not run yet; tab should not be activated
+    expect(btn.classList.contains("active")).toBe(false);
 
     // Simulate DOMContentLoaded
     document.dispatchEvent(new Event("DOMContentLoaded"));
 
-    const { destroy } = await import("../src/tab.js");
-
-    expect(() => destroy()).not.toThrow();
+    // Now register should have run and the first tab should be activated
+    expect(btn.classList.contains("active")).toBe(true);
   });
 });
