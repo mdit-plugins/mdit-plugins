@@ -31,8 +31,14 @@ describe("register-tab entry", () => {
   // oxlint-disable-next-line vitest/no-hooks
   afterEach(async () => {
     // clean up handler registered during import
-    await import("../src/tab.js").then(({ destroy }) => {
-      destroy();
+    const { destroy } = await import("../src/tab.js");
+
+    destroy();
+
+    // restore readyState to avoid leaking overridden value to other tests
+    Object.defineProperty(document, "readyState", {
+      configurable: true,
+      value: "complete",
     });
   });
 
@@ -78,3 +84,5 @@ describe("register-tab entry", () => {
     expect(btn.classList.contains("active")).toBe(true);
   });
 });
+
+

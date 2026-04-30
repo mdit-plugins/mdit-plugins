@@ -45,6 +45,7 @@ describe("tab browser", () => {
   // oxlint-disable-next-line vitest/no-hooks
   afterEach(() => {
     destroy();
+    destroy({ name: "code-tabs" });
     document.body.innerHTML = "";
   });
 
@@ -60,11 +61,11 @@ describe("tab browser", () => {
 
       // first tab should be activated by initTabsWrapper
       expect(btns[0].classList.contains("active")).toBe(true);
-      expect(Object.hasOwn(btns[0].dataset, "active")).toBe(true);
+      expect(btns[0].hasAttribute("data-active")).toBe(true);
       expect(btns[1].classList.contains("active")).toBe(false);
-      expect(Object.hasOwn(btns[1].dataset, "active")).toBe(false);
+      expect(btns[1].hasAttribute("data-active")).toBe(false);
       expect(panels[0].classList.contains("active")).toBe(true);
-      expect(Object.hasOwn(panels[0].dataset, "active")).toBe(true);
+      expect(panels[0].hasAttribute("data-active")).toBe(true);
       expect(panels[1].classList.contains("active")).toBe(false);
     });
 
@@ -129,13 +130,13 @@ describe("tab browser", () => {
         btns[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(btns[0].classList.contains("active")).toBe(false);
-        expect(Object.hasOwn(btns[0].dataset, "active")).toBe(false);
+        expect(btns[0].hasAttribute("data-active")).toBe(false);
         expect(btns[1].classList.contains("active")).toBe(true);
-        expect(Object.hasOwn(btns[1].dataset, "active")).toBe(true);
+        expect(btns[1].hasAttribute("data-active")).toBe(true);
         expect(panels[0].classList.contains("active")).toBe(false);
-        expect(Object.hasOwn(panels[0].dataset, "active")).toBe(false);
+        expect(panels[0].hasAttribute("data-active")).toBe(false);
         expect(panels[1].classList.contains("active")).toBe(true);
-        expect(Object.hasOwn(panels[1].dataset, "active")).toBe(true);
+        expect(panels[1].hasAttribute("data-active")).toBe(true);
       });
 
       it("should ignore clicks on non-tab-button elements", () => {
