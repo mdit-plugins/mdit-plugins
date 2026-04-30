@@ -10,6 +10,10 @@ const config: UserConfig[] = [
       "markdown-it": "markdownit",
     },
   }),
+  tsdownConfig("tab"),
+  tsdownConfig("register-tab", {
+    format: "umd",
+  }),
 ];
 
 export default config;
