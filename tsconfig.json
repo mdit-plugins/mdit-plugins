@@ -1,5 +1,5 @@
 {
   "extends": "@mr-hope/tsconfig/web.json",
   "include": ["**/*.ts", "**/.vuepress/**/*.ts"],
-  "exclude": ["**/snippets/example.ts"]
+  "exclude": ["**/snippets/example.ts", "**/__fixtures__/**"]
 }
