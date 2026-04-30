@@ -10,26 +10,28 @@ const createTabsWrapper = (): HTMLElement => {
 
   btn.className = "tabs-tab-button";
   btn.dataset.tab = "0";
-  wrapper.appendChild(btn);
+  wrapper.append(btn);
 
   const panel = document.createElement("div");
 
   panel.className = "tabs-tab-content";
   panel.dataset.index = "0";
-  wrapper.appendChild(panel);
+  wrapper.append(panel);
 
   return wrapper;
 };
 
 describe("register-tab entry", () => {
+  // oxlint-disable-next-line vitest/no-hooks
   beforeEach(() => {
     vi.resetModules();
     document.body.innerHTML = "";
   });
 
-  afterEach(() => {
+  // oxlint-disable-next-line vitest/no-hooks
+  afterEach(async () => {
     // clean up handler registered during import
-    import("../src/tab.js").then(({ destroy }) => {
+    await import("../src/tab.js").then(({ destroy }) => {
       destroy();
     });
   });
@@ -42,7 +44,7 @@ describe("register-tab entry", () => {
 
     const wrapper = createTabsWrapper();
 
-    document.body.appendChild(wrapper);
+    document.body.append(wrapper);
 
     await import("../src/register-tab.js");
 
@@ -60,7 +62,7 @@ describe("register-tab entry", () => {
 
     const wrapper = createTabsWrapper();
 
-    document.body.appendChild(wrapper);
+    document.body.append(wrapper);
 
     await import("../src/register-tab.js");
 
