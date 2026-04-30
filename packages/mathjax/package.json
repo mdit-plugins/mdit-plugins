@@ -25,19 +25,10 @@
   "files": [
     "dist"
   ],
-  "type": "module",
+  "type": "commonjs",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./sync": {
-      "types": "./dist/sync-node.d.ts",
-      "default": "./dist/sync-node.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },

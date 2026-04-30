@@ -74,6 +74,13 @@ const config: UserConfig = defineUserConfig({
   },
 
   theme,
+
+  onPrepared: async (app) => {
+    await app.writeTemp(
+      "markdown-stylize/config.js",
+      `import "${import.meta.resolve("@mdit/plugin-spoiler/spoiler.css")}"`,
+    );
+  },
 });
 
 export default config;

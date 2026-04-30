@@ -105,7 +105,7 @@ export const tsdownConfig = (
         `./src/${item}.ts`,
       ]),
     ),
-    format: globalName ? "umd" : "esm",
+    format: globalName ? "umd" : "cjs",
     outDir: "./dist",
     sourcemap: true,
     dts,

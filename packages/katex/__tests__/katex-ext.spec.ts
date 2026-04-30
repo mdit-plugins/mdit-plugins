@@ -1,9 +1,9 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { katex } from "../src/index.js";
+import { katex } from "../dist/index.js";
 // oxlint-disable-next-line import/no-unassigned-import
-import "../src/mhchem.js";
+import "../dist/mhchem.js";
 
 const markdownIt = MarkdownIt({ linkify: true }).use(katex);
 

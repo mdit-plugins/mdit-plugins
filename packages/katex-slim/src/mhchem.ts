@@ -1,6 +1,10 @@
+// oxlint-disable import/no-unassigned-import
+// oxlint-disable typescript/no-require-imports
+// oxlint-disable unicorn/prefer-module
+
 try {
-  await import("katex");
-  await import("katex/contrib/mhchem");
+  require("katex");
+  require("katex/contrib/mhchem");
 } catch {
   // do nothing
 }

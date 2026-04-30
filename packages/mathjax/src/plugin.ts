@@ -1,29 +1,33 @@
 /** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
 
-import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/js/chtml.js";
-import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/js/svg.js";
-import { AssistiveMmlHandler } from "@mathjax/src/js/a11y/assistive-mml.js";
-import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
-import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
-import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
-import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import { RegisterHTMLHandler } from "@mathjax/src/js/handlers/html.js";
-import { TeX } from "@mathjax/src/js/input/tex.js";
-import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
-import { CHTML } from "@mathjax/src/js/output/chtml.js";
-import { SVG } from "@mathjax/src/js/output/svg.js";
+import { MathJaxNewcmFont as chtmlFont } from "@mathjax/mathjax-newcm-font/cjs/chtml.js";
+import { MathJaxNewcmFont as svgFont } from "@mathjax/mathjax-newcm-font/cjs/svg.js";
+import { AssistiveMmlHandler } from "@mathjax/src/cjs/a11y/assistive-mml.js";
+import type { LiteDocument } from "@mathjax/src/cjs/adaptors/lite/Document.js";
+import type { LiteElement, LiteNode } from "@mathjax/src/cjs/adaptors/lite/Element.js";
+import type { LiteText } from "@mathjax/src/cjs/adaptors/lite/Text.js";
+import { liteAdaptor } from "@mathjax/src/cjs/adaptors/liteAdaptor.js";
+import type { MathDocument } from "@mathjax/src/cjs/core/MathDocument.js";
+import { RegisterHTMLHandler } from "@mathjax/src/cjs/handlers/html.js";
+import { TeX } from "@mathjax/src/cjs/input/tex.js";
+import { mathjax as mathjaxLib } from "@mathjax/src/cjs/mathjax.js";
+import { CHTML } from "@mathjax/src/cjs/output/chtml.js";
+import { SVG } from "@mathjax/src/cjs/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type MarkdownIt from "markdown-it";
 
-import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
+import type { MathjaxInstance, DocumentOptions, MarkdownItMathjaxOptions } from "./options.js";
+import { texPackages } from "./tex/index.js";
+// oxlint-disable-next-line import/no-unassigned-import
+import "./importer.js";
 
-mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
+mathjaxLib.asyncLoad = (file): void => {
+  // oxlint-disable-next-line import/no-dynamic-require, typescript/no-require-imports, unicorn/prefer-module
+  require(file);
+};
+mathjaxLib.asyncIsSynchronous = true;
 
-export const getDocumentOptions = async (
-  options: MarkdownItMathjaxOptions,
-): Promise<DocumentOptions> => {
+export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentOptions => {
   const isCHTML = options.output === "chtml";
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
   const outputOptions = Object.assign(
@@ -34,14 +38,15 @@ export const getDocumentOptions = async (
     // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
     userOptions?.fontData
       ? {}
-      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+      : {
+          // oxlint-disable-next-line unicorn/prefer-module
+          dynamicPrefix: `${require.resolve(`@mathjax/mathjax-newcm-font/package.json`).slice(0, /* length of /package.json */ -13)}/cjs/${isCHTML ? "chtml" : "svg"}/dynamic`,
+        },
     isCHTML && !userOptions.fontData
       ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
       : {},
     userOptions,
   );
-
-  await loadTexPackages(options.tex?.packages);
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
@@ -53,17 +58,15 @@ export const getDocumentOptions = async (
   };
 };
 
-export const createMathjaxInstance = async (
+export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
-): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
-
+): MathjaxInstance<true> | null => {
+  const documentOptions = getDocumentOptions(options);
   const { OutputJax, InputJax } = documentOptions;
 
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
-
   // oxlint-disable-next-line new-cap
   if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
@@ -79,8 +82,8 @@ export const createMathjaxInstance = async (
     InputJax.reset();
   };
 
-  const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+  const outputStyle = (): string => {
+    OutputJax.font.loadDynamicFilesSync();
 
     const style = adaptor.cssText(
       OutputJax.styleSheet(

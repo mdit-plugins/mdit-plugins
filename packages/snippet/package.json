@@ -26,15 +26,10 @@
   "files": [
     "dist"
   ],
-  "type": "module",
+  "type": "commonjs",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/node.d.ts",
-      "default": "./dist/node.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/node.js",
+  "types": "./dist/node.d.ts",
   "publishConfig": {
     "access": "public"
   },

@@ -26,26 +26,13 @@
     "dist",
     "tab.css"
   ],
-  "type": "module",
+  "type": "commonjs",
   "sideEffects": [
     "./tab.css",
     "./dist/register-tab.umd.js"
   ],
-  "unpkg": "./dist/cdn.umd.js",
-  "jsdelivr": "./dist/cdn.umd.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./tab": {
-      "types": "./dist/tab.d.ts",
-      "default": "./dist/tab.js"
-    },
-    "./register-tab": "./dist/register-tab.umd.js",
-    "./style": "./tab.css",
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
