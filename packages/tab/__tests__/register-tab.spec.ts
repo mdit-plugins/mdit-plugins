@@ -84,5 +84,3 @@ describe("register-tab entry", () => {
     expect(btn.classList.contains("active")).toBe(true);
   });
 });
-
-
