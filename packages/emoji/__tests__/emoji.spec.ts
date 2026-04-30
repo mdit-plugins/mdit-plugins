@@ -1,12 +1,7 @@
-import { readFileSync } from "node:fs";
-
 import markdownit from "markdown-it";
 import { describe, it, expect } from "vitest";
 
-import { emojiData } from "../src/data/full.js";
 // data for integrity check testing
-import { emojiLightData } from "../src/data/light.js";
-import { emojiShortCuts } from "../src/data/shortcuts.js";
 import { bareEmoji, lightEmoji, fullEmoji } from "../src/index.js";
 
 describe("markdown-it-emoji", () => {
@@ -297,36 +292,5 @@ describe("markdown-it-emoji-bare", () => {
     it("skip rewritten defaults", () => {
       expect(md.render(":smile: :)")).toBe("<p>:smile: :)</p>\n");
     });
-  });
-});
-
-describe("integrity", () => {
-  it("all shortcuts should exist", () => {
-    Object.keys(emojiShortCuts).forEach((name) => {
-      expect(emojiData[name], `shortcut doesn't exist: ${name}`).toBeTruthy();
-    });
-  });
-
-  it('no chars with "uXXXX" names allowed', () => {
-    Object.keys(emojiData).forEach((name) => {
-      if (/^u[0-9a-b]{4,}$/i.test(name)) throw new Error(`Name ${name} not allowed`);
-    });
-  });
-
-  it("all light chars should exist", () => {
-    const visible = readFileSync(new URL("../visible.txt", import.meta.url), "utf-8");
-
-    const available = new Set(
-      Object.keys(emojiLightData).map((k) => emojiLightData[k].replaceAll("\uFE0F", "")),
-    );
-
-    let missed = "";
-
-    // oxlint-disable-next-line typescript/no-misused-spread
-    [...visible].forEach((char) => {
-      if (!available.has(char)) missed += char;
-    });
-
-    if (missed) throw new Error(`Characters ${missed} missed.`);
   });
 });

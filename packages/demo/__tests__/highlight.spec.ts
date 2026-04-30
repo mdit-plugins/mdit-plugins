@@ -72,6 +72,7 @@ ${mdContent}
     md.renderer.rules.fence = (tokens, idx, options, env, self): string => {
       const token = tokens[idx];
 
+      // oxlint-disable-next-line vitest/no-conditional-in-test
       if (token.markup)
         return `<div class="code-wrapper">${originalFence(tokens, idx, options, env, self)}</div>`;
 

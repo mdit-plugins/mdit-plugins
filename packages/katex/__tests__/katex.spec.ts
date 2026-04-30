@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { katex } from "../src/index.js";
 
@@ -12,11 +12,6 @@ const markdownItMathML = MarkdownIt({ linkify: true }).use(katex, {
 });
 const markdownItWithError = MarkdownIt({ linkify: true }).use(katex, {
   throwOnError: true,
-});
-
-beforeEach(() => {
-  vi.unstubAllGlobals();
-  vi.resetModules();
 });
 
 const examples = [
@@ -196,6 +191,8 @@ $$
 `);
 
     expect(mockConsole.warn).toHaveBeenCalledTimes(2);
+
+    vi.unstubAllGlobals();
   });
 });
 

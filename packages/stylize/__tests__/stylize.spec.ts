@@ -225,6 +225,7 @@ describe(stylize, () => {
           } as MarkdownItStylizeConfig,
         ],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
+          // oxlint-disable-next-line vitest/no-conditional-in-test
           (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
       });
 
@@ -241,6 +242,7 @@ describe(stylize, () => {
       const markdownIt = MarkdownIt().use(stylize, {
         config: [],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
+          // oxlint-disable-next-line vitest/no-conditional-in-test
           (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
       });
 
@@ -264,6 +266,7 @@ describe(stylize, () => {
       const markdownIt = MarkdownIt().use(stylize, {
         config: [],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
+          // oxlint-disable-next-line vitest/no-conditional-in-test
           (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
       });
 

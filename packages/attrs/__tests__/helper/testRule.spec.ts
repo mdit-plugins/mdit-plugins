@@ -30,6 +30,9 @@ const createToken = (overrides: Partial<Token> = {}): Token =>
 
 const checkParagraph = (type: string): boolean => type === "paragraph";
 
+// Should handle children as function
+const childrenFunc = (children: unknown): boolean => Array.isArray(children) && children.length > 0;
+
 describe(testRule, () => {
   it("string rules", () => {
     const tokens = [createToken({ type: "paragraph" }), createToken({ type: "text" })];
@@ -155,10 +158,6 @@ describe(testRule, () => {
         children: [{ shift: 0, type: "text" }],
       }).match,
     ).toBe(false);
-
-    // Should handle children as function
-    const childrenFunc = (children: unknown): boolean =>
-      Array.isArray(children) && children.length > 0;
 
     expect(testRule(tokens, 0, { shift: 0, type: "inline", children: childrenFunc }).match).toBe(
       false,

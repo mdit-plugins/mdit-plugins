@@ -177,23 +177,23 @@ export const parseAttributes = (
 
       if (end > start) id = src.slice(start, end);
       pos = end;
-    } else if (code === SPACE) {
-      // Skip space then parse utilities
-      pos++;
+    } else {
+      if (code === SPACE) {
+        // Skip space then parse utilities
+        pos++;
 
-      while (pos < max) {
-        // Skip spaces between utilities
-        while (pos < max && src.charCodeAt(pos) === SPACE) pos++;
-        if (pos >= max) break;
+        while (pos < max) {
+          // Skip spaces between utilities
+          while (pos < max && src.charCodeAt(pos) === SPACE) pos++;
+          if (pos >= max) break;
 
-        const start = pos;
+          const start = pos;
 
-        while (pos < max && src.charCodeAt(pos) !== SPACE) pos++;
-        utilities.push(src.slice(start, pos));
+          while (pos < max && src.charCodeAt(pos) !== SPACE) pos++;
+          utilities.push(src.slice(start, pos));
+        }
       }
 
-      break;
-    } else {
       break;
     }
   }

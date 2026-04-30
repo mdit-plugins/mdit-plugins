@@ -1,3 +1,4 @@
+// oxlint-disable vitest/max-expects
 import { describe, expect, it } from "vitest";
 
 import { escapeHtml, escapeRegExp } from "../src/index.js";

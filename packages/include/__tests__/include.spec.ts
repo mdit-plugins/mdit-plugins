@@ -756,7 +756,9 @@ describe("currentPath", () => {
     });
 
     // this matches startsWith but not the regex
-    md.render("<!-- #include-env-start: foo");
+    expect(md.render("<!-- #include-env-start: foo")).toEqual(
+      "<p>&lt;!-- #include-env-start: foo</p>\n",
+    );
   });
 
   it("should ignore external links when resolving related links", () => {

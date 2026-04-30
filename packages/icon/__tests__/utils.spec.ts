@@ -9,73 +9,77 @@ import {
   stringifyAttrs,
 } from "../src/utils.js";
 
-it("extractColor", () => {
-  expect(extractColor({ content: "icon" })).toEqual({
-    content: "icon",
-  });
+describe(extractColor, () => {
+  it("should extract color", () => {
+    expect(extractColor({ content: "icon" })).toEqual({
+      content: "icon",
+    });
 
-  expect(extractColor({ content: "icon class1 class2" })).toEqual({
-    content: "icon class1 class2",
-  });
+    expect(extractColor({ content: "icon class1 class2" })).toEqual({
+      content: "icon class1 class2",
+    });
 
-  expect(extractColor({ content: "icon /red" })).toEqual({
-    content: "icon",
-    color: "red",
-  });
+    expect(extractColor({ content: "icon /red" })).toEqual({
+      content: "icon",
+      color: "red",
+    });
 
-  expect(extractColor({ content: "icon /#ff0000" })).toEqual({
-    content: "icon",
-    color: "#ff0000",
-  });
+    expect(extractColor({ content: "icon /#ff0000" })).toEqual({
+      content: "icon",
+      color: "#ff0000",
+    });
 
-  expect(extractColor({ content: "icon /rgb(255,0,0)" })).toEqual({
-    content: "icon",
-    color: "rgb(255,0,0)",
-  });
+    expect(extractColor({ content: "icon /rgb(255,0,0)" })).toEqual({
+      content: "icon",
+      color: "rgb(255,0,0)",
+    });
 
-  expect(extractColor({ content: "icon /red other" })).toEqual({
-    content: "icon other",
-    color: "red",
-  });
+    expect(extractColor({ content: "icon /red other" })).toEqual({
+      content: "icon other",
+      color: "red",
+    });
 
-  expect(extractColor({ content: "icon other /red" })).toEqual({
-    content: "icon other",
-    color: "red",
+    expect(extractColor({ content: "icon other /red" })).toEqual({
+      content: "icon other",
+      color: "red",
+    });
   });
 });
 
-it("extractSize", () => {
-  expect(extractSize({ content: "icon" })).toEqual({
-    content: "icon",
-  });
+describe(extractSize, () => {
+  it("should extract size", () => {
+    expect(extractSize({ content: "icon" })).toEqual({
+      content: "icon",
+    });
 
-  expect(extractSize({ content: "icon class1 class2" })).toEqual({
-    content: "icon class1 class2",
-  });
+    expect(extractSize({ content: "icon class1 class2" })).toEqual({
+      content: "icon class1 class2",
+    });
 
-  expect(extractSize({ content: "icon =24" })).toEqual({
-    content: "icon",
-    size: "24px",
-  });
+    expect(extractSize({ content: "icon =24" })).toEqual({
+      content: "icon",
+      size: "24px",
+    });
 
-  expect(extractSize({ content: "icon =24px" })).toEqual({
-    content: "icon",
-    size: "24px",
-  });
+    expect(extractSize({ content: "icon =24px" })).toEqual({
+      content: "icon",
+      size: "24px",
+    });
 
-  expect(extractSize({ content: "icon =1em" })).toEqual({
-    content: "icon",
-    size: "1em",
-  });
+    expect(extractSize({ content: "icon =1em" })).toEqual({
+      content: "icon",
+      size: "1em",
+    });
 
-  expect(extractSize({ content: "icon =24 other" })).toEqual({
-    content: "icon other",
-    size: "24px",
-  });
+    expect(extractSize({ content: "icon =24 other" })).toEqual({
+      content: "icon other",
+      size: "24px",
+    });
 
-  expect(extractSize({ content: "icon other =24" })).toEqual({
-    content: "icon other",
-    size: "24px",
+    expect(extractSize({ content: "icon other =24" })).toEqual({
+      content: "icon other",
+      size: "24px",
+    });
   });
 });
 

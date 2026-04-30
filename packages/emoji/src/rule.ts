@@ -73,31 +73,37 @@ export const emojiRule = (
   };
 
   return (state) => {
-    const blockTokens = state.tokens;
-    const blockTokensLength = blockTokens.length;
+    const allTokens = state.tokens;
+    const allTokensLength = allTokens.length;
     let autolinkLevel = 0;
 
-    for (let j = 0; j < blockTokensLength; j++) {
-      if (blockTokens[j].type !== "inline") continue;
+    for (let i = 0; i < allTokensLength; i++) {
+      if (allTokens[i].type !== "inline") continue;
 
-      let tokens = blockTokens[j].children;
-
-      if (!tokens) continue;
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      let tokens = allTokens[i].children!;
 
       // We scan from the end, to keep position when new tags added.
       // Use reversed logic in links start/end match
-      for (let i = tokens.length - 1; i >= 0; i--) {
-        const token: Token = tokens[i];
+      for (let j = tokens.length - 1; j >= 0; j--) {
+        const childTokens: Token = tokens[j];
 
-        if ((token.type === "link_open" || token.type === "link_close") && token.info === "auto")
-          autolinkLevel -= token.nesting;
+        if (
+          (childTokens.type === "link_open" || childTokens.type === "link_close") &&
+          childTokens.info === "auto"
+        )
+          autolinkLevel -= childTokens.nesting;
 
-        if (token.type === "text" && autolinkLevel === 0 && scanRE.test(token.content)) {
+        if (
+          childTokens.type === "text" &&
+          autolinkLevel === 0 &&
+          scanRE.test(childTokens.content)
+        ) {
           // replace current node
-          blockTokens[j].children = tokens = arrayReplaceAt(
+          allTokens[i].children = tokens = arrayReplaceAt(
             tokens,
-            i,
-            splitTextToken(token.content, token.level, state.Token),
+            j,
+            splitTextToken(childTokens.content, childTokens.level, state.Token),
           );
         }
       }

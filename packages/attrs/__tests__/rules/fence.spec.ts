@@ -38,6 +38,7 @@ const createDualRuleTests = (
 
       it("should handle VuePress line numbers in code blocks", () => {
         // VuePress line numbers only work with {} delimiters
+        // oxlint-disable-next-line vitest/no-conditional-in-test
         if (options.left !== "{" || options.right !== "}") {
           // Skip test for non-curly delimiters since VuePress regex is hardcoded for {}
           return;

@@ -186,7 +186,7 @@ test
 
   :::
 `),
-    ).to.not.contain("details");
+    ).not.toContain("details");
 
     expect(
       markdownIt.render(`
@@ -196,7 +196,7 @@ test
 
   :::
 `),
-    ).to.not.contain("details");
+    ).not.toContain("details");
   });
 
   it("should not render when content has negative indentation", () => {
@@ -234,7 +234,7 @@ test
 
 ::
 `),
-    ).to.not.contain("details");
+    ).not.toContain("details");
   });
 
   it("should not end with wrong marker", () => {

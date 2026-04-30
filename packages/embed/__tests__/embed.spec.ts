@@ -712,6 +712,7 @@ Here is some text with {% style-aware inline-item %} embedded.
             setup: (params: string, isInline: boolean): string => {
               const [id, title = "Video"] = params.split("|");
 
+              // oxlint-disable-next-line vitest/no-conditional-in-test
               if (isInline) return `<a href="/video/${id}" class="video-link">${title}</a>`;
 
               return `<iframe src="/embed/${id}" title="${title}" class="video-player"></iframe>`;

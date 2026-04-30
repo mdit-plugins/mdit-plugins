@@ -699,7 +699,7 @@ $$`,
       expect(defaultMarkdownIt.render("![alt $incomplete")).toEqual("<p>![alt $incomplete</p>\n");
     });
 
-    it("should handle silent mode for inline and block rules", () => {
+    it("should handle silent mode for inline rules", () => {
       const md = MarkdownIt().use(tex, { render, delimiters: "all" });
 
       // getDollarInlineTex
@@ -718,8 +718,11 @@ $$`,
       expect(md.renderInline(String.raw`[link \(a=1 \\) \)](url)`)).toBe(
         String.raw`<a href="url">link {Tex content: a=1 \\)}</a>`,
       );
+    });
 
-      // block rules silent mode
+    it("should handle silent mode for block rules", () => {
+      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+
       expect(md.render("- \n  $$\n  a=1\n  $$")).toContain("{Tex content: a=1}");
       expect(md.render("- \n  \\[\n  a=1\n  \\]")).toContain("{Tex content: a=1}");
     });

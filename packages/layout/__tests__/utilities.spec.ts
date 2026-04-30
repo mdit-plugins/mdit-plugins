@@ -1,10 +1,7 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+// oxlint-disable vitest/max-expects
+import { describe, expect, it, vi } from "vitest";
 
 import { buildStyleString, parseNumber, resolveUtility } from "../src/utilities.js";
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
 
 describe(resolveUtility, () => {
   describe("static utilities", () => {
@@ -200,6 +197,8 @@ describe(buildStyleString, () => {
 
     expect(buildStyleString(["unknown", "gap-4"], "display:flex")).toBe("display:flex;gap:1rem");
     expect(warnSpy).toHaveBeenCalledWith(`[layout] Unrecognized utility "unknown" ignored.`);
+
+    vi.restoreAllMocks();
   });
 
   it("should handle all unrecognized utilities with base display", () => {
@@ -207,6 +206,8 @@ describe(buildStyleString, () => {
 
     expect(buildStyleString(["unknown", "nope"], "display:flex")).toBe("display:flex");
     expect(warnSpy).toHaveBeenCalledTimes(2);
+
+    vi.restoreAllMocks();
   });
 
   it("should handle all unrecognized utilities without base display", () => {
@@ -214,6 +215,8 @@ describe(buildStyleString, () => {
 
     expect(buildStyleString(["unknown", "nope"], "")).toBe("");
     expect(warnSpy).toHaveBeenCalledTimes(2);
+
+    vi.restoreAllMocks();
   });
 });
 

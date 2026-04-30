@@ -11,6 +11,10 @@ export default defineHopeConfig(
       "new-cap": ["warn", { capIsNewExceptionPattern: "MarkdownIt" }],
       "no-multi-assign": "off",
       "no-plusplus": "off",
+      "vitest/max-expects": ["warn", { max: 10 }],
+      // oxlint-disable-next-line no-warning-comments
+      // FIXME: There is a bug here
+      "vitest/max-nested-describe": "off",
     },
     vitest: {
       bench: true,

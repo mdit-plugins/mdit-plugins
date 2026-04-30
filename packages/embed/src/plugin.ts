@@ -205,7 +205,9 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     __inlineEmbedMap?: Map<string, EmbedConfig>;
   };
 
+  // oxlint-disable-next-line no-underscore-dangle
   const embedMap = (mdWithMaps.__embedMap ??= new Map<string, EmbedConfig>());
+  // oxlint-disable-next-line no-underscore-dangle
   const inlineEmbedMap = (mdWithMaps.__inlineEmbedMap ??= new Map<string, EmbedConfig>());
 
   options.config.forEach((item) => {
