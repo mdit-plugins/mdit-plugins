@@ -48,11 +48,11 @@ importers:
         specifier: 20.5.3
         version: 20.5.3
       '@lerna-lite/cli':
-        specifier: 5.2.0
-        version: 5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
+        specifier: 5.2.1
+        version: 5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
       '@lerna-lite/publish':
-        specifier: 5.2.0
-        version: 5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
+        specifier: 5.2.1
+        version: 5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
       '@mr-hope/tsconfig':
         specifier: 0.0.4
         version: 0.0.4(typescript@6.0.3)
@@ -1104,8 +1104,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lerna-lite/cli@5.2.0':
-    resolution: {integrity: sha512-y9uJqt1WwErosX71stX9tNaDtxnTpwutuS3wGpK1MhFWdsO6R4PgeTPZ1qKCEcF9CO+4a1j7jmSQrnliG5CTKg==}
+  '@lerna-lite/cli@5.2.1':
+    resolution: {integrity: sha512-PZ3LcqiXeZpqOTx6WxNNHDW+Hfujmdglbfk7Bo/1iKtQCA0cBkuoF3GEePD6sng/Tc4E7lFxPBrmGsJrPyCbdQ==}
     engines: {node: ^22.17.0 || >=24.0.0}
     hasBin: true
     peerDependencies:
@@ -1129,24 +1129,24 @@ packages:
       '@lerna-lite/watch':
         optional: true
 
-  '@lerna-lite/core@5.2.0':
-    resolution: {integrity: sha512-PHyrb9Xw2GUgVxOv2+SenyiKg2JqqObLU2wWZc6H2v8ptZzWEKsOpabIeYK1f3atPPp7UbbkrpCZqrCl+1yAow==}
+  '@lerna-lite/core@5.2.1':
+    resolution: {integrity: sha512-9D89YzTVcqL7o5iJU230bQzbOhuuhHK8dFo/AREYsAbis+eXk90AV/+FWyUnHIwIW0x/WrXRhqIrM7nWLRN53A==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/init@5.2.0':
-    resolution: {integrity: sha512-gbRIYAXi/HOm+d3auAq85d2GD4ZKwOKye9Urg+AIhV08G4iTeSG6MoejpSVkyY+T/2CfihWQr0/yU1wGIRUznw==}
+  '@lerna-lite/init@5.2.1':
+    resolution: {integrity: sha512-tozwvLdz+skCZ8o0wAnjLClIsLwDejqtvt5iWdUCxNTOiPActtN/GijW8i7ypm1eR0i5mMSMbaU/nHrSNnp4BQ==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
   '@lerna-lite/npmlog@5.1.0':
     resolution: {integrity: sha512-CO/+LNXRktMnZOFB/d3Ngtytkd/6mmIvkbPrIwnd5bACDVyEbg/MKM/G5wQZSa6ILwGfD3PX1FCvvGn9mzSIeQ==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/publish@5.2.0':
-    resolution: {integrity: sha512-vjiHSEuowCQAJLe0CmwDczUV7why2CFhzoGJYkPDRdkp9RLspeRTQheVvQlp5MUl6xM16+jHLwcgeJ/f+qwOSw==}
+  '@lerna-lite/publish@5.2.1':
+    resolution: {integrity: sha512-HB4Ue3DQqBQaQvv7tFPnltwcsGiysmLQd/M4qbuzZADv3EVyRlG1rgiHO7o/ptnBp+u/X1Eys83vccJCJIcUiA==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/version@5.2.0':
-    resolution: {integrity: sha512-TJHBr4AXSA07jG6jofbswCoqolD3+C7rGzUTfbpb6KJM/MZndHdm3SCHDZXVk4lHz0Zj+XbQ1LBFiuXJcLmWNg==}
+  '@lerna-lite/version@5.2.1':
+    resolution: {integrity: sha512-PgJPBk+8GdRLvGqt03vnN7kt3SUkYMtp5YfoFFHPw7t5Hs9kzbC+ykZuGhk+p0stmXsbiYm3300o6MoIybQXNw==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
   '@lit-labs/ssr-dom-shim@1.5.1':
@@ -3659,10 +3659,6 @@ packages:
     resolution: {integrity: sha512-linxNAT6M0ebEYZOx2tO6vBEFsVgnPpv+AVjk0wJHfaUIbq31Jm3T6vvZaarnOeWDh8ShnwXuaAyM7WT3RzErA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  normalize-path@3.0.0:
-    resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
-    engines: {node: '>=0.10.0'}
-
   npm-bundled@5.0.0:
     resolution: {integrity: sha512-JLSpbzh6UUXIEoqPsYBvVNVmyrjVZ1fzEFbqxKkTJQkWBO3xFzFT+KDnSKQWwOQNbuWRwt5LSD6HOTLGIWzfrw==}
     engines: {node: ^20.17.0 || >=22.9.0}
@@ -4351,6 +4347,10 @@ packages:
 
   tinyexec@1.1.1:
     resolution: {integrity: sha512-VKS/ZaQhhkKFMANmAOhhXVoIfBXblQxGX1myCQ2faQrfmobMftXeJPcZGp0gS07ocvGJWDLZGyOZDadDBqYIJg==}
+    engines: {node: '>=18'}
+
+  tinyexec@1.1.2:
+    resolution: {integrity: sha512-dAqSqE/RabpBKI8+h26GfLq6Vb3JVXs30XYQjdMjaj/c2tS8IYYMbIzP599KtRj7c57/wYApb3QjgRgXmrCukA==}
     engines: {node: '>=18'}
 
   tinyglobby@0.2.16:
@@ -5393,10 +5393,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lerna-lite/cli@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)':
+  '@lerna-lite/cli@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)':
     dependencies:
-      '@lerna-lite/core': 5.2.0(@types/node@25.6.0)
-      '@lerna-lite/init': 5.2.0(@types/node@25.6.0)
+      '@lerna-lite/core': 5.2.1(@types/node@25.6.0)
+      '@lerna-lite/init': 5.2.1(@types/node@25.6.0)
       '@lerna-lite/npmlog': 5.1.0
       dedent: 1.7.2
       dotenv: 17.4.2
@@ -5404,13 +5404,13 @@ snapshots:
       load-json-file: 7.0.1
       yargs: 18.0.0
     optionalDependencies:
-      '@lerna-lite/publish': 5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
-      '@lerna-lite/version': 5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
+      '@lerna-lite/publish': 5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
+      '@lerna-lite/version': 5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
 
-  '@lerna-lite/core@5.2.0(@types/node@25.6.0)':
+  '@lerna-lite/core@5.2.1(@types/node@25.6.0)':
     dependencies:
       '@inquirer/expand': 5.0.13(@types/node@25.6.0)
       '@inquirer/input': 5.0.12(@types/node@25.6.0)
@@ -5419,7 +5419,6 @@ snapshots:
       '@npmcli/run-script': 10.0.4
       ci-info: 4.4.0
       dedent: 1.7.2
-      fs-extra: 11.3.4
       json5: 2.2.3
       lilconfig: 3.1.3
       load-json-file: 7.0.1
@@ -5427,7 +5426,7 @@ snapshots:
       p-map: 7.0.4
       p-queue: 9.2.0
       semver: 7.7.4
-      tinyexec: 1.1.1
+      tinyexec: 1.1.2
       tinyglobby: 0.2.16
       write-file-atomic: 7.0.1
       write-json-file: 7.0.0
@@ -5437,10 +5436,9 @@ snapshots:
       - '@types/node'
       - babel-plugin-macros
 
-  '@lerna-lite/init@5.2.0(@types/node@25.6.0)':
+  '@lerna-lite/init@5.2.1(@types/node@25.6.0)':
     dependencies:
-      '@lerna-lite/core': 5.2.0(@types/node@25.6.0)
-      fs-extra: 11.3.4
+      '@lerna-lite/core': 5.2.1(@types/node@25.6.0)
       p-map: 7.0.4
       write-json-file: 7.0.0
     transitivePeerDependencies:
@@ -5452,20 +5450,18 @@ snapshots:
       fast-string-width: 3.0.2
       signal-exit: 4.1.0
 
-  '@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0)':
+  '@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0)':
     dependencies:
-      '@lerna-lite/cli': 5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
-      '@lerna-lite/core': 5.2.0(@types/node@25.6.0)
+      '@lerna-lite/cli': 5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
+      '@lerna-lite/core': 5.2.1(@types/node@25.6.0)
       '@lerna-lite/npmlog': 5.1.0
-      '@lerna-lite/version': 5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
+      '@lerna-lite/version': 5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)
       '@npmcli/arborist': 9.4.3
       '@npmcli/package-json': 7.0.5
       ci-info: 4.4.0
       columnify: 1.6.0
-      fs-extra: 11.3.4
       libnpmaccess: 10.0.3
       libnpmpublish: 11.1.3
-      normalize-path: 3.0.0
       npm-package-arg: 13.0.2
       npm-packlist: 10.0.4
       npm-registry-fetch: 19.1.1
@@ -5485,11 +5481,11 @@ snapshots:
       - conventional-commits-filter
       - supports-color
 
-  '@lerna-lite/version@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)':
+  '@lerna-lite/version@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0)':
     dependencies:
       '@conventional-changelog/git-client': 2.7.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.4.0)
-      '@lerna-lite/cli': 5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.0(@lerna-lite/publish@5.2.0(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
-      '@lerna-lite/core': 5.2.0(@types/node@25.6.0)
+      '@lerna-lite/cli': 5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.1(@lerna-lite/publish@5.2.1(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)(conventional-commits-filter@5.0.0))(@types/node@25.6.0)
+      '@lerna-lite/core': 5.2.1(@types/node@25.6.0)
       '@lerna-lite/npmlog': 5.1.0
       '@octokit/plugin-enterprise-rest': 6.0.1
       '@octokit/rest': 22.0.1
@@ -5499,7 +5495,6 @@ snapshots:
       conventional-commits-parser: 6.4.0
       conventional-recommended-bump: 11.2.0
       dedent: 1.7.2
-      fs-extra: 11.3.4
       git-url-parse: 16.1.0
       load-json-file: 7.0.1
       new-github-release-url: 2.0.0
@@ -8313,8 +8308,6 @@ snapshots:
       semver: 7.7.4
       validate-npm-package-license: 3.0.4
 
-  normalize-path@3.0.0: {}
-
   npm-bundled@5.0.0:
     dependencies:
       npm-normalize-package-bin: 5.0.0
@@ -9040,6 +9033,8 @@ snapshots:
   tinybench@2.9.0: {}
 
   tinyexec@1.1.1: {}
+
+  tinyexec@1.1.2: {}
 
   tinyglobby@0.2.16:
     dependencies:
