@@ -493,7 +493,7 @@ importers:
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: ^4.1.1
-        version: 4.1.1
+        version: 4.1.2
 
   packages/mathjax-slim:
     dependencies:
@@ -512,7 +512,7 @@ importers:
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: ^4.1.1
-        version: 4.1.1
+        version: 4.1.2
       '@mathjax/src':
         specifier: 4.1.1
         version: 4.1.1
@@ -1158,8 +1158,8 @@ packages:
   '@mathjax/mathjax-newcm-font@4.1.1':
     resolution: {integrity: sha512-LeV5AWzoR7k/k2tg5mW0Ad3Jr9oK9guW/zBUIP8aoiIZcZIhvAV9dlbtUSqSe1wgEBUP1KOcJXcrE/NxOqkxlQ==}
 
-  '@mathjax/mathjax-tex-font@4.1.1':
-    resolution: {integrity: sha512-mCBD2JOLCwnL0WBgBOE8IXCShPDRY7BlDq1l8QVl/1kgEj2+zJotUa2I8uhohOTFrOsGeAzFbaletzuAubp6YA==}
+  '@mathjax/mathjax-tex-font@4.1.2':
+    resolution: {integrity: sha512-rcwIGf9OEJoC1E3SAATvcWAhYadDqsdqpTYjeTA8zfFWHsue386qgV4o7WAM9ZVOgGBrNC2Wy+tCr/Yw1Nz3jw==}
 
   '@mathjax/src@4.1.1':
     resolution: {integrity: sha512-YW01BuT+un9l4ZADYZ3K+VCVImEuwI82376gfua3Ycjsp7r0TvXeU61Z5M8rRlGY2jrTjBMskcw98LHV6zIC6A==}
@@ -5522,7 +5522,7 @@ snapshots:
 
   '@mathjax/mathjax-newcm-font@4.1.1': {}
 
-  '@mathjax/mathjax-tex-font@4.1.1': {}
+  '@mathjax/mathjax-tex-font@4.1.2': {}
 
   '@mathjax/src@4.1.1':
     dependencies:
