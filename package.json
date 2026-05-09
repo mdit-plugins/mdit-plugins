@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "2.0.1",
-    "@commitlint/cli": "20.5.3",
-    "@commitlint/config-conventional": "20.5.3",
+    "@commitlint/cli": "21.0.0",
+    "@commitlint/config-conventional": "21.0.0",
     "@lerna-lite/cli": "5.2.1",
     "@lerna-lite/publish": "5.2.1",
     "@mr-hope/tsconfig": "0.0.4",
