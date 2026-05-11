@@ -41,7 +41,7 @@
     "markdownlint-cli2": "0.22.1",
     "nano-staged": "1.0.2",
     "npm-check-updates": "22.1.1",
-    "oxc-config-hope": "0.3.2",
+    "oxc-config-hope": "0.3.4",
     "oxfmt": "0.48.0",
     "oxlint": "1.62.0",
     "oxlint-tsgolint": "0.22.1",

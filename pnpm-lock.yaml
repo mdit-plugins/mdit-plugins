@@ -84,8 +84,8 @@ importers:
         specifier: 22.1.1
         version: 22.1.1
       oxc-config-hope:
-        specifier: 0.3.2
-        version: 0.3.2(oxfmt@0.48.0)(oxlint-tsgolint@0.22.1)(oxlint@1.62.0(oxlint-tsgolint@0.22.1))
+        specifier: 0.3.4
+        version: 0.3.4(oxfmt@0.48.0)(oxlint-tsgolint@0.22.1)(oxlint@1.62.0(oxlint-tsgolint@0.22.1))
       oxfmt:
         specifier: 0.48.0
         version: 0.48.0
@@ -3812,11 +3812,11 @@ packages:
     resolution: {integrity: sha512-84cglkRILFxdtA8hAvLNdMrtBpPNBTrQ9/ulg0FA7xLMnD6mifv+enAIeRmvtv+WgdCE+LPGOfQmtJRrVaIVhQ==}
     engines: {node: '>=20'}
 
-  oxc-config-hope@0.3.2:
-    resolution: {integrity: sha512-NEV320RX+h3QDWzp64mQWnZQAusDDdtE03WKKSMF/H+0gVwr6ZH26t74wCSLkEsDQRYCKYrIrG8ko9yqrPAHLw==}
+  oxc-config-hope@0.3.4:
+    resolution: {integrity: sha512-BFYy9phdHX5LeZbB3t77s49opBOhU7YS0PpeHj8t8X9v0DvuLyl91xEL7rzyMg70bZNzulNo9XfmUSis2LpL6A==}
     peerDependencies:
-      oxfmt: '>=0.47.0'
-      oxlint: ^1.62.0
+      oxfmt: '>=0.48.0'
+      oxlint: ^1.63.0
       oxlint-tsgolint: '>=0.22.1'
     peerDependenciesMeta:
       oxfmt:
@@ -8541,7 +8541,7 @@ snapshots:
       stdin-discarder: 0.3.2
       string-width: 8.2.1
 
-  oxc-config-hope@0.3.2(oxfmt@0.48.0)(oxlint-tsgolint@0.22.1)(oxlint@1.62.0(oxlint-tsgolint@0.22.1)):
+  oxc-config-hope@0.3.4(oxfmt@0.48.0)(oxlint-tsgolint@0.22.1)(oxlint@1.62.0(oxlint-tsgolint@0.22.1)):
     optionalDependencies:
       oxfmt: 0.48.0
       oxlint: 1.62.0(oxlint-tsgolint@0.22.1)
