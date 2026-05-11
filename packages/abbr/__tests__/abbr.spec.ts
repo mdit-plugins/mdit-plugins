@@ -14,7 +14,7 @@ describe(abbr, () => {
 The HTML specification
 is maintained by the W3C.
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
 is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.</p>
 `);
@@ -26,7 +26,7 @@ is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.</p>
 *[foo]:
 foo
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>*[foo]:
 foo</p>
 `);
@@ -36,7 +36,7 @@ foo</p>
 *[[foo]:
 foo
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>*[[foo]:
 foo</p>
 `);
@@ -46,7 +46,7 @@ foo</p>
 *[\\foo]:
 foo
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>*[\\foo]:
 foo</p>
 `);
@@ -56,7 +56,7 @@ foo</p>
 *[\\foo]
 foo
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>*[\\foo]
 foo</p>
 `);
@@ -72,7 +72,7 @@ Foo Bar Foo
 
 Bar Foo Bar
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p><abbr title="456">Foo Bar</abbr> Foo</p>
 <p><abbr title="123">Bar Foo</abbr> Bar</p>
 `);
@@ -86,7 +86,7 @@ Bar Foo Bar
 *[JS HTTP]: is awesome
 JS HTTP is a collection of low-level javascript HTTP-related modules
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p><abbr title="is awesome">JS HTTP</abbr> is a collection of low-level javascript <abbr title="hyper text blah blah">HTTP</abbr>-related modules</p>
 `);
   });
@@ -102,7 +102,7 @@ and a paragraph continuation
 
 foo [bar] baz [quux]
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>and a paragraph continuation</p>
 <p><abbr title="123">foo</abbr> <a href="456">bar</a> <abbr title="789">baz</abbr> <a href="012">quux</a></p>
 `);
@@ -115,7 +115,7 @@ foo [bar] baz [quux]
 *[bar]: blah
 foobar
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>foobar</p>
 `);
   });
@@ -128,7 +128,7 @@ foo
 *[foo]: bar
 *[foo]: baz
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p><abbr title="bar">foo</abbr></p>
 `);
   });
@@ -140,7 +140,7 @@ http://example.com/foo/
 
 *[foo]: something
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p><a href="http://example.com/foo/">http://example.com/<abbr title="something">foo</abbr>/</a></p>
 `);
   });
@@ -153,7 +153,7 @@ http://example.com/foo/
 *["foo"]: 123
 *["bar"]: 456
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p><abbr title="123">&quot;foo&quot;</abbr> <abbr title="456">&quot;bar&quot;</abbr></p>
 `);
   });
@@ -166,7 +166,7 @@ http://example.com/foo/
 test test test
 test  test  test
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>test test test
 test <abbr title="foo bar"> test </abbr> test</p>
 `);
@@ -181,7 +181,7 @@ test test test
 test  test  test
 test   test   test
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>test test test
 test  test  test
 test <abbr title="foo bar"> </abbr> test <abbr title="foo bar"> </abbr> test</p>
@@ -195,7 +195,7 @@ test <abbr title="foo bar"> </abbr> test <abbr title="foo bar"> </abbr> test</p>
 
 (foo bar)
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>*[]: test</p>
 <p>(foo bar)</p>
 `);

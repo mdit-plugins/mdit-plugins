@@ -41,8 +41,8 @@ describe("directive", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
-    expect(env.includedFiles).toEqual([
+    expect(rendered).toBe(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
+    expect(env.includedFiles).toStrictEqual([
       "/path/to/foo.js",
       "/path/to/foo.js",
       "/path/to/foo.js",
@@ -69,8 +69,8 @@ describe("directive", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(`${source.map((item) => `<p>${item.trim()}</p>`).join("\n")}\n`);
-    expect(env.includedFiles).toEqual([]);
+    expect(rendered).toBe(`${source.map((item) => `<p>${item.trim()}</p>`).join("\n")}\n`);
+    expect(env.includedFiles).toStrictEqual([]);
   });
 
   it("should be preserved", () => {
@@ -87,7 +87,7 @@ describe("directive", () => {
     const rendered = md.render(source.join("\n\n"), env);
 
     expect(rendered).toMatch(/@include: .*/);
-    expect(env.includedFiles).toEqual([]);
+    expect(env.includedFiles).toStrictEqual([]);
   });
 });
 
@@ -120,8 +120,8 @@ describe("comment", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
-    expect(env.includedFiles).toEqual([
+    expect(rendered).toBe(`${source.map(() => "<p>File not found</p>").join("\n")}\n`);
+    expect(env.includedFiles).toStrictEqual([
       "/path/to/foo.js",
       "/path/to/foo.js",
       "/path/to/foo.js",
@@ -149,8 +149,8 @@ describe("comment", () => {
     };
     const rendered = md.render(source.join("\n\n"), env);
 
-    expect(rendered).toEqual(source.map((item) => item).join("\n"));
-    expect(env.includedFiles).toEqual([]);
+    expect(rendered).toStrictEqual(source.map((item) => item).join("\n"));
+    expect(env.includedFiles).toStrictEqual([]);
   });
 
   it("should be preserved", () => {
@@ -167,7 +167,7 @@ describe("comment", () => {
     const rendered = md.render(source.join("\n\n"), env);
 
     expect(rendered).toMatch(/<!-- @include: .* -->/);
-    expect(env.includedFiles).toEqual([]);
+    expect(env.includedFiles).toStrictEqual([]);
   });
 
   describe("should include file content correctly", () => {
@@ -200,16 +200,16 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual([mdFixturePath]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual([mdFixturePath]);
 
       const env2: IncludeEnv = {
         filePath: __filename,
       };
       const simpleRendered = md.render(simpleSource, env2);
 
-      expect(simpleRendered).toEqual(simpleExpected);
-      expect(env2.includedFiles).toEqual([mdFixtureSimplePath]);
+      expect(simpleRendered).toStrictEqual(simpleExpected);
+      expect(env2.includedFiles).toStrictEqual([mdFixtureSimplePath]);
     });
 
     it("should import partial lines", () => {
@@ -281,8 +281,8 @@ describe("comment", () => {
         };
         const rendered = md.render(item, env);
 
-        expect(rendered).toEqual(expected[index]);
-        expect(env.includedFiles).toEqual([mdFixturePath]);
+        expect(rendered).toStrictEqual(expected[index]);
+        expect(env.includedFiles).toStrictEqual([mdFixturePath]);
       });
     });
 
@@ -298,8 +298,8 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual([mdFixturePath]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual([mdFixturePath]);
     });
 
     it("should support not existed snippet", () => {
@@ -313,8 +313,8 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual([mdFixturePath]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual([mdFixturePath]);
     });
   });
 
@@ -334,8 +334,8 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/foo.md", resolve(__dirname, "./bar.md")]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual(["/foo.md", resolve(__dirname, "./bar.md")]);
     });
 
     it("should resolve absolute path", () => {
@@ -359,8 +359,8 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/foo.md", mdFixturePath]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual(["/foo.md", mdFixturePath]);
     });
 
     it("should not resolve relative path if filePath is not provided", () => {
@@ -376,8 +376,8 @@ describe("comment", () => {
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual([]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual([]);
     });
   });
 
@@ -407,8 +407,8 @@ describe("comment", () => {
     };
     const rendered = mdWithOptions.render(source, env);
 
-    expect(rendered).toEqual(expected);
-    expect(env.includedFiles).toEqual([mdFixturePath]);
+    expect(rendered).toStrictEqual(expected);
+    expect(env.includedFiles).toStrictEqual([mdFixturePath]);
   });
 
   describe("compatibility with other markdown syntax", () => {
@@ -427,8 +427,8 @@ foo
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/path/to/foo.md"]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
     });
 
     it("should terminate blockquote", () => {
@@ -448,8 +448,8 @@ foo
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/path/to/foo.md"]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
     });
 
     it("should terminate comment", () => {
@@ -467,8 +467,8 @@ foo
       };
       const rendered = md.render(source, env);
 
-      expect(rendered).toEqual(expected);
-      expect(env.includedFiles).toEqual(["/path/to/foo.md"]);
+      expect(rendered).toStrictEqual(expected);
+      expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
     });
 
     it("should support deep import", () => {
@@ -513,10 +513,10 @@ foo
         filePath: __filename,
       };
 
-      expect(mdWithOptions.render(source1, env1)).toEqual(expected1);
-      expect(env1.includedFiles).toEqual([mdFixtureDeepPath, mdFixturePath]);
-      expect(mdWithOptions.render(source2, env2)).toEqual(expected2);
-      expect(env2.includedFiles).toEqual([mdFixtureDeepPath, mdFixturePath]);
+      expect(mdWithOptions.render(source1, env1)).toStrictEqual(expected1);
+      expect(env1.includedFiles).toStrictEqual([mdFixtureDeepPath, mdFixturePath]);
+      expect(mdWithOptions.render(source2, env2)).toStrictEqual(expected2);
+      expect(env2.includedFiles).toStrictEqual([mdFixtureDeepPath, mdFixturePath]);
     });
 
     describe("the relative path of link/image", () => {
@@ -540,8 +540,8 @@ foo
         };
         const rendered = md.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of link in the include md file", () => {
@@ -562,8 +562,8 @@ foo
         });
         const rendered = mdWithOptions.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of image in the include md file", () => {
@@ -584,8 +584,8 @@ foo
         });
         const rendered = mdWithOptions.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureLinkPath]);
       });
 
       it("should turn off resolve the relative path of image/link in the include md file", () => {
@@ -607,8 +607,8 @@ foo
         });
         const rendered = mdWithOptions.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureLinkPath]);
       });
 
       it("should deeply resolve the relative path of link/image in the include md file", () => {
@@ -631,8 +631,8 @@ foo
         });
         const rendered = mdWithOptions.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureDeepLinkPath, mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureDeepLinkPath, mdFixtureLinkPath]);
       });
 
       it("should resolve the correct relative path of link/image after the include md file", () => {
@@ -652,8 +652,8 @@ foo
         };
         const rendered = md.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureLinkPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureLinkPath]);
       });
     });
 
@@ -689,8 +689,8 @@ foo
 
         const rendered = md.render(source, env);
 
-        expect(rendered).toEqual(expected);
-        expect(env.includedFiles).toEqual([mdFixtureFrontmatterPath]);
+        expect(rendered).toStrictEqual(expected);
+        expect(env.includedFiles).toStrictEqual([mdFixtureFrontmatterPath]);
       });
     });
   });
@@ -726,8 +726,8 @@ describe("currentPath", () => {
     const env: IncludeEnv = {};
     const rendered = md.render(source, env);
 
-    expect(rendered).toEqual(expected);
-    expect(env.includedFiles).toEqual([mdFixtureSimplePath]);
+    expect(rendered).toStrictEqual(expected);
+    expect(env.includedFiles).toStrictEqual([mdFixtureSimplePath]);
   });
 
   it("should fail with relative path if currentPath is not return", () => {
@@ -746,8 +746,8 @@ describe("currentPath", () => {
     const env: IncludeEnv = {};
     const rendered = md.render(source, env);
 
-    expect(rendered).toEqual(expected);
-    expect(env.includedFiles).toEqual([]);
+    expect(rendered).toStrictEqual(expected);
+    expect(env.includedFiles).toStrictEqual([]);
   });
 
   it("should handle include-env-start edge cases", () => {
@@ -756,7 +756,7 @@ describe("currentPath", () => {
     });
 
     // this matches startsWith but not the regex
-    expect(md.render("<!-- #include-env-start: foo")).toEqual(
+    expect(md.render("<!-- #include-env-start: foo")).toBe(
       "<p>&lt;!-- #include-env-start: foo</p>\n",
     );
   });

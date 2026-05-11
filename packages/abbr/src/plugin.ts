@@ -96,11 +96,11 @@ export const abbr: PluginSimple = (md) => {
       .map(escapeRE)
       .join("|");
 
-    const regexpSimple = new RegExp(`(?:${abbreviationsRegExpText})`);
+    const regexpSimple = new RegExp(`(?:${abbreviationsRegExpText})`, "u");
 
     const regExp = new RegExp(
       `(^|${WORDING_REGEXP_TEXT})(${abbreviationsRegExpText})($|${WORDING_REGEXP_TEXT})`,
-      "g",
+      "gu",
     );
 
     const tokensLength = tokens.length;

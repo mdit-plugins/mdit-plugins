@@ -41,8 +41,8 @@ describe(getArrayItem, () => {
 
     expect(getArrayItem(numbers, 1)).toBe(2);
     expect(getArrayItem(numbers, -1)).toBe(3);
-    expect(getArrayItem(objects, 0)).toEqual({ a: 1 });
-    expect(getArrayItem(objects, -1)).toEqual({ b: 2 });
+    expect(getArrayItem(objects, 0)).toStrictEqual({ a: 1 });
+    expect(getArrayItem(objects, -1)).toStrictEqual({ b: 2 });
   });
 
   it("should handle out of bounds positive index", () => {

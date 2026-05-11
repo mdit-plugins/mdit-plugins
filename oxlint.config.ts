@@ -11,10 +11,12 @@ export default defineHopeConfig(
       "new-cap": ["warn", { capIsNewExceptionPattern: "MarkdownIt" }],
       "no-multi-assign": "off",
       "no-plusplus": "off",
+      "require-unicode-regexp": "off",
       "vitest/max-expects": ["warn", { max: 10 }],
+      "vitest/valid-describe-callback": "off",
       // oxlint-disable-next-line no-warning-comments
-      // FIXME: There is a bug here
-      "vitest/max-nested-describe": "off",
+      // FIXME: https://github.com/oxc-project/oxc/issues/22268
+      "vitest/valid-title": "off",
     },
     vitest: {
       bench: true,

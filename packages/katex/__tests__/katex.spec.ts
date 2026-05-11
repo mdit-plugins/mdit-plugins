@@ -22,13 +22,15 @@ const examples = [
 describe("inline katex", () => {
   it("should output htmlAndMathML", () => {
     examples.forEach((example) => {
-      expect(markdownIt.render(`$${example}$`)).toMatchSnapshot();
-      expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
+      const inline = markdownIt.render(`$${example}$`);
+      const inlineInText = markdownIt.render(`A tex equation $${example}$ inline.`);
 
-      expect(markdownIt.render(`$${example}$`)).toMatch(
+      expect(inline).toMatchSnapshot("inline");
+      expect(inline).toMatch(
         /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
-      expect(markdownIt.render(`A tex equation $${example}$ inline.`)).toMatch(
+      expect(inlineInText).toMatchSnapshot("inline-in-text");
+      expect(inlineInText).toMatch(
         /<span class="katex"><span class="katex-mathml"><math .*>[.\n]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
     });
@@ -36,13 +38,16 @@ describe("inline katex", () => {
 
   it("should output HTML", () => {
     examples.forEach((example) => {
-      expect(markdownItHTML.render(`$${example}$`)).toMatchSnapshot();
-      expect(markdownItHTML.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
+      const inline = markdownItHTML.render(`$${example}$`);
+      const inlineInText = markdownItHTML.render(`A tex equation $${example}$ inline.`);
 
-      expect(markdownItHTML.render(`$${example}$`)).toMatch(
+      expect(inline).toMatchSnapshot("inline");
+      expect(inline).toMatch(
         /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
-      expect(markdownItHTML.render(`A tex equation $${example}$ inline.`)).toMatch(
+
+      expect(inlineInText).toMatchSnapshot("inline-in-text");
+      expect(inlineInText).toMatch(
         /<span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span>/,
       );
     });
@@ -50,14 +55,14 @@ describe("inline katex", () => {
 
   it("should output MathML", () => {
     examples.forEach((example) => {
-      expect(markdownItMathML.render(`$${example}$`)).toMatchSnapshot();
-      expect(markdownItMathML.render(`$${example}$`)).toMatch(
-        /<span class="katex"><math .*>[.\n]*<\/math><\/span>/,
-      );
-      expect(markdownItMathML.render(`A tex equation $${example}$ inline.`)).toMatchSnapshot();
-      expect(markdownItMathML.render(`A tex equation $${example}$ inline.`)).toMatch(
-        /<span class="katex"><math .*>[.\n]*<\/math><\/span>/,
-      );
+      const inline = markdownItMathML.render(`$${example}$`);
+      const inlineInText = markdownItMathML.render(`A tex equation $${example}$ inline.`);
+
+      expect(inline).toMatchSnapshot("inline");
+      expect(inline).toMatch(/<span class="katex"><math .*>[.\n]*<\/math><\/span>/);
+
+      expect(inlineInText).toMatchSnapshot("inline-in-text");
+      expect(inlineInText).toMatch(/<span class="katex"><math .*>[.\n]*<\/math><\/span>/);
     });
   });
 
@@ -66,29 +71,30 @@ describe("inline katex", () => {
   });
 
   it("should render error msg when content is wrong", () => {
-    const originalError = globalThis.console.error;
+    const consoleError = vi.spyOn(globalThis.console, "error").mockImplementation(() => {});
 
-    globalThis.console.error = vi.fn<(...args: unknown[]) => void>();
-
-    expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toEqual(
+    expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toBe(
       "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
     );
 
-    expect(globalThis.console.error).toHaveBeenCalledTimes(1);
-    globalThis.console.error = originalError;
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    consoleError.mockRestore();
   });
 });
 
 describe("block katex", () => {
   it("should output htmlAndMathML", () => {
     examples.forEach((example) => {
-      expect(markdownIt.render(`$$${example}$$`)).toMatchSnapshot();
-      expect(markdownIt.render(`$$\n${example}\n$$`)).toMatchSnapshot();
+      const block = markdownIt.render(`$$${example}$$`);
+      const blockWithLineBreaks = markdownIt.render(`$$\n${example}\n$$`);
 
-      expect(markdownIt.render(`$$${example}$$`)).toMatch(
+      expect(block).toMatchSnapshot("block");
+      expect(blockWithLineBreaks).toMatchSnapshot("block-with-line-breaks");
+
+      expect(block).toMatch(
         /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
-      expect(markdownIt.render(`$$\n${example}\n$$`)).toMatch(
+      expect(blockWithLineBreaks).toMatch(
         /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math .*>[\s\S]*<\/math><\/span><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
     });
@@ -96,13 +102,16 @@ describe("block katex", () => {
 
   it("should output HTML", () => {
     examples.forEach((example) => {
-      expect(markdownItHTML.render(`$$${example}$$`)).toMatchSnapshot();
-      expect(markdownItHTML.render(`$$\n${example}\n$$`)).toMatchSnapshot();
+      const block = markdownItHTML.render(`$$${example}$$`);
+      const blockWithLineBreaks = markdownItHTML.render(`$$\n${example}\n$$`);
 
-      expect(markdownItHTML.render(`$$${example}$$`)).toMatch(
+      expect(block).toMatchSnapshot("block");
+      expect(blockWithLineBreaks).toMatchSnapshot("block-with-line-breaks");
+
+      expect(block).toMatch(
         /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
-      expect(markdownItHTML.render(`$$\n${example}\n$$`)).toMatch(
+      expect(blockWithLineBreaks).toMatch(
         /<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true">.*<\/span><\/span><\/span><\/p>/,
       );
     });
@@ -110,27 +119,34 @@ describe("block katex", () => {
 
   it("should output MathML", () => {
     examples.forEach((example) => {
-      expect(markdownItMathML.render(`$$${example}$$`)).toMatchSnapshot();
-      expect(markdownItMathML.render(`$$${example}$$`)).toMatch(
+      const block = markdownItMathML.render(`$$${example}$$`);
+      const blockWithLineBreaks = markdownItMathML.render(`$$\n${example}\n$$`);
+
+      expect(block).toMatchSnapshot("block");
+      expect(blockWithLineBreaks).toMatchSnapshot("block-with-line-breaks");
+
+      expect(block).toMatch(
         /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/,
       );
-      expect(markdownItMathML.render(`$$\n${example}\n$$`)).toMatchSnapshot();
-      expect(markdownItMathML.render(`$$\n${example}\n$$`)).toMatch(
+      expect(blockWithLineBreaks).toMatch(
         /<p class='katex-block'><span class="katex"><math .*>[\s\S]*<\/math><\/span><\/p>/,
       );
     });
   });
 
   it("should not render error msg when content is wrong", () => {
-    expect(markdownIt.render(String.raw`$$\fra{a}{b}$$`)).toMatchSnapshot();
-
-    expect(
-      markdownIt.render(`
+    const block = markdownIt.render(String.raw`$$\fra{a}{b}$$`);
+    const blockWithLineBreaks = markdownIt.render(`
 $$
 \\fra{a}{b}
 $$
-`),
-    ).toMatchSnapshot();
+`);
+
+    expect(block).not.toMatch(/mjx-error/);
+    expect(blockWithLineBreaks).not.toMatch(/mjx-error/);
+
+    expect(block).toMatchSnapshot("block");
+    expect(blockWithLineBreaks).toMatchSnapshot("block-with-line-breaks");
   });
 
   it("should not output warnings when content has line breaks", () => {
@@ -147,9 +163,8 @@ $$
   });
 
   it("should render error msg when content is wrong", () => {
-    const originalError = globalThis.console.error;
+    const consoleError = vi.spyOn(globalThis.console, "error").mockImplementation(() => {});
 
-    globalThis.console.error = vi.fn<(...args: unknown[]) => void>();
     expect(markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toMatch(
       /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
     );
@@ -162,8 +177,8 @@ $$
 `),
     ).toMatch(/<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/);
 
-    expect(globalThis.console.error).toHaveBeenCalledTimes(2);
-    globalThis.console.error = originalError;
+    expect(consoleError).toHaveBeenCalledTimes(2);
+    consoleError.mockRestore();
   });
 });
 

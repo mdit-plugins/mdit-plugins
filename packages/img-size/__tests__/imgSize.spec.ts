@@ -16,7 +16,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -26,7 +26,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -59,7 +59,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -76,7 +76,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
   });
@@ -95,7 +95,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -108,7 +108,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -141,7 +141,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -166,7 +166,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
   });
@@ -179,7 +179,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -196,7 +196,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -237,7 +237,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
 
@@ -278,7 +278,7 @@ describe("default image size", () => {
       ];
 
       testCases.forEach(([input, expected]) => {
-        expect(markdownIt.render(input)).toEqual(expected);
+        expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
   });
@@ -293,7 +293,7 @@ describe("default image size", () => {
     ];
 
     testCases.forEach(([input, expected]) => {
-      expect(markdownIt.render(input)).toEqual(expected);
+      expect(markdownIt.render(input)).toStrictEqual(expected);
     });
   });
 
@@ -304,7 +304,7 @@ describe("default image size", () => {
     ];
 
     testCases.forEach(([input, expected]) => {
-      expect(markdownIt.render(input)).toEqual(expected);
+      expect(markdownIt.render(input)).toStrictEqual(expected);
     });
   });
 
@@ -364,7 +364,7 @@ describe("default image size", () => {
     ];
 
     testCases.forEach(([input, expected]) => {
-      expect(markdownIt.render(input)).toEqual(expected);
+      expect(markdownIt.render(input)).toStrictEqual(expected);
     });
   });
 });
@@ -382,8 +382,8 @@ describe("work with figure plugin", () => {
     ];
 
     testCases.forEach(([input, expected]) => {
-      expect(markdownIt1.render(input)).toEqual(expected);
-      expect(markdownIt2.render(input)).toEqual(expected);
+      expect(markdownIt1.render(input)).toStrictEqual(expected);
+      expect(markdownIt2.render(input)).toStrictEqual(expected);
     });
   });
 });

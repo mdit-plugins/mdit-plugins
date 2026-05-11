@@ -17,7 +17,7 @@ describe("markdown-it-emoji", () => {
         expect(md.render(":D :-D")).toBe("<p>😄 😄</p>\n");
       });
 
-      it("Potentially conflicting", () => {
+      it("potentially conflicting", () => {
         expect(md.render(":/ :/. :/")).toBe("<p>😕 😕. 😕</p>\n");
       });
 
@@ -35,25 +35,25 @@ describe("markdown-it-emoji", () => {
     });
 
     describe("emojis", () => {
-      it("Start of string", () => {
+      it("start of string", () => {
         expect(md.render(":smile: test __1__")).toBe("<p>😄 test <strong>1</strong></p>\n");
       });
 
-      it("End of string", () => {
+      it("end of string", () => {
         expect(md.render("test __2__ :laughing:")).toBe("<p>test <strong>2</strong> 😆</p>\n");
       });
 
-      it("Middle & multiple", () => {
+      it("middle & multiple", () => {
         expect(md.render("aaa :joy: bbb :blush: ccc :kissing_heart: ddd")).toBe(
           "<p>aaa 😂 bbb 😊 ccc 😘 ddd</p>\n",
         );
       });
 
-      it("Unknown name", () => {
+      it("unknown name", () => {
         expect(md.render(":joy: :qwerty:")).toBe("<p>😂 :qwerty:</p>\n");
       });
 
-      it("Don't allow letters after shortcuts", () => {
+      it("don't allow letters after shortcuts", () => {
         expect(md.render(":) :)123 :)abc")).toBe("<p>😃 :)123 :)abc</p>\n");
       });
     });
@@ -93,7 +93,7 @@ describe("markdown-it-emoji", () => {
   describe("whitelist", () => {
     const md = markdownit().use(fullEmoji, { enabled: ["smile", "grin"] });
 
-    it("Show only allowed emojies", () => {
+    it("show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
     });
   });
@@ -144,7 +144,7 @@ describe("markdown-it-emoji-light", () => {
         expect(md.render(":D :-D")).toBe("<p>😄 😄</p>\n");
       });
 
-      it("Potentially conflicting", () => {
+      it("potentially conflicting", () => {
         expect(md.render(":/ :/. :/")).toBe("<p>😕 😕. 😕</p>\n");
       });
 
@@ -162,25 +162,25 @@ describe("markdown-it-emoji-light", () => {
     });
 
     describe("emojis", () => {
-      it("Start of string", () => {
+      it("start of string", () => {
         expect(md.render(":smile: test __1__")).toBe("<p>😄 test <strong>1</strong></p>\n");
       });
 
-      it("End of string", () => {
+      it("end of string", () => {
         expect(md.render("test __2__ :laughing:")).toBe("<p>test <strong>2</strong> 😆</p>\n");
       });
 
-      it("Middle & multiple", () => {
+      it("middle & multiple", () => {
         expect(md.render("aaa :joy: bbb :blush: ccc :kissing_heart: ddd")).toBe(
           "<p>aaa 😂 bbb 😊 ccc 😘 ddd</p>\n",
         );
       });
 
-      it("Unknown name", () => {
+      it("unknown name", () => {
         expect(md.render(":joy: :qwerty:")).toBe("<p>😂 :qwerty:</p>\n");
       });
 
-      it("Don't allow letters after shortcuts", () => {
+      it("don't allow letters after shortcuts", () => {
         expect(md.render(":) :)123 :)abc")).toBe("<p>😃 :)123 :)abc</p>\n");
       });
     });
@@ -220,7 +220,7 @@ describe("markdown-it-emoji-light", () => {
   describe("whitelist", () => {
     const md = markdownit().use(lightEmoji, { enabled: ["smile", "grin"] });
 
-    it("Show only allowed emojies", () => {
+    it("show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
     });
   });

@@ -119,7 +119,7 @@ Description child.
     expect(result).toContain(">one</dt>");
     expect(result).toContain(">two</dt>");
     expect(result).toContain(">three</dt>");
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot("nesting");
 
     const result2 = md.render(`
 ::: fields
@@ -137,7 +137,7 @@ Description child.
     expect(result2).toContain(">prop1</dt>");
     expect(result2).toContain(">prop1.key1</dt>");
     expect(result2).toContain(">prop1.key2</dt>");
-    expect(result2).toMatchSnapshot();
+    expect(result2).toMatchSnapshot("nesting siblings");
   });
 
   it("should handle backtrack from deep to shallow depth", () => {

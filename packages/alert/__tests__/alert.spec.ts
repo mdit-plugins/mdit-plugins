@@ -71,7 +71,7 @@ describe(alert, () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -116,7 +116,7 @@ describe(alert, () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -400,7 +400,7 @@ text
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -424,7 +424,7 @@ Paragraph text.
 > This is an important note
 `;
 
-    expect(markdownIt.render(original)).toEqual(`\
+    expect(markdownIt.render(original)).toBe(`\
 <h1>Title</h1>
 <div class="markdown-alert markdown-alert-important">
 <p class="markdown-alert-title">Important</p>
@@ -646,7 +646,7 @@ Paragraph
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -671,7 +671,7 @@ This is a warning</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -698,7 +698,7 @@ This is a note</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -765,7 +765,7 @@ This is a note</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItCustom.render(input)).toEqual(output);
+      expect(markdownItCustom.render(input)).toStrictEqual(output);
     });
   });
 
@@ -785,7 +785,7 @@ This is a note</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -871,7 +871,7 @@ This is a note</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItCustom.render(input)).toEqual(output);
+      expect(markdownItCustom.render(input)).toStrictEqual(output);
     });
   });
 
@@ -894,7 +894,7 @@ a</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -966,7 +966,7 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -1036,7 +1036,7 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItCustom.render(input)).toEqual(output);
+      expect(markdownItCustom.render(input)).toStrictEqual(output);
     });
   });
 
@@ -1065,7 +1065,7 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItCustom.render(input)).toEqual(output);
+      expect(markdownItCustom.render(input)).toStrictEqual(output);
     });
   });
 
@@ -1102,7 +1102,7 @@ Second line</p>
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItCustom.render(input)).toEqual(output);
+      expect(markdownItCustom.render(input)).toStrictEqual(output);
     });
   });
 });

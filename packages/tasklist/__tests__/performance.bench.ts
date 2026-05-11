@@ -48,44 +48,44 @@ const largeContent = createTestContent("large");
 const createOriginalRenderer = (): MarkdownIt => new MarkdownIt().use(tasklistOriginal);
 const createOptimizedRenderer = (): MarkdownIt => new MarkdownIt().use(tasklistOptimized);
 
-describe("Tasklist: Original vs Optimized Performance", () => {
-  describe("Small document", () => {
-    bench("Original version", () => {
+describe("tasklist: Original vs Optimized Performance", () => {
+  describe("small document", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(smallContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(smallContent);
     });
   });
 
-  describe("Medium document", () => {
-    bench("Original version", () => {
+  describe("medium document", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(mediumContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(mediumContent);
     });
   });
 
-  describe("Large document", () => {
-    bench("Original version", () => {
+  describe("large document", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(largeContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(largeContent);
     });
   });
 
-  describe("Real document test (tasklist documentation)", () => {
+  describe("real document test (tasklist documentation)", () => {
     const realDocContent = [
       "---",
       'title: "@mdit/plugin-tasklist"',
@@ -123,12 +123,12 @@ describe("Tasklist: Original vs Optimized Performance", () => {
       "",
     ].join("\n");
 
-    bench("Original version - Real document", () => {
+    bench("original version - Real document", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(realDocContent);
     });
 
-    bench("Optimized version - Real document", () => {
+    bench("optimized version - Real document", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(realDocContent);
     });

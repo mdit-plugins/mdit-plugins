@@ -22,7 +22,7 @@ describe(ruby, () => {
     ];
 
     tests.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -78,12 +78,12 @@ describe(ruby, () => {
     ];
 
     tests.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
   it("do not break text", () => {
-    expect(markdownIt.render(`Lore ipsum.`)).toEqual(`<p>Lore ipsum.</p>\n`);
+    expect(markdownIt.render(`Lore ipsum.`)).toBe(`<p>Lore ipsum.</p>\n`);
   });
 
   it("should not parse", () => {
@@ -94,7 +94,7 @@ describe(ruby, () => {
     ];
 
     tests.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 });

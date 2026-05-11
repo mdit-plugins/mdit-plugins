@@ -492,13 +492,11 @@ Continue {% icon middle %} and {% badge final %} end.`;
       ["{% emoji🚀 rocket %}", ['<span class="emoji">rocket</span>']],
     ];
 
-    unicodeTests.forEach(([input, expected], index) => {
-      it(`should support Unicode embed names ${index + 1}`, () => {
-        const result = mdUnicode.render(input);
+    it.for(unicodeTests)("should support Unicode embed names %$", ([input, expected]) => {
+      const result = mdUnicode.render(input);
 
-        expected.forEach((expectedContent) => {
-          expect(result).toContain(expectedContent);
-        });
+      expected.forEach((expectedContent) => {
+        expect(result).toContain(expectedContent);
       });
     });
   });

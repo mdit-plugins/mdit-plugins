@@ -1,3 +1,4 @@
+// oxlint-disable vitest/require-hook
 import { describe, expect, it } from "vitest";
 
 import { getAttrs } from "../../src/helper/getAttrs.js";
@@ -26,7 +27,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
       },
     );
 
@@ -36,7 +37,7 @@ const createDelimiterTests = (
 
       const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-      expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+      expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
     });
 
     it(
@@ -55,7 +56,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
       },
     );
   });

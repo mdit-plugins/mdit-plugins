@@ -21,12 +21,12 @@ describe("mathjax-svg", () => {
         const inline = markdownIt.render(`$${example}$`);
         const inlineInText = markdownIt.render(`A tex equation $${example}$ inline.`);
 
-        expect(inline).toMatchSnapshot();
+        expect(inline).toMatchSnapshot("inline");
         expect(inline).toMatch(/jax="SVG"/);
         expect(inline).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
         expect(inline).toMatch(/<svg .*>[\s\S]*<\/svg>/);
 
-        expect(inlineInText).toMatchSnapshot();
+        expect(inlineInText).toMatchSnapshot("inline in text");
         expect(inlineInText).toMatch(/jax="SVG"/);
         expect(inlineInText).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
         expect(inlineInText).toMatch(/<svg .*>[\s\S]*<\/svg>/);

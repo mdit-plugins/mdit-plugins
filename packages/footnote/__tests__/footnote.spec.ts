@@ -98,7 +98,7 @@ Here is a footnote reference[^abc].
     ).toMatchSnapshot();
   });
 
-  it("Can inside blockquotes, and are lazy", () => {
+  it("can inside blockquotes, and are lazy", () => {
     expect(
       markdownIt.render(`
 [^foo]
@@ -109,7 +109,7 @@ baz
     ).toMatchSnapshot();
   });
 
-  it("Label cannot contain spaces or newlines", () => {
+  it("label cannot contain spaces or newlines", () => {
     expect(
       markdownIt.render(`
 [^ foo]: bar baz
@@ -120,7 +120,7 @@ baz
     ).toMatchSnapshot();
   });
 
-  it("Nested footnotes", () => {
+  it("nested footnotes", () => {
     expect(
       markdownIt.render(`
 foo[^1] bar[^2].
@@ -140,11 +140,11 @@ note.]
     ).toMatchSnapshot();
   });
 
-  it("Can have arbitrary markup", () => {
+  it("can have arbitrary markup", () => {
     expect(markdownIt.render(`foo^[ *bar* ]`)).toMatchSnapshot();
   });
 
-  it("Duplicate footnotes should have suffix", () => {
+  it("duplicate footnotes should have suffix", () => {
     expect(
       markdownIt.render(`
 [^xxxxx] [^xxxxx]
@@ -154,7 +154,7 @@ note.]
     ).toMatchSnapshot();
   });
 
-  it("Indent", () => {
+  it("indent", () => {
     expect(
       markdownIt.render(`
 [^xxxxx] [^yyyyy]
@@ -168,7 +168,15 @@ note.]
     ).toMatchSnapshot();
   });
 
-  it("Indents for the first line", () => {
+  it("indents for the first line", () => {
+    expect(
+      markdownIt.render(`
+[^xxxxx]
+
+[^xxxxx]:		foo
+`),
+    ).toMatchSnapshot("single");
+
     expect(
       markdownIt.render(`
 [^xxxxx] [^yyyyy]
@@ -177,15 +185,7 @@ note.]
 
 [^yyyyy]:        foo
 `),
-    ).toMatchSnapshot();
-
-    expect(
-      markdownIt.render(`
-[^xxxxx]
-
-[^xxxxx]:		foo
-`),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot("multiple");
   });
 
   it("should contain Security", () => {
@@ -195,7 +195,7 @@ note.]
 
 [^__proto__]: blah
 `),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot("__proto__");
 
     expect(
       markdownIt.render(`
@@ -203,7 +203,7 @@ note.]
 
 [^hasOwnProperty]: blah
 `),
-    ).toMatchSnapshot();
+    ).toMatchSnapshot("hasOwnProperty");
   });
 
   it("should allow links in inline footnotes", () => {
@@ -300,12 +300,16 @@ isn’t indented.
     // depending on the parser state. The main goal here is to ensure silent mode coverage.
     expect(rendered1).toContain('link <sup class="footnote-ref">');
     expect(rendered1).toContain('<li id="footnote1" class="footnote-item"><p>inline');
-    expect(rendered1).toMatchSnapshot();
+    expect(rendered1).toMatchSnapshot("footnote inside link");
 
-    const rendered2 = markdownIt.render("[link [^ref]](url)\n\n[^ref]: foo");
+    const rendered2 = markdownIt.render(`\
+[link [^ref]](url)
+
+[^ref]: foo
+`);
 
     expect(rendered2).toContain('link <sup class="footnote-ref">');
     expect(rendered2).toContain('<li id="footnote1" class="footnote-item"><p>foo');
-    expect(rendered2).toMatchSnapshot();
+    expect(rendered2).toMatchSnapshot("footnote reference inside link");
   });
 });

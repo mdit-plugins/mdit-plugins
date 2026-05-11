@@ -6,12 +6,12 @@ import { describe, bench } from "vitest";
 import { container as containerOld } from "../src-old/index.js";
 import { container as containerNew } from "../src/index.js";
 
-describe("Container Plugin Benchmark", () => {
+describe("container Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(containerOld, { name: "info" });
   const mdNew = new MarkdownIt().use(containerNew, { name: "info" });
 
   // 小文档测试用例
-  describe("Small Document (1,000 chars)", () => {
+  describe("small Document (1,000 chars)", () => {
     const smallContent = `
 ::: info
 # Small Container Demo
@@ -40,17 +40,17 @@ console.log(greet("World"));
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(smallContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(smallContent);
     });
   });
 
   // 中等文档测试用例
-  describe("Medium Document (5,000+ chars)", () => {
+  describe("medium Document (5,000+ chars)", () => {
     const mediumContent = `
 ::: info
 # Medium Container Demo
@@ -107,17 +107,17 @@ class ContainerClass {
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(mediumContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(mediumContent);
     });
   });
 
   // 大型文档测试用例
-  describe("Large Document (10,000+ chars)", () => {
+  describe("large Document (10,000+ chars)", () => {
     const largeContent = `
 ::: info
 # Large Container Demo
@@ -194,17 +194,17 @@ class DataProcessor {
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(largeContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(largeContent);
     });
   });
 
   // 真实文档测试用例
-  describe("Real-world Document", () => {
+  describe("real-world Document", () => {
     const realContent = `
 ::: info Information Container
 This is an information container with some content.
@@ -226,7 +226,7 @@ This is dangerous content.
 `;
 
     // 这里需要为多容器测试单独创建 MarkdownIt 实例
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       const md = new MarkdownIt()
         .use(containerOld, { name: "info" })
         .use(containerOld, { name: "warning" })
@@ -235,7 +235,7 @@ This is dangerous content.
       md.render(realContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       const md = new MarkdownIt()
         .use(containerNew, { name: "info" })
         .use(containerNew, { name: "warning" })

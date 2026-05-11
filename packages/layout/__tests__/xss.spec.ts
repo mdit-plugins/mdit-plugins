@@ -6,7 +6,7 @@ import { layout } from "../src/index.js";
 const markdownIt = MarkdownIt().use(layout);
 
 describe(layout, () => {
-  describe("XSS prevention", () => {
+  describe("prevent XSS", () => {
     it("should escape special characters in class names", () => {
       expect(
         markdownIt.render(`\

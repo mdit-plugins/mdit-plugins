@@ -14,8 +14,8 @@ describe(createDelimiterChecker, () => {
   it("should check start delimiter", () => {
     const checker = createDelimiterChecker(options, "start");
 
-    expect(checker("{.class}")).toEqual([1, 7]);
-    expect(checker("{.class} more text")).toEqual([1, 7]);
+    expect(checker("{.class}")).toStrictEqual([1, 7]);
+    expect(checker("{.class} more text")).toStrictEqual([1, 7]);
     expect(checker("text")).toBe(false);
     expect(checker("")).toBe(false);
     expect(checker("{aaa")).toBe(false);
@@ -25,7 +25,7 @@ describe(createDelimiterChecker, () => {
   it("should check end delimiter", () => {
     const checker = createDelimiterChecker(options, "end");
 
-    expect(checker("text {.class}")).toEqual([6, 12]);
+    expect(checker("text {.class}")).toStrictEqual([6, 12]);
     expect(checker("text")).toBe(false);
     expect(checker("")).toBe(false);
   });
@@ -33,7 +33,7 @@ describe(createDelimiterChecker, () => {
   it("should check only delimiter", () => {
     const checker = createDelimiterChecker(options, "only");
 
-    expect(checker("{.class}")).toEqual([1, 7]);
+    expect(checker("{.class}")).toStrictEqual([1, 7]);
     expect(checker("text {.class}")).toBe(false);
     expect(checker("{.class} text")).toBe(false);
     expect(checker("text")).toBe(false);
@@ -51,9 +51,9 @@ describe(createDelimiterChecker, () => {
     const endChecker = createDelimiterChecker(customOptions, "end");
     const onlyChecker = createDelimiterChecker(customOptions, "only");
 
-    expect(startChecker("[.class]")).toEqual([1, 7]);
-    expect(endChecker("text [.class]")).toEqual([6, 12]);
-    expect(onlyChecker("[.class]")).toEqual([1, 7]);
+    expect(startChecker("[.class]")).toStrictEqual([1, 7]);
+    expect(endChecker("text [.class]")).toStrictEqual([6, 12]);
+    expect(onlyChecker("[.class]")).toStrictEqual([1, 7]);
 
     expect(startChecker("{.class}")).toBe(false);
     expect(endChecker("text {.class}")).toBe(false);

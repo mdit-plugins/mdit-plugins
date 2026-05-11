@@ -6,12 +6,12 @@ import { describe, bench } from "vitest";
 import { demo as demoOld } from "../src-old/index.js";
 import { demo as demoNew } from "../src/index.js";
 
-describe("Demo Plugin Benchmark", () => {
+describe("demo Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(demoOld);
   const mdNew = new MarkdownIt().use(demoNew);
 
   // 小文档测试用例
-  describe("Small Document (1,000 chars)", () => {
+  describe("small Document (1,000 chars)", () => {
     const smallContent = `
 ::: demo Small Demo Title
 # Small Document Demo
@@ -47,17 +47,17 @@ This is another section in the small document.
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(smallContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(smallContent);
     });
   });
 
   // 中等文档测试用例
-  describe("Medium Document (5,000+ chars)", () => {
+  describe("medium Document (5,000+ chars)", () => {
     const mediumContent = `
 ::: demo Medium Demo Title
 # Medium Document Demo
@@ -122,17 +122,17 @@ class DemoClass {
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(mediumContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(mediumContent);
     });
   });
 
   // 大型文档测试用例
-  describe("Large Document (10,000+ chars)", () => {
+  describe("large Document (10,000+ chars)", () => {
     const largeContent = `
 ::: demo Large Demo with Very Long Title That Might Need Trimming and Processing with Multiple Words and Spaces
 # Large Document Demo
@@ -242,17 +242,17 @@ More text and content to increase document size and complexity...
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(largeContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(largeContent);
     });
   });
 
   // 真实世界文档测试用例
-  describe("Real-world Document", () => {
+  describe("real-world Document", () => {
     const realWorldContent = `
 ::: demo Vue Demo
 # Vue Component Demo
@@ -378,17 +378,17 @@ This is the final section of our demo with some **bold text** and *italic text* 
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(realWorldContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(realWorldContent);
     });
   });
 
   // 测试嵌套的 Demo 容器场景
-  describe("Multiple Demo Containers", () => {
+  describe("multiple Demo Containers", () => {
     const multipleContent = `
 ::: demo First Demo
 # First Demo Content
@@ -422,17 +422,17 @@ console.log("Third demo");
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(multipleContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(multipleContent);
     });
   });
 
   // 测试自定义配置
-  describe("Custom Configuration", () => {
+  describe("custom Configuration", () => {
     const customContent = `
 ::: preview Custom Demo Title
 # Custom Demo Content
@@ -444,7 +444,7 @@ console.log("Custom demo");
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       const md = new MarkdownIt().use(demoOld, {
         name: "preview",
         showCodeFirst: true,
@@ -455,7 +455,7 @@ console.log("Custom demo");
       md.render(customContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       const md = new MarkdownIt().use(demoNew, {
         name: "preview",
         showCodeFirst: true,

@@ -14,7 +14,7 @@ describe(inlineRule, () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("!!not closed")).toEqual("<p>!!not closed</p>\n");
+      expect(md.render("!!not closed")).toBe("<p>!!not closed</p>\n");
     });
 
     it("should not match unclosed non-nested markers", () => {
@@ -24,7 +24,7 @@ describe(inlineRule, () => {
         token: "sup",
       });
 
-      expect(md.render("^not closed")).toEqual("<p>^not closed</p>\n");
+      expect(md.render("^not closed")).toBe("<p>^not closed</p>\n");
     });
 
     it("should handle escaped markers", () => {
@@ -34,7 +34,7 @@ describe(inlineRule, () => {
         token: "sup",
       });
 
-      expect(md.render(String.raw`\^not a sup^`)).toEqual("<p>^not a sup^</p>\n");
+      expect(md.render(String.raw`\^not a sup^`)).toBe("<p>^not a sup^</p>\n");
     });
 
     it("should not match empty content in non-nested mode", () => {
@@ -44,7 +44,7 @@ describe(inlineRule, () => {
         token: "sup",
       });
 
-      expect(md.render("^^")).toEqual("<p>^^</p>\n");
+      expect(md.render("^^")).toBe("<p>^^</p>\n");
     });
 
     it("should handle double marker non-nested with no content", () => {
@@ -55,7 +55,7 @@ describe(inlineRule, () => {
         double: true,
       });
 
-      expect(md.render("%%%%")).toEqual("<p>%%%%</p>\n");
+      expect(md.render("%%%%")).toBe("<p>%%%%</p>\n");
     });
 
     it("should not match double marker when second char differs", () => {
@@ -67,7 +67,7 @@ describe(inlineRule, () => {
       });
 
       // Single % followed by text - should not match
-      expect(md.render("%test%")).toEqual("<p>%test%</p>\n");
+      expect(md.render("%test%")).toBe("<p>%test%</p>\n");
     });
 
     it("should support nested rule with placement: 'after-emphasis' and tokens_meta", () => {
@@ -81,10 +81,10 @@ describe(inlineRule, () => {
       });
 
       // Use emphasis that creates token meta entries
-      expect(md.render("*==mark==*")).toEqual("<p><em><mark>mark</mark></em></p>\n");
+      expect(md.render("*==mark==*")).toBe("<p><em><mark>mark</mark></em></p>\n");
 
       // Link content creates separate token_meta entries with delimiters
-      expect(md.render("[==link==](url)")).toEqual('<p><a href="url"><mark>link</mark></a></p>\n');
+      expect(md.render("[==link==](url)")).toBe('<p><a href="url"><mark>link</mark></a></p>\n');
     });
   });
 });

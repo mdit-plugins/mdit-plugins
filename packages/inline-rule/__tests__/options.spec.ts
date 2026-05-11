@@ -39,7 +39,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
+      expect(md.render("==test==")).toBe("<p><mark>test</mark></p>\n");
     });
 
     it("should register after emphasis with placement: 'after-emphasis' (default)", () => {
@@ -49,7 +49,7 @@ describe("options", () => {
         token: "sup",
       });
 
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
     });
 
     it("should register non-nested rule before emphasis", () => {
@@ -60,7 +60,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
     });
 
     it("should register nested rule after emphasis", () => {
@@ -72,7 +72,7 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
+      expect(md.render("==test==")).toBe("<p><mark>test</mark></p>\n");
     });
   });
 
@@ -85,7 +85,7 @@ describe("options", () => {
         allowSpace: true,
       });
 
-      expect(md.render("^foo bar^")).toEqual("<p><sup>foo bar</sup></p>\n");
+      expect(md.render("^foo bar^")).toBe("<p><sup>foo bar</sup></p>\n");
     });
 
     it("should disallow spaces when allowSpace is false (default)", () => {
@@ -95,7 +95,7 @@ describe("options", () => {
         token: "sup",
       });
 
-      expect(md.render("^a b^")).toEqual("<p>^a b^</p>\n");
+      expect(md.render("^a b^")).toBe("<p>^a b^</p>\n");
     });
   });
 
@@ -108,7 +108,7 @@ describe("options", () => {
         attrs: [["class", "custom"]],
       });
 
-      expect(md.render("^test^")).toEqual('<p><span class="custom">test</span></p>\n');
+      expect(md.render("^test^")).toBe('<p><span class="custom">test</span></p>\n');
     });
 
     it("should apply attrs on nested rule", () => {
@@ -121,7 +121,7 @@ describe("options", () => {
         attrs: [["class", "highlight"]],
       });
 
-      expect(md.render("==text==")).toEqual('<p><span class="highlight">text</span></p>\n');
+      expect(md.render("==text==")).toBe('<p><span class="highlight">text</span></p>\n');
     });
   });
 
@@ -133,7 +133,7 @@ describe("options", () => {
         token: "sup",
       });
 
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
     });
 
     it("non-nested double: true uses double marker", () => {
@@ -144,8 +144,8 @@ describe("options", () => {
         double: true,
       });
 
-      expect(md.render("%%test%%")).toEqual("<p><span>test</span></p>\n");
-      expect(md.render("%test%")).toEqual("<p>%test%</p>\n");
+      expect(md.render("%%test%%")).toBe("<p><span>test</span></p>\n");
+      expect(md.render("%test%")).toBe("<p>%test%</p>\n");
     });
 
     it("nested always uses double markers regardless of double option", () => {
@@ -158,9 +158,9 @@ describe("options", () => {
       });
 
       // Single = should not match
-      expect(md.render("=test=")).toEqual("<p>=test=</p>\n");
+      expect(md.render("=test=")).toBe("<p>=test=</p>\n");
       // Double == should match
-      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
+      expect(md.render("==test==")).toBe("<p><mark>test</mark></p>\n");
     });
   });
 
@@ -173,10 +173,8 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
-      expect(md.render("**^test^ bold**")).toEqual(
-        "<p><strong><sup>test</sup> bold</strong></p>\n",
-      );
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
+      expect(md.render("**^test^ bold**")).toBe("<p><strong><sup>test</sup> bold</strong></p>\n");
     });
 
     it("non-nested + single + before-emphasis", () => {
@@ -187,7 +185,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
     });
 
     it("non-nested + double + after-emphasis", () => {
@@ -199,7 +197,7 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("%%test%%")).toEqual("<p><span>test</span></p>\n");
+      expect(md.render("%%test%%")).toBe("<p><span>test</span></p>\n");
     });
 
     it("non-nested + double + before-emphasis", () => {
@@ -211,7 +209,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("%%test%%")).toEqual("<p><span>test</span></p>\n");
+      expect(md.render("%%test%%")).toBe("<p><span>test</span></p>\n");
     });
 
     it("non-nested + single + allowSpace: true", () => {
@@ -222,7 +220,7 @@ describe("options", () => {
         allowSpace: true,
       });
 
-      expect(md.render("^foo bar^")).toEqual("<p><sup>foo bar</sup></p>\n");
+      expect(md.render("^foo bar^")).toBe("<p><sup>foo bar</sup></p>\n");
     });
 
     it("non-nested + single + allowSpace: false (explicit)", () => {
@@ -233,8 +231,8 @@ describe("options", () => {
         allowSpace: false,
       });
 
-      expect(md.render("^foo bar^")).toEqual("<p>^foo bar^</p>\n");
-      expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+      expect(md.render("^foo bar^")).toBe("<p>^foo bar^</p>\n");
+      expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
     });
 
     it("non-nested + double + allowSpace: true", () => {
@@ -246,7 +244,7 @@ describe("options", () => {
         allowSpace: true,
       });
 
-      expect(md.render("%%foo bar%%")).toEqual("<p><span>foo bar</span></p>\n");
+      expect(md.render("%%foo bar%%")).toBe("<p><span>foo bar</span></p>\n");
     });
 
     it("non-nested + double + allowSpace: false (explicit)", () => {
@@ -258,8 +256,8 @@ describe("options", () => {
         allowSpace: false,
       });
 
-      expect(md.render("%%foo bar%%")).toEqual("<p>%%foo bar%%</p>\n");
-      expect(md.render("%%test%%")).toEqual("<p><span>test</span></p>\n");
+      expect(md.render("%%foo bar%%")).toBe("<p>%%foo bar%%</p>\n");
+      expect(md.render("%%test%%")).toBe("<p><span>test</span></p>\n");
     });
 
     it("non-nested + single + attrs + before-emphasis", () => {
@@ -271,7 +269,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("^test^")).toEqual('<p><span class="test">test</span></p>\n');
+      expect(md.render("^test^")).toBe('<p><span class="test">test</span></p>\n');
     });
 
     it("non-nested + single + attrs + after-emphasis", () => {
@@ -283,8 +281,8 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("^test^")).toEqual('<p><span class="test">test</span></p>\n');
-      expect(md.render("^a b^")).toEqual("<p>^a b^</p>\n");
+      expect(md.render("^test^")).toBe('<p><span class="test">test</span></p>\n');
+      expect(md.render("^a b^")).toBe("<p>^a b^</p>\n");
     });
 
     it("non-nested + double + attrs + before-emphasis", () => {
@@ -297,7 +295,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("%%test%%")).toEqual('<p><span data-type="custom">test</span></p>\n');
+      expect(md.render("%%test%%")).toBe('<p><span data-type="custom">test</span></p>\n');
     });
 
     it("non-nested + double + attrs + after-emphasis", () => {
@@ -310,7 +308,7 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("%%test%%")).toEqual('<p><span data-type="custom">test</span></p>\n');
+      expect(md.render("%%test%%")).toBe('<p><span data-type="custom">test</span></p>\n');
     });
 
     it("nested + before-emphasis (mark-like)", () => {
@@ -322,7 +320,7 @@ describe("options", () => {
         placement: "before-emphasis",
       });
 
-      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
+      expect(md.render("==test==")).toBe("<p><mark>test</mark></p>\n");
     });
 
     it("nested + after-emphasis", () => {
@@ -334,7 +332,7 @@ describe("options", () => {
         placement: "after-emphasis",
       });
 
-      expect(md.render("==test==")).toEqual("<p><mark>test</mark></p>\n");
+      expect(md.render("==test==")).toBe("<p><mark>test</mark></p>\n");
     });
 
     it("nested + attrs + before-emphasis (spoiler-like)", () => {
@@ -350,7 +348,7 @@ describe("options", () => {
         ],
       });
 
-      expect(md.render("!!test!!")).toEqual(
+      expect(md.render("!!test!!")).toBe(
         '<p><span class="spoiler" tabindex="-1">test</span></p>\n',
       );
     });
@@ -365,7 +363,7 @@ describe("options", () => {
         attrs: [["class", "spoiler"]],
       });
 
-      expect(md.render("!!test!!")).toEqual('<p><span class="spoiler">test</span></p>\n');
+      expect(md.render("!!test!!")).toBe('<p><span class="spoiler">test</span></p>\n');
     });
   });
 
@@ -380,16 +378,16 @@ describe("options", () => {
       });
 
       // _abc_ should now be <u> instead of <em>
-      expect(md.render("_abc_")).toEqual("<p><u>abc</u></p>\n");
+      expect(md.render("_abc_")).toBe("<p><u>abc</u></p>\n");
 
       // __abc__ should now be <u> instead of <strong>
-      expect(md.render("__abc__")).toEqual("<p><u>abc</u></p>\n");
+      expect(md.render("__abc__")).toBe("<p><u>abc</u></p>\n");
 
       // *abc* asterisk-based italics should still work
-      expect(md.render("*abc*")).toEqual("<p><em>abc</em></p>\n");
+      expect(md.render("*abc*")).toBe("<p><em>abc</em></p>\n");
 
       // **abc** asterisk-based bold should still work
-      expect(md.render("**abc**")).toEqual("<p><strong>abc</strong></p>\n");
+      expect(md.render("**abc**")).toBe("<p><strong>abc</strong></p>\n");
     });
   });
 });

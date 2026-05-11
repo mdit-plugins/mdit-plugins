@@ -47,12 +47,12 @@ describe(normalizeAttributes, () => {
     const attrs = [{ attr: "key1" }, { attr: "key-two" }];
     const result = normalizeAttributes(attrs);
 
-    expect(result?.get("key1")).toEqual({
+    expect(result?.get("key1")).toStrictEqual({
       display: "Key1",
       boolean: false,
       index: 0,
     });
-    expect(result?.get("key-two")).toEqual({
+    expect(result?.get("key-two")).toStrictEqual({
       display: "Key-two",
       boolean: false,
       index: 1,
@@ -66,12 +66,12 @@ describe(normalizeAttributes, () => {
     ];
     const result = normalizeAttributes(attrs);
 
-    expect(result?.get("k1")).toEqual({
+    expect(result?.get("k1")).toStrictEqual({
       display: "Key 1",
       boolean: true,
       index: 0,
     });
-    expect(result?.get("k2")).toEqual({
+    expect(result?.get("k2")).toStrictEqual({
       display: "Key 2",
       boolean: false,
       index: 1,
@@ -82,24 +82,26 @@ describe(normalizeAttributes, () => {
 describe(parseAttributes, () => {
   describe("default behavior", () => {
     it("should parse quoted attributes", () => {
-      expect(parseAttributes('key="value"')).toEqual([
+      expect(parseAttributes('key="value"')).toStrictEqual([
         { attr: "key", name: "Key", value: "value" },
       ]);
-      expect(parseAttributes("key='value'")).toEqual([
+      expect(parseAttributes("key='value'")).toStrictEqual([
         { attr: "key", name: "Key", value: "value" },
       ]);
     });
 
     it("should parse unquoted attributes", () => {
-      expect(parseAttributes("key=value")).toEqual([{ attr: "key", name: "Key", value: "value" }]);
-      expect(parseAttributes("a=1 b=2")).toEqual([
+      expect(parseAttributes("key=value")).toStrictEqual([
+        { attr: "key", name: "Key", value: "value" },
+      ]);
+      expect(parseAttributes("a=1 b=2")).toStrictEqual([
         { attr: "a", name: "A", value: "1" },
         { attr: "b", name: "B", value: "2" },
       ]);
     });
 
     it("should handle mixed attributes", () => {
-      expect(parseAttributes('a="1" b=2 c')).toEqual([
+      expect(parseAttributes('a="1" b=2 c')).toStrictEqual([
         { attr: "a", name: "A", value: "1" },
         { attr: "b", name: "B", value: "2" },
         { attr: "c", name: "C", value: true },
@@ -107,23 +109,23 @@ describe(parseAttributes, () => {
     });
 
     it("should handle escapes in values", () => {
-      expect(parseAttributes(String.raw`msg="hello \"world\""`)).toEqual([
+      expect(parseAttributes(String.raw`msg="hello \"world\""`)).toStrictEqual([
         { attr: "msg", name: "Msg", value: 'hello "world"' },
       ]);
-      expect(parseAttributes(String.raw`path="C:\\Window"`)).toEqual([
+      expect(parseAttributes(String.raw`path="C:\\Window"`)).toStrictEqual([
         { attr: "path", name: "Path", value: "C:\\Window" },
       ]);
     });
 
     it("simple value without quotes", () => {
-      expect(parseAttributes("key1=value1 key2=value2")).toEqual([
+      expect(parseAttributes("key1=value1 key2=value2")).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value1" },
         { attr: "key2", name: "Key2", value: "value2" },
       ]);
     });
 
     it("complex attribute", () => {
-      expect(parseAttributes(`a11y=true multi-word=complex-value2`)).toEqual([
+      expect(parseAttributes(`a11y=true multi-word=complex-value2`)).toStrictEqual([
         { attr: "a11y", name: "A11y", value: "true" },
         { attr: "multi-word", name: "Multi Word", value: "complex-value2" },
       ]);
@@ -134,7 +136,7 @@ describe(parseAttributes, () => {
         parseAttributes(
           `key1='value with space' key2='complex-value2' key3='I am "God"!' key4='I am \\'God\\'!'`,
         ),
-      ).toEqual([
+      ).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "complex-value2" },
         { attr: "key3", name: "Key3", value: 'I am "God"!' },
@@ -145,7 +147,7 @@ describe(parseAttributes, () => {
     it("value with double quotes", () => {
       expect(
         parseAttributes(`key1="value with space" key2="complex-value2" key3="I am 'God'!"`),
-      ).toEqual([
+      ).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "complex-value2" },
         { attr: "key3", name: "Key3", value: "I am 'God'!" },
@@ -155,7 +157,7 @@ describe(parseAttributes, () => {
     it("value needs encoding", () => {
       expect(
         parseAttributes(`key1="value with &" key2="value with <tag>" key3="value with =equals"`),
-      ).toEqual([
+      ).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with &" },
         { attr: "key2", name: "Key2", value: "value with <tag>" },
         { attr: "key3", name: "Key3", value: "value with =equals" },
@@ -163,7 +165,7 @@ describe(parseAttributes, () => {
 
       expect(
         parseAttributes(`key1="value with &" key2="value with <tag\\>" key3="value with =equals"`),
-      ).toEqual([
+      ).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with &" },
         { attr: "key2", name: "Key2", value: "value with <tag>" },
         { attr: "key3", name: "Key3", value: "value with =equals" },
@@ -171,68 +173,68 @@ describe(parseAttributes, () => {
     });
 
     it("value with mixed quotes", () => {
-      expect(parseAttributes(`key1="value with space" key2=value2`)).toEqual([
+      expect(parseAttributes(`key1="value with space" key2=value2`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value2" },
       ]);
 
-      expect(parseAttributes(`key1="value with space" key2="value2"`)).toEqual([
+      expect(parseAttributes(`key1="value with space" key2="value2"`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value2" },
       ]);
 
-      expect(parseAttributes(`key1="value with space" key2='value'`)).toEqual([
+      expect(parseAttributes(`key1="value with space" key2='value'`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value" },
       ]);
 
-      expect(parseAttributes(`key1='value with space' key2="value"`)).toEqual([
+      expect(parseAttributes(`key1='value with space' key2="value"`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value" },
       ]);
 
-      expect(parseAttributes(`key1='value with space' key2="value with space"`)).toEqual([
+      expect(parseAttributes(`key1='value with space' key2="value with space"`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value with space" },
       ]);
 
-      expect(parseAttributes(`key1="value with space" key2="value with &"`)).toEqual([
+      expect(parseAttributes(`key1="value with space" key2="value with &"`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "value with space" },
         { attr: "key2", name: "Key2", value: "value with &" },
       ]);
     });
 
     it("should parse empty attrs", () => {
-      expect(parseAttributes(`key1="" key2=''`)).toEqual([
+      expect(parseAttributes(`key1="" key2=''`)).toStrictEqual([
         { attr: "key1", name: "Key1", value: "" },
         { attr: "key2", name: "Key2", value: "" },
       ]);
     });
 
     it("should handle edge cases", () => {
-      expect(parseAttributes("key=")).toEqual([]);
-      expect(parseAttributes('key="unterminated')).toEqual([
+      expect(parseAttributes("key=")).toStrictEqual([]);
+      expect(parseAttributes('key="unterminated')).toStrictEqual([
         { attr: "key", name: "Key", value: "unterminated" },
       ]);
     });
 
     it("should parse boolean attributes", () => {
-      expect(parseAttributes("required")).toEqual([
+      expect(parseAttributes("required")).toStrictEqual([
         { attr: "required", name: "Required", value: true },
       ]);
-      expect(parseAttributes("disabled checked")).toEqual([
+      expect(parseAttributes("disabled checked")).toStrictEqual([
         { attr: "disabled", name: "Disabled", value: true },
         { attr: "checked", name: "Checked", value: true },
       ]);
     });
 
     it("should handle empty string", () => {
-      expect(parseAttributes("")).toEqual([]);
-      expect(parseAttributes("   ")).toEqual([]);
+      expect(parseAttributes("")).toStrictEqual([]);
+      expect(parseAttributes("   ")).toStrictEqual([]);
     });
 
     it("should ignore attributes starting with =", () => {
-      expect(parseAttributes("=invalid")).toEqual([]);
+      expect(parseAttributes("=invalid")).toStrictEqual([]);
     });
   });
 
@@ -244,30 +246,30 @@ describe(parseAttributes, () => {
     ]);
 
     it("should filter attributes", () => {
-      expect(parseAttributes("a=1 b=2 d=4", allowedAttributes)).toEqual([
+      expect(parseAttributes("a=1 b=2 d=4", allowedAttributes)).toStrictEqual([
         { attr: "b", name: "Beta", value: "2" },
         { attr: "a", name: "Alpha", value: "1" },
       ]);
     });
 
     it("should sort attributes", () => {
-      expect(parseAttributes("a=1 b=2", allowedAttributes)).toEqual([
+      expect(parseAttributes("a=1 b=2", allowedAttributes)).toStrictEqual([
         { attr: "b", name: "Beta", value: "2" },
         { attr: "a", name: "Alpha", value: "1" },
       ]);
     });
 
     it("should handle boolean attributes", () => {
-      expect(parseAttributes("c", allowedAttributes)).toEqual([
+      expect(parseAttributes("c", allowedAttributes)).toStrictEqual([
         { attr: "c", name: "Gamma", value: true },
       ]);
-      expect(parseAttributes("c=anything", allowedAttributes)).toEqual([
+      expect(parseAttributes("c=anything", allowedAttributes)).toStrictEqual([
         { attr: "c", name: "Gamma", value: true },
       ]);
     });
 
     it("should handle mixed cases", () => {
-      expect(parseAttributes("c=val a=1 unknown=2 b=2", allowedAttributes)).toEqual([
+      expect(parseAttributes("c=val a=1 unknown=2 b=2", allowedAttributes)).toStrictEqual([
         { attr: "b", name: "Beta", value: "2" },
         { attr: "a", name: "Alpha", value: "1" },
         { attr: "c", name: "Gamma", value: true },

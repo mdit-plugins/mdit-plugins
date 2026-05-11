@@ -61,7 +61,7 @@ Description
   });
 });
 
-describe("CSS injection prevention", () => {
+describe("prevent CSS injection", () => {
   it("should strip attributes with invalid CSS class keys during parsing", () => {
     const md = MarkdownIt().use(field);
     const result = md.render(`

@@ -104,7 +104,7 @@ A **bold** text 2.
     });
   });
 
-  describe("Should support tabs id", () => {
+  describe("should support tabs id", () => {
     it("simple id", () => {
       const source = [
         `
@@ -195,7 +195,7 @@ content
     });
   });
 
-  describe("Should support tab id", () => {
+  describe("should support tab id", () => {
     it("simple id", () => {
       const source = [
         `
@@ -739,7 +739,7 @@ test
         const result = markdownIt.render(item);
 
         expect(result).toMatchSnapshot();
-        expect(result).toMatch(/<p>test<\/p>\n$/);
+        expect(result).toMatch(/<p>test<\/p>\n$/u);
       });
     });
 
@@ -782,7 +782,7 @@ content
       const result = markdownIt.render(source);
 
       expect(result).toMatchSnapshot();
-      expect(result).toMatch(/<\/div>\s*$/);
+      expect(result).toMatch(/<\/div>\s*$/u);
       expect(result).toContain("::: invalid");
     });
   });

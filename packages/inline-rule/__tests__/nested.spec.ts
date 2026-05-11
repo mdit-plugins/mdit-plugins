@@ -16,10 +16,10 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("++Insert++")).toEqual("<p><ins>Insert</ins></p>\n");
+        expect(md.render("++Insert++")).toBe("<p><ins>Insert</ins></p>\n");
       });
 
-      it("Can nested", () => {
+      it("can nested", () => {
         const testCases = [
           ["x ++++foo++ bar++", "<p>x <ins><ins>foo</ins> bar</ins></p>\n"],
           ["x ++foo ++bar++++", "<p>x <ins>foo <ins>bar</ins></ins></p>\n"],
@@ -32,44 +32,44 @@ describe(inlineRule, () => {
         ];
 
         testCases.forEach(([input, expected]) => {
-          expect(md.render(input)).toEqual(expected);
+          expect(md.render(input)).toStrictEqual(expected);
         });
       });
 
       it("should handle multiple '+'", () => {
-        expect(md.render("x +++foo+++")).toEqual("<p>x +<ins>foo</ins>+</p>\n");
+        expect(md.render("x +++foo+++")).toBe("<p>x +<ins>foo</ins>+</p>\n");
       });
 
-      it("Have the same priority as emphases", () => {
-        expect(md.render("**++test**++")).toEqual("<p><strong>++test</strong>++</p>\n");
-        expect(md.render("++**test++**")).toEqual("<p><ins>**test</ins>**</p>\n");
+      it("have the same priority as emphases", () => {
+        expect(md.render("**++test**++")).toBe("<p><strong>++test</strong>++</p>\n");
+        expect(md.render("++**test++**")).toBe("<p><ins>**test</ins>**</p>\n");
       });
 
-      it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[++link]()++")).toEqual('<p><a href="">++link</a>++</p>\n');
-        expect(md.render("++[link++]()")).toEqual('<p>++<a href="">link++</a></p>\n');
+      it("have the same priority as emphases with respect to links", () => {
+        expect(md.render("[++link]()++")).toBe('<p><a href="">++link</a>++</p>\n');
+        expect(md.render("++[link++]()")).toBe('<p>++<a href="">link++</a></p>\n');
       });
 
-      it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("++`code++`")).toEqual("<p>++<code>code++</code></p>\n");
-        expect(md.render("` ++ code`++")).toEqual("<p><code> ++ code</code>++</p>\n");
+      it("have the same priority as emphases with respect to backticks", () => {
+        expect(md.render("++`code++`")).toBe("<p>++<code>code++</code></p>\n");
+        expect(md.render("` ++ code`++")).toBe("<p><code> ++ code</code>++</p>\n");
       });
 
       it('should not render with single "+"', () => {
-        expect(md.render("+Insert+")).toEqual("<p>+Insert+</p>\n");
+        expect(md.render("+Insert+")).toBe("<p>+Insert+</p>\n");
       });
 
       it("should not render with empty content", () => {
-        expect(md.render("++++")).toEqual("<p>++++</p>\n");
-        expect(md.render("++++ a")).toEqual("<p>++++ a</p>\n");
-        expect(md.render("a ++++")).toEqual("<p>a ++++</p>\n");
-        expect(md.render("a ++++ a")).toEqual("<p>a ++++ a</p>\n");
+        expect(md.render("++++")).toBe("<p>++++</p>\n");
+        expect(md.render("++++ a")).toBe("<p>++++ a</p>\n");
+        expect(md.render("a ++++")).toBe("<p>a ++++</p>\n");
+        expect(md.render("a ++++ a")).toBe("<p>a ++++ a</p>\n");
       });
 
       it("should not render a whitespace or newline between text and '++'", () => {
-        expect(md.render("foo ++ bar ++ baz")).toEqual("<p>foo ++ bar ++ baz</p>\n");
-        expect(md.render("++test\n++ a\n")).toEqual("<p>++test\n++ a</p>\n");
-        expect(md.render("++\ntest++\n")).toEqual("<p>++\ntest++</p>\n");
+        expect(md.render("foo ++ bar ++ baz")).toBe("<p>foo ++ bar ++ baz</p>\n");
+        expect(md.render("++test\n++ a\n")).toBe("<p>++test\n++ a</p>\n");
+        expect(md.render("++\ntest++\n")).toBe("<p>++\ntest++</p>\n");
       });
     });
 
@@ -84,10 +84,10 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("==Mark==")).toEqual("<p><mark>Mark</mark></p>\n");
+        expect(md.render("==Mark==")).toBe("<p><mark>Mark</mark></p>\n");
       });
 
-      it("Can nested", () => {
+      it("can nested", () => {
         const testCases = [
           ["x ====foo== bar==", "<p>x <mark><mark>foo</mark> bar</mark></p>\n"],
           ["x ==foo ==bar====", "<p>x <mark>foo <mark>bar</mark></mark></p>\n"],
@@ -100,45 +100,45 @@ describe(inlineRule, () => {
         ];
 
         testCases.forEach(([input, expected]) => {
-          expect(md.render(input)).toEqual(expected);
+          expect(md.render(input)).toStrictEqual(expected);
         });
       });
 
       it("should handle multiple '='", () => {
-        expect(md.render("x ===foo===")).toEqual("<p>x =<mark>foo</mark>=</p>\n");
+        expect(md.render("x ===foo===")).toBe("<p>x =<mark>foo</mark>=</p>\n");
       });
 
-      it("Have the same priority as emphases", () => {
-        expect(md.render("**==test**==")).toEqual("<p><strong>==test</strong>==</p>\n");
-        expect(md.render("==**test==**")).toEqual("<p><mark>**test</mark>**</p>\n");
+      it("have the same priority as emphases", () => {
+        expect(md.render("**==test**==")).toBe("<p><strong>==test</strong>==</p>\n");
+        expect(md.render("==**test==**")).toBe("<p><mark>**test</mark>**</p>\n");
       });
 
-      it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[==link]()==")).toEqual('<p><a href="">==link</a>==</p>\n');
-        expect(md.render("==[link==]()")).toEqual('<p>==<a href="">link==</a></p>\n');
+      it("have the same priority as emphases with respect to links", () => {
+        expect(md.render("[==link]()==")).toBe('<p><a href="">==link</a>==</p>\n');
+        expect(md.render("==[link==]()")).toBe('<p>==<a href="">link==</a></p>\n');
       });
 
-      it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("==`code==`")).toEqual("<p>==<code>code==</code></p>\n");
-        expect(md.render("` == code`==")).toEqual("<p><code> == code</code>==</p>\n");
+      it("have the same priority as emphases with respect to backticks", () => {
+        expect(md.render("==`code==`")).toBe("<p>==<code>code==</code></p>\n");
+        expect(md.render("` == code`==")).toBe("<p><code> == code</code>==</p>\n");
       });
 
       it('should not render with single "="', () => {
-        expect(md.render("=mark=")).toEqual("<p>=mark=</p>\n");
+        expect(md.render("=mark=")).toBe("<p>=mark=</p>\n");
       });
 
       it("should not render with empty content", () => {
-        expect(md.render("====")).toEqual("<p>====</p>\n");
-        expect(md.render("==== a")).toEqual("<p>==== a</p>\n");
-        expect(md.render("a ====")).toEqual("<p>a ====</p>\n");
-        expect(md.render("a ==== a")).toEqual("<p>a ==== a</p>\n");
+        expect(md.render("====")).toBe("<p>====</p>\n");
+        expect(md.render("==== a")).toBe("<p>==== a</p>\n");
+        expect(md.render("a ====")).toBe("<p>a ====</p>\n");
+        expect(md.render("a ==== a")).toBe("<p>a ==== a</p>\n");
       });
 
       it("should not render a whitespace or newline between text and '=='", () => {
-        expect(md.render("foo == bar == baz")).toEqual("<p>foo == bar == baz</p>\n");
-        expect(md.render("==test\n== a\n")).toEqual("<p>==test\n== a</p>\n");
-        expect(md.render("==\ntest==\n")).toEqual("<p>==\ntest==</p>\n");
-        expect(md.render("==\ntest\n==\n")).toEqual("<h1>==\ntest</h1>\n");
+        expect(md.render("foo == bar == baz")).toBe("<p>foo == bar == baz</p>\n");
+        expect(md.render("==test\n== a\n")).toBe("<p>==test\n== a</p>\n");
+        expect(md.render("==\ntest==\n")).toBe("<p>==\ntest==</p>\n");
+        expect(md.render("==\ntest\n==\n")).toBe("<h1>==\ntest</h1>\n");
       });
     });
 
@@ -157,12 +157,12 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("!!Mark!!")).toEqual(
+        expect(md.render("!!Mark!!")).toBe(
           '<p><span class="spoiler" tabindex="-1">Mark</span></p>\n',
         );
       });
 
-      it("Can nested", () => {
+      it("can nested", () => {
         const testCases = [
           [
             "x !!!!foo!! bar!!",
@@ -187,48 +187,48 @@ describe(inlineRule, () => {
         ];
 
         testCases.forEach(([input, expected]) => {
-          expect(md.render(input)).toEqual(expected);
+          expect(md.render(input)).toStrictEqual(expected);
         });
       });
 
       it("should handle multiple '!'", () => {
-        expect(md.render("x !!!foo!!!")).toEqual(
+        expect(md.render("x !!!foo!!!")).toBe(
           '<p>x !<span class="spoiler" tabindex="-1">foo</span>!</p>\n',
         );
       });
 
-      it("Have the same priority as emphases", () => {
-        expect(md.render("**!!test**!!")).toEqual("<p><strong>!!test</strong>!!</p>\n");
-        expect(md.render("!!**test!!**")).toEqual(
+      it("have the same priority as emphases", () => {
+        expect(md.render("**!!test**!!")).toBe("<p><strong>!!test</strong>!!</p>\n");
+        expect(md.render("!!**test!!**")).toBe(
           '<p><span class="spoiler" tabindex="-1">**test</span>**</p>\n',
         );
       });
 
-      it("Have the same priority as emphases with respect to links", () => {
-        expect(md.render("[!!link]()!!")).toEqual('<p><a href="">!!link</a>!!</p>\n');
-        expect(md.render("!![link!!]()")).toEqual('<p>!!<a href="">link!!</a></p>\n');
+      it("have the same priority as emphases with respect to links", () => {
+        expect(md.render("[!!link]()!!")).toBe('<p><a href="">!!link</a>!!</p>\n');
+        expect(md.render("!![link!!]()")).toBe('<p>!!<a href="">link!!</a></p>\n');
       });
 
       it('should not render with single "!"', () => {
-        expect(md.render("!text!")).toEqual("<p>!text!</p>\n");
+        expect(md.render("!text!")).toBe("<p>!text!</p>\n");
       });
 
       it("should not render with empty content", () => {
-        expect(md.render("!!!!")).toEqual("<p>!!!!</p>\n");
-        expect(md.render("!!!! a")).toEqual("<p>!!!! a</p>\n");
-        expect(md.render("a !!!!")).toEqual("<p>a !!!!</p>\n");
-        expect(md.render("a !!!! a")).toEqual("<p>a !!!! a</p>\n");
+        expect(md.render("!!!!")).toBe("<p>!!!!</p>\n");
+        expect(md.render("!!!! a")).toBe("<p>!!!! a</p>\n");
+        expect(md.render("a !!!!")).toBe("<p>a !!!!</p>\n");
+        expect(md.render("a !!!! a")).toBe("<p>a !!!! a</p>\n");
       });
 
-      it("Have the same priority as emphases with respect to backticks", () => {
-        expect(md.render("!!`code!!`")).toEqual("<p>!!<code>code!!</code></p>\n");
-        expect(md.render("` !! code`!!")).toEqual("<p><code> !! code</code>!!</p>\n");
+      it("have the same priority as emphases with respect to backticks", () => {
+        expect(md.render("!!`code!!`")).toBe("<p>!!<code>code!!</code></p>\n");
+        expect(md.render("` !! code`!!")).toBe("<p><code> !! code</code>!!</p>\n");
       });
 
       it("should not render a whitespace or newline between text and '!!'", () => {
-        expect(md.render("foo !! bar !! baz")).toEqual("<p>foo !! bar !! baz</p>\n");
-        expect(md.render("!!test\n!! a\n")).toEqual("<p>!!test\n!! a</p>\n");
-        expect(md.render("!!\ntest!!\n")).toEqual("<p>!!\ntest!!</p>\n");
+        expect(md.render("foo !! bar !! baz")).toBe("<p>foo !! bar !! baz</p>\n");
+        expect(md.render("!!test\n!! a\n")).toBe("<p>!!test\n!! a</p>\n");
+        expect(md.render("!!\ntest!!\n")).toBe("<p>!!\ntest!!</p>\n");
       });
     });
   });

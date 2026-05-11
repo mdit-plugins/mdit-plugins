@@ -22,7 +22,7 @@ const main = async (): Promise<void> => {
 
   // Drop aliases without names (with names "uXXXX")
   definitions.forEach((definition) => {
-    definition.aliases = definition.aliases.filter((a) => !/^u[0-9a-b]{4,}$/i.test(a));
+    definition.aliases = definition.aliases.filter((a) => !/^u[0-9a-b]{4,}$/iu.test(a));
   });
 
   const emojis: Record<string, string> = {};

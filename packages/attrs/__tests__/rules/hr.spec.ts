@@ -1,3 +1,4 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 

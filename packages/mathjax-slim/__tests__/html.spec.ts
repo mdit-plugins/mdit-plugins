@@ -21,12 +21,12 @@ describe("mathjax-html", () => {
         const inline = markdownIt.render(`$${example}$`);
         const inlineInText = markdownIt.render(`A tex equation $${example}$ inline.`);
 
-        expect(inline).toMatchSnapshot();
+        expect(inline).toMatchSnapshot("inline");
         expect(inline).toMatch(/jax="CHTML"/);
         expect(inline).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
         expect(inline).toMatch(/<mjx-math .*>[\s\S]*<\/mjx-math>/);
 
-        expect(inlineInText).toMatchSnapshot();
+        expect(inlineInText).toMatchSnapshot("inline-in-text");
         expect(inlineInText).toMatch(/jax="CHTML"/);
         expect(inlineInText).toMatch(/<mjx-container .*>.*<\/mjx-container>/);
         expect(inlineInText).toMatch(/<mjx-math .*>[\s\S]*<\/mjx-math>/);

@@ -13,40 +13,38 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("^test^")).toEqual("<p><sup>test</sup></p>\n");
+        expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
       });
 
       it("should not render when escape", () => {
-        expect(md.render(String.raw`^foo\^`)).toEqual("<p>^foo^</p>\n");
-        expect(md.render(String.raw`\^foo^`)).toEqual("<p>^foo^</p>\n");
+        expect(md.render(String.raw`^foo\^`)).toBe("<p>^foo^</p>\n");
+        expect(md.render(String.raw`\^foo^`)).toBe("<p>^foo^</p>\n");
       });
 
       it("should not render when having spaces", () => {
-        expect(md.render("2^4 + 3^5")).toEqual("<p>2^4 + 3^5</p>\n");
+        expect(md.render("2^4 + 3^5")).toBe("<p>2^4 + 3^5</p>\n");
       });
 
       it("should render when spaces are escaped", () => {
-        expect(md.render(String.raw`^foo\ bar\ baz^`)).toEqual("<p><sup>foo bar baz</sup></p>\n");
-        expect(md.render(String.raw`^\ foo\ ^`)).toEqual("<p><sup> foo </sup></p>\n");
+        expect(md.render(String.raw`^foo\ bar\ baz^`)).toBe("<p><sup>foo bar baz</sup></p>\n");
+        expect(md.render(String.raw`^\ foo\ ^`)).toBe("<p><sup> foo </sup></p>\n");
       });
 
       it("should render when having other symbols", () => {
-        expect(md.render("^foo~bar^baz^bar~foo^")).toEqual(
+        expect(md.render("^foo~bar^baz^bar~foo^")).toBe(
           "<p><sup>foo~bar</sup>baz<sup>bar~foo</sup></p>\n",
         );
       });
 
       it(String.raw`should handle multiple '\'`, () => {
-        expect(md.render(String.raw`^foo\\\\\\\ bar^`)).toEqual(
-          "<p><sup>foo\\\\\\ bar</sup></p>\n",
-        );
-        expect(md.render(String.raw`^foo\\\\\\ bar^`)).toEqual("<p>^foo\\\\\\ bar^</p>\n");
+        expect(md.render(String.raw`^foo\\\\\\\ bar^`)).toBe("<p><sup>foo\\\\\\ bar</sup></p>\n");
+        expect(md.render(String.raw`^foo\\\\\\ bar^`)).toBe("<p>^foo\\\\\\ bar^</p>\n");
       });
 
       it("should work with other marker", () => {
-        expect(md.render("**^foo^ bar**")).toEqual("<p><strong><sup>foo</sup> bar</strong></p>\n");
-        expect(md.render("*^f")).toEqual("<p>*^f</p>\n");
-        expect(md.render("b*^")).toEqual("<p>b*^</p>\n");
+        expect(md.render("**^foo^ bar**")).toBe("<p><strong><sup>foo</sup> bar</strong></p>\n");
+        expect(md.render("*^f")).toBe("<p>*^f</p>\n");
+        expect(md.render("b*^")).toBe("<p>b*^</p>\n");
       });
     });
 
@@ -58,32 +56,32 @@ describe(inlineRule, () => {
       });
 
       it("should render", () => {
-        expect(md.render("~test~")).toEqual("<p><sub>test</sub></p>\n");
+        expect(md.render("~test~")).toBe("<p><sub>test</sub></p>\n");
       });
 
       it("should not render when escape", () => {
-        expect(md.render(String.raw`~foo\~`)).toEqual("<p>~foo~</p>\n");
-        expect(md.render(String.raw`\~foo~`)).toEqual("<p>~foo~</p>\n");
+        expect(md.render(String.raw`~foo\~`)).toBe("<p>~foo~</p>\n");
+        expect(md.render(String.raw`\~foo~`)).toBe("<p>~foo~</p>\n");
       });
 
       it("should not render when having spaces", () => {
-        expect(md.render("~foo bar~")).toEqual("<p>~foo bar~</p>\n");
+        expect(md.render("~foo bar~")).toBe("<p>~foo bar~</p>\n");
       });
 
       it("should render when spaces are escaped", () => {
-        expect(md.render(String.raw`~foo\ bar\ baz~`)).toEqual("<p><sub>foo bar baz</sub></p>\n");
-        expect(md.render(String.raw`~\ foo\ ~`)).toEqual("<p><sub> foo </sub></p>\n");
+        expect(md.render(String.raw`~foo\ bar\ baz~`)).toBe("<p><sub>foo bar baz</sub></p>\n");
+        expect(md.render(String.raw`~\ foo\ ~`)).toBe("<p><sub> foo </sub></p>\n");
       });
 
       it(String.raw`should handle multiple '\'`, () => {
-        expect(md.render(String.raw`~foo\\\\\ bar~`)).toEqual("<p><sub>foo\\\\ bar</sub></p>\n");
-        expect(md.render(String.raw`~foo\\\\ bar~`)).toEqual("<p>~foo\\\\ bar~</p>\n");
+        expect(md.render(String.raw`~foo\\\\\ bar~`)).toBe("<p><sub>foo\\\\ bar</sub></p>\n");
+        expect(md.render(String.raw`~foo\\\\ bar~`)).toBe("<p>~foo\\\\ bar~</p>\n");
       });
 
       it("should work with other marker", () => {
-        expect(md.render("**~foo~ bar**")).toEqual("<p><strong><sub>foo</sub> bar</strong></p>\n");
-        expect(md.render("*~f")).toEqual("<p>*~f</p>\n");
-        expect(md.render("b*~")).toEqual("<p>b*~</p>\n");
+        expect(md.render("**~foo~ bar**")).toBe("<p><strong><sub>foo</sub> bar</strong></p>\n");
+        expect(md.render("*~f")).toBe("<p>*~f</p>\n");
+        expect(md.render("b*~")).toBe("<p>b*~</p>\n");
       });
     });
   });

@@ -1056,7 +1056,7 @@ Content
     });
   });
 
-  describe("XSS prevention", () => {
+  describe("prevent XSS", () => {
     it("should escape special characters in class names", () => {
       expect(
         markdownIt.render(`\
