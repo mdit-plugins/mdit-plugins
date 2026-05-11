@@ -83,7 +83,7 @@ Term 2
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -148,7 +148,7 @@ Term 3
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -236,7 +236,7 @@ test
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -379,7 +379,7 @@ Term 2</p>
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -498,7 +498,7 @@ chili's
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -580,7 +580,7 @@ Term 2
     ];
 
     testCases.forEach(([content, expected]) => {
-      expect(markdownIt.render(content)).toEqual(expected);
+      expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
 
@@ -688,7 +688,7 @@ Next line</p>
     ];
 
     testCases.forEach(([src, expected]) => {
-      expect(markdownIt.render(src)).toEqual(expected);
+      expect(markdownIt.render(src)).toStrictEqual(expected);
     });
   });
 });

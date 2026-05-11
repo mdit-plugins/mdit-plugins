@@ -15,6 +15,10 @@ export default defineHopeConfig(
       // oxlint-disable-next-line no-warning-comments
       // FIXME: There is a bug here
       "vitest/max-nested-describe": "off",
+      "vitest/valid-describe-callback": "off",
+      // oxlint-disable-next-line no-warning-comments
+      // FIXME: https://github.com/oxc-project/oxc/issues/22268
+      "vitest/valid-title": "off",
     },
     vitest: {
       bench: true,

@@ -31,7 +31,7 @@ describe(getMatchingOpeningToken, () => {
   it("should return null for softbreak tokens", () => {
     const tokens = [createToken({ type: "softbreak" })];
 
-    expect(getMatchingOpeningToken(tokens, 0)).toBe(null);
+    expect(getMatchingOpeningToken(tokens, 0)).toBeNull();
   });
 
   it("should return the same token for self-closing tokens (nesting: 0)", () => {
@@ -112,14 +112,14 @@ describe(getMatchingOpeningToken, () => {
   it("should return null when no matching opening token found", () => {
     const tokens = [createToken({ type: "paragraph_close", nesting: -1, level: 0 })];
 
-    expect(getMatchingOpeningToken(tokens, 0)).toBe(null);
+    expect(getMatchingOpeningToken(tokens, 0)).toBeNull();
   });
 
   it("should return null for out-of-bounds or negative index", () => {
     const tokens = [createToken({ type: "paragraph_open", nesting: 1, level: 0 })];
 
-    expect(getMatchingOpeningToken(tokens, -1)).toBe(null);
-    expect(getMatchingOpeningToken(tokens, 5)).toBe(null);
+    expect(getMatchingOpeningToken(tokens, -1)).toBeNull();
+    expect(getMatchingOpeningToken(tokens, 5)).toBeNull();
   });
 
   it("should handle edge case with single token", () => {

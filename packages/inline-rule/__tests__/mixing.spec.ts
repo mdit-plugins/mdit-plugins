@@ -18,7 +18,7 @@ describe("mixing", () => {
           token: "sub",
         });
 
-      expect(md.render("^sup^ and ~sub~")).toEqual("<p><sup>sup</sup> and <sub>sub</sub></p>\n");
+      expect(md.render("^sup^ and ~sub~")).toBe("<p><sup>sup</sup> and <sub>sub</sub></p>\n");
     });
 
     it("should support mixing nested and non-nested rules", () => {
@@ -36,7 +36,7 @@ describe("mixing", () => {
           placement: "before-emphasis",
         });
 
-      expect(md.render("==marked ^sup^ text==")).toEqual(
+      expect(md.render("==marked ^sup^ text==")).toBe(
         "<p><mark>marked <sup>sup</sup> text</mark></p>\n",
       );
     });
@@ -52,7 +52,7 @@ describe("mixing", () => {
       });
 
       // inner **bold** should NOT be parsed
-      expect(md.render("~sub **bold**~")).toEqual("<p><sub>sub **bold**</sub></p>\n");
+      expect(md.render("~sub **bold**~")).toBe("<p><sub>sub **bold**</sub></p>\n");
     });
 
     it("nested: true should parse inner inline markup", () => {
@@ -65,7 +65,7 @@ describe("mixing", () => {
         attrs: [["class", "spoiler"]],
       });
 
-      expect(md.render("!!spoiler **bold**!!")).toEqual(
+      expect(md.render("!!spoiler **bold**!!")).toBe(
         '<p><span class="spoiler">spoiler <strong>bold</strong></span></p>\n',
       );
     });
@@ -90,7 +90,7 @@ describe("mixing", () => {
           placement: "before-emphasis",
         });
 
-      expect(md.render("!!spoiler with ==mark== inside!!")).toEqual(
+      expect(md.render("!!spoiler with ==mark== inside!!")).toBe(
         '<p><span class="spoiler">spoiler with <mark>mark</mark> inside</span></p>\n',
       );
     });
@@ -115,7 +115,7 @@ describe("mixing", () => {
           placement: "before-emphasis",
         });
 
-      expect(md.render("==marked ^sup^ and ~sub~ text==")).toEqual(
+      expect(md.render("==marked ^sup^ and ~sub~ text==")).toBe(
         "<p><mark>marked <sup>sup</sup> and <sub>sub</sub> text</mark></p>\n",
       );
     });
@@ -143,7 +143,7 @@ describe("mixing", () => {
           placement: "before-emphasis",
         });
 
-      expect(md.render("!!==highlighted== ^sup^ spoiler!!")).toEqual(
+      expect(md.render("!!==highlighted== ^sup^ spoiler!!")).toBe(
         '<p><span class="spoiler"><mark>highlighted</mark> <sup>sup</sup> spoiler</span></p>\n',
       );
     });
@@ -164,7 +164,7 @@ describe("mixing", () => {
           placement: "after-emphasis",
         });
 
-      expect(md.render("==mark ^sup^ text==")).toEqual(
+      expect(md.render("==mark ^sup^ text==")).toBe(
         "<p><mark>mark <sup>sup</sup> text</mark></p>\n",
       );
     });
@@ -183,7 +183,7 @@ describe("mixing", () => {
           token: "sup",
         });
 
-      expect(md.render("%%custom%% and ^sup^")).toEqual(
+      expect(md.render("%%custom%% and ^sup^")).toBe(
         "<p><span>custom</span> and <sup>sup</sup></p>\n",
       );
     });
@@ -204,7 +204,7 @@ describe("mixing", () => {
         });
 
       // Last registration (sub) wins because it is added after in the ruler chain
-      expect(md.render("^test^")).toEqual("<p><sub>test</sub></p>\n");
+      expect(md.render("^test^")).toBe("<p><sub>test</sub></p>\n");
     });
 
     it("rules registered with different placements do not interfere", () => {
@@ -225,7 +225,7 @@ describe("mixing", () => {
           attrs: [["class", "spoiler"]],
         });
 
-      expect(md.render("==mark== and !!spoiler!!")).toEqual(
+      expect(md.render("==mark== and !!spoiler!!")).toBe(
         '<p><mark>mark</mark> and <span class="spoiler">spoiler</span></p>\n',
       );
     });
@@ -273,8 +273,8 @@ describe("mixing", () => {
       const expected =
         '<p><span class="spoiler">spoiler with <mark>mark</mark> inside</span></p>\n';
 
-      expect(md1.render(input)).toEqual(expected);
-      expect(md2.render(input)).toEqual(expected);
+      expect(md1.render(input)).toStrictEqual(expected);
+      expect(md2.render(input)).toStrictEqual(expected);
     });
   });
 });

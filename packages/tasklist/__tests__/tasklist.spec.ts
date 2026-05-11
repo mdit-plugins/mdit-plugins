@@ -52,7 +52,7 @@ describe(tasklist, () => {
     expect(ulResult).toContain("disabled");
     expect(ulResult).toContain("</ul>");
     expect(ulResult).toContain("</li>");
-    expect(ulResult).toMatchSnapshot();
+    expect(ulResult).toMatchSnapshot("ul nested");
 
     const olResult = markdownIt.render(`
 1. foo
@@ -68,7 +68,7 @@ describe(tasklist, () => {
     expect(olResult).toContain("disabled");
     expect(olResult).toContain("</ol>");
     expect(olResult).toContain("</li>");
-    expect(olResult).toMatchSnapshot();
+    expect(olResult).toMatchSnapshot("ol nested");
   });
 
   it("should not render label", () => {

@@ -6,7 +6,7 @@ describe(detectDirective, () => {
   it("should detect @end with trailing space", () => {
     const result = detectDirective("@end trailing", 0, 13);
 
-    expect(result).toEqual({ kind: "end", type: 0, nameEnd: 4, depth: 1 });
+    expect(result).toStrictEqual({ kind: "end", type: 0, nameEnd: 4, depth: 1 });
   });
 
   it("should not detect @endfoo as end", () => {
@@ -34,18 +34,18 @@ describe(parseAttributes, () => {
   it("should stop parsing on unexpected character", () => {
     const result = parseAttributes("!unexpected", 0, 11);
 
-    expect(result).toEqual({ classes: [], id: "", utilities: [] });
+    expect(result).toStrictEqual({ classes: [], id: "", utilities: [] });
   });
 
   it("should skip empty class name after dot", () => {
     const result = parseAttributes(".#myid", 0, 6);
 
-    expect(result).toEqual({ classes: [], id: "myid", utilities: [] });
+    expect(result).toStrictEqual({ classes: [], id: "myid", utilities: [] });
   });
 
   it("should skip empty id after hash", () => {
     const result = parseAttributes("#.myclass", 0, 9);
 
-    expect(result).toEqual({ classes: ["myclass"], id: "", utilities: [] });
+    expect(result).toStrictEqual({ classes: ["myclass"], id: "", utilities: [] });
   });
 });

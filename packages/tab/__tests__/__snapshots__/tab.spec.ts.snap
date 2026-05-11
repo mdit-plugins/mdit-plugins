@@ -1,215 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`tab > Should support tab id > id with escape # 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > id with escape # 2`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > id with multiple # 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="def">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > id with multiple # 2`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="def">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > id with space 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id with space">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > id with space 2`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id with space">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > should handle tab with trailing spaces but no ID 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>content</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > simple id 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tab id > simple id 2`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0" data-id="id">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > id with space 1`] = `
-"<div class="tabs-tabs-wrapper" data-id="id with space">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > id with space 2`] = `
-"<div class="tabs-tabs-wrapper" data-id="id with space">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > should handle tabs with empty ID 1`] = `
-"<div class="tabs-tabs-wrapper">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>content</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > should handle tabs with only spaces before ID 1`] = `
-"<div class="tabs-tabs-wrapper" data-id="id">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>content</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > simple id 1`] = `
-"<div class="tabs-tabs-wrapper" data-id="event">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
-exports[`tab > Should support tabs id > simple id 2`] = `
-"<div class="tabs-tabs-wrapper" data-id="event">
-  <div class="tabs-tabs-header">
-    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
-  </div>
-  <div class="tabs-tabs-container">
-<div class="tabs-tab-content" data-index="0">
-<p>A <strong>bold</strong> text.</p>
-</div>
-  </div>
-</div>
-"
-`;
-
 exports[`tab > active > should handle :active 1`] = `
 "<div class="tabs-tabs-wrapper">
   <div class="tabs-tabs-header">
@@ -763,6 +553,216 @@ exports[`tab > should render single block 1`] = `
 
 exports[`tab > should render single block 2`] = `
 "<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with escape # 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with escape # 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with multiple # 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="def">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with multiple # 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="def">test#abc</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="def">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with space 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="id with space">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > id with space 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id with space">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="id with space">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > should handle tab with trailing spaces but no ID 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > simple id 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="id">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tab id > simple id 2`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="id">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="id">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > id with space 1`] = `
+"<div class="tabs-tabs-wrapper" data-id="id with space">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > id with space 2`] = `
+"<div class="tabs-tabs-wrapper" data-id="id with space">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > should handle tabs with empty ID 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > should handle tabs with only spaces before ID 1`] = `
+"<div class="tabs-tabs-wrapper" data-id="id">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > simple id 1`] = `
+"<div class="tabs-tabs-wrapper" data-id="event">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">test</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>A <strong>bold</strong> text.</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > should support tabs id > simple id 2`] = `
+"<div class="tabs-tabs-wrapper" data-id="event">
   <div class="tabs-tabs-header">
     <button type="button" class="tabs-tab-button" data-tab="0">test</button>
   </div>

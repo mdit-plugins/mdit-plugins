@@ -40,39 +40,39 @@ const generateTestContent = (size: "small" | "medium" | "large"): string => {
   return content;
 };
 
-describe("Alert Plugin Performance Benchmarks", () => {
+describe("alert Plugin Performance Benchmarks", () => {
   const testCases = {
     small: generateTestContent("small"),
     medium: generateTestContent("medium"),
     large: generateTestContent("large"),
   };
 
-  bench("Small document - Original", () => {
+  bench("small document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.small);
   });
 
-  bench("Small document - Optimized", () => {
+  bench("small document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.small);
   });
 
-  bench("Medium document - Original", () => {
+  bench("medium document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.medium);
   });
 
-  bench("Medium document - Optimized", () => {
+  bench("medium document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.medium);
   });
 
-  bench("Large document - Original", () => {
+  bench("large document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.large);
   });
 
-  bench("Large document - Optimized", () => {
+  bench("large document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.large);
   });

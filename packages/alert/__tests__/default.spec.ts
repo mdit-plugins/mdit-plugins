@@ -93,8 +93,8 @@ describe("constant default behavior", () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -114,8 +114,8 @@ describe("constant default behavior", () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -150,8 +150,8 @@ describe("constant default behavior", () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -163,8 +163,8 @@ describe("constant default behavior", () => {
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -194,8 +194,8 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -211,8 +211,8 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 
@@ -365,8 +365,8 @@ code block
     ];
 
     testCases.forEach(([input, output]) => {
-      expect(markdownItDefault.render(input)).toEqual(output);
-      expect(markdownIt.render(input)).toEqual(output);
+      expect(markdownItDefault.render(input)).toStrictEqual(output);
+      expect(markdownIt.render(input)).toStrictEqual(output);
     });
   });
 });

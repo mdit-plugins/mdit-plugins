@@ -23,7 +23,7 @@ describe(snippet, () => {
 
     expect(rendered).toMatchSnapshot();
     expect(rendered).not.toContain("pre");
-    expect(env.snippetFiles).toEqual(undefined);
+    expect(env.snippetFiles).toBeUndefined();
   });
 
   it("should not parse code block", () => {
@@ -46,7 +46,7 @@ describe(snippet, () => {
 
       expect(rendered).toContain("not-exisit.md");
       expect(rendered).toMatchSnapshot();
-      expect(env.snippetFiles?.length).toBe(undefined);
+      expect(env.snippetFiles?.length).toBeUndefined();
     });
   });
 

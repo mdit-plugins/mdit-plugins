@@ -26,7 +26,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
       },
     );
 
@@ -36,7 +36,7 @@ const createDelimiterTests = (
 
       const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-      expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+      expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
     });
 
     it(
@@ -55,7 +55,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toEqual(expected);
+        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
       },
     );
   });

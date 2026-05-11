@@ -38,11 +38,11 @@ describe(dedent, () => {
   });
 
   it("when only 1 line is passed, dedent it", () => {
-    expect(dedent("    let a = 42;")).toEqual("let a = 42;");
+    expect(dedent("    let a = 42;")).toBe("let a = 42;");
   });
 
   it("dedent empty content", () => {
-    expect(dedent("")).toEqual("");
+    expect(dedent("")).toBe("");
   });
 
   it("handle tabs as well", () => {

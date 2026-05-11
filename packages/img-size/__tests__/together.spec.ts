@@ -13,17 +13,17 @@ describe("working together", () => {
     .use(obsidianImgSize);
 
   it("original", () => {
-    expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image"></p>\n',
     );
 
-    expect(markdownIt.render(`![image]( /logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image]( /logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](data:script)`)).toEqual("<p>![image](data:script)</p>\n");
+    expect(markdownIt.render(`![image](data:script)`)).toBe("<p>![image](data:script)</p>\n");
 
-    expect(markdownIt.render(`![image](/logo.svg "title")`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg "title")`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title"></p>\n',
     );
 
@@ -35,7 +35,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image"></p>\n');
 
     expect(
       markdownIt.render(
@@ -45,7 +45,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo"></p>\n');
 
     expect(
       markdownIt.render(
@@ -55,7 +55,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual("<p>![image][logo</p>\n");
+    ).toBe("<p>![image][logo</p>\n");
 
     expect(
       markdownIt.render(`\
@@ -63,15 +63,15 @@ describe("working together", () => {
 
 [logo]: /logo.svg "title"
 `),
-    ).toEqual('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" title="title"></p>\n');
   });
 
   it("img size", () => {
-    expect(markdownIt.render(`![image =200x300](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image =200x300](/logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image =200x300](/logo.svg "title")`)).toEqual(
+    expect(markdownIt.render(`![image =200x300](/logo.svg "title")`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
     );
 
@@ -83,7 +83,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -93,7 +93,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -103,7 +103,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -113,21 +113,21 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
 
-    expect(markdownIt.render(`![image =200x](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image =200x](/logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
     );
 
-    expect(markdownIt.render(`![image =x300](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image =x300](/logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image =200x](/logo.svg "title")`)).toEqual(
+    expect(markdownIt.render(`![image =200x](/logo.svg "title")`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
     );
 
-    expect(markdownIt.render(`![image =x300](/logo.svg "title")`)).toEqual(
+    expect(markdownIt.render(`![image =x300](/logo.svg "title")`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
     );
 
@@ -139,7 +139,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" width="200"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" width="200"></p>\n');
 
     expect(
       markdownIt.render(
@@ -149,7 +149,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" width="200"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" width="200"></p>\n');
 
     expect(
       markdownIt.render(
@@ -159,7 +159,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -169,7 +169,7 @@ describe("working together", () => {
 [logo]: /logo.svg
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -179,7 +179,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n');
 
     expect(
       markdownIt.render(
@@ -189,7 +189,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" title="title" width="200"></p>\n');
 
     expect(
       markdownIt.render(
@@ -199,7 +199,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -209,15 +209,15 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
 `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" title="title" height="300"></p>\n');
   });
 
   it("obsidian img size", () => {
-    expect(markdownIt.render(`![image|200x300](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image|200x300](/logo.svg)`)).toBe(
       '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image|200x300](/logo.svg "title")`)).toEqual(
+    expect(markdownIt.render(`![image|200x300](/logo.svg "title")`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
     );
 
@@ -229,7 +229,7 @@ describe("working together", () => {
 [logo]: /logo.svg
     `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -239,7 +239,7 @@ describe("working together", () => {
 [logo]: /logo.svg
     `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -249,7 +249,7 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
     `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n');
 
     expect(
       markdownIt.render(
@@ -259,31 +259,31 @@ describe("working together", () => {
 [logo]: /logo.svg "title"
     `,
       ),
-    ).toEqual('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
+    ).toBe('<p><img src="/logo.svg" alt="logo" title="title" width="200" height="300"></p>\n');
   });
 
   it("legacy img size", () => {
-    expect(markdownIt.render(`![image](/logo.svg =200x300)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg =200x300)`)).toBe(
       '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](/logo.svg "title" =200x300)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg "title" =200x300)`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](/logo.svg =200x)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg =200x)`)).toBe(
       '<p><img src="/logo.svg" alt="image" width="200"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](/logo.svg =x300)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg =x300)`)).toBe(
       '<p><img src="/logo.svg" alt="image" height="300"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](/logo.svg "title" =200x)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg "title" =200x)`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" width="200"></p>\n',
     );
 
-    expect(markdownIt.render(`![image](/logo.svg "title" =x300)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg "title" =x300)`)).toBe(
       '<p><img src="/logo.svg" alt="image" title="title" height="300"></p>\n',
     );
   });

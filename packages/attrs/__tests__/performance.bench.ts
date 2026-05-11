@@ -98,44 +98,44 @@ const largeContent = createTestContent("large");
 const createOriginalRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOriginal);
 const createOptimizedRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOptimized);
 
-describe("Original vs Optimized Performance Comparison", () => {
-  describe("Small document (approx. 2000-3000 characters)", () => {
-    bench("Original version", () => {
+describe("original vs Optimized Performance Comparison", () => {
+  describe("small document (approx. 2000-3000 characters)", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(smallContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(smallContent);
     });
   });
 
-  describe("Medium document (approx. 6000-9000 characters)", () => {
-    bench("Original version", () => {
+  describe("medium document (approx. 6000-9000 characters)", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(mediumContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(mediumContent);
     });
   });
 
-  describe("Large document (approx. 15000-20000 characters)", () => {
-    bench("Original version", () => {
+  describe("large document (approx. 15000-20000 characters)", () => {
+    bench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(largeContent);
     });
 
-    bench("Optimized version", () => {
+    bench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(largeContent);
     });
   });
 
-  describe("Real document test (attrs documentation)", () => {
+  describe("real document test (attrs documentation)", () => {
     // Using actual documentation content as test case
     const realDocContent = `---
 title: "@mdit/plugin-attrs"
@@ -348,12 +348,12 @@ A line with break
 }
 </style>`;
 
-    bench("Original version - Real document", () => {
+    bench("original version - Real document", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(realDocContent);
     });
 
-    bench("Optimized version - Real document", () => {
+    bench("optimized version - Real document", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(realDocContent);
     });

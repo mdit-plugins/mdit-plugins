@@ -7,12 +7,12 @@ import { tab as tabOld } from "../src-old/index.js";
 import type { MarkdownItTabData } from "../src/index.js";
 import { tab as tabNew } from "../src/index.js";
 
-describe("Tab Plugin Benchmark", () => {
+describe("tab Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(tabOld);
   const mdNew = new MarkdownIt().use(tabNew);
 
   // 简单标签测试
-  describe("Simple Tabs (Small Content)", () => {
+  describe("simple Tabs (Small Content)", () => {
     const simpleTabsContent = `
 ::: tabs
 @tab tab 1
@@ -39,17 +39,17 @@ Content of tab 3
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(simpleTabsContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(simpleTabsContent);
     });
   });
 
   // 中等复杂度标签测试
-  describe("Medium Complexity Tabs", () => {
+  describe("medium Complexity Tabs", () => {
     const mediumTabsContent = `
 ::: tabs
 @tab JavaScript
@@ -103,17 +103,17 @@ int main() {
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(mediumTabsContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(mediumTabsContent);
     });
   });
 
   // 复杂标签测试（多个标签组、嵌套内容）
-  describe("Complex Tabs (Multiple Tab Groups)", () => {
+  describe("complex Tabs (Multiple Tab Groups)", () => {
     const complexTabsContent = `
 ::: tabs
 @tab Introduction
@@ -229,17 +229,17 @@ Content of the third tab in the second group.
 :::
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(complexTabsContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(complexTabsContent);
     });
   });
 
   // 大型文档测试（多个标签组、大量内容）
-  describe("Large Document with Many Tabs", () => {
+  describe("large Document with Many Tabs", () => {
     const largeTabsContent = `
 ${Array(5)
   .fill(0)
@@ -301,17 +301,17 @@ console.log(example${groupIndex + 1}_${tabIndex + 1}());
   .join("\n\n")}
 `;
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(largeTabsContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(largeTabsContent);
     });
   });
 
   // 自定义名称测试
-  describe("Custom Tab Name", () => {
+  describe("custom Tab Name", () => {
     const customTabContent = `
 ::: code-group
 @tab JavaScript
@@ -334,17 +334,17 @@ print("Hello from Python")
     mdOld.use(tabOld, { name: "code-group" });
     mdNew.use(tabNew, { name: "code-group" });
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(customTabContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(customTabContent);
     });
   });
 
   // 自定义渲染测试
-  describe("Custom Renderers", () => {
+  describe("custom Renderers", () => {
     const customRenderContent = `
 ::: tabs
 @tab Tab 1
@@ -382,11 +382,11 @@ Content of tab 3
       closeRender: customCloseRender,
     });
 
-    bench("Old Implementation", () => {
+    bench("old Implementation", () => {
       mdOld.render(customRenderContent);
     });
 
-    bench("New Implementation", () => {
+    bench("new Implementation", () => {
       mdNew.render(customRenderContent);
     });
   });

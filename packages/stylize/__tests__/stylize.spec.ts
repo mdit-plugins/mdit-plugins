@@ -77,32 +77,31 @@ describe(stylize, () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(stylize, options);
 
     it("should render MUST", () => {
-      expect(markdownIt.render(`**MUST**`)).toEqual(
+      expect(markdownIt.render(`**MUST**`)).toBe(
         '<p><strong class="badge tip">MUST</strong></p>\n',
       );
-      expect(markdownIt.render(`*MUST*`)).toEqual('<p><em class="badge tip">MUST</em></p>\n');
+      expect(markdownIt.render(`*MUST*`)).toBe('<p><em class="badge tip">MUST</em></p>\n');
     });
 
     it("should render SHOULD", () => {
-      expect(markdownIt.render(`**SHOULD**`)).toEqual(
+      expect(markdownIt.render(`**SHOULD**`)).toBe(
         '<p><strong title="should">SHOULD</strong></p>\n',
       );
-      expect(markdownIt.render(`*SHOULD*`)).toEqual("<p><em>SHOULD</em></p>\n");
+      expect(markdownIt.render(`*SHOULD*`)).toBe("<p><em>SHOULD</em></p>\n");
     });
 
     it("should render MAY", () => {
-      expect(markdownIt.render(`**MAY**`)).toEqual("<p><strong>MAY</strong></p>\n");
-      expect(markdownIt.render(`*MAY*`)).toEqual("<p><em>MAY:)</em></p>\n");
+      expect(markdownIt.render(`**MAY**`)).toBe("<p><strong>MAY</strong></p>\n");
+      expect(markdownIt.render(`*MAY*`)).toBe("<p><em>MAY:)</em></p>\n");
     });
 
     it("should render NOT", () => {
-      expect(markdownIt.render(`**NOT**`)).toEqual("<p><strong>NOT</strong></p>\n");
-      expect(markdownIt.render(`*NOT*`)).toEqual("<p><em>MUST_NOT</em></p>\n");
+      expect(markdownIt.render(`**NOT**`)).toBe("<p><strong>NOT</strong></p>\n");
+      expect(markdownIt.render(`*NOT*`)).toBe("<p><em>MUST_NOT</em></p>\n");
     });
 
     it("should render negative words with red", () => {
-      expect(markdownIt.render(`I _don't_ want to talk him, he _isn't_ a friend of mine.`))
-        .toEqual(`\
+      expect(markdownIt.render(`I _don't_ want to talk him, he _isn't_ a friend of mine.`)).toBe(`\
 <p>I <span style="color:red;">don't</span> want to talk him, he <span style="color:red;">isn't</span> a friend of mine.</p>
 `);
     });
@@ -117,7 +116,7 @@ describe(stylize, () => {
             "Some content with **MUST** and some words.\n\n" +
             "Some content with __MUST__ and some words.\n\n",
         ),
-      ).toEqual(
+      ).toStrictEqual(
         '<p><strong class="badge tip">MUST</strong> at the beginning of the line</p>\n' +
           '<p><strong class="badge tip">MUST</strong> at the beginning of the line</p>\n' +
           '<p>At the end of the line <em class="badge tip">MUST</em></p>\n' +
@@ -135,7 +134,7 @@ describe(stylize, () => {
             "A invalid syntax like_MUST_ should not be parsed.\n\n" +
             "Other word not matching keywords like **MUS** and **MUSTS** should not be parsed.\n\n",
         ),
-      ).toEqual(
+      ).toStrictEqual(
         "<p><code>**MUST**</code> in inline code should be rendered as is.</p>\n" +
           '<p>Other syntax like <em>italic</em> and <strong>bold</strong> should work with <strong class="badge tip">MUST</strong></p>\n' +
           "<p>A invalid syntax like_MUST_ should not be parsed.</p>\n" +
@@ -158,7 +157,7 @@ describe(stylize, () => {
             } as MarkdownItStylizeConfig,
           ],
         }),
-      ).toEqual('<p><strong>SHOULD</strong>/<strong class="badge tip">MUST</strong></p>\n');
+      ).toBe('<p><strong>SHOULD</strong>/<strong class="badge tip">MUST</strong></p>\n');
     });
 
     it("should skip if replacer returns void", () => {
@@ -166,7 +165,7 @@ describe(stylize, () => {
         config: [{ matcher: "TEST", replacer: (): void => {} }],
       });
 
-      expect(markdownItVoid.render("**TEST**")).toEqual("<p><strong>TEST</strong></p>\n");
+      expect(markdownItVoid.render("**TEST**")).toBe("<p><strong>TEST</strong></p>\n");
     });
 
     it("should handle scanTokens with different token structures", () => {
@@ -184,12 +183,10 @@ describe(stylize, () => {
       });
 
       // Nested tags but not matching or different tags
-      expect(markdownItScan.render("***TEST***")).toEqual(
-        "<p><em><strong>TEST</strong></em></p>\n",
-      );
+      expect(markdownItScan.render("***TEST***")).toBe("<p><em><strong>TEST</strong></em></p>\n");
 
       // Only one side
-      expect(markdownItScan.render("**TEST")).toEqual("<p>**TEST</p>\n");
+      expect(markdownItScan.render("**TEST")).toBe("<p>**TEST</p>\n");
     });
 
     it("should handle scanTokens when tokenPrev.attrs is null", () => {
@@ -207,7 +204,7 @@ describe(stylize, () => {
       });
 
       // Standard markdown tags usually have null attrs
-      expect(markdownItAttrs.render("**TEST**")).toEqual("<p><strong>TEST!</strong></p>\n");
+      expect(markdownItAttrs.render("**TEST**")).toBe("<p><strong>TEST!</strong></p>\n");
     });
   });
 
@@ -230,12 +227,10 @@ describe(stylize, () => {
       });
 
       // localConfig is undefined
-      expect(markdownIt.render("**TEST**", {})).toEqual("<p><strong>TEST</strong></p>\n");
+      expect(markdownIt.render("**TEST**", {})).toBe("<p><strong>TEST</strong></p>\n");
 
       // localConfig is empty array
-      expect(markdownIt.render("**TEST**", { stylize: [] })).toEqual(
-        "<p><strong>TEST</strong></p>\n",
-      );
+      expect(markdownIt.render("**TEST**", { stylize: [] })).toBe("<p><strong>TEST</strong></p>\n");
     });
 
     it("should handle global config empty but local config provided", () => {
@@ -259,7 +254,7 @@ describe(stylize, () => {
             } as MarkdownItStylizeConfig,
           ],
         }),
-      ).toEqual('<p><strong class="local">LOCAL</strong></p>\n');
+      ).toBe('<p><strong class="local">LOCAL</strong></p>\n');
     });
 
     it("should handle effectiveConfig being empty after localConfigGetter", () => {
@@ -271,19 +266,17 @@ describe(stylize, () => {
       });
 
       // effectiveConfig will be empty because both global and local are empty
-      expect(markdownIt.render("**TEST**", { stylize: [] })).toEqual(
-        "<p><strong>TEST</strong></p>\n",
-      );
+      expect(markdownIt.render("**TEST**", { stylize: [] })).toBe("<p><strong>TEST</strong></p>\n");
     });
   });
 
   it("should handle when no config is provided", () => {
     const markdownIt1 = MarkdownIt().use(stylize);
 
-    expect(markdownIt1.render(`**MUST**`)).toEqual("<p><strong>MUST</strong></p>\n");
+    expect(markdownIt1.render(`**MUST**`)).toBe("<p><strong>MUST</strong></p>\n");
 
     const markdownIt2 = MarkdownIt().use(stylize, { config: [] });
 
-    expect(markdownIt2.render(`**MUST**`)).toEqual("<p><strong>MUST</strong></p>\n");
+    expect(markdownIt2.render(`**MUST**`)).toBe("<p><strong>MUST</strong></p>\n");
   });
 });

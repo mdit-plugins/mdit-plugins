@@ -15,7 +15,7 @@ test
 
 test ![image](/logo.svg)
 `),
-    ).toEqual(
+    ).toBe(
       `\
 <p>test</p>
 <p><img src="/logo.svg" alt="image"> test</p>
@@ -25,35 +25,35 @@ test ![image](/logo.svg)
   });
 
   it("should use alt it no title is found", () => {
-    expect(markdownIt.render(`![image](/logo.svg)`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg)`)).toBe(
       '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
     );
   });
 
   it("should use title and remove original title on image", () => {
-    expect(markdownIt.render(`![image](/logo.svg "A image")`)).toEqual(
+    expect(markdownIt.render(`![image](/logo.svg "A image")`)).toBe(
       '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption></figure>\n',
     );
   });
 
   it("should not change inline image", () => {
-    expect(markdownIt.render(`A ![image](/logo.svg "A image") in text`)).toEqual(
+    expect(markdownIt.render(`A ![image](/logo.svg "A image") in text`)).toBe(
       '<p>A <img src="/logo.svg" alt="image" title="A image"> in text</p>\n',
     );
   });
 
   it("should support image with links", () => {
-    expect(markdownIt.render(`[![image](/logo.svg)](https://example.com)`)).toEqual(
+    expect(markdownIt.render(`[![image](/logo.svg)](https://example.com)`)).toBe(
       '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>image</figcaption></figure>\n',
     );
 
-    expect(markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`)).toEqual(
+    expect(markdownIt.render(`[![image](/logo.svg "A image")](https://example.com)`)).toBe(
       '<figure><a href="https://example.com"><img src="/logo.svg" alt="image" tabindex="0"></a><figcaption>A image</figcaption></figure>\n',
     );
   });
 
   it("should ignore image in headings or tables", () => {
-    expect(markdownIt.render("# ![image](/logo.svg)")).toEqual(
+    expect(markdownIt.render("# ![image](/logo.svg)")).toBe(
       '<h1><img src="/logo.svg" alt="image"></h1>\n',
     );
     expect(markdownIt.render("| ![image](/logo.svg) |\n| --- |")).toContain(
@@ -62,7 +62,7 @@ test ![image](/logo.svg)
   });
 
   it("should handle empty caption", () => {
-    expect(markdownIt.render("![](/logo.svg)")).toEqual(
+    expect(markdownIt.render("![](/logo.svg)")).toBe(
       '<figure><img src="/logo.svg" alt="" tabindex="0"><figcaption></figcaption></figure>\n',
     );
   });
@@ -70,7 +70,7 @@ test ![image](/logo.svg)
   it("should support focusable option", () => {
     const md = new MarkdownIt().use(figure, { focusable: false });
 
-    expect(md.render("![image](/logo.svg)")).toEqual(
+    expect(md.render("![image](/logo.svg)")).toBe(
       '<figure><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
     );
   });
@@ -78,10 +78,10 @@ test ![image](/logo.svg)
   it("should support linkImage option", () => {
     const md = new MarkdownIt().use(figure, { linkImage: false });
 
-    expect(md.render("![image](/logo.svg)")).toEqual(
+    expect(md.render("![image](/logo.svg)")).toBe(
       '<figure><img src="/logo.svg" alt="image" tabindex="0"><figcaption>image</figcaption></figure>\n',
     );
-    expect(md.render(`[![image](/logo.svg)](https://example.com)`)).toEqual(
+    expect(md.render(`[![image](/logo.svg)](https://example.com)`)).toBe(
       '<p><a href="https://example.com"><img src="/logo.svg" alt="image"></a></p>\n',
     );
   });
@@ -93,7 +93,7 @@ test ![image](/logo.svg)
 <img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption>
 </figure>
 `),
-    ).toEqual(
+    ).toBe(
       `<figure>\n<img src="/logo.svg" alt="image" tabindex="0"><figcaption>A image</figcaption>\n</figure>\n`,
     );
 
@@ -105,6 +105,6 @@ test ![image](/logo.svg)
 
 </figure>
 `),
-    ).toEqual(`<figure>\n<img src="/logo.svg" alt="image" tabindex="0">\n</figure>\n`);
+    ).toBe(`<figure>\n<img src="/logo.svg" alt="image" tabindex="0">\n</figure>\n`);
   });
 });

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`footnote > Can have arbitrary markup 1`] = `
+exports[`footnote > can have arbitrary markup 1`] = `
 "<p>foo<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -12,7 +12,7 @@ exports[`footnote > Can have arbitrary markup 1`] = `
 "
 `;
 
-exports[`footnote > Can inside blockquotes, and are lazy 1`] = `
+exports[`footnote > can inside blockquotes, and are lazy 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <blockquote></blockquote>
 <hr class="footnotes-sep">
@@ -20,79 +20,6 @@ exports[`footnote > Can inside blockquotes, and are lazy 1`] = `
 <ol class="footnotes-list">
 <li id="footnote1" class="footnote-item"><p>bar
 baz <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-"
-`;
-
-exports[`footnote > Duplicate footnotes should have suffix 1`] = `
-"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote1">[1:1]</a><a class="footnote-anchor" id="footnote-ref1:1"></a></sup></p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a> <a href="#footnote-ref1:1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-"
-`;
-
-exports[`footnote > Indent 1`] = `
-"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><h2>foo</h2>
- <a href="#footnote-ref1" class="footnote-backref">↩︎</a></li>
-<li id="footnote2" class="footnote-item"><h2>foo</h2>
- <a href="#footnote-ref2" class="footnote-backref">↩︎</a></li>
-</ol>
-</section>
-"
-`;
-
-exports[`footnote > Indents for the first line 1`] = `
-"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="footnote2" class="footnote-item"><pre><code>foo
-</code></pre>
- <a href="#footnote-ref2" class="footnote-backref">↩︎</a></li>
-</ol>
-</section>
-"
-`;
-
-exports[`footnote > Indents for the first line 2`] = `
-"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-"
-`;
-
-exports[`footnote > Label cannot contain spaces or newlines 1`] = `
-"<p>[^ foo]: bar baz</p>
-<p>[^foo
-]: bar baz</p>
-"
-`;
-
-exports[`footnote > Nested footnotes 1`] = `
-"<p>foo<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> bar<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup>.</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"> <a href="#footnote-ref1" class="footnote-backref">↩︎</a></li>
-<li id="footnote2" class="footnote-item"><p>baz <a href="#footnote-ref2" class="footnote-backref">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -122,6 +49,79 @@ multi-paragraph list items. <a href="#footnote-ref-test-doc-id-2" class="footnot
 "
 `;
 
+exports[`footnote > duplicate footnotes should have suffix 1`] = `
+"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote1">[1:1]</a><a class="footnote-anchor" id="footnote-ref1:1"></a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a> <a href="#footnote-ref1:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > indent 1`] = `
+"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><h2>foo</h2>
+ <a href="#footnote-ref1" class="footnote-backref">↩︎</a></li>
+<li id="footnote2" class="footnote-item"><h2>foo</h2>
+ <a href="#footnote-ref2" class="footnote-backref">↩︎</a></li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > indents for the first line > multiple 1`] = `
+"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> <sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="footnote2" class="footnote-item"><pre><code>foo
+</code></pre>
+ <a href="#footnote-ref2" class="footnote-backref">↩︎</a></li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > indents for the first line > single 1`] = `
+"<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>foo <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+"
+`;
+
+exports[`footnote > label cannot contain spaces or newlines 1`] = `
+"<p>[^ foo]: bar baz</p>
+<p>[^foo
+]: bar baz</p>
+"
+`;
+
+exports[`footnote > nested footnotes 1`] = `
+"<p>foo<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> bar<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup>.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"> <a href="#footnote-ref1" class="footnote-backref">↩︎</a></li>
+<li id="footnote2" class="footnote-item"><p>baz <a href="#footnote-ref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+"
+`;
+
 exports[`footnote > should allow links in inline footnotes 1`] = `
 "<p>Example<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
@@ -134,7 +134,7 @@ exports[`footnote > should allow links in inline footnotes 1`] = `
 "
 `;
 
-exports[`footnote > should contain Security 1`] = `
+exports[`footnote > should contain Security > __proto__ 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -146,7 +146,7 @@ exports[`footnote > should contain Security 1`] = `
 "
 `;
 
-exports[`footnote > should contain Security 2`] = `
+exports[`footnote > should contain Security > hasOwnProperty 1`] = `
 "<p><sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -195,7 +195,7 @@ multi-paragraph list items. <a href="#footnote-ref2" class="footnote-backref">�
 "
 `;
 
-exports[`footnote > should support footnote silent elegantly 1`] = `
+exports[`footnote > should support footnote silent elegantly > footnote inside link 1`] = `
 "<p><a href="url">link <sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup></a></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
@@ -207,7 +207,7 @@ exports[`footnote > should support footnote silent elegantly 1`] = `
 "
 `;
 
-exports[`footnote > should support footnote silent elegantly 2`] = `
+exports[`footnote > should support footnote silent elegantly > footnote reference inside link 1`] = `
 "<p>[link <sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup>](url)</p>
 <hr class="footnotes-sep">
 <section class="footnotes">

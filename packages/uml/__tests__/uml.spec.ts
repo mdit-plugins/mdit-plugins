@@ -15,7 +15,7 @@ abc
 
 @end
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <div class="uml" title="">
 abc
 </div>\
@@ -28,7 +28,7 @@ text.
 abc
 @end
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>text.</p>
 <div class="uml" title="">abc</div>\
 `);
@@ -43,7 +43,7 @@ abc
 
 ghi
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <ul>
 <li>
 <div class="uml" title="">
@@ -67,7 +67,7 @@ abc
 
 end
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>start</p>
 <p>abc</p>
 <p>end</p>
@@ -81,7 +81,7 @@ abc
 
 @end
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <p>@star</p>
 <p>abc</p>
 <p>@end</p>
@@ -99,7 +99,7 @@ Text with **bold** and \`code\`.
 
 @end
     `),
-    ).toEqual(`\
+    ).toBe(`\
 <div class="uml" title="">
 Text with **bold** and \`code\`.
 </div>\
@@ -129,7 +129,7 @@ def
 
 @testend
 `),
-    ).toEqual(`\
+    ).toBe(`\
 <Test class="test" title="">
 abc
 

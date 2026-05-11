@@ -61,21 +61,7 @@ exports[`tasklist > should render 1`] = `
 "
 `;
 
-exports[`tasklist > should render nested list 1`] = `
-"<ul>
-<li>foo
-<ul class="task-list-container">
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> nested unchecked item 1</label></li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> nested unchecked item 2</label></li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-2" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-2"> nested checked item 3</label></li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-3" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-3"> nested checked item 4</label></li>
-</ul>
-</li>
-</ul>
-"
-`;
-
-exports[`tasklist > should render nested list 2`] = `
+exports[`tasklist > should render nested list > ol nested 1`] = `
 "<ol>
 <li>foo
 <ul class="task-list-container">
@@ -88,6 +74,20 @@ exports[`tasklist > should render nested list 2`] = `
 <li>bar</li>
 <li>spam</li>
 </ol>
+"
+`;
+
+exports[`tasklist > should render nested list > ul nested 1`] = `
+"<ul>
+<li>foo
+<ul class="task-list-container">
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> nested unchecked item 1</label></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> nested unchecked item 2</label></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-2" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-2"> nested checked item 3</label></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-3" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-3"> nested checked item 4</label></li>
+</ul>
+</li>
+</ul>
 "
 `;
 
