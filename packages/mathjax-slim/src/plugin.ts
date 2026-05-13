@@ -40,7 +40,6 @@ try {
   ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
   ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
   ({ AssistiveMmlHandler } = await import("@mathjax/src/js/a11y/assistive-mml.js"));
-  mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxInstalled = false;
@@ -82,6 +81,14 @@ export const getDocumentOptions = async (
       : {},
     userOptions,
   );
+
+  mathjaxLib.asyncLoad = (file): Promise<unknown> => {
+    if (options.debug)
+      // oxlint-disable-next-line no-console
+      console.debug(`[MathJax]: loading ${file}...`);
+
+    return import(file);
+  };
 
   await loadTexPackages(options.tex?.packages);
 

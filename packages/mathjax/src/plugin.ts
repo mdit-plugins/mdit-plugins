@@ -19,8 +19,6 @@ import type MarkdownIt from "markdown-it";
 import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
 
-mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
-
 export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
 ): Promise<DocumentOptions> => {
@@ -40,6 +38,14 @@ export const getDocumentOptions = async (
       : {},
     userOptions,
   );
+
+  mathjaxLib.asyncLoad = (file): Promise<unknown> => {
+    if (options.debug)
+      // oxlint-disable-next-line no-console
+      console.debug(`[MathJax]: loading ${file}...`);
+
+    return import(file);
+  };
 
   await loadTexPackages(options.tex?.packages);
 

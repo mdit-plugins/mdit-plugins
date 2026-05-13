@@ -88,6 +88,18 @@ interface MarkdownItMathjaxOptions {
    * SVG output options
    */
   svg?: MathjaxSVGOutputOptions;
+
+  /**
+   * Transformer on output content
+   */
+  transformer?: TeXTransformer;
+
+  /**
+   * Enable debug mode
+   *
+   * @default false
+   */
+  debug?: boolean;
 }
 ```
 

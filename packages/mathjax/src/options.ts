@@ -63,6 +63,15 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * 输出内容的转换器
    */
   transformer?: TeXTransformer;
+
+  /**
+   * Enable debug mode
+   *
+   * 启用调试模式
+   *
+   * @default false
+   */
+  debug?: boolean;
 }
 
 export interface DocumentOptions {
