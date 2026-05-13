@@ -42,7 +42,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown --config-loader unrun",
+    "build": "tsdown",
     "clean": "rimraf ./dist"
   },
   "dependencies": {
@@ -50,8 +50,8 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "@mathjax/mathjax-tex-font": "^4.1.1",
-    "@mathjax/src": "4.1.1"
+    "@mathjax/mathjax-tex-font": "4.1.2",
+    "@mathjax/src": "4.1.2"
   },
   "peerDependencies": {
     "@mathjax/mathjax-newcm-font": "^4.1.0",
@@ -70,6 +70,6 @@
     }
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=22"
   }
 }

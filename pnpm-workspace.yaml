@@ -34,5 +34,3 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
-  "markdownlint-cli2@0.22.0>smol-toml": ^1.6.1
-  "@xmldom/xmldom": ^0.9.10

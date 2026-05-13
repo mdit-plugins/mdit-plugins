@@ -1,3 +1,4 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import { describe, bench } from "vitest";

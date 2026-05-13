@@ -39,7 +39,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown --config-loader unrun",
+    "build": "tsdown",
     "clean": "rimraf ./dist",
     "update-emoji": "node --experimental-strip-types scripts/update.ts"
   },
@@ -55,6 +55,6 @@
     }
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=22"
   }
 }

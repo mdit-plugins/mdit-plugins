@@ -110,10 +110,13 @@ export const tsdownConfig = (
     sourcemap: true,
     dts,
     minify: isProduction,
-    target:
-      globalName || platform === "browser"
-        ? ["chrome107", "edge107", "firefox104", "safari16"]
-        : "node20",
+    target: globalName || platform === "browser" ? "baseline-widely-available" : "node22",
+    inputOptions: {
+      experimental: {
+        lazyBarrel: true,
+        nativeMagicString: true,
+      },
+    },
     outputOptions: {
       globals,
     },

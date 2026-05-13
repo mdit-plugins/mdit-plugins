@@ -11,14 +11,9 @@ export default defineHopeConfig(
       "new-cap": ["warn", { capIsNewExceptionPattern: "MarkdownIt" }],
       "no-multi-assign": "off",
       "no-plusplus": "off",
+      "require-unicode-regexp": "off",
       "vitest/max-expects": ["warn", { max: 10 }],
-      // oxlint-disable-next-line no-warning-comments
-      // FIXME: There is a bug here
-      "vitest/max-nested-describe": "off",
       "vitest/valid-describe-callback": "off",
-      // oxlint-disable-next-line no-warning-comments
-      // FIXME: https://github.com/oxc-project/oxc/issues/22268
-      "vitest/valid-title": "off",
     },
     vitest: {
       bench: true,
@@ -35,6 +30,14 @@ export default defineHopeConfig(
       "unicorn/prefer-array-flat": "off",
       "unicorn/prefer-code-point": "off",
       "unicorn/prefer-spread": "off",
+    },
+  },
+  {
+    files: ["**/attrs/__tests__/helper/getAttrs.spec.ts", "**/attrs/__tests__/rules/*.spec.ts"],
+    plugins: ["vitest"],
+    rules: {
+      "vitest/require-hook": "off",
+      "vitest/valid-title": "off",
     },
   },
 );
