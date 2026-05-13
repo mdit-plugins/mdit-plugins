@@ -638,6 +638,13 @@ $$`,
   });
 
   describe("silent mode and edge cases", () => {
+    it("should skip html comment content", () => {
+      const input = `<!-- $a=1$ -->`;
+      const expected = `<!-- $a=1$ -->\n`;
+
+      expect(defaultMarkdownIt.render(input)).toBe(expected);
+    });
+
     it("should handle silent mode", () => {
       const testCases = [
         [`[link $incomplete](url`, "<p>[link $incomplete](url</p>\n"],
