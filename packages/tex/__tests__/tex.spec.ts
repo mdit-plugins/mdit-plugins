@@ -11,7 +11,7 @@ const render = (content: string, displayMode: boolean): string =>
     : `{Tex content: ${content.trim()}}`;
 
 // Test configurations
-const defaultMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const defaultMarkdownIt = MarkdownIt({ html: true, linkify: true }).use(tex, {
   mathFence: true,
   render,
 });
@@ -638,6 +638,18 @@ $$`,
   });
 
   describe("silent mode and edge cases", () => {
+    it("should skip html comment content", () => {
+      const cases = [
+        [`<!-- $a=1$ -->`, `<!-- $a=1$ -->`],
+        [`<!-- \\(a=1\\) -->`, `<!-- \\(a=1\\) -->`],
+        [`<!-- $$a=1$$ -->`, `<!-- $$a=1$$ -->`],
+      ];
+
+      cases.forEach(([input, expected]) => {
+        expect(defaultMarkdownIt.render(input)).toBe(expected);
+      });
+    });
+
     it("should handle silent mode", () => {
       const testCases = [
         [`[link $incomplete](url`, "<p>[link $incomplete](url</p>\n"],
