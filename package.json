@@ -42,7 +42,7 @@
     "nano-staged": "1.0.2",
     "npm-check-updates": "22.2.0",
     "oxc-config-hope": "0.3.5",
-    "oxfmt": "0.50.0",
+    "oxfmt": "0.51.0",
     "oxlint": "1.65.0",
     "oxlint-tsgolint": "0.22.1",
     "publint": "0.3.21",
