@@ -54,7 +54,7 @@ files.forEach((pkgName) => {
         "@types/markdown-it": "^14.1.1",
       },
       peerDependencies: {
-        "markdown-it": "^14.1.0",
+        "markdown-it": "^14.2.0",
       },
       peerDependenciesMeta: {
         "markdown-it": {

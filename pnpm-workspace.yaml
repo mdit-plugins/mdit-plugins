@@ -34,3 +34,10 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
+
+catalogMode: prefer
+
+cleanupUnusedCatalogs: true
+
+configDependencies:
+  pacquet: "^0.2.9"
