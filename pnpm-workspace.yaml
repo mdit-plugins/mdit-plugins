@@ -34,3 +34,23 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
+
+catalogMode: prefer
+
+cleanupUnusedCatalogs: true
+
+configDependencies:
+  pacquet: "^0.2.9"
+
+enableGlobalVirtualStore: true
+
+packageExtensions:
+  # FIXME: This is a bug in mathjax
+  "@mathjax/mathjax-newcm-font":
+    peerDependencies:
+      "@mathjax/src": ^4.1.2
+
+  # FIXME: This is a bug in mathjax
+  "@mathjax/mathjax-tex-font":
+    peerDependencies:
+      "@mathjax/src": ^4.1.2
