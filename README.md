@@ -33,18 +33,18 @@ This repo contains the following plugins:
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark
 - @mdit/plugin-img-size
-- @mdit/plugin-include (Node.js only as it needs the `fs` api)
+- @mdit/plugin-include (Node.js only as it needs `node:fs`)
 - @mdit/plugin-inline-rule
 - @mdit/plugin-ins
 - @mdit/plugin-katex
 - @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-layout
 - @mdit/plugin-mark
-- @mdit/plugin-mathjax (Workable in browser with bundlers, but no CDN scripts)
-- @mdit/plugin-mathjax-slim (Workable in browser with bundlers, but no CDN scripts)
+- @mdit/plugin-mathjax (Node.js only as it needs `node:module`)
+- @mdit/plugin-mathjax-slim (Node.js only as it needs `node:module`)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
-- @mdit/plugin-snippet (Node.js only as it needs the `fs` api))
+- @mdit/plugin-snippet (Node.js only as it needs `node:fs`)
 - @mdit/plugin-spoiler
 - @mdit/plugin-stylize
 - @mdit/plugin-sub

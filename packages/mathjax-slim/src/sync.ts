@@ -37,6 +37,7 @@ const require = createRequire(import.meta.url);
 
 try {
   ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
+  await import("./patch.js");
   [{ TeX }, { CHTML }, { SVG }, { liteAdaptor }, { RegisterHTMLHandler }, { AssistiveMmlHandler }] =
     await Promise.all([
       import("@mathjax/src/js/input/tex.js"),
@@ -146,7 +147,7 @@ export const getDocumentOptions = (options: MarkdownItMathjaxOptions): DocumentO
 
 export const createMathjaxInstance = (
   options: MarkdownItMathjaxOptions = {},
-): MathjaxInstance<true> | null => {
+): MathjaxInstance | null => {
   const documentOptions = getDocumentOptions(options);
   const { OutputJax, InputJax } = documentOptions;
 

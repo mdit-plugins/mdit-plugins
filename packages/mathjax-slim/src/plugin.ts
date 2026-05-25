@@ -1,4 +1,6 @@
 /** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
+// oxlint-disable-next-line import/no-nodejs-modules
+import { createRequire } from "node:module";
 
 import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
 import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
@@ -32,6 +34,8 @@ let isMathJaxNewcmFontInstalled = true;
 let chtmlFont: typeof chtmlFontType;
 let svgFont: typeof svgFontType;
 
+const require = createRequire(import.meta.url);
+
 try {
   ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
   ({ TeX } = await import("@mathjax/src/js/input/tex.js"));
@@ -40,6 +44,7 @@ try {
   ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
   ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
   ({ AssistiveMmlHandler } = await import("@mathjax/src/js/a11y/assistive-mml.js"));
+  mathjaxLib.asyncIsSynchronous = true;
 } catch {
   /* istanbul ignore next -- @preserve */
   isMathJaxInstalled = false;
@@ -82,14 +87,15 @@ export const getDocumentOptions = async (
     userOptions,
   );
 
-  mathjaxLib.asyncLoad = (file): Promise<unknown> => {
+  mathjaxLib.asyncLoad = (file): void => {
     if (options.debug)
       // oxlint-disable-next-line no-console
-      console.debug(`[MathJax]: loading ${file}...`);
-
-    return import(file);
+      console.debug(`[MathJax]: sync loading ${file}...`);
+    // oxlint-disable-next-line import/no-dynamic-require
+    require(file);
   };
 
+  await import("./patch.js");
   await loadTexPackages(options.tex?.packages);
 
   return {
@@ -128,8 +134,8 @@ export const createMathjaxInstance = async (
     InputJax.reset();
   };
 
-  const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+  const outputStyle = (): string => {
+    OutputJax.font.loadDynamicFilesSync();
 
     const style = adaptor.cssText(
       OutputJax.styleSheet(

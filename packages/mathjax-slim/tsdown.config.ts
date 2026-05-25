@@ -3,7 +3,7 @@ import type { UserConfig } from "tsdown";
 import { tsdownConfig } from "../../scripts/tsdown.ts";
 
 const config: UserConfig[] = [
-  tsdownConfig("index"),
+  tsdownConfig("index", { platform: "node" }),
   tsdownConfig("sync", {
     platform: "node",
     treeshake: {

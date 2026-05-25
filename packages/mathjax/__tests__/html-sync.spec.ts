@@ -168,6 +168,16 @@ $$
     });
   });
 
+  it("should work with dynamic font data loading", () => {
+    const mathjaxInstance = createMathjaxInstance({
+      output: "chtml",
+    })!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+
+    expect(markdownIt.render(`$$a \\perp b$$`)).toMatchSnapshot("block");
+    expect(markdownIt.render(`$a \\perp b$`)).toMatchSnapshot("inline");
+  });
+
   it("should work with transformer", () => {
     const mathjaxInstance = createMathjaxInstance({
       transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),

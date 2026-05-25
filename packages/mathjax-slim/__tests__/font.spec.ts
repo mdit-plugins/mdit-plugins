@@ -19,7 +19,7 @@ describe("mathjax-html", () => {
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style).toContain("https://cdn.jsdelivr.net/npm/@mathjax/mathjax-tex-font/chtml/woff2");
     expect(style.split("\n").length).toMatchSnapshot("style");
@@ -37,7 +37,7 @@ describe("mathjax-html", () => {
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content-svg");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style).toContain('mjx-container[jax="SVG"]');
   });

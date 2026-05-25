@@ -123,7 +123,7 @@ $$
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    const style = await mathjaxInstance.outputStyle();
+    const style = mathjaxInstance.outputStyle();
 
     expect(style.split("\n").length).toMatchSnapshot("style");
   });
@@ -138,7 +138,7 @@ $$
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
       expect(markdownIt.render(source)).toMatch(/mjx-error/);
 
-      const style = await mathjaxInstance.outputStyle();
+      const style = mathjaxInstance.outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
@@ -159,10 +159,20 @@ $$
       expect(content2).not.toMatch(/mjx-error/);
       expect(content2).toMatchSnapshot("content2");
 
-      const style = await mathjaxInstance.outputStyle();
+      const style = mathjaxInstance.outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
+  });
+
+  it("should work with dynamic font data loading", async () => {
+    const mathjaxInstance = (await createMathjaxInstance({
+      output: "svg",
+    }))!;
+    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+
+    expect(markdownIt.render(`$$a \\perp b$$`)).toMatchSnapshot("block");
+    expect(markdownIt.render(`$a \\perp b$`)).toMatchSnapshot("inline");
   });
 
   it("should work with transformer", async () => {

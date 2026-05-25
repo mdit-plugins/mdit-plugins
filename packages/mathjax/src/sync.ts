@@ -62,6 +62,8 @@ import "@mathjax/src/js/input/tex/units/UnitsConfiguration.js";
 import "@mathjax/src/js/input/tex/upgreek/UpgreekConfiguration.js";
 import "@mathjax/src/js/input/tex/verb/VerbConfiguration.js";
 
+import "./patch.js";
+
 const require = createRequire(import.meta.url);
 
 mathjaxLib.asyncIsSynchronous = true;

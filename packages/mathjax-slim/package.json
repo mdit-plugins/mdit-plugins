@@ -29,8 +29,8 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
     },
     "./sync": {
       "types": "./dist/sync-node.d.ts",

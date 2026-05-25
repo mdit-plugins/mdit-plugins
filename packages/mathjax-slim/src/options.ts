@@ -81,7 +81,7 @@ export interface DocumentOptions {
 }
 
 /** Mathjax instance common options */
-export interface MathjaxInstance<Sync extends boolean = false> extends Required<
+export interface MathjaxInstance extends Required<
   Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
 > {
   /** Mathjax adaptor */
@@ -95,7 +95,7 @@ export interface MathjaxInstance<Sync extends boolean = false> extends Required<
    *
    * @returns Style
    */
-  outputStyle: () => Sync extends true ? string : Promise<string>;
+  outputStyle: () => string;
 
   /** Reset tex (including labels) */
   reset: () => void;
