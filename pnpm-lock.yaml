@@ -255,11 +255,11 @@ importers:
         specifier: 21.0.2
         version: 21.0.2
       '@lerna-lite/cli':
-        specifier: 5.2.2
-        version: 5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
+        specifier: 5.3.0
+        version: 5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
       '@lerna-lite/publish':
-        specifier: 5.2.2
-        version: 5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
+        specifier: 5.3.0
+        version: 5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
       '@mr-hope/tsconfig':
         specifier: 0.0.4
         version: 0.0.4(typescript@6.0.3)
@@ -1235,53 +1235,53 @@ packages:
     resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@inquirer/ansi@2.0.5':
-    resolution: {integrity: sha512-doc2sWgJpbFQ64UflSVd17ibMGDuxO1yKgOgLMwavzESnXjFWJqUeG8saYosqKpHp4kWiM5x1nXvEjbpx90gzw==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/ansi@2.0.7':
+    resolution: {integrity: sha512-3eTuUO1vH2cZm2ZKHeQxnOqlTi9EfZDGgIe3BL3I4u+rJHocr9Fz86M4fjYABPvFnQG/gGK551HqDiIcETwU6Q==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
 
-  '@inquirer/core@11.1.10':
-    resolution: {integrity: sha512-a4Q5BXHQAHa9eO202sTaFCHFYVB3x5fauDuThEAdZ9gfn76pSxiKU7wWcEH0N1O0XmQvNfQNU6QXpiRxmYQx+A==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/core@11.2.1':
+    resolution: {integrity: sha512-Qd6GJT1yVyrZZCfN8W2qKF5ApmqryXRhRKCuip8h01x2w/esJQ2XIYc6f9abMIHgKQdBfFTSOdbHRLAhuM09UA==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@inquirer/expand@5.0.14':
-    resolution: {integrity: sha512-qyY9zcIX2eKYwaAUiQo9zORd61Lc3sXeM72fVbeHkYnDkqfr8/armcRbmVAIrExeJhI2puk+uomeKtWrpUVUmQ==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/expand@5.1.1':
+    resolution: {integrity: sha512-YmQpenjbFSHAK3sOd44puHh3V1KXXr+JiNpUztoSQ4drLh2rTVzTap/YtlAVu/5xavifIlBfNEzJ/neZJ1a/1g==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@inquirer/figures@2.0.5':
-    resolution: {integrity: sha512-NsSs4kzfm12lNetHwAn3GEuH317IzpwrMCbOuMIVytpjnJ90YYHNwdRgYGuKmVxwuIqSgqk3M5qqQt1cDk0tGQ==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/figures@2.0.7':
+    resolution: {integrity: sha512-aJ8TBPOGB6f/2qziPfElISTCEd5XOYTFckA2SGjhNmiKzfK/u4ot3v0DUzGVdUnKjN10EqnnEPck36BkyfLnJw==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
 
-  '@inquirer/input@5.0.13':
-    resolution: {integrity: sha512-0l0jCHlJnXIV8CTxwQC0C+5Ziq8WP22edWgmciW2xYvoeoSck4v5FvCS1ctKdqLLR0dUo93uAHgWHywgBSoRyw==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/input@5.1.2':
+    resolution: {integrity: sha512-9K/DDBSQpOyZSkt6sOVP9Vo0TR7atX2kuILsUu0x3wVcVbe97lJwIJKMLdMw25tDYuXl/qp6erT0Xs1rfmcfZg==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@inquirer/select@5.1.5':
-    resolution: {integrity: sha512-6SRg6kHfK/sjLXOsuqNebuir+sjwrf/iWuRUnXgB2slzEewppI1WfzeS16XxDcOQmXBruMmmB9Cgrz7wsAxqMg==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/select@5.2.1':
+    resolution: {integrity: sha512-FlDndEUww8m7BfukO2nJa25vhD+H5jxxCv4oGioKqzyWz3nPHhhw4LKdYRSlXuAx7DsdWia7iyaBPKKS95Evfw==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@inquirer/type@4.0.5':
-    resolution: {integrity: sha512-aetVUNeKNc/VriqXlw1NRSW0zhMBB0W4bNbWRJgzRl/3d0QNDQFfk0GO5SDdtjMZVg6o8ZKEiadd7SCCzoOn5Q==}
-    engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
+  '@inquirer/type@4.0.7':
+    resolution: {integrity: sha512-t28inv14nMQ1PhKpsJPY+kEs/c00qzeCOS2gTNRyTjG5d6qsVA2fItxW4hkvGZ5lvanGLdtCzVIx5dwdRpN1+g==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
     peerDependenciesMeta:
@@ -1315,8 +1315,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lerna-lite/cli@5.2.2':
-    resolution: {integrity: sha512-nrGNDrC0DSfUYinN5TngN58O/bhT8Os/AoKP3YPRSkFJ95Ufgm44seVx8zSwWdv1bVeU+ga2RbEJYKZr1RArrg==}
+  '@lerna-lite/cli@5.3.0':
+    resolution: {integrity: sha512-gm+XWT2XRR3H8XXDMuWhL1jlqaAt0llwLZCGA/uUwe05HS2QKbEsYeaK0kZZKtt1ff7DAZYadMW4uazz9iHczg==}
     engines: {node: ^22.17.0 || >=24.0.0}
     hasBin: true
     peerDependencies:
@@ -1340,24 +1340,24 @@ packages:
       '@lerna-lite/watch':
         optional: true
 
-  '@lerna-lite/core@5.2.2':
-    resolution: {integrity: sha512-yVz3A8YfzT5LP2plq2SlD8k/jsrCNuYY7J6bYZ2EGGvZ6C4Ou0Yjj3/TqI0UeJyne8msUpU0kW4pBtM0dCLhaw==}
+  '@lerna-lite/core@5.3.0':
+    resolution: {integrity: sha512-3RnmZhOV0PccgrorAzgO33L+UcG7GlpINsGBujafrVW1Qo6yNz+tW1K9bz/WLZilXwcxc15Odg/wTicAaDbU7Q==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/init@5.2.2':
-    resolution: {integrity: sha512-2fjVoIMYeUKiF/qDE/HcALlYeijeeCiAe1qsVDPXCjIVROZxF3A0uAOpNyL9CyV76an3C1MlW/X8JZCgBQdIqA==}
+  '@lerna-lite/init@5.3.0':
+    resolution: {integrity: sha512-RuCFCxjcqtcmi50b3j0/tSVC3LXBhJXhPDucpe3U3sqPFInFhvK3pazLPBRS9bbaIMOG3Xtaz4PoSzsQ9lP1pw==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/npmlog@5.2.2':
-    resolution: {integrity: sha512-4xF7S0wSxNDunjF4clcXQProfcFqQCYjMkIxGlnTTo8DxestjVEKMxvxoYWdYFu80JhTMclwZJrwppyKCBcllg==}
+  '@lerna-lite/npmlog@5.3.0':
+    resolution: {integrity: sha512-W2Z7ZAJrA4jfuvbDU59fNFVp3hHBAOnO1+LeX8Y2bHNNYNv5EAR9UuyIXikUqewIw7VDWaT6xh+85GjxLLKpcw==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/publish@5.2.2':
-    resolution: {integrity: sha512-zWG4YtAziPrqtz2EKpdzQQTfzzH2DIpGkS0Z1dHN7780Nl97DPOMwITdmer2P9kmZK0bA1TdWKOnheSimTDjNA==}
+  '@lerna-lite/publish@5.3.0':
+    resolution: {integrity: sha512-aLQEMprQJQSeGB8Wdt42zctwo79ybztps0VB/f1pjK2iaD7zBaF9ASacA6FuUt5OsyNujg2mbCZ7kgwAmtjUfg==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/version@5.2.2':
-    resolution: {integrity: sha512-+l6zf1la6K0pazC5R4G6sI0GgnXF6hvpl05YcpQoCOa3px4HTPLCEv2P/eZI7ZEsGCdICdye6e08dcejkEqAlg==}
+  '@lerna-lite/version@5.3.0':
+    resolution: {integrity: sha512-ZZUE/ajuCFj1WLNY08wKFmiSD+RYeT0mPosHKYbXejzUGKIBcuOdTApxvRcBr/G2pAWqQowCtE1sOM7AUbvzsw==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
   '@lit-labs/ssr-dom-shim@1.6.0':
@@ -1456,8 +1456,8 @@ packages:
     resolution: {integrity: sha512-kAQTcEN9E8ERLVg5AsGwLNoFb+oEG6engbqAU2P43gD4JEIkNGMHdVQ096FsOAAYpZPB0RSt0zgInKIAS1l5QA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@npmcli/arborist@9.6.0':
-    resolution: {integrity: sha512-Dku9UWbrrX+UCu8rQ1obGKaQAL4kwdt3hHCNXrd0n0R/4B8oq3CzloUAShwFjfsAGM6KY27gPuNftOUEZ4nhOw==}
+  '@npmcli/arborist@9.7.0':
+    resolution: {integrity: sha512-vmGB7um0yvzZlBi0GzmSRJ/oW2KzjiBdgD5AGbMdiqxg/xemfCsDMyD/DtkXPhZrWsPNtGByiBF1kx//gi/5xA==}
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
 
@@ -3064,14 +3064,6 @@ packages:
   decode-named-character-reference@1.3.0:
     resolution: {integrity: sha512-GtpQYB283KrPp6nRw50q3U9/VfOutZOe103qlN7BPP6Ad27xYnOIWv4lPzo8HCAL+mMZofJ9KEy30fq6MfaK6Q==}
 
-  dedent@1.7.2:
-    resolution: {integrity: sha512-WzMx3mW98SN+zn3hgemf4OzdmyNhhhKz5Ay0pUfQiMQ3e1g+xmTJWp/pKdwKVXhdSkAEGIIzqeuWrL3mV/AXbA==}
-    peerDependencies:
-      babel-plugin-macros: ^3.1.0
-    peerDependenciesMeta:
-      babel-plugin-macros:
-        optional: true
-
   defu@6.1.7:
     resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
 
@@ -3188,9 +3180,6 @@ packages:
 
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
-
-  eventemitter3@5.0.4:
-    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
 
   expect-type@1.3.0:
     resolution: {integrity: sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==}
@@ -3703,10 +3692,6 @@ packages:
   lit@3.3.3:
     resolution: {integrity: sha512-fycuvZg/hkpozL00lm1pEJH5nN/lr9ZXd6mJI2HSN4+Bzc+LDNdEApJ6HFbPkdFNHLvOplIIuJvxkS4XUxqirw==}
 
-  load-json-file@7.0.1:
-    resolution: {integrity: sha512-Gnxj3ev3mB5TkVBGad0JM6dmLiQL+o0t23JPBZ9sd+yvSLk05mFoqKBw5N8gbbkU4TNXyqCgIrl/VM17OgUIgQ==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   local-pkg@1.2.1:
     resolution: {integrity: sha512-++gUqRDEvcnN6Zhqrr+y/CkVEHhlrR96vZn3nZZPYzMcBUyBtTKzB9NadClFIsIVSsu+3i9tfk/erqy9kAmt7Q==}
     engines: {node: '>=14'}
@@ -3969,10 +3954,6 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  new-github-release-url@2.0.0:
-    resolution: {integrity: sha512-NHDDGYudnvRutt/VhKFlX26IotXe1w0cmkDm6JGquh5bz/bDTw0LufSmH/GxTjEdpHEO+bVKFTwdrcGa/9XlKQ==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
@@ -4093,10 +4074,6 @@ packages:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
     engines: {node: '>=6'}
 
-  p-limit@7.3.0:
-    resolution: {integrity: sha512-7cIXg/Z0M5WZRblrsOla88S4wAK+zOQQWeBYfV3qJuJXMr+LnbYjaadrFaS0JILfEDPVqHyKnZ1Z/1d6J9VVUw==}
-    engines: {node: '>=20'}
-
   p-locate@4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
     engines: {node: '>=8'}
@@ -4104,14 +4081,6 @@ packages:
   p-map@7.0.4:
     resolution: {integrity: sha512-tkAQEw8ysMzmkhgw8k+1U/iPhWNhykKnSk4Rd5zLoPJCuJaGRPo6YposrZgaxHKzDHdDWWZvE/Sk7hsL2X/CpQ==}
     engines: {node: '>=18'}
-
-  p-queue@9.3.0:
-    resolution: {integrity: sha512-7NED7xhQ74Ngp4JP/2e0VZHp7vSWfJfqeiR92jPgxsz6m0Se4P03YoTKa9dDXyZ3r6P616gUXttrB6nnHYKang==}
-    engines: {node: '>=20'}
-
-  p-timeout@7.0.1:
-    resolution: {integrity: sha512-AxTM2wDGORHGEkPCt8yqxOTMgpfbEHqF51f/5fJCmwFC3C/zNcGT63SymH2ttOAaiIws2zVg4+izQCjrakcwHg==}
-    engines: {node: '>=20'}
 
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
@@ -4687,6 +4656,10 @@ packages:
     resolution: {integrity: sha512-dzGK0boVlC4W5QFuQN1EFSl3bIDYsk7Tj40U6eIBnK2k/8ml7TZ5agbI5j5+qnoVcAA+rNtBml8SEiLxZpNqRQ==}
     engines: {node: '>=18'}
 
+  tar@7.5.16:
+    resolution: {integrity: sha512-56adEpPMouktRlBLXiaYFFzZ/3+JXa8P9n7WbR+ibIjtviN55mEaOkiysCnPnWm+7kkui1Dn8J9l+g6zV8731w==}
+    engines: {node: '>=18'}
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -4697,10 +4670,6 @@ packages:
   tinyexec@1.2.4:
     resolution: {integrity: sha512-SHf/r48b7vOrjve9PxJo3MN5v5yuyjHvdUcrQffT3WXMUfnGmHDVbC4k3sHJaJTgZCwpUplIaAo5ANtMyp3YHg==}
     engines: {node: '>=18'}
-
-  tinyglobby@0.2.16:
-    resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
-    engines: {node: '>=12.0.0'}
 
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
@@ -4779,10 +4748,6 @@ packages:
   tunnel@0.0.6:
     resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
-
-  type-fest@2.19.0:
-    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
-    engines: {node: '>=12.20'}
 
   typescript@6.0.3:
     resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
@@ -5259,10 +5224,6 @@ packages:
     resolution: {integrity: sha512-4UEqdc2RYGHZc7Doyqkrqiln3p9X2DZVxaGbwhn2pi7MrRagKaOcIKe8L3OxYcbhXLgLFUS3zAYuQjKBQgmuNg==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
-  yocto-queue@1.2.2:
-    resolution: {integrity: sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ==}
-    engines: {node: '>=12.20'}
-
   yoctocolors@2.1.2:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
@@ -5676,13 +5637,13 @@ snapshots:
 
   '@gar/promise-retry@1.0.3': {}
 
-  '@inquirer/ansi@2.0.5': {}
+  '@inquirer/ansi@2.0.7': {}
 
-  '@inquirer/core@11.1.10(@types/node@24.13.1)':
+  '@inquirer/core@11.2.1(@types/node@24.13.1)':
     dependencies:
-      '@inquirer/ansi': 2.0.5
-      '@inquirer/figures': 2.0.5
-      '@inquirer/type': 4.0.5(@types/node@24.13.1)
+      '@inquirer/ansi': 2.0.7
+      '@inquirer/figures': 2.0.7
+      '@inquirer/type': 4.0.7(@types/node@24.13.1)
       cli-width: 4.1.0
       fast-wrap-ansi: 0.2.2
       mute-stream: 3.0.0
@@ -5690,32 +5651,32 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.13.1
 
-  '@inquirer/expand@5.0.14(@types/node@24.13.1)':
+  '@inquirer/expand@5.1.1(@types/node@24.13.1)':
     dependencies:
-      '@inquirer/core': 11.1.10(@types/node@24.13.1)
-      '@inquirer/type': 4.0.5(@types/node@24.13.1)
+      '@inquirer/core': 11.2.1(@types/node@24.13.1)
+      '@inquirer/type': 4.0.7(@types/node@24.13.1)
     optionalDependencies:
       '@types/node': 24.13.1
 
-  '@inquirer/figures@2.0.5': {}
+  '@inquirer/figures@2.0.7': {}
 
-  '@inquirer/input@5.0.13(@types/node@24.13.1)':
+  '@inquirer/input@5.1.2(@types/node@24.13.1)':
     dependencies:
-      '@inquirer/core': 11.1.10(@types/node@24.13.1)
-      '@inquirer/type': 4.0.5(@types/node@24.13.1)
+      '@inquirer/core': 11.2.1(@types/node@24.13.1)
+      '@inquirer/type': 4.0.7(@types/node@24.13.1)
     optionalDependencies:
       '@types/node': 24.13.1
 
-  '@inquirer/select@5.1.5(@types/node@24.13.1)':
+  '@inquirer/select@5.2.1(@types/node@24.13.1)':
     dependencies:
-      '@inquirer/ansi': 2.0.5
-      '@inquirer/core': 11.1.10(@types/node@24.13.1)
-      '@inquirer/figures': 2.0.5
-      '@inquirer/type': 4.0.5(@types/node@24.13.1)
+      '@inquirer/ansi': 2.0.7
+      '@inquirer/core': 11.2.1(@types/node@24.13.1)
+      '@inquirer/figures': 2.0.7
+      '@inquirer/type': 4.0.7(@types/node@24.13.1)
     optionalDependencies:
       '@types/node': 24.13.1
 
-  '@inquirer/type@4.0.5(@types/node@24.13.1)':
+  '@inquirer/type@4.0.7(@types/node@24.13.1)':
     optionalDependencies:
       '@types/node': 24.13.1
 
@@ -5746,70 +5707,59 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lerna-lite/cli@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)':
+  '@lerna-lite/cli@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)':
     dependencies:
-      '@lerna-lite/core': 5.2.2(@types/node@24.13.1)
-      '@lerna-lite/init': 5.2.2(@types/node@24.13.1)
-      '@lerna-lite/npmlog': 5.2.2
-      dedent: 1.7.2
+      '@lerna-lite/core': 5.3.0(@types/node@24.13.1)
+      '@lerna-lite/init': 5.3.0(@types/node@24.13.1)
+      '@lerna-lite/npmlog': 5.3.0
       dotenv: 17.4.2
       import-local: 3.2.0
-      load-json-file: 7.0.1
       yargs: 18.0.0
     optionalDependencies:
-      '@lerna-lite/publish': 5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
-      '@lerna-lite/version': 5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
+      '@lerna-lite/publish': 5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
+      '@lerna-lite/version': 5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
     transitivePeerDependencies:
       - '@types/node'
-      - babel-plugin-macros
 
-  '@lerna-lite/core@5.2.2(@types/node@24.13.1)':
+  '@lerna-lite/core@5.3.0(@types/node@24.13.1)':
     dependencies:
-      '@inquirer/expand': 5.0.14(@types/node@24.13.1)
-      '@inquirer/input': 5.0.13(@types/node@24.13.1)
-      '@inquirer/select': 5.1.5(@types/node@24.13.1)
-      '@lerna-lite/npmlog': 5.2.2
+      '@inquirer/expand': 5.1.1(@types/node@24.13.1)
+      '@inquirer/input': 5.1.2(@types/node@24.13.1)
+      '@inquirer/select': 5.2.1(@types/node@24.13.1)
+      '@lerna-lite/npmlog': 5.3.0
       '@npmcli/run-script': 10.0.4
       ci-info: 4.4.0
-      dedent: 1.7.2
       json5: 2.2.3
       lilconfig: 3.1.3
-      load-json-file: 7.0.1
       npm-package-arg: 13.0.2
-      p-map: 7.0.4
-      p-queue: 9.3.0
       semver: 7.8.1
-      tinyexec: 1.2.2
-      tinyglobby: 0.2.16
+      tinyexec: 1.2.4
       write-file-atomic: 7.0.1
       write-json-file: 7.0.0
       yaml: 2.9.0
       zeptomatch: 2.1.0
     transitivePeerDependencies:
       - '@types/node'
-      - babel-plugin-macros
 
-  '@lerna-lite/init@5.2.2(@types/node@24.13.1)':
+  '@lerna-lite/init@5.3.0(@types/node@24.13.1)':
     dependencies:
-      '@lerna-lite/core': 5.2.2(@types/node@24.13.1)
-      p-map: 7.0.4
+      '@lerna-lite/core': 5.3.0(@types/node@24.13.1)
       write-json-file: 7.0.0
     transitivePeerDependencies:
       - '@types/node'
-      - babel-plugin-macros
 
-  '@lerna-lite/npmlog@5.2.2':
+  '@lerna-lite/npmlog@5.3.0':
     dependencies:
       fast-string-width: 3.0.2
       signal-exit: 4.1.0
 
-  '@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0)':
+  '@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0)':
     dependencies:
-      '@lerna-lite/cli': 5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
-      '@lerna-lite/core': 5.2.2(@types/node@24.13.1)
-      '@lerna-lite/npmlog': 5.2.2
-      '@lerna-lite/version': 5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
-      '@npmcli/arborist': 9.6.0
+      '@lerna-lite/cli': 5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
+      '@lerna-lite/core': 5.3.0(@types/node@24.13.1)
+      '@lerna-lite/npmlog': 5.3.0
+      '@lerna-lite/version': 5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)
+      '@npmcli/arborist': 9.7.0
       '@npmcli/package-json': 7.0.5
       ci-info: 4.4.0
       libnpmaccess: 10.0.3
@@ -5817,28 +5767,25 @@ snapshots:
       npm-package-arg: 13.0.2
       npm-packlist: 10.0.4
       npm-registry-fetch: 19.1.1
-      p-map: 7.0.4
       pacote: 21.5.0
       semver: 7.8.1
       ssri: 13.0.1
-      tar: 7.5.15
-      tinyglobby: 0.2.16
+      tar: 7.5.16
     transitivePeerDependencies:
       - '@lerna-lite/exec'
       - '@lerna-lite/list'
       - '@lerna-lite/run'
       - '@lerna-lite/watch'
       - '@types/node'
-      - babel-plugin-macros
       - conventional-commits-filter
       - supports-color
 
-  '@lerna-lite/version@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)':
+  '@lerna-lite/version@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0)':
     dependencies:
       '@conventional-changelog/git-client': 2.7.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.4.0)
-      '@lerna-lite/cli': 5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.2.2(@lerna-lite/publish@5.2.2(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
-      '@lerna-lite/core': 5.2.2(@types/node@24.13.1)
-      '@lerna-lite/npmlog': 5.2.2
+      '@lerna-lite/cli': 5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@lerna-lite/version@5.3.0(@lerna-lite/publish@5.3.0(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)(conventional-commits-filter@5.0.0))(@types/node@24.13.1)
+      '@lerna-lite/core': 5.3.0(@types/node@24.13.1)
+      '@lerna-lite/npmlog': 5.3.0
       '@octokit/plugin-enterprise-rest': 6.0.1
       '@octokit/rest': 22.0.1
       conventional-changelog: 7.2.0(conventional-commits-filter@5.0.0)
@@ -5846,13 +5793,8 @@ snapshots:
       conventional-changelog-writer: 8.4.0
       conventional-commits-parser: 6.4.0
       conventional-recommended-bump: 11.2.0
-      dedent: 1.7.2
       git-url-parse: 16.1.0
-      load-json-file: 7.0.1
-      new-github-release-url: 2.0.0
       npm-package-arg: 13.0.2
-      p-limit: 7.3.0
-      p-map: 7.0.4
       semver: 7.8.1
       write-json-file: 7.0.0
       zeptomatch: 2.1.0
@@ -5863,7 +5805,6 @@ snapshots:
       - '@lerna-lite/run'
       - '@lerna-lite/watch'
       - '@types/node'
-      - babel-plugin-macros
       - conventional-commits-filter
 
   '@lit-labs/ssr-dom-shim@1.6.0': {}
@@ -5980,7 +5921,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@npmcli/arborist@9.6.0':
+  '@npmcli/arborist@9.7.0':
     dependencies:
       '@gar/promise-retry': 1.0.3
       '@isaacs/string-locale-compare': 1.1.0
@@ -7729,8 +7670,6 @@ snapshots:
     dependencies:
       character-entities: 2.0.2
 
-  dedent@1.7.2: {}
-
   defu@6.1.7: {}
 
   dequal@2.0.3: {}
@@ -7840,8 +7779,6 @@ snapshots:
   estree-walker@3.0.3:
     dependencies:
       '@types/estree': 1.0.9
-
-  eventemitter3@5.0.4: {}
 
   expect-type@1.3.0: {}
 
@@ -8344,8 +8281,6 @@ snapshots:
       lit-element: 4.2.2
       lit-html: 3.3.3
 
-  load-json-file@7.0.1: {}
-
   local-pkg@1.2.1:
     dependencies:
       mlly: 1.8.2
@@ -8736,10 +8671,6 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  new-github-release-url@2.0.0:
-    dependencies:
-      type-fest: 2.19.0
-
   node-addon-api@7.1.1:
     optional: true
 
@@ -8907,22 +8838,11 @@ snapshots:
     dependencies:
       p-try: 2.2.0
 
-  p-limit@7.3.0:
-    dependencies:
-      yocto-queue: 1.2.2
-
   p-locate@4.1.0:
     dependencies:
       p-limit: 2.3.0
 
   p-map@7.0.4: {}
-
-  p-queue@9.3.0:
-    dependencies:
-      eventemitter3: 5.0.4
-      p-timeout: 7.0.1
-
-  p-timeout@7.0.1: {}
 
   p-try@2.2.0: {}
 
@@ -9506,16 +9426,19 @@ snapshots:
       minizlib: 3.1.0
       yallist: 5.0.0
 
+  tar@7.5.16:
+    dependencies:
+      '@isaacs/fs-minipass': 4.0.1
+      chownr: 3.0.0
+      minipass: 7.1.3
+      minizlib: 3.1.0
+      yallist: 5.0.0
+
   tinybench@2.9.0: {}
 
   tinyexec@1.2.2: {}
 
   tinyexec@1.2.4: {}
-
-  tinyglobby@0.2.16:
-    dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
 
   tinyglobby@0.2.17:
     dependencies:
@@ -9577,8 +9500,6 @@ snapshots:
       - supports-color
 
   tunnel@0.0.6: {}
-
-  type-fest@2.19.0: {}
 
   typescript@6.0.3: {}
 
@@ -10043,8 +9964,6 @@ snapshots:
       string-width: 7.2.0
       y18n: 5.0.8
       yargs-parser: 22.0.0
-
-  yocto-queue@1.2.2: {}
 
   yoctocolors@2.1.2: {}
 
