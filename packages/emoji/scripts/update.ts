@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import path from "node:path";
 
 const __dirname = import.meta.dirname;
-const root = resolve(__dirname, ".."); // packages/emoji
+const root = path.resolve(__dirname, ".."); // packages/emoji
 
 const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/rhysd/gemoji/unicode-16.0/db/emoji.json";
 // const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json";
@@ -33,9 +33,9 @@ const main = async (): Promise<void> => {
     });
   });
 
-  writeFileSync(resolve(root, "src/data/full.ts"), emojiDataToFile(emojis), "utf-8");
+  writeFileSync(path.resolve(root, "src/data/full.ts"), emojiDataToFile(emojis), "utf-8");
 
-  const visible = readFileSync(resolve(root, "visible.txt"), "utf-8");
+  const visible = readFileSync(path.resolve(root, "visible.txt"), "utf-8");
 
   const emojiLight: Record<string, string> = {};
 
@@ -44,7 +44,11 @@ const main = async (): Promise<void> => {
     if (visible.includes(val.replaceAll("\uFE0F", ""))) emojiLight[name] = val;
   });
 
-  writeFileSync(resolve(root, "src/data/light.ts"), emojiDataToFile(emojiLight, true), "utf-8");
+  writeFileSync(
+    path.resolve(root, "src/data/light.ts"),
+    emojiDataToFile(emojiLight, true),
+    "utf-8",
+  );
 };
 
 await main();

@@ -6,7 +6,7 @@ import type { Delimiter } from "markdown-it/lib/rules_inline/state_inline.mjs";
 
 import type { InlineRuleOptions } from "./options.js";
 
-const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(^|[^\\])(\\\\)*\s/u;
+const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(?:^|[^\\])(?:\\\\)*\s/u;
 
 interface LinearRuleConfig {
   markerCode: number;
@@ -73,7 +73,7 @@ const createLinearRule = (config: LinearRuleConfig): RuleInline => {
 
     const textToken = state.push("text", "", 0);
 
-    textToken.content = content.replace(UNESCAPE_RE, "$1");
+    textToken.content = content.replace(UNESCAPE_RE, "$<char>");
 
     const closeToken = state.push(`${token}_close`, tag, -1);
 

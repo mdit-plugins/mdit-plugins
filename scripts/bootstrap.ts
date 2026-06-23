@@ -1,9 +1,9 @@
 import { existsSync, readdirSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import path from "node:path";
 
 import { version } from "../lerna.json";
 
-const packagesDir = resolve(process.cwd(), "packages");
+const packagesDir = path.resolve(process.cwd(), "packages");
 
 const files = readdirSync(packagesDir);
 
@@ -11,7 +11,7 @@ files.forEach((pkgName) => {
   if (pkgName.startsWith(".")) return;
 
   const desc = `${pkgName} plugin for MarkdownIt`;
-  const pkgPath = join(packagesDir, pkgName, "package.json");
+  const pkgPath = path.join(packagesDir, pkgName, "package.json");
 
   // generate package.json
   if (!existsSync(pkgPath)) {
@@ -69,7 +69,7 @@ files.forEach((pkgName) => {
     writeFileSync(pkgPath, `${JSON.stringify(pkgJSON, null, 2)}\n`);
   }
 
-  const readmePath = join(packagesDir, pkgName, "README.md");
+  const readmePath = path.join(packagesDir, pkgName, "README.md");
 
   // generate README.md
   if (!existsSync(readmePath)) {

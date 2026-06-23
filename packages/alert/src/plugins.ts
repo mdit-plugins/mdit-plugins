@@ -343,14 +343,11 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     titleRender,
   } = {},
 ) => {
-  md.block.ruler.before(
-    "blockquote",
-    "alert",
-    getAlertRule(new Set(alertNames.map((name) => name.toLowerCase())), deep),
-    {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    },
-  );
+  const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
+
+  md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
 
   if (openRender) md.renderer.rules.alert_open = openRender;
 

@@ -1,6 +1,6 @@
 import { escapeHtml } from "@mdit/helper";
 
-const SIZE_REGEXP = /(?<=\s|^)=(.+?)(?:\s|$)/;
+const SIZE_REGEXP = /(?<=\s|^)=(?<size>.+?)(?:\s|$)/;
 
 /**
  * Extract size from content
@@ -26,7 +26,7 @@ export const extractSize = <Data extends { content: string }>(
   return data;
 };
 
-const COLOR_REGEXP = /(?<=\s|^)\/(.+?)(?:\s|$)/;
+const COLOR_REGEXP = /(?<=\s|^)\/(?<color>.+?)(?:\s|$)/;
 
 /**
  * Extract color from content

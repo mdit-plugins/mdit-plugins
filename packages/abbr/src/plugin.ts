@@ -18,7 +18,7 @@ interface AbbrStateCore extends StateCore {
   };
 }
 
-const ESCAPE_RE = /\\(.)/g;
+const ESCAPE_RE = /\\(?<char>.)/g;
 
 const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
   let labelEnd = -1;
@@ -52,7 +52,7 @@ const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, s
 
   if (silent) return true;
 
-  const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$1");
+  const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$<char>");
 
   pos = labelEnd + 2;
   const titleStart = state.skipSpaces(pos);

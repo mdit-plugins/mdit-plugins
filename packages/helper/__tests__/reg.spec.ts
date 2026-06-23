@@ -15,7 +15,7 @@ describe("unescape special characters", () => {
   it("should unescape special characters", () => {
     const text =
       "\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\-\\=\\{\\}\\[\\]\\|\\;\\:\\'\\\"\\,\\.\\/\\<\\>\\?\\`\\~";
-    const unescaped = text.replace(UNESCAPE_RE, "$1");
+    const unescaped = text.replace(UNESCAPE_RE, "$<char>");
 
     expect(unescaped).toBe("!@#$%^&*()_+-={}[]|;:'\",./<>?`~");
   });

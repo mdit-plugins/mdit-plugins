@@ -12,16 +12,17 @@ import type { MarkdownItSnippetOptions } from "./options.js";
 import type { SnippetEnv } from "./types.js";
 
 const REGIONS_RE = [
-  /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-  /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-  /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-  /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-  /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-  /^::#((?:end)region) ([\w*-]+)$/, // Bat
-  /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
+  /^\/\/ ?#?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // javascript, typescript, java
+  /^\/\* ?#(?<tag>(?:end)?region) (?<name>[\w*-]+) ?\*\/$/, // css, less, scss
+  /^#pragma (?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C, C++
+  /^<!-- #?(?<tag>(?:end)?region) (?<name>[\w*-]+) -->$/, // HTML, markdown
+  /^#(?<tag>(?:End )Region) (?<name>[\w*-]+)$/, // Visual Basic
+  /^::#(?<tag>(?:end)region) (?<name>[\w*-]+)$/, // Bat
+  /^# ?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
-const SNIPPET_RE = /^([^#{]*)((?:[#{}].*)?)$/;
-const SNIPPET_META_RE = /^(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/;
+const SNIPPET_RE = /^(?<path>[^#{]*)(?<meta>(?:[#{}].*)?)$/;
+const SNIPPET_META_RE =
+  /^(?:#(?<region>[\w-]+))?(?: ?(?:{(?<lines>\d+(?:[,-]\d+)*)? ?(?<lang>\S+)?}))?$/;
 const REGION_START_MARKER_RE = /^[rR]egion$/;
 const REGION_END_MARKER_RE = /^[Ee]nd ?[rR]egion$/;
 

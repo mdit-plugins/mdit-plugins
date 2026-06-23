@@ -31,20 +31,20 @@ interface IncludeInfo {
 }
 
 const REGIONS_RE = [
-  /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-  /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-  /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-  /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-  /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-  /^::#((?:end)region) ([\w*-]+)$/, // Bat
-  /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
+  /^\/\/ ?#?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // javascript, typescript, java
+  /^\/\* ?#(?<tag>(?:end)?region) (?<name>[\w*-]+) ?\*\/$/, // css, less, scss
+  /^#pragma (?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C, C++
+  /^<!-- #?(?<tag>(?:end)?region) (?<name>[\w*-]+) -->$/, // HTML, markdown
+  /^#(?<tag>(?:End )Region) (?<name>[\w*-]+)$/, // Visual Basic
+  /^::#(?<tag>(?:end)region) (?<name>[\w*-]+)$/, // Bat
+  /^# ?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
 ];
 
 // regexp to match the import syntax
 const INCLUDE_COMMENT_RE =
-  /^( *)<!-{2,}\s*@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*-{2,}>\s*$/gm;
+  /^(?<indent> *)<!-{2,}\s*@include:\s*(?<includePath>[^<>|:"*?]+(?:\.[a-z0-9]+))(?:#(?<region>[\w-]+))?(?:\{(?<lineStart>\d+)?-(?<lineEnd>\d+)?\})?\s*-{2,}>\s*$/gm;
 const INCLUDE_RE =
-  /^( *)@include:\s*([^<>|:"*?]+(?:\.[a-z0-9]+))(?:#([\w-]+))?(?:\{(\d+)?-(\d+)?\})?\s*$/gm;
+  /^(?<indent> *)@include:\s*(?<includePath>[^<>|:"*?]+(?:\.[a-z0-9]+))(?:#(?<region>[\w-]+))?(?:\{(?<lineStart>\d+)?-(?<lineEnd>\d+)?\})?\s*$/gm;
 
 const testLine = (line: string, regexp: RegExp, regionName: string, end = false): boolean => {
   const [full, tag, name] = regexp.exec(line.trim()) ?? [];
@@ -203,7 +203,7 @@ export const resolveInclude = (
     },
   );
 
-const SYNTAX_PUSH_RE = /^<!-- #include-env-start: ([^)]*?) -->$/;
+const SYNTAX_PUSH_RE = /^<!-- #include-env-start: (?<includePath>[^)]*?) -->$/;
 
 const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];

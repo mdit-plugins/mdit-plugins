@@ -2,7 +2,7 @@ import type { PluginWithOptions } from "markdown-it";
 
 import type { MarkdownItImgMarkOptions } from "./options.js";
 
-const ID_SUFFIX_REGEX = /#(.*?)$/;
+const ID_SUFFIX_REGEX = /#(?:.*?)$/;
 
 export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,

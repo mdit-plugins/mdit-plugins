@@ -247,7 +247,7 @@ $$
 
   it("should work with transformer", () => {
     const markdownItTransformer = MarkdownIt({ linkify: true }).use(katex, {
-      transformer: (content: string) => content.replaceAll(/^(<[a-z]+ )/g, "$1v-pre "),
+      transformer: (content: string) => content.replaceAll(/^(?<tag><[a-z]+ )/g, "$<tag>v-pre "),
     });
 
     expect(markdownItTransformer.render(`$$a=1$$`)).toContain(" v-pre ");

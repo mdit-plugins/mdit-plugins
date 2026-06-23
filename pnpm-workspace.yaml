@@ -39,10 +39,10 @@ catalogMode: prefer
 
 cleanupUnusedCatalogs: true
 
-configDependencies:
-  pacquet: "^0.2.9"
+# configDependencies:
+#   pacquet: "^0.11.10"
 
-enableGlobalVirtualStore: true
+# enableGlobalVirtualStore: true
 
 packageExtensions:
   # FIXME: This is a bug in mathjax
@@ -54,3 +54,10 @@ packageExtensions:
   "@mathjax/mathjax-tex-font":
     peerDependencies:
       "@mathjax/src": ^4.1.2
+
+minimumReleaseAgeExclude:
+  - "@oxfmt/*"
+  - "@oxlint/*"
+  - oxc-config-hope
+  - oxfmt
+  - oxlint

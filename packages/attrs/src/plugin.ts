@@ -29,7 +29,6 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         let position: null | number = null;
         let range: DelimiterRange | null = null;
 
-        // oxlint-disable-next-line no-loop-func
         const match = pattern.tests.every((test) => {
           const result = testRule(tokens, index, test);
 

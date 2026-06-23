@@ -167,7 +167,7 @@ $$
 
   it("should work with transformer", () => {
     const mathjaxInstance = createMathjaxInstance({
-      transformer: (content: string) => content.replaceAll(/^(<[a-z-]+ )/g, "$1v-pre "),
+      transformer: (content: string) => content.replaceAll(/^(?<tag><[a-z-]+ )/g, "$<tag>v-pre "),
     })!;
     const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 

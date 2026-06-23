@@ -56,7 +56,7 @@ describe("rule settings", () => {
 
   it("should not throw when getting only allowed option", () => {
     const markdownIt = MarkdownIt().use(attrs, {
-      allowed: [/^(class|attr)$/],
+      allowed: [/^(?:class|attr)$/],
     });
 
     expect(markdownIt.render("text {.some-class #some-id attr=allowed}")).toBe(

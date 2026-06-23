@@ -193,7 +193,7 @@ const createDualRuleTests = (
       it("should restrict attributes by allowed (regex)", () => {
         const markdownItWithOptions = MarkdownIt().use(attrs, {
           ...options,
-          allowed: [/^(class|attr)$/],
+          allowed: [/^(?:class|attr)$/],
         });
 
         const src = "text {.some-class #some-id attr=allowed}";
