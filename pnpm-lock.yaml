@@ -368,8 +368,8 @@ importers:
         specifier: 22.2.7
         version: 22.2.7
       oxc-config-hope:
-        specifier: 0.3.8
-        version: 0.3.8(oxfmt@0.56.0)(oxlint-tsgolint@0.23.0)(oxlint@1.71.0(oxlint-tsgolint@0.23.0))
+        specifier: 0.3.9
+        version: 0.3.9(oxfmt@0.56.0)(oxlint-tsgolint@0.23.0)(oxlint@1.71.0(oxlint-tsgolint@0.23.0))
       oxfmt:
         specifier: 0.56.0
         version: 0.56.0
@@ -3331,6 +3331,7 @@ packages:
   git-raw-commits@5.0.1:
     resolution: {integrity: sha512-Y+csSm2GD/PCSh6Isd/WiMjNAydu0VBiG9J7EdQsNA5P9uXvLayqjmTsNlK5Gs9IhblFZqOU0yid5Il5JPoLiQ==}
     engines: {node: '>=18'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@8.1.1:
@@ -4080,8 +4081,8 @@ packages:
     resolution: {integrity: sha512-84cglkRILFxdtA8hAvLNdMrtBpPNBTrQ9/ulg0FA7xLMnD6mifv+enAIeRmvtv+WgdCE+LPGOfQmtJRrVaIVhQ==}
     engines: {node: '>=20'}
 
-  oxc-config-hope@0.3.8:
-    resolution: {integrity: sha512-Hty3hgV9thLL5iHKflkQ0rnCpsiNY3ry8WZlfHNz+YVubP5/6RsNZTggBnBjHaIlxJRa4WpW7Vk4NX2aiVWo2Q==}
+  oxc-config-hope@0.3.9:
+    resolution: {integrity: sha512-zQMn48HvdH6ECcpzkL1fSD9YGw5yWZCywBLMnLLQ/LJpSvwQ8FcPfGV6jvnLB3g15UcPFbs3chcqQ0ke+uET/Q==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       oxfmt: '>=0.56.0'
@@ -8775,7 +8776,7 @@ snapshots:
       stdin-discarder: 0.3.2
       string-width: 8.2.1
 
-  oxc-config-hope@0.3.8(oxfmt@0.56.0)(oxlint-tsgolint@0.23.0)(oxlint@1.71.0(oxlint-tsgolint@0.23.0)):
+  oxc-config-hope@0.3.9(oxfmt@0.56.0)(oxlint-tsgolint@0.23.0)(oxlint@1.71.0(oxlint-tsgolint@0.23.0)):
     optionalDependencies:
       oxfmt: 0.56.0
       oxlint: 1.71.0(oxlint-tsgolint@0.23.0)
