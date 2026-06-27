@@ -347,8 +347,8 @@ importers:
         specifier: 4.1.9
         version: 4.1.9(vitest@4.1.9)
       conventional-changelog-conventionalcommits:
-        specifier: 9.3.1
-        version: 9.3.1
+        specifier: 10.0.0
+        version: 10.0.0
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
@@ -1129,6 +1129,10 @@ packages:
         optional: true
       conventional-commits-parser:
         optional: true
+
+  '@conventional-changelog/template@1.0.0':
+    resolution: {integrity: sha512-gJCWgneQIGfxZ22B4nGh7LF3cHbIdhwTHZi9octL7kagH4UHfnsLvp/yPl6tzWvdnIIRUutJtVNEih6Ln2YzFw==}
+    engines: {node: '>=22'}
 
   '@docsearch/css@4.6.3':
     resolution: {integrity: sha512-nlOwcXcsNAptQl4vlL4MA78qNJKO0Qlds5GuBjCoePgkebTXLSf8Qt1oyZ3YBshYupKXG9VRGEsk1zr23d+bzQ==}
@@ -3017,6 +3021,10 @@ packages:
   conventional-changelog-angular@8.3.1:
     resolution: {integrity: sha512-6gfI3otXK5Ph5DfCOI1dblr+kN3FAm5a97hYoQkqNZxOaYa5WKfXH+AnpsmS+iUH2mgVC2Cg2Qw9m5OKcmNrIg==}
     engines: {node: '>=18'}
+
+  conventional-changelog-conventionalcommits@10.0.0:
+    resolution: {integrity: sha512-MI9NHlb+21eTLJyd6c8mgH2XHGz+ZaQanCFyH1A6AGtqqbTw+w9Ren4Oi5yWFi/pDehlmbnFU1pJzRqQXTOp+w==}
+    engines: {node: '>=22'}
 
   conventional-changelog-conventionalcommits@9.3.1:
     resolution: {integrity: sha512-dTYtpIacRpcZgrvBYvBfArMmK2xvIpv2TaxM0/ZI5CBtNUzvF2x0t15HsbRABWprS6UPmvj+PzHVjSx4qAVKyw==}
@@ -5567,6 +5575,8 @@ snapshots:
       conventional-commits-filter: 5.0.0
       conventional-commits-parser: 6.4.0
 
+  '@conventional-changelog/template@1.0.0': {}
+
   '@docsearch/css@4.6.3': {}
 
   '@docsearch/js@4.6.3': {}
@@ -7574,6 +7584,10 @@ snapshots:
   conventional-changelog-angular@8.3.1:
     dependencies:
       compare-func: 2.0.0
+
+  conventional-changelog-conventionalcommits@10.0.0:
+    dependencies:
+      '@conventional-changelog/template': 1.0.0
 
   conventional-changelog-conventionalcommits@9.3.1:
     dependencies:
