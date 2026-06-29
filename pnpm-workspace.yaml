@@ -40,9 +40,9 @@ catalogMode: prefer
 cleanupUnusedCatalogs: true
 
 # configDependencies:
-#   pacquet: "^0.11.10"
+#   pacquet: ^0.11.12
 
-# enableGlobalVirtualStore: true
+enableGlobalVirtualStore: true
 
 packageExtensions:
   # FIXME: This is a bug in mathjax

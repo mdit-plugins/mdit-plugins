@@ -139,6 +139,7 @@ export const tsdownConfig = (
       return item;
     }),
     fixedExtension: false,
+    logLevel: "warn",
     publint,
     ...rest,
   });
