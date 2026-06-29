@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%400.23.2...%40mdit%2Fhelper%401.0.0) (2026-06-29)
+
+**Note:** Version bump only for package @mdit/helper
+
 ## [0.23.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/helper@0.23.1...@mdit/helper@0.23.2) (2026-03-30)
 
 **Note:** Version bump only for package @mdit/helper

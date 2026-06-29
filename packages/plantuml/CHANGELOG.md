@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%400.24.2...%40mdit%2Fplugin-plantuml%401.0.0) (2026-06-29)
+
+**Note:** Version bump only for package @mdit/plugin-plantuml
+
 ## [0.24.2](https://github.com/mdit-plugins/mdit-plugins/compare/@mdit/plugin-plantuml@0.24.1...@mdit/plugin-plantuml@0.24.2) (2026-03-30)
 
 **Note:** Version bump only for package @mdit/plugin-plantuml

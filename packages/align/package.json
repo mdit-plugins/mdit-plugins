@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-align",
-  "version": "0.24.2",
+  "version": "1.0.0",
   "description": "align plugin for MarkdownIt",
   "keywords": [
     "align",
