@@ -9,16 +9,6 @@ mdit-plugins is a TypeScript Monorepo containing 39+ MarkdownIt plugins with 100
 - **License**: MIT
 - **Author**: Mr.Hope
 
-## Tech Stack
-
-- **Language**: TypeScript 5.9.3
-- **Package Manager**: pnpm 10.32.1
-- **Bundler**: tsdown 0.21.3
-- **Testing**: vitest 4.0.18
-- **Linting**: oxlint 1.55.0 / oxfmt 0.40.0
-- **Monorepo**: lerna-lite 4.11.5
-- **Documentation**: VuePress 2.x + vuepress-theme-hope
-
 ## Project Structure
 
 ```
