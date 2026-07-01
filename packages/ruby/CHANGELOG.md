@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.1 (2026-07-01)
+
+**Note:** Version bump only for package @mdit/plugin-ruby
+
 ## [1.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-ruby%400.23.2...%40mdit%2Fplugin-ruby%401.0.0) (2026-06-29)
 
 **Note:** Version bump only for package @mdit/plugin-ruby

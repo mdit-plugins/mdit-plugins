@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-icon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "icon plugin for MarkdownIt",
   "keywords": [
     "icon",

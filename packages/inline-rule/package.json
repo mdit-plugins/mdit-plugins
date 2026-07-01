@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-inline-rule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unified inline syntax factory plugin for MarkdownIt",
   "keywords": [
     "inline-rule",

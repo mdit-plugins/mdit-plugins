@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-ruby",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ruby plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
