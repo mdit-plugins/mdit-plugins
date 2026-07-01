@@ -280,8 +280,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2
       npm-check-updates:
-        specifier: 22.2.8
-        version: 22.2.8
+        specifier: 22.2.9
+        version: 22.2.9
       oxc-config-hope:
         specifier: 0.3.9
         version: 0.3.9(oxfmt@0.56.0)(oxlint-tsgolint@0.23.0)(oxlint@1.71.0(oxlint-tsgolint@0.23.0))
@@ -3849,8 +3849,8 @@ packages:
     resolution: {integrity: sha512-JLSpbzh6UUXIEoqPsYBvVNVmyrjVZ1fzEFbqxKkTJQkWBO3xFzFT+KDnSKQWwOQNbuWRwt5LSD6HOTLGIWzfrw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  npm-check-updates@22.2.8:
-    resolution: {integrity: sha512-jL2cs1TSDSj3ieDlMVFf0bZFVqLNtXt+ExvCMF1OYxR7PiVjFcmAP80rJFNOFrrt0KLyPqeRBZtD7xZu9emd8w==}
+  npm-check-updates@22.2.9:
+    resolution: {integrity: sha512-DVeZ0KirHfliSsHuR2o7cHE+tW439sVHfJjF6cGWeDiY0Wyl3BI/jS4zV0eixtcMOquFbcF1Su/FsxOvk5MoYA==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: '>=10.0.0'}
     hasBin: true
 
@@ -8521,7 +8521,7 @@ snapshots:
     dependencies:
       npm-normalize-package-bin: 5.0.0
 
-  npm-check-updates@22.2.8: {}
+  npm-check-updates@22.2.9: {}
 
   npm-install-checks@8.0.0:
     dependencies:
