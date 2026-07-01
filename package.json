@@ -17,7 +17,7 @@
     "packages:update": "pnpm up -r",
     "prepare": "husky",
     "release": "pnpm run clean && pnpm run build && pnpm run release:version && pnpm run release:publish && pnpm run release:sync",
-    "release:publish": "lerna publish from-package --yes",
+    "release:publish": "lerna publish from-package --force-publish --yes",
     "release:sync": "node --experimental-strip-types scripts/sync.ts",
     "release:version": "lerna version",
     "test": "vitest run",
