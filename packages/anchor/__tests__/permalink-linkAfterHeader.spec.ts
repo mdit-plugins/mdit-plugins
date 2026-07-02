@@ -55,6 +55,20 @@ describe("permalink.linkAfterHeader", () => {
     );
   });
 
+  it("should render without explicit style and class", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({
+          assistiveText: (title: string): string => `Permalink to \u201C${title}\u201D`,
+          visuallyHiddenClass: "visually-hidden",
+          class: "",
+        }),
+      }).render("# H1"),
+    ).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n<a href="#h1"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true">#</span></a>',
+    );
+  });
+
   it("should render aria-label style", () => {
     expect(
       md({
@@ -78,6 +92,19 @@ describe("permalink.linkAfterHeader", () => {
     );
   });
 
+  it("should render with custom symbol and no text heading", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({
+          style: "aria-describedby",
+          symbol: "X",
+        }),
+      }).render("# ![img](url)"),
+    ).toBe(
+      '<h1 id="" tabindex="-1"><img src="url" alt="img"></h1>\n<a class="header-anchor" href="#" aria-describedby="">X</a>',
+    );
+  });
+
   it("should respect placement before", () => {
     expect(
       md({
@@ -91,6 +118,19 @@ describe("permalink.linkAfterHeader", () => {
       }).render("# H1"),
     ).toBe(
       '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1"><span aria-hidden="true">#</span><span class="visually-hidden">Permalink to \u201CH1\u201D</span></a>',
+    );
+  });
+
+  it("should render with string space", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({
+          ...opts,
+          space: "&nbsp;",
+        }),
+      }).render("# H1"),
+    ).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1"><span class="visually-hidden">Permalink to \u201CH1\u201D</span>&nbsp;<span aria-hidden="true"><i class="icon"></i></span></a>',
     );
   });
 
@@ -126,7 +166,7 @@ describe("linkAfterHeader error handling", () => {
         }),
       }).render("# H1");
     }).toThrow(
-      `"permalink.linkAfterHeader" called without the "assistiveText" option in "visually-hidden" style`,
+      `"linkAfterHeader" called without the "assistiveText" option in "visually-hidden" style`,
     );
   });
 
@@ -139,7 +179,7 @@ describe("linkAfterHeader error handling", () => {
         }),
       }).render("# H1");
     }).toThrow(
-      `"permalink.linkAfterHeader" called without the "visuallyHiddenClass" option in "visually-hidden" style`,
+      `"linkAfterHeader" called without the "visuallyHiddenClass" option in "visually-hidden" style`,
     );
   });
 
@@ -148,8 +188,6 @@ describe("linkAfterHeader error handling", () => {
       md({
         permalink: linkAfterHeader({ style: "aria-label" }),
       }).render("# H1");
-    }).toThrow(
-      `"permalink.linkAfterHeader" called without the "assistiveText" option in "aria-label" style`,
-    );
+    }).toThrow(`"linkAfterHeader" called without the "assistiveText" option in "aria-label" style`);
   });
 });

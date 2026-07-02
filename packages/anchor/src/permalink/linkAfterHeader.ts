@@ -22,20 +22,20 @@ export const linkAfterHeader =
     wrapper = null,
     renderHref: renderHrefFn = renderHref,
     renderAttrs: renderAttrsFn = renderAttrs,
-  }: LinkAfterHeaderPermalinkOptions = {}): PermalinkGenerator =>
+  }: LinkAfterHeaderPermalinkOptions): PermalinkGenerator =>
   (slug, _anchorOpts, state: StateCore, idx: number) => {
     if (!["visually-hidden", "aria-label", "aria-describedby", "aria-labelledby"].includes(style))
       throw new Error(`"permalink.linkAfterHeader" called with unknown style option "${style}"`);
 
     if (!["aria-describedby", "aria-labelledby"].includes(style) && !assistiveText) {
       throw new Error(
-        `"permalink.linkAfterHeader" called without the "assistiveText" option in "${style}" style`,
+        `"linkAfterHeader" called without the "assistiveText" option in "${style}" style`,
       );
     }
 
     if (style === "visually-hidden" && !visuallyHiddenClass) {
       throw new Error(
-        `"permalink.linkAfterHeader" called without the "visuallyHiddenClass" option in "visually-hidden" style`,
+        `"linkAfterHeader" called without the "visuallyHiddenClass" option in "visually-hidden" style`,
       );
     }
 

@@ -54,4 +54,16 @@ describe("permalink.linkInsideHeader", () => {
       }).render("# H1"),
     ).toBe('<h1 id="h1" tabindex="-1">H1 <a class="header-anchor" href="/x/h1">#</a></h1>\n');
   });
+
+  it("should render with boolean space", () => {
+    expect(md({ permalink: linkInsideHeader({ space: true }) }).render("# H1")).toBe(
+      '<h1 id="h1" tabindex="-1">H1 <a class="header-anchor" href="#h1">#</a></h1>\n',
+    );
+  });
+
+  it("should render with string space", () => {
+    expect(md({ permalink: linkInsideHeader({ space: "&nbsp;" }) }).render("# H1")).toBe(
+      '<h1 id="h1" tabindex="-1">H1&nbsp;<a class="header-anchor" href="#h1">#</a></h1>\n',
+    );
+  });
 });
