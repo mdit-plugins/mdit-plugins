@@ -21,8 +21,6 @@ const mdIt = MarkdownIt().use(tab, {
 mdIt.render("content");
 ```
 
-:::
-
 With this plugin, you can create tabs container with `::: name` and `:::`, with `name` is the value you set as name.
 
 In this container, you can use `@tab` marker to mark and separate tab contents.
