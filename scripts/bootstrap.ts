@@ -1,8 +1,9 @@
 import { existsSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
-import { version } from "../lerna.json";
+import config from "../lerna.json" with { type: "json" };
 
+const { version } = config;
 const packagesDir = path.resolve(process.cwd(), "packages");
 
 const files = readdirSync(packagesDir);
