@@ -21,6 +21,7 @@ This repo contains the following plugins:
 - @mdit/plugin-abbr
 - @mdit/plugin-alert
 - @mdit/plugin-align
+- @mdit/plugin-anchor
 - @mdit/plugin-attrs
 - @mdit/plugin-container
 - @mdit/plugin-demo
