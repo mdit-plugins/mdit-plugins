@@ -146,6 +146,19 @@ describe("permalink.linkAfterHeader", () => {
       '<div class="wrapper">\n<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true"><i class="icon"></i></span></a></div>\n',
     );
   });
+
+  it("should render with custom renderAttrs", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({
+          ...opts,
+          renderAttrs: (_slug: string) => ({ target: "_blank" }),
+        }),
+      }).render("# H1"),
+    ).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1" target="_blank"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true"><i class="icon"></i></span></a>',
+    );
+  });
 });
 
 describe("linkAfterHeader error handling", () => {
