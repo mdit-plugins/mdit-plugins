@@ -1,7 +1,8 @@
+import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/sync.js";
+import { createMathjaxInstance, getDocumentOptions, mathjax } from "../src/sync.js";
 import { examples } from "./utils.js";
 
 describe("mathjax-html", () => {
@@ -177,5 +178,21 @@ $$
 
     expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
     expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");
+  });
+
+  it("should log debug message in asyncLoad", () => {
+    const spy = vi.spyOn(console, "debug").mockImplementation(() => {});
+
+    getDocumentOptions({ debug: true, output: "chtml" });
+
+    try {
+      mathjaxLib.asyncLoad("test-module.js");
+    } catch {
+      /* require will fail for non-existent module */
+    }
+
+    expect(spy).toHaveBeenCalledWith("[MathJax]: sync loading test-module.js...");
+
+    spy.mockRestore();
   });
 });
