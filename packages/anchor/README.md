@@ -14,3 +14,7 @@ npm i -D @mdit/plugin-anchor
 # yarn
 yarn add -D @mdit/plugin-anchor
 ```
+
+## Acknowledgements / 鸣谢
+
+This plugin is inspired by and based on [markdown-it-anchor](https://github.com/valeriangalliat/markdown-it-anchor), whose authors are [Val](https://val.codejam.info/) and [Nagao, Fabio Zendhi](https://github.com/nagaozen/)

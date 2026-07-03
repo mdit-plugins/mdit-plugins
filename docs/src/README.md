@@ -19,6 +19,11 @@ features:
     details: Align contents
     link: ./align.html
 
+  - title: anchor
+    icon: link
+    details: Add heading anchors and permalinks
+    link: ./anchor.html
+
   - title: attrs
     icon: code
     details: Add attrs to Markdown content
