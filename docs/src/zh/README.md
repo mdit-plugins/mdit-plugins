@@ -19,6 +19,11 @@ features:
     details: 控制内容对齐方式
     link: ./align.html
 
+  - title: anchor
+    icon: link
+    details: 为标题添加锚点和永久链接
+    link: ./anchor.html
+
   - title: attrs
     icon: code
     details: 向 Markdown 内容添加属性
