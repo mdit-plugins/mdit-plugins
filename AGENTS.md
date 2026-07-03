@@ -3,9 +3,9 @@
 ## Project Overview
 
 - **Project Type**: TypeScript Monorepo
-- **Node.js Version**: >= 20.6.0
+- **Node.js Version**: >= 22
 - **Package Manager**: pnpm (version 10.32.1)
-- **Plugin Count**: 39+ MarkdownIt plugins
+- **Plugin Count**: 40+ MarkdownIt plugins
 - **Target Environments**: Node.js and Browser
 
 ## Project Structure
@@ -17,13 +17,7 @@ mdit-plugins/
 │   ├── copilot-instructions.md # AI coding standards
 │   └── FUNDING.yml
 ├── docs/                       # VuePress documentation site
-├── packages/                   # 39 plugin packages
-│   ├── abbr/                   # Abbreviation
-│   ├── alert/                  # GFM alerts
-│   ├── align/                  # Content alignment
-│   ├── attrs/                  # Custom attributes
-│   ├── container/              # Block containers
-│   ├── emoji/                  # Emoji support
+├── packages/                   # 40+ plugin packages
 │   └── ...                     # Other plugins
 ├── scripts/                    # Build and release scripts
 ├── package.json                # Root package.json
@@ -41,21 +35,20 @@ mdit-plugins/
 
 ## Common Commands
 
-| Command                  | Description                            |
-| ------------------------ | -------------------------------------- |
-| `pnpm run build`         | Build all packages                     |
-| `pnpm run test`          | Run unit tests                         |
-| `pnpm run test:coverage` | Run tests with coverage report         |
-| `pnpm run lint`          | Run linting with auto-fix              |
-| `pnpm run lint:check`    | Run linting without auto-fix           |
-| `pnpm run type-check`    | Type check all packages                |
-| `pnpm run docs:dev`      | Start docs dev server                  |
-| `pnpm run docs:build`    | Build documentation                    |
-| `pnpm run release`       | Clean, build, version bump and publish |
+| Command                  | Description                    |
+| ------------------------ | ------------------------------ |
+| `pnpm run build`         | Build all packages             |
+| `pnpm run test`          | Run unit tests                 |
+| `pnpm run test:coverage` | Run tests with coverage report |
+| `pnpm run lint`          | Run linting with auto-fix      |
+| `pnpm run lint:check`    | Run linting without auto-fix   |
+| `pnpm run type-check`    | Type check all packages        |
+| `pnpm run docs:dev`      | Start docs dev server          |
+| `pnpm run docs:build`    | Build documentation            |
 
 ## CI/CD Workflows
 
-- **unit-test.yml**: Run tests and coverage on Node.js 20, 22, 24
+- **unit-test.yml**: Run tests and coverage on Node.js 22, 24 and 26
 - **linter-test.yml**: Type check, bundle analysis, linting
 - **docs.yml**: Build and deploy docs to GitHub Pages
 - **publish.yml**: Build and publish packages to npm and npmmirror
@@ -117,13 +110,14 @@ Also, make sure you are using `HUSKY=0` to disable husky when committing in CI, 
 
 ### How to Run Tests
 
-First, cd to the plugin directory (e.g., `cd packages/alert`), then run:
+cd to the plugin directory and run:
 
 ```bash
+cd packages/<name>
 pnpm exec vitest run --coverage
 ```
 
-This should only run tests in the current plugin and generate coverage report. Do NOT run `pnpm exec vitest run --coverage` in the root directory.
+Do NOT run `pnpm exec vitest run --coverage` in the root.
 
 ## Performance
 
