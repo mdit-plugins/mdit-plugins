@@ -4,7 +4,9 @@ import path from "node:path";
 const __dirname = import.meta.dirname;
 const root = path.resolve(__dirname, ".."); // packages/emoji
 
-const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/rhysd/gemoji/unicode-16.0/db/emoji.json";
+const G_EMOJI_SOURCE =
+  "https://raw.githubusercontent.com/delthas/gemoji-json/refs/heads/master/emoji.json";
+// const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/rhysd/gemoji/unicode-16.0/db/emoji.json";
 // const G_EMOJI_SOURCE = "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json";
 
 const emojiDataToFile = (emojiData: unknown, light = false): string => `\

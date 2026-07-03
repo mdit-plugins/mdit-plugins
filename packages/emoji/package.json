@@ -41,7 +41,7 @@
   "scripts": {
     "build": "tsdown",
     "clean": "rimraf ./dist",
-    "update-emoji": "node --experimental-strip-types scripts/update.ts"
+    "update-emoji": "node  --use-env-proxy --experimental-strip-types scripts/update.ts"
   },
   "dependencies": {
     "@types/markdown-it": "^14.1.2"
