@@ -136,7 +136,7 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
           const currentToken = tokens[currentIndex];
 
           if (currentToken === trOpenToken) {
-            const tHeadOpenToken = tokens[currentIndex - 1] as TokenWithColumnCount;
+            const tHeadOpenToken: TokenWithColumnCount = tokens[currentIndex - 1];
 
             tHeadOpenToken.meta = {
               ...tHeadOpenToken.meta,
@@ -153,7 +153,7 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
         }
 
         // Apply metadata to tbody_open token
-        const tbodyOpenToken = tokens[index + 2] as TokenWithColumnCount;
+        const tbodyOpenToken: TokenWithColumnCount = tokens[index + 2];
 
         tbodyOpenToken.meta = {
           ...tbodyOpenToken.meta,
@@ -183,8 +183,10 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
         while (tbodyOpenIndex >= 0 && tokens[tbodyOpenIndex].type !== "tbody_open")
           tbodyOpenIndex--;
 
+        const tbodyOpenToken: TokenWithColumnCount = tokens[tbodyOpenIndex];
+
         // oxlint-disable-next-line typescript/no-non-null-assertion
-        const columnCount = (tokens[tbodyOpenIndex] as TokenWithColumnCount).meta!.columnCount!;
+        const columnCount = tbodyOpenToken.meta!.columnCount!;
 
         if (columnCount < 2) return;
 

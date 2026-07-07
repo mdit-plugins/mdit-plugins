@@ -96,7 +96,7 @@ mdIt.render("# 你好 世界");
 
 ::: tip 手动设置 ID
 
-你可以通过 [@mdit/plugin-attrs](../attrs.md) 手动设置标题 ID。确保 attrs 在 anchor **之前**加载：
+你可以通过 [@mdit/plugin-attrs](./attrs.md) 手动设置标题 ID。确保 attrs 在 anchor **之前**加载：
 
 ```ts
 import MarkdownIt from "markdown-it";

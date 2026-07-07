@@ -96,7 +96,7 @@ Consectetur adipiscing elit.
 
 ::: tip Manual ID support
 
-You can manually set heading IDs via [@mdit/plugin-attrs](../attrs.md). Make sure to load attrs **before** anchor:
+You can manually set heading IDs via [@mdit/plugin-attrs](./attrs.md). Make sure to load attrs **before** anchor:
 
 ```ts
 import MarkdownIt from "markdown-it";

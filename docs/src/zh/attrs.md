@@ -72,14 +72,7 @@ mdIt.render("# Heading 🎉{#heading}");
 
 ```ts
 type MarkdownItAttrRuleName =
-  | "fence"
-  | "inline"
-  | "table"
-  | "list"
-  | "hr"
-  | "heading"
-  | "softbreak"
-  | "block";
+  "fence" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
 ```
 
 - 默认值：`"all"`

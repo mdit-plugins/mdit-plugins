@@ -173,12 +173,12 @@ describe(stylize, () => {
         config: [
           {
             matcher: "TEST",
-            replacer: ({ tag, content, attrs }) => ({
+            replacer: ({ tag, content, attrs }): MarkdownItStylizeResult => ({
               tag,
               content,
               attrs,
             }),
-          } as MarkdownItStylizeConfig,
+          },
         ],
       });
 
@@ -194,12 +194,12 @@ describe(stylize, () => {
         config: [
           {
             matcher: "TEST",
-            replacer: ({ tag, content, attrs }) => ({
+            replacer: ({ tag, content, attrs }): MarkdownItStylizeResult => ({
               tag,
               content: `${content}!`,
               attrs,
             }),
-          } as MarkdownItStylizeConfig,
+          },
         ],
       });
 
@@ -214,12 +214,12 @@ describe(stylize, () => {
         config: [
           {
             matcher: "TEST",
-            replacer: ({ tag, content, attrs }) => ({
+            replacer: ({ tag, content, attrs }): MarkdownItStylizeResult => ({
               tag,
               content,
               attrs,
             }),
-          } as MarkdownItStylizeConfig,
+          },
         ],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
           // oxlint-disable-next-line vitest/no-conditional-in-test

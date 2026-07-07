@@ -94,6 +94,10 @@ const theme: ThemeFunction = hopeTheme({
     icon: {
       assets: "fontawesome",
     },
+
+    redirect: {
+      switchLocale: "popup",
+    },
   },
 });
 

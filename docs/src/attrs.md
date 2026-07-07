@@ -74,14 +74,7 @@ You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
 
 ```ts
 type MarkdownItAttrRuleName =
-  | "fence"
-  | "inline"
-  | "table"
-  | "list"
-  | "hr"
-  | "heading"
-  | "softbreak"
-  | "block";
+  "fence" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
 ```
 
 - Default: `"all"`

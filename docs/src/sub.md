@@ -38,4 +38,5 @@ Use `~ ~` to mark the subscript.
 
 ## Demo
 
-`H~2~O`: H~2~O
+<!-- prettier-ignore -->
+`H~2~O`: H~~2~~O

@@ -48,7 +48,7 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
 
     // undefined and null are treated as non-existing keys
     // oxlint-disable-next-line eqeqeq, no-undefined
-    if (token[key as keyof Token] == undefined) return testResult;
+    if (token[key] == undefined) return testResult;
 
     if (key === "children" && Array.isArray(rule.children)) {
       // oxlint-disable-next-line typescript/strict-boolean-expressions

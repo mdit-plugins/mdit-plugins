@@ -38,4 +38,5 @@ mdIt.render("H~2~O");
 
 ## 示例
 
+<!-- prettier-ignore -->
 `H~2~O`: H~2~O
