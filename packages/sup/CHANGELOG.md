@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-sup%401.0.1...%40mdit%2Fplugin-sup%401.0.2) (2026-07-08)
+
+**Note:** Version bump only for package @mdit/plugin-sup
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-sup

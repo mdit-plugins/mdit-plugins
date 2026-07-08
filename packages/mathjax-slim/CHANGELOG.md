@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.0.1...%40mdit%2Fplugin-mathjax-slim%401.1.0) (2026-07-08)
+
+### ✨ Features
+
+- **plugin-mathjax-slim:** restrict mathjax version ([db5e0c4](https://github.com/mdit-plugins/mdit-plugins/commit/db5e0c4aa2c999913117ebfd59457042f58faa51))
+
+### Tests
+
+- **mathjax:** improve test coverage ([bdd67af](https://github.com/mdit-plugins/mdit-plugins/commit/bdd67afaa9e4e0511a192fa80b45c899740cb413))
+
+### Build System
+
+- bump deps ([fe61626](https://github.com/mdit-plugins/mdit-plugins/commit/fe616260ac56d05b2cdf2bbd02cd1bd59b96df9f))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-mathjax-slim

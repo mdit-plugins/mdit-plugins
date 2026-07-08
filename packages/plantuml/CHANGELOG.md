@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%401.0.1...%40mdit%2Fplugin-plantuml%401.0.2) (2026-07-08)
+
+### Miscellaneous Chores
+
+- **deps:** update dependency pako to v3.0.1 ([f62c5b0](https://github.com/mdit-plugins/mdit-plugins/commit/f62c5b0625273c2ee1ff4d3fa25ef653d70c5ad2))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-plantuml

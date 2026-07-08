@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%401.0.1...%40mdit%2Fplugin-mark%402.0.0) (2026-07-08)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-inline-rule:** double defaults to false for all modes.
+
+  Nested double:false emulates emphasis delimiter mode with single-marker support (+text+).
+
+### ✨ Features
+
+- **plugin-inline-rule:** decouple nested and double options ([e1949ee](https://github.com/mdit-plugins/mdit-plugins/commit/e1949ee859685880ad54069378c313b6c45fa10a))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-mark
