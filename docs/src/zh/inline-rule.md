@@ -49,13 +49,13 @@ mdIt.render("==高亮文本==");
 
 - 类型：`boolean`
 - 默认值：`false`
-- 详情：为 `false` 时使用高性能线性扫描，内部不解析内联标签（例如 sub/sup）。为 `true` 时使用分隔符状态机和双标记，支持嵌套粗体、斜体等（例如 mark/spoiler）。
+- 详情：为 `false` 时使用高性能线性扫描，内部不解析内联标签。为 `true` 时使用分隔符状态机，支持标记内嵌套粗体、斜体等。
 
 ### double
 
 - 类型：`boolean`
-- 默认值：`false`（非嵌套），强制 `true`（嵌套）
-- 详情：标记是否必须成对出现（例如 `!!` 而不是 `!`）。嵌套规则始终使用双标记。
+- 默认值：`false`
+- 详情：标记是否必须成对出现（例如 `++` 而不是 `+`）。设为 `true` 时使用双标记。
 
 ### placement
 
@@ -101,6 +101,23 @@ md.use(inlineRule, {
 });
 
 // !!隐藏文本!! → <span class="spoiler">隐藏文本</span>
+```
+
+### 单标记嵌套 (ins)
+
+```ts
+md.use(inlineRule, {
+  marker: "+",
+  tag: "ins",
+  token: "ins",
+  nested: true,
+  double: false,
+  placement: "before-emphasis",
+});
+
+// +插入文本+ → <ins>插入文本</ins>
+// ++嵌套插入文本++ → <ins><ins>嵌套插入文本</ins></ins>
+// +内部**粗体**+ → <ins>内部<strong>粗体</strong></ins>
 ```
 
 ### 自定义语法

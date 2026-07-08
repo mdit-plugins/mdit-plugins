@@ -17,6 +17,7 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (md, options
     tag,
     token: "spoiler",
     nested: true,
+    double: true,
     placement: "before-emphasis",
     attrs,
   });

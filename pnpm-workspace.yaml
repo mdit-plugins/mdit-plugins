@@ -35,8 +35,6 @@ overrides:
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
 
-catalogMode: prefer
-
 cleanupUnusedCatalogs: true
 
 # configDependencies:

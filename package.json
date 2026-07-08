@@ -27,8 +27,6 @@
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "2.0.1",
-    "@commitlint/cli": "21.2.0",
-    "@commitlint/config-conventional": "21.2.0",
     "@lerna-lite/cli": "5.4.0",
     "@lerna-lite/publish": "5.4.0",
     "@mr-hope/tsconfig": "0.0.4",
@@ -45,10 +43,12 @@
     "oxfmt": "0.58.0",
     "oxlint": "1.73.0",
     "oxlint-tsgolint": "0.24.0",
+    "picocolors": "1.1.1",
     "publint": "0.3.21",
     "rimraf": "6.1.3",
     "tsdown": "0.22.3",
     "typescript": "6.0.3",
+    "unrun": "0.3.1",
     "vitest": "4.1.10"
   },
   "nano-staged": {

@@ -49,13 +49,13 @@ mdIt.render("==highlighted==");
 
 - Type: `boolean`
 - Default: `false`
-- Details: When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine with double markers. Supports nested bold, italic, etc. (e.g., mark/spoiler).
+- Details: When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine. Supports nested bold, italic, and other inline rules inside the markers (e.g., mark/spoiler/ins).
 
 ### double
 
 - Type: `boolean`
-- Default: `false` (non-nested), forced `true` (nested)
-- Details: Whether markers must be doubled (e.g., `!!` vs `!`). Nested rules always use double markers.
+- Default: `false`
+- Details: Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-marker syntax.
 
 ### placement
 
@@ -101,6 +101,23 @@ md.use(inlineRule, {
 });
 
 // !!hidden text!! → <span class="spoiler">hidden text</span>
+```
+
+### Single-marker nested (ins)
+
+```ts
+md.use(inlineRule, {
+  marker: "+",
+  tag: "ins",
+  token: "ins",
+  nested: true,
+  double: false,
+  placement: "before-emphasis",
+});
+
+// +inserted+ → <ins>inserted</ins>
+// ++nested inserted++ → <ins><ins>nested inserted</ins></ins>
+// +**bold** inside+ → <ins><strong>bold</strong> inside</ins>
 ```
 
 ### Custom syntax

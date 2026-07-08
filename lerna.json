@@ -9,7 +9,7 @@
       "generateReleaseNotes": true,
       "skipBumpOnlyReleases": true,
       "exact": true,
-      "message": "chore(release): publish"
+      "message": "release: publish"
     },
     "publish": {
       "graphType": "all",

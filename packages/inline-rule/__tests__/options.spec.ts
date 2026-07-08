@@ -36,6 +36,7 @@ describe("options", () => {
         tag: "mark",
         token: "mark",
         nested: true,
+        double: true,
         placement: "before-emphasis",
       });
 
@@ -69,6 +70,7 @@ describe("options", () => {
         tag: "mark",
         token: "mark",
         nested: true,
+        double: true,
         placement: "after-emphasis",
       });
 
@@ -117,6 +119,7 @@ describe("options", () => {
         tag: "span",
         token: "highlight",
         nested: true,
+        double: true,
         placement: "before-emphasis",
         attrs: [["class", "highlight"]],
       });
@@ -154,6 +157,7 @@ describe("options", () => {
         tag: "mark",
         token: "mark",
         nested: true,
+        double: true,
         placement: "before-emphasis",
       });
 
@@ -317,6 +321,7 @@ describe("options", () => {
         tag: "mark",
         token: "mark",
         nested: true,
+        double: true,
         placement: "before-emphasis",
       });
 
@@ -329,6 +334,7 @@ describe("options", () => {
         tag: "mark",
         token: "mark",
         nested: true,
+        double: true,
         placement: "after-emphasis",
       });
 
@@ -341,6 +347,7 @@ describe("options", () => {
         tag: "span",
         token: "spoiler",
         nested: true,
+        double: true,
         placement: "before-emphasis",
         attrs: [
           ["class", "spoiler"],
@@ -359,6 +366,7 @@ describe("options", () => {
         tag: "span",
         token: "spoiler",
         nested: true,
+        double: true,
         placement: "after-emphasis",
         attrs: [["class", "spoiler"]],
       });
@@ -367,13 +375,80 @@ describe("options", () => {
     });
   });
 
+  describe("nested + double:false (single-marker delimiter mode)", () => {
+    it("nested + double:false + before-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "+",
+        tag: "ins",
+        token: "ins",
+        nested: true,
+        double: false,
+        placement: "before-emphasis",
+      });
+
+      expect(md.render("+text+")).toBe("<p><ins>text</ins></p>\n");
+      // double marker should nest
+      expect(md.render("++nested++")).toBe("<p><ins><ins>nested</ins></ins></p>\n");
+      // inline markup inside
+      expect(md.render("+**bold** inside+")).toBe(
+        "<p><ins><strong>bold</strong> inside</ins></p>\n",
+      );
+    });
+
+    it("nested + double:false + after-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "+",
+        tag: "ins",
+        token: "ins",
+        nested: true,
+        double: false,
+        placement: "after-emphasis",
+      });
+
+      expect(md.render("+text+")).toBe("<p><ins>text</ins></p>\n");
+      expect(md.render("*+ins inside em+*")).toBe("<p><em><ins>ins inside em</ins></em></p>\n");
+    });
+
+    it("nested + double:false + attrs + before-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "+",
+        tag: "span",
+        token: "ins",
+        nested: true,
+        double: false,
+        placement: "before-emphasis",
+        attrs: [["class", "inserted"]],
+      });
+
+      expect(md.render("+text+")).toBe('<p><span class="inserted">text</span></p>\n');
+      expect(md.render("++nested++")).toBe(
+        '<p><span class="inserted"><span class="inserted">nested</span></span></p>\n',
+      );
+    });
+
+    it("nested + double:false + attrs + after-emphasis", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "+",
+        tag: "span",
+        token: "ins",
+        nested: true,
+        double: false,
+        placement: "after-emphasis",
+        attrs: [["class", "inserted"]],
+      });
+
+      expect(md.render("+text+")).toBe('<p><span class="inserted">text</span></p>\n');
+    });
+  });
+
   describe("emphasis override", () => {
-    it("should override underscore emphasis with placement: 'before-emphasis'", () => {
+    it("should override underscore emphasis with double: true", () => {
       const md = MarkdownIt().use(inlineRule, {
         marker: "_",
         tag: "u",
         token: "underline",
         nested: true,
+        double: true,
         placement: "before-emphasis",
       });
 
@@ -388,6 +463,26 @@ describe("options", () => {
 
       // **abc** asterisk-based bold should still work
       expect(md.render("**abc**")).toBe("<p><strong>abc</strong></p>\n");
+    });
+
+    it("should override underscore emphasis with double: false", () => {
+      const md = MarkdownIt().use(inlineRule, {
+        marker: "_",
+        tag: "u",
+        token: "underline",
+        nested: true,
+        double: false,
+        placement: "before-emphasis",
+      });
+
+      // _abc_ → single delimiter → <u>
+      expect(md.render("_abc_")).toBe("<p><u>abc</u></p>\n");
+
+      // __abc__ → 2 delimiters each side → nested <u>
+      expect(md.render("__abc__")).toBe("<p><u><u>abc</u></u></p>\n");
+
+      // *abc* asterisk-based italics should still work
+      expect(md.render("*abc*")).toBe("<p><em>abc</em></p>\n");
     });
   });
 });

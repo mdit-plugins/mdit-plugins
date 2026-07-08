@@ -70,6 +70,20 @@ interface InlineRuleBaseOptions {
    * @default "after-emphasis"
    */
   placement?: "before-emphasis" | "after-emphasis";
+
+  /**
+   * Whether markers must be doubled (e.g., `++` vs `+`)
+   *
+   * 标记是否必须成对出现（例如 `++` 而不是 `+`）
+   *
+   * For nested rules, when `true` each pair of markers creates one delimiter (fewer delimiters,
+   * better performance). When `false` each marker character creates one delimiter (like markdown-it
+   * emphasis). 对于嵌套规则，为 `true` 时每对标记创建一个分隔符（更少的分隔符，性能更好）；为 `false` 时每个标记字符创建一个分隔符（类似 markdown-it
+   * emphasis）。
+   *
+   * @default false
+   */
+  double?: boolean;
 }
 
 /**
@@ -83,15 +97,6 @@ interface InlineRuleBaseOptions {
 export interface NonNestedInlineRuleOptions extends InlineRuleBaseOptions {
   /** @default false */
   nested?: false;
-
-  /**
-   * Whether markers must be doubled (e.g., `%%` vs `%`)
-   *
-   * 标记是否必须成对出现（例如 `%%` 而不是 `%`）
-   *
-   * @default false
-   */
-  double?: boolean;
 
   /**
    * Whether to allow unescaped spaces inside the content
@@ -109,23 +114,12 @@ export interface NonNestedInlineRuleOptions extends InlineRuleBaseOptions {
  * 嵌套内联规则选项（分隔符状态机）
  *
  * Integrates with markdown-it's delimiter state machine. Supports nested bold, italic, and other
- * inline rules inside the markers. Best for complex tags like mark/spoiler/ins. Always uses double
- * markers. 与 markdown-it 的分隔符状态机集成。 支持标记内嵌套粗体、斜体和其他内联规则。 最适合 mark/spoiler/ins 等复杂标签。 始终使用双标记。
+ * inline rules inside the markers. Best for complex tags like mark/spoiler/ins.
+ *
+ * 与 markdown-it 的分隔符状态机集成。支持标记内嵌套粗体、斜体和其他内联规则。最适合 mark/spoiler/ins 等复杂标签。
  */
 export interface NestedInlineRuleOptions extends InlineRuleBaseOptions {
   nested: true;
-
-  /**
-   * Whether markers must be doubled
-   *
-   * 标记是否必须成对出现
-   *
-   * Must be `true` for nested rules. The delimiter state machine requires double markers to
-   * function correctly. 嵌套规则必须为 `true`。分隔符状态机需要双标记才能正确运行。
-   *
-   * @default true
-   */
-  double?: true;
 
   /** Not applicable for nested rules / 不适用于嵌套规则 */
   allowSpace?: never;
