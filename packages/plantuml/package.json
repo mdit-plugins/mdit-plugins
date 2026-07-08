@@ -53,7 +53,7 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "pako": "3.0.0"
+    "pako": "3.0.1"
   },
   "peerDependencies": {
     "markdown-it": "^14.2.0"
