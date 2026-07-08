@@ -231,5 +231,82 @@ describe(inlineRule, () => {
         expect(md.render("!!\ntest!!\n")).toBe("<p>!!\ntest!!</p>\n");
       });
     });
+
+    describe("ins configuration (marker: +, nested: true, double: false, tag: ins)", () => {
+      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+        marker: "+",
+        tag: "ins",
+        token: "ins",
+        nested: true,
+        double: false,
+        placement: "before-emphasis",
+      });
+
+      it("should render with single marker", () => {
+        expect(md.render("+Insert+")).toBe("<p><ins>Insert</ins></p>\n");
+      });
+
+      it("should not render single marker in middle of word", () => {
+        expect(md.render("a+b=c")).toBe("<p>a+b=c</p>\n");
+      });
+
+      it("can nest with multiple markers", () => {
+        const testCases: [string, string][] = [
+          // 2 markers each side → 2 delimiters → 2 levels nested
+          ["++foo++", "<p><ins><ins>foo</ins></ins></p>\n"],
+          // 3 markers each side → 3 delimiters → 3 levels nested
+          ["+++foo+++", "<p><ins><ins><ins>foo</ins></ins></ins></p>\n"],
+          // 4 markers each side → 4 delimiters → 4 levels nested
+          ["++++foo++++", "<p><ins><ins><ins><ins>foo</ins></ins></ins></ins></p>\n"],
+        ];
+
+        testCases.forEach(([input, expected]) => {
+          expect(md.render(input)).toStrictEqual(expected);
+        });
+      });
+
+      it("should parse inline markup (bold) inside", () => {
+        expect(md.render("+f **o +o b+ a** r+")).toBe(
+          "<p><ins>f <strong>o <ins>o b</ins> a</strong> r</ins></p>\n",
+        );
+      });
+
+      it("should not render with empty content (all delimiters in same run)", () => {
+        expect(md.render("++")).toBe("<p>++</p>\n");
+        expect(md.render("++++")).toBe("<p>++++</p>\n");
+        expect(md.render("++++ a")).toBe("<p>++++ a</p>\n");
+        expect(md.render("a ++++")).toBe("<p>a ++++</p>\n");
+        expect(md.render("a ++++ a")).toBe("<p>a ++++ a</p>\n");
+      });
+
+      it("should handle text with adjacent single markers", () => {
+        // +foo+bar+ → first + opens, second + closes first pair, third + unmatched
+        // Like emphasis _foo_bar_ in standard markdown
+        expect(md.render("+foo+bar+")).toBe("<p><ins>foo</ins>bar+</p>\n");
+        // +foo+ +bar+ → two separate ins elements
+        expect(md.render("+foo+ +bar+")).toBe("<p><ins>foo</ins> <ins>bar</ins></p>\n");
+      });
+
+      it("have the same priority as emphases", () => {
+        expect(md.render("**+test**+")).toBe("<p><strong>+test</strong>+</p>\n");
+        expect(md.render("+**test+**")).toBe("<p><ins>**test</ins>**</p>\n");
+      });
+
+      it("have the same priority as emphases with respect to links", () => {
+        expect(md.render("[+link]()+")).toBe('<p><a href="">+link</a>+</p>\n');
+        expect(md.render("+[link+]()")).toBe('<p>+<a href="">link+</a></p>\n');
+      });
+
+      it("have the same priority as emphases with respect to backticks", () => {
+        expect(md.render("+`code+`")).toBe("<p>+<code>code+</code></p>\n");
+        expect(md.render("` + code`+")).toBe("<p><code> + code</code>+</p>\n");
+      });
+
+      it("should not render a whitespace or newline between text and marker", () => {
+        // + followed/preceded by space should not render (scanDelims prevents)
+        expect(md.render("foo + bar + baz")).toBe("<p>foo + bar + baz</p>\n");
+        expect(md.render("+test +")).toBe("<p>+test +</p>\n");
+      });
+    });
   });
 });

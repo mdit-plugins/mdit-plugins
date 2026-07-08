@@ -33,6 +33,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         });
 
@@ -61,6 +62,7 @@ describe("mixing", () => {
         tag: "span",
         token: "spoiler",
         nested: true,
+        double: true,
         placement: "before-emphasis",
         attrs: [["class", "spoiler"]],
       });
@@ -79,6 +81,7 @@ describe("mixing", () => {
           tag: "span",
           token: "spoiler",
           nested: true,
+          double: true,
           placement: "before-emphasis",
           attrs: [["class", "spoiler"]],
         })
@@ -87,6 +90,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         });
 
@@ -112,6 +116,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         });
 
@@ -132,6 +137,7 @@ describe("mixing", () => {
           tag: "span",
           token: "spoiler",
           nested: true,
+          double: true,
           placement: "before-emphasis",
           attrs: [["class", "spoiler"]],
         })
@@ -140,6 +146,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         });
 
@@ -155,6 +162,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         })
         .use(inlineRule, {
@@ -214,6 +222,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         })
         .use(inlineRule, {
@@ -221,6 +230,7 @@ describe("mixing", () => {
           tag: "span",
           token: "spoiler",
           nested: true,
+          double: true,
           placement: "after-emphasis",
           attrs: [["class", "spoiler"]],
         });
@@ -240,6 +250,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         })
         .use(inlineRule, {
@@ -247,6 +258,7 @@ describe("mixing", () => {
           tag: "span",
           token: "spoiler",
           nested: true,
+          double: true,
           placement: "before-emphasis",
           attrs: [["class", "spoiler"]],
         });
@@ -257,6 +269,7 @@ describe("mixing", () => {
           tag: "span",
           token: "spoiler",
           nested: true,
+          double: true,
           placement: "before-emphasis",
           attrs: [["class", "spoiler"]],
         })
@@ -265,6 +278,7 @@ describe("mixing", () => {
           tag: "mark",
           token: "mark",
           nested: true,
+          double: true,
           placement: "before-emphasis",
         });
 
@@ -275,6 +289,115 @@ describe("mixing", () => {
 
       expect(md1.render(input)).toStrictEqual(expected);
       expect(md2.render(input)).toStrictEqual(expected);
+    });
+  });
+
+  describe("single-marker nested (double:false) mixing", () => {
+    it("should mix single-marker nested with non-nested rules", () => {
+      const md = MarkdownIt({ linkify: true })
+        .use(inlineRule, {
+          marker: "+",
+          tag: "ins",
+          token: "ins",
+          nested: true,
+          double: false,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "^",
+          tag: "sup",
+          token: "sup",
+        });
+
+      expect(md.render("+inserted ^sup^ text+")).toBe(
+        "<p><ins>inserted <sup>sup</sup> text</ins></p>\n",
+      );
+    });
+
+    it("should mix single-marker nested with double-marker nested rules", () => {
+      const md = MarkdownIt({ linkify: true })
+        .use(inlineRule, {
+          marker: "+",
+          tag: "ins",
+          token: "ins",
+          nested: true,
+          double: false,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "=",
+          tag: "mark",
+          token: "mark",
+          nested: true,
+          double: true,
+          placement: "before-emphasis",
+        });
+
+      // Single inside double
+      expect(md.render("==mark with +ins+ inside==")).toBe(
+        "<p><mark>mark with <ins>ins</ins> inside</mark></p>\n",
+      );
+      // Double inside single
+      expect(md.render("+ins with ==mark== inside+")).toBe(
+        "<p><ins>ins with <mark>mark</mark> inside</ins></p>\n",
+      );
+    });
+
+    it("should mix two single-marker nested rules with different markers", () => {
+      const md = MarkdownIt({ linkify: true })
+        .use(inlineRule, {
+          marker: "+",
+          tag: "ins",
+          token: "ins",
+          nested: true,
+          double: false,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "!",
+          tag: "span",
+          token: "spoiler",
+          nested: true,
+          double: false,
+          placement: "before-emphasis",
+          attrs: [["class", "spoiler"]],
+        });
+
+      expect(md.render("!spoiler with +ins+ inside!")).toBe(
+        '<p><span class="spoiler">spoiler with <ins>ins</ins> inside</span></p>\n',
+      );
+      expect(md.render("+ins with !spoiler! inside+")).toBe(
+        '<p><ins>ins with <span class="spoiler">spoiler</span> inside</ins></p>\n',
+      );
+    });
+
+    it("should support single-marker nested with nested inner content", () => {
+      const md = MarkdownIt({ linkify: true })
+        .use(inlineRule, {
+          marker: "+",
+          tag: "ins",
+          token: "ins",
+          nested: true,
+          double: false,
+          placement: "before-emphasis",
+        })
+        .use(inlineRule, {
+          marker: "=",
+          tag: "mark",
+          token: "mark",
+          nested: true,
+          double: true,
+          placement: "before-emphasis",
+        });
+
+      // Self-nesting of single-marker inside double-marker
+      expect(md.render("==++mark nested ins++==")).toBe(
+        "<p><mark><ins><ins>mark nested ins</ins></ins></mark></p>\n",
+      );
+      // Self-nesting of double-marker inside single-marker
+      expect(md.render("++==ins nested mark==++")).toBe(
+        "<p><ins><ins><mark>ins nested mark</mark></ins></ins></p>\n",
+      );
     });
   });
 });

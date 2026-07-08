@@ -87,7 +87,7 @@ const createLinearRule = (config: LinearRuleConfig): RuleInline => {
 };
 
 const createNestedTokenize =
-  (markerCode: number): RuleInline =>
+  (markerCode: number, double: boolean): RuleInline =>
   (state, silent): boolean => {
     const start = state.pos;
     const marker = state.src.charCodeAt(start);
@@ -95,33 +95,49 @@ const createNestedTokenize =
     if (silent || marker !== markerCode) return false;
 
     const scanned = state.scanDelims(state.pos, true);
-    let { length } = scanned;
-
-    if (length < 2) return false;
-
     const markerChar = String.fromCharCode(marker);
 
-    if (length % 2) {
-      const textToken = state.push("text", "", 0);
+    if (double) {
+      let { length } = scanned;
 
-      textToken.content = markerChar;
-      length--;
-    }
+      if (length < 2) return false;
 
-    for (let ii = 0; ii < length; ii += 2) {
-      const textToken = state.push("text", "", 0);
+      if (length % 2) {
+        state.push("text", "", 0).content = markerChar;
+        length--;
+      }
 
-      textToken.content = markerChar + markerChar;
+      for (let ii = 0; ii < length; ii += 2) {
+        state.push("text", "", 0).content = markerChar + markerChar;
 
-      if (scanned.can_open || scanned.can_close) {
-        state.delimiters.push({
-          marker: markerCode,
-          length: 0, // disable "rule of 3" length checks meant for emphasis
-          token: state.tokens.length - 1,
-          end: -1,
-          open: scanned.can_open,
-          close: scanned.can_close,
-        });
+        if (scanned.can_open || scanned.can_close) {
+          state.delimiters.push({
+            marker: markerCode,
+            length: 0, // disable "rule of 3" length checks meant for emphasis
+            token: state.tokens.length - 1,
+            end: -1,
+            open: scanned.can_open,
+            close: scanned.can_close,
+          });
+        }
+      }
+    } else {
+      // Single marker: each character is its own delimiter, like markdown-it emphasis
+      const { length } = scanned;
+
+      for (let ii = 0; ii < length; ii++) {
+        state.push("text", "", 0).content = markerChar;
+
+        if (scanned.can_open || scanned.can_close) {
+          state.delimiters.push({
+            marker: markerCode,
+            length: 0,
+            token: state.tokens.length - 1,
+            end: -1,
+            open: scanned.can_open,
+            close: scanned.can_close,
+          });
+        }
       }
     }
 
@@ -135,13 +151,14 @@ interface NestedPostProcessConfig {
   tag: string;
   token: string;
   markup: string;
+  double: boolean;
   attrs: [string, string][] | undefined;
 }
 
 const createNestedPostProcess = (
   config: NestedPostProcessConfig,
 ): ((state: StateInline, delimiters: Delimiter[]) => void) => {
-  const { markerCode, tag, token, markup, attrs } = config;
+  const { markerCode, tag, token, markup, double, attrs } = config;
   const closeType = `${token}_close`;
 
   return (state, delimiters): void => {
@@ -174,7 +191,11 @@ const createNestedPostProcess = (
         endDelim.end = -1;
         startDelim.end = -1;
 
+        // In double mode, odd-length marker sequences leave lone characters
+        // (e.g., `+++` → `+` + `++`). These need to be moved after close tags.
+        // In single mode, every character has its own delimiter — no leftovers.
         if (
+          double &&
           state.tokens[endDelim.token - 1].type === "text" &&
           state.tokens[endDelim.token - 1].content === String.fromCharCode(markerCode)
         )
@@ -186,18 +207,20 @@ const createNestedPostProcess = (
     // like this: `~~~~~` -> `~` + `~~` + `~~`, leaving one marker at the
     // start of the sequence.
     // So, we have to move all those markers after subsequent close tags.
-    while (loneMarkers.length > 0) {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const ii = loneMarkers.pop()!;
-      let jj = ii + 1;
+    if (double) {
+      while (loneMarkers.length > 0) {
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        const ii = loneMarkers.pop()!;
+        let jj = ii + 1;
 
-      while (jj < state.tokens.length && state.tokens[jj].type === closeType) jj++;
+        while (jj < state.tokens.length && state.tokens[jj].type === closeType) jj++;
 
-      jj--;
+        jj--;
 
-      tk = state.tokens[jj];
-      state.tokens[jj] = state.tokens[ii];
-      state.tokens[ii] = tk;
+        tk = state.tokens[jj];
+        state.tokens[jj] = state.tokens[ii];
+        state.tokens[ii] = tk;
+      }
     }
   };
 };
@@ -239,8 +262,8 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
   if (marker.length !== 1)
     throw new Error("Invalid marker for inlineRule plugin: 'marker' must be a single character.");
 
-  const double = nested ? true : (options?.double ?? false);
-  const allowSpace = nested ? false : ((options as { allowSpace?: boolean })?.allowSpace ?? false);
+  const double = options.double ?? false;
+  const allowSpace = nested ? false : (options.allowSpace ?? false);
 
   const markerCode = marker.charCodeAt(0);
   const markup = double ? marker + marker : marker;
@@ -248,12 +271,13 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
   const isBefore = placement === "before-emphasis";
 
   if (nested) {
-    const tokenize = createNestedTokenize(markerCode);
+    const tokenize = createNestedTokenize(markerCode, double);
     const postProcess = createNestedPostProcess({
       markerCode,
       tag,
       token,
       markup,
+      double,
       attrs,
     });
     const ruler2Handler = createRuler2Handler(postProcess);

@@ -7,6 +7,7 @@ export const mark: PluginSimple = (md) => {
     tag: "mark",
     token: "mark",
     nested: true,
+    double: true,
     placement: "before-emphasis",
   });
 };
