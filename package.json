@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "2.0.1",
-    "@lerna-lite/cli": "5.4.0",
-    "@lerna-lite/publish": "5.4.0",
+    "@lerna-lite/cli": "5.4.1",
+    "@lerna-lite/publish": "5.4.1",
     "@mr-hope/tsconfig": "0.0.4",
     "@types/node": "24.13.3",
     "@vitest/coverage-istanbul": "4.1.10",
