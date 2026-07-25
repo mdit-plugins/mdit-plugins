@@ -38,6 +38,13 @@ const createDualRuleTests = (
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
+
+      it(replaceDelimiters("should support attributes right after the title", options), () => {
+        const src = "::: warning Title{.custom}\ncontent\n:::";
+        const expected = '<div class="custom warning">\n<p>content</p>\n</div>\n';
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
     });
   });
 };
