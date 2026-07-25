@@ -1,3 +1,4 @@
+export type * from "./options.js";
 export * from "./bare.js";
 export * from "./light.js";
 export * from "./full.js";
