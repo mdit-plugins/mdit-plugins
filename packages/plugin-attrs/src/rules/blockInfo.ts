@@ -19,7 +19,7 @@ export const createBlockInfoRule = (md: MarkdownIt, options: DelimiterConfig): A
    * ```
    */
   return defineAttrRule({
-    name: "block-info",
+    name: "block info",
     tests: [
       {
         shift: 0,
