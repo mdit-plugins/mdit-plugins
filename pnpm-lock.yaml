@@ -446,6 +446,9 @@ importers:
         specifier: ^14.2.0
         version: 14.3.0
     devDependencies:
+      '@mdit/plugin-container':
+        specifier: workspace:*
+        version: link:../plugin-container
       '@mdit/plugin-figure':
         specifier: workspace:*
         version: link:../plugin-figure

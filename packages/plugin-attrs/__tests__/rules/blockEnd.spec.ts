@@ -10,13 +10,14 @@ const createDualRuleTests = (
   delimiterText: string,
 ): void => {
   const contexts = [
-    { rule: ["block"], testSuffix: "(block rule only)" },
+    { rule: ["block"], testSuffix: "(legacy block rule only)" },
+    { rule: ["blockEnd"], testSuffix: "(blockEnd rule only)" },
     { rule: "all", testSuffix: "(all rules)" },
   ] as const;
 
   contexts.forEach(({ rule, testSuffix }) => {
     const options = { ...baseOptions, allowed: [], rule };
-    const testTitle = `block rules ${delimiterText} ${testSuffix}`;
+    const testTitle = `blockEnd rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
       const markdownIt = MarkdownIt().use(attrs, options);

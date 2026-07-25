@@ -8,6 +8,9 @@ export type MarkdownItAttrRuleName =
   | "heading"
   | "hr"
   | "softbreak"
+  | "blockInfo"
+  | "blockEnd"
+  /** Legacy alias of `blockEnd` */
   | "block";
 
 export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {

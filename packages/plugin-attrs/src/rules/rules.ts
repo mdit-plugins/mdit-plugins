@@ -1,7 +1,8 @@
 import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
-import { createBlockRule } from "./block.js";
+import { createBlockEndRule } from "./blockEnd.js";
+import { createBlockInfoRule } from "./blockInfo.js";
 import { createFenceRule } from "./fence.js";
 import { createHeadingRule } from "./heading.js";
 import { createHrRule } from "./hr.js";
@@ -19,6 +20,8 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "heading",
   "hr",
   "softbreak",
+  "blockInfo",
+  "blockEnd",
   "block",
 ];
 
@@ -43,7 +46,10 @@ export const createRules = (
   if (enabledRules.includes("list")) rules.push(...createListRules(md, options));
   if (enabledRules.includes("softbreak")) rules.push(createSoftBreakRule(options));
   if (enabledRules.includes("hr")) rules.push(createHrRule(md, options));
-  if (enabledRules.includes("block")) rules.push(createBlockRule(md, options));
+  if (enabledRules.includes("blockInfo")) rules.push(createBlockInfoRule(md, options));
+  // `block` is the legacy alias of `blockEnd`
+  if (enabledRules.includes("blockEnd") || enabledRules.includes("block"))
+    rules.push(createBlockEndRule(md, options));
   // heading rule is fully covered by block rules
   else if (enabledRules.includes("heading")) rules.push(createHeadingRule(md, options));
 

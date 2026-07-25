@@ -5,23 +5,25 @@ import { addAttrs, createDelimiterChecker } from "../helper/index.js";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 
-export const createFenceRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+export const createBlockInfoRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
   /**
-   * Fenced code blocks
+   * Block tokens carrying attributes on their info line, e.g. containers from
+   * `@mdit/plugin-container` or `markdown-it-container`
    *
-   * ```python
-   * for i in range(10):
-   *     print(i)
+   * ```md
+   * ::: warning {.custom-class #custom-id}
+   * content
+   * :::
    * ```
    */
   return defineAttrRule({
-    name: "code-block",
+    name: "block info",
     tests: [
       {
         shift: 0,
-        type: "fence",
+        type: (type): boolean => type !== "fence",
         block: true,
         info: createDelimiterChecker(options, "end"),
       },
