@@ -1,5 +1,5 @@
 export * from "./block.js";
-export * from "./container.js";
+export * from "./blockInfo.js";
 export * from "./fence.js";
 export * from "./heading.js";
 export * from "./inline.js";

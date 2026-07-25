@@ -72,7 +72,17 @@ mdIt.render("# Heading 🎉{#heading}");
 
 ```ts
 type MarkdownItAttrRuleName =
-  "fence" | "container" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
+  | "fence"
+  | "blockInfo"
+  | "inline"
+  | "table"
+  | "list"
+  | "hr"
+  | "heading"
+  | "softbreak"
+  | "blockEnd"
+  // legacy alias of "blockEnd"
+  | "block";
 ```
 
 - 默认值：`"all"`
@@ -82,7 +92,7 @@ type MarkdownItAttrRuleName =
 
   如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
 
-  `fence` 规则仅作用于代码块，而 `container` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。
+  `fence` 规则仅作用于代码块，而 `blockInfo` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。`blockEnd` 规则作用于写在块级元素末尾的属性，`block` 是它的旧别名。
 
 ### allowed
 

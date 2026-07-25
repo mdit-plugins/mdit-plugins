@@ -5,7 +5,7 @@ import { addAttrs, createDelimiterChecker } from "../helper/index.js";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 
-export const createContainerRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+export const createBlockInfoRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
   /**
@@ -19,7 +19,7 @@ export const createContainerRule = (md: MarkdownIt, options: DelimiterConfig): A
    * ```
    */
   return defineAttrRule({
-    name: "container",
+    name: "block-info",
     tests: [
       {
         shift: 0,

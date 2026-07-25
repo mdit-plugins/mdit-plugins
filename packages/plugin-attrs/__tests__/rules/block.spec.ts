@@ -10,7 +10,8 @@ const createDualRuleTests = (
   delimiterText: string,
 ): void => {
   const contexts = [
-    { rule: ["block"], testSuffix: "(block rule only)" },
+    { rule: ["block"], testSuffix: "(legacy block rule only)" },
+    { rule: ["blockEnd"], testSuffix: "(blockEnd rule only)" },
     { rule: "all", testSuffix: "(all rules)" },
   ] as const;
 

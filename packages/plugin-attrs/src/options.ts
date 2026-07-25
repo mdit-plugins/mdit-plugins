@@ -2,13 +2,15 @@ import type { DelimiterConfig } from "./helper/index.js";
 
 export type MarkdownItAttrRuleName =
   | "fence"
-  | "container"
+  | "blockInfo"
   | "inline"
   | "table"
   | "list"
   | "heading"
   | "hr"
   | "softbreak"
+  | "blockEnd"
+  /** Legacy alias of `blockEnd` */
   | "block";
 
 export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {

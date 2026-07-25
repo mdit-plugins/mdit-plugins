@@ -14,13 +14,13 @@ const createDualRuleTests = (
   delimiterText: string,
 ): void => {
   const contexts: { rule: MarkdownItAttrsOptions["rule"]; testSuffix: string }[] = [
-    { rule: ["container"], testSuffix: "(container rule only)" },
+    { rule: ["blockInfo"], testSuffix: "(blockInfo rule only)" },
     { rule: "all", testSuffix: "(all rules)" },
   ];
 
   contexts.forEach(({ rule, testSuffix }) => {
     const options = { ...baseOptions, allowed: [], rule };
-    const testTitle = `container rules ${delimiterText} ${testSuffix}`;
+    const testTitle = `blockInfo rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
       const markdownIt = createContainerMarkdownIt(options);
@@ -46,9 +46,9 @@ createDualRuleTests({ left: "{", right: "}" }, "with default delimiters");
 createDualRuleTests({ left: "[", right: "]" }, "with [ ] delimiters");
 createDualRuleTests({ left: "[[", right: "]]" }, "with [[ ]] delimiters");
 
-describe("container rule scope", () => {
+describe("blockInfo rule scope", () => {
   it("should not consume code block meta when fence rule is disabled", () => {
-    const markdownIt = createContainerMarkdownIt({ rule: ["container"] });
+    const markdownIt = createContainerMarkdownIt({ rule: ["blockInfo"] });
 
     expect(markdownIt.render("```python {.c a=1}\nx\n```")).toBe(
       '<pre><code class="language-python">x\n</code></pre>\n',
@@ -76,7 +76,7 @@ describe("container rule scope", () => {
 
   it("should respect allowed attributes", () => {
     const markdownIt = createContainerMarkdownIt({
-      rule: ["container"],
+      rule: ["blockInfo"],
       allowed: ["class"],
     });
 

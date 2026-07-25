@@ -74,7 +74,17 @@ You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
 
 ```ts
 type MarkdownItAttrRuleName =
-  "fence" | "container" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
+  | "fence"
+  | "blockInfo"
+  | "inline"
+  | "table"
+  | "list"
+  | "hr"
+  | "heading"
+  | "softbreak"
+  | "blockEnd"
+  // legacy alias of "blockEnd"
+  | "block";
 ```
 
 - Default: `"all"`
@@ -84,7 +94,7 @@ type MarkdownItAttrRuleName =
 
   If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
 
-  The `fence` rule only applies to fenced code blocks, while the `container` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`).
+  The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
 
 ### allowed
 
