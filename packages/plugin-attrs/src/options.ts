@@ -2,6 +2,7 @@ import type { DelimiterConfig } from "./helper/index.js";
 
 export type MarkdownItAttrRuleName =
   | "fence"
+  | "container"
   | "inline"
   | "table"
   | "list"

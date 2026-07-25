@@ -74,7 +74,7 @@ You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
 
 ```ts
 type MarkdownItAttrRuleName =
-  "fence" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
+  "fence" | "container" | "inline" | "table" | "list" | "hr" | "heading" | "softbreak" | "block";
 ```
 
 - Default: `"all"`
@@ -83,6 +83,8 @@ type MarkdownItAttrRuleName =
   The default is `"all"`, which enables all rules. This is the most important option, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
 
   If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
+
+  The `fence` rule only applies to fenced code blocks, while the `container` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`).
 
 ### allowed
 

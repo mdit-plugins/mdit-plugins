@@ -2,6 +2,7 @@ import type MarkdownIt from "markdown-it";
 
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { createBlockRule } from "./block.js";
+import { createContainerRule } from "./container.js";
 import { createFenceRule } from "./fence.js";
 import { createHeadingRule } from "./heading.js";
 import { createHrRule } from "./hr.js";
@@ -13,6 +14,7 @@ import type { AttrRule } from "./types.js";
 
 const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "fence",
+  "container",
   "inline",
   "table",
   "list",
@@ -38,6 +40,7 @@ export const createRules = (
   const rules: AttrRule[] = [];
 
   if (enabledRules.includes("fence")) rules.push(createFenceRule(md, options));
+  if (enabledRules.includes("container")) rules.push(createContainerRule(md, options));
   if (enabledRules.includes("inline")) rules.push(...createInlineRules(options));
   if (enabledRules.includes("table")) rules.push(...createTableRules(md, options));
   if (enabledRules.includes("list")) rules.push(...createListRules(md, options));
