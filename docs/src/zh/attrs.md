@@ -73,13 +73,13 @@ mdIt.render("# Heading 🎉{#heading}");
 ```ts
 type MarkdownItAttrRuleName =
   | "fence"
-  | "blockInfo"
   | "inline"
   | "table"
   | "list"
   | "hr"
   | "heading"
   | "softbreak"
+  | "blockInfo"
   | "blockEnd"
   // legacy alias of "blockEnd"
   | "block";

@@ -5,7 +5,7 @@ import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../he
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 
-export const createBlockRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
+export const createBlockEndRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
 
   /** End of {.block} */

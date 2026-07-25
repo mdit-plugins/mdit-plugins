@@ -2,13 +2,13 @@ import type { DelimiterConfig } from "./helper/index.js";
 
 export type MarkdownItAttrRuleName =
   | "fence"
-  | "blockInfo"
   | "inline"
   | "table"
   | "list"
   | "heading"
   | "hr"
   | "softbreak"
+  | "blockInfo"
   | "blockEnd"
   /** Legacy alias of `blockEnd` */
   | "block";
