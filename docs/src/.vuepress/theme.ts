@@ -45,6 +45,7 @@ const theme: ThemeFunction = hopeTheme({
     },
     imgMark: true,
     imgSize: true,
+    // oxlint-disable-next-line typescript/no-deprecated
     legacyImgSize: true,
     obsidianImgSize: true,
     include: true,

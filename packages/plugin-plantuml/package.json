@@ -1,0 +1,69 @@
+{
+  "name": "@mdit/plugin-plantuml",
+  "version": "1.0.2",
+  "description": "plantuml plugin for MarkdownIt",
+  "keywords": [
+    "markdown-it",
+    "markdown-it-plugin",
+    "plantuml"
+  ],
+  "homepage": "https://mdit-plugins.github.io/plantuml.html",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mr.Hope",
+    "email": "mister-hope@outlook.com",
+    "url": "https://mister-hope.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/plugin-plantuml"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "unpkg": "./dist/cdn.umd.js",
+  "jsdelivr": "./dist/cdn.umd.js",
+  "exports": {
+    ".": {
+      "types": "./dist/node.d.ts",
+      "browser": {
+        "types": "./dist/browser.d.ts",
+        "default": "./dist/browser.js"
+      },
+      "node": "./dist/node.js",
+      "default": "./dist/node.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@mdit/plugin-uml": "workspace:*",
+    "@types/markdown-it": "^14.1.2"
+  },
+  "devDependencies": {
+    "pako": "3.0.1"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.2.0"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -11,16 +11,20 @@ const files = readdirSync(packagesDir);
 files.forEach((pkgName) => {
   if (pkgName.startsWith(".")) return;
 
-  const desc = `${pkgName} plugin for MarkdownIt`;
+  // plugin-xxx directories -> @mdit/plugin-xxx, helper -> @mdit/helper
+  const isHelper = pkgName === "helper";
+  const shortName = isHelper ? pkgName : pkgName.replace(/^plugin-/, "");
+  const packageName = isHelper ? "@mdit/helper" : `@mdit/plugin-${shortName}`;
+  const desc = `${shortName} plugin for MarkdownIt`;
   const pkgPath = path.join(packagesDir, pkgName, "package.json");
 
   // generate package.json
   if (!existsSync(pkgPath)) {
     const pkgJSON = {
-      name: `@mdit/plugin-${pkgName}`,
+      name: packageName,
       version,
       description: desc,
-      keywords: ["markdown-it", "markdown-it-plugin", pkgName],
+      keywords: ["markdown-it", "markdown-it-plugin", shortName],
       homepage: `https://github.com/mdit-plugins/mdit-plugins/packages/${pkgName}#readme`,
       bugs: {
         url: "https://github.com/mdit-plugins/mdit-plugins/issues",
@@ -77,9 +81,9 @@ files.forEach((pkgName) => {
     writeFileSync(
       readmePath,
       `\
-# @mdit/plugin-${pkgName}
+# ${packageName}
 
-[![Version](https://img.shields.io/npm/v/@mdit/plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-${pkgName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-${pkgName})
+[![Version](https://img.shields.io/npm/v/${packageName}.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/${packageName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/${packageName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/${packageName})
 
 ${desc}.
 
@@ -87,11 +91,11 @@ ${desc}.
 
 \`\`\`bash
 # pnpm
-pnpm add -D @mdit/plugin-${pkgName}
+pnpm add -D ${packageName}
 # npm
-npm i -D @mdit/plugin-${pkgName}
+npm i -D ${packageName}
 # yarn
-yarn add -D @mdit/plugin-${pkgName}
+yarn add -D ${packageName}
 \`\`\`
 `,
     );
