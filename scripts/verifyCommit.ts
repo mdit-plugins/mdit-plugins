@@ -12,9 +12,7 @@ const getSubDirectories = async (dir: string): Promise<string[]> => {
   return items.filter((_, index) => stats[index].isDirectory());
 };
 
-const pluginPackages = (await getSubDirectories(path.join(__dirname, "../packages"))).map((dir) =>
-  dir === "helper" ? "helper" : `plugin-${dir}`,
-);
+const pluginPackages = await getSubDirectories(path.join(__dirname, "../packages"));
 
 const msgPath = process.argv[2]
   ? path.resolve(process.argv[2])

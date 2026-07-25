@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/npm/v/@mdit/plugin-emoji.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-emoji.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-emoji?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-emoji)
 
-Figure plugin for MarkdownIt.
+Emoji plugin for MarkdownIt.
 
 ## [Docs](https://mdit-plugins.github.io/emoji.html) | [文档](https://mdit-plugins.github.io/zh/emoji.html)
 
