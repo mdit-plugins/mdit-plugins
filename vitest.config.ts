@@ -6,7 +6,7 @@ import { defineConfig } from "vitest/config";
 const config: ViteUserConfigExport = defineConfig({
   resolve: {
     alias: {
-      "@deflate": path.resolve(import.meta.dirname, "packages/plantuml/src/deflate/node.js"),
+      "@deflate": path.resolve(import.meta.dirname, "packages/plugin-plantuml/src/deflate/node.js"),
     },
   },
   test: {

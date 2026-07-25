@@ -33,7 +33,10 @@ export default defineHopeConfig(
     },
   },
   {
-    files: ["**/attrs/__tests__/helper/getAttrs.spec.ts", "**/attrs/__tests__/rules/*.spec.ts"],
+    files: [
+      "**/plugin-attrs/__tests__/helper/getAttrs.spec.ts",
+      "**/plugin-attrs/__tests__/rules/*.spec.ts",
+    ],
     plugins: ["vitest"],
     rules: {
       "vitest/require-hook": "off",

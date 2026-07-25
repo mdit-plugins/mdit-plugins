@@ -8,11 +8,18 @@ allowBuilds:
   unrs-resolver: true
 
 overrides:
+  "@mdit/helper": workspace:*
+  "@mdit/plugin-abbr": workspace:*
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
+  "@mdit/plugin-anchor": workspace:*
   "@mdit/plugin-attrs": workspace:*
   "@mdit/plugin-container": workspace:*
   "@mdit/plugin-demo": workspace:*
+  "@mdit/plugin-dl": workspace:*
+  "@mdit/plugin-embed": workspace:*
+  "@mdit/plugin-emoji": workspace:*
+  "@mdit/plugin-field": workspace:*
   "@mdit/plugin-figure": workspace:*
   "@mdit/plugin-footnote": workspace:*
   "@mdit/plugin-icon": workspace:*
@@ -21,11 +28,16 @@ overrides:
   "@mdit/plugin-img-size": workspace:*
   "@mdit/plugin-include": workspace:*
   "@mdit/plugin-inline-rule": workspace:*
+  "@mdit/plugin-ins": workspace:*
   "@mdit/plugin-katex": workspace:*
   "@mdit/plugin-katex-slim": workspace:*
+  "@mdit/plugin-layout": workspace:*
   "@mdit/plugin-mark": workspace:*
+  "@mdit/plugin-mathjax": workspace:*
   "@mdit/plugin-mathjax-slim": workspace:*
   "@mdit/plugin-plantuml": workspace:*
+  "@mdit/plugin-ruby": workspace:*
+  "@mdit/plugin-snippet": workspace:*
   "@mdit/plugin-spoiler": workspace:*
   "@mdit/plugin-stylize": workspace:*
   "@mdit/plugin-sub": workspace:*
