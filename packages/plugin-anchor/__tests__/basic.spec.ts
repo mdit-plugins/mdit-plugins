@@ -85,7 +85,9 @@ describe("slug options", () => {
   it("should prefer slugifyWithState over slugify", () => {
     expect(
       md({
-        slugify: (): string => "from-slugify",
+        slugify: (): never => {
+          throw new Error("slugify should not be called");
+        },
         slugifyWithState: (title: string): string => `with-state-${title.toLowerCase()}`,
       }).render("# Bar"),
     ).toBe('<h1 id="with-state-bar" tabindex="-1">Bar</h1>\n');
@@ -194,7 +196,9 @@ describe("legacy options", () => {
       permalink: true,
       permalinkClass: "legacy-anchor",
       permalinkSymbol: "¶",
-      renderPermalink: (): void => {},
+      renderPermalink: (): never => {
+        throw new Error("legacy renderPermalink should not be called");
+      },
     };
 
     expect(md(legacyOptions as AnchorOptions).render("# H1")).toBe(
