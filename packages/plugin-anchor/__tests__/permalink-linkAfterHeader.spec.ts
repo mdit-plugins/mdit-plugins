@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
+import type { PermalinkGenerator } from "../src/permalink/index.js";
 import { linkAfterHeader } from "../src/permalink/index.js";
 import { anchor } from "../src/plugin.js";
 
@@ -92,6 +93,16 @@ describe("permalink.linkAfterHeader", () => {
     );
   });
 
+  it("should render aria-labelledby style", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({ style: "aria-labelledby" }),
+      }).render("# H1"),
+    ).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1" aria-labelledby="h1">#</a>',
+    );
+  });
+
   it("should render with custom symbol and no text heading", () => {
     expect(
       md({
@@ -157,6 +168,50 @@ describe("permalink.linkAfterHeader", () => {
       }).render("# H1"),
     ).toBe(
       '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1" target="_blank"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true"><i class="icon"></i></span></a>',
+    );
+  });
+
+  it("should render with custom renderHref", () => {
+    expect(
+      md({
+        permalink: linkAfterHeader({
+          ...opts,
+          renderHref: (slug: string): string => `/docs#${slug}`,
+        }),
+      }).render("# H1"),
+    ).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="/docs#h1"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true"><i class="icon"></i></span></a>',
+    );
+  });
+
+  it("should support a composed permalink with a shifted index", () => {
+    const renderLink = linkAfterHeader({
+      style: "visually-hidden",
+      assistiveText: (title: string): string => `Permalink to \u201C${title}\u201D`,
+      visuallyHiddenClass: "visually-hidden",
+    });
+    // Splices a wrapper around the heading before delegating, so the heading
+    // index the delegate receives is shifted by the wrapper's opening token
+    const wrapped: PermalinkGenerator = (slug, anchorOptions, state, idx) => {
+      state.tokens.splice(
+        idx,
+        0,
+        Object.assign(new state.Token("div_open", "div", 1), {
+          attrs: [["class", "wrapper"]],
+          block: true,
+        }),
+      );
+      state.tokens.splice(
+        idx + 4,
+        0,
+        Object.assign(new state.Token("div_close", "div", -1), { block: true }),
+      );
+
+      renderLink(slug, anchorOptions, state, idx + 1);
+    };
+
+    expect(md({ permalink: wrapped }).render("# H1")).toBe(
+      '<div class="wrapper">\n<h1 id="h1" tabindex="-1">H1</h1>\n<a class="header-anchor" href="#h1"><span class="visually-hidden">Permalink to \u201CH1\u201D</span> <span aria-hidden="true">#</span></a></div>\n',
     );
   });
 });

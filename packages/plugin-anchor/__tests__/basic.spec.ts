@@ -19,6 +19,12 @@ describe("basic functionality", () => {
     );
   });
 
+  it("should add anchors to setext headings", () => {
+    expect(md().render("First\n=====\n\nSecond\n------")).toBe(
+      '<h1 id="first" tabindex="-1">First</h1>\n<h2 id="second" tabindex="-1">Second</h2>\n',
+    );
+  });
+
   it("should slugify nested inline elements", () => {
     expect(
       md().render(
@@ -74,6 +80,15 @@ describe("slug options", () => {
     expect(mdInstance.render("# bar", { docId: "foo" })).toBe(
       '<h1 id="foo-bar" tabindex="-1">bar</h1>\n',
     );
+  });
+
+  it("should prefer slugifyWithState over slugify", () => {
+    expect(
+      md({
+        slugify: (): string => "from-slugify",
+        slugifyWithState: (title: string): string => `with-state-${title.toLowerCase()}`,
+      }).render("# Bar"),
+    ).toBe('<h1 id="with-state-bar" tabindex="-1">Bar</h1>\n');
   });
 });
 
@@ -159,6 +174,31 @@ describe("attrs integration", () => {
   it("should deduplicate when user id conflicts with auto slug", () => {
     expect(mdWithAttrs().render("# H1 {id=h2}\n\n## H2")).toBe(
       '<h1 id="h2" tabindex="-1">H1</h1>\n<h2 id="h2-1" tabindex="-1">H2</h2>\n',
+    );
+  });
+
+  it("should throw when a user id duplicates an earlier auto slug", () => {
+    expect(() => {
+      mdWithAttrs().render("# H1\n\n## H2 {id=h1}");
+    }).toThrow(
+      `User defined "id" attribute "h1" is not unique. Please fix it in your Markdown to continue.`,
+    );
+  });
+});
+
+describe("legacy options", () => {
+  it("should ignore markdown-it-anchor legacy permalink options", () => {
+    // The pre-9.x option surface was dropped intentionally - it must be
+    // ignored entirely instead of partially applied
+    const legacyOptions: Record<string, unknown> = {
+      permalink: true,
+      permalinkClass: "legacy-anchor",
+      permalinkSymbol: "¶",
+      renderPermalink: (): void => {},
+    };
+
+    expect(md(legacyOptions as AnchorOptions).render("# H1")).toBe(
+      '<h1 id="h1" tabindex="-1">H1</h1>\n',
     );
   });
 });
