@@ -52,6 +52,9 @@ describe(createDelimiterChecker, () => {
 
     // quotes before the block do not affect end detection
     expect(endChecker('he said "hi" {.c}')).toStrictEqual([14, 16]);
+
+    // quotes after the block do not trigger the quote scan
+    expect(startChecker('{.c} "q"')).toStrictEqual([1, 3]);
   });
 
   it("should check only delimiter", () => {
