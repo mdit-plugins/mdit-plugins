@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@mdit/plugin-container": "workspace:*",
+    "@mdit/plugin-dl": "workspace:*",
     "@mdit/plugin-figure": "workspace:*",
     "@mdit/plugin-katex": "workspace:*",
     "@mdit/plugin-mark": "workspace:*",

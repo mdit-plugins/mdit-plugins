@@ -3,6 +3,7 @@ import type MarkdownIt from "markdown-it";
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { createBlockEndRule } from "./blockEnd.js";
 import { createBlockInfoRule } from "./blockInfo.js";
+import { createDlRules } from "./dl.js";
 import { createFenceRule } from "./fence.js";
 import { createHeadingRule } from "./heading.js";
 import { createHrRule } from "./hr.js";
@@ -27,7 +28,7 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
 ];
 
 // Opt-in rules for third-party plugin interop - excluded from "all"
-const EXTENSION_RULES = new Set<MarkdownItAttrRuleName>(["tasklist"]);
+const EXTENSION_RULES = new Set<MarkdownItAttrRuleName>(["dl", "tasklist"]);
 
 export const createRules = (
   md: MarkdownIt,
@@ -49,6 +50,7 @@ export const createRules = (
   if (enabledRules.includes("table")) rules.push(...createTableRules(md, options));
   if (enabledRules.includes("list")) rules.push(...createListRules(md, options));
   if (enabledRules.includes("tasklist")) rules.push(...createTasklistRules(md, options));
+  if (enabledRules.includes("dl")) rules.push(...createDlRules(md, options));
   if (enabledRules.includes("softbreak")) rules.push(createSoftBreakRule(options));
   if (enabledRules.includes("hr")) rules.push(createHrRule(md, options));
   if (enabledRules.includes("blockInfo")) rules.push(createBlockInfoRule(md, options));

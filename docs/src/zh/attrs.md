@@ -84,7 +84,8 @@ type MarkdownItAttrRuleName =
   // legacy alias of "blockEnd"
   | "block"
   // opt-in, excluded from "all"
-  | "tasklist";
+  | "tasklist"
+  | "dl";
 ```
 
 - 默认值：`"all"`
@@ -96,7 +97,7 @@ type MarkdownItAttrRuleName =
 
   `fence` 规则仅作用于代码块，而 `blockInfo` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。`blockEnd` 规则作用于写在块级元素末尾的属性，`block` 是它的旧别名。
 
-  `tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。
+  `tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。`dl` 规则同样为定义列表（例如 `@mdit/plugin-dl`）提供支持，其定义内容被段落包裹，属性对其他规则不可见。
 
 ### allowed
 

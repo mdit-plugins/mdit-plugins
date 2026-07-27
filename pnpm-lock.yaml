@@ -449,6 +449,9 @@ importers:
       '@mdit/plugin-container':
         specifier: workspace:*
         version: link:../plugin-container
+      '@mdit/plugin-dl':
+        specifier: workspace:*
+        version: link:../plugin-dl
       '@mdit/plugin-figure':
         specifier: workspace:*
         version: link:../plugin-figure
