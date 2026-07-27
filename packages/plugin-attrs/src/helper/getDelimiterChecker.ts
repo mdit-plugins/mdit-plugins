@@ -15,9 +15,14 @@ export const isUnescapedQuote = (content: string, index: number): boolean => {
 
 // Find the first occurrence of the delimiter outside quoted values, starting at `from`
 const findDelimiter = (content: string, from: number, delimiter: string): number => {
-  // Fast path: without quotes in the searched range there are no quoted values
-  // to skip (the scan below never consults anything before `from` either)
-  if (!content.includes('"', from)) return content.indexOf(delimiter, from);
+  const delimiterIndex = content.indexOf(delimiter, from);
+
+  if (delimiterIndex === -1) return -1;
+
+  // Fast path: without a quote before the delimiter it cannot be inside a quoted value
+  const quoteIndex = content.indexOf('"', from);
+
+  if (quoteIndex === -1 || quoteIndex > delimiterIndex) return delimiterIndex;
 
   let insideQuotes = false;
 
@@ -31,8 +36,14 @@ const findDelimiter = (content: string, from: number, delimiter: string): number
 
 // Find the last occurrence of the left delimiter outside quoted values
 const findLastLeftDelimiter = (content: string, left: string): number => {
-  // Fast path: without quotes there are no quoted values to skip
-  if (!content.includes('"')) return content.lastIndexOf(left);
+  const leftIndex = content.lastIndexOf(left);
+
+  if (leftIndex === -1) return -1;
+
+  // Fast path: without a quote before the delimiter it cannot be inside a quoted value
+  const quoteIndex = content.indexOf('"');
+
+  if (quoteIndex === -1 || quoteIndex > leftIndex) return leftIndex;
 
   let result = -1;
   let insideQuotes = false;

@@ -1,5 +1,11 @@
 import type { DelimiterRange } from "../rules/types.js";
-import { CLASS_MARKER, ID_MARKER, KEY_SEPARATOR, PAIR_SEPARATOR } from "./constants.js";
+import {
+  CLASS_MARKER,
+  ID_MARKER,
+  KEY_SEPARATOR,
+  PAIR_SEPARATOR,
+  QUOTE_MARKER,
+} from "./constants.js";
 import { isUnescapedQuote } from "./getDelimiterChecker.js";
 import type { Attr } from "./types.js";
 
@@ -63,12 +69,17 @@ export const getAttrs = (
     }
 
     // {value="inside quotes"}
-    if (isUnescapedQuote(str, index) && value === "" && !valueInsideQuotes) {
+    if (
+      charCode === QUOTE_MARKER &&
+      isUnescapedQuote(str, index) &&
+      value === "" &&
+      !valueInsideQuotes
+    ) {
       valueInsideQuotes = true;
       continue;
     }
 
-    if (isUnescapedQuote(str, index) && valueInsideQuotes) {
+    if (charCode === QUOTE_MARKER && isUnescapedQuote(str, index) && valueInsideQuotes) {
       valueInsideQuotes = false;
       continue;
     }
