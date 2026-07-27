@@ -1,10 +1,16 @@
 import { container } from "@mdit/plugin-container";
+import { katex } from "@mdit/plugin-katex";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
 import { attrs } from "../../src/index.js";
 import { replaceDelimiters } from "../replaceDelimiters.js";
+import {
+  headingAnchorPlugin,
+  trailingSpacePlugin,
+  unmatchedOpenPlugin,
+} from "../simulatedPlugins.js";
 
 const createDualRuleTests = (
   baseOptions: MarkdownItAttrsOptions & { left: string; right: string },
@@ -254,5 +260,56 @@ describe("end of block inside containers", () => {
       '<div class="column-container column">\n<p class="column-1">column test1</p>\n</div>\n';
 
     expect(markdownIt.render(src)).toBe(expected);
+  });
+});
+
+describe("end of block child search", () => {
+  it("should find attrs before tokens appended by heading anchor style plugins", () => {
+    const markdownIt = MarkdownIt();
+
+    headingAnchorPlugin(markdownIt);
+    markdownIt.use(attrs);
+
+    expect(markdownIt.render("## H2 heading {#my-id}")).toBe(
+      '<h2 id="my-id">H2 heading <a href="#">#</a></h2>\n',
+    );
+  });
+
+  it("should skip trailing whitespace-only text children", () => {
+    const markdownIt = MarkdownIt();
+
+    trailingSpacePlugin(markdownIt);
+    markdownIt.use(attrs);
+
+    expect(markdownIt.render("text {.c}")).toBe('<p class="c">text </p>\n');
+  });
+
+  it("should skip trailing top level non-text tokens", () => {
+    const markdownIt = MarkdownIt({ html: true }).use(attrs);
+
+    expect(markdownIt.render("text {.c}<br>")).toBe('<p class="c">text<br></p>\n');
+  });
+
+  it("should not search past inline code", () => {
+    const markdownIt = MarkdownIt().use(attrs);
+
+    expect(markdownIt.render("text {.c}`code`")).toBe("<p>text {.c}<code>code</code></p>\n");
+  });
+
+  it("should not search past inline math", () => {
+    const markdownIt = MarkdownIt().use(attrs).use(katex);
+    const markdownItWithOnlyKatex = MarkdownIt().use(katex);
+    const src = "text {.c}$a$";
+
+    expect(markdownIt.render(src)).toBe(markdownItWithOnlyKatex.render(src));
+  });
+
+  it("should stop at unmatched opening tags", () => {
+    const markdownIt = MarkdownIt();
+
+    unmatchedOpenPlugin(markdownIt);
+    markdownIt.use(attrs);
+
+    expect(markdownIt.render("text {.c}")).toBe("<p>text {.c}<a></p>\n");
   });
 });
