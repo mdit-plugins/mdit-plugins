@@ -52,7 +52,9 @@ const rubyRule: RuleInline = (state, silent) => {
   const rubyText = state.src.slice(dividerPosition + 1, closePos);
 
   const baseArray = Array.from(baseText);
-  const rubyArray = rubyText.split("|");
+  const rubyArray = rubyText.includes("|")
+    ? rubyText.split("|").filter((segment) => segment.length > 0)
+    : [rubyText];
 
   if (baseArray.length === rubyArray.length) {
     baseArray.forEach((content, index) => {
