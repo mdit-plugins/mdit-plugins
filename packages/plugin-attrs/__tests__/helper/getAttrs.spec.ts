@@ -39,6 +39,15 @@ const createDelimiterTests = (
       expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
     });
 
+    it(replaceDelimiters("should skip escaped quotes in values", options), () => {
+      const src = replaceDelimiters(String.raw`{a="x\" y"}`, options);
+      const expected = [["a", String.raw`x\" y`]];
+
+      const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
+
+      expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
+    });
+
     it(
       replaceDelimiters(
         String.raw`should parse attributes whose are ignored the key chars(\t,\n,\f,\s,/,>,",',=) eg: {gt>=true slash/=trace i\td "q\fnu e'r\ny"=}`,

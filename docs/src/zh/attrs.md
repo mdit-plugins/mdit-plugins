@@ -33,7 +33,7 @@ mdIt.render("# Heading 🎉{#heading}");
 如果你想要一个有 full-width Class 的图片，你可以使用:
 
 ```md
-![img](link/to/image.png) {.full-width}
+![img](link/to/image.png){.full-width}
 ```
 
 同时，其他属性也收到支持:
@@ -82,7 +82,9 @@ type MarkdownItAttrRuleName =
   | "blockInfo"
   | "blockEnd"
   // legacy alias of "blockEnd"
-  | "block";
+  | "block"
+  // opt-in, excluded from "all"
+  | "tasklist";
 ```
 
 - 默认值：`"all"`
@@ -93,6 +95,8 @@ type MarkdownItAttrRuleName =
   如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
 
   `fence` 规则仅作用于代码块，而 `blockInfo` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。`blockEnd` 规则作用于写在块级元素末尾的属性，`block` 是它的旧别名。
+
+  `tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。
 
 ### allowed
 
@@ -135,6 +139,8 @@ const a = 1;
 ```
 
 :::
+
+> 此处没有红色边框：文档使用的语法高亮会替换 fence 渲染器并丢弃这些属性，大多数代码高亮方案都是如此。
 
 ::: preview 表格
 

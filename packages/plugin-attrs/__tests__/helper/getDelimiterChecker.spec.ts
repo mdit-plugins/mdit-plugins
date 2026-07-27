@@ -30,6 +30,30 @@ describe(createDelimiterChecker, () => {
     expect(checker("")).toBe(false);
   });
 
+  it("should ignore delimiters inside quoted values", () => {
+    const startChecker = createDelimiterChecker(options, "start");
+    const endChecker = createDelimiterChecker(options, "end");
+
+    // delimiters inside a quoted value must not start or end the block
+    expect(endChecker('text {.replace-me data-tex="e^{i}=-1"}')).toStrictEqual([6, 37]);
+    expect(startChecker('{a="}"} text')).toStrictEqual([1, 6]);
+
+    // a left delimiter inside an unbalanced quote is not a delimiter
+    expect(endChecker('he said "hi {.c}')).toBe(false);
+
+    // an unterminated block whose only right delimiter is quoted
+    expect(endChecker('x {a="}" y')).toBe(false);
+
+    // escaped quotes do not end a quoted value
+    expect(endChecker(String.raw`text {a="x\" y"}`)).toStrictEqual([6, 15]);
+
+    // a quote at the very start of the content
+    expect(endChecker('"a" {.c}')).toStrictEqual([5, 7]);
+
+    // quotes before the block do not affect end detection
+    expect(endChecker('he said "hi" {.c}')).toStrictEqual([14, 16]);
+  });
+
   it("should check only delimiter", () => {
     const checker = createDelimiterChecker(options, "only");
 

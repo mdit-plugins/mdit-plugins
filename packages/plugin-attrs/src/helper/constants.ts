@@ -8,3 +8,5 @@ export const PAIR_SEPARATOR = 32;
 export const KEY_SEPARATOR = 61;
 /** " */
 export const QUOTE_MARKER = 34;
+/** \ */
+export const ESCAPE_MARKER = 92;

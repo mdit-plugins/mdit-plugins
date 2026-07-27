@@ -33,7 +33,7 @@ For example, if you want a heading2 "Hello World" with a id "say-hello-world", y
 If you want a image with class "full-width", you can write:
 
 ```md
-![img](link/to/image.png) {.full-width}
+![img](link/to/image.png){.full-width}
 ```
 
 Also, other attrs are supported, so:
@@ -84,7 +84,9 @@ type MarkdownItAttrRuleName =
   | "blockInfo"
   | "blockEnd"
   // legacy alias of "blockEnd"
-  | "block";
+  | "block"
+  // opt-in, excluded from "all"
+  | "tasklist";
 ```
 
 - Default: `"all"`
@@ -95,6 +97,8 @@ type MarkdownItAttrRuleName =
   If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
 
   The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
+
+  The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`.
 
 ### allowed
 
@@ -116,7 +120,7 @@ type MarkdownItAttrRuleName =
 
 ## Demo
 
-> ALl class are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
+> All classes are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
 
 ::: preview Inline
 
@@ -137,6 +141,8 @@ const a = 1;
 ```
 
 :::
+
+> No red border here: the syntax highlighter used by these docs replaces the fence renderer and drops the attributes, as most code highlighting setups do.
 
 ::: preview Table
 

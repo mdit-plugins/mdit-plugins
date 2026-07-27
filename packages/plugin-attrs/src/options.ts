@@ -11,7 +11,9 @@ export type MarkdownItAttrRuleName =
   | "blockInfo"
   | "blockEnd"
   /** Legacy alias of `blockEnd` */
-  | "block";
+  | "block"
+  /** Opt-in task list label support - excluded from `"all"` */
+  | "tasklist";
 
 export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {
   /**
