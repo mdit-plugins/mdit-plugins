@@ -51,7 +51,7 @@ const rubyRule: RuleInline = (state, silent) => {
   const baseText = state.src.slice(start + 1, dividerPosition);
   const rubyText = state.src.slice(dividerPosition + 1, closePos);
 
-  const baseArray = baseText.split("");
+  const baseArray = Array.from(baseText);
   const rubyArray = rubyText.split("|");
 
   if (baseArray.length === rubyArray.length) {
