@@ -27,7 +27,6 @@ const createDualRuleTests = (
 | ------- | ------- |
 | cell1   | cell2   |
 
-
 {.class}`;
 
         const expected = `\
@@ -408,6 +407,106 @@ const createDualRuleTests = (
         testCases.forEach(([src, expected]) => {
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
         });
+      });
+
+      it(replaceDelimiters("should apply attributes after a table with spans", options), () => {
+        const src = `\
+| A                        | B   | C   | D              |
+| ------------------------ | --- | --- | -------------- |
+| A1                       | B1  | C1  | D1 {rowspan=3} |
+| A2 {colspan=2 rowspan=2} | B2  | C2  | D2             |
+| A3                       | B3  | C3  | D3             |
+
+{.table border=1}
+`;
+
+        const expected = `\
+<table class="table" border="1">
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>B1</td>
+<td>C1</td>
+<td rowspan="3">D1</td>
+</tr>
+<tr>
+<td colspan="2" rowspan="2">A2</td>
+<td>C2</td>
+</tr>
+<tr>
+<td>C3</td>
+</tr>
+</tbody>
+</table>
+`;
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
+
+      it(replaceDelimiters("should support consecutive tables with spans", options), () => {
+        const src = `\
+| A                        | B   | C   | D              |
+| ------------------------ | --- | --- | -------------- |
+| A1                       | B1  | C1  | D1 {rowspan=3} |
+| A2 {colspan=2 rowspan=2} | B2  | C2  | D2             |
+| A3                       | B3  | C3  | D3             |
+
+{border=1}
+| E | F |
+| --- | --- |
+| E1 {colspan=2} |
+`;
+
+        const expected = `\
+<table border="1">
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>B1</td>
+<td>C1</td>
+<td rowspan="3">D1</td>
+</tr>
+<tr>
+<td colspan="2" rowspan="2">A2</td>
+<td>C2</td>
+</tr>
+<tr>
+<td>C3</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">E1</td>
+</tr>
+</tbody>
+</table>
+`;
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
       it(replaceDelimiters("should support empty inline tokens", options), () => {
