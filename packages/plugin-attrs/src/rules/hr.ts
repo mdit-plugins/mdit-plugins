@@ -7,6 +7,7 @@ import { defineAttrRule } from "./types.js";
 
 export const createHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule => {
   const isSpace = md.utils.isSpace;
+  const endDelimiterChecker = createDelimiterChecker(options, "end");
 
   return defineAttrRule({
     /** Horizontal rule --- {#id} */
@@ -41,7 +42,10 @@ export const createHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
 
           if (!isSpace(content.charCodeAt(pos - 1))) pos--;
 
-          return createDelimiterChecker(options, "end")(content);
+          const range = endDelimiterChecker(content);
+
+          // attrs must directly follow the marker run, or the transform would drop the extra text
+          return range !== false && range[0] - options.left.length === pos ? range : false;
         },
       },
       {
