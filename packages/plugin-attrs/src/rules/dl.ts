@@ -44,7 +44,8 @@ export const createDlRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
 
         let dlOpenIndex = index - 2;
 
-        // Find the definition list opening token
+        // Find the definition list opening token - a dd always has an
+        // enclosing dl, so the scan cannot run past the start of the stream
         while (tokens[dlOpenIndex - 1].type !== "dl_open") dlOpenIndex--;
 
         // Apply attributes to the definition list opening token
