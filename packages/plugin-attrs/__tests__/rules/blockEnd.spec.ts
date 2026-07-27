@@ -1,3 +1,4 @@
+import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
@@ -205,13 +206,13 @@ const createDualRuleTests = (
 
       it(
         replaceDelimiters(
-          "should handle nested block structures with multiple closing tokens",
+          "should apply attributes to the innermost block in nested structures",
           options,
         ),
         () => {
           const src = "> > nested blockquote {.nested}";
           const expected =
-            '<blockquote class="nested">\n<blockquote>\n<p>nested blockquote</p>\n</blockquote>\n</blockquote>\n';
+            '<blockquote>\n<blockquote>\n<p class="nested">nested blockquote</p>\n</blockquote>\n</blockquote>\n';
 
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
         },
@@ -244,3 +245,14 @@ createDualRuleTests(
   },
   "with [[ ]] delimiters",
 );
+
+describe("end of block inside containers", () => {
+  it("should apply attributes to the inner paragraph, not the container", () => {
+    const markdownIt = MarkdownIt().use(attrs).use(container, { name: "column" });
+    const src = ":::column {.column-container}\n\ncolumn test1 {.column-1}\n\n:::\n";
+    const expected =
+      '<div class="column-container column">\n<p class="column-1">column test1</p>\n</div>\n';
+
+    expect(markdownIt.render(src)).toBe(expected);
+  });
+});
