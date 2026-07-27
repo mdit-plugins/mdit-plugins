@@ -33,7 +33,7 @@ mdIt.render("# Heading 🎉{#heading}");
 如果你想要一个有 full-width Class 的图片，你可以使用:
 
 ```md
-![img](link/to/image.png) {.full-width}
+![img](link/to/image.png){.full-width}
 ```
 
 同时，其他属性也收到支持:
@@ -135,6 +135,8 @@ const a = 1;
 ```
 
 :::
+
+> 此处没有红色边框：文档使用的语法高亮会替换 fence 渲染器并丢弃这些属性，大多数代码高亮方案都是如此。
 
 ::: preview 表格
 
