@@ -145,6 +145,48 @@ Term 3
 </dl>
 `,
       ],
+      // Markers indented 4+ spaces are not definitions
+      [
+        `\
+Term 1
+   : definition
+
+Term 2
+    : not a definition
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>definition</dd>
+</dl>
+<p>Term 2
+: not a definition</p>
+`,
+      ],
+      // Tab-indented markers count as 4 spaces
+      [
+        `\
+Term
+\t: def
+`,
+        `\
+<p>Term
+: def</p>
+`,
+      ],
+      // Marker indentation is relative to the current block
+      [
+        `\
+- Term
+      : def
+`,
+        `\
+<ul>
+<li>Term
+: def</li>
+</ul>
+`,
+      ],
     ];
 
     testCases.forEach(([content, expected]) => {
