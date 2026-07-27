@@ -26,9 +26,42 @@ const rubyRule: RuleInline = (state, silent) => {
         break;
       }
     } else if (
+      state.src.charCodeAt(state.pos) === 93 /* ] */ &&
+      state.src.charCodeAt(state.pos - 1) !== 92 /* \ */ &&
+      state.src.charCodeAt(state.pos + 1) === 40 /* ( */
+    ) {
+      // colons inside a link destination are never dividers
+      let depth = 1;
+
+      state.pos += 2;
+
+      while (state.pos < max && depth) {
+        const code = state.src.charCodeAt(state.pos);
+
+        if (code === 92 /* \ */) state.pos++;
+        else if (code === 40 /* ( */) depth++;
+        else if (code === 41 /* ) */) depth--;
+
+        state.pos++;
+      }
+
+      continue;
+    } else if (
       state.src.charCodeAt(state.pos) === 58 /* : */ &&
       state.src.charCodeAt(state.pos - 1) !== 92 /* \ */
     ) {
+      if (state.src.startsWith("//", state.pos + 1)) {
+        // a `://` starts a bare URL - colons in the rest of its span are never dividers
+        while (
+          state.pos < max &&
+          state.src.charCodeAt(state.pos) !== 125 /* } */ &&
+          !state.md.utils.isWhiteSpace(state.src.charCodeAt(state.pos))
+        )
+          state.pos++;
+
+        continue;
+      }
+
       dividerPosition = state.pos;
     }
 

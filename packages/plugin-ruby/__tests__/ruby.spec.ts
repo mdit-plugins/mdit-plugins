@@ -49,6 +49,27 @@ describe(ruby, () => {
         `<p><ruby><a href="//example.com">ruby base</a><rt>ruby text</rt></ruby></p>\n`,
       ],
       [
+        `{[ruby base](http://example.com):ruby text}`,
+        `<p><ruby><a href="http://example.com">ruby base</a><rt>ruby text</rt></ruby></p>\n`,
+      ],
+      [
+        `{[ruby base](http://example.com:8080):ruby text}`,
+        `<p><ruby><a href="http://example.com:8080">ruby base</a><rt>ruby text</rt></ruby></p>\n`,
+      ],
+      [
+        `{[ruby base](http://example.com/(v:1)):ruby text}`,
+        `<p><ruby><a href="http://example.com/(v:1)">ruby base</a><rt>ruby text</rt></ruby></p>\n`,
+      ],
+      [
+        `{[ruby base](http://example.com/a\\):b):ruby text}`,
+        `<p><ruby><a href="http://example.com/a):b">ruby base</a><rt>ruby text</rt></ruby></p>\n`,
+      ],
+      [
+        `{http://example.com:8080 :ruby text}`,
+        `<p><ruby><a href="http://example.com:8080">http://example.com:8080</a> <rt>ruby text</rt></ruby></p>\n`,
+      ],
+      [`{ruby base:/ruby text}`, `<p><ruby>ruby base<rt>/ruby text</rt></ruby></p>\n`],
+      [
         `{ruby base:[ruby text](http://example.com)}`,
         `<p><ruby>ruby base<rt><a href="http://example.com">ruby text</a></rt></ruby></p>\n`,
       ],
@@ -91,6 +112,21 @@ describe(ruby, () => {
       [`\\{ruby base:ruby text}`, `<p>{ruby base:ruby text}</p>\n`],
       [`{ruby base\\:ruby text}`, `<p>{ruby base:ruby text}</p>\n`],
       [`{ruby base|ruby text\\}`, `<p>{ruby base|ruby text}</p>\n`],
+      [`{http://example.com}`, `<p>{<a href="http://example.com">http://example.com</a>}</p>\n`],
+      // ruby text starting with "//" is indistinguishable from a URL scheme
+      [`{ruby base://ruby text}`, `<p>{ruby base://ruby text}</p>\n`],
+      [
+        `{[ruby base](http://example.com:8080}`,
+        `<p>{[ruby base](<a href="http://example.com:8080">http://example.com:8080</a>}</p>\n`,
+      ],
+      [
+        `{http://example.com:8080}`,
+        `<p>{<a href="http://example.com:8080">http://example.com:8080</a>}</p>\n`,
+      ],
+      [
+        `{http://example.com:8080`,
+        `<p>{<a href="http://example.com:8080">http://example.com:8080</a></p>\n`,
+      ],
     ];
 
     tests.forEach(([content, expected]) => {
