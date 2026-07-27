@@ -33,7 +33,7 @@ For example, if you want a heading2 "Hello World" with a id "say-hello-world", y
 If you want a image with class "full-width", you can write:
 
 ```md
-![img](link/to/image.png) {.full-width}
+![img](link/to/image.png){.full-width}
 ```
 
 Also, other attrs are supported, so:
@@ -116,7 +116,7 @@ type MarkdownItAttrRuleName =
 
 ## Demo
 
-> ALl class are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
+> All classes are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
 
 ::: preview Inline
 
@@ -137,6 +137,8 @@ const a = 1;
 ```
 
 :::
+
+> No red border here: the syntax highlighter used by these docs replaces the fence renderer and drops the attributes, as most code highlighting setups do.
 
 ::: preview Table
 
