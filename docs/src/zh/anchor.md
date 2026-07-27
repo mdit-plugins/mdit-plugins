@@ -134,7 +134,7 @@ Anchor 插件会复用已有的 `id`。
 简单且开箱即用的无障碍方案。缺点是无法在标题中包含链接。
 
 ```ts
-import { headerLink } from "@mdit/plugin-anchor/permalink";
+import { headerLink } from "@mdit/plugin-anchor";
 ```
 
 **输出：** `<h2 id="title"><a href="#title">标题</a></h2>`
@@ -149,7 +149,7 @@ import { headerLink } from "@mdit/plugin-anchor/permalink";
 在标题内部插入永久链接锚点，位于文本之后或之前。
 
 ```ts
-import { linkInsideHeader } from "@mdit/plugin-anchor/permalink";
+import { linkInsideHeader } from "@mdit/plugin-anchor";
 ```
 
 **输出：** `<h2 id="title">标题 <a href="#title">#</a></h2>`
@@ -173,7 +173,7 @@ import { linkInsideHeader } from "@mdit/plugin-anchor/permalink";
 `linkInsideHeader` 的别名，默认 `ariaHidden: true`。
 
 ```ts
-import { ariaHidden } from "@mdit/plugin-anchor/permalink";
+import { ariaHidden } from "@mdit/plugin-anchor";
 ```
 
 **输出：** `<h2 id="title">标题 <a href="#title" aria-hidden="true">#</a></h2>`
@@ -183,7 +183,7 @@ import { ariaHidden } from "@mdit/plugin-anchor/permalink";
 在标题块**之后**放置永久链接锚点。提供最灵活的屏幕阅读器无障碍体验。
 
 ```ts
-import { linkAfterHeader } from "@mdit/plugin-anchor/permalink";
+import { linkAfterHeader } from "@mdit/plugin-anchor";
 ```
 
 **输出：** `<h2 id="title">标题</h2><a href="#title"><span class="sr-only">永久链接</span> <span aria-hidden="true">#</span></a>`
