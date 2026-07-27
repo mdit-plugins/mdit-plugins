@@ -1,6 +1,49 @@
 import type { DelimiterChecker } from "../rules/types.js";
-import { CLASS_MARKER, ID_MARKER } from "./constants.js";
+import { CLASS_MARKER, ESCAPE_MARKER, ID_MARKER, QUOTE_MARKER } from "./constants.js";
 import type { DelimiterConfig } from "./types.js";
+
+// Check whether the character at the given index is a double quote that is not escaped
+const isUnescapedQuote = (content: string, index: number): boolean => {
+  if (content.charCodeAt(index) !== QUOTE_MARKER) return false;
+
+  let escapeCount = 0;
+
+  for (let i = index - 1; i >= 0 && content.charCodeAt(i) === ESCAPE_MARKER; i--) escapeCount++;
+
+  return escapeCount % 2 === 0;
+};
+
+// Find the first occurrence of the delimiter outside quoted values, starting at `from`
+const findDelimiter = (content: string, from: number, delimiter: string): number => {
+  // Fast path: without quotes in the searched range there are no quoted values
+  // to skip (the scan below never consults anything before `from` either)
+  if (!content.includes('"', from)) return content.indexOf(delimiter, from);
+
+  let insideQuotes = false;
+
+  for (let index = from; index < content.length; index++) {
+    if (isUnescapedQuote(content, index)) insideQuotes = !insideQuotes;
+    else if (!insideQuotes && content.startsWith(delimiter, index)) return index;
+  }
+
+  return -1;
+};
+
+// Find the last occurrence of the left delimiter outside quoted values
+const findLastLeftDelimiter = (content: string, left: string): number => {
+  // Fast path: without quotes there are no quoted values to skip
+  if (!content.includes('"')) return content.lastIndexOf(left);
+
+  let result = -1;
+  let insideQuotes = false;
+
+  for (let index = 0; index < content.length; index++) {
+    if (isUnescapedQuote(content, index)) insideQuotes = !insideQuotes;
+    else if (!insideQuotes && content.startsWith(left, index)) result = index;
+  }
+
+  return result;
+};
 
 /**
  * Get a function to check if a string matches the delimiter pattern 获取一个函数来检查字符串是否匹配分隔符模式
@@ -35,7 +78,7 @@ export const createDelimiterChecker = (
       if (!content.startsWith(left)) return false;
 
       start = leftLength;
-      end = content.indexOf(right, leftLength + 1);
+      end = findDelimiter(content, leftLength + 1, right);
 
       if (end === -1) return false;
 
@@ -45,11 +88,11 @@ export const createDelimiterChecker = (
       if (nextCharPos < content.length && right.includes(content.charAt(nextCharPos))) return false;
     } else if (where === "end") {
       // Check if content ends with right delimiter
-      start = content.lastIndexOf(left);
+      start = findLastLeftDelimiter(content, left);
 
       if (start === -1) return false;
 
-      end = content.indexOf(right, start + leftLength + 1);
+      end = findDelimiter(content, start + leftLength + 1, right);
       start += leftLength;
 
       if (end === -1 || end + rightLength !== content.length) return false;
