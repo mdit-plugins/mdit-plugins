@@ -29,10 +29,11 @@ export type TokenPropTest = {
  */
 interface BaseAttrRuleSet extends Omit<TokenPropTest, "children"> {
   /**
-   * 子规则集合，用于递归匹配；或一个自定义检查函数，可返回匹配到的分隔符范围
+   * 子规则集合，用于递归匹配；或一个自定义检查函数，可返回匹配到的分隔符范围。当该函数返回布尔值时，分隔符范围需由规则的其他测试提供
    *
    * Child rule sets for recursive matching, or a custom checker function which may return the
-   * matched delimiter range
+   * matched delimiter range. When the function returns a boolean instead, another test of the rule
+   * must provide the delimiter range
    */
   children?: AttrRuleSet[] | ((children: Token[]) => DelimiterRange | boolean);
 }

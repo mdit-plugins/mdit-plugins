@@ -11,7 +11,7 @@ export const createBlockEndRule = (md: MarkdownIt, options: DelimiterConfig): At
   const isWhiteSpace = md.utils.isWhiteSpace;
   const endDelimiterChecker = createDelimiterChecker(options, "end");
 
-  // Non-allocating `content.trim() === ""`
+  // Non-allocating whitespace-only check (markdown-it's whitespace set)
   const isWhitespaceOnly = (content: string): boolean => {
     for (let index = 0; index < content.length; index++)
       if (!isWhiteSpace(content.charCodeAt(index))) return false;
