@@ -1,6 +1,11 @@
 import type MarkdownIt from "markdown-it";
 
-import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
+import type {
+  MarkdownItAttrRuleName,
+  MarkdownItAttrsDefaultRuleName,
+  MarkdownItAttrsExtensionRuleName,
+  MarkdownItAttrsOptions,
+} from "../options.js";
 import { createBlockEndRule } from "./blockEnd.js";
 import { createBlockInfoRule } from "./blockInfo.js";
 import { createDlRules } from "./dl.js";
@@ -14,7 +19,12 @@ import { createTableRules } from "./table.js";
 import { createTasklistRules } from "./tasklist.js";
 import type { AttrRule } from "./types.js";
 
-const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
+/**
+ * Rule names enabled by `"all"`
+ *
+ * `"all"` 启用的规则名称
+ */
+export const DEFAULT_RULES: readonly MarkdownItAttrsDefaultRuleName[] = [
   "fence",
   "inline",
   "table",
@@ -24,24 +34,33 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "softbreak",
   "blockInfo",
   "blockEnd",
-  "block",
 ];
 
-// Opt-in rules for third-party plugin interop - excluded from "all"
-const EXTENSION_RULES = new Set<MarkdownItAttrRuleName>(["dl", "tasklist"]);
+/**
+ * Opt-in rules for third-party plugin interop - excluded from `"all"`
+ *
+ * 需显式启用的第三方插件交互规则，不包含在 `"all"` 中
+ */
+export const EXTENSION_RULES: readonly MarkdownItAttrsExtensionRuleName[] = ["tasklist", "dl"];
+
+const SUPPORTED_RULES = new Set<MarkdownItAttrRuleName>([
+  ...DEFAULT_RULES,
+  ...EXTENSION_RULES,
+  "block",
+]);
 
 export const createRules = (
   md: MarkdownIt,
   options: Required<MarkdownItAttrsOptions>,
 ): AttrRule[] => {
-  const enabledRules =
+  const enabledRules: readonly MarkdownItAttrRuleName[] =
     // disable
     options.rule === false
       ? []
       : Array.isArray(options.rule)
         ? // user specific rules
-          options.rule.filter((item) => AVAILABLE_RULES.includes(item) || EXTENSION_RULES.has(item))
-        : AVAILABLE_RULES;
+          options.rule.filter((item: MarkdownItAttrRuleName) => SUPPORTED_RULES.has(item))
+        : DEFAULT_RULES;
 
   const rules: AttrRule[] = [];
 

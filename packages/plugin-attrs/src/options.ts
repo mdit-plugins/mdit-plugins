@@ -1,6 +1,11 @@
 import type { DelimiterConfig } from "./helper/index.js";
 
-export type MarkdownItAttrRuleName =
+/**
+ * Rules enabled by default (`"all"`)
+ *
+ * 默认启用的规则（`"all"`）
+ */
+export type MarkdownItAttrsDefaultRuleName =
   | "fence"
   | "inline"
   | "table"
@@ -9,13 +14,20 @@ export type MarkdownItAttrRuleName =
   | "hr"
   | "softbreak"
   | "blockInfo"
-  | "blockEnd"
+  | "blockEnd";
+
+/**
+ * Opt-in rules for third-party plugin interop - excluded from `"all"`
+ *
+ * 需显式启用的第三方插件交互规则，不包含在 `"all"` 中
+ */
+export type MarkdownItAttrsExtensionRuleName = "tasklist" | "dl";
+
+export type MarkdownItAttrRuleName =
+  | MarkdownItAttrsDefaultRuleName
+  | MarkdownItAttrsExtensionRuleName
   /** Legacy alias of `blockEnd` */
-  | "block"
-  /** Opt-in task list label support - excluded from `"all"` */
-  | "tasklist"
-  /** Opt-in definition list support - excluded from `"all"` */
-  | "dl";
+  | "block";
 
 export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {
   /**
@@ -25,5 +37,5 @@ export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {
    *
    * @default "all"
    */
-  rule?: "all" | boolean | MarkdownItAttrRuleName[];
+  rule?: "all" | boolean | readonly MarkdownItAttrRuleName[];
 }

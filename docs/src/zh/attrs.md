@@ -99,6 +99,12 @@ type MarkdownItAttrRuleName =
 
   `tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。`dl` 规则同样为定义列表（例如 `@mdit/plugin-dl`）提供支持，其定义内容被段落包裹，属性对其他规则不可见。
 
+  包导出了规则名称列表 `DEFAULT_RULES`（`"all"` 对应的集合）和 `EXTENSION_RULES`，无需硬编码即可调整默认规则：
+
+  ```ts
+  mdIt.use(attrs, { rule: DEFAULT_RULES.filter((name) => name !== "fence") });
+  ```
+
 ### allowed
 
 - 类型：`(string | RegExp)[]`

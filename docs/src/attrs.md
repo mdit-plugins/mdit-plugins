@@ -101,6 +101,12 @@ type MarkdownItAttrRuleName =
 
   The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`. The `dl` rule does the same for definition lists (e.g. `@mdit/plugin-dl`), whose paragraph-wrapped definitions hide attributes from the other rules.
 
+  The package exports the rule name lists as `DEFAULT_RULES` (the `"all"` set) and `EXTENSION_RULES`, so you can tweak the defaults without hardcoding them:
+
+  ```ts
+  mdIt.use(attrs, { rule: DEFAULT_RULES.filter((name) => name !== "fence") });
+  ```
+
 ### allowed
 
 - Type: `(string | RegExp)[]`
