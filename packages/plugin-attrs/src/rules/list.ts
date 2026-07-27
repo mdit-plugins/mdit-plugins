@@ -41,9 +41,10 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
 
         let listOpenIndex = index - 2;
 
-        // Find the list opening token
+        // Find the list opening token - a list item always has an enclosing
+        // list, so the scan cannot run past the start of the stream
         while (
-          tokens[listOpenIndex - 1]?.type !== "ordered_list_open" &&
+          tokens[listOpenIndex - 1].type !== "ordered_list_open" &&
           tokens[listOpenIndex - 1].type !== "bullet_list_open"
         )
           listOpenIndex--;
