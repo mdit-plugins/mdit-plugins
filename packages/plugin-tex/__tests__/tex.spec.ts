@@ -309,6 +309,20 @@ $$`),
         });
       });
 
+      describe("unicode whitespace after closing marker", () => {
+        const unicodeWhitespaceCases: [string, string][] = [
+          ["$$a=1$$\u3000\nfollowing", "<p>{Tex content: a=1}</p>\n<p>following</p>\n"],
+          ["$$\na=1\n$$\u00A0\nfollowing", "<p>{Tex content: a=1}</p>\n<p>following</p>\n"],
+        ];
+
+        it.for(unicodeWhitespaceCases)(
+          "should recognize closing marker: %s",
+          ([input, expected]) => {
+            expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
+          },
+        );
+      });
+
       it("should ignore bracket syntax", () => {
         expect(dollarModeMarkdownIt.render(String.raw`\[a=1\]`)).toBe("<p>[a=1]</p>\n");
       });
@@ -346,6 +360,20 @@ y = 2
         it.for(bracketRejectionCases)(
           "should not render when %s: %s",
           ([_description, input, expected]) => {
+            expect(bracketModeMarkdownIt.render(input)).toStrictEqual(expected);
+          },
+        );
+      });
+
+      describe("unicode whitespace after closing marker", () => {
+        const unicodeWhitespaceCases: [string, string][] = [
+          ["\\[a=1\\]\u3000\nfollowing", "<p>{Tex content: a=1}</p>\n<p>following</p>\n"],
+          ["\\[\na=1\n\\]\u00A0\nfollowing", "<p>{Tex content: a=1}</p>\n<p>following</p>\n"],
+        ];
+
+        it.for(unicodeWhitespaceCases)(
+          "should recognize closing marker: %s",
+          ([input, expected]) => {
             expect(bracketModeMarkdownIt.render(input)).toStrictEqual(expected);
           },
         );
