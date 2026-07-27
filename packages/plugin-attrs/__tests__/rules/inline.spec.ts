@@ -59,6 +59,13 @@ const createDualRuleTests = (
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
+      it(replaceDelimiters("should keep the last value of repeated keys", options), () => {
+        const src = "**b**{.x}{key=1}{key=2}";
+        const expected = '<p><strong class="x" key="2">b</strong></p>\n';
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
+
       it(
         replaceDelimiters(
           "should work with multiple inline code blocks in same paragraph",

@@ -78,6 +78,17 @@ const createDualRuleTests = (
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
+      it(replaceDelimiters("should keep the last value of repeated keys {#a #b}", options), () => {
+        const testCases = [
+          ["text {#a #b}", '<p id="b">text</p>\n'],
+          ["text {key=1 key=2}", '<p key="2">text</p>\n'],
+        ];
+
+        testCases.forEach(([src, expected]) => {
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+        });
+      });
+
       it(
         replaceDelimiters(
           "should support classes, css-modules, identifiers and attributes in same {}",
