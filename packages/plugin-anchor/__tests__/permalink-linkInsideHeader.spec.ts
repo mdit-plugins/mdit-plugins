@@ -26,6 +26,20 @@ describe("permalink.linkInsideHeader", () => {
     );
   });
 
+  it("should mark the symbol token with isPermalinkSymbol meta", () => {
+    // Downstream heading collectors (e.g. toc extraction) rely on this meta to
+    // exclude the symbol from heading texts
+    const symbolToken = md({ permalink: linkInsideHeader() })
+      .parse("# H1", {})
+      .find((token) => token.type === "inline")
+      ?.children?.find(
+        (token) => (token.meta as Record<string, unknown> | null)?.isPermalinkSymbol === true,
+      );
+
+    expect(symbolToken?.type).toBe("html_inline");
+    expect(symbolToken?.content).toBe("#");
+  });
+
   it("should render with HTML symbol and placement before", () => {
     const symbol =
       '<span class="visually-hidden">Jump to heading</span> <span aria-hidden="true">#</span>';
