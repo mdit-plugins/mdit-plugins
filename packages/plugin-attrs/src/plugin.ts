@@ -39,8 +39,14 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
         });
 
         if (match) {
+          const currentToken = tokens[index];
+
           // oxlint-disable-next-line typescript/no-non-null-assertion
           pattern.transform(tokens, index, position!, range!);
+
+          // re-locate the current token in case the transform spliced tokens
+          // before it (e.g. the table calculate rule removing covered cells)
+          if (tokens[index] !== currentToken) index = tokens.indexOf(currentToken);
 
           if (
             pattern.name === "inline attributes" ||
