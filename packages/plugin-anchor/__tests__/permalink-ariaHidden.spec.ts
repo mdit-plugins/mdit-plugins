@@ -14,6 +14,12 @@ describe("permalink.ariaHidden", () => {
     );
   });
 
+  it("should allow disabling aria-hidden", () => {
+    expect(md({ permalink: ariaHidden({ ariaHidden: false }) }).render("# H1")).toBe(
+      '<h1 id="h1" tabindex="-1">H1 <a class="header-anchor" href="#h1">#</a></h1>\n',
+    );
+  });
+
   it("should render with HTML symbol", () => {
     expect(md({ permalink: ariaHidden({ symbol: '<i class="icon"></i>' }) }).render("# H1")).toBe(
       '<h1 id="h1" tabindex="-1">H1 <a class="header-anchor" href="#h1" aria-hidden="true"><i class="icon"></i></a></h1>\n',
