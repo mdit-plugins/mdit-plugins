@@ -53,7 +53,8 @@
     "@mdit/plugin-figure": "workspace:*",
     "@mdit/plugin-katex": "workspace:*",
     "@mdit/plugin-mark": "workspace:*",
-    "@mdit/plugin-tasklist": "workspace:*"
+    "@mdit/plugin-tasklist": "workspace:*",
+    "markdown-it-multimd-table": "^4.2.3"
   },
   "peerDependencies": {
     "markdown-it": "^14.2.0"

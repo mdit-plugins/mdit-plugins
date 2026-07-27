@@ -185,8 +185,8 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
 
         const tbodyOpenToken: TokenWithColumnCount = tokens[tbodyOpenIndex];
 
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        const columnCount = tbodyOpenToken.meta!.columnCount!;
+        // meta is missing when another plugin produced a headerless table (no thead)
+        const columnCount = tbodyOpenToken.meta?.columnCount ?? 0;
 
         if (columnCount < 2) return;
 
