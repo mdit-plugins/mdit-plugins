@@ -3,7 +3,7 @@ import { CLASS_MARKER, ESCAPE_MARKER, ID_MARKER, QUOTE_MARKER } from "./constant
 import type { DelimiterConfig } from "./types.js";
 
 // Check whether the character at the given index is a double quote that is not escaped
-const isUnescapedQuote = (content: string, index: number): boolean => {
+export const isUnescapedQuote = (content: string, index: number): boolean => {
   if (content.charCodeAt(index) !== QUOTE_MARKER) return false;
 
   let escapeCount = 0;
