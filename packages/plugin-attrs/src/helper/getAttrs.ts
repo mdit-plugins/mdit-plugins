@@ -1,11 +1,6 @@
 import type { DelimiterRange } from "../rules/types.js";
-import {
-  CLASS_MARKER,
-  ID_MARKER,
-  KEY_SEPARATOR,
-  PAIR_SEPARATOR,
-  QUOTE_MARKER,
-} from "./constants.js";
+import { CLASS_MARKER, ID_MARKER, KEY_SEPARATOR, PAIR_SEPARATOR } from "./constants.js";
+import { isUnescapedQuote } from "./getDelimiterChecker.js";
 import type { Attr } from "./types.js";
 
 const isAllowedKeyChar = (charCode: number): boolean =>
@@ -68,12 +63,12 @@ export const getAttrs = (
     }
 
     // {value="inside quotes"}
-    if (charCode === QUOTE_MARKER && value === "" && !valueInsideQuotes) {
+    if (isUnescapedQuote(str, index) && value === "" && !valueInsideQuotes) {
       valueInsideQuotes = true;
       continue;
     }
 
-    if (charCode === QUOTE_MARKER && valueInsideQuotes) {
+    if (isUnescapedQuote(str, index) && valueInsideQuotes) {
       valueInsideQuotes = false;
       continue;
     }
