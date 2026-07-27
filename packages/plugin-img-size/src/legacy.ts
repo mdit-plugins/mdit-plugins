@@ -78,6 +78,7 @@ const parseImageSize = (
 const legacyImgSizeRule: RuleInline = (state, silent) => {
   const env = state.env as ImgSizeEnv;
   const isSpace = state.md.utils.isSpace;
+  const isSpaceOrNewline = (code: number): boolean => isSpace(code) || code === 10; /* \n */
   const oldPos = state.pos;
   const max = state.posMax;
 
@@ -111,7 +112,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     pos++;
 
     while (pos < max) {
-      if (!isSpace(state.src.charCodeAt(pos))) break;
+      if (!isSpaceOrNewline(state.src.charCodeAt(pos))) break;
 
       pos++;
     }
@@ -136,7 +137,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
     //                ^^ skipping these spaces
     const start = pos;
 
-    for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
+    for (; pos < max; pos++) if (!isSpaceOrNewline(state.src.charCodeAt(pos))) break;
 
     // [link](  <href>  "title"  )
     //                  ^^^^^^^ parsing link title
@@ -151,7 +152,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
       // [link](  <href>  "title"  )
       //                         ^^ skipping these spaces
       for (; pos < max; pos++) {
-        if (!isSpace(state.src.charCodeAt(pos))) {
+        if (!isSpaceOrNewline(state.src.charCodeAt(pos))) {
           skipSpaces = true;
           break;
         }
@@ -169,7 +170,7 @@ const legacyImgSizeRule: RuleInline = (state, silent) => {
 
       // [link](  <href>  "title" =WxH  )
       //                              ^^ skipping these spaces
-      for (; pos < max; pos++) if (!isSpace(state.src.charCodeAt(pos))) break;
+      for (; pos < max; pos++) if (!isSpaceOrNewline(state.src.charCodeAt(pos))) break;
     }
 
     if (pos >= max || state.src.charCodeAt(pos) !== 41 /* ) */) {

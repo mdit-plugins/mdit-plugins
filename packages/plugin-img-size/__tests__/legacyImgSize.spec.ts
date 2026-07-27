@@ -139,6 +139,39 @@ describe("legacy image size", () => {
         expect(markdownIt.render(input)).toStrictEqual(expected);
       });
     });
+
+    it("soft-wrapped", () => {
+      const testCases = [
+        [
+          `![image](\n/logo.svg =200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg\n =200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg \n =200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg\n"title" =200x300)`,
+          '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg "title"\n =200x300)`,
+          '<p><img src="/logo.svg" alt="image" title="title" width="200" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =200x300\n)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="300"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
   });
 
   describe("should render with width or height", () => {
