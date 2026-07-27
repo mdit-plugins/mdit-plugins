@@ -205,13 +205,13 @@ const createDualRuleTests = (
 
       it(
         replaceDelimiters(
-          "should handle nested block structures with multiple closing tokens",
+          "should apply attributes to the innermost block in nested structures",
           options,
         ),
         () => {
           const src = "> > nested blockquote {.nested}";
           const expected =
-            '<blockquote class="nested">\n<blockquote>\n<p>nested blockquote</p>\n</blockquote>\n</blockquote>\n';
+            '<blockquote>\n<blockquote>\n<p class="nested">nested blockquote</p>\n</blockquote>\n</blockquote>\n';
 
           expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
         },
