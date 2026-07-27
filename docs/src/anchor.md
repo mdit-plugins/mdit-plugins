@@ -136,7 +136,7 @@ Simple and accessible out of the box. The caveat is that you cannot
 include links inside headings.
 
 ```ts
-import { headerLink } from "@mdit/plugin-anchor/permalink";
+import { headerLink } from "@mdit/plugin-anchor";
 ```
 
 **Output:** `<h2 id="title"><a href="#title">Title</a></h2>`
@@ -151,7 +151,7 @@ import { headerLink } from "@mdit/plugin-anchor/permalink";
 Inserts a permalink anchor inside the heading, after or before the text.
 
 ```ts
-import { linkInsideHeader } from "@mdit/plugin-anchor/permalink";
+import { linkInsideHeader } from "@mdit/plugin-anchor";
 ```
 
 **Output:** `<h2 id="title">Title <a href="#title">#</a></h2>`
@@ -176,7 +176,7 @@ as `symbol`.
 Alias for `linkInsideHeader` with `ariaHidden: true` by default.
 
 ```ts
-import { ariaHidden } from "@mdit/plugin-anchor/permalink";
+import { ariaHidden } from "@mdit/plugin-anchor";
 ```
 
 **Output:** `<h2 id="title">Title <a href="#title" aria-hidden="true">#</a></h2>`
@@ -187,7 +187,7 @@ Places a permalink anchor **after** the heading block. Offers the most
 flexibility for accessible screen reader experiences.
 
 ```ts
-import { linkAfterHeader } from "@mdit/plugin-anchor/permalink";
+import { linkAfterHeader } from "@mdit/plugin-anchor";
 ```
 
 **Output:** `<h2 id="title">Title</h2><a href="#title"><span class="sr-only">Permalink</span> <span aria-hidden="true">#</span></a>`
