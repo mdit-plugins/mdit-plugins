@@ -402,6 +402,70 @@ const createDualRuleTests = (
 </table>
 `,
           ],
+          // rowspan on a cell dropped by an occupied column should not register
+          [
+            `\
+| A | B | C |
+| -- | -- | -- |
+| 1 {rowspan=2}| 11 | 111 |
+| 2 {rowspan=2}| 22 | 222 |
+| 3 | 33 | 333 |
+`,
+            `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="2">1</td>
+<td>11</td>
+<td>111</td>
+</tr>
+<tr>
+<td>22</td>
+<td>222</td>
+</tr>
+<tr>
+<td>3</td>
+<td>33</td>
+<td>333</td>
+</tr>
+</tbody>
+</table>
+`,
+          ],
+          // colspan on a cell merged by a preceding colspan should be ignored
+          [
+            `\
+| A | B | C | D |
+| -- | -- | -- | -- |
+| 1 {colspan=2}| 11 {colspan=3} | 111| 1111 |
+`,
+            `\
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">1</td>
+<td>111</td>
+<td>1111</td>
+</tr>
+</tbody>
+</table>
+`,
+          ],
         ];
 
         testCases.forEach(([src, expected]) => {

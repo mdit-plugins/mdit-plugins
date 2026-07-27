@@ -88,6 +88,13 @@ const createDualRuleTests = (
 
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
+
+      it(replaceDelimiters("should support empty quoted attrs", options), () => {
+        const src = '![](img.png){class="" height="100" width=""}';
+        const expected = '<p><img src="img.png" alt="" class="" height="100" width=""></p>\n';
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
     });
   });
 };
