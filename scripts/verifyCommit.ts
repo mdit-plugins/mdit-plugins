@@ -12,7 +12,7 @@ const getSubDirectories = async (dir: string): Promise<string[]> => {
   return items.filter((_, index) => stats[index].isDirectory());
 };
 
-const pluginPackages = await getSubDirectories(path.join(__dirname, "../packages"));
+const packageDirectories = await getSubDirectories(path.join(__dirname, "../packages"));
 
 const msgPath = process.argv[2]
   ? path.resolve(process.argv[2])
@@ -34,7 +34,7 @@ const types = [
   "types",
   "release",
 ];
-const scopes = [...pluginPackages, "deps"];
+const scopes = [...packageDirectories, "deps"];
 
 const commitRE = /^(?:revert: )?(?<type>[^(]*?)(?:\((?<scope>[^)]*?)\))?!?: .{1,50}$/mu;
 
