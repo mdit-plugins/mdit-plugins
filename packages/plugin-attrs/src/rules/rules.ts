@@ -10,6 +10,7 @@ import { createInlineRules } from "./inline.js";
 import { createListRules } from "./list.js";
 import { createSoftBreakRule } from "./softbreak.js";
 import { createTableRules } from "./table.js";
+import { createTasklistRules } from "./tasklist.js";
 import type { AttrRule } from "./types.js";
 
 const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
@@ -25,6 +26,9 @@ const AVAILABLE_RULES: MarkdownItAttrRuleName[] = [
   "block",
 ];
 
+// Opt-in rules for third-party plugin interop - excluded from "all"
+const EXTENSION_RULES = new Set<MarkdownItAttrRuleName>(["tasklist"]);
+
 export const createRules = (
   md: MarkdownIt,
   options: Required<MarkdownItAttrsOptions>,
@@ -35,7 +39,7 @@ export const createRules = (
       ? []
       : Array.isArray(options.rule)
         ? // user specific rules
-          options.rule.filter((item) => AVAILABLE_RULES.includes(item))
+          options.rule.filter((item) => AVAILABLE_RULES.includes(item) || EXTENSION_RULES.has(item))
         : AVAILABLE_RULES;
 
   const rules: AttrRule[] = [];
@@ -44,6 +48,7 @@ export const createRules = (
   if (enabledRules.includes("inline")) rules.push(...createInlineRules(options));
   if (enabledRules.includes("table")) rules.push(...createTableRules(md, options));
   if (enabledRules.includes("list")) rules.push(...createListRules(md, options));
+  if (enabledRules.includes("tasklist")) rules.push(...createTasklistRules(md, options));
   if (enabledRules.includes("softbreak")) rules.push(createSoftBreakRule(options));
   if (enabledRules.includes("hr")) rules.push(createHrRule(md, options));
   if (enabledRules.includes("blockInfo")) rules.push(createBlockInfoRule(md, options));

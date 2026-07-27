@@ -458,6 +458,9 @@ importers:
       '@mdit/plugin-mark':
         specifier: workspace:*
         version: link:../plugin-mark
+      '@mdit/plugin-tasklist':
+        specifier: workspace:*
+        version: link:../plugin-tasklist
 
   packages/plugin-container:
     dependencies:

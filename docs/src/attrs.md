@@ -84,7 +84,9 @@ type MarkdownItAttrRuleName =
   | "blockInfo"
   | "blockEnd"
   // legacy alias of "blockEnd"
-  | "block";
+  | "block"
+  // opt-in, excluded from "all"
+  | "tasklist";
 ```
 
 - Default: `"all"`
@@ -95,6 +97,8 @@ type MarkdownItAttrRuleName =
   If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
 
   The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
+
+  The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`.
 
 ### allowed
 
