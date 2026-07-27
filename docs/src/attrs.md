@@ -86,7 +86,8 @@ type MarkdownItAttrRuleName =
   // legacy alias of "blockEnd"
   | "block"
   // opt-in, excluded from "all"
-  | "tasklist";
+  | "tasklist"
+  | "dl";
 ```
 
 - Default: `"all"`
@@ -98,7 +99,7 @@ type MarkdownItAttrRuleName =
 
   The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
 
-  The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`.
+  The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`. The `dl` rule does the same for definition lists (e.g. `@mdit/plugin-dl`), whose paragraph-wrapped definitions hide attributes from the other rules.
 
 ### allowed
 
