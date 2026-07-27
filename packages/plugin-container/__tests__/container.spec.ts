@@ -86,27 +86,50 @@ test
   });
 
   it("support nesting", () => {
-    const content = `
+    const testCases = [
+      [
+        `
 ::::: test
 :::: test
 xxx
 ::::
 :::::
-`;
-
-    expect(markdownIt.render(content)).toBe(
-      `\
+`,
+        `\
 <div class="test">
 <div class="test">
 <p>xxx</p>
 </div>
 </div>
 `,
-    );
+      ],
+      [
+        `\
+::: test
+  ::: test
+  xxx
+  :::
+:::
+`,
+        `\
+<div class="test">
+<div class="test">
+<p>xxx</p>
+</div>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
   it("wrong syntax", () => {
-    const content = `\
+    const testCases = [
+      [
+        `\
 :::: test
 this block is closed with 5 markers below
 
@@ -115,10 +138,8 @@ auto-closed block
 
 :::::
 ::::
-`;
-
-    expect(markdownIt.render(content)).toBe(
-      `\
+`,
+        `\
 <div class="test">
 <p>this block is closed with 5 markers below</p>
 <div class="test">
@@ -127,10 +148,41 @@ auto-closed block
 </div>
 <p>::::</p>
 `,
-    );
+      ],
+      [
+        `\
+:::: test
+content
+:::
+::::
+`,
+        `\
+<div class="test">
+<p>content
+:::</p>
+</div>
+`,
+      ],
+      [
+        `\
+::: test
+::
+:::
+`,
+        `\
+<div class="test">
+<p>::</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
   });
 
-  it("ending markers must be the same indent", () => {
+  it("ending markers can contain extra indent max to 3", () => {
     const testCases = [
       [
         `\
@@ -141,9 +193,9 @@ content
 `,
         `\
 <div class="test">
-<p>content
-:::</p>
+<p>content</p>
 </div>
+<p>:::</p>
 `,
       ],
       [
@@ -155,9 +207,9 @@ content
 `,
         `\
 <div class="test">
-<p>content
-:::</p>
+<p>content</p>
 </div>
+<p>:::</p>
 `,
       ],
       [
@@ -169,9 +221,9 @@ content
 `,
         `\
 <div class="test">
-<p>content
-:::</p>
+<p>content</p>
 </div>
+<p>:::</p>
 `,
       ],
       [
@@ -183,9 +235,9 @@ content
 `,
         `\
 <div class="test">
-<p>content
-:::</p>
+<p>content</p>
 </div>
+<p>:::</p>
 `,
       ],
       [
@@ -223,6 +275,91 @@ content
 </div>
 </li>
 </ul>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("indent shall be calculated with the parent block", () => {
+    const testCases = [
+      [
+        `\
+  ::: test
+   not a code block
+
+    code block
+  :::
+`,
+        `\
+<div class="test">
+<p>not a code block</p>
+<pre><code>code block
+</code></pre>
+</div>
+`,
+      ],
+      [
+        `\
+  ::: test
+      code
+  :::
+`,
+        `\
+<div class="test">
+<pre><code>  code
+</code></pre>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("content can be less indented than the opening marker", () => {
+    const testCases = [
+      [
+        `\
+  ::: test
+content
+  :::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+  ::: test
+content
+:::
+`,
+        `\
+<div class="test">
+<p>content</p>
+</div>
+`,
+      ],
+      [
+        `\
+ ::: test
+ content
+text
+ :::
+`,
+        `\
+<div class="test">
+<p>content
+text</p>
+</div>
 `,
       ],
     ];
@@ -501,30 +638,38 @@ content
     const testCases = [
       [
         `\
- ::: test
- content
+- ::: test
+  content
 text
 `,
 
         `\
+<ul>
+<li>
 <div class="test">
 <p>content</p>
 </div>
+</li>
+</ul>
 <p>text</p>
 `,
       ],
       [
         `\
- ::: test
- content
+- ::: test
+  content
 text
- :::
+:::
 `,
 
         `\
+<ul>
+<li>
 <div class="test">
 <p>content</p>
 </div>
+</li>
+</ul>
 <p>text
 :::</p>
 `,

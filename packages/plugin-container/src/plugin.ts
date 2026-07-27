@@ -57,11 +57,8 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
-    while (pos <= currentLineMax) {
+    for (; pos <= currentLineMax; pos++)
       if (marker[(pos - currentLineStart) % markerLength] !== state.src[pos]) break;
-
-      pos++;
-    }
 
     const markerCount = Math.floor((pos - currentLineStart) / markerLength);
 
@@ -79,6 +76,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
 
     let nextLine = startLine + 1;
     let autoClosed = false;
+    let nestedCount = 0;
 
     // Search for the end of the block
     for (
@@ -92,50 +90,56 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextLineMax = state.eMarks[nextLine];
 
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < state.blkIndent) {
         // non-empty line with negative indent should stop the list:
         // - :::
         //  test
         break;
       }
 
-      if (
-        // closing fence should be indented same as opening one
-        state.sCount[nextLine] === currentLineIndent &&
-        // match start
-        markerStart === state.src[nextLineStart]
-      ) {
-        // check rest of marker
-        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
-          if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos]) break;
+      if (markerStart !== state.src[nextLineStart]) continue;
 
-        // closing code fence must be at least as long as the opening one
-        if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {
-          // make sure tail has spaces only
-          pos -= (pos - nextLineStart) % markerLength;
-          pos = state.skipSpaces(pos);
+      // closing fence should be indented less than 4 spaces
+      if (state.sCount[nextLine] - state.blkIndent >= 4) continue;
 
-          if (pos >= nextLineMax) {
-            // found!
-            autoClosed = true;
-            break;
-          }
-        }
+      // check rest of marker
+      for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
+        if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos]) break;
+
+      const nextMarkerCount = Math.floor((pos - nextLineStart) / markerLength);
+      if (nextMarkerCount < MIN_MARKER_NUM) continue;
+
+      pos -= (pos - nextLineStart) % markerLength;
+
+      if (state.skipSpaces(pos) < nextLineMax) {
+        // marker with params opens a nested container instead of closing this one
+        if (validate(state.src.slice(pos, nextLineMax), marker.repeat(nextMarkerCount)))
+          nestedCount++;
+        continue;
       }
+
+      if (
+        // closing code fence must be at least as long as the opening one
+        nextMarkerCount >= markerCount &&
+        // a closer with a different indent can only close this container when no nested one claims it
+        (state.sCount[nextLine] === currentLineIndent || !nestedCount)
+      ) {
+        // found!
+        autoClosed = true;
+        break;
+      }
+
+      if (nestedCount) nestedCount--;
     }
 
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
-    const oldBlkIndent = state.blkIndent;
 
     // @ts-expect-error: We are creating a new type called "container"
     state.parentType = "container";
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;
-
-    // this will update the block indent
-    state.blkIndent = currentLineIndent;
 
     const openToken = state.push(`container_${name}_open`, "div", 1);
 
@@ -153,7 +157,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
 
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
-    state.blkIndent = oldBlkIndent;
     state.line = nextLine + (autoClosed ? 1 : 0);
 
     return true;
