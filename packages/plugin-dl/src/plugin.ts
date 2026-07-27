@@ -20,13 +20,8 @@ const checkAndSkipMarker = (state: StateBlock, line: number): number => {
 
   const pos = state.skipSpaces(start);
 
-  if (
-    // require space after ":"
-    start === pos ||
-    // no empty definitions, e.g. "  : "
-    pos >= max
-  )
-    return -1;
+  // require space after marker if there is inline content
+  if (start < max && start === pos) return -1;
 
   return start;
 };
