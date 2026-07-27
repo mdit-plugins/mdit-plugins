@@ -57,6 +57,10 @@ export const createBlockEndRule = (md: MarkdownIt, options: DelimiterConfig): At
     return -1;
   };
 
+  // Captured by the children test and reused by the transform, which always
+  // runs right after a match, to avoid scanning the children twice
+  let endOfBlockChildIndex = -1;
+
   /** End of {.block} */
   return defineAttrRule({
     name: "end of block",
@@ -65,16 +69,17 @@ export const createBlockEndRule = (md: MarkdownIt, options: DelimiterConfig): At
         shift: 0,
         type: "inline",
         children: (children): DelimiterRange | false => {
-          const childIndex = findEndOfBlockChild(children);
+          endOfBlockChildIndex = findEndOfBlockChild(children);
 
-          return childIndex === -1 ? false : endDelimiterChecker(children[childIndex].content);
+          return endOfBlockChildIndex === -1
+            ? false
+            : endDelimiterChecker(children[endOfBlockChildIndex].content);
         },
       },
     ],
     transform: (tokens, index, _, range): void => {
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      const children = tokens[index].children!;
-      const token = children[findEndOfBlockChild(children)];
+      const token = tokens[index].children![endOfBlockChildIndex];
       const attrStartIndex = range[0] - options.left.length;
       const { content } = token;
       const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
