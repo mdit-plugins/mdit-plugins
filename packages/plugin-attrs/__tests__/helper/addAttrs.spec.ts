@@ -2,6 +2,7 @@ import Token from "markdown-it/lib/token.mjs";
 import { describe, expect, it } from "vitest";
 
 import { addAttrs } from "../../src/helper/addAttrs.js";
+import { normalizeAllowed } from "../../src/helper/normalizeAllowed.js";
 import type { DelimiterRange } from "../../src/rules/types.js";
 
 describe(addAttrs, () => {
@@ -9,9 +10,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{.test-class}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("class")).toBe("test-class");
   });
@@ -23,9 +23,8 @@ describe(addAttrs, () => {
 
     const content = "{.new-class}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("class")).toBe("existing-class new-class");
   });
@@ -34,9 +33,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{#test-id}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("id")).toBe("test-id");
   });
@@ -45,9 +43,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{..module-name}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("css-module")).toBe("module-name");
   });
@@ -56,9 +53,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{data-test=value}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("data-test")).toBe("value");
   });
@@ -67,9 +63,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = '{data-test="complex value"}';
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("data-test")).toBe("complex value");
   });
@@ -78,9 +73,8 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{.test-class #test-id data-attr=test-value}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, null);
 
     expect(token.attrGet("class")).toBe("test-class");
     expect(token.attrGet("id")).toBe("test-id");
@@ -91,9 +85,9 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{.test-class #test-id data-attr=test-value}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = ["class", "id"];
+    const filter = normalizeAllowed(["class", "id"]);
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, filter);
 
     expect(token.attrGet("class")).toBe("test-class");
     expect(token.attrGet("id")).toBe("test-id");
@@ -104,9 +98,9 @@ describe(addAttrs, () => {
     const token = new Token("p", "p", 1);
     const content = "{.test-class #test-id data-attr=test-value}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: (string | RegExp)[] = [/^data-/];
+    const filter = normalizeAllowed([/^data-/]);
 
-    addAttrs(token, content, range, allowed);
+    addAttrs(token, content, range, filter);
 
     expect(token.attrGet("class")).toBeNull();
     expect(token.attrGet("id")).toBeNull();
@@ -116,11 +110,10 @@ describe(addAttrs, () => {
   it("should do nothing if token is null", () => {
     const content = "{.test-class}";
     const range: DelimiterRange = [1, content.length - 1];
-    const allowed: string[] = [];
 
     // Should not throw and do nothing
     expect(() => {
-      addAttrs(null, content, range, allowed);
+      addAttrs(null, content, range, null);
     }).not.toThrow();
   });
 });

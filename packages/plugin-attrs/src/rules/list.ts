@@ -7,7 +7,7 @@ import { defineAttrRule } from "./types.js";
 
 export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
-  const allowed = options.allowed;
+  const filter = options.filter;
 
   return [
     /** - Item {.a} */
@@ -50,7 +50,7 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
           listOpenIndex--;
 
         // Apply attributes to the list opening token
-        addAttrs(tokens[listOpenIndex - 1], token.content, range, allowed);
+        addAttrs(tokens[listOpenIndex - 1], token.content, range, filter);
 
         // Remove the attribute tokens from children
         tokens[index].children = childTokens.slice(0, -2);
@@ -93,7 +93,7 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
         const openingToken = getMatchingOpeningToken(tokens, index);
 
         // Apply attributes to the opening token
-        addAttrs(openingToken, token.content, range, allowed);
+        addAttrs(openingToken, token.content, range, filter);
 
         // Remove the paragraph tokens containing the attributes
         tokens.splice(index + 1, 3);
@@ -128,7 +128,7 @@ export const createListRules = (md: MarkdownIt, options: DelimiterConfig): AttrR
         const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
         // Apply attributes to the list item opening token
-        addAttrs(tokens[index - 2], content, range, allowed);
+        addAttrs(tokens[index - 2], content, range, filter);
 
         // Remove attribute syntax from content
         token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);

@@ -2,16 +2,17 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { DelimiterRange } from "../rules/types.js";
 import { getAttrs } from "./getAttrs.js";
+import type { AttrFilter } from "./types.js";
 
 export const addAttrs = (
   token: Token | null,
   content: string,
   range: DelimiterRange,
-  allowed: (string | RegExp)[],
+  filter: AttrFilter | null,
 ): void => {
   if (!token) return;
 
-  getAttrs(content, range, allowed).forEach(([key, value]) => {
+  getAttrs(content, range, filter).forEach(([key, value]) => {
     switch (key) {
       case "class": {
         token.attrJoin("class", value);

@@ -3,5 +3,6 @@ export * from "./constants.js";
 export * from "./getAttrs.js";
 export * from "./getDelimiterChecker.js";
 export * from "./getMatchingOpeningToken.js";
+export * from "./normalizeAllowed.js";
 export * from "./testRule.js";
 export type * from "./types.js";

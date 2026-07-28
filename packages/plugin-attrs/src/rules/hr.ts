@@ -64,7 +64,7 @@ export const createHrRule = (md: MarkdownIt, options: DelimiterConfig): AttrRule
       token.nesting = 0;
 
       // Apply attributes to the hr token
-      addAttrs(token, content, range, options.allowed);
+      addAttrs(token, content, range, options.filter);
       token.markup = content;
 
       // Remove the inline and closing paragraph tokens

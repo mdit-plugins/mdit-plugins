@@ -10,7 +10,7 @@ import { defineAttrRule } from "./types.js";
 // standard list rules nor the end-of-block rule can target the dd or dl
 export const createDlRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
-  const allowed = options.allowed;
+  const filter = options.filter;
 
   return [
     /** : Definition \n {.a} */
@@ -49,7 +49,7 @@ export const createDlRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
         while (tokens[dlOpenIndex - 1].type !== "dl_open") dlOpenIndex--;
 
         // Apply attributes to the definition list opening token
-        addAttrs(tokens[dlOpenIndex - 1], token.content, range, allowed);
+        addAttrs(tokens[dlOpenIndex - 1], token.content, range, filter);
 
         // Remove the attribute tokens from children
         tokens[index].children = childTokens.slice(0, -2);
@@ -84,7 +84,7 @@ export const createDlRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
         const openingToken = getMatchingOpeningToken(tokens, index);
 
         // Apply attributes to the definition list opening token
-        addAttrs(openingToken, token.content, range, allowed);
+        addAttrs(openingToken, token.content, range, filter);
 
         // Remove the paragraph tokens containing the attributes
         tokens.splice(index + 1, 3);
@@ -121,7 +121,7 @@ export const createDlRules = (md: MarkdownIt, options: DelimiterConfig): AttrRul
 
         // Apply attributes to the dd opening token - the end-of-block rule
         // cannot: its target is the paragraph, which is hidden in tight lists
-        addAttrs(tokens[index - 2], content, range, allowed);
+        addAttrs(tokens[index - 2], content, range, filter);
 
         // Remove attribute syntax from content
         token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);

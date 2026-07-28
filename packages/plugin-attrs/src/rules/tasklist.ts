@@ -10,7 +10,7 @@ import { defineAttrRule } from "./types.js";
 // text from the standard list rules
 export const createTasklistRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
-  const allowed = options.allowed;
+  const filter = options.filter;
 
   return [
     /** - Task \n {.a} */
@@ -58,7 +58,7 @@ export const createTasklistRules = (md: MarkdownIt, options: DelimiterConfig): A
           listOpenIndex--;
 
         // Apply attributes to the list opening token
-        addAttrs(tokens[listOpenIndex - 1], token.content, range, allowed);
+        addAttrs(tokens[listOpenIndex - 1], token.content, range, filter);
 
         // Remove the attribute tokens from inside the label
         childTokens.splice(childIndex - 2, 2);
@@ -98,7 +98,7 @@ export const createTasklistRules = (md: MarkdownIt, options: DelimiterConfig): A
         const hasTrailingSpace = isSpace(content.charCodeAt(attrStartIndex - 1));
 
         // Apply attributes to the list item opening token
-        addAttrs(tokens[index - 2], content, range, allowed);
+        addAttrs(tokens[index - 2], content, range, filter);
 
         // Remove attribute syntax from content
         token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);

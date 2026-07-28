@@ -40,7 +40,7 @@ export const createSoftBreakRule = (options: DelimiterConfig): AttrRule =>
         getMatchingOpeningToken(tokens, closingTokenIndex),
         token.content,
         range,
-        options.allowed,
+        options.filter,
       );
 
       // Remove the softbreak and attribute tokens

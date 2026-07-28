@@ -35,7 +35,7 @@ export const createBlockInfoRule = (md: MarkdownIt, options: DelimiterConfig): A
       const hasTrailingSpace = isSpace(info.charCodeAt(attrStartIndex - 1));
 
       // Apply attributes to the current token
-      addAttrs(token, info, range, options.allowed);
+      addAttrs(token, info, range, options.filter);
 
       // Remove the attribute syntax from info
       token.info = info.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);
