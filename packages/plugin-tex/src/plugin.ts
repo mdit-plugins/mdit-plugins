@@ -4,6 +4,7 @@ import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -184,6 +185,16 @@ const createBracketInlineTexRule = (): RuleInline => (state, silent) => {
   return true;
 };
 
+// Like state.skipSpacesBack, but skips markdown-it's Unicode whitespace set (e.g. NBSP)
+const skipWhitespaceBack = (state: StateBlock, max: number, min: number): number => {
+  const isWhiteSpace = state.md.utils.isWhiteSpace;
+  let pos = max;
+
+  while (pos > min && isWhiteSpace(state.src.charCodeAt(pos - 1))) pos--;
+
+  return pos;
+};
+
 /*
  * Parse block math with dollar signs: $$...$$
  */
@@ -196,7 +207,7 @@ const dollarBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (silent) return true;
 
-  let contentEnd = state.skipSpacesBack(end, start);
+  let contentEnd = skipWhitespaceBack(state, end, start);
   let pos = start + 2;
   let firstLine: string;
   let found = false;
@@ -227,7 +238,7 @@ const dollarBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
     if (pos < end && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    contentEnd = state.skipSpacesBack(end, pos);
+    contentEnd = skipWhitespaceBack(state, end, pos);
 
     if (
       contentEnd - pos >= 2 &&
@@ -266,7 +277,7 @@ const bracketBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (silent) return true;
 
-  let contentEnd = state.skipSpacesBack(end, start);
+  let contentEnd = skipWhitespaceBack(state, end, start);
   let pos = start + 2;
   let firstLine: string;
   let found = false;
@@ -297,7 +308,7 @@ const bracketBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
     if (pos < end && state.tShift[current] < state.blkIndent) break;
 
     // found end marker
-    contentEnd = state.skipSpacesBack(end, pos);
+    contentEnd = skipWhitespaceBack(state, end, pos);
 
     if (
       contentEnd - pos >= 2 &&
