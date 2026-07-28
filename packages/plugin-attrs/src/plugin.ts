@@ -63,9 +63,9 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
 
   md.core.ruler.before("linkify", "attrs", attrsRule);
 
-  // Place fence attributes on <pre> instead of <code>, but only when enabled
-  // and no custom fence renderer is already present.
-  if (fenceAttrsOnPre) {
+  // Place fence attributes on <pre> instead of <code>, but only when enabled,
+  // the fence rule is active, and no custom fence renderer is already present.
+  if (fenceAttrsOnPre && rules.some(({ name }) => name === "code-block")) {
     const defaultFence = new MarkdownIt().renderer.rules.fence;
     const currentFence = md.renderer.rules.fence;
     const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence;
