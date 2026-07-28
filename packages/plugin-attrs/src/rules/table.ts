@@ -185,7 +185,11 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
 
         const tbodyOpenToken: TokenWithColumnCount = tokens[tbodyOpenIndex];
 
-        // meta is missing when another plugin produced a headerless table (no thead)
+        // oxlint-disable-next-line no-warning-comments
+        // FIXME: this is a workaround for markdown-it-multimd-table ONLY, which fails to
+        // produce markdown-it compatible tokens without columnCount
+        // Ref: https://github.com/redbug312/markdown-it-multimd-table/issues/81
+        // const columnCount = tbodyOpenToken.meta!.columnCount!;
         const columnCount = tbodyOpenToken.meta?.columnCount ?? 0;
 
         if (columnCount < 2) return;
