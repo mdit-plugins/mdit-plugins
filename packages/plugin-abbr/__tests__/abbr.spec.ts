@@ -225,4 +225,44 @@ HTML is cool
 <p>HTML is cool</p>
 `);
   });
+
+  it("should handle hasOwnProperty safely", () => {
+    expect(
+      markdownIt.render(`\
+*[hasOwnProperty]: blah
+hasOwnProperty
+`),
+    ).toBe(`\
+<p><abbr title="blah">hasOwnProperty</abbr></p>
+`);
+  });
+
+  it("should handle edge cases: incomplete definitions", () => {
+    expect(
+      markdownIt.render(`\
+*[
+
+*[test
+
+*<test>
+`),
+    ).toBe(`\
+<p>*[</p>
+<p>*[test</p>
+<p>*&lt;test&gt;</p>
+`);
+  });
+
+  it("should handle edge cases: brackets and nested brackets", () => {
+    expect(
+      markdownIt.render(`\
+[] \\[\\]
+
+*[[]]: test
+`),
+    ).toBe(`\
+<p>[] []</p>
+<p>*[[]]: test</p>
+`);
+  });
 });
