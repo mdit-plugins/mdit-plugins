@@ -51,8 +51,10 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
       }
 
       // check prev token is paragraph open and next token is paragraph close
+      // hidden paragraphs (tight lists) render no figure tags, which would orphan the figcaption
       if (
         state.tokens[index - 1].type !== "paragraph_open" ||
+        state.tokens[index - 1].hidden ||
         state.tokens[index + 1].type !== "paragraph_close"
       )
         continue;
