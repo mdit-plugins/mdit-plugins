@@ -200,4 +200,29 @@ test <abbr title="foo bar"> </abbr> test <abbr title="foo bar"> </abbr> test</p>
 <p>(foo bar)</p>
 `);
   });
+
+  it("should trim non-space whitespace around titles", () => {
+    expect(
+      markdownIt.render(`\
+*[HTML]: \u00A0Hyper Text\u00A0
+
+HTML
+`),
+    ).toBe(`\
+<p><abbr title="Hyper Text">HTML</abbr></p>
+`);
+  });
+
+  it("should not process whitespace-only titles", () => {
+    expect(
+      markdownIt.render(`\
+*[HTML]: \u00A0
+
+HTML is cool
+`),
+    ).toBe(`\
+<p>*[HTML]: \u00A0</p>
+<p>HTML is cool</p>
+`);
+  });
 });

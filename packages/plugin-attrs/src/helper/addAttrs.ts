@@ -22,7 +22,7 @@ export const addAttrs = (
         break;
       }
       default: {
-        token.attrPush([key, value]);
+        token.attrSet(key, value);
       }
     }
   });

@@ -17,6 +17,7 @@ describe(ruby, () => {
         `{鬼門:き|もん}の{方角:ほう|がく}を{凝視:ぎょう|し}する。`,
         `<p><ruby>鬼<rt>き</rt>門<rt>もん</rt></ruby>の<ruby>方<rt>ほう</rt>角<rt>がく</rt></ruby>を<ruby>凝<rt>ぎょう</rt>視<rt>し</rt></ruby>する。</p>\n`,
       ],
+      [`{𩸽鮭:ほっけ|さけ}`, `<p><ruby>𩸽<rt>ほっけ</rt>鮭<rt>さけ</rt></ruby></p>\n`],
       [`{編集者:editor}`, `<p><ruby>編集者<rt>editor</rt></ruby></p>\n`],
       [`{editor:エディター}`, `<p><ruby>editor<rt>エディター</rt></ruby></p>\n`],
     ];
