@@ -61,9 +61,13 @@ test ![image](/logo.svg)
     );
   });
 
-  it("should handle empty caption", () => {
+  it("should not add figcaption when caption is empty", () => {
     expect(markdownIt.render("![](/logo.svg)")).toBe(
-      '<figure><img src="/logo.svg" alt="" tabindex="0"><figcaption></figcaption></figure>\n',
+      '<figure><img src="/logo.svg" alt="" tabindex="0"></figure>\n',
+    );
+
+    expect(markdownIt.render("[![](/logo.svg)](https://example.com)")).toBe(
+      '<figure><a href="https://example.com"><img src="/logo.svg" alt="" tabindex="0"></a></figure>\n',
     );
   });
 
