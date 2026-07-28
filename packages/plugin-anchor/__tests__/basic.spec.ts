@@ -3,6 +3,7 @@ import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { AnchorOptions } from "../src/options.js";
+import type { PermalinkGenerator } from "../src/permalink/types.js";
 import { anchor } from "../src/plugin.js";
 
 const md = (options?: AnchorOptions): MarkdownIt => MarkdownIt({ html: true }).use(anchor, options);
@@ -134,6 +135,26 @@ describe("getTokensText option", () => {
       }).render("# H1 ![image](link) `code` _em_"),
     ).toBe(
       '<h1 id="h1-image-em" tabindex="-1">H1 <img src="link" alt="image"> <code>code</code> <em>em</em></h1>\n',
+    );
+  });
+});
+
+describe("permalink option", () => {
+  it("should call custom permalink generators with defaults applied", () => {
+    const permalink: PermalinkGenerator = (_slug, anchorOpts, state, index): void => {
+      const { slugify } = anchorOpts;
+
+      state.tokens[index + 1].children?.push(
+        Object.assign(new state.Token("link_open", "a", 1), {
+          attrs: [["href", `#${slugify("Link Target")}`]],
+        }),
+        Object.assign(new state.Token("text", "", 0), { content: "#" }),
+        new state.Token("link_close", "a", -1),
+      );
+    };
+
+    expect(md({ level: 2, permalink }).render("# H1\n\n## H2")).toBe(
+      '<h1>H1</h1>\n<h2 id="h2" tabindex="-1">H2<a href="#link-target">#</a></h2>\n',
     );
   });
 });
