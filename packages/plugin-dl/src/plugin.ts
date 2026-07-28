@@ -11,6 +11,7 @@ const checkAndSkipMarker = (state: StateBlock, line: number): number => {
   const max = state.eMarks[line];
 
   if (start >= max) return -1;
+  if (state.sCount[line] - state.blkIndent >= 4) return -1;
 
   // Check bullet
   const marker = state.src.charCodeAt(start++);

@@ -152,6 +152,375 @@ Term 3
     });
   });
 
+  it("should detect marker indentation correctly", () => {
+    // Valid indents (0–3 spaces): marker is recognized as a definition
+    const validCases: [string, string][] = [
+      // 0-space indent
+      [
+        `\
+Term
+: Definition
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+`,
+      ],
+      // 1-space indent
+      [
+        `\
+Term
+ : Definition
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+`,
+      ],
+      // 2-space indent
+      [
+        `\
+Term
+  : Definition
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+`,
+      ],
+      // 3-space indent
+      [
+        `\
+Term
+   : Definition
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+`,
+      ],
+      // Mixed valid indents across terms
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+ : Def 2
+
+Term 3
+  : Def 3
+
+Term 4
+   : Def 4
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+<dt>Term 2</dt>
+<dd>Def 2</dd>
+<dt>Term 3</dt>
+<dd>Def 3</dd>
+<dt>Term 4</dt>
+<dd>Def 4</dd>
+</dl>
+`,
+      ],
+    ];
+
+    validCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+
+    // Invalid indents (4+ spaces): marker is NOT recognized, treated as paragraph
+    const invalidCases: [string, string][] = [
+      // 4-space indent
+      [
+        `\
+Term
+    : not a definition
+`,
+        `\
+<p>Term
+: not a definition</p>
+`,
+      ],
+      // 5-space indent
+      [
+        `\
+Term
+     : not a definition
+`,
+        `\
+<p>Term
+: not a definition</p>
+`,
+      ],
+      // 6-space indent
+      [
+        `\
+Term
+      : not a definition
+`,
+        `\
+<p>Term
+: not a definition</p>
+`,
+      ],
+      // Tab indent (counts as 4)
+      [
+        `\
+Term
+\t: not a definition
+`,
+        `\
+<p>Term
+: not a definition</p>
+`,
+      ],
+      // No space after marker
+      [
+        `\
+Term
+:not a definition
+`,
+        `\
+<p>Term
+:not a definition</p>
+`,
+      ],
+      // Wrong marker character
+      [
+        `\
+Term
+; not a definition
+`,
+        `\
+<p>Term
+; not a definition</p>
+`,
+      ],
+    ];
+
+    invalidCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+
+    // Mixed valid and invalid indents in the same input
+    const boundaryCases: [string, string][] = [
+      // 3-space valid, 4-space invalid
+      [
+        `\
+Term 1
+   : definition
+
+Term 2
+    : not a definition
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>definition</dd>
+</dl>
+<p>Term 2
+: not a definition</p>
+`,
+      ],
+      // Tab indent (counts as 4) is invalid
+      [
+        `\
+Term
+\t: def
+`,
+        `\
+<p>Term
+: def</p>
+`,
+      ],
+      // Indentation is relative to current block indent
+      [
+        `\
+- Term
+      : def
+`,
+        `\
+<ul>
+<li>Term
+: def</li>
+</ul>
+`,
+      ],
+    ];
+
+    boundaryCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+  });
+
+  it("should correctly split definition lists on invalid markers", () => {
+    const testCases: [string, string][] = [
+      // Term 2 with 4-space indent breaks the list → 2 separate dl + a paragraph
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+    : Wrong indent
+
+Term 3
+: Def 3
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+</dl>
+<p>Term 2
+: Wrong indent</p>
+<dl>
+<dt>Term 3</dt>
+<dd>Def 3</dd>
+</dl>
+`,
+      ],
+      // Term 2 with no space after marker breaks the list → 2 separate dl + a paragraph
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+:bad marker
+
+Term 3
+: Def 3
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+</dl>
+<p>Term 2
+:bad marker</p>
+<dl>
+<dt>Term 3</dt>
+<dd>Def 3</dd>
+</dl>
+`,
+      ],
+      // Term 1 and 3 have different indent depths (0 and 3), both are valid
+      [
+        `\
+Term 1
+: Def 1
+
+Term 2
+   : Def 2
+
+Term 3
+: Def 3
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>Def 1</dd>
+<dt>Term 2</dt>
+<dd>Def 2</dd>
+<dt>Term 3</dt>
+<dd>Def 3</dd>
+</dl>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+  });
+
+  it("should handle marker indentation relative to block context", () => {
+    const testCases: [string, string][] = [
+      // Inside a list: blkIndent is 2, so 6 spaces = 4 relative → not a dd
+      [
+        `\
+- Term
+      : not a definition
+`,
+        `\
+<ul>
+<li>Term
+: not a definition</li>
+</ul>
+`,
+      ],
+      // Inside a list: blkIndent is 2, so 5 spaces = 3 relative → valid dd
+      [
+        `\
+- Term
+     : definition
+`,
+        `\
+<ul>
+<li>
+<dl>
+<dt>Term</dt>
+<dd>definition</dd>
+</dl>
+</li>
+</ul>
+`,
+      ],
+      // Inside a blockquote: definition list is valid
+      [
+        `\
+> Term
+> : Definition
+`,
+        `\
+<blockquote>
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+</blockquote>
+`,
+      ],
+      // Inside a blockquote: lazy continuation is not a definition
+      [
+        `\
+> cherry
+> : keyboard company
+> pomegranate
+: tart fruit
+`,
+        `\
+<blockquote>
+<dl>
+<dt>cherry</dt>
+<dd>keyboard company
+pomegranate
+: tart fruit</dd>
+</dl>
+</blockquote>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+  });
+
   it("should handle complex content and nesting", () => {
     const testCases = [
       // Complex content in definitions
@@ -618,6 +987,17 @@ Term
 <p>Term</p>
 `,
       ],
+      // Term followed by two empty lines
+      [
+        `\
+Term
+
+
+`,
+        `\
+<p>Term</p>
+`,
+      ],
       // Term 2 followed by a DD that is less indented than blkIndent
       [
         `\
@@ -668,7 +1048,8 @@ Term 1
 Term 2
 : Def 2
 `,
-        `<dl>
+        `\
+<dl>
 <dt>Term 1</dt>
 <dd>Def 1</dd>
 <dt>Term 2</dt>
