@@ -200,4 +200,69 @@ test <abbr title="foo bar"> </abbr> test <abbr title="foo bar"> </abbr> test</p>
 <p>(foo bar)</p>
 `);
   });
+
+  it("should trim non-space whitespace around titles", () => {
+    expect(
+      markdownIt.render(`\
+*[HTML]: \u00A0Hyper Text\u00A0
+
+HTML
+`),
+    ).toBe(`\
+<p><abbr title="Hyper Text">HTML</abbr></p>
+`);
+  });
+
+  it("should not process whitespace-only titles", () => {
+    expect(
+      markdownIt.render(`\
+*[HTML]: \u00A0
+
+HTML is cool
+`),
+    ).toBe(`\
+<p>*[HTML]: \u00A0</p>
+<p>HTML is cool</p>
+`);
+  });
+
+  it("should handle hasOwnProperty safely", () => {
+    expect(
+      markdownIt.render(`\
+*[hasOwnProperty]: blah
+hasOwnProperty
+`),
+    ).toBe(`\
+<p><abbr title="blah">hasOwnProperty</abbr></p>
+`);
+  });
+
+  it("should handle edge cases: incomplete definitions", () => {
+    expect(
+      markdownIt.render(`\
+*[
+
+*[test
+
+*<test>
+`),
+    ).toBe(`\
+<p>*[</p>
+<p>*[test</p>
+<p>*&lt;test&gt;</p>
+`);
+  });
+
+  it("should handle edge cases: brackets and nested brackets", () => {
+    expect(
+      markdownIt.render(`\
+[] \\[\\]
+
+*[[]]: test
+`),
+    ).toBe(`\
+<p>[] []</p>
+<p>*[[]]: test</p>
+`);
+  });
 });

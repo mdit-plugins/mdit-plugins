@@ -61,9 +61,50 @@ test ![image](/logo.svg)
     );
   });
 
-  it("should handle empty caption", () => {
+  it("should not convert images in tight list items", () => {
+    expect(
+      markdownIt.render(`\
+- ![a](1.png "c1")
+- ![b](2.png "c2")
+`),
+    ).toBe(
+      `\
+<ul>
+<li><img src="1.png" alt="a" title="c1"></li>
+<li><img src="2.png" alt="b" title="c2"></li>
+</ul>
+`,
+    );
+  });
+
+  it("should convert images in loose list items", () => {
+    expect(
+      markdownIt.render(`\
+- ![a](1.png "c1")
+
+- ![b](2.png "c2")
+`),
+    ).toBe(
+      `\
+<ul>
+<li>
+<figure><img src="1.png" alt="a" tabindex="0"><figcaption>c1</figcaption></figure>
+</li>
+<li>
+<figure><img src="2.png" alt="b" tabindex="0"><figcaption>c2</figcaption></figure>
+</li>
+</ul>
+`,
+    );
+  });
+
+  it("should not add figcaption when caption is empty", () => {
     expect(markdownIt.render("![](/logo.svg)")).toBe(
-      '<figure><img src="/logo.svg" alt="" tabindex="0"><figcaption></figcaption></figure>\n',
+      '<figure><img src="/logo.svg" alt="" tabindex="0"></figure>\n',
+    );
+
+    expect(markdownIt.render("[![](/logo.svg)](https://example.com)")).toBe(
+      '<figure><a href="https://example.com"><img src="/logo.svg" alt="" tabindex="0"></a></figure>\n',
     );
   });
 

@@ -1,5 +1,7 @@
 import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
 
+import type { ResolvedAnchorOptions } from "../options.js";
+
 /**
  * Permalink render href function
  *
@@ -21,7 +23,7 @@ export type RenderAttrs = (slug: string, state: StateCore) => Record<string, str
  */
 export type PermalinkGenerator = (
   slug: string,
-  options: PermalinkOptions,
+  options: ResolvedAnchorOptions,
   state: StateCore,
   index: number,
 ) => void;

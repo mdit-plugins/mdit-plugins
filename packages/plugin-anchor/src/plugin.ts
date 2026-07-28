@@ -2,20 +2,30 @@ import type { PluginWithOptions } from "markdown-it";
 import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
-import type { AnchorOptions } from "./options.js";
+import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
 import { isLevelSelectedArray, isLevelSelectedNumber, uniqueSlug } from "./utils.js";
 
+const DEFAULTS = {
+  getTokensText: defaultGetTokensText,
+  level: 1,
+  slugify: defaultSlugify,
+  tabIndex: "-1",
+  uniqueSlugStartIndex: 1,
+};
+
 export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void => {
+  const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
+
   const {
-    level = 1,
-    slugify = defaultSlugify,
+    level,
+    slugify,
     slugifyWithState,
-    uniqueSlugStartIndex = 1,
-    tabIndex = "-1",
-    getTokensText = defaultGetTokensText,
+    uniqueSlugStartIndex,
+    tabIndex,
+    getTokensText,
     permalink,
     callback,
-  } = options;
+  } = resolvedOptions;
 
   md.core.ruler.push("anchor", (state: StateCore): void => {
     const slugs: Record<string, boolean> = {};
@@ -51,8 +61,7 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
 
       if (tabIndex !== false) token.attrSet("tabindex", `${tabIndex}`);
 
-      if (typeof permalink === "function")
-        permalink(slug, options as Record<string, unknown>, state, index);
+      if (typeof permalink === "function") permalink(slug, resolvedOptions, state, index);
 
       // A permalink renderer could modify the `tokens` array so
       // make sure to get the up-to-date index on each iteration.

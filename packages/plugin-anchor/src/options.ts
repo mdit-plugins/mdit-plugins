@@ -92,3 +92,13 @@ export interface AnchorOptions {
    */
   tabIndex?: string | number | false;
 }
+
+/**
+ * Anchor options with defaults applied, as received by permalink generators
+ *
+ * 应用默认值后的锚点选项，即永久链接生成器接收到的选项
+ */
+export type ResolvedAnchorOptions = AnchorOptions &
+  Required<
+    Pick<AnchorOptions, "getTokensText" | "level" | "slugify" | "tabIndex" | "uniqueSlugStartIndex">
+  >;
