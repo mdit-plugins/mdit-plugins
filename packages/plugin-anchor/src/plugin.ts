@@ -5,28 +5,27 @@ import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
 import { isLevelSelectedArray, isLevelSelectedNumber, uniqueSlug } from "./utils.js";
 
-export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void => {
-  const {
-    level = 1,
-    slugify = defaultSlugify,
-    slugifyWithState,
-    uniqueSlugStartIndex = 1,
-    tabIndex = "-1",
-    getTokensText = defaultGetTokensText,
-    permalink,
-    callback,
-  } = options;
+const DEFAULTS = {
+  getTokensText: defaultGetTokensText,
+  level: 1,
+  slugify: defaultSlugify,
+  tabIndex: "-1",
+  uniqueSlugStartIndex: 1,
+};
 
-  // Custom permalink generators receive the options with defaults applied,
-  // matching markdown-it-anchor
-  const resolvedOptions: ResolvedAnchorOptions = {
-    ...options,
+export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void => {
+  const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
+
+  const {
     level,
     slugify,
+    slugifyWithState,
     uniqueSlugStartIndex,
     tabIndex,
     getTokensText,
-  };
+    permalink,
+    callback,
+  } = resolvedOptions;
 
   md.core.ruler.push("anchor", (state: StateCore): void => {
     const slugs: Record<string, boolean> = {};
