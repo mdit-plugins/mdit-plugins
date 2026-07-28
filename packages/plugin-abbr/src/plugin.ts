@@ -54,10 +54,8 @@ const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, s
 
   const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$<char>");
 
-  pos = labelEnd + 2;
-  const titleStart = state.skipSpaces(pos);
-  const titleEnd = state.skipSpacesBack(max, titleStart);
-  const title = state.src.slice(titleStart, titleEnd);
+  // .trim() strips all JS whitespace (not just space/tab), matching markdown-it-abbr
+  const title = state.src.slice(labelEnd + 2, max).trim();
 
   if (label.length === 0 || title.length === 0) return false;
 
