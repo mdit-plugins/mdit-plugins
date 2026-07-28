@@ -17,6 +17,6 @@ npm i -D @mdit/plugin-abbr
 yarn add -D @mdit/plugin-abbr
 ```
 
-## Credits
+## Acknowledgements / 鸣谢
 
-- Rewritten from [markdown-it-abbr](https://github.com/markdown-it/markdown-it-abbr)
+Rewritten from [markdown-it-abbr](https://github.com/markdown-it/markdown-it-abbr) by [Vitaly Puzrin](https://github.com/puzrin) and [Alex Kocharin](https://github.com/rlidwka).
