@@ -226,7 +226,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("autolinks", () => {
-    const md = markdownit({ linkify: true }).use(fullEmoji);
+    const md = markdownit({ linkify: true }).use(lightEmoji);
 
     it("disallow shortcuts inside autolinks", () => {
       expect(md.render("<http://www.example.org/wiki/Special:Preferences> :P")).toBe(
