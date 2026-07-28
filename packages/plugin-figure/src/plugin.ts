@@ -75,15 +75,16 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
 
       const figCaption = getCaption(image);
 
-      token.children.push(new state.Token("figcaption_open", "figcaption", 1));
+      if (figCaption) {
+        const [captionContent] = md.parseInline(figCaption, state.env);
 
-      const [captionContent] = md.parseInline(figCaption, state.env);
-      const children = captionContent.children;
-
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (children?.length) token.children.push(...children);
-
-      token.children.push(new state.Token("figcaption_close", "figcaption", -1));
+        token.children.push(
+          new state.Token("figcaption_open", "figcaption", 1),
+          // oxlint-disable-next-line typescript/no-non-null-assertion
+          ...captionContent.children!,
+          new state.Token("figcaption_close", "figcaption", -1),
+        );
+      }
 
       if (options.focusable !== false) image.attrPush(["tabindex", "0"]);
     }

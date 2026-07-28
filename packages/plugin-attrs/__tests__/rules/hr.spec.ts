@@ -43,6 +43,14 @@ const createDualRuleTests = (
         });
       });
 
+      it(replaceDelimiters("should not convert when text follows the markers", options), () => {
+        const testCases = ["--- hello {#id}", "---abc {#id}", "---  {#id}"];
+
+        testCases.forEach((src) => {
+          expect(markdownIt.render(replaceDelimiters(src, options))).not.toContain("hr");
+        });
+      });
+
       it("should support multiple classes for <hr>", () => {
         const src = "--- {.a .b}";
         const expected = '<hr class="a b">\n';
@@ -77,3 +85,23 @@ createDualRuleTests(
   },
   "with [[ ]] delimiters",
 );
+
+describe("hr detection", () => {
+  const markdownIt = MarkdownIt().use(attrs);
+
+  it("should keep paragraph text between the markers and the attrs", () => {
+    const testCases = [
+      ["--- hello {#id}", '<p id="id">--- hello</p>\n'],
+      ["---abc {#id}", '<p id="id">---abc</p>\n'],
+      ["---  {#id}", '<p id="id">--- </p>\n'],
+    ];
+
+    testCases.forEach(([src, expected]) => {
+      expect(markdownIt.render(src)).toBe(expected);
+    });
+  });
+
+  it("should not convert mixed marker paragraphs", () => {
+    expect(markdownIt.render("-*-{#id}")).toBe('<p id="id">-*-</p>\n');
+  });
+});

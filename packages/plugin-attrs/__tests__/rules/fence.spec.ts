@@ -36,6 +36,13 @@ const createDualRuleTests = (
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
+      it(replaceDelimiters("should keep the last value of repeated keys", options), () => {
+        const src = "```js {#a #b}\ncode\n```";
+        const expected = '<pre><code id="b" class="language-js">code\n</code></pre>\n';
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
+
       it("should handle VuePress line numbers in code blocks", () => {
         // VuePress line numbers only work with {} delimiters
         // oxlint-disable-next-line vitest/no-conditional-in-test
