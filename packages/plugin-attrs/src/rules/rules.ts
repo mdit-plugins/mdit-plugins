@@ -32,7 +32,7 @@ const EXTENSION_RULES = new Set<MarkdownItAttrRuleName>(["dl", "tasklist"]);
 
 export const createRules = (
   md: MarkdownIt,
-  options: Required<MarkdownItAttrsOptions>,
+  options: Required<Omit<MarkdownItAttrsOptions, "fenceAttrsOnPre">>,
 ): AttrRule[] => {
   const enabledRules =
     // disable

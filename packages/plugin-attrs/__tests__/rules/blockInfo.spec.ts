@@ -77,7 +77,7 @@ describe("blockInfo rule scope", () => {
       '<div class="custom warning">\n<p>content</p>\n</div>\n',
     );
     expect(markdownIt.render("```python {.c}\nx\n```")).toBe(
-      '<pre><code class="c language-python">x\n</code></pre>\n',
+      '<pre class="c"><code class="language-python">x\n</code></pre>\n',
     );
   });
 
