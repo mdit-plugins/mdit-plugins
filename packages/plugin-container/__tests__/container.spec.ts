@@ -232,6 +232,87 @@ content
     });
   });
 
+  it("content indent should recalculate from container", () => {
+    const testCases = [
+      [
+        `\
+  ::: test
+   not a code block
+
+    code block
+  :::
+`,
+        `\
+<div class="test">
+<p>not a code block</p>
+<p>code block</p>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("list indentation quirks", () => {
+    const testCases = [
+      [
+        `\
+ -  ::: test
+    xxx
+    yyy
+   :::
+
+ -  ::: test
+    xxx
+   yyy
+   :::
+`,
+        `\
+<ul>
+<li>
+<div class="test">
+<p>xxx
+yyy</p>
+</div>
+</li>
+</ul>
+<p>:::</p>
+<ul>
+<li>
+<div class="test">
+<p>xxx</p>
+</div>
+</li>
+</ul>
+<p>yyy
+:::</p>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
+  it("multi-char marker", () => {
+    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
+      name: "fox",
+      marker: "foo",
+      validate: (params) => params === "fox",
+    });
+
+    const tokens = markdownItMarker.parse("foofoofoofox\ncontent\nfoofoofoofoo\n", {});
+
+    expect(tokens[0].markup).toBe("foofoofoo");
+    expect(tokens[0].info).toBe("fox");
+    // close token uses the same markup as opening (stricter than original which used actual closing line content)
+    expect(tokens[4].markup).toBe("foofoofoo");
+  });
+
   it("should not break code fence", () => {
     const testCases = [
       [
