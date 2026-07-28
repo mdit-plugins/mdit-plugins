@@ -107,6 +107,14 @@ type MarkdownItAttrRuleName =
 - Default: `[]`
 - Details: Allowed attributes. An empty list means allowing all attributes.
 
+### fenceAttrsOnPre
+
+- Type: `boolean`
+- Default: `true`
+- Details: Place fence attributes on `<pre>` instead of `<code>`.
+
+  When enabled, attributes on fenced code blocks (e.g. ` ```js {data-file="index.js"} `) are moved from `<code>` to the outer `<pre>` tag. This is skipped when a custom fence renderer is already installed.
+
 ### left
 
 - Type: `string`

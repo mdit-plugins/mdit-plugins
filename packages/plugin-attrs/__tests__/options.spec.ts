@@ -24,7 +24,9 @@ describe("rule settings", () => {
     // Code block should work (fence rule enabled)
     const codeBlockSrc = "```python {.highlight}\nprint('test')\n```";
 
-    expect(markdownIt.render(codeBlockSrc)).toContain('class="highlight language-python"');
+    expect(markdownIt.render(codeBlockSrc)).toContain(
+      'class="highlight"><code class="language-python"',
+    );
 
     // Inline attributes should NOT work (inline rule disabled)
     const inlineSrc = "text {.class}";
@@ -40,7 +42,9 @@ describe("rule settings", () => {
     // Should still work for valid rules
     const codeBlockSrc = "```python {.highlight}\nprint('test')\n```";
 
-    expect(markdownIt.render(codeBlockSrc)).toContain('class="highlight language-python"');
+    expect(markdownIt.render(codeBlockSrc)).toContain(
+      'class="highlight"><code class="language-python"',
+    );
   });
 
   it("should handle empty rule array", () => {

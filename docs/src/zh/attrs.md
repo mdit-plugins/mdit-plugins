@@ -105,6 +105,14 @@ type MarkdownItAttrRuleName =
 - 默认值：`[]`
 - 详情：允许的属性。设置空数组意味着允许所有属性。
 
+### fenceAttrsOnPre
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：将代码块属性放在 `<pre>` 上而非 `<code>` 上。
+
+  启用后，代码块的属性（如 ` ```js {data-file="index.js"} `）会从 `<code>` 移到外层 `<pre>` 标签。若已安装自定义代码块渲染器则跳过。
+
 ### left
 
 - 类型：`string`
