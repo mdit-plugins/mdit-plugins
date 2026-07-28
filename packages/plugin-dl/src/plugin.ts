@@ -30,16 +30,21 @@ const checkAndSkipMarker = (state: StateBlock, line: number): number => {
   return start;
 };
 
-const markTightParagraphs = (state: StateBlock, index: number): void => {
-  const level = state.level + 2;
+const markTightParagraph = (state: StateBlock, start: number, end: number, level: number): void => {
+  let block = -1;
 
-  for (let i = index + 2, length = state.tokens.length - 2; i < length; i++) {
-    if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
-      state.tokens[i + 2].hidden = true;
-      state.tokens[i].hidden = true;
-      i += 2;
-    }
+  for (let i = start; i < end; i++) {
+    const token = state.tokens[i];
+
+    if (token.level !== level || token.nesting < 0) continue;
+    if (block >= 0) return;
+    block = i;
   }
+
+  if (block < 0 || state.tokens[block].type !== "paragraph_open") return;
+
+  state.tokens[block + 2].hidden = true;
+  state.tokens[block].hidden = true;
 };
 
 const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
@@ -54,11 +59,11 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   if (nextLine >= endLine) return false;
 
-  let hasSkippedEmptyLines = false;
+  let termIsTight = true;
 
   if (state.isEmpty(nextLine)) {
     nextLine++;
-    hasSkippedEmptyLines = true;
+    termIsTight = false;
     if (nextLine >= endLine) return false;
   }
 
@@ -69,8 +74,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
   if (contentStart < 0) return false;
 
   // Start list
-  const listTokenIndex = state.tokens.length;
-
   const dlOpenToken = state.push("dl_open", "dl", 1);
   const listLines: [start: number, end: number] = [startLine, 0];
 
@@ -82,7 +85,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
   let dtLine = startLine;
   let ddLine = nextLine;
-  let tight = !hasSkippedEmptyLines;
 
   // One definition list can contain multiple DTs,
   // and one DT can be followed by multiple DDs.
@@ -92,8 +94,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
   //
   // oxlint-disable-next-line no-labels
   OUTER: for (;;) {
-    let prevEmptyEnd = false;
-
     const dtOpenToken = state.push("dt_open", "dt", 1);
 
     dtOpenToken.map = [dtLine, dtLine];
@@ -107,6 +107,8 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
     state.push("dt_close", "dt", -1);
 
     for (;;) {
+      const itemTokenIndex = state.tokens.length;
+
       const ddOpenToken = state.push("dd_open", "dd", 1);
       const itemLines: [start: number, end: number] = [nextLine, 0];
 
@@ -145,12 +147,8 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       // @ts-expect-error: An internal param is used
       state.md.block.tokenize(state, ddLine, endLine, true);
 
-      // If any of list item is tight, mark list as tight
-      if (!state.tight || prevEmptyEnd) tight = false;
-
-      // Item become loose if finish with empty line,
-      // but we should filter last element, because it means list finish
-      prevEmptyEnd = state.line - ddLine > 1 && state.isEmpty(state.line - 1);
+      if (termIsTight)
+        markTightParagraph(state, itemTokenIndex, state.tokens.length, ddOpenToken.level + 1);
 
       state.tShift[ddLine] = oldTShift;
       state.sCount[ddLine] = oldSCount;
@@ -184,13 +182,17 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
 
     if (ddLine >= endLine) break;
 
-    if (state.isEmpty(ddLine)) ddLine++;
+    const skippedEmptyLine = state.isEmpty(ddLine);
+
+    if (skippedEmptyLine) ddLine++;
 
     if (ddLine >= endLine || state.sCount[ddLine] < state.blkIndent) break;
 
     contentStart = checkAndSkipMarker(state, ddLine);
 
     if (contentStart < 0) break;
+
+    termIsTight = !skippedEmptyLine;
 
     // go to the next loop iteration:
     // insert DT and DD tags and repeat checking
@@ -202,9 +204,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
   listLines[1] = nextLine;
 
   state.line = nextLine;
-
-  // mark paragraphs tight if needed
-  if (tight) markTightParagraphs(state, listTokenIndex);
 
   return true;
 };

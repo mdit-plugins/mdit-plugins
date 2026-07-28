@@ -182,9 +182,7 @@ Complex Term
 <p>bar</p>
 </blockquote>
 </dd>
-<dd>
-<p>baz</p>
-</dd>
+<dd>baz</dd>
 <dt>Complex Term</dt>
 <dd>
 <p>Definition with list:</p>
@@ -288,6 +286,7 @@ Term 2
 </dl>
 `,
       ],
+      // Blank lines between definitions do not make terms loose
       [
         `\
 Term 1
@@ -302,19 +301,52 @@ Term 2
         `\
 <dl>
 <dt>Term 1</dt>
-<dd>
-<p>foo</p>
-</dd>
-<dd>
-<p>bar</p>
-</dd>
+<dd>foo</dd>
+<dd>bar</dd>
+<dt>Term 2</dt>
+<dd>foo</dd>
+<dd>bar</dd>
+</dl>
+`,
+      ],
+      // Blank line after a term makes only its own definitions loose
+      [
+        `\
+Term 1
+: foo
+
+Term 2
+
+: bar
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>foo</dd>
 <dt>Term 2</dt>
 <dd>
-<p>foo</p>
-</dd>
-<dd>
 <p>bar</p>
 </dd>
+</dl>
+`,
+      ],
+      [
+        `\
+Term 1
+
+: foo
+
+Term 2
+: bar
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>
+<p>foo</p>
+</dd>
+<dt>Term 2</dt>
+<dd>bar</dd>
 </dl>
 `,
       ],
@@ -351,28 +383,18 @@ Final Term
 <p>bar
 Term 2</p>
 </dd>
-<dd>
-<p>foo</p>
-</dd>
+<dd>foo</dd>
 <dt>Simple Term</dt>
-<dd>
-<p>Definition 1</p>
-</dd>
+<dd>Definition 1</dd>
 <dt>Another Term</dt>
 <dd>
 <p>Another definition</p>
 </dd>
 <dt>Mixed Term</dt>
-<dd>
-<p>Definition 1a</p>
-</dd>
-<dd>
-<p>Definition 1b</p>
-</dd>
+<dd>Definition 1a</dd>
+<dd>Definition 1b</dd>
 <dt>Final Term</dt>
-<dd>
-<p>Definition 2</p>
-</dd>
+<dd>Definition 2</dd>
 </dl>
 `,
       ],
@@ -670,6 +692,22 @@ Not a DD
 </dl>
 <p>Term 2
 Not a DD</p>
+`,
+      ],
+      // Definition containing only a reference produces no tokens
+      [
+        `\
+Term
+: [foo]: /url
+
+[foo]
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd></dd>
+</dl>
+<p><a href="/url">foo</a></p>
 `,
       ],
       // Marker followed by only spaces
