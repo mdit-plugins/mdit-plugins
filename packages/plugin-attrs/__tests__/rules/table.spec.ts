@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import multimdTable from "markdown-it-multimd-table";
 import { describe, expect, it } from "vitest";
 
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
@@ -672,3 +673,33 @@ createDualRuleTests(
   },
   "with [[ ]] delimiters",
 );
+
+describe("headerless tables", () => {
+  it("should support tables without thead", () => {
+    const markdownIt = MarkdownIt().use(multimdTable, { headerless: true }).use(attrs);
+
+    const src = `\
+| - | - |
+| a | b |
+| c | d |
+{a=b}
+`;
+
+    const expected = `\
+<table a="b">
+<tbody>
+<tr>
+<td>a</td>
+<td>b</td>
+</tr>
+<tr>
+<td>c</td>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+`;
+
+    expect(markdownIt.render(src)).toBe(expected);
+  });
+});
