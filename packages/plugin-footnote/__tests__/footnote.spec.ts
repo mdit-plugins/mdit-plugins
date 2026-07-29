@@ -163,7 +163,7 @@ note.]
     ---
 
 [^yyyyy]: foo
-    ---
+   ---
 `),
     ).toMatchSnapshot();
   });
