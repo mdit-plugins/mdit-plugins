@@ -18,7 +18,7 @@ interface TokenWithColumnCount extends Token {
 // oxlint-disable-next-line max-lines-per-function
 export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): AttrRule[] => {
   const isSpace = md.utils.isSpace;
-  const allowed = options.allowed;
+  const filter = options.filter;
 
   return [
     defineAttrRule({
@@ -52,7 +52,7 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
         const tableOpeningToken = getMatchingOpeningToken(tokens, index);
 
         // Apply attributes to the table opening token
-        addAttrs(tableOpeningToken, token.content, range, allowed);
+        addAttrs(tableOpeningToken, token.content, range, filter);
 
         // Remove the paragraph tokens containing the attributes
         tokens.splice(index + 1, 3);
@@ -92,7 +92,7 @@ export const createTableRules = (md: MarkdownIt, options: DelimiterConfig): Attr
         // Find last attribute syntax in the content
 
         // Apply attributes to the table cell token
-        addAttrs(cellOpenToken, content, range, allowed);
+        addAttrs(cellOpenToken, content, range, filter);
 
         // Remove attribute syntax from content
         token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);

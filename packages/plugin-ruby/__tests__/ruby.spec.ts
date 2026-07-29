@@ -91,7 +91,7 @@ describe(ruby, () => {
     const tests: [content: string, expected: string][] = [
       [`\\{ruby base:ruby text}`, `<p>{ruby base:ruby text}</p>\n`],
       [`{ruby base\\:ruby text}`, `<p>{ruby base:ruby text}</p>\n`],
-      [`{ruby base|ruby text\\}`, `<p>{ruby base|ruby text}</p>\n`],
+      [`{ruby base:ruby text\\}`, `<p>{ruby base:ruby text}</p>\n`],
     ];
 
     tests.forEach(([content, expected]) => {

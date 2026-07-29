@@ -29,29 +29,47 @@ const countPrecedingBackslashes = (src: string, pos: number, minPos = 0): number
 };
 
 /*
- * Test if potential opening or closing delimiter for dollar syntax
- * Assumes that there is a "$" at state.src[pos]
+ * Test if a character code is a word character or number
+ * Equivalent to regex \w which matches [a-zA-Z0-9_]
  */
-const isValidDollarDelim = (
-  state: StateInline,
-  pos: number,
-  allowInlineWithSpace: boolean,
-): { canOpen: boolean; canClose: boolean } => {
+const isWordCharacterOrNumber = (code: number): boolean =>
+  (code >= 48 && code <= 57) || // 0-9
+  (code >= 65 && code <= 90) || // A-Z
+  (code >= 97 && code <= 122) || // a-z
+  code === 95; // _
+
+/*
+ * Test if this position is a valid opening $ delimiter
+ * Checks word boundary for opening: prevChar must be whitespace,
+ * start-of-line, or non-word/non-number. Prevents `a$x$b` from parsing.
+ */
+const isDollarOpen = (state: StateInline, pos: number, allowInlineWithSpace: boolean): boolean => {
   const prevCharCode = state.src.charCodeAt(pos - 1);
   const nextCharCode = state.src.charCodeAt(pos + 1);
   const isSpace = state.md.utils.isSpace;
 
-  return {
-    canOpen: allowInlineWithSpace || !isSpace(nextCharCode),
+  return (
+    prevCharCode !== 36 /* $ */ &&
+    (pos === 0 || isSpace(prevCharCode) || !isWordCharacterOrNumber(prevCharCode)) &&
+    (allowInlineWithSpace || !isSpace(nextCharCode))
+  );
+};
 
-    /*
-     * Check non-whitespace conditions for opening and closing, and
-     * check that closing delimiter isn't followed by a number
-     */
-    canClose:
-      !((nextCharCode >= 48 /* 0 */ && nextCharCode <= 57) /* 9 */) &&
-      (allowInlineWithSpace || !isSpace(prevCharCode)),
-  };
+/*
+ * Test if this position is a valid closing $ delimiter
+ * Checks word boundary for closing: nextChar must be whitespace,
+ * end-of-line, or non-word/non-number. Prevents `$x$a` from parsing.
+ */
+const isDollarClose = (state: StateInline, pos: number, allowInlineWithSpace: boolean): boolean => {
+  const prevCharCode = state.src.charCodeAt(pos - 1);
+  const nextCharCode = state.src.charCodeAt(pos + 1);
+  const isSpace = state.md.utils.isSpace;
+
+  return (
+    nextCharCode !== 36 /* $ */ &&
+    (nextCharCode == null || isSpace(nextCharCode) || !isWordCharacterOrNumber(nextCharCode)) &&
+    (allowInlineWithSpace || !isSpace(prevCharCode))
+  );
 };
 
 /*
@@ -62,9 +80,7 @@ const createDollarInlineTexRule =
   (state, silent) => {
     if (state.src[state.pos] !== "$") return false;
 
-    let delimState = isValidDollarDelim(state, state.pos, allowInlineWithSpace);
-
-    if (!delimState.canOpen) {
+    if (!isDollarOpen(state, state.pos, allowInlineWithSpace)) {
       if (!silent) state.pending += "$";
 
       state.pos++;
@@ -114,9 +130,7 @@ const createDollarInlineTexRule =
     }
 
     // Check for valid closing delimiter
-    delimState = isValidDollarDelim(state, match, allowInlineWithSpace);
-
-    if (!delimState.canClose) {
+    if (!isDollarClose(state, match, allowInlineWithSpace)) {
       if (!silent) state.pending += "$";
 
       state.pos += 1;

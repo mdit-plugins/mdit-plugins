@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.0.1...%40mdit%2Fplugin-tex%401.0.2) (2026-07-29)
+
+### 🐛 Bug Fixes
+
+- **plugin-tex:** fix word boundary checks for dollar delimiters ([#612](https://github.com/mdit-plugins/mdit-plugins/issues/612)) ([98f5c0a](https://github.com/mdit-plugins/mdit-plugins/commit/98f5c0a33c703e4628d15672c80dc3ca4cf92419))
+- **plugin-tex:** skip unicode whitespace after block closers ([#598](https://github.com/mdit-plugins/mdit-plugins/issues/598)) ([25b2e56](https://github.com/mdit-plugins/mdit-plugins/commit/25b2e56a38162623eddfec9b3262d23b9fe4cf7b))
+
+### Code Refactoring
+
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-tex

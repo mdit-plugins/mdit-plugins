@@ -7,7 +7,7 @@ import {
   QUOTE_MARKER,
 } from "./constants.js";
 import { isUnescapedQuote } from "./getDelimiterChecker.js";
-import type { Attr } from "./types.js";
+import type { Attr, AttrFilter } from "./types.js";
 
 const isAllowedKeyChar = (charCode: number): boolean =>
   !(
@@ -24,11 +24,7 @@ const isAllowedKeyChar = (charCode: number): boolean =>
     ) /* = */
   );
 
-export const getAttrs = (
-  str: string,
-  range: DelimiterRange,
-  allowed: (string | RegExp)[],
-): Attr[] => {
+export const getAttrs = (str: string, range: DelimiterRange, filter: AttrFilter | null): Attr[] => {
   let key = "";
   let value = "";
   let parsingKey = true;
@@ -114,9 +110,5 @@ export const getAttrs = (
   // append last key/value pair
   if (key !== "") attrs.push([key, value]);
 
-  return allowed.length > 0
-    ? attrs.filter(([attr]) =>
-        allowed.some((item) => (item instanceof RegExp ? item.test(attr) : item === attr)),
-      )
-    : attrs;
+  return filter ? attrs.filter(([attrKey, attrValue]) => filter(attrKey, attrValue)) : attrs;
 };

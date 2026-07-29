@@ -8,7 +8,9 @@ describe(createDelimiterChecker, () => {
     left: "{",
     right: "}",
     allowed: [],
+    filter: null,
     rule: "all",
+    fenceAttrsOnPre: true,
   };
 
   it("should check start delimiter", () => {
@@ -71,7 +73,9 @@ describe(createDelimiterChecker, () => {
       left: "[",
       right: "]",
       allowed: [],
+      filter: null,
       rule: "all",
+      fenceAttrsOnPre: true,
     };
 
     const startChecker = createDelimiterChecker(customOptions, "start");

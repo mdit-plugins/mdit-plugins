@@ -4,7 +4,7 @@
 
 - **Project Type**: TypeScript Monorepo
 - **Node.js Version**: >= 22
-- **Package Manager**: pnpm (version 10.32.1)
+- **Package Manager**: pnpm (version 11, enforced by devEngines)
 - **Plugin Count**: 40+ MarkdownIt plugins
 - **Target Environments**: Node.js and Browser
 
@@ -12,46 +12,49 @@
 
 ```
 mdit-plugins/
-├── .github/
-│   ├── workflows/             # CI/CD workflows
-│   ├── copilot-instructions.md # AI coding standards
-│   └── FUNDING.yml
-├── docs/                       # VuePress documentation site
-├── packages/                   # 40+ plugin packages
-│   └── ...                     # Other plugins
-├── scripts/                    # Build and release scripts
-├── package.json                # Root package.json
-├── pnpm-workspace.yaml        # pnpm workspace config
-├── vitest.config.ts           # Vitest config
-└── tsconfig.base.json         # TypeScript base config
+├── docs/       # VuePress documentation site
+├── packages/   # 40+ plugin packages
+└── ...
 ```
 
 ## Build Tools
 
-- **tsdown** (0.21.3) - TypeScript bundler
-- **TypeScript** (5.9.3) - Type checking and compilation
+- **tsdown** - bundler (shared config in `scripts/tsdown.ts`)
 - **oxlint** / **oxfmt** - Linting and formatting
-- **vitest** (4.0.18) - Testing framework
+- **vitest** - Testing framework (coverage via istanbul, env: happy-dom)
+- **TypeScript** - via `@mr-hope/tsconfig/web.json`
 
 ## Common Commands
 
-| Command                  | Description                    |
-| ------------------------ | ------------------------------ |
-| `pnpm run build`         | Build all packages             |
-| `pnpm run test`          | Run unit tests                 |
-| `pnpm run test:coverage` | Run tests with coverage report |
-| `pnpm run lint`          | Run linting with auto-fix      |
-| `pnpm run lint:check`    | Run linting without auto-fix   |
-| `pnpm run type-check`    | Type check all packages        |
-| `pnpm run docs:dev`      | Start docs dev server          |
-| `pnpm run docs:build`    | Build documentation            |
+| Command                       | Description                                             |
+| ----------------------------- | ------------------------------------------------------- |
+| `pnpm run build`              | Build all packages                                      |
+| `pnpm run clean`              | Clean build outputs of all packages                     |
+| `pnpm run test`               | Run unit tests                                          |
+| `pnpm run test:coverage`      | Run tests with coverage report                          |
+| `pnpm run test:bench`         | Run vitest benchmarks                                   |
+| `pnpm run lint`               | Run oxlint + oxfmt with auto-fix                        |
+| `pnpm run lint:check`         | Run oxlint + oxfmt without auto-fix                     |
+| `pnpm run lint:md`            | Lint markdown files                                     |
+| `pnpm run type-check`         | Type check all packages                                 |
+| `pnpm run bundle:analyze`     | Upload bundle analysis to Codecov                       |
+| `pnpm run docs:dev`           | Start docs dev server                                   |
+| `pnpm run docs:build`         | Build documentation                                     |
+| `pnpm run release`            | Full release (clean → build → version → publish → sync) |
+| `pnpm run packages:bootstrap` | Bootstrap a new plugin package                          |
+| `pnpm run packages:update`    | Update all dependencies                                 |
 
 ## CI/CD Workflows
 
-- **unit-test.yml**: Run tests and coverage on Node.js 22, 24 and 26
-- **linter-test.yml**: Type check, bundle analysis, linting
-- **docs.yml**: Build and deploy docs to GitHub Pages
-- **publish.yml**: Build and publish packages to npm and npmmirror
+| Workflow          | Triggers         | Description                                                |
+| ----------------- | ---------------- | ---------------------------------------------------------- |
+| `unit-test.yml`   | PR to main, push | Tests + coverage on Node.js 22, 24, 26; uploads to Codecov |
+| `linter-test.yml` | PR to main, push | Type check, bundle analysis, oxlint, markdown lint         |
+| `codeql.yml`      | Weekly (Wed)     | CodeQL security analysis for JavaScript                    |
+| `docs.yml`        | PR to main, push | Build and deploy docs to GitHub Pages                      |
+| `publish.yml`     | Push to main     | Build and publish packages via Lerna                       |
+
+All workflows use `pnpm/action-setup@v6` and `pnpm ci`.
 
 ## Package Structure
 
@@ -70,15 +73,60 @@ packages/<plugin-name>/
 ├── package.json
 ├── tsdown.config.ts    # Build config
 ├── CHANGELOG.md
+├── LICENSE.md
 └── README.md
 ```
+
+## Plugin Registration Patterns
+
+### Plugin Signatures
+
+Two plugin signatures are used:
+
+- **`PluginSimple`** — for plugins without options:
+
+  ```ts
+  export const pluginName: PluginSimple = (md) => { ... };
+  ```
+
+  Examples: `dl`, `footnote`, `abbr`, `align`, `ins`, `mark`, `ruby`, `sub`, `sup`, `img-lazyload`
+
+- **`PluginWithOptions`** — for plugins with options:
+
+  ```ts
+  export const pluginName: PluginWithOptions<PluginOptions> = (md, options) => { ... };
+  ```
+
+  Examples: `attrs`, `container`, `figure`, `alert`, `emoji`, `embed`
+
+**Naming**: The exported `const` name must match the plugin name.
+
+### index.ts Export Patterns
+
+| Pattern                                                               | Use case                                         |
+| --------------------------------------------------------------------- | ------------------------------------------------ |
+| `export type * from "./options.js";` + `export * from "./plugin.js";` | Plugin with options, single variant              |
+| `export * from "./plugin.js";`                                        | Plugin without options                           |
+| `export * from "./plugin.js";` + `export type * from "./types.js";`   | Plugin without options, but exposes custom types |
+| Multiple named exports from separate files                            | Plugin with multiple variants (see below)        |
+
+### Multi-Variant Plugins
+
+Some packages export multiple named plugin variants from a single package:
+
+- `plugin-emoji` → `bareEmoji`, `lightEmoji`, `fullEmoji` (in `bare.ts`, `light.ts`, `full.ts`)
+- `plugin-img-size` → `imgSize`, `legacyImgSize`, `obsidianImgSize`
+- `plugin-anchor` → `anchor`, `legacyAnchor`
+- `plugin-include` → `include`, `resolveInclude`
 
 ## Code Rules
 
 - Must be written in TypeScript
 - Use `src/index.ts` as the entry file to export the plugin
-- Use `src/options.ts` for options definition
 - Use `src/plugin.ts` for plugin implementation
+- Use `src/options.ts` for options definition (if the plugin has options)
+- For plugins without options: omit `options.ts`; use `src/types.ts` if custom type definitions are needed
+- Forked files must include an attribution comment at the top
 
 Logic that is not directly related to the plugin implementation should be extracted to other files in `src` directory, e.g.:
 
@@ -86,16 +134,149 @@ Logic that is not directly related to the plugin implementation should be extrac
 - Utils: `src/utils.ts`
 - Default render: `src/defaultRender.ts`
 
+### File Attribution
+
+Forked files must include a JSDoc comment at the top:
+
+```ts
+/** Forked and modified from https://github.com/markdown-it/markdown-it-xxx/blob/master/index.mjs */
+```
+
+### Lint Suppression
+
+Use inline oxlint suppressions sparingly:
+
+```ts
+// oxlint-disable-next-line <rule-name>
+```
+
+Commonly suppressed rules: `typescript/no-non-null-assertion`, `no-labels`, `max-lines-per-function`, `typescript/strict-boolean-expressions`.
+
+## Package.json Standards
+
+Each plugin's `package.json` follows a fixed structure (auto-generated by `scripts/bootstrap.ts`):
+
+- `"type": "module"` — all packages are ESM
+- `"sideEffects": false` — tree-shakable
+- `"files": ["dist"]` — only publish the dist folder
+- `"main"`: `"lib/index.js"`, `"types"`: `"lib/index.d.ts"`
+- `"exports"`: maps `"."` to `./lib/index.js` with types
+- `"unpkg"` / `"jsdelivr"`: `"./dist/cdn.umd.js"` — CDN entry
+- `"dependencies"`: `{ "@types/markdown-it": "^14.1.1" }` (typed plugins only)
+- `"peerDependencies"`: `{ "markdown-it": "^14.2.0" }` with `"optional": true`
+- `"publishConfig"`: `{ "access": "public" }` — always public
+- `"scripts.build"`: `"tsdown --config-loader unrun"`
+- `"scripts.clean"`: `"rimraf ./lib"`
+
+## Build Configuration
+
+All plugins use the shared `tsdownConfig` helper from `scripts/tsdown.ts`:
+
+```ts
+import type { UserConfig } from "tsdown";
+import { tsdownConfig } from "../../scripts/tsdown.ts";
+
+const config: UserConfig[] = [
+  tsdownConfig("index"), // ESM build
+  tsdownConfig("index", {
+    // UMD/CDN build
+    globalName: "mditPluginXxx",
+    globals: { "markdown-it": "markdownit" },
+  }),
+];
+
+export default config;
+```
+
+- The first entry produces the ESM lib output
+- The second entry produces the UMD/CDN bundle with `globalName` as the global variable name
+
+## @mdit/helper
+
+The `packages/helper/` package provides shared utilities used across all plugins:
+
+- `dedent` — template literal dedent
+- `escape` — HTML escape utilities
+- `reg` — common regex patterns
+
+Import from `@mdit/helper` when these utilities are needed.
+
+## Commit Conventions
+
+- **Format**: `type(scope): message` or `type!: message` (for breaking changes)
+- **Allowed types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `workflow`, `build`, `ci`, `chore`, `types`, `release`
+- **Allowed scopes**: any directory under `packages/` (e.g., `plugin-attrs`) + `deps`
+- **Validation**: `commitlint` with `@commitlint/config-conventional` + custom `scripts/verifyCommit.ts`
+
+### Pre-commit Hooks
+
+Husky + nano-staged:
+
+- `**/*` → `oxfmt --no-error-on-unmatched-pattern`
+- `*.{js,ts}` → `oxlint --fix --type-check --type-aware --report-unused-disable-directives`
+- `*.md` → `markdownlint-cli2 --fix`
+
 ## Test Rules
 
 - Test files must be in `__tests__` directory
 - Use `vitest` for testing
+- Import from source with `.js` extension: `import { pluginName } from "../src/index.js";`
+- Typical test setup: `const md = MarkdownIt({ linkify: true }).use(pluginName);`
 - Tests should be grouped by testing cases with `describe`
 - Tests should target 100% branch coverage
 - A test file should not have too many lines. If it exceeds 300-500 lines, consider splitting it into multiple files if possible:
   - `__tests__/basic.spec.ts` for basic syntax tests
   - `__tests__/nesting.spec.ts` for nesting related tests
   - `__tests__/options.spec.ts` for options related tests
+
+### Vitest Configuration
+
+- **Coverage provider**: `istanbul` (includes `packages/*/src/**/*.ts`)
+- **Environment**: `happy-dom`
+- **Benchmarks**: `**/*.bench.ts` files are supported
+- **CI mode**: Set `TEST_REPORT=true` to generate JUnit XML + cobertura reports
+- Root `vitest.config.ts` excludes `temp/` and `node_modules/` from test discovery
+
+## Release Workflow
+
+Publishing uses Lerna with independent versioning:
+
+- `"version": "independent"` — each package has its own version
+- `"allowBranch": "main"` — releases only from main branch
+- `"conventionalCommits": true` — auto-generate changelogs from commits
+- `"createRelease": "github"` — auto-create GitHub releases
+- `"removePackageFields": ["devDependencies", "scripts"]` — stripped before publish
+
+Release steps:
+
+1. `pnpm run clean` — remove previous build outputs
+2. `pnpm run build` — build all packages
+3. `lerna version` — bump versions based on conventional commits
+4. `lerna publish from-package --force-publish --yes` — publish to npm
+5. `scripts/sync.ts` — sync packages to npmmirror.com
+
+## Scripts Reference
+
+| Script                    | Purpose                                                      |
+| ------------------------- | ------------------------------------------------------------ |
+| `scripts/bootstrap.ts`    | Auto-generate `package.json` and `README.md` for new plugins |
+| `scripts/sync.ts`         | Sync all packages to npmmirror.com (Chinese npm mirror)      |
+| `scripts/analyze.ts`      | Upload bundle analysis to Codecov                            |
+| `scripts/tsdown.ts`       | Shared tsdown build config helper for all plugins            |
+| `scripts/verifyCommit.ts` | Commit message validation hook                               |
+
+## TypeScript Configuration
+
+- Extends `@mr-hope/tsconfig/web.json` (web/browser-targeted shared config)
+- Excludes: `**/snippets/example.ts`, `**/__fixtures__/**`
+
+## Performance Lint Overrides
+
+For `packages/*/src/**`, certain oxlint rules are disabled due to performance considerations:
+
+- `prefer-destructuring`, `prefer-object-spread`, `prefer-spread` — create intermediate objects
+- `typescript/prefer-for-of` — slower than indexed loops in some cases
+- `unicorn/prefer-code-point` — `charCodeAt` is used intentionally for performance
 
 ## Committing in CI
 

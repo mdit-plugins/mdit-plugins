@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%401.1.1...%40mdit%2Fplugin-anchor%401.1.2) (2026-07-29)
+
+### 🐛 Bug Fixes
+
+- **plugin-anchor:** pass resolved options to permalink generators ([#603](https://github.com/mdit-plugins/mdit-plugins/issues/603)) ([8de057f](https://github.com/mdit-plugins/mdit-plugins/commit/8de057fc57bf020b3e43025db1ca73e0c88dbb94))
+
+### Code Refactoring
+
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
+### Tests
+
+- **plugin-anchor:** cover markdown-it-anchor suite gaps ([#577](https://github.com/mdit-plugins/mdit-plugins/issues/577)) ([aa9d1ce](https://github.com/mdit-plugins/mdit-plugins/commit/aa9d1ce1df7aba3ed3189952673ea2185ed2b63e))
+
 ## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%401.1.0...%40mdit%2Fplugin-anchor%401.1.1) (2026-07-08)
 
 ### Miscellaneous Chores

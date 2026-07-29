@@ -39,7 +39,7 @@ export const createHeadingRule = (md: MarkdownIt, options: DelimiterConfig): Att
       const openingToken = getMatchingOpeningToken(tokens, index + 1);
 
       // Apply attributes to the opening token
-      addAttrs(openingToken, content, range, options.allowed);
+      addAttrs(openingToken, content, range, options.filter);
 
       // Remove the attribute syntax from content
       token.content = content.slice(0, hasTrailingSpace ? attrStartIndex - 1 : attrStartIndex);

@@ -26,7 +26,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
+        expect(getAttrs(src, range, null)).toStrictEqual(expected);
       },
     );
 
@@ -36,7 +36,7 @@ const createDelimiterTests = (
 
       const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-      expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
+      expect(getAttrs(src, range, null)).toStrictEqual(expected);
     });
 
     it(replaceDelimiters("should skip escaped quotes in values", options), () => {
@@ -45,7 +45,7 @@ const createDelimiterTests = (
 
       const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-      expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
+      expect(getAttrs(src, range, null)).toStrictEqual(expected);
     });
 
     it(
@@ -64,7 +64,7 @@ const createDelimiterTests = (
 
         const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
 
-        expect(getAttrs(src, range, options.allowed)).toStrictEqual(expected);
+        expect(getAttrs(src, range, null)).toStrictEqual(expected);
       },
     );
   });
@@ -75,6 +75,7 @@ createDelimiterTests(
     left: "{",
     right: "}",
     allowed: [],
+    filter: null,
   },
   "with { } delimiters",
 );
@@ -84,6 +85,7 @@ createDelimiterTests(
     left: "[",
     right: "]",
     allowed: [],
+    filter: null,
   },
   "with [ ] delimiters",
 );
@@ -93,6 +95,7 @@ createDelimiterTests(
     left: "[[",
     right: "]]",
     allowed: [],
+    filter: null,
   },
   "with [[ ]] delimiters",
 );

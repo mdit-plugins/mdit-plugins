@@ -101,9 +101,44 @@ type MarkdownItAttrRuleName =
 
 ### allowed
 
-- 类型：`(string | RegExp)[]`
+- 类型：`(string \| RegExp)[] \| AllowedAttrEntry[]`
+
+  ```ts
+  interface AllowedAttrEntry {
+    name: string | RegExp;
+    value?: (string | RegExp)[];
+  }
+  ```
+
 - 默认值：`[]`
-- 详情：允许的属性。设置空数组意味着允许所有属性。
+- 详情：允许的属性。
+
+  设置空数组意味着允许所有属性。
+
+  可以使用简单格式 `(string \| RegExp)[]` 仅按属性名过滤：
+
+  ```ts
+  // 只允许 class 和 id 属性
+  allowed: ["class", "id"];
+  ```
+
+  或使用条目格式 `AllowedAttrEntry[]` 按属性名独立约束允许的值：
+
+  ```ts
+  allowed: [
+    { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
+    { name: /^data-/, value: ["true", "false"] },
+    { name: "class" }, // 允许 class，不限值
+  ];
+  ```
+
+### fenceAttrsOnPre
+
+- 类型：`boolean`
+- 默认值：`true`
+- 详情：将代码块属性放在 `<pre>` 上而非 `<code>` 上。
+
+  启用后，代码块的属性（如 ` ```js {data-file="index.js"} `）会从 `<code>` 移到外层 `<pre>` 标签。若已安装自定义代码块渲染器则跳过。
 
 ### left
 

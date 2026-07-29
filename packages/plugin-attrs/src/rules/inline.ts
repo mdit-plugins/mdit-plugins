@@ -37,7 +37,7 @@ export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
       const attrsEndIndex = options.right.length + range[1];
 
       // Apply attributes to the target token
-      addAttrs(targetToken, token.content, range, options.allowed);
+      addAttrs(targetToken, token.content, range, options.filter);
 
       if (token.content.length === attrsEndIndex) childTokens.splice(childIndex, 1);
       else token.content = token.content.slice(attrsEndIndex);
@@ -75,7 +75,7 @@ export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
       const openingToken = getMatchingOpeningToken(childTokens, childIndex - 1);
 
       // Apply attributes to the opening token
-      addAttrs(openingToken, content, range, options.allowed);
+      addAttrs(openingToken, content, range, options.filter);
 
       // Remove attribute syntax from content
       currentToken.content = content.slice(attrsEndIndex);
