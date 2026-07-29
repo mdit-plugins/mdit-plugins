@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-stylize",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "stylize plugin for MarkdownIt",
   "keywords": [
     "markdown-it",

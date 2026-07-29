@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.0.1...%40mdit%2Fplugin-katex-slim%401.0.2) (2026-07-29)
+
+### Miscellaneous Chores
+
+- **deps:** update dependency katex to ^0.16.25 || ^0.17.0 || ^0.18.0 ([#557](https://github.com/mdit-plugins/mdit-plugins/issues/557)) ([b4a329e](https://github.com/mdit-plugins/mdit-plugins/commit/b4a329ee28eba6512bc5f741f21a2117517ecf97))
+
+### Code Refactoring
+
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-katex-slim

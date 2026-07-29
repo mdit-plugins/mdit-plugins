@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-figure%401.0.1...%40mdit%2Fplugin-figure%401.1.0) (2026-07-29)
+
+### ✨ Features
+
+- **plugin-figure:** add moveAttrs option ([#611](https://github.com/mdit-plugins/mdit-plugins/issues/611)) ([a3723f6](https://github.com/mdit-plugins/mdit-plugins/commit/a3723f6a8cfe421999eb70371261d43662a68f4b))
+
+### 🐛 Bug Fixes
+
+- **plugin-figure:** keep tight list images intact ([#595](https://github.com/mdit-plugins/mdit-plugins/issues/595)) ([f20f9d6](https://github.com/mdit-plugins/mdit-plugins/commit/f20f9d6c131bb693acff2f719ca417772f5f8241))
+- **plugin-figure:** omit empty figcaption for captionless images ([#592](https://github.com/mdit-plugins/mdit-plugins/issues/592)) ([fc0dace](https://github.com/mdit-plugins/mdit-plugins/commit/fc0dace98393e24fb894744b3b978decbbe81cd7))
+
+### Code Refactoring
+
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-figure

@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-katex",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "katex plugin for MarkdownIt",
   "keywords": [
     "katex",

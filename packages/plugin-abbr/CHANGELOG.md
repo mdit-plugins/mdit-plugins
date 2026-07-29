@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-abbr%401.0.1...%40mdit%2Fplugin-abbr%401.0.2) (2026-07-29)
+
+### 🐛 Bug Fixes
+
+- **plugin-abbr:** trim all whitespace around definition titles ([#607](https://github.com/mdit-plugins/mdit-plugins/issues/607)) ([7f777ad](https://github.com/mdit-plugins/mdit-plugins/commit/7f777adea9192000388be5e4010fb22b782d09d9))
+
+### Documentation
+
+- **plugin-abbr:** add author names ([61a65b6](https://github.com/mdit-plugins/mdit-plugins/commit/61a65b67be0e9155fc09bb0bae6994284749cff3))
+
+### Code Refactoring
+
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
+### Tests
+
+- **plugin-abbr:** add tests ([d61a42a](https://github.com/mdit-plugins/mdit-plugins/commit/d61a42ad7f57089f99c262d780cf264d0ed22b0d))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/plugin-abbr

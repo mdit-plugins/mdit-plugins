@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.0.2...%40mdit%2Fplugin-attrs%401.1.0) (2026-07-29)
+
+### ✨ Features
+
+- **plugin-attrs:** add fenceAttrsOnPre option and fence renderer detect ([#609](https://github.com/mdit-plugins/mdit-plugins/issues/609)) ([9dfdb13](https://github.com/mdit-plugins/mdit-plugins/commit/9dfdb13eb874f8934394e006d54c41faf96bdc6f))
+- **plugin-attrs:** add opt-in dl rule ([#586](https://github.com/mdit-plugins/mdit-plugins/issues/586)) ([21e31a1](https://github.com/mdit-plugins/mdit-plugins/commit/21e31a194c00949c8e6fdcf5c77527c0f35c7155))
+- **plugin-attrs:** add opt-in tasklist rule ([#580](https://github.com/mdit-plugins/mdit-plugins/issues/580)) ([4960ba3](https://github.com/mdit-plugins/mdit-plugins/commit/4960ba35ce972ac5475a06e600ace4bb86d3602e))
+- **plugin-attrs:** add value-level attr filtering ([#610](https://github.com/mdit-plugins/mdit-plugins/issues/610)) ([eef6db7](https://github.com/mdit-plugins/mdit-plugins/commit/eef6db7483ecf8d88b25cf50a0a757b8c3097145))
+- **plugin-attrs:** split blockInfo rule out of the fence rule ([#572](https://github.com/mdit-plugins/mdit-plugins/issues/572)) ([10a7871](https://github.com/mdit-plugins/mdit-plugins/commit/10a787179d002cb23b323e71795a5fb45de17584))
+
+### 🐛 Bug Fixes
+
+- **plugin-attrs:** keep paragraph text between hr markers and attrs ([#602](https://github.com/mdit-plugins/mdit-plugins/issues/602)) ([9650331](https://github.com/mdit-plugins/mdit-plugins/commit/965033137f872dbad0ed4230588dc7c0784431cd))
+- **plugin-attrs:** make repeated attribute keys last-wins ([#596](https://github.com/mdit-plugins/mdit-plugins/issues/596)) ([92bca30](https://github.com/mdit-plugins/mdit-plugins/commit/92bca302cc9a6ac497d8d904ca7f24b71cb5869d))
+- **plugin-attrs:** resync the scanner after token splices ([#582](https://github.com/mdit-plugins/mdit-plugins/issues/582)) ([a764d61](https://github.com/mdit-plugins/mdit-plugins/commit/a764d61109ab0f69eb2db6dab3a5ead03677c432))
+- **plugin-attrs:** search past appended inline tokens ([#584](https://github.com/mdit-plugins/mdit-plugins/issues/584)) ([9232f5b](https://github.com/mdit-plugins/mdit-plugins/commit/9232f5be1ff1a473549c7713267088a84cdcf0ea))
+- **plugin-attrs:** skip delimiters in quoted values ([#585](https://github.com/mdit-plugins/mdit-plugins/issues/585)) ([a3de8b8](https://github.com/mdit-plugins/mdit-plugins/commit/a3de8b8b6c016857eb00d04469b5d12541b83263))
+- **plugin-attrs:** support headerless tables ([#605](https://github.com/mdit-plugins/mdit-plugins/issues/605)) ([c229455](https://github.com/mdit-plugins/mdit-plugins/commit/c229455e9ed21d0e87ddc060bfa1567321064a31))
+- **plugin-attrs:** target the innermost block wrapper ([#583](https://github.com/mdit-plugins/mdit-plugins/issues/583)) ([6a6a433](https://github.com/mdit-plugins/mdit-plugins/commit/6a6a433cd13a08d955e010ea669b07d6385b3dff))
+
+### 🚀 Performance Improvements
+
+- **plugin-attrs:** reduce quote scan overhead ([#587](https://github.com/mdit-plugins/mdit-plugins/issues/587)) ([14cf34e](https://github.com/mdit-plugins/mdit-plugins/commit/14cf34e848c997fd0ba3a11c87b57324ee366154))
+
+### Documentation
+
+- **plugin-attrs:** clarify two internal comments ([#588](https://github.com/mdit-plugins/mdit-plugins/issues/588)) ([02f446a](https://github.com/mdit-plugins/mdit-plugins/commit/02f446ab8ac4f3185ad472f405e0874f79b44dd1))
+
+### Code Refactoring
+
+- **plugin-attrs:** drop a stray optional chain ([#591](https://github.com/mdit-plugins/mdit-plugins/issues/591)) ([73ad676](https://github.com/mdit-plugins/mdit-plugins/commit/73ad6760c31f2671cbdf3e008c97da265396375c))
+- rename package directories to use plugin- prefix ([#571](https://github.com/mdit-plugins/mdit-plugins/issues/571)) ([3526d96](https://github.com/mdit-plugins/mdit-plugins/commit/3526d9664a827cf7f61d1f578348cd81eed9a2f7))
+
+### Tests
+
+- **plugin-attrs:** add new tests ([#581](https://github.com/mdit-plugins/mdit-plugins/issues/581)) ([65d5051](https://github.com/mdit-plugins/mdit-plugins/commit/65d5051001943b71b47484044155c68c91391098))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.0.1...%40mdit%2Fplugin-attrs%401.0.2) (2026-07-08)
 
 ### Build System
