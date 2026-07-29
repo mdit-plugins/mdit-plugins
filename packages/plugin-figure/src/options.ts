@@ -1,5 +1,28 @@
 export interface MarkdownItFigureOptions {
   /**
+   * Copy or move image attributes to `<figure>`.
+   *
+   * - `true`: **copy** all attributes except native img ones (src, alt, srcset, etc.) to `<figure>`.
+   *   Image keeps them.
+   * - `(string | RegExp)[]`: **move** only matching attributes to `<figure>`. Image loses them.
+   *
+   * 将图片属性复制或移动到 `<figure>` 上。
+   *
+   * - `true`：**复制**除原生 img 属性外的所有属性到 `<figure>`，图片保留这些属性。
+   * - `(string | RegExp)[]`：**移动**仅匹配的属性到 `<figure>`，图片失去这些属性。
+   *
+   * @example
+   *   // Copy all non-native attrs to figure (img keeps them)
+   *   moveAttrs: true;
+   *
+   *   // Move class and data-* attrs to figure (img loses them)
+   *   moveAttrs: ["class", /^data-/];
+   *
+   * @default false
+   */
+  moveAttrs?: boolean | (string | RegExp)[];
+
+  /**
    * Whether the figure is focusable
    *
    * 图片是否可聚焦

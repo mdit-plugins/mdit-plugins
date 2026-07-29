@@ -42,6 +42,24 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 - Default: `true`
 - Details: Whether to convert linked images (`[![image](url)](link)`) to figures.
 
+### moveAttrs
+
+- Type: `boolean | (string | RegExp)[]`
+- Details:
+
+  Copy or move image attributes to `<figure>`.
+
+  - `true`: **copy** all attributes except native img ones (src, alt, srcset, width, height, loading, etc.) to `<figure>`. Image keeps them.
+  - `(string | RegExp)[]`: **move** only matching attributes to `<figure>`. Image loses them.
+
+  ```ts
+  // Copy all non-native attrs to figure (img keeps them)
+  moveAttrs: true;
+
+  // Move class and data-* attrs to figure (img loses them)
+  moveAttrs: ["class", /^data-/];
+  ```
+
 ## Demo
 
 ::: preview Demo
