@@ -4,7 +4,7 @@
 
 Include plugin for MarkdownIt.
 
-This package can only run in Node.js environment. ß
+This package can only run in Node.js environment.
 
 ## [Docs](https://mdit-plugins.github.io/include.html) | [文档](https://mdit-plugins.github.io/zh/include.html)
 
