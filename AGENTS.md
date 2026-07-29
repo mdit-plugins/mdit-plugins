@@ -92,9 +92,11 @@ Two plugin signatures are used:
   Examples: `dl`, `footnote`, `abbr`, `align`, `ins`, `mark`, `ruby`, `sub`, `sup`, `img-lazyload`
 
 - **`PluginWithOptions`** — for plugins with options:
+
   ```ts
   export const pluginName: PluginWithOptions<PluginOptions> = (md, options) => { ... };
   ```
+
   Examples: `attrs`, `container`, `figure`, `alert`, `emoji`, `embed`
 
 **Naming**: The exported `const` name must match the plugin name.
@@ -204,7 +206,7 @@ Import from `@mdit/helper` when these utilities are needed.
 - **Format**: `type(scope): message` or `type!: message` (for breaking changes)
 - **Allowed types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `workflow`, `build`, `ci`, `chore`, `types`, `release`
 - **Allowed scopes**: any directory under `packages/` (e.g., `plugin-attrs`) + `deps`
-- **Validation**: `commitlint` with `@commitlint/config-conventional` + custom `scripts/verifyCommit.ts` (if a commit is rejected and you're unsure why, read `scripts/verifyCommit.ts` to see the exact rules — don't guess)
+- **Validation**: `commitlint` with `@commitlint/config-conventional` + custom `scripts/verifyCommit.ts`
 
 ### Pre-commit Hooks
 
