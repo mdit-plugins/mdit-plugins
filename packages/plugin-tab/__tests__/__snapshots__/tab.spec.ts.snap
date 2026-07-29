@@ -829,3 +829,61 @@ exports[`tab > starting correctly > should work with inline tokens ahead 1`] = `
 </div>
 "
 `;
+
+exports[`tab > title escaping > should not double-escape special HTML characters 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0">A &amp; B</button>
+    <button type="button" class="tabs-tab-button" data-tab="1">C &lt; D &gt; E</button>
+    <button type="button" class="tabs-tab-button" data-tab="2">&quot;quoted&quot; &amp; 'apos'</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>content</p>
+</div>
+<div class="tabs-tab-content" data-index="2">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > title escaping > should not double-escape title with id containing special chars 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0" data-id="some-id">A &amp; B</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0" data-id="some-id">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;
+
+exports[`tab > title escaping > should render inline markdown in title 1`] = `
+"<div class="tabs-tabs-wrapper">
+  <div class="tabs-tabs-header">
+    <button type="button" class="tabs-tab-button" data-tab="0"><strong>bold</strong> title</button>
+    <button type="button" class="tabs-tab-button" data-tab="1"><em>italic</em> title</button>
+    <button type="button" class="tabs-tab-button" data-tab="2"><code>code</code> title</button>
+  </div>
+  <div class="tabs-tabs-container">
+<div class="tabs-tab-content" data-index="0">
+<p>content</p>
+</div>
+<div class="tabs-tab-content" data-index="1">
+<p>content</p>
+</div>
+<div class="tabs-tab-content" data-index="2">
+<p>content</p>
+</div>
+  </div>
+</div>
+"
+`;

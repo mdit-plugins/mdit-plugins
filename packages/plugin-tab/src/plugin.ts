@@ -441,7 +441,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === dataIndex ? " active" : ""
           }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === dataIndex ? " data-active" : ""
-          }>${escapeHtml(md.renderInline(title))}</button>`,
+          }>${md.renderInline(title)}</button>`,
       );
 
       return `\

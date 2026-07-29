@@ -1000,4 +1000,66 @@ A **bold** text 2.
       expect(result).toContain("<p>A <strong>bold</strong> text 2.</p>");
     });
   });
+
+  describe("title escaping", () => {
+    it("should not double-escape special HTML characters", () => {
+      const source = `
+::: tabs
+@tab A & B
+content
+@tab C < D > E
+content
+@tab "quoted" & 'apos'
+content
+:::
+`;
+      const result = markdownIt.render(source);
+
+      expect(result).toMatchSnapshot();
+      // Should be single-escaped, not double-escaped
+      expect(result).toContain("A &amp; B");
+      expect(result).not.toContain("&amp;amp;");
+
+      expect(result).toContain("C &lt; D &gt; E");
+      expect(result).not.toContain("&amp;lt;");
+      expect(result).not.toContain("&amp;gt;");
+
+      expect(result).toContain("&quot;quoted&quot; &amp; 'apos'");
+    });
+
+    it("should render inline markdown in title", () => {
+      const source = `
+::: tabs
+@tab **bold** title
+content
+@tab *italic* title
+content
+@tab \`code\` title
+content
+:::
+`;
+      const result = markdownIt.render(source);
+
+      expect(result).toMatchSnapshot();
+      expect(result).toContain("<strong>bold</strong> title");
+      expect(result).toContain("<em>italic</em> title");
+      expect(result).toContain("<code>code</code> title");
+    });
+
+    it("should not double-escape title with id containing special chars", () => {
+      const source = `
+::: tabs
+@tab A & B#some-id
+content
+:::
+`;
+      const result = markdownIt.render(source);
+
+      expect(result).toMatchSnapshot();
+      // Title should be single-escaped, id should be escaped
+      expect(result).toContain("A &amp; B");
+      expect(result).not.toContain("&amp;amp;");
+      expect(result).toContain('data-id="some-id"');
+    });
+  });
 });
