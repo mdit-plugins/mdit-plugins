@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-dl%401.0.2...%40mdit%2Fplugin-dl%401.0.3) (2026-07-29)
+
+### 🐛 Bug Fixes
+
+- **plugin-dl:** support empty definitions and next-line content ([#604](https://github.com/mdit-plugins/mdit-plugins/issues/604)) ([c0b55e3](https://github.com/mdit-plugins/mdit-plugins/commit/c0b55e34c893effcb0f0302f9a6f00acd1b6f7ea))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-dl%401.0.1...%40mdit%2Fplugin-dl%401.0.2) (2026-07-29)
 
 ### 🐛 Bug Fixes

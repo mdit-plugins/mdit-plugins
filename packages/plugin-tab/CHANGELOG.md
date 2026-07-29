@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.2...%40mdit%2Fplugin-tab%401.0.3) (2026-07-29)
+
+### 🐛 Bug Fixes
+
+- **plugin-tab:** remove double HTML escaping on tab titles ([e753fa3](https://github.com/mdit-plugins/mdit-plugins/commit/e753fa3f3ddc006d9123d3ff9e5fca076faa4234))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.1...%40mdit%2Fplugin-tab%401.0.2) (2026-07-29)
 
 ### Code Refactoring
