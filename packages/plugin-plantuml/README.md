@@ -4,6 +4,8 @@
 
 plantuml plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/plantuml.html) | [文档](https://mdit-plugins.github.io/zh/plantuml.html)
+
 ## Install / 安装
 
 ```bash
