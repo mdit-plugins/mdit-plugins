@@ -4,6 +4,8 @@
 
 embed plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/embed.html) | [文档](https://mdit-plugins.github.io/zh/embed.html)
+
 ## Install / 安装
 
 ```bash

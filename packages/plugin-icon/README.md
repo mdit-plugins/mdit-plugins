@@ -4,6 +4,8 @@
 
 icon plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/icon.html) | [文档](https://mdit-plugins.github.io/zh/icon.html)
+
 ## Install / 安装
 
 ```bash

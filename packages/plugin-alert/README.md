@@ -4,6 +4,8 @@
 
 GFM Markdown alert plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/alert.html) | [文档](https://mdit-plugins.github.io/zh/alert.html)
+
 ## Install / 安装
 
 ```bash

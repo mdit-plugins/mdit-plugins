@@ -4,6 +4,8 @@
 
 inline-rule plugin for MarkdownIt.
 
+## [Docs](https://mdit-plugins.github.io/inline-rule.html) | [文档](https://mdit-plugins.github.io/zh/inline-rule.html)
+
 ## Install / 安装
 
 ```bash
