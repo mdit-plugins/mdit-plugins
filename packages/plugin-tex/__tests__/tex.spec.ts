@@ -102,6 +102,19 @@ inline.</p>
         ])("should render multiline: %s", ([input, expected]) => {
           expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
         });
+
+        it("should render with punctuation after closing $", () => {
+          const cases: [string, string][] = [
+            ["$x$.", "<p>{Tex content: x}.</p>\n"],
+            ["$x$,", "<p>{Tex content: x},</p>\n"],
+            ["($x$)", "<p>({Tex content: x})</p>\n"],
+            ["$x$!", "<p>{Tex content: x}!</p>\n"],
+          ];
+
+          cases.forEach(([input, expected]) => {
+            expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
+          });
+        });
       });
 
       describe("rejection cases", () => {
@@ -117,6 +130,11 @@ inline.</p>
           ["tab after opening", "$\ttest", "<p>$\ttest</p>\n"],
           ["tab before closing", "$test\t$", "<p>$test\t$</p>\n"],
           ["number after closing", "$test$1", "<p>$test$1</p>\n"],
+          ["word char before opening", "a$x$b", "<p>a$x$b</p>\n"],
+          ["number before opening", "1$x$2", "<p>1$x$2</p>\n"],
+          ["letter after closing", "$x$a", "<p>$x$a</p>\n"],
+          ["underscore after closing", "$x$_", "<p>$x$_</p>\n"],
+          ["dollar after closing", "$x$$", "<p>$x$$</p>\n"],
         ])("should not render when %s: %s", ([_description, input, expected]) => {
           expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
         });
