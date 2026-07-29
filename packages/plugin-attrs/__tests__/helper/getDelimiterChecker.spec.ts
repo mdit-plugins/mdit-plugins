@@ -8,6 +8,7 @@ describe(createDelimiterChecker, () => {
     left: "{",
     right: "}",
     allowed: [],
+    filter: null,
     rule: "all",
     fenceAttrsOnPre: true,
   };
@@ -72,6 +73,7 @@ describe(createDelimiterChecker, () => {
       left: "[",
       right: "]",
       allowed: [],
+      filter: null,
       rule: "all",
       fenceAttrsOnPre: true,
     };

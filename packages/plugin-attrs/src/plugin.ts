@@ -4,7 +4,7 @@ import MarkdownIt from "markdown-it";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
-import { testRule } from "./helper/index.js";
+import { normalizeAllowed, testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
 import type { DelimiterRange } from "./rules/index.js";
 import { createRules } from "./rules/index.js";
@@ -13,10 +13,13 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   md,
   { left = "{", right = "}", allowed = [], rule = "all", fenceAttrsOnPre = true } = {},
 ) => {
+  const filter = normalizeAllowed(allowed);
+
   const rules = createRules(md, {
     left,
     right,
     allowed,
+    filter,
     rule,
   });
 

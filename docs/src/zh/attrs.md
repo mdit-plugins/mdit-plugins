@@ -101,9 +101,36 @@ type MarkdownItAttrRuleName =
 
 ### allowed
 
-- 类型：`(string | RegExp)[]`
+- 类型：`(string \| RegExp)[] \| AllowedAttrEntry[]`
+
+  ```ts
+  interface AllowedAttrEntry {
+    name: string | RegExp;
+    value?: (string | RegExp)[];
+  }
+  ```
+
 - 默认值：`[]`
-- 详情：允许的属性。设置空数组意味着允许所有属性。
+- 详情：允许的属性。
+
+  设置空数组意味着允许所有属性。
+
+  可以使用简单格式 `(string \| RegExp)[]` 仅按属性名过滤：
+
+  ```ts
+  // 只允许 class 和 id 属性
+  allowed: ["class", "id"];
+  ```
+
+  或使用条目格式 `AllowedAttrEntry[]` 按属性名独立约束允许的值：
+
+  ```ts
+  allowed: [
+    { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
+    { name: /^data-/, value: ["true", "false"] },
+    { name: "class" }, // 允许 class，不限值
+  ];
+  ```
 
 ### fenceAttrsOnPre
 

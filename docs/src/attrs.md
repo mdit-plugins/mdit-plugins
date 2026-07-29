@@ -103,9 +103,36 @@ type MarkdownItAttrRuleName =
 
 ### allowed
 
-- Type: `(string | RegExp)[]`
+- Type: `(string \| RegExp)[] \| AllowedAttrEntry[]`
+
+  ```ts
+  interface AllowedAttrEntry {
+    name: string | RegExp;
+    value?: (string | RegExp)[];
+  }
+  ```
+
 - Default: `[]`
-- Details: Allowed attributes. An empty list means allowing all attributes.
+- Details: Allowed attributes.
+
+  An empty list means allowing all attributes.
+
+  You can use the simple format `(string \| RegExp)[]` to only filter by attribute name:
+
+  ```ts
+  // Only allow class and id attributes
+  allowed: ["class", "id"];
+  ```
+
+  Or use the entry format `AllowedAttrEntry[]` to constrain allowed values per attribute:
+
+  ```ts
+  allowed: [
+    { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
+    { name: /^data-/, value: ["true", "false"] },
+    { name: "class" }, // allow class, any value
+  ];
+  ```
 
 ### fenceAttrsOnPre
 
