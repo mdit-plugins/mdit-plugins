@@ -60,10 +60,14 @@ const renderFootnoteRef: RenderRule = (
   self,
 ): string => {
   // oxlint-disable-next-line typescript/no-non-null-assertion
-  const id = self.rules.footnote_anchorName!(tokens, index, options, env, self);
+  const id = self.rules.footnote_anchor_name!(tokens, index, options, env, self);
   // oxlint-disable-next-line typescript/no-non-null-assertion
   const caption = self.rules.footnote_caption!(tokens, index, options, env, self);
 
+  // A separate anchor element allows scroll offset control via CSS
+  // (e.g. `.footnote-anchor { scroll-margin-top: 80px; }` to leave
+  // space for a fixed navbar), which isn't possible when id and href
+  // share the same <a> element.
   return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
     tokens,
     index,
@@ -90,7 +94,7 @@ const renderFootnoteOpen: RenderRule = (
   self,
 ): string =>
   // oxlint-disable-next-line typescript/no-non-null-assertion
-  `<li id="footnote${self.rules.footnote_anchorName!(
+  `<li id="footnote${self.rules.footnote_anchor_name!(
     tokens,
     index,
     options,
@@ -108,7 +112,7 @@ const renderFootnoteAnchor: RenderRule = (
   self,
 ): string =>
   // oxlint-disable-next-line typescript/no-non-null-assertion
-  ` <a href="#footnote-ref${self.rules.footnote_anchorName!(tokens, index, options, env, self)}${
+  ` <a href="#footnote-ref${self.rules.footnote_anchor_name!(tokens, index, options, env, self)}${
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
   }" class="footnote-backref">\u21A9\uFE0E</a>`;
@@ -444,7 +448,7 @@ export const footnote: PluginSimple = (md) => {
   // helpers (only used in other rules, no tokens are attached to those)
   // helpers (only used in other rules, no tokens are attached to those)
   md.renderer.rules.footnote_caption = renderFootnoteCaption;
-  md.renderer.rules.footnote_anchorName = renderFootnoteAnchorName;
+  md.renderer.rules.footnote_anchor_name = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],
