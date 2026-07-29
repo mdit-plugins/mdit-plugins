@@ -127,6 +127,69 @@ test ![image](/logo.svg)
     );
   });
 
+  describe("moveAttrs", () => {
+    it("should copy non-native attrs to figure with true", () => {
+      const md = new MarkdownIt().use(figure, {
+        moveAttrs: true,
+        focusable: false,
+      });
+
+      // title is a global attr, not native img — copied to figure
+      // getCaption later removes title from img and uses it as caption
+      expect(md.render('![image](/logo.svg "A title")')).toBe(
+        '<figure title="A title"><img src="/logo.svg" alt="image"><figcaption>A title</figcaption></figure>\n',
+      );
+    });
+
+    it("should not copy native attrs with true", () => {
+      const md = new MarkdownIt().use(figure, {
+        moveAttrs: true,
+        focusable: false,
+      });
+
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should move matching attrs to figure with array", () => {
+      const md = new MarkdownIt().use(figure, {
+        moveAttrs: ["title"],
+        focusable: false,
+      });
+
+      // title is moved from img to figure before getCaption runs
+      // getCaption can't find title on img, falls back to alt
+      expect(md.render('![image](/logo.svg "A title")')).toBe(
+        '<figure title="A title"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should support RegExp patterns in array", () => {
+      const md = new MarkdownIt().use(figure, {
+        moveAttrs: [/^data-/],
+        focusable: false,
+      });
+
+      // No data-* attrs present, nothing moved
+      expect(md.render('![image](/logo.svg "A title")')).toBe(
+        '<figure><img src="/logo.svg" alt="image"><figcaption>A title</figcaption></figure>\n',
+      );
+    });
+
+    it("should not move unmatched attrs", () => {
+      const md = new MarkdownIt().use(figure, {
+        moveAttrs: ["class"],
+        focusable: false,
+      });
+
+      // title doesn't match "class", stays on img, then getCaption removes it
+      expect(md.render('![image](/logo.svg "A title")')).toBe(
+        '<figure><img src="/logo.svg" alt="image"><figcaption>A title</figcaption></figure>\n',
+      );
+    });
+  });
+
   it("should not covert existing figure tags to markdown-it-figure", () => {
     expect(
       markdownIt.render(`\

@@ -5,6 +5,24 @@ import type Token from "markdown-it/lib/token.mjs";
 
 import type { MarkdownItFigureOptions } from "./options.js";
 
+/** Native `<img>` attributes that should stay on the image */
+const NATIVE_IMG_ATTRS = new Set([
+  "alt",
+  "crossorigin",
+  "decoding",
+  "elementtiming",
+  "fetchpriority",
+  "height",
+  "ismap",
+  "loading",
+  "referrerpolicy",
+  "sizes",
+  "src",
+  "srcset",
+  "usemap",
+  "width",
+]);
+
 const removeAttribute = (token: Token, attribute: string): void => {
   // oxlint-disable-next-line typescript/no-non-null-assertion
   token.attrs = token.attrs!.filter(([key]) => key !== attribute);
@@ -22,7 +40,10 @@ const getCaption = (image: Token): string => {
   return image.content;
 };
 
-export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options = {}) => {
+export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
+  md,
+  { moveAttrs, focusable, linkImage } = {},
+) => {
   const figureRule: RuleCore = (state) => {
     // do not process first and last token
     for (let index = 1, { length } = state.tokens; index < length - 1; index++) {
@@ -39,7 +60,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
       // three children, should be image enclosed in link
       if (token.children.length === 3) {
         // skip linked images if linkImage is false
-        if (options.linkImage === false) continue;
+        if (linkImage === false) continue;
 
         const [childrenA, childrenB, childrenC] = token.children;
         const isEnclosed =
@@ -73,6 +94,39 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
       // for linked images, image is one off
       const image = token.children.length === 1 ? token.children[0] : token.children[1];
 
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
+      if (moveAttrs && image.attrs) {
+        if (moveAttrs === true) {
+          // Copy all non-native attrs to figure (img keeps them)
+          const copiedAttrs = image.attrs.filter(([key]) => !NATIVE_IMG_ATTRS.has(key));
+
+          if (copiedAttrs.length > 0) {
+            (figureToken.attrs ??= []).push(
+              ...copiedAttrs.map(([key, value]) => [key, value] as [string, string]),
+            );
+          }
+        } else {
+          // Move matching attrs from img to figure (img loses them)
+          const movedAttrs: [string, string][] = [];
+          const keptAttrs: [string, string][] = [];
+
+          for (const attr of image.attrs) {
+            if (
+              moveAttrs.some((pattern) =>
+                typeof pattern === "string" ? pattern === attr[0] : pattern.test(attr[0]),
+              )
+            )
+              movedAttrs.push(attr);
+            else keptAttrs.push(attr);
+          }
+
+          if (movedAttrs.length > 0) {
+            (figureToken.attrs ??= []).push(...movedAttrs);
+            image.attrs = keptAttrs;
+          }
+        }
+      }
+
       const figCaption = getCaption(image);
 
       if (figCaption) {
@@ -86,7 +140,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (md, options =
         );
       }
 
-      if (options.focusable !== false) image.attrPush(["tabindex", "0"]);
+      if (focusable !== false) image.attrPush(["tabindex", "0"]);
     }
   };
 
