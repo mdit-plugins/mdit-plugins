@@ -145,6 +145,48 @@ Term 3
 </dl>
 `,
       ],
+      // Markers indented 4+ spaces are not definitions
+      [
+        `\
+Term 1
+   : definition
+
+Term 2
+    : not a definition
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd>definition</dd>
+</dl>
+<p>Term 2
+: not a definition</p>
+`,
+      ],
+      // Tab-indented markers count as 4 spaces
+      [
+        `\
+Term
+\t: def
+`,
+        `\
+<p>Term
+: def</p>
+`,
+      ],
+      // Marker indentation is relative to the current block
+      [
+        `\
+- Term
+      : def
+`,
+        `\
+<ul>
+<li>Term
+: def</li>
+</ul>
+`,
+      ],
     ];
 
     testCases.forEach(([content, expected]) => {
@@ -893,45 +935,82 @@ chili's
     });
   });
 
-  it("should not render invalid definition lists", () => {
+  it("should render empty definitions", () => {
     const testCases = [
-      // Empty or invalid definitions
+      // Bare markers with no inline content
       [
         `\
-Non-term 1
+Term 1
   :
 
-Non-term 2
+Term 2
   :
+`,
+        `\
+<dl>
+<dt>Term 1</dt>
+<dd></dd>
+<dt>Term 2</dt>
+<dd></dd>
+</dl>
+`,
+      ],
+      // Definition content may start on the next line
+      [
+        `\
+Term
+:
+  Definition
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>Definition</dd>
+</dl>
+`,
+      ],
+      // Bare marker in the middle of a list
+      [
+        `\
+Term
+: def
+:
+Term2
+: x
+`,
+        `\
+<dl>
+<dt>Term</dt>
+<dd>def</dd>
+<dd></dd>
+<dt>Term2</dt>
+<dd>x</dd>
+</dl>
+`,
+      ],
+    ];
 
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toStrictEqual(expected);
+    });
+  });
+
+  it("should not render invalid definition lists", () => {
+    const testCases = [
+      // Invalid markers
+      [
+        `\
 Term
 :Definition
 
 Term
-:   
-
-Term
 ; Definition
-
-Term
-:
-
-Another paragraph after empty definition
 `,
         `\
-<p>Non-term 1
-:</p>
-<p>Non-term 2
-:</p>
 <p>Term
 :Definition</p>
 <p>Term
-:</p>
-<p>Term
 ; Definition</p>
-<p>Term
-:</p>
-<p>Another paragraph after empty definition</p>
 `,
       ],
       // Headers should not be treated as terms
@@ -1099,9 +1178,11 @@ Term 1
 Next line
 `,
         `\
-<p>Term 1
-:<br>
-Next line</p>
+<dl>
+<dt>Term 1</dt>
+<dd></dd>
+</dl>
+<p>Next line</p>
 `,
       ],
     ];

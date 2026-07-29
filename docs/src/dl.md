@@ -30,7 +30,7 @@ The grammar is based on [PanDoc Definition lists](https://pandoc.org/MANUAL.html
 
 Each term must be on one line, optionally followed by a blank line. After a term, it must be followed by one or more definitions.
 
-Each definition needs to start with `:` or `~` and be followed by one or more definition paragraphs. When multiple block elements are defined, subsequent block elements should be indented by four spaces.
+Each definition needs to start with `:` or `~` and may be followed by one or more definition paragraphs, starting on the same or the next line. When multiple block elements are defined, subsequent block elements should be indented by four spaces.
 
 If there is a blank line after the term, the definition text will be treated as a paragraph, otherwise a compact list will be displayed.
 
