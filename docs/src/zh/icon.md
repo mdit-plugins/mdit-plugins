@@ -32,22 +32,22 @@ mdIt.render("iPhone is made by ::apple::.");
 
 ```js
 import MarkdownIt from "markdown-it";
-import { fontAwesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
+import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
+  // 只能设置一个 render，选择你需要的那个
+
   // 支持 iconify
   render: iconifyRender,
 
   // 支持 fontawesome
-  render: fontAwesomeRender,
+  // render: fontawesomeRender,
 
   // 支持 iconfont
-  render: iconfontRender,
+  // render: iconfontRender,
 
   // 自定义渲染
-  render: (rawIcon) => {
-    return `<span class="${rawIcon}"></span>`;
-  },
+  // render: (rawIcon) => `<span class="${rawIcon}"></span>`,
 });
 ```
 

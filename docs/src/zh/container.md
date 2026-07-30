@@ -113,7 +113,7 @@ _here be dragons_
  *
  * @default params.trim().split(" ", 2)[0] === name
  */
-type Validator = (params: string) => boolean;
+type Validator = (params: string, markup: string) => boolean;
 ```
 
 - 详情：校验内容是否应该作为此类型容器。

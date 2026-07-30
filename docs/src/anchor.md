@@ -55,7 +55,7 @@ Consectetur adipiscing elit.
 
 - Type: `number | number[]`
 - Default: `1`
-- Details: Heading levels to add anchors to. A number means "this level and above", an array means "exact levels".
+- Details: Heading levels to add anchors to. A number means "the given level and deeper (e.g. `2` selects h2–h6)", an array means "exact levels".
 
 ### slugify
 

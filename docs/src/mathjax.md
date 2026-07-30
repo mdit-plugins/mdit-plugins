@@ -109,7 +109,7 @@ The instance holds render content of each calls, so you should:
 - Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
 - Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
 
-We also have a package called `@mdit/plugin-mathjax-slim` which `@mathjax/src` is an optional peer dep.
+We also have a package called `@mdit/plugin-mathjax-slim`, for which `@mathjax/src` and `@mathjax/mathjax-newcm-font` are optional peer deps.
 
 For better performance and memory, the `createMathjaxInstance` function is asynchronous, allowing you to load only the $TeX$ packages you need dynamically, but if you must call the plugin in a synchronous flow, you can import a synchronous version of the `createMathjaxInstance` function from `@mdit/plugin-mathjax/sync`.
 
