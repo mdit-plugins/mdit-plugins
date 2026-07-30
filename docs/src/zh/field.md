@@ -80,8 +80,6 @@ field(md, {
 
 ### 嵌套
 
-Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
-
 相同或不同的容器可以嵌套在项目内，缩进级别可以是相同的，也可以是部分缩进（小于代码块缩进级别，默认为4个空格）。
 
 ```md
@@ -94,6 +92,9 @@ Same or different containers can be nested inside items at the same indentation 
 @prop2@ type="number"
 键描述。
 :::
+@option2@
+另一个父级描述。
+::::
 ```
 
 为了在另一个字段内创建字段项目，每个嵌套级别将起始 `@` 增加一个：
@@ -290,7 +291,7 @@ import { field } from "@mdit/plugin-field";
 const mdIt = MarkdownIt().use(field, {
   name: "props",
   allowedAttributes: [
-    { attr: "type", name: "属性类型" },
+    { attr: "type", name: "Property Type" },
     { attr: "required", boolean: true },
   ],
 });

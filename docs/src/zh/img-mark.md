@@ -87,6 +87,8 @@ darkmode-selector {
 
 :::
 
+<ColorModeSwitch /> (尝试切换主题模式)
+
 <script setup lang="ts">
 import { ColorModeSwitch } from "vuepress-theme-hope/client"
 </script>
