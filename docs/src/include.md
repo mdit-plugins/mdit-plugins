@@ -34,6 +34,7 @@ Also, to support alias, you can set `resolvePath` in plugin options.
 For example, the following code add support for `@src` alias:
 
 ```ts
+import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
@@ -46,7 +47,7 @@ mdIt.use(include, {
       return path.replace("@src", "path/to/src/folder");
     }
 
-    return path.join(cwd, path);
+    return cwd ? join(cwd, path) : path;
   },
 });
 ```

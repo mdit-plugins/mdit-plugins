@@ -76,8 +76,6 @@ type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => 
 - 必填：是
 - 详情：Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
 
-<!-- #endregion options -->
-
 ## 格式
 
 插件根据 `delimiters` 选项支持不同的分隔符语法：
@@ -441,14 +439,18 @@ $$
 $$
 
 ```md
-$\tag{1} x+y^{2x}$
+$$
+\tag{1} x+y^{2x}
+$$
 
-$\tag*{1} x+y^{2x}$
+$$
+\tag*{1} x+y^{2x}
+$$
 ```
 
 ### 分段函数
 
-使用 `case` 环境
+使用 `cases` 环境
 
 $$
 y= \begin{cases}

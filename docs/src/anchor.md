@@ -139,7 +139,7 @@ include links inside headings.
 import { headerLink } from "@mdit/plugin-anchor";
 ```
 
-**Output:** `<h2 id="title"><a href="#title">Title</a></h2>`
+**Output:** `<h2 id="title" tabindex="-1"><a class="header-anchor" href="#title">Title</a></h2>`
 
 | Name              | Description                                                             | Default |
 | ----------------- | ----------------------------------------------------------------------- | ------- |
@@ -154,7 +154,7 @@ Inserts a permalink anchor inside the heading, after or before the text.
 import { linkInsideHeader } from "@mdit/plugin-anchor";
 ```
 
-**Output:** `<h2 id="title">Title <a href="#title">#</a></h2>`
+**Output:** `<h2 id="title" tabindex="-1">Title <a class="header-anchor" href="#title">#</a></h2>`
 
 | Name         | Description                                                                                                | Default |
 | ------------ | ---------------------------------------------------------------------------------------------------------- | ------- |
@@ -179,18 +179,28 @@ Alias for `linkInsideHeader` with `ariaHidden: true` by default.
 import { ariaHidden } from "@mdit/plugin-anchor";
 ```
 
-**Output:** `<h2 id="title">Title <a href="#title" aria-hidden="true">#</a></h2>`
+**Output:** `<h2 id="title" tabindex="-1">Title <a class="header-anchor" href="#title" aria-hidden="true">#</a></h2>`
 
 ### linkAfterHeader
 
 Places a permalink anchor **after** the heading block. Offers the most
 flexibility for accessible screen reader experiences.
 
+Unlike the other presets, `linkAfterHeader` has no default options — pass at least `assistiveText` and `visuallyHiddenClass` when using the default `visually-hidden` style:
+
 ```ts
-import { linkAfterHeader } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
+import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
+
+const mdIt = MarkdownIt().use(anchor, {
+  permalink: linkAfterHeader({
+    assistiveText: (title) => `Permalink for ${title}`,
+    visuallyHiddenClass: "sr-only",
+  }),
+});
 ```
 
-**Output:** `<h2 id="title">Title</h2><a href="#title"><span class="sr-only">Permalink</span> <span aria-hidden="true">#</span></a>`
+**Output:** `<h2 id="title" tabindex="-1">Title</h2><a class="header-anchor" href="#title"><span class="sr-only">Permalink for Title</span> <span aria-hidden="true">#</span></a>`
 
 | Name                  | Description                                                                                              | Default           |
 | --------------------- | -------------------------------------------------------------------------------------------------------- | ----------------- |

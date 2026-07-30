@@ -34,6 +34,7 @@ mdIt.render("<<< example.ts", {
 例如，以下代码添加了对 `@src` 别名的支持：
 
 ```ts
+import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
 
@@ -46,7 +47,7 @@ mdIt.use(snippet, {
       return path.replace("@src", "path/to/src/folder");
     }
 
-    return path.join(cwd, path);
+    return cwd ? join(cwd, path) : path;
   },
 });
 ```

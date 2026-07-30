@@ -15,7 +15,7 @@ import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
 // 新格式
 const mdNew = MarkdownIt().use(imgSize);
-mdNew.render("![image =300x200](https://example.com/image.png =300x200)");
+mdNew.render("![image =300x200](https://example.com/image.png)");
 
 // Obsidian 格式
 const mdObsidian = MarkdownIt().use(obsidianImgSize);

@@ -58,7 +58,7 @@ mdIt.use(stylize, {
 mdIt.use(stylize, {
   config: [
     {
-      matcher: /^不/,
+      matcher: /^[不没]/,
       replacer: ({ tag, attrs, content }) => {
         if (tag === "em")
           return {

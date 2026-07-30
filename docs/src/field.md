@@ -287,7 +287,7 @@ Description 2
 @parent@
 Parent description.
 
-@child@
+@@child@
 Child description.
 :::
 

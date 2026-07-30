@@ -105,6 +105,8 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 - Default: `false`
 - Details: Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`.
 
+<!-- #endregion options -->
+
 ### render
 
 - Type: `TexRender`
@@ -124,8 +126,6 @@ type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => 
 - Required: Yes
 - Details: Tex Render function. Takes content, displayMode, and environment, returns rendered string.
 
-<!-- #endregion options -->
-
 ## Demo
 
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
@@ -136,13 +136,13 @@ Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
 
 $$
 \frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
-= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
 $$
 
 ```md
 $$
 \frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
-= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
 $$
 ```
 
@@ -154,7 +154,7 @@ $$
   - `+`: $+$
   - `-`: $-$
   - `\times`: $\times$
-  - `\ div`: $\div$
+  - `\div`: $\div$
   - `=`: $=$
   - `\pm`: $\pm$
   - `\cdot`: $\cdot$
@@ -274,7 +274,7 @@ Various parentheses are represented by commands such as `()`, `[]`, `\{\}`, `\la
 
 Note that curly braces are usually used to enter command and environment parameters, so they must be preceded by `\` in mathematical formulas.
 
-Because the application of `|` and `\|` in LaTeX is too casual, we recommend using `\lvert\rvert` and `\ lVert\rVert` instead.
+Because the application of `|` and `\|` in LaTeX is too casual, we recommend using `\lvert\rvert` and `\lVert\rVert` instead.
 
 :::
 
@@ -441,14 +441,18 @@ $$
 $$
 
 ```md
-$\tag{1} x+y^{2x}$
+$$
+\tag{1} x+y^{2x}
+$$
 
-$\tag*{1} x+y^{2x}$
+$$
+\tag*{1} x+y^{2x}
+$$
 ```
 
 ### Segmented Functions
 
-Use `case` environment
+Use `cases` environment
 
 $$
 y= \begin{cases}

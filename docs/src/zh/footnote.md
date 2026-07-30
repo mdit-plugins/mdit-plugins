@@ -33,8 +33,8 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
   ```MD
   脚注 1 链接 [^first]。
 
-  [^first]：脚注可以参考[^second]。
-  [^second]：其他脚注。
+  [^first]: 脚注可以参考[^second]。
+  [^second]: 其他脚注。
   ```
 
 - 转义可以通过添加 `\` 来完成：
