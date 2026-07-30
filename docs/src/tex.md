@@ -357,7 +357,7 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
   Use `\\` or `\newline` to wrap
 
   $$
-  x = a+b+c+{} \\
+  x = a+b+c+ \\
   d+e+f+g
   $$
 
@@ -368,7 +368,7 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 
   ```md
   $$
-  x = a+b+c+{} \\
+  x = a+b+c+ \\
   d+e+f+g
   $$
 
