@@ -63,7 +63,7 @@ Both `width` and `height` should be numbers as pixels and are required. Setting 
 Renders as ↓
 
 ```html
-<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.png" alt="Alt" width="200" height="200" />
 <img src="/example.jpg" alt="Alt" width="200" />
 <img src="/example.bmp" alt="Alt" height="300" />
 ```

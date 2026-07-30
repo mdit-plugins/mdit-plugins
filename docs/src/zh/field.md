@@ -191,11 +191,39 @@ interface FieldAttr {
 
 ### fieldsOpenRender
 
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：字段容器打开渲染函数。
+
+### fieldsCloseRender
+
+- 类型：`RenderRule`
+
+<!-- @include: ../render-rule.snippet.md -->
+
+- 详情：字段容器关闭渲染函数。
+
+### fieldOpenRender
+
 - 类型：`MarkdownItFieldOpenRender`
 
 ```ts
 interface FieldAttrInfo {
+  /**
+   * 属性名
+   */
+  attr: string;
+
+  /**
+   * 属性显示名称
+   */
   name: string;
+
+  /**
+   * 属性值
+   */
   value: string | true;
 }
 
@@ -206,12 +234,12 @@ interface FieldMeta {
   name: string;
 
   /**
-   * 字段级别，从 0 开始
+   * 字段级别，从 1 开始
    */
   level: number;
 
   /**
-   * 排序后的字段属性，键为属性名，值为属性值。
+   * 排序后的字段属性
    */
   attributes: FieldAttrInfo[];
 }
@@ -228,22 +256,6 @@ type MarkdownItFieldOpenRender = (
   self: Renderer,
 ) => string;
 ```
-
-- 详情：字段容器打开渲染函数。
-
-### fieldsCloseRender
-
-- 类型：`RenderRule`
-
-<!-- @include: ../render-rule.snippet.md -->
-
-- 详情：字段容器关闭渲染函数。
-
-### fieldOpenRender
-
-- 类型：`RenderRule`
-
-<!-- @include: ../render-rule.snippet.md -->
 
 - 详情：字段项打开渲染函数。
 

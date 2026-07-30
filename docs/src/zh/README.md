@@ -66,7 +66,7 @@ features:
 
   - title: footnote
     icon: quote-left
-    details: 支持页脚
+    details: 支持脚注
     link: ./footnote.html
 
   - title: icon
@@ -151,12 +151,12 @@ features:
 
   - title: sub
     icon: subscript
-    details: 支持上角标
+    details: 支持下角标
     link: ./sub.html
 
   - title: sup
     icon: superscript
-    details: 支持下角标
+    details: 支持上角标
     link: ./sup.html
 
   - title: tab

@@ -63,7 +63,7 @@ mdIt.use(snippet, {
 - `<<< example.html` 导入 `example.html` 作为片段
 - `<<< example.js{1,3,7-9}`。 将 `example.js` 作为代码段导入并突出显示第 1、3、7 到 9 行
 - `<<< example.css#normalize` 在 `example.css` 中导入 `normalize` 片段
-- `<<< example.ts#plugin{2-5}` 在 `example.ts` 中导入 `plugin` 片段并突出显示第 1 到 3 行
+- `<<< example.ts#plugin{2-5}` 在 `example.ts` 中导入 `plugin` 片段并突出显示第 2 到 5 行
 
 ::: note
 
@@ -139,7 +139,7 @@ const mdIt = MarkdownIt().use(snippet, {
 });
 // #endregion snippet
 
-mdIt.render("@snippet(./path/to/snippet/file.md)", {
+mdIt.render("<<< ./path/to/snippet/file.md", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -157,7 +157,7 @@ const mdIt = MarkdownIt().use(snippet, {
 });
 // #endregion snippet
 
-mdIt.render("@snippet(./path/to/snippet/file.md)", {
+mdIt.render("<<< ./path/to/snippet/file.md", {
   filePath: "path/to/current/file.md",
 });
 ```

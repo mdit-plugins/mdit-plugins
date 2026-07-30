@@ -3,7 +3,7 @@ title: "@mdit/plugin-sup"
 icon: superscript
 ---
 
-提供下角标支持的插件。
+提供上角标支持的插件。
 
 <!-- more -->
 
@@ -20,7 +20,7 @@ mdIt.render("19^th^");
 
 ## 格式
 
-使用 `^ ^` 进行下角标标注。
+使用 `^ ^` 进行上角标标注。
 
 ::: tip 转义
 

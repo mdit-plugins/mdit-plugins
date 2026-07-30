@@ -19,9 +19,9 @@ If you are looking for an out of box solution, you should try [@mdit/plugin-kate
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { figure } from "@mdit/plugin-figure";
+import { tex } from "@mdit/plugin-tex";
 
-const mdIt = MarkdownIt().use(figure, {
+const mdIt = MarkdownIt().use(tex, {
   render: (content, displayMode) => {
     // render tex here and return
   },

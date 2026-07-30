@@ -46,7 +46,6 @@ mdIt.render(`
 
   ```js
   md.use(alert, {
-    name: "warning",
     deep: true,
   });
   ```
