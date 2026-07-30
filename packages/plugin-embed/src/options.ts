@@ -29,5 +29,5 @@ export interface MarkdownItEmbedOptions {
    *
    * 嵌入配置
    */
-  config?: EmbedConfig[];
+  config: EmbedConfig[];
 }

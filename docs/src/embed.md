@@ -147,7 +147,7 @@ interface EmbedConfig {
 }
 ```
 
-- Default: `[]`
+- Required: Yes
 - Details: An array of embed configurations.
 
 Each configuration must have:
