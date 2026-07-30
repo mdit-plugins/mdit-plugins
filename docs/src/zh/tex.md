@@ -17,9 +17,9 @@ icon: square-root-variable
 
 ```ts
 import MarkdownIt from "markdown-it";
-import { figure } from "@mdit/plugin-figure";
+import { tex } from "@mdit/plugin-tex";
 
-const mdIt = MarkdownIt().use(figure, {
+const mdIt = MarkdownIt().use(tex, {
   render: (content, displayMode) => {
     // 在此渲染 tex 并返回
   },

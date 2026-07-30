@@ -62,7 +62,7 @@ E.g.:
 - `<<< example.html` import `example.html` as snippet
 - `<<< example.js{1,3,7-9}`. import `example.js` as snippet and highlight lines 1, 3, 7 to 9
 - `<<< example.css#normalize` import region `normalize` in `example.css`
-- `<<< example.ts#plugin{2-5}` import region `plugin` in `example.ts` and highlight lines 1 to 3
+- `<<< example.ts#plugin{2-5}` import region `plugin` in `example.ts` and highlight lines 2 to 5
 
 ::: note
 
@@ -138,7 +138,7 @@ const mdIt = MarkdownIt().use(snippet, {
 });
 // #endregion snippet
 
-mdIt.render("@snippet(./path/to/snippet/file.md)", {
+mdIt.render("<<< ./path/to/snippet/file.md", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -156,7 +156,7 @@ const mdIt = MarkdownIt().use(snippet, {
 });
 // #endregion snippet
 
-mdIt.render("@snippet(./path/to/snippet/file.md)", {
+mdIt.render("<<< ./path/to/snippet/file.md", {
   filePath: "path/to/current/file.md",
 });
 ```

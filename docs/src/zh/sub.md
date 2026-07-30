@@ -3,7 +3,7 @@ title: "@mdit/plugin-sub"
 icon: subscript
 ---
 
-提供上角标支持的插件。
+提供下角标支持的插件。
 
 <!-- more -->
 
@@ -20,7 +20,7 @@ mdIt.render("H~2~O");
 
 ## 格式
 
-使用 `~ ~` 进行上角标标注。
+使用 `~ ~` 进行下角标标注。
 
 ::: tip 转义
 

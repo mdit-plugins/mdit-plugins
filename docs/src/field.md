@@ -203,11 +203,39 @@ interface FieldAttr {
 
 ### fieldsOpenRender
 
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Fields container open render.
+
+### fieldsCloseRender
+
+- Type: `RenderRule`
+
+<!-- @include: ./render-rule.snippet.md -->
+
+- Details: Fields container close render.
+
+### fieldOpenRender
+
 - Type: `MarkdownItFieldOpenRender`
 
 ```ts
 interface FieldAttrInfo {
+  /**
+   * attribute name
+   */
+  attr: string;
+
+  /**
+   * attribute display name
+   */
   name: string;
+
+  /**
+   * attribute value
+   */
   value: string | true;
 }
 
@@ -218,12 +246,12 @@ interface FieldMeta {
   name: string;
 
   /**
-   * field level, starting from 0
+   * field level, starting from 1
    */
   level: number;
 
   /**
-   * sorted field attributes, key is attribute name, value is attribute value.
+   * sorted field attributes
    */
   attributes: FieldAttrInfo[];
 }
@@ -240,22 +268,6 @@ type MarkdownItFieldOpenRender = (
   self: Renderer,
 ) => string;
 ```
-
-- Details: Fields container open render.
-
-### fieldsCloseRender
-
-- Type: `RenderRule`
-
-<!-- @include: ./render-rule.snippet.md -->
-
-- Details: Fields container close render.
-
-### fieldOpenRender
-
-- Type: `RenderRule`
-
-<!-- @include: ./render-rule.snippet.md -->
 
 - Details: Field item open render.
 

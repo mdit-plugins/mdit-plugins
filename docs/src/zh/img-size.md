@@ -63,7 +63,7 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 渲染为 ↓
 
 ```html
-<img src="/example.png" alt="替代文字" width="200" height="300" />
+<img src="/example.png" alt="替代文字" width="200" height="200" />
 <img src="/example.jpg" alt="替代文字" width="200" />
 <img src="/example.bmp" alt="替代文字" height="300" />
 ```

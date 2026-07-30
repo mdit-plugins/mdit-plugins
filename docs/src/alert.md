@@ -46,7 +46,6 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
   ```js
   md.use(alert, {
-    name: "warning",
     deep: true,
   });
   ```
