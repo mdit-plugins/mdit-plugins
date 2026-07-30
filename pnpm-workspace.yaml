@@ -49,9 +49,6 @@ overrides:
 
 cleanupUnusedCatalogs: true
 
-# configDependencies:
-#   pacquet: ^0.11.12
-
 enableGlobalVirtualStore: true
 
 packageExtensions:
