@@ -291,7 +291,7 @@ import { field } from "@mdit/plugin-field";
 const mdIt = MarkdownIt().use(field, {
   name: "props",
   allowedAttributes: [
-    { attr: "type", name: "Property Type" },
+    { attr: "type", name: "属性类型" },
     { attr: "required", boolean: true },
   ],
 });

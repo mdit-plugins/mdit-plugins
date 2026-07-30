@@ -32,7 +32,7 @@ Bob -> Alice : hello
 
 :::
 
-::: preview 非 ASCII 演示
+::: preview 非 ASCII 示例
 
 @startuml
 Bob -> Alice : 你好
