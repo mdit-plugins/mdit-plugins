@@ -97,7 +97,7 @@ mdIt.render(`
 ### alertNames
 
 - 类型：`string[]`
-- 默认值：`['important', 'note', 'tip', 'warning', 'caution']`
+- 默认值：`['tip', 'warning', 'caution', 'important', 'note']`
 - 详情：允许的警告名称。
 
 ### deep

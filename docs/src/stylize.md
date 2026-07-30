@@ -144,7 +144,7 @@ interface MarkdownItStylizeConfig {
     content: string;
     attrs: Record<string, string>;
     env?: any;
-  }) => MarkdownItStylizeResult | void;
+  }) => MarkdownItStylizeResult | null | undefined;
 }
 ```
 

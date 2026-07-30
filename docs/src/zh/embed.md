@@ -138,11 +138,11 @@ interface EmbedConfig {
 
   /**
    * 生成嵌入 HTML 的设置函数
-   * @param params 参数
+   * @param ref 参数
    * @param isInline 如果 allowInline 为 true，则 isInline 表示当前匹配的内容原文是否是 inline
    * @returns
    */
-  setup: (params: string, isInline: boolean) => string;
+  setup: (ref: string, isInline: boolean) => string;
 
   /**
    * 是否允许在行内使用

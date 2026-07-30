@@ -35,7 +35,7 @@ By default the plugin renders related tabs dom for you, if you want to customize
 
 `openRender` and `tabOpenRender` receives extra information as first args, see [Options](#options) for more details.
 
-The plugin doesn't provide any styles, and will not register any events, so that you should add styles and events by yourself.
+The plugin doesn't inject any styles or events by default, but it ships an optional stylesheet (`@mdit/plugin-tab/style`) and browser helpers (`@mdit/plugin-tab/tab`, which exports `register()`, and `@mdit/plugin-tab/register-tab`, which auto-registers on import) that you can import yourself.
 
 ::: tip Nesting and escaping
 
@@ -100,12 +100,12 @@ interface MarkdownItTabData {
   /**
    * Identifier of tab
    */
-  id?: string;
+  id: string | undefined;
 
   /**
    * Whether the tab is active
    */
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 interface MarkdownItTabInfo {
@@ -164,12 +164,12 @@ interface MarkdownItTabData {
   /**
    * Identifier of tab
    */
-  id?: string;
+  id: string | undefined;
 
   /**
    * Whether the tab is active
    */
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 /**

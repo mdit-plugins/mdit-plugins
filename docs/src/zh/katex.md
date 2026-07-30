@@ -98,7 +98,7 @@ type KatexLogger<MarkdownItEnv = unknown> = (
   errorMsg: string,
   token: Token,
   env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | boolean | undefined | void;
+) => "error" | "warn" | "ignore" | boolean | undefined;
 ```
 
 - 详情：错误日志记录器函数。

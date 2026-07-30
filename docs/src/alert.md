@@ -97,7 +97,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 ### alertNames
 
 - Type: `string[]`
-- Default: `['important', 'note', 'tip', 'warning', 'caution']`
+- Default: `['tip', 'warning', 'caution', 'important', 'note']`
 - Details: Allowed alert names.
 
 ### deep

@@ -133,11 +133,11 @@ interface EmbedConfig {
 
   /**
    * Setup function to generate embed HTML
-   * @param params
+   * @param ref
    * @param isInline If `allowInline` is true, `isInline` represent that current matched content is inline
    * @returns
    */
-  setup: (params: string, isInline: boolean) => string;
+  setup: (ref: string, isInline: boolean) => string;
 
   /**
    * Whether the embed can be used inline

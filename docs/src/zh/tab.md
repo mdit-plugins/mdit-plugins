@@ -35,7 +35,7 @@ mdIt.render("content");
 
 `openRender` 和 `tabOpenRender` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
 
-该插件不提供任何样式，也不会注册任何事件，需要你自行添加样式和事件。
+该插件默认不注入任何样式和事件，但提供了可选的样式表 (`@mdit/plugin-tab/style`) 和浏览器端辅助函数 (`@mdit/plugin-tab/tab` 导出 `register()`，`@mdit/plugin-tab/register-tab` 在导入时自动注册)，你可以自行导入。
 
 ::: tip 嵌套和转义
 
@@ -100,12 +100,12 @@ interface MarkdownItTabData {
   /**
    * 选项卡标识符
    */
-  id?: string;
+  id: string | undefined;
 
   /**
    * 选项卡是否处于激活状态
    */
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 interface MarkdownItTabInfo {
@@ -164,12 +164,12 @@ interface MarkdownItTabData {
   /**
    * 选项卡标识符
    */
-  id?: string;
+  id: string | undefined;
 
   /**
    * 选项卡是否处于激活状态
    */
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 /**
