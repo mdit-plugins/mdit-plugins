@@ -47,7 +47,7 @@ mdIt.use(snippet, {
       return path.replace("@src", "path/to/src/folder");
     }
 
-    return join(cwd, path);
+    return cwd ? join(cwd, path) : path;
   },
 });
 ```
