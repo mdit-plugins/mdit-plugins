@@ -343,7 +343,7 @@ namespace HelloWorldApp {
 
 - Type: `(path: string, cwd: string | null) => string`
 - Default: `(path) => path`
-- Details: Handle include filePath.
+- Details: Handle snippet filePath.
 
 ## Demo
 

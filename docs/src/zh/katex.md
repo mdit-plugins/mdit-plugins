@@ -9,7 +9,7 @@ icon: square-root-variable
 
 这个插件基于 [@mdit/plugin-tex](tex.md)。
 
-::::
+:::
 
 <!-- more -->
 

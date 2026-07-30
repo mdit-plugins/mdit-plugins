@@ -86,9 +86,9 @@ Both `width` and `height` should be numbers as pixels and are optional.
 Renders as ↓
 
 ```html
-<img src="/example.png" width="200" height="300" />
-<img src="/example.jpg" title="TTitle" width="200" />
-<img src="/example.bmp" height="300" />
+<img src="/example.png" alt="Alt" width="200" height="300" />
+<img src="/example.jpg" alt="Alt" title="Title" width="200" />
+<img src="/example.bmp" alt="Alt" height="300" />
 ```
 
 ::: tip Choosing between 3 Grammars
