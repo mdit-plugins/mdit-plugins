@@ -137,7 +137,7 @@ Anchor 插件会复用已有的 `id`。
 import { headerLink } from "@mdit/plugin-anchor";
 ```
 
-**输出：** `<h2 id="title"><a href="#title">标题</a></h2>`
+**输出：** `<h2 id="title" tabindex="-1"><a class="header-anchor" href="#title">标题</a></h2>`
 
 | 名称              | 描述                                                     | 默认值  |
 | ----------------- | -------------------------------------------------------- | ------- |
@@ -152,7 +152,7 @@ import { headerLink } from "@mdit/plugin-anchor";
 import { linkInsideHeader } from "@mdit/plugin-anchor";
 ```
 
-**输出：** `<h2 id="title">标题 <a href="#title">#</a></h2>`
+**输出：** `<h2 id="title" tabindex="-1">标题 <a class="header-anchor" href="#title">#</a></h2>`
 
 | 名称         | 描述                                                                  | 默认值  |
 | ------------ | --------------------------------------------------------------------- | ------- |
@@ -176,17 +176,26 @@ import { linkInsideHeader } from "@mdit/plugin-anchor";
 import { ariaHidden } from "@mdit/plugin-anchor";
 ```
 
-**输出：** `<h2 id="title">标题 <a href="#title" aria-hidden="true">#</a></h2>`
+**输出：** `<h2 id="title" tabindex="-1">标题 <a class="header-anchor" href="#title" aria-hidden="true">#</a></h2>`
 
 ### linkAfterHeader
 
 在标题块**之后**放置永久链接锚点。提供最灵活的屏幕阅读器无障碍体验。
 
+与其他预设不同，`linkAfterHeader` 没有默认选项 —— 使用默认的 `visually-hidden` 样式时至少需要传入 `assistiveText` 和 `visuallyHiddenClass`：
+
 ```ts
-import { linkAfterHeader } from "@mdit/plugin-anchor";
+import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
+
+md.use(anchor, {
+  permalink: linkAfterHeader({
+    assistiveText: (title) => `永久链接：${title}`,
+    visuallyHiddenClass: "sr-only",
+  }),
+});
 ```
 
-**输出：** `<h2 id="title">标题</h2><a href="#title"><span class="sr-only">永久链接</span> <span aria-hidden="true">#</span></a>`
+**输出：** `<h2 id="title" tabindex="-1">标题</h2><a class="header-anchor" href="#title"><span class="sr-only">永久链接：标题</span> <span aria-hidden="true">#</span></a>`
 
 | 名称                  | 描述                                                                             | 默认值            |
 | --------------------- | -------------------------------------------------------------------------------- | ----------------- |

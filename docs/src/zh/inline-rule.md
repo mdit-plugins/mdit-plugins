@@ -18,6 +18,7 @@ const mdIt = MarkdownIt().use(inlineRule, {
   tag: "mark",
   token: "mark",
   nested: true,
+  double: true,
   placement: "before-emphasis",
 });
 
@@ -96,6 +97,7 @@ md.use(inlineRule, {
   tag: "span",
   token: "spoiler",
   nested: true,
+  double: true,
   placement: "before-emphasis",
   attrs: [["class", "spoiler"]],
 });
@@ -124,13 +126,14 @@ md.use(inlineRule, {
 
 ```ts
 md.use(inlineRule, {
-  marker: "?",
+  marker: "%",
   tag: "span",
   token: "help",
   nested: true,
+  double: true,
   placement: "before-emphasis",
   attrs: [["class", "help-text"]],
 });
 
-// ??帮助文本?? → <span class="help-text">帮助文本</span>
+// %%帮助文本%% → <span class="help-text">帮助文本</span>
 ```

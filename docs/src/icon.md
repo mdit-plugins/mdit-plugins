@@ -20,10 +20,10 @@ mdIt.render("iPhone is made by ::apple::.");
 
 ## Syntax
 
-Use `::icon classes::` to insert custom icons. By default the plugin will render a `<i>` tag with the given icon class. Any classes started with a `=` will be treated as a size definition, and `/` will be treated as a color definition:
+Use `::icon classes::` to insert custom icons. By default the plugin renders a `<i>` tag with the raw content as its class. The bundled renderers (`defaultRender`, `iconifyRender`, `fontawesomeRender` and `iconfontRender`), used via the `render` option, additionally treat any part starting with `=` as a size definition and any part starting with `/` as a color definition:
 
 ```md
-<!-- <i class="icon1" style="font-size:16px;color:red" -->
+<!-- with `render: defaultRender`: <i icon="icon1" style="font-size:16px;color:red"></i> -->
 
 ::icon1 =16 /red::
 ```

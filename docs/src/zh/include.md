@@ -34,6 +34,7 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 例如，以下代码添加了对 `@src` 别名的支持：
 
 ```ts
+import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
@@ -46,7 +47,7 @@ mdIt.use(include, {
       return path.replace("@src", "path/to/src/folder");
     }
 
-    return path.join(cwd, path);
+    return join(cwd, path);
   },
 });
 ```
@@ -137,7 +138,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("<!-- @include: ./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```
@@ -155,7 +156,7 @@ const mdIt = MarkdownIt().use(include, {
 });
 // #endregion snippet
 
-mdIt.render("<!-- @include: ./path/to/include/file.md)", {
+mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
   filePath: "path/to/current/file.md",
 });
 ```

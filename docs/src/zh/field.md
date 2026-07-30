@@ -275,7 +275,7 @@ type MarkdownItFieldOpenRender = (
 @parent@
 父级项目描述。
 
-@child@
+@@child@
 子级项目描述。
 :::
 

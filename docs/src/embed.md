@@ -147,8 +147,8 @@ interface EmbedConfig {
 }
 ```
 
-- Default: `[]`
-- Details: An array of embed configurations.
+- Required: Yes
+- Details: An array of embed configurations. The plugin throws if it is missing or not an array.
 
 Each configuration must have:
 

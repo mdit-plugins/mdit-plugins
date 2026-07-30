@@ -20,10 +20,10 @@ mdIt.render("iPhone is made by ::apple::.");
 
 ## 语法
 
-使用 `::icon classes::` 插入自定义图标。默认情况下，插件将使用给定的图标类渲染一个 `<i>` 标签。任何以 `=` 开头的类将被视为大小定义，`/` 将被视为颜色定义：
+使用 `::icon classes::` 插入自定义图标。默认情况下，插件会渲染一个以原始内容作为 class 的 `<i>` 标签。通过 `render` 选项使用内置渲染器（`defaultRender`、`iconifyRender`、`fontawesomeRender` 和 `iconfontRender`）时，任何以 `=` 开头的部分会被视为大小定义，以 `/` 开头的部分会被视为颜色定义：
 
 ```md
-<!-- <i class="icon1" style="font-size:16px;color:red" -->
+<!-- 使用 `render: defaultRender` 时：<i icon="icon1" style="font-size:16px;color:red"></i> -->
 
 ::icon1 =16 /red::
 ```
