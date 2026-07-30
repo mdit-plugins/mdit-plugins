@@ -124,10 +124,9 @@ const md = MarkdownIt().use(embed, {
 
 ### config
 
-- 类型: `EmbedConfig[]`
-- 必填: 是
-
-嵌入配置数组。缺失或不是数组时插件会抛出错误。
+- 类型：`EmbedConfig[]`
+- 必填：是
+- 详情：嵌入配置数组。缺失或不是数组时插件会抛出错误。
 
 ```ts
 interface EmbedConfig {
