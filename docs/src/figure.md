@@ -45,7 +45,6 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 ### moveAttrs
 
 - Type: `boolean | (string | RegExp)[]`
-- Default: `false`
 - Details:
 
   Copy or move image attributes to `<figure>`.

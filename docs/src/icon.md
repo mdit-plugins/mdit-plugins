@@ -35,19 +35,19 @@ import MarkdownIt from "markdown-it";
 import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
 const mdIt = MarkdownIt().use(icon, {
+  // only one render can be set, pick the one you need
+
   // support for iconify
   render: iconifyRender,
 
   // support for fontawesome
-  render: fontawesomeRender,
+  // render: fontawesomeRender,
 
   // support for iconfont
-  render: iconfontRender,
+  // render: iconfontRender,
 
   // custom render
-  render: (rawIcon) => {
-    return `<span class="${rawIcon}"></span>`;
-  },
+  // render: (rawIcon) => `<span class="${rawIcon}"></span>`,
 });
 ```
 

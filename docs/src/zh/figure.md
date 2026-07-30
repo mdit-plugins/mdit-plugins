@@ -43,7 +43,6 @@ mdIt.render("![image](https://example.com/image.png)");
 ### moveAttrs
 
 - 类型：`boolean | (string | RegExp)[]`
-- 默认值：`false`
 - 详情：
 
   将图片属性复制或移动到 `<figure>` 上。
