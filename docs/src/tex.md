@@ -213,13 +213,15 @@ $\sqrt{x}$, $\frac{1}{2}$.
 
 $\sum_{i=1}^n i\; \prod_{i=1}^n$
 
-$\sum\limits _{i=1}^n i\; \prod\limits _{i=1}^n$
+$\sum\limits _{i=1}^n i\; \prod\limits_{i=1}^n$
 
 $\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$
 
 $\iint\limits_1^2 x^2\; \iiint\limits_1^2 x^2\; \iiiint\limits_1^2 x^2\; \idotsint\limits_1^2 x^2$
 
-$$\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$$
+$$
+\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2
+$$
 ```
 
 :::
@@ -366,7 +368,7 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 
   ```md
   $$
-  x = a+b+c+ \\
+  x = a+b+c+{} \\
   d+e+f+g
   $$
 
@@ -412,7 +414,7 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 
 ### Formula Group
 
-Formula groups that do not require alignment can use the `gather` environment.
+Formula groups that do not require alignment can use the `gathered` environment.
 
 $$
 \begin{gathered}

@@ -319,7 +319,7 @@ namespace HelloWorldApp {
 
 - Nesting is supported by setting `deep: true` in the options, the plugin recursively process the `<!-- @include: -->` syntax for imported Markdown files.
 
-- Escaping can be done by adding zeo-width space (`U+200B` or `&#8203;`) before `<!-- @include: -->` syntax:
+- Escaping can be done by adding zero-width space (`U+200B` or `&#8203;`) before `<!-- @include: -->` syntax:
 
   ```md
   &#8203;<!-- @include: ./demo.snippet.md -->
@@ -371,7 +371,7 @@ namespace HelloWorldApp {
 
 ## Demo
 
-`<!-- @include: ./demo.snippet.md-->`:
+`<!-- @include: ./demo.snippet.md -->`:
 
 <!-- @include: ./demo.snippet.md -->
 

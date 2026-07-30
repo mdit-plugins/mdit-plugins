@@ -173,7 +173,7 @@ interface MarkdownItTabData {
 }
 
 /**
- * Tabs open renderer
+ * Tab open renderer
  */
 type TabOpenRender = (
   info: MarkdownItTabData,
