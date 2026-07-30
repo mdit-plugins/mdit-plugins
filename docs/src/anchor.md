@@ -189,9 +189,10 @@ flexibility for accessible screen reader experiences.
 Unlike the other presets, `linkAfterHeader` has no default options — pass at least `assistiveText` and `visuallyHiddenClass` when using the default `visually-hidden` style:
 
 ```ts
+import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-mdIt.use(anchor, {
+const mdIt = MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `Permalink for ${title}`,
     visuallyHiddenClass: "sr-only",

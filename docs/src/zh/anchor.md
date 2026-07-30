@@ -185,9 +185,10 @@ import { ariaHidden } from "@mdit/plugin-anchor";
 与其他预设不同，`linkAfterHeader` 没有默认选项 —— 使用默认的 `visually-hidden` 样式时至少需要传入 `assistiveText` 和 `visuallyHiddenClass`：
 
 ```ts
+import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-mdIt.use(anchor, {
+const mdIt = MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `永久链接：${title}`,
     visuallyHiddenClass: "sr-only",
