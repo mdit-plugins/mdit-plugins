@@ -191,7 +191,7 @@ Unlike the other presets, `linkAfterHeader` has no default options — pass at l
 ```ts
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-md.use(anchor, {
+mdIt.use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `Permalink for ${title}`,
     visuallyHiddenClass: "sr-only",

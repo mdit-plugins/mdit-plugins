@@ -187,7 +187,7 @@ import { ariaHidden } from "@mdit/plugin-anchor";
 ```ts
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-md.use(anchor, {
+mdIt.use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `永久链接：${title}`,
     visuallyHiddenClass: "sr-only",
