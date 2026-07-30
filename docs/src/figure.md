@@ -9,8 +9,6 @@ Plugin for generating figures with captions from images.
 
 ## Usage
 
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";

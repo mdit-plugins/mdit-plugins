@@ -9,8 +9,6 @@ Plugin to add lazy loading for images.
 
 ## Usage
 
-@tab TS
-
 ```ts
 import MarkdownIt from "markdown-it";
 import { imgLazyload } from "@mdit/plugin-img-lazyload";

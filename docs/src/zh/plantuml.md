@@ -32,6 +32,14 @@ Bob -> Alice : hello
 
 :::
 
+::: preview 非 ASCII 示例
+
+@startuml
+Bob -> Alice : 你好
+@enduml
+
+:::
+
 ## 选项
 
 ### type
