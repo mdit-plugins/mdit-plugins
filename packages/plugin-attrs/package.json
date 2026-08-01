@@ -57,7 +57,7 @@
     "markdown-it-multimd-table": "^4.2.3"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^14.2.0 || ^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

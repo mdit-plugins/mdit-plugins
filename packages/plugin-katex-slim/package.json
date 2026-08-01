@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "katex": "^0.16.25 || ^0.17.0 || ^0.18.0",
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^14.2.0 || ^15.0.0"
   },
   "peerDependenciesMeta": {
     "katex": {

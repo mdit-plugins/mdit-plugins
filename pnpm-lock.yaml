@@ -388,7 +388,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-abbr:
@@ -397,7 +397,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-alert:
@@ -406,7 +406,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-align:
@@ -418,7 +418,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-anchor:
@@ -431,8 +431,8 @@ importers:
         specifier: workspace:*
         version: link:../plugin-attrs
       markdown-it:
-        specifier: 14.3.0
-        version: 14.3.0
+        specifier: 15.0.0
+        version: 15.0.0
 
   packages/plugin-attrs:
     dependencies:
@@ -443,7 +443,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/plugin-container':
@@ -474,7 +474,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-demo:
@@ -483,7 +483,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/helper':
@@ -496,7 +496,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-embed:
@@ -505,7 +505,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-emoji:
@@ -514,7 +514,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-field:
@@ -526,7 +526,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/plugin-container':
@@ -539,7 +539,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-footnote:
@@ -548,7 +548,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-icon:
@@ -560,7 +560,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/plugin-emoji':
@@ -573,7 +573,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-img-mark:
@@ -582,7 +582,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-img-size:
@@ -591,7 +591,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/plugin-figure':
@@ -607,7 +607,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
       upath:
         specifier: ^3.0.8
@@ -626,7 +626,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-ins:
@@ -638,7 +638,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-katex:
@@ -656,7 +656,7 @@ importers:
         specifier: ^0.18.1
         version: 0.18.1
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-katex-slim:
@@ -671,7 +671,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       katex:
@@ -687,7 +687,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mdit/plugin-container':
@@ -703,7 +703,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-mathjax:
@@ -721,7 +721,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mathjax/mathjax-tex-font':
@@ -740,7 +740,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       '@mathjax/mathjax-tex-font':
@@ -759,7 +759,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
     devDependencies:
       pako:
@@ -772,7 +772,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-snippet:
@@ -784,7 +784,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
       upath:
         specifier: ^3.0.8
@@ -799,7 +799,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-stylize:
@@ -808,7 +808,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-sub:
@@ -820,7 +820,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-sup:
@@ -832,7 +832,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-tab:
@@ -844,7 +844,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-tasklist:
@@ -853,7 +853,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-tex:
@@ -862,7 +862,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
   packages/plugin-uml:
@@ -874,7 +874,7 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       markdown-it:
-        specifier: ^14.2.0
+        specifier: ^14.2.0 || ^15.0.0
         version: 14.3.0
 
 packages:
@@ -2783,6 +2783,9 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+  argparse@3.0.0:
+    resolution: {integrity: sha512-BOp5NMrHqKxmq/OLr+clzzrRxgOKSLkcjmkWuChp7Irqwn4s74WjOBPIgWfA/HMcBnVkZ5XEuf9uUqzlpfCQ6A==}
+
   argue-cli@3.1.0:
     resolution: {integrity: sha512-DhBpBfXL4SS2uC0N922MMajKR3CdrTG0u2or1PNYgXMsrSzViJrbtvT0nCLlLGUI0plam/ZZCs7aAauHtW9thw==}
     engines: {node: '>=22'}
@@ -3139,6 +3142,10 @@ packages:
   entities@7.0.1:
     resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
+
+  entities@8.0.0:
+    resolution: {integrity: sha512-zwfzJecQ/Uej6tusMqwAqU/6KL2XaB2VZ2Jg54Je6ahNBGNH6Ek6g3jjNCF0fG9EWQKGZNddNjU5F1ZQn/sBnA==}
+    engines: {node: '>=20.19.0'}
 
   env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -3632,6 +3639,9 @@ packages:
   linkify-it@5.0.2:
     resolution: {integrity: sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==}
 
+  linkify-it@6.1.0:
+    resolution: {integrity: sha512-wJ/TwpSDTLepCrQoYWYIExIKg5Zchex2Nn5yk2mFnB+6PtdkHtyLx742md9csRjjOnGkKIS/RrbY7l8D6gT9Vw==}
+
   lit-element@4.2.2:
     resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==}
 
@@ -3702,6 +3712,10 @@ packages:
 
   markdown-it@14.3.0:
     resolution: {integrity: sha512-RCEsPjR+sr0x+AuYp601tKTkgFG4YEPLCzHST3cQ/fhlJkqAkz1L2/Qbp1j9qw5SBwQHFBoW8+hoN5xssOF0Tw==}
+    hasBin: true
+
+  markdown-it@15.0.0:
+    resolution: {integrity: sha512-Lf8ajvVNdRpzSNB4VegxNy7gjs8gU35l4b4+ET49LrQC5PKYwLZ72u60LeJ9gv3qiaesuYjJWCyVeQmv/QWKQw==}
     hasBin: true
 
   markdownlint-cli2-formatter-default@0.0.6:
@@ -4670,6 +4684,9 @@ packages:
 
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
+
+  uc.micro@3.0.0:
+    resolution: {integrity: sha512-U3PppEkleoTnIfi8BozMx3yju3qc/L6SwqWo2Sw+54PX+PX0q9I+r1Um5HCmqD7n9VDX5/v3vQH/AjA6deDdtw==}
 
   ufo@1.6.4:
     resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
@@ -7256,6 +7273,8 @@ snapshots:
 
   argparse@2.0.1: {}
 
+  argparse@3.0.0: {}
+
   argue-cli@3.1.0: {}
 
   assertion-error@2.0.1: {}
@@ -7586,6 +7605,8 @@ snapshots:
   entities@6.0.1: {}
 
   entities@7.0.1: {}
+
+  entities@8.0.0: {}
 
   env-paths@2.2.1: {}
 
@@ -8082,6 +8103,10 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
+  linkify-it@6.1.0:
+    dependencies:
+      uc.micro: 3.0.0
+
   lit-element@4.2.2:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.6.0
@@ -8178,6 +8203,15 @@ snapshots:
       mdurl: 2.1.0
       punycode.js: 2.3.1
       uc.micro: 2.1.0
+
+  markdown-it@15.0.0:
+    dependencies:
+      argparse: 3.0.0
+      entities: 8.0.0
+      linkify-it: 6.1.0
+      mdurl: 2.1.0
+      punycode.js: 2.3.1
+      uc.micro: 3.0.0
 
   markdownlint-cli2-formatter-default@0.0.6(markdownlint-cli2@0.23.2(supports-color@8.1.1)):
     dependencies:
@@ -9269,6 +9303,8 @@ snapshots:
   typescript@6.0.3: {}
 
   uc.micro@2.1.0: {}
+
+  uc.micro@3.0.0: {}
 
   ufo@1.6.4: {}
 
