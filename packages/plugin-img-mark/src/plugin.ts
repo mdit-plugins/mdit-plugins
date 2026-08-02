@@ -2,8 +2,6 @@ import type { PluginWithOptions } from "markdown-it";
 
 import type { MarkdownItImgMarkOptions } from "./options.js";
 
-const ID_SUFFIX_REGEX = /#(?:.*?)$/;
-
 export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,
   { light = ["light"], dark = ["dark"] } = {},
@@ -19,12 +17,20 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
     const src = token.attrGet("src");
 
     if (src) {
-      if (lightIds.some((item) => src.endsWith(item))) {
+      // strip only the matched marker suffix so a pre-existing url fragment is
+      // preserved (e.g. `/a#frag#light` -> `/a#frag`)
+      const lightItem = lightIds.find((item) => src.endsWith(item));
+
+      if (lightItem) {
         token.attrSet("data-mode", "lightmode-only");
-        token.attrSet("src", src.replace(ID_SUFFIX_REGEX, ""));
-      } else if (darkIds.some((item) => src.endsWith(item))) {
-        token.attrSet("data-mode", "darkmode-only");
-        token.attrSet("src", src.replace(ID_SUFFIX_REGEX, ""));
+        token.attrSet("src", src.slice(0, -lightItem.length));
+      } else {
+        const darkItem = darkIds.find((item) => src.endsWith(item));
+
+        if (darkItem) {
+          token.attrSet("data-mode", "darkmode-only");
+          token.attrSet("src", src.slice(0, -darkItem.length));
+        }
       }
     }
 
