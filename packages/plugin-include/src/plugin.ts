@@ -2,9 +2,11 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
+import type MarkdownIt from "markdown-it";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
@@ -162,61 +164,175 @@ export const handleInclude = (
   return dedent(results.join("\n").replace(/\n?$/, "\n"));
 };
 
+// Forked and modified from markdown-it/lib/rules_block/fence.mjs
+const scanFence = (state: StateBlock, startLine: number, endLine: number): number | null => {
+  let pos = state.bMarks[startLine] + state.tShift[startLine];
+  let max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) return null;
+
+  if (pos + 3 > max) return null;
+
+  const marker = state.src.charCodeAt(pos);
+
+  if (marker !== 0x7e /* ~ */ && marker !== 0x60 /* ` */) return null;
+
+  // scan marker length
+  let mem = pos;
+  pos = state.skipChars(pos, marker);
+  const len = pos - mem;
+
+  if (len < 3) return null;
+
+  const params = state.src.slice(pos, max);
+
+  if (marker === 0x60 /* ` */ && params.includes("`")) return null;
+
+  // search end of block
+  let nextLine = startLine;
+  let haveEndMarker = false;
+
+  for (;;) {
+    nextLine++;
+    if (nextLine >= endLine) break; // unclosed => autoclose at end
+
+    pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+    max = state.eMarks[nextLine];
+
+    /* istanbul ignore next -- @preserve: blkIndent is always 0 in top-level scan */
+    if (pos < max && state.sCount[nextLine] < state.blkIndent) break;
+
+    if (state.src.charCodeAt(pos) !== marker) continue;
+    if (state.sCount[nextLine] - state.blkIndent >= 4) continue;
+
+    pos = state.skipChars(pos, marker);
+    if (pos - mem < len) continue;
+
+    pos = state.skipSpaces(pos);
+    if (pos < max) continue;
+
+    haveEndMarker = true;
+    break;
+  }
+
+  return nextLine + (haveEndMarker ? 1 : 0);
+};
+
+// Forked and modified from markdown-it/lib/rules_block/code.mjs
+const scanCode = (state: StateBlock, startLine: number, endLine: number): number => {
+  if (state.sCount[startLine] - state.blkIndent < 4) return startLine;
+
+  let nextLine = startLine + 1;
+  let last = nextLine;
+
+  while (nextLine < endLine) {
+    if (state.isEmpty(nextLine)) {
+      nextLine++;
+      continue;
+    }
+
+    if (state.sCount[nextLine] - state.blkIndent >= 4) {
+      nextLine++;
+      last = nextLine;
+      continue;
+    }
+    break;
+  }
+
+  return last;
+};
+
+// Locate fenced / indented code blocks, reusing markdown-it's block structure
+const scanCodeRanges = (content: string, md: MarkdownIt): [number, number][] => {
+  const state = new md.block.State(content, md, {}, []);
+  const ranges: [number, number][] = [];
+  let line = 0;
+
+  while (line < state.lineMax) {
+    line = state.skipEmptyLines(line);
+    if (line >= state.lineMax) break;
+
+    const fenceEnd = scanFence(state, line, state.lineMax);
+
+    if (fenceEnd != null && fenceEnd > line) {
+      ranges.push([line, fenceEnd]);
+      line = fenceEnd;
+      continue;
+    }
+
+    // indented code blocks can't directly follow a paragraph line (markdown-it
+    // treats such lines as lazy continuation), so require a blank line before
+    const codeEnd = scanCode(state, line, state.lineMax);
+
+    if (codeEnd > line && (line === 0 || state.isEmpty(line - 1))) {
+      ranges.push([line, codeEnd]);
+      line = codeEnd;
+      continue;
+    }
+
+    line++;
+  }
+
+  return ranges;
+};
+
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
   { cwd, includedFiles, stack = [] }: IncludeInfo,
-): string =>
-  content.replace(
-    options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE,
-    // oxlint-disable-next-line max-params
-    (
-      _,
-      indent: string,
-      includePath: string,
-      region?: string,
-      lineStart?: string,
-      lineEnd?: string,
-    ) => {
-      const actualPath = options.resolvePath(includePath, cwd);
-      const realPath = isAbsolute(actualPath)
-        ? actualPath
-        : cwd
-          ? resolve(cwd, actualPath)
-          : actualPath;
-      const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
+  codeRanges: [number, number][],
+  md: MarkdownIt,
+): string => {
+  const expand = (
+    indent: string,
+    includePath: string,
+    region?: string,
+    lineStart?: string,
+    lineEnd?: string,
+  ): string => {
+    const actualPath = options.resolvePath(includePath, cwd);
+    const realPath = isAbsolute(actualPath)
+      ? actualPath
+      : cwd
+        ? resolve(cwd, actualPath)
+        : actualPath;
+    const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
 
-      // Detect circular includes in the current deep include chain: if this
-      // file is already being processed, skip it instead of recursing forever.
-      if (stack.includes(realPath)) {
-        // oxlint-disable-next-line no-console
-        console.error(`[@mdit/plugin-include]: Circular include detected: ${realPath}`);
+    // Detect circular includes in the current deep include chain: if this
+    // file is already being processed, skip it instead of recursing forever.
+    if (stack.includes(realPath)) {
+      // oxlint-disable-next-line no-console
+      console.error(`[@mdit/plugin-include]: Circular include detected: ${realPath}`);
 
-        return "";
-      }
+      return "";
+    }
 
-      const fileContent = handleInclude(
-        Object.assign(
-          { filePath: actualPath },
-          region
-            ? { region }
-            : {
-                // oxlint-disable-next-line no-undefined
-                lineStart: lineStart ? Number(lineStart) : undefined,
-                // oxlint-disable-next-line no-undefined
-                lineEnd: lineEnd ? Number(lineEnd) : undefined,
-              },
-        ),
-        { cwd, includedFiles, resolvedPath },
-      );
+    const fileContent = handleInclude(
+      Object.assign(
+        { filePath: actualPath },
+        region
+          ? { region }
+          : {
+              // oxlint-disable-next-line no-undefined
+              lineStart: lineStart ? Number(lineStart) : undefined,
+              // oxlint-disable-next-line no-undefined
+              lineEnd: lineEnd ? Number(lineEnd) : undefined,
+            },
+      ),
+      { cwd, includedFiles, resolvedPath },
+    );
 
-      let included = fileContent;
+    let included = fileContent;
 
-      if (options.deep && actualPath.endsWith(".md")) {
-        stack.push(realPath);
+    if (options.deep && actualPath.endsWith(".md")) {
+      stack.push(realPath);
 
-        try {
-          included = resolveInclude(fileContent, options, {
+      try {
+        included = resolveInclude(
+          fileContent,
+          options,
+          {
             cwd: isAbsolute(actualPath)
               ? dirname(actualPath)
               : cwd
@@ -224,18 +340,71 @@ export const resolveInclude = (
                 : null,
             includedFiles,
             stack,
-          });
-        } finally {
-          stack.pop();
-        }
+          },
+          scanCodeRanges(fileContent, md),
+          md,
+        );
+      } finally {
+        stack.pop();
       }
+    }
 
-      return included
-        .split("\n")
-        .map((line) => indent + line)
-        .join("\n");
-    },
-  );
+    return included
+      .split("\n")
+      .map((line) => indent + line)
+      .join("\n");
+  };
+
+  // use a local regex instance so nested (deep) calls don't share lastIndex
+  const { source, flags } = options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE;
+  const lineRegex = new RegExp(source, flags);
+  let result = "";
+  let lastCopied = 0;
+  let lineNumber = 0;
+  let rangeIndex = 0;
+  let match: RegExpExecArray | null;
+
+  // count newlines in [from, to) to track the current line number
+  const countNewlines = (from: number, to: number): number => {
+    let count = 0;
+
+    for (let i = from; i < to; i++) if (content.charCodeAt(i) === 10 /* \n */) count++;
+
+    return count;
+  };
+
+  while ((match = lineRegex.exec(content)) != null) {
+    const { index } = match;
+    const full = match[0];
+
+    lineNumber += countNewlines(lastCopied, index);
+
+    // advance to the code range covering the current line
+    while (rangeIndex < codeRanges.length && codeRanges[rangeIndex][1] <= lineNumber) rangeIndex++;
+
+    const inCode =
+      rangeIndex < codeRanges.length &&
+      lineNumber >= codeRanges[rangeIndex][0] &&
+      lineNumber < codeRanges[rangeIndex][1];
+
+    if (inCode) {
+      // inside a code block: keep everything up to the match end literal
+      result += content.slice(lastCopied, index + full.length);
+      lastCopied = index + full.length;
+      lineNumber += countNewlines(index, index + full.length);
+      continue;
+    }
+
+    const [, indent, includePath, region, lineStart, lineEnd] = match;
+
+    result +=
+      content.slice(lastCopied, index) + expand(indent, includePath, region, lineStart, lineEnd);
+    lastCopied = index + full.length;
+    lineNumber += countNewlines(index, index + full.length);
+  }
+
+  return result + content.slice(lastCopied);
+};
 
 const SYNTAX_PUSH_RE = /^<!-- #include-env-start: (?<includePath>[^)]*?) -->$/;
 
@@ -331,6 +500,13 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
     const includedFiles = (env.includedFiles ??= []);
     const filePath = currentPath(env);
 
+    // fast path: no directive keyword at all → nothing to expand
+    if (!state.src.includes("@include")) return;
+
+    // reuse markdown-it's block structure to locate fenced/indented code
+    // blocks, so directive-looking lines inside code examples stay literal
+    const codeRanges = scanCodeRanges(state.src, md);
+
     state.src = resolveInclude(
       state.src,
       {
@@ -345,6 +521,8 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
         cwd: filePath ? dirname(filePath) : null,
         includedFiles,
       },
+      codeRanges,
+      md,
     );
   };
 
