@@ -94,4 +94,19 @@ test!!
     ).toBe(`<p>!!
 test!!</p>\n`);
   });
+
+  it("should not leak attrs across instances", () => {
+    const first = new MarkdownIt({ linkify: true }).use(spoiler);
+
+    first.renderer.rules.spoiler_open = (tokens, index, options, _env, self): string => {
+      tokens[index].attrJoin("data-x", "1");
+
+      return self.renderToken(tokens, index, options);
+    };
+    first.render("!!a!!");
+
+    const second = new MarkdownIt({ linkify: true }).use(spoiler);
+
+    expect(second.render("!!b!!")).toBe('<p><span class="spoiler" tabindex="-1">b</span></p>\n');
+  });
 });
