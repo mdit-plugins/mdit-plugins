@@ -327,6 +327,40 @@ $$`),
         });
       });
 
+      describe("single-line $$ with trailing content (issue 1.8)", () => {
+        it.for<[string, string]>([
+          ["$$a=1$$ and $b=2$", "<p>$$a=1$$ and {Tex content: b=2}</p>\n"],
+          ["$$a=1$$ text after", "<p>$$a=1$$ text after</p>\n"],
+          ["$$a=1$$ and plain words", "<p>$$a=1$$ and plain words</p>\n"],
+          [
+            "$$a=1$$ and $b=2$ and $c=3$",
+            "<p>$$a=1$$ and {Tex content: b=2} and {Tex content: c=3}</p>\n",
+          ],
+          [
+            "first paragraph\n\n$$a=1$$ and $b=2$",
+            "<p>first paragraph</p>\n<p>$$a=1$$ and {Tex content: b=2}</p>\n",
+          ],
+          // No blank line: the line is not a block, so it merges into the previous paragraph
+          ["text\n$$a=1$$ and $b=2$", "<p>text\n$$a=1$$ and {Tex content: b=2}</p>\n"],
+          ["$$a=1$$ trailing $b=2$$c=3$", "<p>$$a=1$$ trailing $b=2$$c=3$</p>\n"],
+        ])(
+          "should not swallow line when closing $$ has trailing content: %s",
+          ([input, expected]) => {
+            expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
+          },
+        );
+
+        it("should keep existing single-line block behavior", () => {
+          expect(dollarModeMarkdownIt.render("$$a=1$$")).toBe("<p>{Tex content: a=1}</p>\n");
+        });
+
+        it("should keep existing multi-line block behavior", () => {
+          expect(dollarModeMarkdownIt.render("$$\na=1\n$$")).toContain("a=1");
+          // First line has no closing pair (no $$ after "a=1"), closing is on a later line
+          expect(dollarModeMarkdownIt.render("$$a=1\nb=2\n$$")).toContain("a=1\nb=2");
+        });
+      });
+
       describe("unicode whitespace after closing marker", () => {
         const unicodeWhitespaceCases: [string, string][] = [
           ["$$a=1$$\u3000\nfollowing", "<p>{Tex content: a=1}</p>\n<p>following</p>\n"],
