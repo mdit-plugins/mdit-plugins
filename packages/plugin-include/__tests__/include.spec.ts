@@ -1,6 +1,9 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+
 import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
-import { resolve } from "upath";
+import { resolve, join } from "upath";
 import { describe, expect, it, vi } from "vitest";
 
 import type { IncludeEnv } from "../src/index.js";
@@ -517,6 +520,55 @@ foo
       expect(env1.includedFiles).toStrictEqual([mdFixtureDeepPath, mdFixturePath]);
       expect(mdWithOptions.render(source2, env2)).toStrictEqual(expected2);
       expect(env2.includedFiles).toStrictEqual([mdFixtureDeepPath, mdFixturePath]);
+    });
+
+    it("should not throw on circular deep include", () => {
+      const dir = mkdtempSync(join(tmpdir(), "include-cycle-"));
+      writeFileSync(join(dir, "a.md"), "a content\n<!-- @include: b.md -->");
+      writeFileSync(join(dir, "b.md"), "b content\n<!-- @include: a.md -->");
+
+      try {
+        const mdWithOptions = MarkdownIt({ html: true })
+          .use(include, {
+            currentPath: (env: IncludeEnv) => env.filePath as string,
+            deep: true,
+          })
+          .use(container, { name: "tip" });
+        const env: IncludeEnv = {
+          filePath: join(dir, "index.md"),
+        };
+
+        const rendered = mdWithOptions.render("<!-- @include: a.md -->", env);
+
+        expect(rendered).toContain("a content");
+        expect(rendered).toContain("b content");
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+
+    it("should not throw when including a directory", () => {
+      const dir = mkdtempSync(join(tmpdir(), "include-dir-"));
+      const dirPath = join(dir, "dir.md");
+
+      mkdirSync(dirPath);
+
+      try {
+        const mdWithOptions = MarkdownIt({ html: true })
+          .use(include, {
+            currentPath: (env: IncludeEnv) => env.filePath as string,
+          })
+          .use(container, { name: "tip" });
+        const env: IncludeEnv = {
+          filePath: join(dir, "index.md"),
+        };
+
+        const rendered = mdWithOptions.render("<!-- @include: dir.md -->", env);
+
+        expect(rendered).toContain("File not found");
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
     });
 
     describe("the relative path of link/image", () => {
