@@ -136,6 +136,12 @@ ${codeContent}
     );
   });
 
+  it("should render the demo title as inline markdown", () => {
+    expect(markdownIt.render("::: demo *bold* text\ncontent\n:::")).toContain(
+      "<summary><em>bold</em> text</summary>",
+    );
+  });
+
   it("should allow content without title", () => {
     expect(
       markdownIt.render(`
