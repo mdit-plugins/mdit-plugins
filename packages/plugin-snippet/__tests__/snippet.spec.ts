@@ -184,7 +184,7 @@ describe(snippet, () => {
     };
     const rendered = md.render("<<< /__eacces__/blocked.md", env);
 
-    expect(rendered).toContain("Unable to find snippet");
+    expect(rendered).toContain("Failed to read snippet");
     expect(env.snippetFiles).toBeUndefined();
   });
 
@@ -194,7 +194,7 @@ describe(snippet, () => {
     };
     const rendered = md.render("<<< /__eacces__/blocked-dir", env);
 
-    expect(rendered).toContain("Unable to find snippet");
+    expect(rendered).toContain("Failed to read snippet");
     expect(env.snippetFiles).toBeUndefined();
   });
 

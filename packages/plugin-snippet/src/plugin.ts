@@ -142,34 +142,34 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
     if (src) {
       try {
-        if (!lstatSync(src, { throwIfNoEntry: false })?.isFile())
-          // degrade missing or unreadable paths to the same handling below
-          // oxlint-disable-next-line typescript/only-throw-error, no-throw-literal
-          throw 0;
+        if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
+          let content = readFileSync(src, "utf-8");
 
-        let content = readFileSync(src, "utf-8");
+          if (region) {
+            const lines = content.split(NEWLINE_RE);
+            const regionInfo = findRegion(lines, region);
 
-        if (region) {
-          const lines = content.split(NEWLINE_RE);
-          const regionInfo = findRegion(lines, region);
-
-          if (regionInfo) {
-            content = dedent(
-              lines
-                .slice(regionInfo.start, regionInfo.end)
-                .filter((line: string) => !regionInfo.regexp.test(line.trim()))
-                .join("\n"),
-            );
+            if (regionInfo) {
+              content = dedent(
+                lines
+                  .slice(regionInfo.start, regionInfo.end)
+                  .filter((line: string) => !regionInfo.regexp.test(line.trim()))
+                  .join("\n"),
+              );
+            }
           }
+
+          token.content = content;
+
+          (env.snippetFiles ??= []).push(src);
+        } else {
+          token.content = `Unable to find snippet: ${src}`;
+          token.info = "";
         }
-
-        token.content = content;
-
-        (env.snippetFiles ??= []).push(src);
       } catch {
         // an unreadable file or directory (e.g. EACCES) should not crash the
-        // whole render; degrade to the same "not found" result
-        token.content = `Unable to find snippet: ${src}`;
+        // whole render; degrade to a "Failed to read snippet" result instead
+        token.content = `Failed to read snippet: ${src}`;
         token.info = "";
       }
     }
