@@ -115,8 +115,18 @@ export const handleInclude = (
     return "\nFile not found\n";
   }
 
-  // read file content
-  const fileContent = readFileSync(realPath).toString();
+  // read file content; an unreadable file (e.g. EACCES) should not crash the
+  // whole render, degrade to the same "File not found" result instead
+  let fileContent: string;
+
+  try {
+    fileContent = readFileSync(realPath).toString();
+  } catch {
+    // oxlint-disable-next-line no-console
+    console.error(`[@mdit/plugin-include]: ${realPath} not found`);
+
+    return "\nFile not found\n";
+  }
 
   const lines = fileContent.replace(NEWLINE_RE, "\n").split("\n");
   let results: string[] = [];
