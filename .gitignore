@@ -17,3 +17,6 @@ coverage/
 
 # macOS system files
 .DS_Store
+
+# temp files
+temp/
