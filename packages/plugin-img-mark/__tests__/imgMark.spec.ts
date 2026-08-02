@@ -54,4 +54,14 @@ describe(imgMark, () => {
   it("should handle empty src", () => {
     expect(markdownIt.render("![]()")).toBe('<p><img src="" alt=""></p>\n');
   });
+
+  it("should preserve an existing url fragment", () => {
+    expect(markdownIt.render("![image](/a#frag#light)")).toBe(
+      '<p><img src="/a#frag" alt="image" data-mode="lightmode-only"></p>\n',
+    );
+
+    expect(markdownIt.render("![image](/a#frag#dark)")).toBe(
+      '<p><img src="/a#frag" alt="image" data-mode="darkmode-only"></p>\n',
+    );
+  });
 });
