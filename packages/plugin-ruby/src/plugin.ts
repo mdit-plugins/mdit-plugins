@@ -41,6 +41,13 @@ const rubyRule: RuleInline = (state, silent) => {
     return false;
   }
 
+  // reject an empty ruby text (e.g. `{ab:}`) which would render an empty <rt>
+  if (dividerPosition + 1 >= closePos) {
+    state.pos = start;
+
+    return false;
+  }
+
   state.posMax = state.pos;
   state.pos = start + 1;
 
