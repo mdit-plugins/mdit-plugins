@@ -1,5 +1,5 @@
 // oxlint-disable-next-line import/no-nodejs-modules
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
@@ -28,6 +28,7 @@ interface IncludeInfo {
   cwd: string | null;
   includedFiles: string[];
   resolvedPath?: boolean;
+  stack?: string[];
 }
 
 const REGIONS_RE = [
@@ -106,8 +107,8 @@ export const handleInclude = (
 
   includedFiles.push(realPath);
 
-  // check file existence
-  if (!existsSync(realPath)) {
+  // check file existence; also skip directories to avoid an EISDIR crash on read
+  if (!existsSync(realPath) || !statSync(realPath).isFile()) {
     // oxlint-disable-next-line no-console
     console.error(`[@mdit/plugin-include]: ${realPath} not found`);
 
@@ -154,7 +155,7 @@ export const handleInclude = (
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
-  { cwd, includedFiles }: IncludeInfo,
+  { cwd, includedFiles, stack = [] }: IncludeInfo,
 ): string =>
   content.replace(
     options.useComment ? INCLUDE_COMMENT_RE : INCLUDE_RE,
@@ -168,7 +169,21 @@ export const resolveInclude = (
       lineEnd?: string,
     ) => {
       const actualPath = options.resolvePath(includePath, cwd);
+      const realPath = isAbsolute(actualPath)
+        ? actualPath
+        : cwd
+          ? resolve(cwd, actualPath)
+          : actualPath;
       const resolvedPath = options.resolveImagePath || options.resolveLinkPath;
+
+      // Detect circular includes in the current deep include chain: if this
+      // file is already being processed, skip it instead of recursing forever.
+      if (stack.includes(realPath)) {
+        // oxlint-disable-next-line no-console
+        console.error(`[@mdit/plugin-include]: Circular include detected: ${realPath}`);
+
+        return "";
+      }
 
       const fileContent = handleInclude(
         Object.assign(
@@ -185,18 +200,27 @@ export const resolveInclude = (
         { cwd, includedFiles, resolvedPath },
       );
 
-      return (
-        options.deep && actualPath.endsWith(".md")
-          ? resolveInclude(fileContent, options, {
-              cwd: isAbsolute(actualPath)
-                ? dirname(actualPath)
-                : cwd
-                  ? resolve(cwd, dirname(actualPath))
-                  : null,
-              includedFiles,
-            })
-          : fileContent
-      )
+      let included = fileContent;
+
+      if (options.deep && actualPath.endsWith(".md")) {
+        stack.push(realPath);
+
+        try {
+          included = resolveInclude(fileContent, options, {
+            cwd: isAbsolute(actualPath)
+              ? dirname(actualPath)
+              : cwd
+                ? resolve(cwd, dirname(actualPath))
+                : null,
+            includedFiles,
+            stack,
+          });
+        } finally {
+          stack.pop();
+        }
+      }
+
+      return included
         .split("\n")
         .map((line) => indent + line)
         .join("\n");
