@@ -632,7 +632,7 @@ foo
 
         const rendered = mdWithOptions.render("<!-- @include: /__eacces__/blocked.md -->", env);
 
-        expect(rendered).toContain("File not found");
+        expect(rendered).toContain("Failed to read file");
       } finally {
         rmSync(dir, { recursive: true, force: true });
       }

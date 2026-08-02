@@ -116,16 +116,16 @@ export const handleInclude = (
   }
 
   // read file content; an unreadable file (e.g. EACCES) should not crash the
-  // whole render, degrade to the same "File not found" result instead
+  // whole render, degrade to a "Failed to read file" result instead
   let fileContent: string;
 
   try {
     fileContent = readFileSync(realPath).toString();
   } catch {
     // oxlint-disable-next-line no-console
-    console.error(`[@mdit/plugin-include]: ${realPath} not found`);
+    console.error(`[@mdit/plugin-include]: failed to read ${realPath}`);
 
-    return "\nFile not found\n";
+    return "\nFailed to read file\n";
   }
 
   const lines = fileContent.replace(NEWLINE_RE, "\n").split("\n");
