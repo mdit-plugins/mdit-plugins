@@ -126,6 +126,25 @@ describe(stylize, () => {
       );
     });
 
+    it("should not carry lastIndex across tokens with a global regexp", () => {
+      const md = MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: /MUST/g,
+            replacer: ({ tag, content }): MarkdownItStylizeResult => ({
+              tag,
+              attrs: { class: "styled" },
+              content,
+            }),
+          },
+        ],
+      });
+
+      expect(md.render("**MUST** **MUST** **MUST**")).toBe(
+        '<p><strong class="styled">MUST</strong> <strong class="styled">MUST</strong> <strong class="styled">MUST</strong></p>\n',
+      );
+    });
+
     it("should render complex with SHOULD", () => {
       expect(
         markdownIt.render(

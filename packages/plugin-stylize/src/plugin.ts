@@ -19,9 +19,15 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
     if (tokenPrev.tag !== tokenNext.tag || tokenPrev.nesting !== 1 || tokenNext.nesting !== -1)
       continue;
 
-    const matchedConfig = config.find(({ matcher }) =>
-      typeof matcher === "string" ? matcher === content : matcher.test(content),
-    );
+    const matchedConfig = config.find(({ matcher }) => {
+      if (typeof matcher === "string") return matcher === content;
+
+      // reset `lastIndex` so a `g`-flagged regexp does not carry state across
+      // tokens or renders (which would make matches alternate unexpectedly)
+      matcher.lastIndex = 0;
+
+      return matcher.test(content);
+    });
 
     if (matchedConfig) {
       const result = matchedConfig.replacer({
