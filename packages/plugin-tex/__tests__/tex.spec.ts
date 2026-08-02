@@ -327,7 +327,7 @@ $$`),
         });
       });
 
-      describe("single-line $$ with trailing content (issue 1.8)", () => {
+      describe("single-line $$ with trailing content", () => {
         it.for<[string, string]>([
           ["$$a=1$$ and $b=2$", "<p>$$a=1$$ and {Tex content: b=2}</p>\n"],
           ["$$a=1$$ text after", "<p>$$a=1$$ text after</p>\n"],
