@@ -89,10 +89,17 @@ export const abbr: PluginSimple = (md) => {
 
     const abbreviationsRegExpText = Object.keys(abbreviations)
       .map((item) => item.slice(1))
+      // Drop abbreviations that become empty after slicing the `_` prefix: an
+      // empty alternative would make the regexps match the empty string and
+      // never advance `lastIndex`, looping forever until heap exhaustion.
+      .filter((item) => item !== "")
       .sort((a, b) => b.length - a.length)
       // oxlint-disable-next-line unicorn/no-array-callback-reference
       .map(escapeRE)
       .join("|");
+
+    // Return early when there is no abbreviation to match.
+    if (abbreviationsRegExpText === "") return;
 
     const regexpSimple = new RegExp(`(?:${abbreviationsRegExpText})`);
 

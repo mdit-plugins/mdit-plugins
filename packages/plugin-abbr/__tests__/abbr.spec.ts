@@ -265,4 +265,19 @@ hasOwnProperty
 <p>*[[]]: test</p>
 `);
   });
+
+  it("should not hang with an empty abbreviations env", () => {
+    expect(markdownIt.render("!!", { abbreviations: {} })).toBe("<p>!!</p>\n");
+
+    // Non-empty map whose keys become empty after slicing the `_` prefix
+    expect(markdownIt.render("!!", { abbreviations: { _: "x" } })).toBe("<p>!!</p>\n");
+  });
+
+  it("should not hang with mixed empty and non-empty abbreviations env", () => {
+    // A key that becomes empty after slicing (`_`) mixed with a valid one must
+    // not produce an empty regexp alternative (which loops forever until OOM).
+    expect(markdownIt.render("HTML !!", { abbreviations: { _: "x", _HTML: "y" } })).toBe(
+      '<p><abbr title="y">HTML</abbr> !!</p>\n',
+    );
+  });
 });
