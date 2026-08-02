@@ -22,6 +22,11 @@ describe(defaultRender, () => {
       '<i icon="test class1 class2" style="font-size:24px;color:blue"></i>',
     );
   });
+
+  it("should escape icon content", () => {
+    expect(defaultRender('a"b')).toBe('<i icon="a&quot;b"></i>');
+    expect(defaultRender("a&b<c>d")).toBe('<i icon="a&amp;b&lt;c&gt;d"></i>');
+  });
 });
 
 describe(iconifyRender, () => {
@@ -33,6 +38,11 @@ describe(iconifyRender, () => {
     expect(iconifyRender("test:icon =0.8em /red")).toBe(
       `<iconify-icon icon="test:icon" style="font-size:0.8em;color:red"></iconify-icon>`,
     );
+  });
+
+  it("should escape icon content", () => {
+    expect(iconifyRender('a"b')).toBe('<iconify-icon icon="a&quot;b"></iconify-icon>');
+    expect(iconifyRender("a&b<c>d")).toBe('<iconify-icon icon="a&amp;b&lt;c&gt;d"></iconify-icon>');
   });
 });
 
@@ -57,6 +67,11 @@ describe(iconfontRender, () => {
     expect(iconfontRender("test class1 class2 =24 /blue")).toBe(
       '<span class="iconfont icon-test class1 class2" style="font-size:24px;color:blue"></span>',
     );
+  });
+
+  it("should escape icon content", () => {
+    expect(iconfontRender('a"b')).toBe('<span class="iconfont icon-a&quot;b"></span>');
+    expect(iconfontRender("a&b<c>d")).toBe('<span class="iconfont icon-a&amp;b&lt;c&gt;d"></span>');
   });
 });
 
@@ -94,5 +109,9 @@ describe(fontawesomeRender, () => {
     expect(fontawesomeRender("icon fass =20 /#f00")).toBe(
       `<i class="fa-icon fass" style="font-size:20px;color:#f00"></i>`,
     );
+  });
+
+  it("should escape icon content", () => {
+    expect(fontawesomeRender('a"b')).toBe('<i class="fa-a&quot;b fa-solid"></i>');
   });
 });
