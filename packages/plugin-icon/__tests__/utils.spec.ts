@@ -273,6 +273,18 @@ describe(extractAttrs, () => {
       content: "class1 class2",
     });
   });
+
+  it("should not parse invalid attribute names", () => {
+    expect(extractAttrs({ content: "a]=1" })).toStrictEqual({
+      attrs: {},
+      content: "a]=1",
+    });
+
+    expect(extractAttrs({ content: "a]x=1" })).toStrictEqual({
+      attrs: { x: "1" },
+      content: "a]",
+    });
+  });
 });
 
 describe(extractInfo, () => {

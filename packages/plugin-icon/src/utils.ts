@@ -54,7 +54,7 @@ export const extractColor = <Data extends { content: string }>(
 
 export type AttrsInfo = Record<string, string>;
 
-const ATTR_NAME_REGEXP = "[A-z_][a-zA-Z0-9_-]*";
+const ATTR_NAME_REGEXP = "[A-Za-z_][a-zA-Z0-9_-]*";
 
 const ATTR_REGEXP = new RegExp(
   // oxlint-disable-next-line prefer-template
