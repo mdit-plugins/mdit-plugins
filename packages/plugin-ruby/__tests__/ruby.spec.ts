@@ -98,4 +98,9 @@ describe(ruby, () => {
       expect(markdownIt.render(content)).toStrictEqual(expected);
     });
   });
+
+  it("should not render empty ruby text", () => {
+    expect(markdownIt.render("{abc:}")).toBe("<p>{abc:}</p>\n");
+    expect(markdownIt.render("{ab:}")).toBe("<p>{ab:}</p>\n");
+  });
 });
