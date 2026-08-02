@@ -141,7 +141,12 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
     };
 
     if (src) {
-      if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
+      try {
+        if (!lstatSync(src, { throwIfNoEntry: false })?.isFile())
+          // degrade missing or unreadable paths to the same handling below
+          // oxlint-disable-next-line typescript/only-throw-error, no-throw-literal
+          throw 0;
+
         let content = readFileSync(src, "utf-8");
 
         if (region) {
@@ -161,8 +166,10 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
         token.content = content;
 
         (env.snippetFiles ??= []).push(src);
-      } else {
-        token.content = `Code snippet path not found: ${src}`;
+      } catch {
+        // an unreadable file or directory (e.g. EACCES) should not crash the
+        // whole render; degrade to the same "not found" result
+        token.content = `Unable to find snippet: ${src}`;
         token.info = "";
       }
     }

@@ -1,9 +1,60 @@
 import MarkdownIt from "markdown-it";
 import { join, resolve } from "upath";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { SnippetEnv } from "../src/index.js";
 import { snippet } from "../src/index.js";
+
+// Simulate an unreadable file (EACCES) for a specific marker path, delegating
+// all other fs calls to the real implementation so existing tests are unaffected.
+// oxlint-disable-next-line vitest/prefer-import-in-mock
+vi.mock("node:fs", async (importOriginal) => {
+  // oxlint-disable-next-line typescript/consistent-type-imports
+  const actual = await importOriginal<typeof import("node:fs")>();
+  const blockedPath = "/__eacces__/blocked.md";
+  const blockedDirPath = "/__eacces__/blocked-dir";
+
+  return {
+    ...actual,
+    // oxlint-disable-next-line typescript/explicit-function-return-type
+    lstatSync: (...args: Parameters<typeof actual.lstatSync>) => {
+      // oxlint-disable-next-line eslint/prefer-destructuring
+      const path = args[0];
+
+      if (String(path) === blockedDirPath) {
+        const error = new Error(
+          `EACCES: permission denied, scandir '${String(path)}'`,
+        ) as NodeJS.ErrnoException;
+
+        error.code = "EACCES";
+        throw error;
+      }
+
+      // oxlint-disable-next-line eslint/curly
+      if (String(path) === blockedPath) {
+        return { isFile: (): boolean => true } as ReturnType<typeof actual.lstatSync>;
+      }
+
+      return actual.lstatSync(...args);
+    },
+    // oxlint-disable-next-line typescript/explicit-function-return-type
+    readFileSync: (...args: Parameters<typeof actual.readFileSync>) => {
+      // oxlint-disable-next-line eslint/prefer-destructuring
+      const path = args[0];
+
+      if (String(path) === blockedPath) {
+        const error = new Error(
+          `EACCES: permission denied, open '${String(path)}'`,
+        ) as NodeJS.ErrnoException;
+
+        error.code = "EACCES";
+        throw error;
+      }
+
+      return actual.readFileSync(...args);
+    },
+  };
+});
 
 describe(snippet, () => {
   const md = MarkdownIt({ html: true }).use(snippet, {
@@ -122,9 +173,29 @@ describe(snippet, () => {
     source.forEach((item) => {
       const rendered = mdError.render(item);
 
-      expect(rendered).toContain("Code snippet path not found");
+      expect(rendered).toContain("Unable to find snippet");
       expect(rendered).toMatchSnapshot();
     });
+  });
+
+  it("should not throw when the snippet file is not readable", () => {
+    const env: SnippetEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render("<<< /__eacces__/blocked.md", env);
+
+    expect(rendered).toContain("Unable to find snippet");
+    expect(env.snippetFiles).toBeUndefined();
+  });
+
+  it("should not throw when the snippet directory is not accessible", () => {
+    const env: SnippetEnv = {
+      filePath: __filename,
+    };
+    const rendered = md.render("<<< /__eacces__/blocked-dir", env);
+
+    expect(rendered).toContain("Unable to find snippet");
+    expect(env.snippetFiles).toBeUndefined();
   });
 
   it("should throw if currentPath is not a function", () => {
