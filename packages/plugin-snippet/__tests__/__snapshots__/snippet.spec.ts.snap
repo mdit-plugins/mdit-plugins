@@ -1,22 +1,22 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`snippet > should give warnings with not exist path 1`] = `
-"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"<pre><code>Unable to find snippet: /fake/not-exisit.md</code></pre>
 "
 `;
 
 exports[`snippet > should give warnings with not exist path 2`] = `
-"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"<pre><code>Unable to find snippet: /fake/not-exisit.md</code></pre>
 "
 `;
 
 exports[`snippet > should give warnings with not exist path 3`] = `
-"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"<pre><code>Unable to find snippet: /fake/not-exisit.md</code></pre>
 "
 `;
 
 exports[`snippet > should give warnings with not exist path 4`] = `
-"<pre><code>Code snippet path not found: /fake/not-exisit.md</code></pre>
+"<pre><code>Unable to find snippet: /fake/not-exisit.md</code></pre>
 "
 `;
 

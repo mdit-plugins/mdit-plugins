@@ -141,28 +141,35 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
     };
 
     if (src) {
-      if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
-        let content = readFileSync(src, "utf-8");
+      try {
+        if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
+          let content = readFileSync(src, "utf-8");
 
-        if (region) {
-          const lines = content.split(NEWLINE_RE);
-          const regionInfo = findRegion(lines, region);
+          if (region) {
+            const lines = content.split(NEWLINE_RE);
+            const regionInfo = findRegion(lines, region);
 
-          if (regionInfo) {
-            content = dedent(
-              lines
-                .slice(regionInfo.start, regionInfo.end)
-                .filter((line: string) => !regionInfo.regexp.test(line.trim()))
-                .join("\n"),
-            );
+            if (regionInfo) {
+              content = dedent(
+                lines
+                  .slice(regionInfo.start, regionInfo.end)
+                  .filter((line: string) => !regionInfo.regexp.test(line.trim()))
+                  .join("\n"),
+              );
+            }
           }
+
+          token.content = content;
+
+          (env.snippetFiles ??= []).push(src);
+        } else {
+          token.content = `Unable to find snippet: ${src}`;
+          token.info = "";
         }
-
-        token.content = content;
-
-        (env.snippetFiles ??= []).push(src);
-      } else {
-        token.content = `Code snippet path not found: ${src}`;
+      } catch {
+        // an unreadable file or directory (e.g. EACCES) should not crash the
+        // whole render; degrade to a "Failed to read snippet" result instead
+        token.content = `Failed to read snippet: ${src}`;
         token.info = "";
       }
     }
