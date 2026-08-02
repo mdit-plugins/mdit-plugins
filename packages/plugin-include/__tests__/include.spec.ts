@@ -9,6 +9,52 @@ import { describe, expect, it, vi } from "vitest";
 import type { IncludeEnv } from "../src/index.js";
 import { include } from "../src/index.js";
 
+// Simulate an unreadable file (EACCES) for a specific marker path, delegating
+// all other fs calls to the real implementation so existing tests are unaffected.
+// oxlint-disable-next-line vitest/prefer-import-in-mock
+vi.mock("node:fs", async (importOriginal) => {
+  // oxlint-disable-next-line typescript/consistent-type-imports
+  const actual = await importOriginal<typeof import("node:fs")>();
+  const blockedPath = "/__eacces__/blocked.md";
+
+  return {
+    ...actual,
+    // oxlint-disable-next-line typescript/explicit-function-return-type
+    existsSync: (...args: Parameters<typeof actual.existsSync>) => {
+      // oxlint-disable-next-line eslint/prefer-destructuring
+      const path = args[0];
+
+      return String(path) === blockedPath ? true : actual.existsSync(...args);
+    },
+    // oxlint-disable-next-line typescript/explicit-function-return-type
+    statSync: (...args: Parameters<typeof actual.statSync>) => {
+      // oxlint-disable-next-line eslint/prefer-destructuring
+      const path = args[0];
+
+      if (String(path) === blockedPath)
+        return { isFile: (): boolean => true } as ReturnType<typeof actual.statSync>;
+
+      return actual.statSync(...args);
+    },
+    // oxlint-disable-next-line typescript/explicit-function-return-type
+    readFileSync: (...args: Parameters<typeof actual.readFileSync>) => {
+      // oxlint-disable-next-line eslint/prefer-destructuring
+      const path = args[0];
+
+      if (String(path) === blockedPath) {
+        const error = new Error(
+          `EACCES: permission denied, open '${String(path)}'`,
+        ) as NodeJS.ErrnoException;
+
+        error.code = "EACCES";
+        throw error;
+      }
+
+      return actual.readFileSync(...args);
+    },
+  };
+});
+
 const mdFixturePathRelative = "./__fixtures__/include.md";
 const mdFixturePath = resolve(__dirname, mdFixturePathRelative);
 const mdFixtureDeepRelative = "./__fixtures__/deepInclude.md";
@@ -566,6 +612,27 @@ foo
         const rendered = mdWithOptions.render("<!-- @include: dir.md -->", env);
 
         expect(rendered).toContain("File not found");
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+
+    it("should not throw when the included file is not readable", () => {
+      const dir = mkdtempSync(join(tmpdir(), "include-eacces-"));
+
+      try {
+        const mdWithOptions = MarkdownIt({ html: true })
+          .use(include, {
+            currentPath: (env: IncludeEnv) => env.filePath as string,
+          })
+          .use(container, { name: "tip" });
+        const env: IncludeEnv = {
+          filePath: join(dir, "index.md"),
+        };
+
+        const rendered = mdWithOptions.render("<!-- @include: /__eacces__/blocked.md -->", env);
+
+        expect(rendered).toContain("Failed to read file");
       } finally {
         rmSync(dir, { recursive: true, force: true });
       }
