@@ -1,3 +1,4 @@
+import { escapeHtml } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
@@ -12,7 +13,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   {
     name = "demo",
     openRender = (tokens: Token[], index: number): string =>
-      `<details><summary>${tokens[index].info}</summary>\n`,
+      `<details><summary>${escapeHtml(tokens[index].info)}</summary>\n`,
     closeRender = (): string => "</details>\n",
     codeRender,
     contentOpenRender,

@@ -130,6 +130,12 @@ ${codeContent}
     );
   });
 
+  it("should escape the demo title to avoid XSS", () => {
+    expect(markdownIt.render("::: demo <script>alert(1)</script>\ncontent\n:::")).toContain(
+      "<summary>&lt;script&gt;alert(1)&lt;/script&gt;</summary>",
+    );
+  });
+
   it("should allow content without title", () => {
     expect(
       markdownIt.render(`
