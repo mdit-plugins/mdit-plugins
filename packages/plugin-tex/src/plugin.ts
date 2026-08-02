@@ -96,8 +96,17 @@ const createDollarInlineTexRule =
      */
     let match = state.pos + 1;
     let pos: number;
+    const isSpace = state.md.utils.isSpace;
 
     while ((match = state.src.indexOf("$", match)) !== -1) {
+      // The closing $ must be inside the current inline scope (posMax),
+      // otherwise the scan could cross a link/image label boundary and
+      // swallow the label's tail along with the following content.
+      if (match >= state.posMax) {
+        match = -1;
+        break;
+      }
+
       /*
        * Found potential $, look for escapes, pos will point to
        * first non escape when complete
@@ -105,10 +114,35 @@ const createDollarInlineTexRule =
       pos = match - 1;
       while (state.src.charCodeAt(pos) === 92 /* \ */) pos--;
 
-      // Even number of escapes, potential closing delimiter found
-      if ((match - pos) % 2 === 1) break;
+      // Even number of escapes means the $ is escaped, skip it
+      if ((match - pos) % 2 === 0) {
+        match++;
+        continue;
+      }
 
-      match++;
+      // Valid closing delimiter found
+      if (isDollarClose(state, match, allowInlineWithSpace)) break;
+
+      // A $ surrounded by whitespace is not a closing delimiter (unless
+      // allowInlineWithSpace); it's likely a literal $ inside the content,
+      // e.g. \text{a $ b}. Keep scanning for the real closing delimiter.
+      // Only treat it as a literal $ when BOTH sides are whitespace, otherwise
+      // it may be the opening $ of a separate inline expression (e.g. `$1 $c$`).
+      const prevCharCode = state.src.charCodeAt(match - 1);
+      const nextCharCode = state.src.charCodeAt(match + 1);
+
+      if (
+        !allowInlineWithSpace &&
+        isSpace(prevCharCode) &&
+        (match + 1 >= state.posMax || isSpace(nextCharCode))
+      ) {
+        match++;
+        continue;
+      }
+
+      // Invalid closing delimiter, treat as no closing delimiter
+      match = -1;
+      break;
     }
 
     // No closing delimiter found.  Consume $ and continue.
@@ -125,15 +159,6 @@ const createDollarInlineTexRule =
       if (!silent) state.pending += "$$";
 
       state.pos += 2;
-
-      return true;
-    }
-
-    // Check for valid closing delimiter
-    if (!isDollarClose(state, match, allowInlineWithSpace)) {
-      if (!silent) state.pending += "$";
-
-      state.pos += 1;
 
       return true;
     }
