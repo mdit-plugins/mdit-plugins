@@ -12,7 +12,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   {
     name = "demo",
     openRender = (tokens: Token[], index: number): string =>
-      `<details><summary>${tokens[index].info}</summary>\n`,
+      `<details><summary>${md.renderInline(tokens[index].info)}</summary>\n`,
     closeRender = (): string => "</details>\n",
     codeRender,
     contentOpenRender,
