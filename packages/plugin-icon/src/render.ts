@@ -1,3 +1,5 @@
+import { escapeHtml } from "@mdit/helper";
+
 import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 
 /**
@@ -14,7 +16,7 @@ export const defaultRender = (icon: string): string => {
   if (color) appendStyle(attrs, `color:${color}`);
 
   return `\
-<i icon="${content}"${stringifyAttrs(attrs)}>\
+<i icon="${escapeHtml(content)}"${stringifyAttrs(attrs)}>\
 </i>`;
 };
 
@@ -31,7 +33,7 @@ export const iconifyRender = (icon: string): string => {
 
   if (color) appendStyle(attrs, `color:${color}`);
 
-  return `<iconify-icon icon="${content}"${stringifyAttrs(attrs)}></iconify-icon>`;
+  return `<iconify-icon icon="${escapeHtml(content)}"${stringifyAttrs(attrs)}></iconify-icon>`;
 };
 
 /** Fontawesome families short aliases */
@@ -158,7 +160,7 @@ export const fontawesomeRender = (icon: string): string => {
   }
 
   return `\
-<i class="${finalClasses.join(" ")}"${stringifyAttrs(attrs)}></i>\
+<i class="${escapeHtml(finalClasses.join(" "))}"${stringifyAttrs(attrs)}></i>\
 `;
 };
 
@@ -176,5 +178,5 @@ export const iconfontRender = (icon: string): string => {
   if (color) appendStyle(attrs, `color:${color}`);
 
   // add `iconfont` class and `icon-` prefix for first class
-  return `<span class="iconfont icon-${content}"${stringifyAttrs(attrs)}></span>`;
+  return `<span class="iconfont icon-${escapeHtml(content)}"${stringifyAttrs(attrs)}></span>`;
 };

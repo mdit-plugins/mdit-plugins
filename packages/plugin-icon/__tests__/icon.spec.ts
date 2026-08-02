@@ -30,6 +30,10 @@ xx
 xx</p>\n`);
   });
 
+  it("should escape icon content", () => {
+    expect(markdownIt.render('::a"b::')).toBe('<p><i class="a&quot;b"></i></p>\n');
+  });
+
   it("should not render", () => {
     expect(markdownIt.render("::icon-name")).toBe("<p>::icon-name</p>\n");
     expect(markdownIt.render("icon-name::")).toBe("<p>icon-name::</p>\n");

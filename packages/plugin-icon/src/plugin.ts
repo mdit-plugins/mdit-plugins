@@ -1,3 +1,4 @@
+import { escapeHtml } from "@mdit/helper";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 
@@ -77,7 +78,7 @@ const iconRule: RuleInline = (state, silent) => {
 
 export const icon: PluginWithOptions<MarkdownItIconOptions> = (
   md,
-  { render = (content: string): string => `<i class="${content}"></i>` } = {},
+  { render = (content: string): string => `<i class="${escapeHtml(content)}"></i>` } = {},
 ) => {
   md.inline.ruler.before("link", "icon", iconRule);
   md.renderer.rules.icon = (tokens, idx, _, env): string => render(tokens[idx].content, env);
