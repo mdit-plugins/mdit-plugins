@@ -3,15 +3,18 @@ import type { PluginWithOptions } from "markdown-it";
 
 import type { MarkdownItSpoilerOptions } from "./options.js";
 
-const DEFAULT_TAG = "span";
-const DEFAULT_ATTRS: [string, string][] = [
-  ["class", "spoiler"],
-  ["tabindex", "-1"],
-];
-
-export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (md, options) => {
-  const { tag = DEFAULT_TAG, attrs = DEFAULT_ATTRS } = options ?? {};
-
+export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
+  md,
+  {
+    tag = "span",
+    // a fresh array is created on every `use(spoiler)` call, so token attrs are
+    // not shared by reference across instances (avoiding cross-render leakage)
+    attrs = [
+      ["class", "spoiler"],
+      ["tabindex", "-1"],
+    ] as [string, string][],
+  } = {},
+) => {
   inlineRule(md, {
     marker: "!",
     tag,
