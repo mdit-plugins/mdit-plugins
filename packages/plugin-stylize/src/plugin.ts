@@ -38,8 +38,9 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
 
       if (result) {
         tokenPrev.tag = tokenNext.tag = result.tag;
-        tokenPrev.attrs = Object.entries(result.attrs);
-        token.content = result.content;
+        // Guard against user replacers omitting optional fields at runtime
+        tokenPrev.attrs = Object.entries(result.attrs ?? {});
+        token.content = result.content ?? token.content;
       }
 
       // skip 2 tokens
