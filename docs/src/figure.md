@@ -50,6 +50,8 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
   - `true`: **copy** all attributes except native img ones (src, alt, srcset, width, height, loading, etc.) to `<figure>`. Image keeps them.
   - `(string | RegExp)[]`: **move** only matching attributes to `<figure>`. Image loses them.
 
+  Native img attributes (src, alt, title, width, height, etc.) are never moved or copied to `<figure>`, and `title` is always used as the `<figcaption>` content.
+
   ```ts
   // Copy all non-native attrs to figure (img keeps them)
   moveAttrs: true;

@@ -92,5 +92,16 @@ describe("plugin compatibility", () => {
         '<figure><img src="/logo.svg" alt="image" class="center"><figcaption>caption</figcaption></figure>\n',
       );
     });
+
+    it("should move class to figure with figure moveAttrs option", () => {
+      const md = MarkdownIt({ html: true })
+        .use(attrs)
+        .use(figure, { moveAttrs: ["class"], focusable: false });
+
+      // class added by attrs is moved onto the figure by figure's moveAttrs
+      expect(md.render(`![image](/logo.svg "caption"){.center}`)).toBe(
+        '<figure class="center"><img src="/logo.svg" alt="image"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
   });
 });
