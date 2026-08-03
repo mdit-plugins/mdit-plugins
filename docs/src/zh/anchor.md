@@ -92,6 +92,12 @@ const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
 - 默认值：`1`
 - 详情：重复 slug 编号的起始索引。设为 `2` 可得到 `title`、`title-2`、`title-3`。
 
+### defaultPlaceHolder
+
+- 类型：`string`
+- 默认值：`"heading"`
+- 详情：当标题没有文本内容、生成的 slug 为空时（如纯图片标题）使用的占位 slug。
+
 ### permalink
 
 - 类型：`PermalinkGenerator`

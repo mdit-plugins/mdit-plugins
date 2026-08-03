@@ -5,7 +5,10 @@ import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
 import { isLevelSelectedArray, isLevelSelectedNumber, uniqueSlug } from "./utils.js";
 
+const DEFAULT_PLACE_HOLDER = "heading";
+
 const DEFAULTS = {
+  defaultPlaceHolder: DEFAULT_PLACE_HOLDER,
   getTokensText: defaultGetTokensText,
   level: 1,
   slugify: defaultSlugify,
@@ -17,6 +20,7 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
   const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
 
   const {
+    defaultPlaceHolder,
     level,
     slugify,
     slugifyWithState,
@@ -47,15 +51,17 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
 
       let slug = token.attrGet("id");
 
-      slug =
-        slug == null
-          ? uniqueSlug(
-              slugifyWithState ? slugifyWithState(title, state) : slugify(title),
-              slugs,
-              false,
-              uniqueSlugStartIndex,
-            )
-          : uniqueSlug(slug, slugs, true, uniqueSlugStartIndex);
+      if (slug == null) {
+        slug = slugifyWithState ? slugifyWithState(title, state) : slugify(title);
+
+        // Fall back to a stable placeholder when the slug is empty
+        // (e.g. image-only or empty headings) to avoid invalid empty ids
+        if (!slug) slug = defaultPlaceHolder || DEFAULT_PLACE_HOLDER;
+
+        slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex);
+      } else {
+        slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex);
+      }
 
       token.attrSet("id", slug);
 

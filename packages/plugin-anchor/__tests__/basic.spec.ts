@@ -134,6 +134,76 @@ describe("slug options", () => {
       }).render("# Bar"),
     ).toBe('<h1 id="with-state-bar" tabindex="-1">Bar</h1>\n');
   });
+
+  it("should fall back to a stable slug for image-only headings", () => {
+    expect(md().render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug for empty headings", () => {
+    expect(md().render("# ")).toBe('<h1 id="heading" tabindex="-1"></h1>\n');
+  });
+
+  it("should deduplicate fallback slugs for multiple image-only headings", () => {
+    expect(md().render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-1" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should deduplicate fallback slug against existing slugs", () => {
+    expect(md().render("# Heading\n\n# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1">Heading</h1>\n<h1 id="heading-1" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug when custom slugify returns empty", () => {
+    expect(md({ slugify: () => "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug when slugifyWithState returns empty", () => {
+    expect(md({ slugifyWithState: () => "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should deduplicate fallback slugs for three image-only headings", () => {
+    expect(md().render("# ![a](b)\n\n# ![c](d)\n\n# ![e](f)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-1" tabindex="-1"><img src="d" alt="c"></h1>\n<h1 id="heading-2" tabindex="-1"><img src="f" alt="e"></h1>\n',
+    );
+  });
+
+  it("should respect uniqueSlugStartIndex for fallback slugs", () => {
+    expect(md({ uniqueSlugStartIndex: 2 }).render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-2" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should use custom defaultPlaceHolder", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# ![a](b)")).toBe(
+      '<h1 id="section" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should deduplicate custom defaultPlaceHolder for multiple image-only headings", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="section" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="section-1" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should deduplicate custom defaultPlaceHolder against existing slugs", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# Section\n\n# ![a](b)")).toBe(
+      '<h1 id="section" tabindex="-1">Section</h1>\n<h1 id="section-1" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to default placeholder when defaultPlaceHolder is empty", () => {
+    expect(md({ defaultPlaceHolder: "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
 });
 
 describe("tabIndex option", () => {

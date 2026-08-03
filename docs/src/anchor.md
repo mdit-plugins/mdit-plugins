@@ -92,6 +92,12 @@ const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
 - Default: `1`
 - Details: Starting index for duplicate slug numbering. Set to `2` to get `title`, `title-2`, `title-3`.
 
+### defaultPlaceHolder
+
+- Type: `string`
+- Default: `"heading"`
+- Details: Placeholder slug used when a heading has no text content and generates an empty slug (e.g. image-only headings).
+
 ### permalink
 
 - Type: `PermalinkGenerator`
