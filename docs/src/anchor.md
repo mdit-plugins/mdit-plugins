@@ -132,8 +132,9 @@ All renderers share these common options:
 
 Wraps the entire heading content in a permalink anchor.
 
-Simple and accessible out of the box. The caveat is that you cannot
-include links inside headings.
+Simple and accessible out of the box. Headings that already contain a link
+(either a markdown link or a raw `<a>` tag when `html` is enabled) are left
+untouched, since wrapping them would produce invalid nested anchors.
 
 ```ts
 import { headerLink } from "@mdit/plugin-anchor";
