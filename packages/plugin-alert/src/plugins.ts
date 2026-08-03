@@ -358,8 +358,10 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     ((tokens, index): string => {
       const token = tokens[index];
 
-      return `<p class="markdown-alert-title">${
-        token.content[0].toUpperCase() + token.content.slice(1).toLowerCase()
-      }</p>\n`;
+      // capitalize the first letter and render the title as inline markdown,
+      // which escapes HTML unless the `html` option is enabled
+      return `<p class="markdown-alert-title">${md.renderInline(
+        token.content[0].toUpperCase() + token.content.slice(1),
+      )}</p>\n`;
     });
 };
