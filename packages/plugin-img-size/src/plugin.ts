@@ -3,6 +3,7 @@ import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
 import type { ImgSizeEnv } from "./types.js";
+import { normalizeSize } from "./utils.js";
 
 const isNumber = (charCode: number): boolean => charCode >= 48 /* 0 */ && charCode <= 57; /* 9 */
 
@@ -34,6 +35,9 @@ const parseImageSize = (
 
     while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
+    // allow a single trailing percent sign
+    if (pos < max && label.charCodeAt(pos) === 37 /* % */) pos++;
+
     width = label.slice(startPos, pos);
 
     if (label.charCodeAt(pos++) !== 120 /* x */) return null;
@@ -48,7 +52,12 @@ const parseImageSize = (
 
     while (pos < max && isNumber(label.charCodeAt(pos))) pos++;
 
-    if (pos > startPos) height = label.slice(startPos, pos);
+    if (pos > startPos) {
+      // allow a single trailing percent sign
+      if (pos < max && label.charCodeAt(pos) === 37 /* % */) pos++;
+
+      height = label.slice(startPos, pos);
+    }
   }
 
   while (pos < max) {
@@ -57,10 +66,13 @@ const parseImageSize = (
     pos++;
   }
 
+  const size = normalizeSize(width, height);
+
+  if (!size) return null;
+
   return {
     label: origLabel,
-    width,
-    height,
+    ...size,
   };
 };
 

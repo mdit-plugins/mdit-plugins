@@ -173,6 +173,74 @@ describe("legacy image size", () => {
     });
   });
 
+  describe("should handle percent sign", () => {
+    it("should render width/height with a single trailing percent", () => {
+      const testCases = [
+        [
+          `![image](/logo.svg =200%x300)`,
+          '<p><img src="/logo.svg" alt="image" width="200%" height="300"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =200%x300%)`,
+          '<p><img src="/logo.svg" alt="image" width="200%" height="300%"></p>\n',
+        ],
+        [
+          `![image](/logo.svg =200x30%)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="30%"></p>\n',
+        ],
+        [`![image](/logo.svg =x30%)`, '<p><img src="/logo.svg" alt="image" height="30%"></p>\n'],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+
+    it("should not render if percent is not a single trailing suffix", () => {
+      const testCases = [
+        [`![image](/logo.svg =2%0x300)`, "<p>![image](/logo.svg =2%0x300)</p>\n"],
+        [`![image](/logo.svg =200x3%0)`, "<p>![image](/logo.svg =200x3%0)</p>\n"],
+        [`![image](/logo.svg =200x%)`, "<p>![image](/logo.svg =200x%)</p>\n"],
+        [`![image](/logo.svg =%x300)`, "<p>![image](/logo.svg =%x300)</p>\n"],
+        [`![image](/logo.svg =200%%x300)`, "<p>![image](/logo.svg =200%%x300)</p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+  });
+
+  describe("should handle zero sizes following Obsidian behavior", () => {
+    it("should drop zero dimensions", () => {
+      const testCases = [
+        [`![image](/logo.svg =300x0)`, '<p><img src="/logo.svg" alt="image" width="300"></p>\n'],
+        [`![image](/logo.svg =0x300)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
+        [`![image](/logo.svg =00x300)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
+        [
+          `![image](/logo.svg =0200x300)`,
+          '<p><img src="/logo.svg" alt="image" width="0200" height="300"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+
+    it("should not render all-zero sizes", () => {
+      const testCases = [
+        [`![image](/logo.svg =0x0)`, "<p>![image](/logo.svg =0x0)</p>\n"],
+        [`![image](/logo.svg =0x)`, "<p>![image](/logo.svg =0x)</p>\n"],
+        [`![image](/logo.svg =x0)`, "<p>![image](/logo.svg =x0)</p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+  });
+
   describe("should not render if width or height is not number", () => {
     it("simple", () => {
       const testCases = [

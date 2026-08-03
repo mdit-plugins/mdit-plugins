@@ -32,12 +32,13 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 
 在图片替代文字后面添加 `=widthxheight`，并用空格分隔。
 
-`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
+`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。也支持单个尾随 `%` 以使用百分比，设置为 `0` 的维度将被视为未指定，所有维度都为 `0` 的尺寸将被忽略。
 
 ```md
 ![替代文字 =200x300](/example.png)
 ![替代文字 =200x](/example.jpg "标题")
 ![替代文字 =x300](/example.bmp)
+![替代文字 =50%x300](/example.webp)
 ```
 
 渲染为 ↓
@@ -46,6 +47,7 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 <img src="/example.png" alt="替代文字" width="200" height="300" />
 <img src="/example.jpg" alt="替代文字" title="标题" width="200" />
 <img src="/example.bmp" alt="替代文字" height="300" />
+<img src="/example.webp" alt="替代文字" width="50%" height="300" />
 ```
 
 ### Obsidian 语法
@@ -76,12 +78,13 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 
 在图片链接部分的末尾添加 `=widthxheight`，并用空格分隔。
 
-`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。
+`width` 和 `height` 都应该是数字，单位为像素，并且都是可选的。也支持单个尾随 `%` 以使用百分比，设置为 `0` 的维度将被视为未指定，所有维度都为 `0` 的尺寸将被忽略。
 
 ```md
 ![替代文字](/example.png =200x300)
 ![替代文字](/example.jpg "标题" =200x)
 ![替代文字](/example.bmp =x300)
+![替代文字](/example.webp =50%x300)
 ```
 
 渲染为 ↓
@@ -90,6 +93,7 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 <img src="/example.png" alt="替代文字" width="200" height="300" />
 <img src="/example.jpg" alt="替代文字" title="标题" width="200" />
 <img src="/example.bmp" alt="替代文字" height="300" />
+<img src="/example.webp" alt="替代文字" width="50%" height="300" />
 ```
 
 ::: tip 在三种语法之间选择
@@ -108,12 +112,14 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ![Logo =200x200](/logo.svg "Markdown")
 ![Logo =150x](/logo.svg "Markdown")
 ![Logo =x100](/logo.svg "Markdown")
+![Logo =50%x300](/logo.svg "Markdown")
 
 <!-- 旧语法 -->
 
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
+![Logo](/logo.svg "Markdown" =50%x300)
 
 <!-- Obsidian 语法 -->
 
