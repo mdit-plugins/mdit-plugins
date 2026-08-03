@@ -25,7 +25,12 @@ import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
 const mdIt = MarkdownIt().use(anchor, {
-  slugify: (s) => encodeURIComponent(s.trim().toLowerCase().replace(/\s+/g, "-")),
+  slugify: (s) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fff-]+/g, "-")
+      .replace(/-+/g, "-"),
 });
 
 mdIt.render("# Hello World");
@@ -61,6 +66,15 @@ Consectetur adipiscing elit.
 
 - Type: `(str: string) => string`
 - Details: Custom slugification function to transform heading text to URL-friendly slugs.
+
+By default it lowercases ASCII letters, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash, and strips other ASCII punctuation. If you want strictly percent-encoded slugs instead, use the exported `legacySlugify`:
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+
+const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
+```
 
 ### slugifyWithState
 
