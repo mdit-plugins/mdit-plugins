@@ -61,11 +61,13 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
 
       if (tabIndex !== false) token.attrSet("tabindex", `${tabIndex}`);
 
-      if (typeof permalink === "function") permalink(slug, resolvedOptions, state, index);
+      if (typeof permalink === "function") {
+        permalink(slug, resolvedOptions, state, index);
 
-      // A permalink renderer could modify the `tokens` array so
-      // make sure to get the up-to-date index on each iteration.
-      index = tokens.indexOf(token);
+        // A permalink renderer could modify the `tokens` array so
+        // make sure to get the up-to-date index on each iteration.
+        index = tokens.indexOf(token);
+      }
 
       // oxlint-disable-next-line promise/prefer-await-to-callbacks
       if (callback) callback(token, { slug, title });
