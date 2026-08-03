@@ -154,6 +154,27 @@ type MarkdownItAttrRuleName =
 - Default: `'}'`
 - Details: Right delimiter for attributes.
 
+## Programmatic Parsing
+
+The package exports a `parseAttrs` helper so that other tools (e.g.: shiki transformers) can reuse the attrs parsing logic:
+
+```ts
+import { parseAttrs } from "@mdit/plugin-attrs";
+
+parseAttrs("foo {.bar #baz data-a=b}");
+// [["class", "bar"], ["id", "baz"], ["data-a", "b"]]
+
+parseAttrs("foo"); // null
+```
+
+`parseAttrs(content, options)` returns the parsed attrs as `[key, value]` tuples, or `null` when no valid attrs section is found. A valid section yielding no attrs (e.g.: all filtered out by `allowed`) returns an empty array. Besides `left`, `right` and `allowed` which behave the same as the plugin options, an extra `where` option is supported:
+
+### where
+
+- Type: `"start" | "end" | "only"`
+- Default: `"end"`
+- Details: Where the attrs section shall be located in the content: at the start, at the end, or the content shall only contain the attrs section.
+
 ## Demo
 
 > All classes are styled with `margin: 4px;padding: 4px;border: 1px solid red;` to show the effect.
