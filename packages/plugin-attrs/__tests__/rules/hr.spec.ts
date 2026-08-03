@@ -104,4 +104,18 @@ describe("hr detection", () => {
   it("should not convert mixed marker paragraphs", () => {
     expect(markdownIt.render("-*-{#id}")).toBe('<p id="id">-*-</p>\n');
   });
+
+  it("should lock the spacing boundary between markers and attrs", () => {
+    // 0 or 1 space directly following the marker run is treated as an hr;
+    // 2+ spaces fall back to a paragraph, with the attrs applied to the <p>.
+    const testCases = [
+      ["---{#id}", '<hr id="id">\n'],
+      ["--- {#id}", '<hr id="id">\n'],
+      ["---  {#id}", '<p id="id">--- </p>\n'],
+    ];
+
+    testCases.forEach(([src, expected]) => {
+      expect(markdownIt.render(src)).toBe(expected);
+    });
+  });
 });
