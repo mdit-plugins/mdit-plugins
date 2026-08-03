@@ -698,6 +698,47 @@ Content
     });
   });
 
+  describe("trailing content after @end", () => {
+    it("should keep @end trailing content instead of silently dropping it", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Content
+@end garbage
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content
+@end garbage</p>
+</div>
+</div>
+`);
+    });
+
+    it("should not close container on @end trailing content and keep it as literal text", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Content
+@end garbage
+after the garbage
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content
+@end garbage
+after the garbage</p>
+</div>
+</div>
+`);
+    });
+  });
+
   describe("markdown content", () => {
     it("should render markdown inside items", () => {
       expect(

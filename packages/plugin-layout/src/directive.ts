@@ -69,8 +69,14 @@ export const detectDirective = (
   if (matchString(src, afterAt, END) && afterAt + END.length <= max) {
     const endPos = afterAt + END.length;
 
-    if (endPos >= max || src.charCodeAt(endPos) === SPACE)
-      return { kind: "end", type: 0, nameEnd: endPos, depth };
+    // Only a bare `@end` (optionally followed by whitespace) closes a container.
+    // Trailing content after `@end` must not be silently dropped, so it is not
+    // recognized as a closing directive.
+    let endTrail = endPos;
+
+    while (endTrail < max && src.charCodeAt(endTrail) === SPACE) endTrail++;
+
+    if (endTrail >= max) return { kind: "end", type: 0, nameEnd: endPos, depth };
   }
 
   // Check for "flex" / "flexs"
