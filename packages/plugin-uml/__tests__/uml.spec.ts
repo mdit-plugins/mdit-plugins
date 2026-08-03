@@ -106,6 +106,20 @@ Text with **bold** and \`code\`.
 `);
   });
 
+  it("should escape info in default render", () => {
+    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+
+    expect(
+      markdownIt.render(`
+@start" onclick="alert(1)
+abc
+@end
+    `),
+    ).toBe(`\
+<div class="uml" title="&quot; onclick=&quot;alert(1)">abc</div>\
+`);
+  });
+
   it("should render with options", () => {
     const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
       name: "test",
