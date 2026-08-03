@@ -225,6 +225,37 @@ describe(stylize, () => {
       // Standard markdown tags usually have null attrs
       expect(markdownItAttrs.render("**TEST**")).toBe("<p><strong>TEST!</strong></p>\n");
     });
+
+    it("should not throw when replacer returns a result without attrs", () => {
+      const markdownItMissingAttrs = MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "TEST",
+            replacer: ({ tag, content }): MarkdownItStylizeResult =>
+              ({ tag, content }) as MarkdownItStylizeResult,
+          },
+        ],
+      });
+
+      // Replacer omitting `attrs` should not crash on Object.entries(undefined)
+      expect(markdownItMissingAttrs.render("**TEST**")).toBe("<p><strong>TEST</strong></p>\n");
+    });
+
+    it("should keep original content when replacer returns a result without content", () => {
+      const markdownItMissingContent = MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "TEST",
+            replacer: ({ tag, attrs }): MarkdownItStylizeResult =>
+              ({ tag, attrs }) as MarkdownItStylizeResult,
+          },
+        ],
+      });
+
+      // Replacer omitting `content` should fall back to the original text
+      // instead of rendering the literal string "undefined"
+      expect(markdownItMissingContent.render("**TEST**")).toBe("<p><strong>TEST</strong></p>\n");
+    });
   });
 
   describe("localConfigGetter", () => {
