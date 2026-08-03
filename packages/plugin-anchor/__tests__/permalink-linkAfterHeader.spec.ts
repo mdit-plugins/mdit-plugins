@@ -112,7 +112,7 @@ describe("permalink.linkAfterHeader", () => {
         }),
       }).render("# ![img](url)"),
     ).toBe(
-      '<h1 id="" tabindex="-1"><img src="url" alt="img"></h1>\n<a class="header-anchor" href="#" aria-describedby="">X</a>',
+      '<h1 id="heading" tabindex="-1"><img src="url" alt="img"></h1>\n<a class="header-anchor" href="#heading" aria-describedby="heading">X</a>',
     );
   });
 
