@@ -108,7 +108,7 @@ describe(alert, () => {
 `,
         `\
 <div class="markdown-alert markdown-alert-important">
-<p class="markdown-alert-title">Important</p>
+<p class="markdown-alert-title">ImporTANT</p>
 <p>This is an important note</p>
 </div>
 `,
@@ -349,7 +349,7 @@ and should still work correctly</p>
 `,
         `\
 <div class="markdown-alert markdown-alert-note">
-<p class="markdown-alert-title">Note</p>
+<p class="markdown-alert-title">NOTE</p>
 <p>Tabbed content</p>
 </div>
 `,
@@ -789,6 +789,36 @@ This is a note</p>
     });
   });
 
+  it("should escape alert name in title render", () => {
+    const markdownItInjection = new MarkdownIt().use(alert, {
+      alertNames: ["<img src=x onerror=alert(1)>"],
+    });
+
+    expect(markdownItInjection.render(`> [!<img src=x onerror=alert(1)>]\n> body\n`)).toBe(
+      `\
+<div class="markdown-alert markdown-alert-&lt;img src=x onerror=alert(1)&gt;">
+<p class="markdown-alert-title">&lt;img src=x onerror=alert(1)&gt;</p>
+<p>body</p>
+</div>
+`,
+    );
+  });
+
+  it("should not break out of class attribute with quotes in alert name", () => {
+    const markdownItQuote = new MarkdownIt().use(alert, {
+      alertNames: ['note" onclick="alert(1)'],
+    });
+
+    expect(markdownItQuote.render(`> [!note" onclick="alert(1)]\n> body\n`)).toBe(
+      `\
+<div class="markdown-alert markdown-alert-note&quot; onclick=&quot;alert(1)">
+<p class="markdown-alert-title">Note&quot; onclick=&quot;alert(1)</p>
+<p>body</p>
+</div>
+`,
+    );
+  });
+
   it("should support customize options", () => {
     const markdownItCustom = new MarkdownIt().use(alert, {
       openRender: (tokens, index) => `<div class="${tokens[index].markup}-alert">\n`,
@@ -1005,7 +1035,7 @@ code block
 <ul>
 <li>
 <div class="markdown-alert markdown-alert-tip">
-<p class="markdown-alert-title">Tip</p>
+<p class="markdown-alert-title">TIP</p>
 <p>body</p>
 </div>
 <h1>Heading interrupting alert</h1>
@@ -1057,7 +1087,7 @@ code block
 <li>step</li>
 </ol>
 <div class="markdown-alert markdown-alert-tip">
-<p class="markdown-alert-title">Tip</p>
+<p class="markdown-alert-title">TIP</p>
 <p>tip body</p>
 </div>
 `,
