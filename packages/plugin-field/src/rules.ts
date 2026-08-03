@@ -326,12 +326,21 @@ export const getFieldItemRule =
       const nextMax = state.eMarks[nextLine];
       const nextIndent = state.sCount[nextLine] - state.blkIndent;
 
-      // A container marker at the container level ends the item
-      if (nextIndent <= MAX_COSMETIC_INDENT && state.src.charCodeAt(nextStart) === 58 /* : */)
-        break;
-
-      // Check if it's a field marker within the cosmetic indent range
       if (nextIndent <= MAX_COSMETIC_INDENT) {
+        // A field container marker (3+ colons) at the container level ends the
+        // item. A single `:` (e.g. definition list syntax) is not a container
+        // marker and must stay inside the item.
+        let colonCount = 0;
+
+        while (
+          nextStart + colonCount < nextMax &&
+          state.src.charCodeAt(nextStart + colonCount) === 58 /* : */
+        )
+          colonCount++;
+
+        if (colonCount >= MIN_MARKER_NUM) break;
+
+        // Check if it's a field marker within the cosmetic indent range
         const nextMarker = checkFieldMarker(state, nextStart, nextMax);
 
         // oxlint-disable-next-line typescript/strict-boolean-expressions
