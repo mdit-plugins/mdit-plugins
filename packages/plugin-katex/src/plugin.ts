@@ -78,6 +78,33 @@ export const katex = <MarkdownItEnv = unknown>(
     userOptions,
   );
 
+  // TEMP: plan C — reset macros after every render so `\gdef` does not leak
+  // across documents while remaining usable within a single render.
+  const originalRender = md.render.bind(md);
+  const originalRenderInline = md.renderInline.bind(md);
+
+  const resetMacros = (): void => {
+    commonKatexOptions.macros = Object.assign({}, userOptions.macros);
+  };
+
+  md.render = (src: string, env?: MarkdownItEnv): string => {
+    try {
+      return originalRender(src, env);
+    } finally {
+      resetMacros();
+    }
+  };
+
+  md.renderInline = (src: string, env?: MarkdownItEnv): string => {
+    try {
+      return originalRenderInline(src, env);
+    } finally {
+      resetMacros();
+    }
+  };
+
+  resetMacros();
+
   md.use(tex, {
     allowInlineWithSpace,
     delimiters,
@@ -87,6 +114,7 @@ export const katex = <MarkdownItEnv = unknown>(
         {},
         commonKatexOptions,
         {
+          macros: commonKatexOptions.macros,
           strict: (errorCode, errorMsg, token) =>
             logger(errorCode, errorMsg, token, env) ?? "ignore",
           displayMode,
