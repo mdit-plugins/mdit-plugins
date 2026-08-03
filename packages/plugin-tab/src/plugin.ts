@@ -1,6 +1,7 @@
 import { escapeHtml } from "@mdit/helper";
 import type { Options, PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
@@ -17,6 +18,11 @@ interface TabMeta {
   index: number;
   active: boolean;
   id?: string;
+}
+
+interface TabContainerMeta {
+  id?: string;
+  tabsData?: MarkdownItTabInfo;
 }
 
 interface TabEnv extends Record<string, unknown> {
@@ -327,80 +333,81 @@ const createTabContainerRule =
     return true;
   };
 
-const createTabsDataGetter =
-  (name: string): ((tokens: Token[], index: number) => MarkdownItTabInfo) =>
-  (tokens: Token[], index: number) => {
-    const data: MarkdownItTabData[] = [];
-    let activeIndex = -1;
-    let isTabStart = false;
-    let nestingDepth = 0;
-    const { level } = tokens[index];
+const createTabsCoreRule =
+  (name: string): RuleCore =>
+  (state) => {
+    const tokens = state.tokens;
 
-    for (
-      // skip the current tabs_open token
-      let i = index + 1;
-      i < tokens.length;
-      i++
-    ) {
-      const token = tokens[i];
-      const meta = token.meta as TabMeta;
-      const type = token.type;
+    for (let index = 0; index < tokens.length; index++) {
+      const token = tokens[index];
 
-      // record the nesting depth of tabs
-      if (type === `${name}_tabs_open`) {
-        nestingDepth++;
-        continue;
-      }
+      if (token.type !== `${name}_tabs_open`) continue;
 
-      if (type === `${name}_tabs_close`) {
-        if (token.level === level) break;
+      const data: MarkdownItTabData[] = [];
+      let activeIndex = -1;
+      let isTabStart = false;
+      let nestingDepth = 0;
+      const { level } = token;
 
-        nestingDepth--;
-        continue;
-      }
+      for (let i = index + 1; i < tokens.length; i++) {
+        const child = tokens[i];
+        const meta = child.meta as TabMeta;
+        const type = child.type;
 
-      // skip processing tokens deep inside other blocks
-      if (token.level > level + 1 || nestingDepth > 0) {
+        // record the nesting depth of tabs
+        if (type === `${name}_tabs_open`) {
+          nestingDepth++;
+          continue;
+        }
+
+        if (type === `${name}_tabs_close`) {
+          if (child.level === level) break;
+
+          nestingDepth--;
+          continue;
+        }
+
+        // skip processing tokens deep inside other blocks
+        if (child.level > level + 1 || nestingDepth > 0) {
+          // hide contents before first tab
+          if (!isTabStart) {
+            child.type = `${name}_tabs_empty`;
+            child.hidden = true;
+          }
+
+          continue;
+        }
+
+        if (type === `${name}_tab_open`) {
+          isTabStart = true;
+
+          meta.index = data.length;
+          // tab is active
+          if (meta.active) {
+            if (activeIndex === -1) activeIndex = data.length;
+            else meta.active = false;
+          }
+
+          data.push({
+            title: child.info,
+            index: data.length,
+            id: meta.id,
+            isActive: meta.active,
+          });
+
+          continue;
+        }
+
+        if (type === `${name}_tab_close`) continue;
+
         // hide contents before first tab
-        if (!isTabStart) {
-          token.type = `${name}_tabs_empty`;
-          token.hidden = true;
-        }
-
-        continue;
+        child.type = `${name}_tabs_empty`;
+        child.hidden = true;
       }
 
-      if (type === `${name}_tab_open`) {
-        isTabStart = true;
-
-        meta.index = data.length;
-        // tab is active
-        if (meta.active) {
-          if (activeIndex === -1) activeIndex = data.length;
-          else meta.active = false;
-        }
-
-        data.push({
-          title: token.info,
-          index: data.length,
-          id: meta.id,
-          isActive: meta.active,
-        });
-
-        continue;
-      }
-
-      if (type === `${name}_tab_close`) continue;
-
-      // hide contents before first tab
-      token.type = `${name}_tabs_empty`;
-      token.hidden = true;
+      // store the computed tab data for the renderer (rendering stays read-only)
+      (token.meta as TabContainerMeta).tabsData = { active: activeIndex, data };
     }
-
-    return {
-      active: activeIndex,
-      data,
-    };
   };
 
 const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
@@ -426,14 +433,10 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       index: number,
       _options: Options,
       _env: unknown,
-      self: Renderer,
+      _self: Renderer,
     ): string => {
       const { active, data } = info;
-      const token = tokens[index];
-
-      token.attrJoin("class", `${name}-tabs-wrapper`);
-      // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/strict-boolean-expressions
-      if (token.meta.id) token.attrJoin("data-id", token.meta.id as string);
+      const containerId = (tokens[index].meta as TabContainerMeta).id;
 
       const tabs = data.map(
         ({ title, id }, dataIndex) =>
@@ -445,7 +448,9 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       );
 
       return `\
-<div${self.renderAttrs(token)}>
+<div class="${name}-tabs-wrapper"${
+        containerId ? ` data-id="${md.utils.escapeHtml(containerId)}"` : ""
+      }>
   <div class="${name}-tabs-header">
     ${tabs.join("\n    ")}
   </div>
@@ -461,22 +466,18 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     // oxlint-disable-next-line max-params
     tabOpenRender = (
       info: MarkdownItTabData,
-      tokens: Token[],
-      index: number,
+      _tokens: Token[],
+      _index: number,
       _options: Options,
       _env: unknown,
-      self: Renderer,
+      _self: Renderer,
     ): string => {
-      const token = tokens[index];
-
-      token.attrJoin("class", `${name}-tab-content${info.isActive ? " active" : ""}`);
-      token.attrSet("data-index", info.index.toString());
-      if (info.id) token.attrSet("data-id", info.id);
-
-      if (info.isActive) token.attrJoin("data-active", "");
+      const { index, id, isActive } = info;
 
       return `\
-<div${self.renderAttrs(tokens[index])}>
+<div class="${name}-tab-content${isActive ? " active" : ""}" data-index="${index}"${
+        id ? ` data-id="${md.utils.escapeHtml(id)}"` : ""
+      }${isActive ? ' data-active=""' : ""}>
 `;
     },
 
@@ -485,7 +486,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 `,
   } = options ?? {};
 
-  const tabsDataGetter = createTabsDataGetter(name);
+  const tabsCoreRule = createTabsCoreRule(name);
 
   md.block.ruler.before("fence", `${name}_tabs`, createTabContainerRule(name), {
     alt: ["paragraph", "reference", "blockquote", "list"],
@@ -495,8 +496,11 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
+  md.core.ruler.push(`${name}_tabs_core`, tabsCoreRule);
+
   md.renderer.rules[`${name}_tabs_open`] = (tokens, index, mdItOptions, env, self): string => {
-    const info = tabsDataGetter(tokens, index);
+    // Fall back to an empty tab list if the tokens were not processed by the core rule
+    const info = (tokens[index].meta as TabContainerMeta).tabsData ?? { active: -1, data: [] };
 
     return openRender(info, tokens, index, mdItOptions, env, self);
   };

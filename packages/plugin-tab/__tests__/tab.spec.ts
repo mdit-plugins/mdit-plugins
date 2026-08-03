@@ -136,6 +136,14 @@ A **bold** text.
       });
     });
 
+    it("should not escape single quote in container and content id", () => {
+      const result = markdownIt.render("::: tabs#it's\n@tab A#tab's\ncontent\n:::\n");
+
+      expect(result).toContain('data-id="it\'s"');
+      expect(result).toContain('data-id="tab\'s"');
+      expect(result).not.toContain("it&#39;s");
+    });
+
     it("id with space", () => {
       const source = [
         `
@@ -1060,6 +1068,58 @@ content
       expect(result).toContain("A &amp; B");
       expect(result).not.toContain("&amp;amp;");
       expect(result).toContain('data-id="some-id"');
+    });
+  });
+
+  describe("render consistency", () => {
+    it("should produce identical output when the same token array is rendered multiple times", () => {
+      const source = `
+::: tabs
+@tab test1
+content 1
+@tab:active test2
+content 2
+:::
+`;
+      const tokens = markdownIt.parse(source, {});
+      const first = markdownIt.renderer.render(tokens, markdownIt.options, {});
+      const second = markdownIt.renderer.render(tokens, markdownIt.options, {});
+
+      expect(second).toBe(first);
+    });
+
+    it("should produce identical output for nested tabs rendered multiple times", () => {
+      const source = `
+::: tabs
+@tab A
+content A
+::: tabs
+@tab C
+content C
+:::
+@tab B
+content B
+:::
+`;
+      const tokens = markdownIt.parse(source, {});
+      const first = markdownIt.renderer.render(tokens, markdownIt.options, {});
+      const second = markdownIt.renderer.render(tokens, markdownIt.options, {});
+
+      expect(second).toBe(first);
+    });
+
+    it("should not throw when rendering tokens that bypassed the core rule", () => {
+      const mdInstance = new MarkdownIt().use(tab);
+      const tokens = mdInstance.parse("::: tabs\n@tab A\ncontent\n:::\n", {});
+
+      // simulate tokens that were not processed by the core rule (missing tabsData)
+      tokens
+        .filter((token) => token.type === "tabs_tabs_open")
+        .forEach((token) => {
+          delete (token.meta as Record<string, unknown>).tabsData;
+        });
+
+      expect(() => mdInstance.renderer.render(tokens, mdInstance.options, {})).not.toThrow();
     });
   });
 });
