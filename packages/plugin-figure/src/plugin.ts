@@ -19,6 +19,7 @@ const NATIVE_IMG_ATTRS = new Set([
   "sizes",
   "src",
   "srcset",
+  "title",
   "usemap",
   "width",
 ]);
@@ -112,6 +113,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
 
           for (const attr of image.attrs) {
             if (
+              !NATIVE_IMG_ATTRS.has(attr[0]) &&
               moveAttrs.some((pattern) =>
                 typeof pattern === "string" ? pattern === attr[0] : pattern.test(attr[0]),
               )
