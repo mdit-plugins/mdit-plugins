@@ -105,9 +105,10 @@ interface MarkdownItMathjaxOptions {
 
 该实例包含每个调用的渲染内容，因此你应该：
 
-- 在不同页面中的每次渲染之前调用 `mathjaxInstance.reset()`，这确保标签之类的项目被重置。
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
 - 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
+
+插件会在每次渲染后自动调用 `mathjaxInstance.reset()`，清除用户定义的宏、环境与标签，避免状态跨文档泄漏。如需在所有文档中持续使用某个宏，请改用 `tex.macros` 选项定义。
 
 我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `@mathjax/src` 和 `@mathjax/mathjax-newcm-font` 是可选对等依赖。
 
