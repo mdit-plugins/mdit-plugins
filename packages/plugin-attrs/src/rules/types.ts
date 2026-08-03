@@ -98,7 +98,6 @@ export interface AttrRule {
  * Define an attribute rule helper
  *
  * @example
- *   ```ts
  *   const rule = defineAttrRule({
  *     name: "example",
  *     tests: [],
@@ -106,7 +105,6 @@ export interface AttrRule {
  *       // transform logic
  *     },
  *   });
- *   ```;
  *
  * @param rule - Attribute rule definition / 属性规则定义
  * @returns Attribute rule passed through without modification / 未被修改的属性规则

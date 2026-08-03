@@ -8,10 +8,8 @@ import type { ParseAttrsOptions } from "./options.js";
  * 从包含分隔符属性部分的字符串中解析属性
  *
  * @example
- *   ```ts
  *   parseAttrs("foo {.bar #baz data-a=b}");
  *   // [["class", "bar"], ["id", "baz"], ["data-a", "b"]]
- *   ```;
  *
  * @param content - Content to parse / 要解析的内容
  * @param options - Parse options / 解析选项
