@@ -3,10 +3,17 @@ import { describe, expect, it } from "vitest";
 import { detectDirective, parseAttributes } from "../src/directive.js";
 
 describe(detectDirective, () => {
-  it("should detect @end with trailing space", () => {
-    const result = detectDirective("@end trailing", 0, 13);
+  it("should detect @end followed by only spaces", () => {
+    expect(detectDirective("@end  ", 0, 6)).toStrictEqual({
+      kind: "end",
+      type: 0,
+      nameEnd: 4,
+      depth: 1,
+    });
+  });
 
-    expect(result).toStrictEqual({ kind: "end", type: 0, nameEnd: 4, depth: 1 });
+  it("should not detect @end with trailing content as end", () => {
+    expect(detectDirective("@end trailing", 0, 13)).toBeNull();
   });
 
   it("should not detect @endfoo as end", () => {
