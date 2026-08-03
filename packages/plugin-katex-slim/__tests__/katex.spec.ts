@@ -254,3 +254,56 @@ $$
     expect(markdownItTransformer.render(`$a=1$`)).toContain(" v-pre ");
   });
 });
+
+describe("gdef macros", () => {
+  const macroSource = String.raw`$\gdef\foo{\text{LEAKED-MACRO}} \foo$`;
+
+  it(String.raw`should not leak \gdef macros across documents`, () => {
+    // doc 1 defines a macro with \gdef and uses it
+    markdownIt.render(macroSource);
+
+    // doc 2 must not know about \foo defined in doc 1
+    const result = markdownIt.render(String.raw`$\foo$`);
+
+    expect(result).not.toContain("LEAKED-MACRO");
+  });
+
+  it(String.raw`should keep \gdef macros within a single document`, () => {
+    // use the html output to avoid the MathML annotation echoing the source tex
+    const result = markdownItHTML.render(macroSource);
+
+    expect(result).toContain("LEAKED-MACRO");
+  });
+
+  it(String.raw`should share \gdef macros across expressions within a document`, () => {
+    const result = markdownItHTML.render(String.raw`$\gdef\foo{\text{LEAKED-MACRO}}$ and $\foo$`);
+
+    expect(result).toContain("LEAKED-MACRO");
+  });
+
+  it("should not throw when rendering tokens without env", () => {
+    const markdownItNoEnv = MarkdownIt({ linkify: true }).use(katex);
+    const tokens = markdownItNoEnv.parse(String.raw`$\gdef\foo{\text{LEAKED-MACRO}} \foo$`, void 0);
+
+    expect(() =>
+      markdownItNoEnv.renderer.render(tokens, markdownItNoEnv.options, void 0),
+    ).not.toThrow();
+  });
+
+  it("should support global macros from options", () => {
+    const markdownItMacros = MarkdownIt({ linkify: true }).use(katex, {
+      macros: { [String.raw`\foo`]: String.raw`\text{global}` },
+    });
+
+    expect(markdownItMacros.render(String.raw`$\foo$`)).toContain("global");
+  });
+
+  it(String.raw`should not leak \gdef macros via renderInline`, () => {
+    markdownItHTML.renderInline(String.raw`$\gdef\foo{\text{LEAKED-MACRO}} \foo$`);
+
+    // a following renderInline must not know about \foo defined above
+    const result = markdownItHTML.renderInline(String.raw`$\foo$`);
+
+    expect(result).not.toContain("LEAKED-MACRO");
+  });
+});
