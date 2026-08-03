@@ -32,7 +32,7 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 
 Append `=widthxheight` to image alt text with spaces as separator.
 
-Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size with all dimensions set to `0` is ignored.
+Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size whose width and height are both `0` is ignored.
 
 ```md
 ![Alt =200x300](/example.png)
@@ -77,7 +77,7 @@ Renders as ↓
 
 Append `=widthxheight` at the end of image link section with spaces as separator.
 
-Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size with all dimensions set to `0` is ignored.
+Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size whose width and height are both `0` is ignored.
 
 ```md
 ![Alt](/example.png =200x300)
