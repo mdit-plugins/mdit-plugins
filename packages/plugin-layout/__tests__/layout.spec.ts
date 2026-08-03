@@ -124,6 +124,38 @@ Content
 </div>
 `);
       });
+
+      it("should not treat @end with trailing content as a valid end", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+content
+@end garbage
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>content
+@end garbage</p>
+</div>
+`);
+      });
+
+      it("should auto-close container to EOF when @end has trailing content", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+content
+@end garbage
+After
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>content
+@end garbage
+After</p>
+</div>
+`);
+      });
     });
 
     describe("empty", () => {
