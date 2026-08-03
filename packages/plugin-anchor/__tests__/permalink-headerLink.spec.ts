@@ -38,6 +38,48 @@ describe("permalink.headerLink", () => {
       '<h1 id="h1" tabindex="-1"><a class="header-anchor" href="/custom/h1" target="_blank">H1</a></h1>\n',
     );
   });
+
+  it("should not nest anchor when heading contains a link", () => {
+    expect(md({ permalink: headerLink() }).render("# [link](https://example.com)")).toBe(
+      '<h1 id="link" tabindex="-1"><a href="https://example.com">link</a></h1>\n',
+    );
+  });
+
+  it("should not nest anchor when heading contains a link with text", () => {
+    expect(
+      md({ permalink: headerLink() }).render("# Text with [link](https://example.com) inside"),
+    ).toBe(
+      '<h1 id="text-with-link-inside" tabindex="-1">Text with <a href="https://example.com">link</a> inside</h1>\n',
+    );
+  });
+
+  it("should not nest anchor when heading contains multiple links", () => {
+    expect(
+      md({ permalink: headerLink() }).render(
+        "# A [one](https://example.com/1) and [two](https://example.com/2)",
+      ),
+    ).toBe(
+      '<h1 id="a-one-and-two" tabindex="-1">A <a href="https://example.com/1">one</a> and <a href="https://example.com/2">two</a></h1>\n',
+    );
+  });
+
+  it("should not nest anchor when heading contains a raw html anchor", () => {
+    expect(md({ permalink: headerLink() }).render('# <a href="https://example.com">raw</a>')).toBe(
+      '<h1 id="raw" tabindex="-1"><a href="https://example.com">raw</a></h1>\n',
+    );
+  });
+
+  it("should not nest anchor when heading contains an uppercase raw html anchor", () => {
+    expect(md({ permalink: headerLink() }).render('# <A href="https://example.com">raw</A>')).toBe(
+      '<h1 id="raw" tabindex="-1"><A href="https://example.com">raw</A></h1>\n',
+    );
+  });
+
+  it("should not nest anchor when heading contains a raw html anchor with a tab", () => {
+    expect(md({ permalink: headerLink() }).render('# <a\thref="https://example.com">raw</a>')).toBe(
+      '<h1 id="raw" tabindex="-1"><a\thref="https://example.com">raw</a></h1>\n',
+    );
+  });
 });
 
 describe("headerLink level preservation", () => {
