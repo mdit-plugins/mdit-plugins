@@ -136,7 +136,9 @@ $$
       const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
-      expect(markdownIt.render(source)).toMatch(/mjx-error/);
+      // State is reset after each render, so the duplicate label is only
+      // detected when both definitions appear within the same document.
+      expect(markdownIt.render(`${source}\n\n${source}`)).toMatch(/mjx-error/);
 
       const style = mathjaxInstance.outputStyle();
 
