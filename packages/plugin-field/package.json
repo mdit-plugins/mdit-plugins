@@ -50,7 +50,8 @@
     "@types/markdown-it": "^14.1.2"
   },
   "devDependencies": {
-    "@mdit/plugin-container": "workspace:*"
+    "@mdit/plugin-container": "workspace:*",
+    "@mdit/plugin-dl": "workspace:*"
   },
   "peerDependencies": {
     "markdown-it": "^14.2.0"
