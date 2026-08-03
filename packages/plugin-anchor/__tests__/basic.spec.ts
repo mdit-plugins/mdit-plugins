@@ -1,6 +1,6 @@
 import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { legacySlugify } from "../src/defaults.js";
 import type { AnchorOptions } from "../src/options.js";
@@ -266,5 +266,32 @@ describe("legacy options", () => {
     expect(md(legacyOptions as AnchorOptions).render("# H1")).toBe(
       '<h1 id="h1" tabindex="-1">H1</h1>\n',
     );
+  });
+});
+
+describe("performance", () => {
+  it("should not scan the tokens array without a permalink", () => {
+    const src = "# H1\n\n## H2\n\n### H3\n\npara text here";
+
+    const countIndexOf = (instance: MarkdownIt): number => {
+      const spy = vi.spyOn(Array.prototype, "indexOf");
+
+      instance.render(src);
+
+      const count = spy.mock.calls.length;
+
+      spy.mockRestore();
+
+      return count;
+    };
+
+    const plainCount = countIndexOf(MarkdownIt({ html: true }));
+    const noPermalinkCount = countIndexOf(md());
+    const withPermalinkCount = countIndexOf(md({ permalink: (): void => {} }));
+
+    // The anchor rule itself must not scan the tokens array without a permalink,
+    // and should do exactly one scan per selected heading when a permalink is set.
+    expect(noPermalinkCount).toBe(plainCount);
+    expect(withPermalinkCount).toBe(plainCount + 3);
   });
 });
