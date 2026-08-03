@@ -2,6 +2,7 @@ import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
+import { legacySlugify } from "../src/defaults.js";
 import type { AnchorOptions } from "../src/options.js";
 import type { PermalinkGenerator } from "../src/permalink/types.js";
 import { anchor } from "../src/plugin.js";
@@ -62,6 +63,46 @@ describe("slug options", () => {
     expect(md().render("#### `options`")).toBe(
       '<h4 id="options" tabindex="-1"><code>options</code></h4>\n',
     );
+  });
+
+  it("should slugify punctuation without percent-encoding", () => {
+    expect(md().render("# Hello, World! (C++)")).toBe(
+      '<h1 id="hello-world-c" tabindex="-1">Hello, World! (C++)</h1>\n',
+    );
+  });
+
+  it("should keep CJK in slug", () => {
+    expect(md().render("# 中文标题")).toBe('<h1 id="中文标题" tabindex="-1">中文标题</h1>\n');
+  });
+
+  it("should collapse consecutive dashes in slug", () => {
+    expect(md().render("# foo---bar")).toBe('<h1 id="foo-bar" tabindex="-1">foo---bar</h1>\n');
+  });
+
+  it("should trim trailing dashes in slug", () => {
+    expect(md().render("# Hello -")).toBe('<h1 id="hello" tabindex="-1">Hello -</h1>\n');
+  });
+
+  it("should trim leading dashes in slug", () => {
+    expect(md().render("# - foo")).toBe('<h1 id="foo" tabindex="-1">- foo</h1>\n');
+  });
+
+  it("should fold nbsp into a dash in slug", () => {
+    expect(md().render("# foo\u00A0bar")).toBe(
+      '<h1 id="foo-bar" tabindex="-1">foo\u00A0bar</h1>\n',
+    );
+  });
+
+  it("should percent-encode punctuation with legacySlugify", () => {
+    expect(legacySlugify("Hello, World! (C++)")).toBe("hello%2C-world!-(c%2B%2B)");
+  });
+
+  it("should percent-encode CJK with legacySlugify", () => {
+    expect(legacySlugify("中文标题")).toBe("%E4%B8%AD%E6%96%87%E6%A0%87%E9%A2%98");
+  });
+
+  it("should keep dash runs with legacySlugify", () => {
+    expect(legacySlugify("foo---bar")).toBe("foo---bar");
   });
 
   it("should support custom slugify", () => {

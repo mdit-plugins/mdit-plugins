@@ -25,7 +25,12 @@ import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
 const mdIt = MarkdownIt().use(anchor, {
-  slugify: (s) => encodeURIComponent(s.trim().toLowerCase().replace(/\s+/g, "-")),
+  slugify: (s) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fff-]+/g, "-")
+      .replace(/-+/g, "-"),
 });
 
 mdIt.render("# 你好 世界");
@@ -61,6 +66,15 @@ mdIt.render("# 你好 世界");
 
 - 类型：`(str: string) => string`
 - 详情：自定义 slug 化函数，将标题文本转换为 URL 友好的 slug。
+
+默认会转小写 ASCII 字母、保留非 ASCII 字符（如中文）、将空白与连字符折叠为单个连字符，并剥离其余 ASCII 标点。如果你想要严格百分号编码的 slug，可使用导出的 `legacySlugify`：
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+
+const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
+```
 
 ### slugifyWithState
 
