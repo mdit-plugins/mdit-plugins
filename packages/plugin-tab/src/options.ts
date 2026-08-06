@@ -35,6 +35,13 @@ export interface MarkdownItTabData {
 
 export interface MarkdownItTabInfo {
   /**
+   * Identifier of tab container
+   *
+   * Tab 容器标识符
+   */
+  id: string | undefined;
+
+  /**
    * Which tab is active
    *
    * -1 means no tab is active 激活的 Tab

@@ -110,6 +110,11 @@ interface MarkdownItTabData {
 
 interface MarkdownItTabInfo {
   /**
+   * Identifier of tab container
+   */
+  id: string | undefined;
+
+  /**
    * Which tab is active
    *
    * @description -1 means no tab is active
