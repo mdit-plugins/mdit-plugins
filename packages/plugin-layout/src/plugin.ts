@@ -8,6 +8,74 @@ import type { LayoutMeta, LayoutStateBlock } from "./types.js";
 import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN } from "./types.js";
 import { buildStyleString, resolveUtility } from "./utilities.js";
 
+// Forked and modified from markdown-it/lib/rules_block/fence.mjs
+//
+// Known limitations: this scan runs at the container/item level, before
+// markdown-it's block rules re-tokenize nested content with a deeper
+// blkIndent. So lines inside a fence nested in a list item (indented 4+
+// spaces relative to the container), or inside indented code blocks /
+// lazy paragraph continuations, are not recognized as code here and their
+// `@`-directives are still honored (the same limitation exists in
+// @mdit/plugin-include's code block scan).
+const scanFence = (
+  state: LayoutStateBlock,
+  startLine: number,
+  endLine: number,
+  blkIndent: number,
+): number | null => {
+  let pos = state.bMarks[startLine] + state.tShift[startLine];
+  let max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - blkIndent >= 4) return null;
+
+  if (pos + 3 > max) return null;
+
+  const marker = state.src.charCodeAt(pos);
+
+  if (marker !== 0x7e /* ~ */ && marker !== 0x60 /* ` */) return null;
+
+  // scan marker length
+  let mem = pos;
+  pos = state.skipChars(pos, marker);
+  const len = pos - mem;
+
+  if (len < 3) return null;
+
+  const params = state.src.slice(pos, max);
+
+  if (marker === 0x60 /* ` */ && params.includes("`")) return null;
+
+  // search end of block
+  let nextLine = startLine;
+  let haveEndMarker = false;
+
+  for (;;) {
+    nextLine++;
+    if (nextLine >= endLine) break; // unclosed => autoclose at end
+
+    pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+    max = state.eMarks[nextLine];
+
+    /* istanbul ignore next -- @preserve: layout content is always indented at blkIndent or deeper */
+    if (pos < max && state.sCount[nextLine] < blkIndent) break;
+
+    if (state.src.charCodeAt(pos) !== marker) continue;
+    if (state.sCount[nextLine] - blkIndent >= 4) continue;
+
+    pos = state.skipChars(pos, marker);
+    if (pos - mem < len) continue;
+
+    pos = state.skipSpaces(pos);
+    if (pos < max) continue;
+
+    haveEndMarker = true;
+    break;
+  }
+
+  return nextLine + (haveEndMarker ? 1 : 0);
+};
+
 /**
  * Count matching container opens/ends to find the `@end` that closes the container opened at
  * startLine. Works at the same `@` depth.
@@ -18,6 +86,7 @@ import { buildStyleString, resolveUtility } from "./utilities.js";
  * @param startLine - First line after the container open / 容器开始后的第一行
  * @param endLine - Search boundary / 搜索边界
  * @param depth - `@` depth of the container / 容器的 `@` 深度
+ * @param blkIndent - Indent of the container / 容器的缩进
  * @returns Line number of matching `@end`, or endLine if not found / 匹配 `@end` 的行号，未找到则返回 endLine
  */
 const findMatchingEnd = (
@@ -25,12 +94,21 @@ const findMatchingEnd = (
   startLine: number,
   endLine: number,
   depth: number,
+  blkIndent: number,
 ): number => {
   let nesting = 1;
 
   for (let line = startLine; line < endLine; line++) {
     const lineStart = state.bMarks[line] + state.tShift[line];
     const lineMax = state.eMarks[line];
+
+    // directives inside fenced code blocks are literal text, skip them
+    const fenceEnd = scanFence(state, line, endLine, blkIndent);
+
+    if (fenceEnd != null && fenceEnd > line) {
+      line = fenceEnd - 1;
+      continue;
+    }
 
     if (lineStart >= lineMax) continue;
     if (state.src.charCodeAt(lineStart) !== AT) continue;
@@ -80,6 +158,14 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
   for (; nextLine < endLine; nextLine++) {
     const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
     const nextLineMax = state.eMarks[nextLine];
+
+    // directives inside fenced code blocks are literal text, skip them
+    const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+    if (fenceEnd != null && fenceEnd > nextLine) {
+      nextLine = fenceEnd - 1;
+      continue;
+    }
 
     if (nextLineStart >= nextLineMax) continue;
     if (state.src.charCodeAt(nextLineStart) !== AT) continue;
@@ -152,7 +238,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
 
   const indent = state.sCount[startLine];
   const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max);
-  const nextLine = findMatchingEnd(state, startLine + 1, endLine, depth);
+  const nextLine = findMatchingEnd(state, startLine + 1, endLine, depth, indent);
 
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
