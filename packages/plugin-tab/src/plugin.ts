@@ -1,8 +1,7 @@
 import { escapeHtml } from "@mdit/helper";
-import type { Options, PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
 import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type Renderer from "markdown-it/lib/renderer.mjs";
 import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
 import type Token from "markdown-it/lib/token.mjs";
 
@@ -309,7 +308,7 @@ const createTabContainerRule =
     openToken.markup = markup;
     openToken.block = true;
     openToken.info = name;
-    openToken.meta = { id };
+    openToken.meta = id ? { id } : {};
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
     state.env.tabName = name;
@@ -405,8 +404,14 @@ const createTabsCoreRule =
         child.hidden = true;
       }
 
+      const containerMeta = token.meta as TabContainerMeta;
+
       // store the computed tab data for the renderer (rendering stays read-only)
-      (token.meta as TabContainerMeta).tabsData = { active: activeIndex, data };
+      containerMeta.tabsData = {
+        active: activeIndex,
+        data,
+        id: containerMeta.id,
+      };
     }
   };
 
@@ -426,17 +431,8 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
 
-    // oxlint-disable-next-line max-params
-    openRender = (
-      info: MarkdownItTabInfo,
-      tokens: Token[],
-      index: number,
-      _options: Options,
-      _env: unknown,
-      _self: Renderer,
-    ): string => {
-      const { active, data } = info;
-      const containerId = (tokens[index].meta as TabContainerMeta).id;
+    openRender = (info: MarkdownItTabInfo): string => {
+      const { active, data, id: containerId } = info;
 
       const tabs = data.map(
         ({ title, id }, dataIndex) =>
@@ -463,15 +459,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 </div>
 `,
 
-    // oxlint-disable-next-line max-params
-    tabOpenRender = (
-      info: MarkdownItTabData,
-      _tokens: Token[],
-      _index: number,
-      _options: Options,
-      _env: unknown,
-      _self: Renderer,
-    ): string => {
+    tabOpenRender = (info: MarkdownItTabData): string => {
       const { index, id, isActive } = info;
 
       return `\
@@ -500,7 +488,8 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 
   md.renderer.rules[`${name}_tabs_open`] = (tokens, index, mdItOptions, env, self): string => {
     // Fall back to an empty tab list if the tokens were not processed by the core rule
-    const info = (tokens[index].meta as TabContainerMeta).tabsData ?? { active: -1, data: [] };
+    const meta = tokens[index].meta as TabContainerMeta;
+    const info: MarkdownItTabInfo = meta.tabsData ?? { active: -1, data: [], id: meta.id };
 
     return openRender(info, tokens, index, mdItOptions, env, self);
   };

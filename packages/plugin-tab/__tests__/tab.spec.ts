@@ -201,6 +201,40 @@ content
       expect(result).toContain('class="tabs-tabs-wrapper"');
       expect(result).not.toContain("data-id");
     });
+
+    it("should pass container id to custom openRender via info.id", () => {
+      const mdInstance = new MarkdownIt().use(tab, {
+        name: "tabs",
+        openRender: (info) => `<div data-info-id="${info.id}">`,
+        closeRender: () => "</div>",
+      });
+
+      const result = mdInstance.render(`
+::: tabs#event
+@tab test
+content
+:::
+`);
+
+      expect(result).toContain('<div data-info-id="event">');
+    });
+
+    it("should pass undefined container id to custom openRender when no id is set", () => {
+      const mdInstance = new MarkdownIt().use(tab, {
+        name: "tabs",
+        openRender: (info) => `<div data-info-id="${info.id}">`,
+        closeRender: () => "</div>",
+      });
+
+      const result = mdInstance.render(`
+::: tabs
+@tab test
+content
+:::
+`);
+
+      expect(result).toContain('<div data-info-id="undefined">');
+    });
   });
 
   describe("should support tab id", () => {

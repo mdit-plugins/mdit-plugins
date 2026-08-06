@@ -110,6 +110,11 @@ interface MarkdownItTabData {
 
 interface MarkdownItTabInfo {
   /**
+   * 选项卡容器标识符
+   */
+  id: string | undefined;
+
+  /**
    * 当前激活的选项卡
    *
    * @description -1 表示没有选项卡处于激活状态
