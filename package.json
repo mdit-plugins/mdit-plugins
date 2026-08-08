@@ -38,7 +38,7 @@
     "husky": "9.1.7",
     "markdownlint-cli2": "0.23.2",
     "nano-staged": "1.0.2",
-    "npm-check-updates": "23.0.0",
+    "npm-check-updates": "23.0.2",
     "oxc-config-hope": "0.3.12",
     "oxfmt": "0.62.0",
     "oxlint": "1.76.0",
