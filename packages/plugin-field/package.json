@@ -54,7 +54,7 @@
     "@mdit/plugin-dl": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^14.2.0 || ^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {
