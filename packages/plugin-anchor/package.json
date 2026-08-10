@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "@mdit/plugin-attrs": "workspace:*",
-    "markdown-it": "14.3.0"
+    "markdown-it": "15.0.0"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^14.2.0 || ^15.0.0"
   }
 }
