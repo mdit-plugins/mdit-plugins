@@ -1,12 +1,13 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { PermalinkGenerator } from "../src/permalink/index.js";
 import { linkAfterHeader } from "../src/permalink/index.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: Record<string, unknown>): MarkdownIt =>
-  MarkdownIt({ html: true }).use(anchor, options as Parameters<typeof anchor>[1]);
+const md = (options?: Record<string, unknown>): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
 const opts = {
   symbol: '<i class="icon"></i>',

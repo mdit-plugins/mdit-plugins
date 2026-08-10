@@ -20,7 +20,7 @@ import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 
 const mathjaxInstance = await createMathjaxInstance(options);
-const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
+const mdIt = new MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
 const style = await mathjaxInstance.outputStyle();

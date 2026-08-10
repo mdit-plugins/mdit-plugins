@@ -1,5 +1,5 @@
+import type { PluginWithOptions } from "@mdit/helper";
 import { inlineRule } from "@mdit/plugin-inline-rule";
-import type { PluginWithOptions } from "markdown-it";
 
 import type { MarkdownItSpoilerOptions } from "./options.js";
 

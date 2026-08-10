@@ -1,8 +1,7 @@
-import type { PluginSimple } from "markdown-it";
+import type { PluginSimple } from "@mdit/helper";
 
 export const imgLazyload: PluginSimple = (md) => {
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const originalImageRender = md.renderer.rules.image!;
+  const originalImageRender = md.renderer.rules.image;
 
   md.renderer.rules.image = (tokens, index, options, env, self): string => {
     tokens[index].attrSet("loading", "lazy");

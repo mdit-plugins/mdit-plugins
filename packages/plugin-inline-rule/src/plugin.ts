@@ -1,8 +1,6 @@
 import { UNESCAPE_RE } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
-import type { Delimiter } from "markdown-it/lib/rules_inline/state_inline.mjs";
+import type { InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { Delimiter, StateInline } from "markdown-it";
 
 import type { InlineRuleOptions } from "./options.js";
 
@@ -17,7 +15,7 @@ interface LinearRuleConfig {
   attrs: [string, string][] | undefined;
 }
 
-const createLinearRule = (config: LinearRuleConfig): RuleInline => {
+const createLinearRule = (config: LinearRuleConfig): InlineRule => {
   const { markerCode, tag, token, markup, allowSpace, attrs } = config;
   const markerLength = markup.length;
 
@@ -87,7 +85,7 @@ const createLinearRule = (config: LinearRuleConfig): RuleInline => {
 };
 
 const createNestedTokenize =
-  (markerCode: number, double: boolean): RuleInline =>
+  (markerCode: number, double: boolean): InlineRule =>
   (state, silent): boolean => {
     const start = state.pos;
     const marker = state.src.charCodeAt(start);
@@ -228,8 +226,8 @@ const createNestedPostProcess = (
 const createRuler2Handler =
   (
     postProcess: (state: StateInline, delimiters: Delimiter[]) => void,
-  ): ((state: StateInline) => boolean) =>
-  (state): boolean => {
+  ): ((state: StateInline) => void) =>
+  (state): void => {
     postProcess(state, state.delimiters);
 
     const tokensMeta = state.tokens_meta;
@@ -237,12 +235,11 @@ const createRuler2Handler =
 
     for (let ii = 0; ii < tokensMetaLength; ii++) {
       const tokenMeta = tokensMeta[ii];
+      const { delimiters } = tokenMeta ?? {};
 
       // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (tokenMeta?.delimiters.length) postProcess(state, tokenMeta.delimiters);
+      if (delimiters?.length) postProcess(state, delimiters);
     }
-
-    return true;
   };
 
 export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {

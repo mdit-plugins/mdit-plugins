@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { dl } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(dl);
+const markdownIt = new MarkdownIt({ linkify: true }).use(dl);
 
 describe(dl, () => {
   it("should render basic definition lists", () => {

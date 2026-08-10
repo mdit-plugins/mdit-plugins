@@ -2,12 +2,11 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
+import { includePathsKey } from "./constant.js";
 import type { MarkdownItIncludeOptions } from "./options.js";
 import type { IncludeEnv } from "./types.js";
 
@@ -239,7 +238,7 @@ export const resolveInclude = (
 
 const SYNTAX_PUSH_RE = /^<!-- #include-env-start: (?<includePath>[^)]*?) -->$/;
 
-const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
+const includePushRule: BlockRule = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
@@ -268,7 +267,7 @@ const includePushRule: RuleBlock = (state, startLine, _, silent): boolean => {
   return false;
 };
 
-const includePopRule: RuleBlock = (state, startLine, _endLine, silent): boolean => {
+const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
@@ -295,7 +294,7 @@ const resolveRelatedLink = (
   includedPaths?: string[],
 ): void => {
   const attrIndex = token.attrIndex(attr);
-  const url = token.attrs?.[attrIndex][1];
+  const url = token.attrs?.[attrIndex]?.[1] as string | undefined;
 
   if (url?.[0] === "." && Array.isArray(includedPaths)) {
     const { length } = includedPaths;
@@ -326,7 +325,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
   if (typeof currentPath !== "function")
     throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
 
-  const includeRule: RuleCore = (state): void => {
+  const includeRule: CoreRule = (state): void => {
     const env = state.env as IncludeEnv;
     const includedFiles = (env.includedFiles ??= []);
     const filePath = currentPath(env);
@@ -359,17 +358,19 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
 
-    md.renderer.rules.include_start = (tokens, index, _options, env: IncludeEnv): string => {
+    md.renderer.rules.include_start = (tokens, index, _options, env): string => {
       const token = tokens[index];
-      const includedPaths = (env.includedPaths ??= []);
+      const includeEnv = env as IncludeEnv;
+      const includedPaths = (includeEnv[includePathsKey] ??= []);
 
       includedPaths.push(token.info);
 
       return "";
     };
 
-    md.renderer.rules.include_end = (_tokens, _index, _options, env: IncludeEnv): string => {
-      const includedPaths = env.includedPaths;
+    md.renderer.rules.include_end = (_tokens, _index, _options, env): string => {
+      const includeEnv = env as IncludeEnv;
+      const includedPaths = includeEnv[includePathsKey];
 
       /* istanbul ignore else -- @preserve */
       if (Array.isArray(includedPaths)) includedPaths.pop();
@@ -381,14 +382,15 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
     };
 
     if (resolveImagePath) {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const defaultImageRender = md.renderer.rules.image!;
+      const defaultImageRender = md.renderer.rules.image;
 
-      md.renderer.rules.image = (tokens, index, mdItOptions, env: IncludeEnv, self): string => {
+      md.renderer.rules.image = (tokens, index, mdItOptions, env, self): string => {
         const token = tokens[index];
-        const filePath = currentPath(env);
+        const includeEnv = env as IncludeEnv;
 
-        if (filePath) resolveRelatedLink("src", token, filePath, env.includedPaths);
+        const filePath = currentPath(includeEnv);
+
+        if (filePath) resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey]);
 
         // pass token to default renderer.
         return defaultImageRender(tokens, index, mdItOptions, env, self);
@@ -401,11 +403,13 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
         ((tokens, index, mdItOptions, _env, self): string =>
           self.renderToken(tokens, index, mdItOptions));
 
-      md.renderer.rules.link_open = (tokens, index, mdItOptions, env: IncludeEnv, self): string => {
+      md.renderer.rules.link_open = (tokens, index, mdItOptions, env, self): string => {
         const token = tokens[index];
-        const filePath = currentPath(env);
+        const includeEnv = env as IncludeEnv;
 
-        if (filePath) resolveRelatedLink("href", token, filePath, env.includedPaths);
+        const filePath = currentPath(includeEnv);
+
+        if (filePath) resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey]);
 
         // pass token to default renderer.
         return defaultLinkRender(tokens, index, mdItOptions, env, self);

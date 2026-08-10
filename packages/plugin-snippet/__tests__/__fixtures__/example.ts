@@ -2,7 +2,7 @@ import { snippet } from "@mdit/plugin-snippet";
 import MarkdownIt from "markdown-it";
 
 // #region snippet
-const mdIt = MarkdownIt().use(snippet, {
+const mdIt = new MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) => env.filePath,
 });

@@ -44,10 +44,10 @@
     "update-emoji": "node  --use-env-proxy --experimental-strip-types scripts/update.ts"
   },
   "dependencies": {
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

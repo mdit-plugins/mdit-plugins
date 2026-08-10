@@ -13,7 +13,7 @@ Plugins to add attrs to Markdown content.
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // your options, optional
 });
 

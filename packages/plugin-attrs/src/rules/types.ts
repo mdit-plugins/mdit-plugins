@@ -1,5 +1,5 @@
-import type Token from "markdown-it/lib/token.mjs";
-import type { Nesting } from "markdown-it/lib/token.mjs";
+import type { Nesting } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 export type DelimiterRange = [start: number, end: number];
 export type TestFunction<Value = unknown> = (value: Value) => boolean;

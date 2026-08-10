@@ -1,5 +1,5 @@
+import { DASH } from "./constant.js";
 import { matchString } from "./directive.js";
-import { DASH } from "./types.js";
 
 // Static utility-to-style mappings
 const STATIC_UTILITIES: Record<string, string> = {

@@ -1,4 +1,4 @@
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { RendererRule } from "markdown-it";
 
 export interface MarkdownItPlantumlOptions {
   /**
@@ -88,5 +88,5 @@ export interface MarkdownItPlantumlOptions {
    *
    * 图表渲染器
    */
-  render?: RenderRule;
+  render?: RendererRule;
 }

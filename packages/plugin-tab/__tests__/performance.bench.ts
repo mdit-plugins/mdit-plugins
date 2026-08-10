@@ -379,7 +379,8 @@ Content of tab 3
       closeRender: customCloseRender,
     });
     mdNew.use(tabNew, {
-      openRender: customOpenRender,
+      name: "tab",
+      openRender: (info) => customOpenRender(info.data),
       closeRender: customCloseRender,
     });
 

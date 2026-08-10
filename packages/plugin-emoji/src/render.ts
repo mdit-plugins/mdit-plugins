@@ -1,3 +1,3 @@
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { RendererRule } from "markdown-it";
 
-export const emojiRender: RenderRule = (tokens, idx) => tokens[idx].content;
+export const emojiRender: RendererRule = (tokens, idx) => tokens[idx].content;

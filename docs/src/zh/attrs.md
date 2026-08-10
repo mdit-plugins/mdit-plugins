@@ -13,7 +13,7 @@ icon: code
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // 你的选项，可选
 });
 

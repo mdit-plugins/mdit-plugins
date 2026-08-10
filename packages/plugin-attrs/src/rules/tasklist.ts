@@ -1,4 +1,4 @@
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, createDelimiterChecker } from "../helper/index.js";

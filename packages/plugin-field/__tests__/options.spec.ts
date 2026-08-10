@@ -5,7 +5,7 @@ import { field } from "../src/index.js";
 
 describe("classPrefix option", () => {
   it("should use custom class prefix", () => {
-    const customMd = MarkdownIt().use(field, { classPrefix: "my-" });
+    const customMd = new MarkdownIt().use(field, { classPrefix: "my-" });
     const result = customMd.render(`
 ::: fields
 @prop@ type="string"
@@ -20,7 +20,7 @@ Description
   });
 
   it("should use default class prefix when not specified", () => {
-    const md = MarkdownIt().use(field);
+    const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
 @prop@
@@ -34,7 +34,7 @@ Description
 
 describe("parseAttributes option", () => {
   it("should skip attribute parsing when parseAttributes is false", () => {
-    const noAttrMd = MarkdownIt().use(field, { parseAttributes: false });
+    const noAttrMd = new MarkdownIt().use(field, { parseAttributes: false });
     const result = noAttrMd.render(`
 ::: fields
 @prop@ type="string" required
@@ -49,7 +49,7 @@ Description
   });
 
   it("should parse attributes by default", () => {
-    const md = MarkdownIt().use(field);
+    const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
 @prop@ type="string"
@@ -63,7 +63,7 @@ Description
 
 describe("prevent CSS injection", () => {
   it("should strip attributes with invalid CSS class keys during parsing", () => {
-    const md = MarkdownIt().use(field);
+    const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
 @prop@ evil"><script>alert(1)</script>=yes
@@ -76,7 +76,7 @@ describe("prevent CSS injection", () => {
   });
 
   it("should keep valid attribute keys and strip invalid ones", () => {
-    const md = MarkdownIt().use(field);
+    const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
 @prop@ valid-key=val a.b=val2 good=val3

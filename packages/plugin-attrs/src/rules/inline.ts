@@ -18,7 +18,6 @@ export const createInlineRules = (options: DelimiterConfig): AttrRule[] => [
         children: [
           {
             shift: -1,
-            // oxlint-disable-next-line typescript/explicit-function-return-type
             type: (str) => str === "image" || str === "code_inline",
           },
           {

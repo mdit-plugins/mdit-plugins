@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { tasklist } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(tasklist);
+const markdownIt = new MarkdownIt({ linkify: true }).use(tasklist);
 
 describe(tasklist, () => {
   it("should render", () => {
@@ -72,7 +72,7 @@ describe(tasklist, () => {
   });
 
   it("should not render label", () => {
-    const markdownItWithOutLabel = MarkdownIt({ linkify: true }).use(tasklist, {
+    const markdownItWithOutLabel = new MarkdownIt({ linkify: true }).use(tasklist, {
       label: false,
     });
 
@@ -126,7 +126,7 @@ Some content
   });
 
   it("should support disabled option", () => {
-    const markdownItWithDisabledFalse = MarkdownIt({ linkify: true }).use(tasklist, {
+    const markdownItWithDisabledFalse = new MarkdownIt({ linkify: true }).use(tasklist, {
       disabled: false,
     });
 

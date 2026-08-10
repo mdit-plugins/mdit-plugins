@@ -1,68 +1,49 @@
 /** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
-import type { ParentType } from "markdown-it/lib/rules_block/state_block.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, CoreRule, InlineRule, PluginSimple } from "@mdit/helper";
+import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
 import type { FootNoteEnv, FootNoteToken } from "./types.js";
 
 interface FootNoteStateBlock extends StateBlock {
-  tokens: FootNoteToken[];
   env: FootNoteEnv;
 }
 
 interface FootNoteStateInline extends StateInline {
-  tokens: FootNoteToken[];
   env: FootNoteEnv;
 }
 
 interface FootNoteStateCore extends StateCore {
-  tokens: FootNoteToken[];
   env: FootNoteEnv;
 }
 
-const getIDSuffix = (tokens: FootNoteToken[], index: number): string =>
+type FootNoteMeta = FootNoteToken["meta"];
+
+const getIDSuffix = (tokens: Token[], index: number): string => {
   // add suffix when multiple id was found
-  tokens[index].meta.subId > 0 ? `:${tokens[index].meta.subId}` : "";
+  const { subId } = tokens[index].meta as FootNoteMeta;
 
-const renderFootnoteAnchorName: RenderRule = (
-  tokens: FootNoteToken[],
-  index,
-  _options,
-  env: FootNoteEnv,
-): string =>
-  `${
-    // prefix
-    typeof env.docId === "string" ? `-${env.docId}-` : ""
-  }${
-    // increasing id
-    (tokens[index].meta.id + 1).toString()
-  }`;
+  return subId > 0 ? `:${subId}` : "";
+};
 
-const renderFootnoteCaption: RenderRule = (tokens: FootNoteToken[], index): string =>
+const renderFootnoteAnchorName: RendererRule = (tokens, index, _options, env) => {
+  // prefix
+  const docId = env?.docId;
+  // increasing id
+  const id = (tokens[index].meta as FootNoteMeta).id;
+
+  return `${typeof docId === "string" ? `-${docId}-` : ""}${(id + 1).toString()}`;
+};
+
+const renderFootnoteCaption: RendererRule = (tokens: Token[], index) =>
   `[${
     // number
-    (tokens[index].meta.id + 1).toString()
+    ((tokens[index].meta as FootNoteMeta).id + 1).toString()
   }${getIDSuffix(tokens, index)}]`;
 
-const renderFootnoteRef: RenderRule = (
-  tokens: FootNoteToken[],
-  index,
-  options,
-  env: FootNoteEnv,
-  self,
-): string => {
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const id = self.rules.footnote_anchor_name!(tokens, index, options, env, self);
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const caption = self.rules.footnote_caption!(tokens, index, options, env, self);
+const renderFootnoteRef: RendererRule = (tokens, index, options, env, self) => {
+  const id = self.rules.footnote_anchor_name(tokens, index, options, env, self);
+  const caption = self.rules.footnote_caption(tokens, index, options, env, self);
 
   // A separate anchor element allows scroll offset control via CSS
   // (e.g. `.footnote-anchor { scroll-margin-top: 80px; }` to leave
@@ -74,7 +55,7 @@ const renderFootnoteRef: RenderRule = (
   )}"></a></sup>`;
 };
 
-const renderFootnoteBlockOpen: RenderRule = (_tokens: FootNoteToken[], _index, options): string =>
+const renderFootnoteBlockOpen: RendererRule = (_tokens, _index, options) =>
   `\
 <hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
 <section class="footnotes">
@@ -86,15 +67,8 @@ const renderFootnoteBlockClose = (): string => `\
 </section>
 `;
 
-const renderFootnoteOpen: RenderRule = (
-  tokens: FootNoteToken[],
-  index,
-  options,
-  env: FootNoteEnv,
-  self,
-): string =>
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  `<li id="footnote${self.rules.footnote_anchor_name!(
+const renderFootnoteOpen: RendererRule = (tokens, index, options, env, self) =>
+  `<li id="footnote${self.rules.footnote_anchor_name(
     tokens,
     index,
     options,
@@ -102,23 +76,16 @@ const renderFootnoteOpen: RenderRule = (
     self,
   )}${getIDSuffix(tokens, index)}" class="footnote-item">`;
 
-const renderFootnoteClose = (): string => "</li>\n";
+const renderFootnoteClose: RendererRule = () => "</li>\n";
 
-const renderFootnoteAnchor: RenderRule = (
-  tokens: FootNoteToken[],
-  index,
-  options,
-  env: FootNoteEnv,
-  self,
-): string =>
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  ` <a href="#footnote-ref${self.rules.footnote_anchor_name!(tokens, index, options, env, self)}${
+const renderFootnoteAnchor: RendererRule = (tokens, index, options, env, self) =>
+  ` <a href="#footnote-ref${self.rules.footnote_anchor_name(tokens, index, options, env, self)}${
     getIDSuffix(tokens, index)
     /* ↩ with escape code to prevent display as Apple Emoji on iOS */
   }" class="footnote-backref">\u21A9\uFE0E</a>`;
 
 // Process footnote block definition
-const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, silent) => {
+const footnoteDef: BlockRule = (state: FootNoteStateBlock, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
   let charCode: number;
@@ -189,7 +156,7 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
   state.sCount[startLine] = offset - initial;
   state.bMarks[startLine] = posAfterColon;
   state.blkIndent += 4;
-  state.parentType = "footnote" as unknown as ParentType;
+  state.parentType = "footnote";
 
   if (state.sCount[startLine] < state.blkIndent) state.sCount[startLine] += state.blkIndent;
 
@@ -209,7 +176,7 @@ const footnoteDef: RuleBlock = (state: FootNoteStateBlock, startLine, endLine, s
 };
 
 // Process inline footnotes (^[...])
-const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
+const footnoteInline: InlineRule = (state: FootNoteStateInline, silent) => {
   const max = state.posMax;
   const start = state.pos;
 
@@ -258,7 +225,7 @@ const footnoteInline: RuleInline = (state: FootNoteStateInline, silent) => {
 };
 
 // Process footnote references ([^...])
-const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
+const footnoteRef: InlineRule = (state: FootNoteStateInline, silent) => {
   const start = state.pos;
   const max = state.posMax;
 
@@ -325,7 +292,7 @@ const footnoteRef: RuleInline = (state: FootNoteStateInline, silent) => {
 };
 
 // Glue footnote tokens to end of token stream
-const footnoteTail: RuleCore = (state: FootNoteStateCore) => {
+const footnoteTail: CoreRule = (state: FootNoteStateCore) => {
   const refTokens: Record<string, Token[]> = {};
 
   let current: Token[];
@@ -359,7 +326,7 @@ const footnoteTail: RuleCore = (state: FootNoteStateCore) => {
     if (stateToken.type === "footnote_reference_open") {
       isInsideRef = true;
       current = [];
-      currentLabel = stateToken.meta.label;
+      currentLabel = (stateToken.meta as { label: string }).label;
 
       return false;
     }

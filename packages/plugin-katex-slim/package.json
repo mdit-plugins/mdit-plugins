@@ -49,15 +49,14 @@
   },
   "dependencies": {
     "@mdit/helper": "workspace:*",
-    "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/plugin-tex": "workspace:*"
   },
   "devDependencies": {
-    "katex": "0.18.1"
+    "katex": "0.18.2"
   },
   "peerDependencies": {
     "katex": "^0.16.25 || ^0.17.0 || ^0.18.0",
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "katex": {

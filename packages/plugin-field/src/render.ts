@@ -1,13 +1,12 @@
 import { escapeHtml } from "@mdit/helper";
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { RendererRule } from "markdown-it";
 
 import type { MarkdownItFieldOpenRender } from "./options.js";
 
 export const getDefaultFieldOpenRender =
   (classPrefix: string): MarkdownItFieldOpenRender =>
-  (tokens, index): string => {
-    const token = tokens[index];
-    const { name, level, attributes } = token.meta;
+  (meta): string => {
+    const { name, level, attributes } = meta;
 
     let metaHtml = "";
 
@@ -25,10 +24,10 @@ export const getDefaultFieldOpenRender =
 ${metaHtml}`;
   };
 
-export const defaultFieldCloseRender: RenderRule = () => `</dd>\n`;
+export const defaultFieldCloseRender: RendererRule = () => `</dd>\n`;
 
-export const defaultFieldsOpenRender: RenderRule = (tokens, index, options, _env, self) =>
+export const defaultFieldsOpenRender: RendererRule = (tokens, index, options, _env, self) =>
   self.renderToken(tokens, index, options);
 
-export const defaultFieldsCloseRender: RenderRule = (tokens, index, options, _env, self) =>
+export const defaultFieldsCloseRender: RendererRule = (tokens, index, options, _env, self) =>
   self.renderToken(tokens, index, options);

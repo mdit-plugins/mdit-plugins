@@ -13,7 +13,7 @@ icon: bell
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
 
-const mdIt = MarkdownIt().use(alert);
+const mdIt = new MarkdownIt().use(alert);
 
 mdIt.render(`
 > [!warning]
@@ -107,7 +107,7 @@ mdIt.render(`
 
 ### openRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -115,7 +115,7 @@ mdIt.render(`
 
 ### closeRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -123,7 +123,7 @@ mdIt.render(`
 
 ### titleRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 - 详情：提示标题渲染函数。
 
 ## 示例

@@ -19,7 +19,7 @@ const createDualRuleTests = (
     const testTitle = `inline rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should add classes to inline elements", options), () => {
         const src = "paragraph **bold**{.red} asdf";

@@ -13,7 +13,7 @@ icon: list-check
 import MarkdownIt from "markdown-it";
 import { dl } from "@mdit/plugin-dl";
 
-const mdIt = MarkdownIt().use(dl);
+const mdIt = new MarkdownIt().use(dl);
 
 mdIt.render(`\
 苹果

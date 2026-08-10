@@ -14,7 +14,7 @@ import type { mathjax as mathjaxType } from "@mathjax/src/js/mathjax.js";
 import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
 import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";

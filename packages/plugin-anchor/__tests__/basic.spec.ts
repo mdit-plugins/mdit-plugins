@@ -1,5 +1,6 @@
 import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
 import { legacySlugify } from "../src/defaults.js";
@@ -7,12 +8,11 @@ import type { AnchorOptions } from "../src/options.js";
 import type { PermalinkGenerator } from "../src/permalink/types.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: AnchorOptions): MarkdownIt => MarkdownIt({ html: true }).use(anchor, options);
+const md = (options?: AnchorOptions): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
-const mdWithAttrs = (options?: AnchorOptions): MarkdownIt =>
-  MarkdownIt({ html: true })
-    .use(attrs, { allowed: ["id"] })
-    .use(anchor, options);
+const mdWithAttrs = (options?: AnchorOptions): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(attrs, { allowed: ["id"] }).use(anchor, options);
 
 describe("basic functionality", () => {
   it("should add anchors to headings by default", () => {
@@ -343,7 +343,7 @@ describe("performance", () => {
   it("should not scan the tokens array without a permalink", () => {
     const src = "# H1\n\n## H2\n\n### H3\n\npara text here";
 
-    const countIndexOf = (instance: MarkdownIt): number => {
+    const countIndexOf = (instance: MarkdownItType): number => {
       const spy = vi.spyOn(Array.prototype, "indexOf");
 
       instance.render(src);
@@ -355,7 +355,7 @@ describe("performance", () => {
       return count;
     };
 
-    const plainCount = countIndexOf(MarkdownIt({ html: true }));
+    const plainCount = countIndexOf(new MarkdownIt({ html: true }));
     const noPermalinkCount = countIndexOf(md());
     const withPermalinkCount = countIndexOf(md({ permalink: (): void => {} }));
 

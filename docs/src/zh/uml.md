@@ -13,7 +13,7 @@ icon: file-lines
 import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
 
-const mdIt = MarkdownIt().use(uml, {
+const mdIt = new MarkdownIt().use(uml, {
   name: "demo",
   open: "demostart",
   close: "demoend",
@@ -72,7 +72,7 @@ Another content
 
 ### render
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 - 必填：是
 
 <!-- @include: ../render-rule.snippet.md -->

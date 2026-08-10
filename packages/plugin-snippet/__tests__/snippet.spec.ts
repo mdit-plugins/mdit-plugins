@@ -57,7 +57,7 @@ vi.mock("node:fs", async (importOriginal) => {
 });
 
 describe(snippet, () => {
-  const md = MarkdownIt({ html: true }).use(snippet, {
+  const md = new MarkdownIt({ html: true }).use(snippet, {
     currentPath: (env: SnippetEnv) => env.filePath as string,
   });
 
@@ -160,7 +160,7 @@ describe(snippet, () => {
   });
 
   it("should give warnings with not exist path", () => {
-    const mdError = MarkdownIt({ html: true }).use(snippet, {
+    const mdError = new MarkdownIt({ html: true }).use(snippet, {
       currentPath: () => "/fake/md",
     });
     const source = [
@@ -200,13 +200,13 @@ describe(snippet, () => {
 
   it("should throw if currentPath is not a function", () => {
     expect(() => {
-      MarkdownIt({ html: true }).use(snippet, {
-        currentPath: "not a function",
+      new MarkdownIt({ html: true }).use(snippet, {
+        currentPath: "not a function" as unknown as (env: SnippetEnv) => string,
       });
     }).toThrow('[@mdit/plugin-snippet]: "currentPath" is required');
 
     expect(() => {
-      MarkdownIt({ html: true }).use(snippet);
+      new MarkdownIt({ html: true }).use(snippet);
     }).toThrow('[@mdit/plugin-snippet]: "currentPath" is required');
   });
 
@@ -259,7 +259,7 @@ describe(snippet, () => {
   });
 
   it("should work without env.filePath", () => {
-    const mdNoEnv = MarkdownIt({ html: true }).use(snippet, {
+    const mdNoEnv = new MarkdownIt({ html: true }).use(snippet, {
       currentPath: () => __filename,
     });
     const source = "<<< ./__fixtures__/example.js";
@@ -272,7 +272,7 @@ describe(snippet, () => {
   });
 
   it("should work with empty currentPath", () => {
-    const mdNoPath = MarkdownIt({ html: true }).use(snippet, {
+    const mdNoPath = new MarkdownIt({ html: true }).use(snippet, {
       currentPath: () => "",
     });
     const absolutePath = resolve(__dirname, "./__fixtures__/example.js");

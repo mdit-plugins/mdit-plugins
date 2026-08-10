@@ -1,9 +1,6 @@
 import { escapeHtml } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
+import type { StateBlock, Token, Env } from "markdown-it";
 
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
@@ -13,20 +10,23 @@ const ACTIVE_TAB_MARKER = `${TAB_MARKER}:active`;
 const TAB_MARKER_LENGTH = TAB_MARKER.length;
 const ACTIVE_TAB_MARKER_LENGTH = ACTIVE_TAB_MARKER.length;
 
-interface TabMeta {
+interface TabMeta extends TokenMeta {
   index: number;
   active: boolean;
   id?: string;
 }
 
-interface TabContainerMeta {
+interface TabContainerMeta extends TokenMeta {
   id?: string;
   tabsData?: MarkdownItTabInfo;
 }
 
-interface TabEnv extends Record<string, unknown> {
-  tabName: string;
-  tabLevel: number;
+const tabNameKey = Symbol("tab:name");
+const tabLevelKey = Symbol("tab:level");
+
+interface TabEnv extends Env {
+  [tabNameKey]?: string;
+  [tabLevelKey]?: number;
 }
 
 interface TabStateBlock extends StateBlock {
@@ -63,9 +63,9 @@ const checkTabMarker = (
 };
 
 const createTabItemRule =
-  (name: string): RuleBlock =>
+  (name: string): BlockRule =>
   (state: TabStateBlock, startLine, endLine, silent) => {
-    if (state.env.tabName !== name || state.level !== state.env.tabLevel) return false;
+    if (state.env[tabNameKey] !== name || state.level !== state.env[tabLevelKey]) return false;
 
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -111,7 +111,6 @@ const createTabItemRule =
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
 
-    // @ts-expect-error: We are creating a new type called "tab"
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
@@ -164,7 +163,6 @@ const createTabItemRule =
     openToken.meta = {
       active: tabMatch.isActive,
     };
-    // oxlint-disable-next-line typescript/no-unsafe-member-access
     if (id) openToken.meta.id = id;
 
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
@@ -185,7 +183,7 @@ const createTabItemRule =
   };
 
 const createTabContainerRule =
-  (name: string): RuleBlock =>
+  (name: string): BlockRule =>
   (state: TabStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
 
@@ -281,10 +279,9 @@ const createTabContainerRule =
     const oldParent = state.parentType;
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
-    const oldName = state.env.tabName;
-    const oldLevel = state.env.tabLevel;
+    const oldName = state.env[tabNameKey];
+    const oldLevel = state.env[tabLevelKey];
 
-    // @ts-expect-error: We are creating a new type called "${name}_tabs"
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
@@ -311,13 +308,13 @@ const createTabContainerRule =
     openToken.meta = id ? { id } : {};
     openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
 
-    state.env.tabName = name;
-    state.env.tabLevel = state.level;
+    state.env[tabNameKey] = name;
+    state.env[tabLevelKey] = state.level;
 
     state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
 
-    state.env.tabName = oldName;
-    state.env.tabLevel = oldLevel;
+    state.env[tabNameKey] = oldName;
+    state.env[tabLevelKey] = oldLevel;
 
     const closeToken = state.push(`${name}_tabs_close`, "", -1);
 
@@ -333,7 +330,7 @@ const createTabContainerRule =
   };
 
 const createTabsCoreRule =
-  (name: string): RuleCore =>
+  (name: string): CoreRule =>
   (state) => {
     const tokens = state.tokens;
 

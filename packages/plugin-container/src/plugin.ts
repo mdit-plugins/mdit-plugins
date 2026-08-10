@@ -3,10 +3,8 @@
  * https://github.com/markdown-it/markdown-it-container/blob/master/index.mjs
  */
 
-import type { Options, PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { MarkdownItOptions, Renderer, Token } from "markdown-it";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
@@ -23,28 +21,28 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     openRender = (
       tokens: Token[],
       index: number,
-      mdItOptions: Options,
+      mdItOptions: Required<MarkdownItOptions>,
       _env: unknown,
-      slf: Renderer,
+      self: Renderer,
     ): string => {
       // add a class to the opening tag
       tokens[index].attrJoin("class", name);
 
-      return slf.renderToken(tokens, index, mdItOptions);
+      return self.renderToken(tokens, index, mdItOptions);
     },
     closeRender = (
       tokens: Token[],
       index: number,
-      mdItOptions: Options,
+      mdItOptions: Required<MarkdownItOptions>,
       _env: unknown,
-      slf: Renderer,
-    ): string => slf.renderToken(tokens, index, mdItOptions),
+      self: Renderer,
+    ): string => self.renderToken(tokens, index, mdItOptions),
   } = options;
 
   const markerStart = marker[0];
   const markerLength = marker.length;
 
-  const containerRule: RuleBlock = (state, startLine, endLine, silent) => {
+  const containerRule: BlockRule = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];
     const currentLineIndent = state.sCount[startLine];
@@ -128,7 +126,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
 
-    // @ts-expect-error: We are creating a new type called "container"
     state.parentType = "container";
 
     // this will prevent lazy continuations from ever going past our end marker

@@ -1,6 +1,5 @@
 import { escapeHtml } from "@mdit/helper";
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { RendererRule, Token } from "markdown-it";
 
 export interface MarkdownItUMLOptions {
   /**
@@ -29,7 +28,7 @@ export interface MarkdownItUMLOptions {
    *
    * 渲染函数
    */
-  render: RenderRule;
+  render: RendererRule;
 }
 
 export const defaultRender = (tokens: Token[], index: number): string => {

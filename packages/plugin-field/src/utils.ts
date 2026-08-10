@@ -1,6 +1,6 @@
-import { isSpace } from "markdown-it/lib/common/utils.mjs";
-
 import type { FieldAttr, FieldAttrInfo } from "./options.js";
+
+const isSpace = (code: number): boolean => code === 0x20 /* space */ || code === 0x09; /* tab */
 
 export interface AttrInfo {
   display: string;

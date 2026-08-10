@@ -13,7 +13,7 @@ icon: box-open
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
 
-const mdIt = MarkdownIt().use(container, {
+const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
   name: "warning",
 });
@@ -120,7 +120,7 @@ type Validator = (params: string, markup: string) => boolean;
 
 ### openRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -128,7 +128,7 @@ type Validator = (params: string, markup: string) => boolean;
 
 ### closeRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

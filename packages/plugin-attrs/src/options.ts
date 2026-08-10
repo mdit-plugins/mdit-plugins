@@ -44,7 +44,7 @@ export interface MarkdownItAttrsOptions extends Partial<DelimiterConfig> {
    *
    * @default "all"
    */
-  rule?: "all" | boolean | MarkdownItAttrRuleName[];
+  rule?: "all" | boolean | readonly MarkdownItAttrRuleName[];
 
   /**
    * Place fence attributes on `<pre>` instead of `<code>`

@@ -19,7 +19,7 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 
-const mdIt = MarkdownIt().use(katex);
+const mdIt = new MarkdownIt().use(katex);
 
 mdIt.render("$E=mc^2$");
 ```

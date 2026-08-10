@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
 
-const md = MarkdownIt({ html: true }).use(field);
+const md = new MarkdownIt({ html: true }).use(field);
 
 describe("prefix-mode nesting", () => {
   it("should handle prefix-mode nesting with content", () => {
@@ -315,7 +315,7 @@ Root2 paragraph.
   });
 
   it("should handle different field containers nested with content", () => {
-    const mdMultipleFields = MarkdownIt()
+    const mdMultipleFields = new MarkdownIt()
       .use(field, { name: "props" })
       .use(field, { name: "events" });
     const result = mdMultipleFields.render(`

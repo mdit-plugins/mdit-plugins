@@ -1,7 +1,6 @@
 /** Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures */
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { MarkdownItFigureOptions } from "./options.js";
 
@@ -30,12 +29,12 @@ const removeAttribute = (token: Token, attribute: string): void => {
 };
 
 const getCaption = (image: Token): string => {
-  const title = image.attrs?.find(([attr]) => attr === "title")?.[1];
+  const title = image.attrs?.find(([attr]) => attr === "title")?.[1] ?? null;
 
-  if (title) {
+  if (title != null) {
     removeAttribute(image, "title");
 
-    return title;
+    return title as string;
   }
 
   return image.content;
@@ -45,7 +44,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
   md,
   { moveAttrs, focusable, linkImage } = {},
 ) => {
-  const figureRule: RuleCore = (state) => {
+  const figureRule: CoreRule = (state) => {
     // do not process first and last token
     for (let index = 1, { length } = state.tokens; index < length - 1; index++) {
       const token = state.tokens[index];
@@ -108,8 +107,8 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
           }
         } else {
           // Move matching attrs from img to figure (img loses them)
-          const movedAttrs: [string, string][] = [];
-          const keptAttrs: [string, string][] = [];
+          const movedAttrs: [string, string | number][] = [];
+          const keptAttrs: [string, string | number][] = [];
 
           for (const attr of image.attrs) {
             if (

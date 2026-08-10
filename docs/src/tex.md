@@ -21,7 +21,7 @@ If you are looking for an out of box solution, you should try [@mdit/plugin-kate
 import MarkdownIt from "markdown-it";
 import { tex } from "@mdit/plugin-tex";
 
-const mdIt = MarkdownIt().use(tex, {
+const mdIt = new MarkdownIt().use(tex, {
   render: (content, displayMode) => {
     // render tex here and return
   },

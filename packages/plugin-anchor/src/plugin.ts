@@ -1,5 +1,5 @@
-import type { PluginWithOptions } from "markdown-it";
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
+import type { PluginWithOptions } from "@mdit/helper";
+import type { StateCore } from "markdown-it";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
@@ -49,7 +49,7 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const title = getTokensText(tokens[index + 1].children!);
 
-      let slug = token.attrGet("id");
+      let slug = token.attrGet("id") as string | null;
 
       if (slug == null) {
         slug = slugifyWithState ? slugifyWithState(title, state) : slugify(title);

@@ -1,6 +1,5 @@
 import { dedent } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItUMLOptions } from "./options.js";
 import { defaultRender } from "./options.js";
@@ -11,7 +10,7 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
   const OPEN_MARKER = `@${open}`;
   const CLOSE_MARKER = `@${close}`;
 
-  const umlRule: RuleBlock = (state, startLine, endLine, silent) => {
+  const umlRule: BlockRule = (state, startLine, endLine, silent) => {
     let start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
 

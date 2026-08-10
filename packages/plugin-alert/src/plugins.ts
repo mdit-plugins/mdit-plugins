@@ -1,11 +1,10 @@
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
 const getAlertRule =
   // oxlint-disable-next-line max-lines-per-function
-  (types: Set<string>, deep: boolean): RuleBlock =>
+  (types: Set<string>, deep: boolean): BlockRule =>
     // oxlint-disable-next-line max-lines-per-function
     (state, startLine, endLine, silent) => {
       if (
@@ -110,7 +109,6 @@ const getAlertRule =
         state.md.block.ruler.getRules("alert"),
       ].flat();
 
-      // @ts-expect-error: We are creating a new type called "alert"
       state.parentType = "alert";
 
       // Search the end of the block

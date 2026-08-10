@@ -24,7 +24,7 @@ import { describe, expect, it } from "vitest";
 import { attrs } from "../src/index.js";
 
 describe("renderInline", () => {
-  const markdownIt = MarkdownIt().use(attrs);
+  const markdownIt = new MarkdownIt().use(attrs);
 
   describe("inline nesting self-close", () => {
     it("should apply attrs to code_inline", () => {

@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { figure } from "../src/index.js";
@@ -11,7 +12,7 @@ import { figure } from "../src/index.js";
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param attr - Attribute to set / 要设置的属性
  */
-const addImageAttr = (md: MarkdownIt, attr: [string, string]): void => {
+const addImageAttr = (md: MarkdownItType, attr: [string, string]): void => {
   md.core.ruler.before("figure", "test-image-attr", (state) => {
     for (const token of state.tokens) {
       if (token.type !== "inline" || !token.children) continue;
@@ -23,7 +24,7 @@ const addImageAttr = (md: MarkdownIt, attr: [string, string]): void => {
 };
 
 describe(figure, () => {
-  const markdownIt = MarkdownIt({ html: true, linkify: true }).use(figure);
+  const markdownIt = new MarkdownIt({ html: true, linkify: true }).use(figure);
 
   it("should ignore unrelated content", () => {
     expect(

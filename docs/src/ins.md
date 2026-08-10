@@ -13,7 +13,7 @@ Plugins to add insert tag support.
 import MarkdownIt from "markdown-it";
 import { ins } from "@mdit/plugin-ins";
 
-const mdIt = MarkdownIt().use(ins);
+const mdIt = new MarkdownIt().use(ins);
 
 mdIt.render("VuePress Theme Hope is ++very++ powerful.");
 ```

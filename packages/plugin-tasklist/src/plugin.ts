@@ -1,12 +1,11 @@
 /** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { StateCore, Token } from "markdown-it";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
 import type { TaskListEnv } from "./types.js";
+import { tasklistIdKey } from "./types.js";
 import {
   getParentTokenIndex,
   isInlineToken,
@@ -54,10 +53,10 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
     labelClass = "task-list-item-label",
   } = {},
 ) => {
-  const taskListRule: RuleCore = (state: TaskListStateCore) => {
+  const taskListRule: CoreRule = (state: TaskListStateCore) => {
     const tokens = state.tokens;
 
-    state.env.tasklistId ||= 0;
+    state.env[tasklistIdKey] ??= 0;
 
     for (let index = 2; index < tokens.length; index++) {
       const token = tokens[index];
@@ -79,7 +78,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
       // remove the checkbox syntax letter
       token.children[0].content = token.children[0].content.slice(3);
 
-      const id = `task-item-${state.env.tasklistId++}`;
+      const id = `task-item-${state.env[tasklistIdKey]++}`;
 
       if (label) {
         // add label

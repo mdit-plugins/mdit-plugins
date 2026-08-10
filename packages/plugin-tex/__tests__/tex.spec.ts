@@ -11,60 +11,60 @@ const render = (content: string, displayMode: boolean): string =>
     : `{Tex content: ${content.trim()}}`;
 
 // Test configurations
-const defaultMarkdownIt = MarkdownIt({ html: true, linkify: true }).use(tex, {
+const defaultMarkdownIt = new MarkdownIt({ html: true, linkify: true }).use(tex, {
   mathFence: true,
   render,
 });
 
 // Dollar mode configurations
-const dollarModeMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const dollarModeMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   delimiters: "dollars",
   mathFence: true,
   render,
 });
 
 // Bracket mode configurations
-const bracketModeMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const bracketModeMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   delimiters: "brackets",
   mathFence: true,
   render,
 });
 
 // Both mode configurations
-const bothModeMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const bothModeMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   delimiters: "all",
   mathFence: true,
   render,
 });
 
 // AllowSpace mode configurations
-const allowSpaceDollarMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const allowSpaceDollarMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   allowInlineWithSpace: true,
   delimiters: "dollars",
   mathFence: true,
   render,
 });
 
-const allowSpaceBracketMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const allowSpaceBracketMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   allowInlineWithSpace: true,
   delimiters: "brackets",
   mathFence: true,
   render,
 });
 
-const allowSpaceBothMarkdownIt = MarkdownIt({ linkify: true }).use(tex, {
+const allowSpaceBothMarkdownIt = new MarkdownIt({ linkify: true }).use(tex, {
   allowInlineWithSpace: true,
   delimiters: "all",
   mathFence: true,
   render,
 });
 
-const noMathFenceMarkdownIt = MarkdownIt().use(tex, { render });
+const noMathFenceMarkdownIt = new MarkdownIt().use(tex, { render });
 
 describe(tex, () => {
   describe("config", () => {
     it("should require render option", () => {
-      expect(() => MarkdownIt({ linkify: true }).use(tex)).toThrow(
+      expect(() => new MarkdownIt({ linkify: true }).use(tex)).toThrow(
         '[@mdit/plugin-tex]: "render" option should be a function',
       );
     });
@@ -676,7 +676,7 @@ $$`,
 
   describe("default configuration", () => {
     it("should default to dollars when delimiters is not specified", () => {
-      const defaultMd = MarkdownIt().use(tex, { render });
+      const defaultMd = new MarkdownIt().use(tex, { render });
 
       expect(defaultMd.render("$a=1$")).toBe("<p>{Tex content: a=1}</p>\n");
       expect(defaultMd.render(String.raw`\(a=1\)`)).toBe("<p>(a=1)</p>\n");
@@ -718,7 +718,7 @@ $$`,
     });
 
     it("should handle silent mode for inline rules", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       // getDollarInlineTex
       expect(md.renderInline("[link $ a=1$](url)")).toBe('<a href="url">link $ a=1$</a>');
@@ -739,21 +739,21 @@ $$`,
     });
 
     it("should handle silent mode for block rules", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       expect(md.render("- \n  $$\n  a=1\n  $$")).toContain("{Tex content: a=1}");
       expect(md.render("- \n  \\[\n  a=1\n  \\]")).toContain("{Tex content: a=1}");
     });
 
     it("should handle negative indent", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       expect(md.render(" - $$\n   a=1\n b=2\n   $$")).toMatch(/b=2/u);
       expect(md.render(" - \\[\n   a=1\n b=2\n   \\]")).toMatch(/b=2/u);
     });
 
     it("should handle multi-line blocks with both empty and non-empty last lines", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       expect(md.render("$$\na=1\n$$")).toContain("a=1");
       expect(md.render("$$\na=1\nb=2$$")).toContain("a=1\nb=2");
@@ -770,7 +770,7 @@ b=2\\]`),
     });
 
     it("should handle unclosed and edge cases", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       expect(md.renderInline("$$ a=1")).toContain("$$ a=1");
       expect(md.renderInline(String.raw`\[ a=1`)).toContain("[ a=1");
@@ -780,7 +780,7 @@ b=2\\]`),
     });
 
     it("should handle coverage edge cases for bracket rules", () => {
-      const md = MarkdownIt().use(tex, { render, delimiters: "all" });
+      const md = new MarkdownIt().use(tex, { render, delimiters: "all" });
 
       expect(
         md.render(`\

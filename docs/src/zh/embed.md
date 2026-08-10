@@ -17,7 +17,7 @@ icon: code
 import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
 
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     {
       name: "youtube",
@@ -39,7 +39,7 @@ const md = MarkdownIt().use(embed, {
 import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
 
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     {
       name: "youtube",
@@ -167,7 +167,7 @@ interface EmbedConfig {
 你可以在 `setup` 函数中处理复杂的参数：
 
 ```ts
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     {
       name: "video",
@@ -195,7 +195,7 @@ const md = MarkdownIt().use(embed, {
 你可以配置多种不同的嵌入类型：
 
 ```ts
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     // YouTube
     {

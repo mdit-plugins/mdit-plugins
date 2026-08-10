@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 
 import type { AttrRuleSet } from "../rules/types.js";
 import { getArrayItem } from "../utils.js";
@@ -111,7 +111,6 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       continue;
     }
 
-    // oxlint-disable-next-line typescript/no-unsafe-assignment
     const ruleDetail = rule[key];
 
     switch (typeof ruleDetail) {
@@ -124,8 +123,9 @@ export const testRule = (tokens: Token[], index: number, rule: AttrRuleSet): Tes
       }
 
       case "function": {
-        // oxlint-disable-next-line typescript/no-unsafe-call
-        const result = ruleDetail(token[key]) as boolean | [start: number, end: number];
+        const result = (ruleDetail as (value: unknown) => boolean | [start: number, end: number])(
+          token[key],
+        );
 
         // oxlint-disable-next-line typescript/strict-boolean-expressions
         if (!result) return testResult;

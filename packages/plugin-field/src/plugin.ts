@@ -1,6 +1,6 @@
-import type { PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "@mdit/helper";
 
-import type { MarkdownItFieldOptions } from "./options.js";
+import type { FieldMeta, MarkdownItFieldOptions } from "./options.js";
 import {
   defaultFieldCloseRender,
   getDefaultFieldOpenRender,
@@ -52,7 +52,11 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
   md.renderer.rules[`${name}_fields_inner_open`] = defaultFieldsOpenRender;
   md.renderer.rules[`${name}_fields_inner_close`] = defaultFieldsCloseRender;
 
-  md.renderer.rules[`${name}_field_open`] = fieldOpenRender;
+  md.renderer.rules[`${name}_field_open`] = (tokens, index, options, env, self): string => {
+    const meta = tokens[index].meta as FieldMeta;
+
+    return fieldOpenRender(meta, tokens, index, options, env, self);
+  };
   md.renderer.rules[`${name}_field_close`] = fieldCloseRender;
 
   // Run the scanner as a core rule to hide pre-field content in parse phase

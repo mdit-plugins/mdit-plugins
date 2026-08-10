@@ -14,15 +14,15 @@ import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
 // 新格式
-const mdNew = MarkdownIt().use(imgSize);
+const mdNew = new MarkdownIt().use(imgSize);
 mdNew.render("![image =300x200](https://example.com/image.png)");
 
 // Obsidian 格式
-const mdObsidian = MarkdownIt().use(obsidianImgSize);
+const mdObsidian = new MarkdownIt().use(obsidianImgSize);
 mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
 // 旧格式
-const mdLegacy = MarkdownIt().use(legacyImgSize);
+const mdLegacy = new MarkdownIt().use(legacyImgSize);
 mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 

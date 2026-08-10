@@ -13,7 +13,7 @@ Plugin for generating figures with captions from images.
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
 
-const mdIt = MarkdownIt().use(figure, {
+const mdIt = new MarkdownIt().use(figure, {
   // your options, optional
 });
 

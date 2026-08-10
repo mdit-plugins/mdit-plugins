@@ -5,7 +5,7 @@ import { plantuml } from "../src/index.js";
 
 describe(plantuml, () => {
   it("should render without options", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml);
 
     const result = markdownIt.render(`
 @startuml
@@ -18,7 +18,7 @@ Bob -> Alice : hello
   });
 
   it("should render now-ascii characters", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml);
 
     const result = markdownIt.render(`
 @startuml
@@ -31,7 +31,7 @@ Bob -> Alice : 你好
   });
 
   it("should parse custom uml", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       name: "json",
     });
 
@@ -69,7 +69,7 @@ Bob -> Alice : 你好
   });
 
   it("should parse code block", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       type: "fence",
     });
 
@@ -84,7 +84,7 @@ Bob -> Alice : hello
   });
 
   it("should parse custom code block", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       type: "fence",
       name: "json",
       fence: "jsonuml",
@@ -124,7 +124,7 @@ Bob -> Alice : hello
   });
 
   it("should not break normal code block", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       type: "fence",
     });
 
@@ -139,7 +139,7 @@ const a = 1
   });
 
   it("should support alt text in fence info", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       type: "fence",
     });
 
@@ -154,7 +154,7 @@ Bob -> Alice : hello
   });
 
   it("should support custom server and format", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       server: "https://my-server.com",
       format: "png",
     });
@@ -169,7 +169,7 @@ Bob -> Alice : hello
   });
 
   it("should support custom srcGetter", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(plantuml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(plantuml, {
       srcGetter: (content) => `https://custom.com/${content.length}`,
     });
 

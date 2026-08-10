@@ -13,7 +13,7 @@ icon: link
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor);
+const mdIt = new MarkdownIt().use(anchor);
 
 mdIt.render("# 标题");
 ```
@@ -24,7 +24,7 @@ mdIt.render("# 标题");
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   slugify: (s) =>
     s
       .trim()
@@ -73,7 +73,7 @@ mdIt.render("# 你好 世界");
 import MarkdownIt from "markdown-it";
 import { anchor, legacySlugify } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
+const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
 
 ### slugifyWithState
@@ -123,9 +123,7 @@ import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt()
-  .use(attrs, { allowed: ["id"] })
-  .use(anchor);
+const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
 mdIt.render("# 我的标题 {#custom-id}");
 ```
@@ -208,7 +206,7 @@ import { ariaHidden } from "@mdit/plugin-anchor";
 import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `永久链接：${title}`,
     visuallyHiddenClass: "sr-only",

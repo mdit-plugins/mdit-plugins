@@ -1,11 +1,12 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { headerLink } from "../src/permalink/index.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: Record<string, unknown>): MarkdownIt =>
-  MarkdownIt({ html: true }).use(anchor, options as Parameters<typeof anchor>[1]);
+const md = (options?: Record<string, unknown>): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
 describe("permalink.headerLink", () => {
   it("should render default", () => {
@@ -84,7 +85,7 @@ describe("permalink.headerLink", () => {
 
 describe("headerLink level preservation", () => {
   it("should preserve inline token level with safariReaderFix", () => {
-    const mdInstance = MarkdownIt({ html: true }).use(anchor, {
+    const mdInstance = new MarkdownIt({ html: true }).use(anchor, {
       level: [1, 2, 3, 4, 5, 6],
       permalink: headerLink({ class: "header-anchor", safariReaderFix: true }),
     });
@@ -97,7 +98,7 @@ describe("headerLink level preservation", () => {
   });
 
   it("should preserve inline token level without safariReaderFix", () => {
-    const mdInstance = MarkdownIt({ html: true }).use(anchor, {
+    const mdInstance = new MarkdownIt({ html: true }).use(anchor, {
       level: [1, 2, 3, 4, 5, 6],
       permalink: headerLink({ class: "header-anchor" }),
     });

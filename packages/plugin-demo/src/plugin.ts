@@ -1,6 +1,5 @@
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { MarkdownItDemoOptions } from "./options.js";
 
@@ -21,7 +20,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   } = {},
 ) => {
   // oxlint-disable-next-line max-lines-per-function
-  const demoRule: RuleBlock = (state, startLine, endLine, silent) => {
+  const demoRule: BlockRule = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
     const currentLineMax = state.eMarks[startLine];
     const currentLineIndent = state.sCount[startLine];
@@ -117,7 +116,6 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
 
-    // @ts-expect-error We are creating a new type called "demo"
     state.parentType = "demo";
 
     // this will prevent lazy continuations from ever going past our end marker
@@ -150,7 +148,6 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
       codeToken.map = [startLine, state.line];
-      // oxlint-disable-next-line typescript/no-unsafe-member-access
       (codeToken.meta ??= {}).title = title;
       if (!codeRender) {
         codeToken.info = "md";

@@ -13,7 +13,7 @@ icon: superscript
 import MarkdownIt from "markdown-it";
 import { sup } from "@mdit/plugin-sup";
 
-const mdIt = MarkdownIt().use(sup);
+const mdIt = new MarkdownIt().use(sup);
 
 mdIt.render("19^th^");
 ```

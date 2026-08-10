@@ -6,7 +6,7 @@ import { inlineRule } from "../src/index.js";
 describe(inlineRule, () => {
   describe("edge cases", () => {
     it("should not match unclosed markers", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "!",
         tag: "span",
         token: "spoiler",
@@ -19,7 +19,7 @@ describe(inlineRule, () => {
     });
 
     it("should not match unclosed non-nested markers", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -29,7 +29,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle escaped markers", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -39,7 +39,7 @@ describe(inlineRule, () => {
     });
 
     it("should not match empty content in non-nested mode", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -49,7 +49,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle double marker non-nested with no content", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -60,7 +60,7 @@ describe(inlineRule, () => {
     });
 
     it("should not match double marker when second char differs", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -73,7 +73,7 @@ describe(inlineRule, () => {
 
     it("should support nested rule with placement: 'after-emphasis' and tokens_meta", () => {
       // This tests the "after" nested path with token meta processing
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -90,7 +90,7 @@ describe(inlineRule, () => {
     });
 
     it("should not parse inside code spans (nested double)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -103,7 +103,7 @@ describe(inlineRule, () => {
     });
 
     it("should not parse inside code spans (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -116,7 +116,7 @@ describe(inlineRule, () => {
     });
 
     it("should parse inside link text (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -129,7 +129,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle escaped marker (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -143,7 +143,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle unicode text (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -156,7 +156,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle punctuation adjacency (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -170,7 +170,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle emphasis inside single-marker nested", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -187,7 +187,7 @@ describe(inlineRule, () => {
     });
 
     it("should handle single marker as regular character", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -201,7 +201,7 @@ describe(inlineRule, () => {
     });
 
     it("should not match across blocks (nested single)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",

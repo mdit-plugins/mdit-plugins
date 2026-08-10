@@ -13,7 +13,7 @@ icon: lightbulb
 import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
 
-const mdIt = MarkdownIt().use(demo, {
+const mdIt = new MarkdownIt().use(demo, {
   // your options
 });
 
@@ -50,7 +50,7 @@ Text
 
 ### openRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -58,7 +58,7 @@ Text
 
 ### closeRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -66,7 +66,7 @@ Text
 
 ### codeRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -74,7 +74,7 @@ Text
 
 ### contentOpenRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -82,7 +82,7 @@ Text
 
 ### contentCloseRender
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

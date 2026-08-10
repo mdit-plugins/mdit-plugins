@@ -13,7 +13,7 @@ Plugin for creating block-level custom containers.
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
 
-const mdIt = MarkdownIt().use(container, {
+const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
   name: "warning",
 });
@@ -120,7 +120,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 ### openRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -128,7 +128,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 ### closeRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 

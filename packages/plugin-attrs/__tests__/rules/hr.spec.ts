@@ -19,7 +19,7 @@ const createDualRuleTests = (
     const testTitle = `hr rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should support horizontal rules ---{#id}", options), () => {
         const testCases = [
@@ -87,7 +87,7 @@ createDualRuleTests(
 );
 
 describe("hr detection", () => {
-  const markdownIt = MarkdownIt().use(attrs);
+  const markdownIt = new MarkdownIt().use(attrs);
 
   it("should keep paragraph text between the markers and the attrs", () => {
     const testCases = [

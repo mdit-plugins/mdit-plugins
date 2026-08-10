@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { layout } from "../src/index.js";
 
-const markdownIt = MarkdownIt().use(layout);
+const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("nesting", () => {
@@ -593,7 +593,7 @@ Content
       });
 
       it("should work inside other plugins tokens (e.g. container)", () => {
-        const mdItWithContainer = MarkdownIt().use(container, { name: "test" }).use(layout);
+        const mdItWithContainer = new MarkdownIt().use(container, { name: "test" }).use(layout);
 
         expect(
           mdItWithContainer.render(`\
@@ -968,7 +968,7 @@ A
   });
 
   describe("inlineStyles option", () => {
-    const mdNoInline = MarkdownIt().use(layout, { inlineStyles: false });
+    const mdNoInline = new MarkdownIt().use(layout, { inlineStyles: false });
 
     it("should pass utilities as class names when inlineStyles is false", () => {
       expect(
@@ -1109,7 +1109,7 @@ Content
     });
 
     it("should escape class names in noInline mode", () => {
-      const mdNoInline = MarkdownIt().use(layout, { inlineStyles: false });
+      const mdNoInline = new MarkdownIt().use(layout, { inlineStyles: false });
 
       expect(
         mdNoInline.render(`\

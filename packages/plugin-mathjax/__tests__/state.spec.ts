@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
 import { createMathjaxInstance, mathjax as mathjaxAsync } from "../src/index.js";
@@ -7,16 +8,16 @@ import {
   mathjax as mathjaxSync,
 } from "../src/sync.js";
 
-const setupAsync = async (): Promise<{ md: MarkdownIt }> => {
-  const instance = await createMathjaxInstance({ output: "svg", a11y: false });
+const setupAsync = async (): Promise<{ md: MarkdownItType }> => {
+  const instance = (await createMathjaxInstance({ output: "svg", a11y: false }))!;
 
-  return { md: MarkdownIt({ html: true }).use(mathjaxAsync, instance) };
+  return { md: new MarkdownIt({ html: true }).use(mathjaxAsync, instance) };
 };
 
-const setupSync = (): { md: MarkdownIt } => {
+const setupSync = (): { md: MarkdownItType } => {
   const instance = createSyncInstance({ output: "svg", a11y: false })!;
 
-  return { md: MarkdownIt({ html: true }).use(mathjaxSync, instance) };
+  return { md: new MarkdownIt({ html: true }).use(mathjaxSync, instance) };
 };
 
 // The SVG output contains an incrementing id counter (e.g. `MJX-1`, `MJX-3`)
@@ -28,7 +29,7 @@ describe("mathjax state isolation", () => {
     it("should reset state after render and renderInline", async () => {
       const instance = (await createMathjaxInstance({ output: "svg", a11y: false }))!;
       const resetSpy = vi.spyOn(instance, "reset");
-      const md = MarkdownIt({ html: true }).use(mathjaxAsync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxAsync, instance);
 
       md.render("$x$");
       expect(resetSpy).toHaveBeenCalledTimes(1);
@@ -72,7 +73,7 @@ describe("mathjax state isolation", () => {
     it("should reset state after render and renderInline", () => {
       const instance = createSyncInstance({ output: "svg", a11y: false })!;
       const resetSpy = vi.spyOn(instance, "reset");
-      const md = MarkdownIt({ html: true }).use(mathjaxSync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxSync, instance);
 
       md.render("$x$");
       expect(resetSpy).toHaveBeenCalledTimes(1);

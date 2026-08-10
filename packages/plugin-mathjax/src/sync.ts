@@ -17,7 +17,7 @@ import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
 import { CHTML } from "@mathjax/src/js/output/chtml.js";
 import { SVG } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MathjaxInstance, DocumentOptions, MarkdownItMathjaxOptions } from "./options.js";
 import { texPackages } from "./tex/index.js";
@@ -165,7 +165,7 @@ export const mathjax = (
     mathFence,
     reset,
     transformer,
-  }: MathjaxInstance,
+  }: MathjaxInstance<true>,
 ): void => {
   // Reset the shared TeX input state (macros/labels) after each render so that
   // state does not leak across documents rendered by the same instance.

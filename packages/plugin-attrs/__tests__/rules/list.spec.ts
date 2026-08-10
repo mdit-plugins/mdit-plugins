@@ -19,7 +19,7 @@ const createDualRuleTests = (
     const testTitle = `list rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should add classes for list items", options), () => {
         const src = "- item 1{.red}\n- item 2";

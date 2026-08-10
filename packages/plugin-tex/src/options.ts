@@ -1,4 +1,6 @@
-export interface MarkdownItTexOptions<MarkdownItEnv = unknown> {
+import type { Env } from "markdown-it";
+
+export interface MarkdownItTexOptions<MarkdownItEnv = Env> {
   /**
    * Math delimiter syntax to enable
    *

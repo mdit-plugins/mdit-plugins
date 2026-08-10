@@ -8,11 +8,11 @@
  *
  * @returns Rendered HTML string.
  */
-type RenderRule = (
+type RendererRule = (
   tokens: Token[],
   index: number,
-  options: Options,
-  env: Env,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```

@@ -1,8 +1,7 @@
 /** Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { InlineRule, PluginSimple } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
 import { normalizeSize } from "./utils.js";
@@ -74,7 +73,7 @@ const parseImageSize = (
 };
 
 // oxlint-disable-next-line max-lines-per-function
-const legacyImgSizeRule: RuleInline = (state, silent) => {
+const legacyImgSizeRule: InlineRule = (state, silent) => {
   const env = state.env as ImgSizeEnv;
   const isSpace = state.md.utils.isSpace;
   const oldPos = state.pos;

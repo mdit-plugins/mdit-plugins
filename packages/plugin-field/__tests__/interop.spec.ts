@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
 
-const md = MarkdownIt().use(field);
-const mdWithContainer = MarkdownIt({ html: true })
+const md = new MarkdownIt().use(field);
+const mdWithContainer = new MarkdownIt({ html: true })
   .use(container, { name: "warning", openRender: () => '<div class="warning">' })
   .use(field);
 
@@ -187,7 +187,7 @@ Nested content.
   });
 
   it("should support mix nesting", () => {
-    const mdProps = MarkdownIt().use(field).use(field, { name: "props" });
+    const mdProps = new MarkdownIt().use(field).use(field, { name: "props" });
 
     const result = mdProps.render(`
 :::: fields
@@ -214,8 +214,8 @@ Another parent description.
 
 describe("field with dl plugin", () => {
   it("should keep definition lists inside a field item intact", () => {
-    const mdWithDl = MarkdownIt().use(field).use(dl);
-    const mdReverse = MarkdownIt().use(dl).use(field);
+    const mdWithDl = new MarkdownIt().use(field).use(dl);
+    const mdReverse = new MarkdownIt().use(dl).use(field);
 
     const src = `\
 ::: fields

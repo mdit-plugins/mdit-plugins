@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { legacyImgSize } from "../src/index.js";
 
 describe("legacy image size", () => {
-  const markdownIt = MarkdownIt().use(legacyImgSize);
+  const markdownIt = new MarkdownIt().use(legacyImgSize);
 
   describe("should not break original image syntax", () => {
     it("simple", () => {
@@ -299,8 +299,8 @@ describe("legacy image size", () => {
 });
 
 describe("work with figure plugin", () => {
-  const markdownIt1 = MarkdownIt().use(legacyImgSize).use(figure);
-  const markdownIt2 = MarkdownIt().use(figure).use(legacyImgSize);
+  const markdownIt1 = new MarkdownIt().use(legacyImgSize).use(figure);
+  const markdownIt2 = new MarkdownIt().use(figure).use(legacyImgSize);
 
   it("should render with figure", () => {
     const testCases = [
@@ -318,7 +318,7 @@ describe("work with figure plugin", () => {
 });
 
 describe("legacy-img-size silent mode", () => {
-  const markdownIt = MarkdownIt().use(legacyImgSize);
+  const markdownIt = new MarkdownIt().use(legacyImgSize);
 
   it("should handle silent mode", () => {
     expect(markdownIt.render('[![image](/logo.svg "title" =100x200)](url)')).toContain(

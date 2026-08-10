@@ -19,7 +19,7 @@ const createDualRuleTests = (
     const testTitle = `fence rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should support code blocks", options), () => {
         const src = "```{.c a=1 #ii}\nfor i in range(10):\n```";
@@ -99,7 +99,7 @@ createDualRuleTests(
 
 describe("fence renderer", () => {
   it("should place attrs on <code> when fenceAttrsOnPre is false", () => {
-    const markdownIt = MarkdownIt().use(attrs, { fenceAttrsOnPre: false });
+    const markdownIt = new MarkdownIt().use(attrs, { fenceAttrsOnPre: false });
     const src = '```js {data-file="index.js"}\nfoo();\n```';
 
     expect(markdownIt.render(src)).toBe(
@@ -108,7 +108,7 @@ describe("fence renderer", () => {
   });
 
   it("should not override a custom fence renderer", () => {
-    const markdownIt = MarkdownIt();
+    const markdownIt = new MarkdownIt();
 
     const customFence = (tokens: any[], idx: number): string => {
       const token = tokens[idx];
@@ -127,7 +127,7 @@ describe("fence renderer", () => {
   });
 
   it("should render no-attrs fence normally", () => {
-    const markdownIt = MarkdownIt().use(attrs);
+    const markdownIt = new MarkdownIt().use(attrs);
     const src = "```js\nfoo();\n```";
 
     expect(markdownIt.render(src)).toBe('<pre><code class="language-js">foo();\n</code></pre>\n');

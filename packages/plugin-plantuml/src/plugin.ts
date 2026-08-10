@@ -1,7 +1,6 @@
+import type { PluginWithOptions } from "@mdit/helper";
 import { uml } from "@mdit/plugin-uml";
-import type { Options, PluginWithOptions } from "markdown-it";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { MarkdownItOptions, Renderer, Token } from "markdown-it";
 
 import { deflate } from "@deflate";
 
@@ -25,7 +24,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     render = (
       tokens: Token[],
       index: number,
-      options: Options,
+      options: Required<MarkdownItOptions>,
       _env: unknown,
       self: Renderer,
     ): string => {
@@ -49,16 +48,9 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
     });
   } else {
     // Handle ```name  blocks
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    const fenceRender = md.renderer.rules.fence!;
+    const fenceRender = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (
-      tokens: Token[],
-      index: number,
-      options: Options,
-      env: unknown,
-      self: Renderer,
-    ): string => {
+    md.renderer.rules.fence = (tokens, index, options, env, self): string => {
       const token = tokens[index];
       const spaceIndex = token.info.indexOf(" ");
       const fenceName = spaceIndex === -1 ? token.info : token.info.slice(0, spaceIndex);

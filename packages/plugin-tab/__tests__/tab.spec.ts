@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { tab } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(tab);
+const markdownIt = new MarkdownIt({ linkify: true }).use(tab);
 
 describe(tab, () => {
   it("should render single block", () => {
@@ -567,15 +567,13 @@ content
   });
 
   it("should work with multiple instance", () => {
-    const markdownItWithMultipleInstance = MarkdownIt({ linkify: true })
-      .use(tab)
-      .use(tab, {
-        name: "test",
-        openRender: () => "<TestTabs>",
-        closeRender: () => "</TestTabs>",
-        tabOpenRender: () => "<TestTab>",
-        tabCloseRender: () => "</TestTab>",
-      });
+    const markdownItWithMultipleInstance = new MarkdownIt({ linkify: true }).use(tab).use(tab, {
+      name: "test",
+      openRender: () => "<TestTabs>",
+      closeRender: () => "</TestTabs>",
+      tabOpenRender: () => "<TestTab>",
+      tabCloseRender: () => "</TestTab>",
+    });
 
     const source = [
       `
@@ -1150,7 +1148,7 @@ content B
       tokens
         .filter((token) => token.type === "tabs_tabs_open")
         .forEach((token) => {
-          delete (token.meta as Record<string, unknown>).tabsData;
+          delete token.meta!.tabsData;
         });
 
       expect(() => mdInstance.renderer.render(tokens, mdInstance.options, {})).not.toThrow();

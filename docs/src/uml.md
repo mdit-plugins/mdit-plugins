@@ -13,7 +13,7 @@ Plugin to support splitting contents from context.
 import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
 
-const mdIt = MarkdownIt().use(uml, {
+const mdIt = new MarkdownIt().use(uml, {
   name: "demo",
   open: "demostart",
   close: "demoend",
@@ -72,7 +72,7 @@ The plugin is different from container plugin as contents inside container will 
 
 ### render
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 - Required: Yes
 
 <!-- @include: ./render-rule.snippet.md -->

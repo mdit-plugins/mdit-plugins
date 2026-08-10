@@ -13,7 +13,7 @@ icon: image
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
 
-const mdIt = MarkdownIt().use(figure, {
+const mdIt = new MarkdownIt().use(figure, {
   // 你的选项，可选的
 });
 

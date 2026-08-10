@@ -13,7 +13,7 @@ Plugin to add `id` attributes to headings and optionally permalinks.
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor);
+const mdIt = new MarkdownIt().use(anchor);
 
 mdIt.render("# Heading");
 ```
@@ -24,7 +24,7 @@ With a custom slugify:
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   slugify: (s) =>
     s
       .trim()
@@ -73,7 +73,7 @@ By default it lowercases ASCII letters, keeps non-ASCII characters (e.g. CJK), f
 import MarkdownIt from "markdown-it";
 import { anchor, legacySlugify } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, { slugify: legacySlugify });
+const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
 
 ### slugifyWithState
@@ -123,9 +123,7 @@ import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt()
-  .use(attrs, { allowed: ["id"] })
-  .use(anchor);
+const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
 mdIt.render("# My Title {#custom-id}");
 ```
@@ -213,7 +211,7 @@ Unlike the other presets, `linkAfterHeader` has no default options — pass at l
 import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `Permalink for ${title}`,
     visuallyHiddenClass: "sr-only",

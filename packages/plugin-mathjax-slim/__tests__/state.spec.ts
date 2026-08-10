@@ -16,7 +16,7 @@ describe("mathjax-slim state isolation", () => {
     it("should reset state after render and renderInline", async () => {
       const instance = (await createMathjaxInstance())!;
       const resetSpy = vi.spyOn(instance, "reset");
-      const md = MarkdownIt({ html: true }).use(mathjaxAsync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxAsync, instance);
 
       md.render("$x$");
       expect(resetSpy).toHaveBeenCalledTimes(1);
@@ -27,7 +27,7 @@ describe("mathjax-slim state isolation", () => {
 
     it("should not leak newcommand macros across documents", async () => {
       const instance = (await createMathjaxInstance())!;
-      const md = MarkdownIt({ html: true }).use(mathjaxAsync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxAsync, instance);
 
       // Doc 1 defines the macro
       md.render(String.raw`$\newcommand{\foo}{bar}\foo$`);
@@ -36,7 +36,7 @@ describe("mathjax-slim state isolation", () => {
       const doc2 = md.render(String.raw`$\foo$`);
 
       const freshInstance = (await createMathjaxInstance())!;
-      const freshMd = MarkdownIt({ html: true }).use(mathjaxAsync, freshInstance);
+      const freshMd = new MarkdownIt({ html: true }).use(mathjaxAsync, freshInstance);
       const baseline = freshMd.render(String.raw`$\foo$`);
 
       expect(normalize(doc2)).toBe(normalize(baseline));
@@ -44,7 +44,7 @@ describe("mathjax-slim state isolation", () => {
 
     it("should not leak newenvironment macros across documents", async () => {
       const instance = (await createMathjaxInstance())!;
-      const md = MarkdownIt({ html: true }).use(mathjaxAsync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxAsync, instance);
 
       // Doc 1 defines the environment
       md.render(String.raw`$$\newenvironment{foo}{[}{]}\begin{foo}x\end{foo}$$`);
@@ -53,7 +53,7 @@ describe("mathjax-slim state isolation", () => {
       const doc2 = md.render(String.raw`$$\begin{foo}x\end{foo}$$`);
 
       const freshInstance = (await createMathjaxInstance())!;
-      const freshMd = MarkdownIt({ html: true }).use(mathjaxAsync, freshInstance);
+      const freshMd = new MarkdownIt({ html: true }).use(mathjaxAsync, freshInstance);
       const baseline = freshMd.render(String.raw`$$\begin{foo}x\end{foo}$$`);
 
       expect(normalize(doc2)).toBe(normalize(baseline));
@@ -64,7 +64,7 @@ describe("mathjax-slim state isolation", () => {
     it("should reset state after render and renderInline", () => {
       const instance = createSyncInstance()!;
       const resetSpy = vi.spyOn(instance, "reset");
-      const md = MarkdownIt({ html: true }).use(mathjaxSync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxSync, instance);
 
       md.render("$x$");
       expect(resetSpy).toHaveBeenCalledTimes(1);
@@ -75,13 +75,13 @@ describe("mathjax-slim state isolation", () => {
 
     it("should not leak newcommand macros across documents", () => {
       const instance = createSyncInstance()!;
-      const md = MarkdownIt({ html: true }).use(mathjaxSync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxSync, instance);
 
       md.render(String.raw`$\newcommand{\foo}{bar}\foo$`);
       const doc2 = md.render(String.raw`$\foo$`);
 
       const freshInstance = createSyncInstance()!;
-      const freshMd = MarkdownIt({ html: true }).use(mathjaxSync, freshInstance);
+      const freshMd = new MarkdownIt({ html: true }).use(mathjaxSync, freshInstance);
       const baseline = freshMd.render(String.raw`$\foo$`);
 
       expect(normalize(doc2)).toBe(normalize(baseline));
@@ -89,13 +89,13 @@ describe("mathjax-slim state isolation", () => {
 
     it("should not leak newenvironment macros across documents", () => {
       const instance = createSyncInstance()!;
-      const md = MarkdownIt({ html: true }).use(mathjaxSync, instance);
+      const md = new MarkdownIt({ html: true }).use(mathjaxSync, instance);
 
       md.render(String.raw`$$\newenvironment{foo}{[}{]}\begin{foo}x\end{foo}$$`);
       const doc2 = md.render(String.raw`$$\begin{foo}x\end{foo}$$`);
 
       const freshInstance = createSyncInstance()!;
-      const freshMd = MarkdownIt({ html: true }).use(mathjaxSync, freshInstance);
+      const freshMd = new MarkdownIt({ html: true }).use(mathjaxSync, freshInstance);
       const baseline = freshMd.render(String.raw`$$\begin{foo}x\end{foo}$$`);
 
       expect(normalize(doc2)).toBe(normalize(baseline));

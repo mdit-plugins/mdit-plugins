@@ -1,4 +1,4 @@
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { RendererRule } from "markdown-it";
 
 export interface MarkdownItAlertOptions {
   /**
@@ -24,19 +24,19 @@ export interface MarkdownItAlertOptions {
    *
    * 提示开始标签渲染函数
    */
-  openRender?: RenderRule;
+  openRender?: RendererRule;
 
   /**
    * Hint closing tag render function
    *
    * 提示结束标签渲染函数
    */
-  closeRender?: RenderRule;
+  closeRender?: RendererRule;
 
   /**
    * Hint title render function
    *
    * 提示标题渲染函数
    */
-  titleRender?: RenderRule;
+  titleRender?: RendererRule;
 }

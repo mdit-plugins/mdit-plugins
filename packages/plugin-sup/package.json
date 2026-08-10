@@ -45,11 +45,11 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/plugin-inline-rule": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*",
+    "@mdit/plugin-inline-rule": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

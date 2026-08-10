@@ -13,7 +13,7 @@ Plugins with icon support.
 import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
 
-const mdIt = MarkdownIt().use(icon);
+const mdIt = new MarkdownIt().use(icon);
 
 mdIt.render("iPhone is made by ::apple::.");
 ```
@@ -34,7 +34,7 @@ If you are not satisfied with the default render, you can use `render` option to
 import MarkdownIt from "markdown-it";
 import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
-const mdIt = MarkdownIt().use(icon, {
+const mdIt = new MarkdownIt().use(icon, {
   // only one render can be set, pick the one you need
 
   // support for iconify

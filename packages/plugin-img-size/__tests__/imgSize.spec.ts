@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { imgSize } from "../src/index.js";
 
 describe("default image size", () => {
-  const markdownIt = MarkdownIt().use(imgSize);
+  const markdownIt = new MarkdownIt().use(imgSize);
 
   describe("should not break original image syntax", () => {
     it("simple", () => {
@@ -438,8 +438,8 @@ describe("default image size", () => {
 });
 
 describe("work with figure plugin", () => {
-  const markdownIt1 = MarkdownIt().use(imgSize).use(figure);
-  const markdownIt2 = MarkdownIt().use(figure).use(imgSize);
+  const markdownIt1 = new MarkdownIt().use(imgSize).use(figure);
+  const markdownIt2 = new MarkdownIt().use(figure).use(imgSize);
 
   it("should render with figure", () => {
     const testCases = [
@@ -457,7 +457,7 @@ describe("work with figure plugin", () => {
 });
 
 describe("img-size silent mode", () => {
-  const markdownIt = MarkdownIt().use(imgSize);
+  const markdownIt = new MarkdownIt().use(imgSize);
 
   it("should handle silent mode", () => {
     expect(markdownIt.render("[![alt =100x200](/logo.svg)](url)")).toContain(

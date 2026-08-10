@@ -1,18 +1,17 @@
-import type MarkdownIt from "markdown-it";
-import type Token from "markdown-it/lib/token.mjs";
+import type { TokenMeta } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { DelimiterConfig } from "../helper/index.js";
 import { addAttrs, createDelimiterChecker, getMatchingOpeningToken } from "../helper/index.js";
 import type { AttrRule } from "./types.js";
 import { defineAttrRule } from "./types.js";
 
+interface TableMeta extends TokenMeta {
+  columnCount?: number;
+}
+
 interface TokenWithColumnCount extends Token {
-  meta:
-    | {
-        columnCount?: number;
-        [key: string]: unknown;
-      }
-    | undefined;
+  meta: TableMeta | null;
 }
 
 // oxlint-disable-next-line max-lines-per-function

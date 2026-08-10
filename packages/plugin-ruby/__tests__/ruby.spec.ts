@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { ruby } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(ruby);
+const markdownIt = new MarkdownIt({ linkify: true }).use(ruby);
 
 describe(ruby, () => {
   it("should render", () => {

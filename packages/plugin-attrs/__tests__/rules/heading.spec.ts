@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import type { MarkdownItAttrsOptions } from "../../src/index.js";
+import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../../src/index.js";
 import { attrs } from "../../src/index.js";
 import { replaceDelimiters } from "../replaceDelimiters.js";
 
@@ -9,10 +9,14 @@ const createTests = (
   baseOptions: MarkdownItAttrsOptions & { left: string; right: string },
   delimiterText: string,
 ): void => {
-  const options = { ...baseOptions, allowed: [], rule: ["heading"] };
+  const options = {
+    ...baseOptions,
+    allowed: [],
+    rule: ["heading"] satisfies readonly MarkdownItAttrRuleName[],
+  };
 
   describe(`heading rules ${delimiterText} (heading rule only)`, () => {
-    const markdownIt = MarkdownIt().use(attrs, options);
+    const markdownIt = new MarkdownIt().use(attrs, options);
 
     it(replaceDelimiters("should add attributes on headings", options), () => {
       const testCases = [

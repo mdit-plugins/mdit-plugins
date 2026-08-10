@@ -5,7 +5,7 @@ import { uml } from "../src/index.js";
 
 describe(uml, () => {
   it("should render without options", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
 
     expect(
       markdownIt.render(`
@@ -57,7 +57,7 @@ def
   });
 
   it("should not render", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
 
     expect(
       markdownIt.render(`
@@ -89,7 +89,7 @@ abc
   });
 
   it("should keep content as is", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
 
     expect(
       markdownIt.render(`
@@ -107,7 +107,7 @@ Text with **bold** and \`code\`.
   });
 
   it("should escape info in default render", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
 
     expect(
       markdownIt.render(`
@@ -121,7 +121,7 @@ abc
   });
 
   it("should render with options", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(uml, {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml, {
       name: "test",
       open: "teststart",
       close: "testend",

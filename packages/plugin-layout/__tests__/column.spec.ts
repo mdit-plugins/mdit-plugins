@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { layout } from "../src/index.js";
 
-const markdownIt = MarkdownIt().use(layout);
+const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("column layout", () => {

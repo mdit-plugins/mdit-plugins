@@ -13,7 +13,7 @@ Plugin to support plant uml base on [@mdit/plugin-uml](uml.md).
 import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
 
-const mdIt = MarkdownIt().use(plantuml);
+const mdIt = new MarkdownIt().use(plantuml);
 
 mdIt.render(`\
 @startuml
@@ -88,7 +88,7 @@ Bob -> Alice : 你好
 
 ### render
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 

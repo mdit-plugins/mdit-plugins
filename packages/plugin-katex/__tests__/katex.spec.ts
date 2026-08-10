@@ -1,16 +1,18 @@
 import MarkdownIt from "markdown-it";
+import type { Env } from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
+import type { KatexLogger } from "../src/index.js";
 import { katex } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(katex);
-const markdownItHTML = MarkdownIt({ linkify: true }).use(katex, {
+const markdownIt = new MarkdownIt({ linkify: true }).use(katex);
+const markdownItHTML = new MarkdownIt({ linkify: true }).use(katex, {
   output: "html",
 });
-const markdownItMathML = MarkdownIt({ linkify: true }).use(katex, {
+const markdownItMathML = new MarkdownIt({ linkify: true }).use(katex, {
   output: "mathml",
 });
-const markdownItWithError = MarkdownIt({ linkify: true }).use(katex, {
+const markdownItWithError = new MarkdownIt({ linkify: true }).use(katex, {
   throwOnError: true,
 });
 
@@ -213,9 +215,9 @@ $$
 
 describe("options", () => {
   it("should support custom logger", () => {
-    const logger1 = vi.fn<(...args: unknown[]) => void>();
+    const logger1 = vi.fn<KatexLogger<Env>>();
 
-    const markdownIt1 = MarkdownIt({ linkify: true }).use(katex, {
+    const markdownIt1 = new MarkdownIt({ linkify: true }).use(katex, {
       logger: logger1,
     });
 
@@ -229,9 +231,9 @@ $$
 
     expect(logger1).toHaveBeenCalledTimes(4);
 
-    const logger2 = vi.fn<(...args: unknown[]) => void>();
+    const logger2 = vi.fn<KatexLogger<Env>>();
 
-    const markdownIt2 = MarkdownIt({ linkify: true }).use(katex, {
+    const markdownIt2 = new MarkdownIt({ linkify: true }).use(katex, {
       logger: logger2,
     });
 
@@ -246,7 +248,7 @@ $$
   });
 
   it("should work with transformer", () => {
-    const markdownItTransformer = MarkdownIt({ linkify: true }).use(katex, {
+    const markdownItTransformer = new MarkdownIt({ linkify: true }).use(katex, {
       transformer: (content: string) => content.replaceAll(/^(?<tag><[a-z]+ )/g, "$<tag>v-pre "),
     });
 
@@ -282,8 +284,8 @@ describe("gdef macros", () => {
   });
 
   it("should not throw when rendering tokens without env", () => {
-    const markdownItNoEnv = MarkdownIt({ linkify: true }).use(katex);
-    const tokens = markdownItNoEnv.parse(String.raw`$\gdef\foo{\text{LEAKED-MACRO}} \foo$`, void 0);
+    const markdownItNoEnv = new MarkdownIt({ linkify: true }).use(katex);
+    const tokens = markdownItNoEnv.parse(String.raw`$\gdef\foo{\text{LEAKED-MACRO}} \foo$`, {});
 
     expect(() =>
       markdownItNoEnv.renderer.render(tokens, markdownItNoEnv.options, void 0),
@@ -291,7 +293,7 @@ describe("gdef macros", () => {
   });
 
   it("should support global macros from options", () => {
-    const markdownItMacros = MarkdownIt({ linkify: true }).use(katex, {
+    const markdownItMacros = new MarkdownIt({ linkify: true }).use(katex, {
       macros: { [String.raw`\foo`]: String.raw`\text{global}` },
     });
 

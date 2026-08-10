@@ -1,4 +1,4 @@
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type { RendererRule } from "markdown-it";
 
 export interface MarkdownItDemoOptions {
   /**
@@ -24,33 +24,33 @@ export interface MarkdownItDemoOptions {
    *
    * 开始标签渲染函数
    */
-  openRender?: RenderRule;
+  openRender?: RendererRule;
 
   /**
    * Closing tag render function
    *
    * 结束标签渲染函数
    */
-  closeRender?: RenderRule;
+  closeRender?: RendererRule;
 
   /**
    * Code render function
    *
    * 代码渲染函数
    */
-  codeRender?: RenderRule;
+  codeRender?: RendererRule;
 
   /**
    * Content open tag render function
    *
    * 内容开始标签渲染函数
    */
-  contentOpenRender?: RenderRule;
+  contentOpenRender?: RendererRule;
 
   /**
    * Content close tag render function
    *
    * 内容结束标签渲染函数
    */
-  contentCloseRender?: RenderRule;
+  contentCloseRender?: RendererRule;
 }

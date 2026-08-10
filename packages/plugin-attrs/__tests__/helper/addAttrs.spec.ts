@@ -1,9 +1,11 @@
-import Token from "markdown-it/lib/token.mjs";
+import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { addAttrs } from "../../src/helper/addAttrs.js";
 import { normalizeAllowed } from "../../src/helper/normalizeAllowed.js";
 import type { DelimiterRange } from "../../src/rules/types.js";
+
+const { Token } = MarkdownIt;
 
 describe(addAttrs, () => {
   it("should add class attribute", () => {

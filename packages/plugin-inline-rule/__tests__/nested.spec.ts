@@ -6,7 +6,7 @@ import { inlineRule } from "../src/index.js";
 describe(inlineRule, () => {
   describe("nested (delimiter state machine)", () => {
     describe("ins configuration (marker: +, double: true, tag: ins)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -74,7 +74,7 @@ describe(inlineRule, () => {
     });
 
     describe("mark configuration (marker: =, double: true, tag: mark)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -143,7 +143,7 @@ describe(inlineRule, () => {
     });
 
     describe("spoiler configuration (marker: !, double: true, tag: span, attrs)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "!",
         tag: "span",
         token: "spoiler",
@@ -233,7 +233,7 @@ describe(inlineRule, () => {
     });
 
     describe("ins configuration (marker: +, nested: true, double: false, tag: ins)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",

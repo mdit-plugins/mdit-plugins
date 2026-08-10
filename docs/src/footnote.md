@@ -13,7 +13,7 @@ Plugin to support footnotes.
 import MarkdownIt from "markdown-it";
 import { footnote } from "@mdit/plugin-footnote";
 
-const mdIt = MarkdownIt().use(footnote);
+const mdIt = new MarkdownIt().use(footnote);
 
 mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 ```

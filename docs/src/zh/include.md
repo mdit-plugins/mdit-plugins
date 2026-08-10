@@ -13,7 +13,7 @@ icon: at
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
-const mdIt = MarkdownIt().use(include, {
+const mdIt = new MarkdownIt().use(include, {
   // 你的选项，currentPath 是必填的
   currentPath: (env) => env.filePath,
 });
@@ -38,7 +38,7 @@ import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
-const mdIt = MarkdownIt();
+const mdIt = new MarkdownIt();
 
 mdIt.use(include, {
   currentPath: (env) => env.filePath,
@@ -132,7 +132,7 @@ import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
 // #region snippet
-const mdIt = MarkdownIt().use(include, {
+const mdIt = new MarkdownIt().use(include, {
   // your options, currentPath is required
   currentPath: (env) => env.filePath,
 });
@@ -150,7 +150,7 @@ import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
 
 // #region snippet
-const mdIt = MarkdownIt().use(include, {
+const mdIt = new MarkdownIt().use(include, {
   // your options, currentPath is required
   currentPath: (env) => env.filePath,
 });

@@ -24,7 +24,7 @@ yarn add @mdit/plugin-field
 import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
 
-const mdIt = MarkdownIt().use(field, {
+const mdIt = new MarkdownIt().use(field, {
   // your options
 });
 
@@ -203,7 +203,7 @@ interface FieldAttr {
 
 ### fieldsOpenRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -211,7 +211,7 @@ interface FieldAttr {
 
 ### fieldsCloseRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -256,15 +256,12 @@ interface FieldMeta {
   attributes: FieldAttrInfo[];
 }
 
-interface FieldToken extends Token {
-  meta: FieldMeta;
-}
-
 type MarkdownItFieldOpenRender = (
-  tokens: FieldToken[],
+  meta: FieldMeta,
+  tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
@@ -273,7 +270,7 @@ type MarkdownItFieldOpenRender = (
 
 ### fieldCloseRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -311,7 +308,7 @@ Child description.
 import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
 
-const mdIt = MarkdownIt().use(field, {
+const mdIt = new MarkdownIt().use(field, {
   name: "props",
   allowedAttributes: [
     { attr: "type", name: "Property Type" },

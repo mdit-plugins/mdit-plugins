@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 
 import { footnote } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(footnote);
-const markdownItXHTML = MarkdownIt({ linkify: true, xhtmlOut: true }).use(footnote);
+const markdownIt = new MarkdownIt({ linkify: true }).use(footnote);
+const markdownItXHTML = new MarkdownIt({ linkify: true, xhtmlOut: true }).use(footnote);
 
 describe(footnote, () => {
   it("should render", () => {

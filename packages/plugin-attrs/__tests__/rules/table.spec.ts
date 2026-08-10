@@ -20,7 +20,7 @@ const createDualRuleTests = (
     const testTitle = `table rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should support tables", options), () => {
         const src = `\
@@ -676,7 +676,11 @@ createDualRuleTests(
 
 describe("headerless tables", () => {
   it("should support tables without thead", () => {
-    const markdownIt = MarkdownIt().use(multimdTable, { headerless: true }).use(attrs);
+    const markdownIt = new MarkdownIt();
+    // oxlint-disable-next-line no-warning-comments
+    // FIXME: `markdown-it-multimd-table` still relies on `md.utils.assign`, which was removed in markdown-it v15
+    Object.assign(markdownIt.utils, { assign: Object.assign });
+    markdownIt.use(multimdTable, { headerless: true }).use(attrs);
 
     const src = `\
 | - | - |

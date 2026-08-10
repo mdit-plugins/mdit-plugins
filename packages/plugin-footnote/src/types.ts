@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Env, Token } from "markdown-it";
 
 export interface FootNoteToken extends Token {
   meta: {
@@ -8,10 +8,9 @@ export interface FootNoteToken extends Token {
   };
 }
 
-// oxlint-disable-next-line typescript/no-explicit-any
-export interface FootNoteEnv extends Record<string, any> {
+export interface FootNoteEnv extends Env {
   docId?: string;
-  footnotes: {
+  footnotes?: {
     label?: string;
     refs?: Record<string, number>;
     list?: {

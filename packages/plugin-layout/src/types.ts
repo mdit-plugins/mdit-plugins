@@ -1,30 +1,9 @@
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
+import type { TokenMeta } from "@mdit/helper";
+import type { Env, StateBlock } from "markdown-it";
 
-// Layout type constants
-export const LAYOUT_FLEX = 1;
-export const LAYOUT_GRID = 2;
-export const LAYOUT_COLUMN = 3;
+import type { layoutKey } from "./constant.js";
 
-// Character codes
-export const AT = 64; /* @ */
-export const DOT = 46; /* . */
-export const HASH = 35; /* # */
-export const SPACE = 32; /*   */
-export const DASH = 45; /* - */
-
-// Directive strings
-export const FLEX = "flex";
-export const GRID = "grid";
-export const COLUMN = "column";
-export const END = "end";
-
-// Base display styles for containers
-export const CONTAINER_DISPLAY: Record<number, string> = {
-  [LAYOUT_FLEX]: "display:flex",
-  [LAYOUT_GRID]: "display:grid",
-};
-
-export interface LayoutMeta {
+export interface LayoutMeta extends TokenMeta {
   type: number;
   classes: string[];
   id: string;
@@ -37,8 +16,8 @@ export interface LayoutContext {
   depth: number;
 }
 
-export interface LayoutEnv extends Record<string, unknown> {
-  layout?: LayoutContext | undefined;
+export interface LayoutEnv extends Env {
+  [layoutKey]?: LayoutContext | undefined;
 }
 
 export interface LayoutStateBlock extends StateBlock {

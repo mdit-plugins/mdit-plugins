@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
 
-const md = MarkdownIt({ html: true }).use(field);
+const md = new MarkdownIt({ html: true }).use(field);
 
 describe("edge cases", () => {
   it("should ignore fence with insufficient markers", () => {

@@ -14,15 +14,15 @@ import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
 // New syntax
-const mdNew = MarkdownIt().use(imgSize);
+const mdNew = new MarkdownIt().use(imgSize);
 mdNew.render("![image =300x200](https://example.com/image.png)");
 
 // Obsidian syntax
-const mdObsidian = MarkdownIt().use(obsidianImgSize);
+const mdObsidian = new MarkdownIt().use(obsidianImgSize);
 mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
 // Legacy syntax
-const mdLegacy = MarkdownIt().use(legacyImgSize);
+const mdLegacy = new MarkdownIt().use(legacyImgSize);
 mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 

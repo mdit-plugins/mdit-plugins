@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 
 import type { PermalinkOptions } from "./permalink/types.js";
 import { renderAttrs, renderHref } from "./utils.js";

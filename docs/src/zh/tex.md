@@ -19,7 +19,7 @@ icon: square-root-variable
 import MarkdownIt from "markdown-it";
 import { tex } from "@mdit/plugin-tex";
 
-const mdIt = MarkdownIt().use(tex, {
+const mdIt = new MarkdownIt().use(tex, {
   render: (content, displayMode) => {
     // 在此渲染 tex 并返回
   },

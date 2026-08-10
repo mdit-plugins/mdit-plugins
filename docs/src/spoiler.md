@@ -13,7 +13,7 @@ Plugins to hide content.
 import MarkdownIt from "markdown-it";
 import { spoiler } from "@mdit/plugin-spoiler";
 
-const mdIt = MarkdownIt().use(spoiler);
+const mdIt = new MarkdownIt().use(spoiler);
 
 mdIt.render("VuePress Theme Hope is !!powerful!!.");
 ```

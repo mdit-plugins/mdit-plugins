@@ -13,7 +13,7 @@ Plugin for creating block-level custom tabs.
 import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
 
-const mdIt = MarkdownIt().use(tab, {
+const mdIt = new MarkdownIt().use(tab, {
   // your options, name is required
   name: "tabs",
 });
@@ -134,8 +134,8 @@ type TabsOpenRender = (
   info: MarkdownItTabInfo,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
@@ -144,7 +144,7 @@ type TabsOpenRender = (
 
 ### closeRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -184,8 +184,8 @@ type TabOpenRender = (
   info: MarkdownItTabData,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
@@ -194,7 +194,7 @@ type TabOpenRender = (
 
 ### tabCloseRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 

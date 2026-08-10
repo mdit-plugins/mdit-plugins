@@ -13,7 +13,7 @@ icon: icons
 import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
 
-const mdIt = MarkdownIt().use(icon);
+const mdIt = new MarkdownIt().use(icon);
 
 mdIt.render("iPhone is made by ::apple::.");
 ```
@@ -34,7 +34,7 @@ mdIt.render("iPhone is made by ::apple::.");
 import MarkdownIt from "markdown-it";
 import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
 
-const mdIt = MarkdownIt().use(icon, {
+const mdIt = new MarkdownIt().use(icon, {
   // 只能设置一个 render，选择你需要的那个
 
   // 支持 iconify

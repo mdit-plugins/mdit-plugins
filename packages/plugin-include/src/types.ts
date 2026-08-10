@@ -1,7 +1,10 @@
-// oxlint-disable-next-line typescript/no-explicit-any
-export interface IncludeEnv extends Record<string, any> {
+import type { Env } from "markdown-it";
+
+import type { includePathsKey } from "./constant.js";
+
+export interface IncludeEnv extends Env {
   /** Included current paths */
-  includedPaths?: string[];
+  [includePathsKey]?: string[];
   /** Included files */
   includedFiles?: string[];
 }

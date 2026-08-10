@@ -13,7 +13,7 @@ icon: square-check
 import MarkdownIt from "markdown-it";
 import { tasklist } from "@mdit/plugin-tasklist";
 
-const mdIt = MarkdownIt().use(tasklist, {
+const mdIt = new MarkdownIt().use(tasklist, {
   // your options, optional
 });
 

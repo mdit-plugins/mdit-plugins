@@ -10,7 +10,7 @@ import {
   LAYOUT_FLEX,
   LAYOUT_GRID,
   SPACE,
-} from "./types.js";
+} from "./constant.js";
 
 /**
  * Check if a string matches a target starting at the given position.

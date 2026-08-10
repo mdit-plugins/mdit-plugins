@@ -1,11 +1,10 @@
 import { escapeHtml } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
+import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN, layoutKey } from "./constant.js";
 import { detectDirective, parseAttributes } from "./directive.js";
 import type { MarkdownItLayoutOptions } from "./options.js";
 import type { LayoutMeta, LayoutStateBlock } from "./types.js";
-import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN } from "./types.js";
 import { buildStyleString, resolveUtility } from "./utilities.js";
 
 /**
@@ -50,8 +49,8 @@ const findMatchingEnd = (
   return endLine;
 };
 
-const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLine, silent) => {
-  const ctx = state.env.layout;
+const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLine, silent) => {
+  const ctx = state.env[layoutKey];
 
   if (!ctx || state.level !== ctx.level) return false;
 
@@ -97,7 +96,6 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
   const oldLineMax = state.lineMax;
   const oldBlkIndent = state.blkIndent;
 
-  // @ts-expect-error: custom parent type
   state.parentType = "layout_item";
   state.lineMax = nextLine;
   state.blkIndent = indent;
@@ -127,7 +125,7 @@ const getItemRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLin
   return true;
 };
 
-const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, endLine, silent) => {
+const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
@@ -136,7 +134,7 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   if (!directive || directive.kind !== "container") return false;
 
   const depth = directive.depth;
-  const ctx = state.env.layout;
+  const ctx = state.env[layoutKey];
 
   // Validate depth consistency
   if (ctx) {
@@ -157,9 +155,8 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
   const oldBlkIndent = state.blkIndent;
-  const oldLayout = state.env.layout;
+  const oldLayout = state.env[layoutKey];
 
-  // @ts-expect-error: custom parent type
   state.parentType = "layout_container";
   state.lineMax = nextLine;
   state.blkIndent = indent;
@@ -175,11 +172,11 @@ const getContainerRule = (): RuleBlock => (state: LayoutStateBlock, startLine, e
     utilities: parsedAttrs.utilities,
   } satisfies LayoutMeta;
 
-  state.env.layout = { type: directive.type, level: state.level, depth };
+  state.env[layoutKey] = { type: directive.type, level: state.level, depth };
 
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
-  state.env.layout = oldLayout;
+  state.env[layoutKey] = oldLayout;
 
   const closeToken = state.push("layout_container_close", "div", -1);
 

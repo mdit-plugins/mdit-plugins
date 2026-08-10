@@ -1,4 +1,4 @@
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItAttrRuleName, MarkdownItAttrsOptions } from "../options.js";
 import { createBlockEndRule } from "./blockEnd.js";
@@ -40,7 +40,10 @@ export const createRules = (
       ? []
       : Array.isArray(options.rule)
         ? // user specific rules
-          options.rule.filter((item) => AVAILABLE_RULES.includes(item) || EXTENSION_RULES.has(item))
+          options.rule.filter(
+            (item: MarkdownItAttrRuleName) =>
+              AVAILABLE_RULES.includes(item) || EXTENSION_RULES.has(item),
+          )
         : AVAILABLE_RULES;
 
   const rules: AttrRule[] = [];

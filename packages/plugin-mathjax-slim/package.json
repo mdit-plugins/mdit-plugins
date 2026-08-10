@@ -46,8 +46,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/plugin-tex": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/plugin-tex": "workspace:*"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "4.1.3",
@@ -56,7 +55,7 @@
   "peerDependencies": {
     "@mathjax/mathjax-newcm-font": "^4.1.3",
     "@mathjax/src": "^4.1.3",
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "@mathjax/mathjax-newcm-font": {

@@ -5,7 +5,7 @@ import { attrs } from "../src/index.js";
 
 describe("rule settings", () => {
   it("should disable all rules when rule option is false", () => {
-    const markdownIt = MarkdownIt().use(attrs, {
+    const markdownIt = new MarkdownIt().use(attrs, {
       rule: false,
     });
 
@@ -17,7 +17,7 @@ describe("rule settings", () => {
   });
 
   it("should only enable specific rules when rule is array", () => {
-    const markdownIt = MarkdownIt().use(attrs, {
+    const markdownIt = new MarkdownIt().use(attrs, {
       rule: ["fence", "table"], // Only enable fence and table rules
     });
 
@@ -35,7 +35,8 @@ describe("rule settings", () => {
   });
 
   it("should filter out invalid rule names", () => {
-    const markdownIt = MarkdownIt().use(attrs, {
+    const markdownIt = new MarkdownIt().use(attrs, {
+      // @ts-expect-error: error in test, rule names contain invalid entries on purpose
       rule: ["fence", "invalid-rule", "table", "another-invalid"], // Mix of valid and invalid
     });
 
@@ -48,7 +49,7 @@ describe("rule settings", () => {
   });
 
   it("should handle empty rule array", () => {
-    const markdownIt = MarkdownIt().use(attrs, {
+    const markdownIt = new MarkdownIt().use(attrs, {
       rule: [], // Empty array should disable all rules
     });
 
@@ -59,7 +60,7 @@ describe("rule settings", () => {
   });
 
   it("should not throw when getting only allowed option", () => {
-    const markdownIt = MarkdownIt().use(attrs, {
+    const markdownIt = new MarkdownIt().use(attrs, {
       allowed: [/^(?:class|attr)$/],
     });
 

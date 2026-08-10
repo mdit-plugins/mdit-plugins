@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 
 export const getMatchingOpeningToken = (tokens: Token[], index: number): Token | null => {
   const token = tokens[index];

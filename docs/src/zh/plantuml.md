@@ -13,7 +13,7 @@ icon: diagram-project
 import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
 
-const mdIt = MarkdownIt().use(plantuml);
+const mdIt = new MarkdownIt().use(plantuml);
 
 mdIt.render(`\
 @startuml
@@ -88,7 +88,7 @@ Bob -> Alice : 你好
 
 ### render
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

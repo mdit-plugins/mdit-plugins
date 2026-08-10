@@ -20,7 +20,7 @@ const createDualRuleTests = (
     const testTitle = `softbreak rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should apply attrs after softbreak", options), () => {
         const src = `text

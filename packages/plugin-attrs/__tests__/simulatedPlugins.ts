@@ -5,7 +5,7 @@
  * real plugins with this ordering exist, but e.g. `@mdit/plugin-anchor` pushes its rule to the end
  * of the core chain and runs after the attrs rule, so it cannot reproduce it.
  */
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 /**
  * Simulate a navigation / heading anchor plugin appending a permalink after the heading text, so

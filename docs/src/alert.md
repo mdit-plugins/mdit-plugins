@@ -13,7 +13,7 @@ Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/dis
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
 
-const mdIt = MarkdownIt().use(alert);
+const mdIt = new MarkdownIt().use(alert);
 
 mdIt.render(`
 > [!warning]
@@ -107,7 +107,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 ### openRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -115,7 +115,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 ### closeRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -123,7 +123,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 ### titleRender
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 - Details: Hint title render function.
 
 ## Demo

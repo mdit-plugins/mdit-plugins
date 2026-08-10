@@ -6,9 +6,9 @@ import { ins } from "@mdit/plugin-ins";
 import { layout } from "@mdit/plugin-layout";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
+import type { MarkdownIt } from "markdown-it";
 import type { UserConfig } from "vuepress";
 import { defineUserConfig } from "vuepress";
-import type { MarkdownEnv } from "vuepress/markdown";
 import { getDirname, path } from "vuepress/utils";
 
 import theme from "./theme.js";
@@ -34,8 +34,11 @@ const config: UserConfig = defineUserConfig({
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   extendsMarkdown: (md) => {
-    md.use(abbr);
-    md.use(container, {
+    // vuepress still types `md` with `@types/markdown-it` (v14), while our plugins use markdown-it v15 builtin types
+    const markdownIt = md as unknown as MarkdownIt;
+
+    markdownIt.use(abbr);
+    markdownIt.use(container, {
       name: "hint",
       openRender: (tokens, index): string => {
         const token = tokens[index];
@@ -48,27 +51,27 @@ const config: UserConfig = defineUserConfig({
         }</p>\n`;
       },
     });
-    md.use(dl);
-    md.use(ins);
-    md.use(layout);
-    md.use(ruby);
-    md.use(field);
-    md.use(field, {
+    markdownIt.use(dl);
+    markdownIt.use(ins);
+    markdownIt.use(layout);
+    markdownIt.use(ruby);
+    markdownIt.use(field);
+    markdownIt.use(field, {
       name: "props",
       allowedAttributes: [
         { attr: "type", name: "Property Type" },
         { attr: "required", boolean: true },
       ],
     });
-    md.use(snippet, {
-      currentPath: (env: MarkdownEnv) => env.filePath,
+    markdownIt.use(snippet, {
+      currentPath: (env) => (typeof env.filePath === "string" ? env.filePath : ""),
 
       // add support for @snippets/ alias
-      resolvePath: (filePath: string, cwd: string) => {
+      resolvePath: (filePath: string, cwd: string | null) => {
         if (filePath.startsWith("@snippets/"))
           return path.resolve(__dirname, "snippets", filePath.replace("@snippets/", ""));
 
-        return path.join(cwd, filePath);
+        return path.join(cwd ?? "", filePath);
       },
     });
   },

@@ -1,8 +1,7 @@
 /** Forked and modified from https://github.com/arve0/markdown-it-attrs/ */
 
+import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import MarkdownIt from "markdown-it";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
 
 import { normalizeAllowed, testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
@@ -23,7 +22,7 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
     rule,
   });
 
-  const attrsRule: RuleCore = (state) => {
+  const attrsRule: CoreRule = (state) => {
     const tokens = state.tokens;
 
     for (let index = 0; index < tokens.length; index++) {

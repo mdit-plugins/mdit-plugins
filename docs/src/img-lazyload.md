@@ -13,7 +13,7 @@ Plugin to add lazy loading for images.
 import MarkdownIt from "markdown-it";
 import { imgLazyload } from "@mdit/plugin-img-lazyload";
 
-const mdIt = MarkdownIt().use(imgLazyload);
+const mdIt = new MarkdownIt().use(imgLazyload);
 
 mdIt.render("![Image](https://example.com/image.png)");
 ```
