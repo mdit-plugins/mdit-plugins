@@ -71,8 +71,8 @@ jobs:
 
       - name: Publish packages${{ inputs.dryrun == true && ' with dry run' || '' }}
         run: |
-          pnpm run release:publish${{ inputs.dryrun == true && ' --dry-run' || '' }}
+          pnpm exec lerna publish from-package --force-publish --yes${{ inputs.dryrun == true && ' --dry-run' || '' }}
 
       - name: Sync npmmirror
         if: ${{ inputs.dryrun != true }}
-        run: pnpm run release:sync
+        run: pnpm exec unrun scripts/sync.ts
