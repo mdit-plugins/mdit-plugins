@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-plantuml",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "plantuml plugin for MarkdownIt",
   "keywords": [
     "markdown-it",

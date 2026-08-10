@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-field",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "field plugin for MarkdownIt",
   "keywords": [
     "field",

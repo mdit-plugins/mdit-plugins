@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.0.1...%40mdit%2Fplugin-mark%402.0.2) (2026-08-10)
+
+**Note:** Version bump only for package @mdit/plugin-mark
+
 ## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.0.0...%40mdit%2Fplugin-mark%402.0.1) (2026-07-29)
 
 ### Code Refactoring

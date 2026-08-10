@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex%401.0.2...%40mdit%2Fplugin-katex%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-katex:** reset macros after each render ([#639](https://github.com/mdit-plugins/mdit-plugins/issues/639)) ([d0b61d1](https://github.com/mdit-plugins/mdit-plugins/commit/d0b61d15b546f85d8df358ca45ff6d45bc5ba506))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex%401.0.1...%40mdit%2Fplugin-katex%401.0.2) (2026-07-29)
 
 ### Code Refactoring

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.1.1...%40mdit%2Fplugin-attrs%401.2.0) (2026-08-10)
+
+### ✨ Features
+
+- **plugin-attrs:** add parseAttrs helper ([#645](https://github.com/mdit-plugins/mdit-plugins/issues/645)) ([56ce3a2](https://github.com/mdit-plugins/mdit-plugins/commit/56ce3a284e01253ebf27f41a8a7a011f0735789d))
+
+### 🐛 Bug Fixes
+
+- **plugin-figure:** never move native img attrs to figure ([#644](https://github.com/mdit-plugins/mdit-plugins/issues/644)) ([6195d4d](https://github.com/mdit-plugins/mdit-plugins/commit/6195d4de8b308b28d0dd2a7ed529ffd20461feec))
+
+### Tests
+
+- **plugin-attrs:** lock hr spacing boundary ([#651](https://github.com/mdit-plugins/mdit-plugins/issues/651)) ([c0d9cde](https://github.com/mdit-plugins/mdit-plugins/commit/c0d9cdedd6a4cd0a0d6bb406df14801c8dd381a5))
+
 ## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.1.0...%40mdit%2Fplugin-attrs%401.1.1) (2026-07-29)
 
 **Note:** Version bump only for package @mdit/plugin-attrs

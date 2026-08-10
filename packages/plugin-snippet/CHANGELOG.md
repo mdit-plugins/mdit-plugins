@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%401.0.3...%40mdit%2Fplugin-snippet%401.0.4) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-snippet:** handle unreadable snippet files ([#626](https://github.com/mdit-plugins/mdit-plugins/issues/626)) ([2a4550a](https://github.com/mdit-plugins/mdit-plugins/commit/2a4550a2f270d0757ce72e9f8c66ea1ea00de72e))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%401.0.2...%40mdit%2Fplugin-snippet%401.0.3) (2026-07-29)
 
 ### Miscellaneous Chores

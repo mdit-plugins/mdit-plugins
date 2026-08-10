@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.0.2...%40mdit%2Fplugin-icon%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-icon:** escape content in renderers ([#629](https://github.com/mdit-plugins/mdit-plugins/issues/629)) ([1fdf5e7](https://github.com/mdit-plugins/mdit-plugins/commit/1fdf5e71aa2c4d1efe74d20f3ae8e39164f1f1eb))
+- **plugin-icon:** restrict attr name regex ([#628](https://github.com/mdit-plugins/mdit-plugins/issues/628)) ([6bd09a9](https://github.com/mdit-plugins/mdit-plugins/commit/6bd09a9ca4e1bcae6d75ce3b03e46b59457be96c))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.0.1...%40mdit%2Fplugin-icon%401.0.2) (2026-07-29)
 
 ### Code Refactoring

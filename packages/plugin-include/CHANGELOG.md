@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.0.3...%40mdit%2Fplugin-include%401.0.4) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-include:** degrade unreadable files to not found ([#625](https://github.com/mdit-plugins/mdit-plugins/issues/625)) ([c97d6b1](https://github.com/mdit-plugins/mdit-plugins/commit/c97d6b10852c41dc781e22923b2cb1af6c6ce90c))
+- **plugin-include:** handle circular includes and directories ([#624](https://github.com/mdit-plugins/mdit-plugins/issues/624)) ([05a8aa8](https://github.com/mdit-plugins/mdit-plugins/commit/05a8aa81b3cedcf8bd598d8171af4c1a06a2666e))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.0.2...%40mdit%2Fplugin-include%401.0.3) (2026-07-29)
 
 ### Code Refactoring

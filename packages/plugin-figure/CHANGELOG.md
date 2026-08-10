@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-figure%401.1.0...%40mdit%2Fplugin-figure%401.1.1) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-figure:** never move native img attrs to figure ([#644](https://github.com/mdit-plugins/mdit-plugins/issues/644)) ([6195d4d](https://github.com/mdit-plugins/mdit-plugins/commit/6195d4de8b308b28d0dd2a7ed529ffd20461feec))
+
 ## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-figure%401.0.1...%40mdit%2Fplugin-figure%401.1.0) (2026-07-29)
 
 ### ✨ Features

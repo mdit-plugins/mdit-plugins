@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%401.1.3...%40mdit%2Fplugin-anchor%402.0.0) (2026-08-10)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-anchor:** rewrite default slugify (#646)
+
+### ✨ Features
+
+- **plugin-anchor:** add defaultPlaceHolder fallback for empty slugs ([#650](https://github.com/mdit-plugins/mdit-plugins/issues/650)) ([f2fb44a](https://github.com/mdit-plugins/mdit-plugins/commit/f2fb44a9c5752cf86f1de8cf642ab93b03b2f4fe))
+- **plugin-anchor:** rewrite default slugify ([#646](https://github.com/mdit-plugins/mdit-plugins/issues/646)) ([491560f](https://github.com/mdit-plugins/mdit-plugins/commit/491560f996d46e40a9e7abbadc23f3441c45ec78))
+
+### 🐛 Bug Fixes
+
+- **plugin-anchor:** skip nested anchor links ([#640](https://github.com/mdit-plugins/mdit-plugins/issues/640)) ([932784d](https://github.com/mdit-plugins/mdit-plugins/commit/932784d94f4d0c484835c1d4d3356bf1aa487125))
+
+### 🚀 Performance Improvements
+
+- **plugin-anchor:** skip redundant indexOf scan ([#648](https://github.com/mdit-plugins/mdit-plugins/issues/648)) ([69642c5](https://github.com/mdit-plugins/mdit-plugins/commit/69642c5ae404ea630c3ba2915b6effb2b15f176b))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%401.1.2...%40mdit%2Fplugin-anchor%401.1.3) (2026-07-29)
 
 ### Documentation

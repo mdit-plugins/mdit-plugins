@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-mark%401.0.2...%40mdit%2Fplugin-img-mark%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-img-mark:** preserve url fragment on marker strip ([#632](https://github.com/mdit-plugins/mdit-plugins/issues/632)) ([1c66ba3](https://github.com/mdit-plugins/mdit-plugins/commit/1c66ba3863e4830fc2693df598495ba958dfa8d5))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-mark%401.0.1...%40mdit%2Fplugin-img-mark%401.0.2) (2026-07-29)
 
 ### Code Refactoring

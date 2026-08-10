@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.3...%40mdit%2Fplugin-tab%401.0.4) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-tab:** move render-time token mutation into core rule ([#653](https://github.com/mdit-plugins/mdit-plugins/issues/653)) ([8509de9](https://github.com/mdit-plugins/mdit-plugins/commit/8509de98750af50f182bbd0dd91174af30dc3005))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.2...%40mdit%2Fplugin-tab%401.0.3) (2026-07-29)
 
 ### 🐛 Bug Fixes
