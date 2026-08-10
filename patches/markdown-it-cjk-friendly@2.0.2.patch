@@ -1,0 +1,18 @@
+diff --git a/dist/index.js b/dist/index.js
+index 9ef7e109ac1ed747e446d2e70ce87628407bdab9..b1e77d0c578f07fe1513c6ba127e19b852774dc1 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,5 +1,4 @@
+ import { eastAsianWidthType } from "get-east-asian-width";
+-import { isMdAsciiPunct, isPunctChar, isWhiteSpace } from "markdown-it/lib/common/utils.mjs";
+ 
+ //#region src/index.ts
+ function isEmoji(uc) {
+@@ -38,6 +37,7 @@ function nonEmojiGeneralUseVS(uc) {
+ 	return uc >= 65024 && uc <= 65038;
+ }
+ function markdownItCjkFriendlyPlugin(md) {
++        const { isMdAsciiPunct, isPunctChar, isWhiteSpace } = md.utils;
+ 	const PreviousState = md.inline.State;
+ 	class CjkFriendlyState extends PreviousState {
+ 		scanDelims(start, canSplitWord) {

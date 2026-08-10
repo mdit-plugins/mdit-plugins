@@ -246,6 +246,9 @@ overrides:
 
 packageExtensionsChecksum: sha256-8aWMYPNNQ2kTUKDSTqzIBUzBpUwK6QQHczQ04hqrsZk=
 
+patchedDependencies:
+  markdown-it-cjk-friendly@2.0.2: a098fef5d2c5d185082b69571826d3f251c44b20467c2cbd4a17241cf8f9e2e0
+
 importers:
 
   .:
@@ -6649,7 +6652,7 @@ snapshots:
       '@types/markdown-it': 14.1.2
       '@vuepress/helper': 2.0.0-rc.130(@vuepress/bundler-vite@2.0.0-rc.30(@types/node@24.13.3)(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(sass-embedded@1.100.0)(sass@1.100.0)(supports-color@8.1.1)(typescript@6.0.3)(yaml@2.9.0))(typescript@6.0.3)(vuepress@2.0.0-rc.30(@vue/compiler-sfc@3.5.41)(@vuepress/bundler-vite@2.0.0-rc.30(@types/node@24.13.3)(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(sass-embedded@1.100.0)(sass@1.100.0)(supports-color@8.1.1)(typescript@6.0.3)(yaml@2.9.0))(esbuild@0.28.2)(rolldown@1.2.3)(supports-color@8.1.1)(typescript@6.0.3)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(sass-embedded@1.100.0)(sass@1.100.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3)))
       js-yaml: 4.3.1
-      markdown-it-cjk-friendly: 2.0.2(@types/markdown-it@14.1.2)(markdown-it@15.0.0)
+      markdown-it-cjk-friendly: 2.0.2(patch_hash=a098fef5d2c5d185082b69571826d3f251c44b20467c2cbd4a17241cf8f9e2e0)(@types/markdown-it@14.1.2)(markdown-it@15.0.0)
       vuepress: 2.0.0-rc.30(@vue/compiler-sfc@3.5.41)(@vuepress/bundler-vite@2.0.0-rc.30(@types/node@24.13.3)(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(sass-embedded@1.100.0)(sass@1.100.0)(supports-color@8.1.1)(typescript@6.0.3)(yaml@2.9.0))(esbuild@0.28.2)(rolldown@1.2.3)(supports-color@8.1.1)(typescript@6.0.3)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(sass-embedded@1.100.0)(sass@1.100.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
     transitivePeerDependencies:
       - '@vuepress/bundler-vite'
@@ -7923,7 +7926,7 @@ snapshots:
       '@types/markdown-it': 14.1.2
       markdown-it: 15.0.0
 
-  markdown-it-cjk-friendly@2.0.2(@types/markdown-it@14.1.2)(markdown-it@15.0.0):
+  markdown-it-cjk-friendly@2.0.2(patch_hash=a098fef5d2c5d185082b69571826d3f251c44b20467c2cbd4a17241cf8f9e2e0)(@types/markdown-it@14.1.2)(markdown-it@15.0.0):
     dependencies:
       get-east-asian-width: 1.6.0
       markdown-it: 15.0.0

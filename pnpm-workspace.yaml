@@ -73,3 +73,6 @@ minimumReleaseAgeExclude:
   - oxc-config-hope
   - oxfmt
   - oxlint
+
+patchedDependencies:
+  markdown-it-cjk-friendly@2.0.2: patches/markdown-it-cjk-friendly@2.0.2.patch
