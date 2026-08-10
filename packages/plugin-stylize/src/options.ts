@@ -11,7 +11,7 @@ export interface MarkdownItStylizeResult {
    *
    * 属性设置
    */
-  attrs: Record<string, string>;
+  attrs: Record<string, string | number>;
 
   /**
    * Tag content
@@ -37,7 +37,7 @@ export interface MarkdownItStylizeConfig {
   replacer: (options: {
     tag: string;
     content: string;
-    attrs: Record<string, string>;
+    attrs: Record<string, string | number>;
     // oxlint-disable-next-line typescript/no-explicit-any
     env?: any;
   }) => MarkdownItStylizeResult | null | undefined;

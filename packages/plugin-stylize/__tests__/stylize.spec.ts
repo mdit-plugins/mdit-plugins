@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type {
@@ -7,6 +8,17 @@ import type {
   MarkdownItStylizeResult,
 } from "../src/index.js";
 import { stylize } from "../src/index.js";
+
+const addStrongAttr = (md: MarkdownItType, attr: [string, number]): void => {
+  md.core.ruler.before("stylize_tag", "test-strong-attr", (state) => {
+    for (const token of state.tokens) {
+      if (token.type !== "inline" || !token.children) continue;
+
+      for (const child of token.children)
+        if (child.tag === "strong" && child.nesting === 1) child.attrSet(attr[0], attr[1]);
+    }
+  });
+};
 
 describe(stylize, () => {
   describe("global config", () => {
@@ -62,7 +74,7 @@ describe(stylize, () => {
             if (tag === "em") {
               return {
                 tag: "span",
-                attrs: { ...attrs, style: `color:red;${attrs.style || ""}` },
+                attrs: { ...attrs, style: `color:red;${attrs.style ?? ""}` },
                 content,
               };
             }
@@ -74,7 +86,7 @@ describe(stylize, () => {
       localConfigGetter: (env) => (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
     };
 
-    const markdownIt = MarkdownIt({ linkify: true }).use(stylize, options);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(stylize, options);
 
     it("should render MUST", () => {
       expect(markdownIt.render(`**MUST**`)).toBe(
@@ -127,7 +139,7 @@ describe(stylize, () => {
     });
 
     it("should not carry lastIndex across tokens with a global regexp", () => {
-      const md = MarkdownIt().use(stylize, {
+      const md = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: /MUST/g,
@@ -180,15 +192,59 @@ describe(stylize, () => {
     });
 
     it("should skip if replacer returns void", () => {
-      const markdownItVoid = MarkdownIt().use(stylize, {
-        config: [{ matcher: "TEST", replacer: (): void => {} }],
+      const markdownItVoid = new MarkdownIt().use(stylize, {
+        config: [{ matcher: "TEST", replacer: (): null => null }],
       });
 
       expect(markdownItVoid.render("**TEST**")).toBe("<p><strong>TEST</strong></p>\n");
     });
 
+    it("should handle non-empty attrs on the previous token", () => {
+      const markdownItLink = new MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "TEST",
+            replacer: ({ tag, attrs, content }): MarkdownItStylizeResult => ({
+              tag,
+              attrs,
+              content,
+            }),
+          },
+        ],
+      });
+
+      // a link open token carries `href` attrs
+      expect(markdownItLink.render("[TEST](https://example.com)")).toBe(
+        '<p><a href="https://example.com">TEST</a></p>\n',
+      );
+    });
+
+    it("should preserve numeric attr values", () => {
+      let receivedValue: unknown;
+
+      const markdownItNumeric = new MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "TEST",
+            replacer: ({ tag, attrs, content }): MarkdownItStylizeResult => {
+              receivedValue = attrs["data-n"];
+
+              return { tag, attrs, content };
+            },
+          },
+        ],
+      });
+
+      addStrongAttr(markdownItNumeric, ["data-n", 5]);
+
+      expect(markdownItNumeric.render("**TEST**")).toBe(
+        '<p><strong data-n="5">TEST</strong></p>\n',
+      );
+      expect(receivedValue).toBe(5);
+    });
+
     it("should handle scanTokens with different token structures", () => {
-      const markdownItScan = MarkdownIt().use(stylize, {
+      const markdownItScan = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: "TEST",
@@ -209,7 +265,7 @@ describe(stylize, () => {
     });
 
     it("should handle scanTokens when tokenPrev.attrs is null", () => {
-      const markdownItAttrs = MarkdownIt().use(stylize, {
+      const markdownItAttrs = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: "TEST",
@@ -227,7 +283,7 @@ describe(stylize, () => {
     });
 
     it("should not throw when replacer returns a result without attrs", () => {
-      const markdownItMissingAttrs = MarkdownIt().use(stylize, {
+      const markdownItMissingAttrs = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: "TEST",
@@ -242,7 +298,7 @@ describe(stylize, () => {
     });
 
     it("should keep original content when replacer returns a result without content", () => {
-      const markdownItMissingContent = MarkdownIt().use(stylize, {
+      const markdownItMissingContent = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: "TEST",
@@ -260,7 +316,7 @@ describe(stylize, () => {
 
   describe("localConfigGetter", () => {
     it("should handle empty local config", () => {
-      const markdownIt = MarkdownIt().use(stylize, {
+      const markdownIt = new MarkdownIt().use(stylize, {
         config: [
           {
             matcher: "TEST",
@@ -284,7 +340,7 @@ describe(stylize, () => {
     });
 
     it("should handle global config empty but local config provided", () => {
-      const markdownIt = MarkdownIt().use(stylize, {
+      const markdownIt = new MarkdownIt().use(stylize, {
         config: [],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
           // oxlint-disable-next-line vitest/no-conditional-in-test
@@ -308,7 +364,7 @@ describe(stylize, () => {
     });
 
     it("should handle effectiveConfig being empty after localConfigGetter", () => {
-      const markdownIt = MarkdownIt().use(stylize, {
+      const markdownIt = new MarkdownIt().use(stylize, {
         config: [],
         localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
           // oxlint-disable-next-line vitest/no-conditional-in-test
@@ -321,11 +377,11 @@ describe(stylize, () => {
   });
 
   it("should handle when no config is provided", () => {
-    const markdownIt1 = MarkdownIt().use(stylize);
+    const markdownIt1 = new MarkdownIt().use(stylize);
 
     expect(markdownIt1.render(`**MUST**`)).toBe("<p><strong>MUST</strong></p>\n");
 
-    const markdownIt2 = MarkdownIt().use(stylize, { config: [] });
+    const markdownIt2 = new MarkdownIt().use(stylize, { config: [] });
 
     expect(markdownIt2.render(`**MUST**`)).toBe("<p><strong>MUST</strong></p>\n");
   });

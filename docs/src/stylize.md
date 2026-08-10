@@ -13,7 +13,7 @@ Plugin for stylizing tokens.
 import MarkdownIt from "markdown-it";
 import { stylize } from "@mdit/plugin-stylize";
 
-const mdIt = MarkdownIt().use(stylize, {
+const mdIt = new MarkdownIt().use(stylize, {
   config: [
     // your options
   ],
@@ -122,7 +122,7 @@ interface MarkdownItStylizeResult {
   /**
    * Attributes settings
    */
-  attrs: Record<string, string>;
+  attrs: Record<string, string | number>;
 
   /**
    * Tag content
@@ -142,7 +142,7 @@ interface MarkdownItStylizeConfig {
   replacer: (options: {
     tag: string;
     content: string;
-    attrs: Record<string, string>;
+    attrs: Record<string, string | number>;
     env?: any;
   }) => MarkdownItStylizeResult | null | undefined;
 }
