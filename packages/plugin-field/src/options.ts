@@ -75,7 +75,7 @@ export interface FieldMeta extends TokenMeta {
 }
 
 // oxlint-disable-next-line max-params
-export type MarkdownItFieldOpenRender = (
+export type MarkdownItFieldOpenRenderer = (
   meta: FieldMeta,
   tokens: Token[],
   index: number,
@@ -129,26 +129,26 @@ export interface MarkdownItFieldOptions {
    *
    * 字段容器打开渲染函数
    */
-  fieldsOpenRender?: RendererRule;
+  fieldsOpenRenderer?: RendererRule;
 
   /**
    * Fields close render
    *
    * 字段容器关闭渲染函数
    */
-  fieldsCloseRender?: RendererRule;
+  fieldsCloseRenderer?: RendererRule;
 
   /**
    * Field item open render
    *
    * 字段项打开渲染函数
    */
-  fieldOpenRender?: MarkdownItFieldOpenRender;
+  fieldOpenRenderer?: MarkdownItFieldOpenRenderer;
 
   /**
    * Field item close render
    *
    * 字段项关闭渲染函数
    */
-  fieldCloseRender?: RendererRule;
+  fieldCloseRenderer?: RendererRule;
 }

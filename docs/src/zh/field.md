@@ -190,7 +190,7 @@ interface FieldAttr {
 
 - 详情：允许的字段属性。如果不提供，所有属性都将被允许并按原样显示。
 
-### fieldsOpenRender
+### fieldsOpenRenderer
 
 - 类型：`RendererRule`
 
@@ -198,7 +198,7 @@ interface FieldAttr {
 
 - 详情：字段容器打开渲染函数。
 
-### fieldsCloseRender
+### fieldsCloseRenderer
 
 - 类型：`RendererRule`
 
@@ -206,9 +206,9 @@ interface FieldAttr {
 
 - 详情：字段容器关闭渲染函数。
 
-### fieldOpenRender
+### fieldOpenRenderer
 
-- 类型：`MarkdownItFieldOpenRender`
+- 类型：`MarkdownItFieldOpenRenderer`
 
 ```ts
 interface FieldAttrInfo {
@@ -245,7 +245,7 @@ interface FieldMeta {
   attributes: FieldAttrInfo[];
 }
 
-type MarkdownItFieldOpenRender = (
+type MarkdownItFieldOpenRenderer = (
   meta: FieldMeta,
   tokens: Token[],
   index: number,
@@ -257,7 +257,7 @@ type MarkdownItFieldOpenRender = (
 
 - 详情：字段项打开渲染函数。
 
-### fieldCloseRender
+### fieldCloseRenderer
 
 - 类型：`RendererRule`
 

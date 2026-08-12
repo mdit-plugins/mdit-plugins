@@ -2,10 +2,10 @@ import type { PluginWithOptions } from "@mdit/helper";
 
 import type { FieldMeta, MarkdownItFieldOptions } from "./options.js";
 import {
-  defaultFieldCloseRender,
+  defaultFieldCloseRenderer,
   getDefaultFieldOpenRender,
-  defaultFieldsCloseRender,
-  defaultFieldsOpenRender,
+  defaultFieldsCloseRenderer,
+  defaultFieldsOpenRenderer,
 } from "./render.js";
 import { getFieldItemRule, getFieldsRule, getFieldsScanner } from "./rules.js";
 import { normalizeAttributes } from "./utils.js";
@@ -25,10 +25,10 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
     classPrefix = "field-",
     parseAttributes: shouldParseAttributes = true,
     allowedAttributes,
-    fieldsOpenRender = defaultFieldsOpenRender,
-    fieldsCloseRender = defaultFieldsCloseRender,
-    fieldOpenRender = getDefaultFieldOpenRender(classPrefix),
-    fieldCloseRender = defaultFieldCloseRender,
+    fieldsOpenRenderer = defaultFieldsOpenRenderer,
+    fieldsCloseRenderer = defaultFieldsCloseRenderer,
+    fieldOpenRenderer = getDefaultFieldOpenRender(classPrefix),
+    fieldCloseRenderer = defaultFieldCloseRenderer,
   } = {},
 ) => {
   const normalizedAttributes = normalizeAttributes(allowedAttributes);
@@ -47,17 +47,17 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
     },
   );
 
-  md.renderer.rules[`${name}_fields_open`] = fieldsOpenRender;
-  md.renderer.rules[`${name}_fields_close`] = fieldsCloseRender;
-  md.renderer.rules[`${name}_fields_inner_open`] = defaultFieldsOpenRender;
-  md.renderer.rules[`${name}_fields_inner_close`] = defaultFieldsCloseRender;
+  md.renderer.rules[`${name}_fields_open`] = fieldsOpenRenderer;
+  md.renderer.rules[`${name}_fields_close`] = fieldsCloseRenderer;
+  md.renderer.rules[`${name}_fields_inner_open`] = defaultFieldsOpenRenderer;
+  md.renderer.rules[`${name}_fields_inner_close`] = defaultFieldsCloseRenderer;
 
   md.renderer.rules[`${name}_field_open`] = (tokens, index, options, env, self): string => {
     const meta = tokens[index].meta as FieldMeta;
 
-    return fieldOpenRender(meta, tokens, index, options, env, self);
+    return fieldOpenRenderer(meta, tokens, index, options, env, self);
   };
-  md.renderer.rules[`${name}_field_close`] = fieldCloseRender;
+  md.renderer.rules[`${name}_field_close`] = fieldCloseRenderer;
 
   // Run the scanner as a core rule to hide pre-field content in parse phase
   md.core.ruler.push(`${name}_fields_scanner`, (state) => {

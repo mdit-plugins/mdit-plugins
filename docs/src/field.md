@@ -201,7 +201,7 @@ interface FieldAttr {
 
 - Details: Allowed attributes for fields. If not provided, all attributes will be allowed and displayed as-is.
 
-### fieldsOpenRender
+### fieldsOpenRenderer
 
 - Type: `RendererRule`
 
@@ -209,7 +209,7 @@ interface FieldAttr {
 
 - Details: Fields container open render.
 
-### fieldsCloseRender
+### fieldsCloseRenderer
 
 - Type: `RendererRule`
 
@@ -217,9 +217,9 @@ interface FieldAttr {
 
 - Details: Fields container close render.
 
-### fieldOpenRender
+### fieldOpenRenderer
 
-- Type: `MarkdownItFieldOpenRender`
+- Type: `MarkdownItFieldOpenRenderer`
 
 ```ts
 interface FieldAttrInfo {
@@ -256,7 +256,7 @@ interface FieldMeta {
   attributes: FieldAttrInfo[];
 }
 
-type MarkdownItFieldOpenRender = (
+type MarkdownItFieldOpenRenderer = (
   meta: FieldMeta,
   tokens: Token[],
   index: number,
@@ -268,7 +268,7 @@ type MarkdownItFieldOpenRender = (
 
 - Details: Field item open render.
 
-### fieldCloseRender
+### fieldCloseRenderer
 
 - Type: `RendererRule`
 
