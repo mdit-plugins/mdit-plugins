@@ -230,6 +230,34 @@ const skipWhitespaceBack = (state: StateBlock, max: number, min: number): number
 };
 
 /*
+ * Test if the rest of the line contains a single-line $$...$$ pair followed by
+ * non-whitespace content, e.g. `$$a=1$$ and $b=2$`.
+ *
+ * In that case the line must not be treated as a block (fall back to paragraph
+ * so the inline rules can process each `$...$` individually), otherwise the
+ * trailing inline content would be swallowed into a corrupted display math block.
+ *
+ * Note: any `$$` pair with trailing content (including malformed inputs with
+ * multiple `$$` pairs) falls back to a paragraph, keeping the line literal.
+ */
+const hasDollarPairWithTrailingContent = (state: StateBlock, pos: number, end: number): boolean => {
+  const isWhiteSpace = state.md.utils.isWhiteSpace;
+
+  for (let i = pos; i < end - 1; i++) {
+    if (state.src.charCodeAt(i) !== 36 /* $ */ || state.src.charCodeAt(i + 1) !== 36 /* $ */)
+      continue;
+
+    // Found a closing $$ pair, check whether non-whitespace content follows it
+    for (let j = i + 2; j < end; j++) if (!isWhiteSpace(state.src.charCodeAt(j))) return true;
+
+    // The pair sits at the end of the line, it's a normal single line expression
+    break;
+  }
+
+  return false;
+};
+
+/*
  * Parse block math with dollar signs: $$...$$
  */
 const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
@@ -238,6 +266,11 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
 
   if (state.src.charCodeAt(start) !== 36 /* $ */ || state.src.charCodeAt(start + 1) !== 36 /* $ */)
     return false;
+
+  // A single-line $$...$$ pair followed by non-whitespace content must not be
+  // treated as a block: fall back to paragraph so the trailing inline math is
+  // parsed by the inline rules instead of being swallowed into the block.
+  if (hasDollarPairWithTrailingContent(state, start + 2, end)) return false;
 
   if (silent) return true;
 
