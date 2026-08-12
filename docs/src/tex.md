@@ -103,7 +103,7 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 
 - Type: `boolean`
 - Default: `false`
-- Details: Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`.
+- Details: Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`. Note that a space-padded literal `$` inside the content (e.g. `$\text{a $ b}$`) is then treated as a closing `$`, closing the expression early.
 
 <!-- #endregion options -->
 
