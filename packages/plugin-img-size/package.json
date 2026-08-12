@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-img-size",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "img-size plugin for MarkdownIt",
   "keywords": [
     "img-size",

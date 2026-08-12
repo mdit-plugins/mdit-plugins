@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%401.0.3...%40mdit%2Fplugin-uml%402.0.0) (2026-08-12)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-uml:** rename renderer option
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+- **plugin-uml:** rename renderer option ([14cd360](https://github.com/mdit-plugins/mdit-plugins/commit/14cd36033bb88c83045328ee01f5620b03094987))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%401.0.2...%40mdit%2Fplugin-uml%401.0.3) (2026-08-10)
 
 ### 🐛 Bug Fixes

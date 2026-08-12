@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.0.2...%40mdit%2Fplugin-tex%401.1.0) (2026-08-12)
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+
+### 🐛 Bug Fixes
+
+- **plugin-tex:** keep scanning for closing dollar ([#663](https://github.com/mdit-plugins/mdit-plugins/issues/663)) ([92b7223](https://github.com/mdit-plugins/mdit-plugins/commit/92b7223d9c1006e6c08b4b1917fc04eaff6e3e22))
+- **plugin-tex:** no block if content after $$ ([#635](https://github.com/mdit-plugins/mdit-plugins/issues/635)) ([#664](https://github.com/mdit-plugins/mdit-plugins/issues/664)) ([ecdc3de](https://github.com/mdit-plugins/mdit-plugins/commit/ecdc3de4dd476c959b3d68d305d7a62289fb50b7))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.0.1...%40mdit%2Fplugin-tex%401.0.2) (2026-07-29)
 
 ### 🐛 Bug Fixes

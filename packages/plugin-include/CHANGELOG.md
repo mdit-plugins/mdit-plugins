@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.0.4...%40mdit%2Fplugin-include%401.1.0) (2026-08-12)
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+
+### 🐛 Bug Fixes
+
+- **plugin-include:** skip code block directives ([#666](https://github.com/mdit-plugins/mdit-plugins/issues/666)) ([4ac4978](https://github.com/mdit-plugins/mdit-plugins/commit/4ac49784b71b4cc59e6ed406c191c2c8b4c5d8d7))
+
 ## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.0.3...%40mdit%2Fplugin-include%401.0.4) (2026-08-10)
 
 ### 🐛 Bug Fixes

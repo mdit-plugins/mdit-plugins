@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.1.0...%40mdit%2Fplugin-inline-rule%402.2.0) (2026-08-12)
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.0.1...%40mdit%2Fplugin-inline-rule%402.1.0) (2026-08-10)
 
 ### ✨ Features

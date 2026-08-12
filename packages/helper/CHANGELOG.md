@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.0.1...%40mdit%2Fhelper%401.1.0) (2026-08-12)
+
+### ✨ Features
+
+- **helper:** add scanFence ([#665](https://github.com/mdit-plugins/mdit-plugins/issues/665)) ([af76cb7](https://github.com/mdit-plugins/mdit-plugins/commit/af76cb7fc70a75ff91355626050871eb260eed4d))
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## 1.0.1 (2026-07-01)
 
 **Note:** Version bump only for package @mdit/helper

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%401.0.4...%40mdit%2Fplugin-plantuml%402.0.0) (2026-08-12)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-plantuml:** rename renderer option
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+- **plugin-plantuml:** rename renderer option ([2943b49](https://github.com/mdit-plugins/mdit-plugins/commit/2943b49d3aa983ca03f231495c1032e5d24490a7))
+
 ## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%401.0.3...%40mdit%2Fplugin-plantuml%401.0.4) (2026-08-10)
 
 ### 🐛 Bug Fixes

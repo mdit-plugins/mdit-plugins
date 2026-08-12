@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%401.0.3...%40mdit%2Fplugin-stylize%402.0.0) (2026-08-12)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-stylize:** widen replacer attrs to string | number
+
+### ✨ Features
+
+- **plugin-stylize:** widen replacer attrs to string | number ([97f6f7b](https://github.com/mdit-plugins/mdit-plugins/commit/97f6f7b584208505ea8da84b36fc84dd5454af73))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%401.0.2...%40mdit%2Fplugin-stylize%401.0.3) (2026-08-10)
 
 ### 🐛 Bug Fixes

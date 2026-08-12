@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%401.0.3...%40mdit%2Fplugin-field%402.0.0) (2026-08-12)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-field:** rename renderer options
+- **plugin-container:** rename renderer options
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+- **plugin-container:** rename renderer options ([5da1124](https://github.com/mdit-plugins/mdit-plugins/commit/5da1124f3e28a57bc9186b3156b5db517372aa82))
+- **plugin-field:** rename renderer options ([ad7997e](https://github.com/mdit-plugins/mdit-plugins/commit/ad7997e56b1e32ee3904d6be7683fe8aa81c4fee))
+
 ## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%401.0.2...%40mdit%2Fplugin-field%401.0.3) (2026-08-10)
 
 ### 🐛 Bug Fixes

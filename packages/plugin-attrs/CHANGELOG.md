@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.2.0...%40mdit%2Fplugin-attrs%401.3.0) (2026-08-12)
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+
+### Build System
+
+- bump deps ([9e6f912](https://github.com/mdit-plugins/mdit-plugins/commit/9e6f9123a4c30ea3dae6027aec260003641079da))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.1.1...%40mdit%2Fplugin-attrs%401.2.0) (2026-08-10)
 
 ### ✨ Features

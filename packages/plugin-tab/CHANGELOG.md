@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.4...%40mdit%2Fplugin-tab%402.0.0) (2026-08-12)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-tab:** rename renderer options
+
+### ✨ Features
+
+- migrate to markdown-it v15 ([5ec1171](https://github.com/mdit-plugins/mdit-plugins/commit/5ec11717eca911599782d3c0cdc389edde191b5f))
+- **plugin-tab:** rename renderer options ([8dcdc23](https://github.com/mdit-plugins/mdit-plugins/commit/8dcdc23389ef9b51eef3184ee11d539b78e33e47))
+
 ## [1.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%401.0.3...%40mdit%2Fplugin-tab%401.0.4) (2026-08-10)
 
 ### 🐛 Bug Fixes
