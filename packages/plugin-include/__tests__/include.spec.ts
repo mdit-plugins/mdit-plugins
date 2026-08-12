@@ -8,7 +8,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { includePathsKey } from "../src/constant.js";
 import type { IncludeEnv } from "../src/index.js";
-import { include } from "../src/index.js";
+import { include, resolveInclude } from "../src/index.js";
+import type { MarkdownItIncludeOptions } from "../src/options.js";
 
 // Simulate an unreadable file (EACCES) for a specific marker path, delegating
 // all other fs calls to the real implementation so existing tests are unaffected.
@@ -969,5 +970,343 @@ describe("currentPath", () => {
 
     expect(rendered).toContain('src="./img.png"');
     expect(rendered).toContain('href="./link.md"');
+  });
+});
+
+describe("should not expand directives inside code blocks", () => {
+  it("should preserve directives inside fenced code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "```md\n<!-- @include: /path/to/foo.md -->\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toBe(
+      '<pre><code class="language-md">&lt;!-- @include: /path/to/foo.md --&gt;\n</code></pre>\n',
+    );
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives inside tilde fenced code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "~~~\n<!-- @include: /path/to/foo.md -->\n~~~\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toBe("<pre><code>&lt;!-- @include: /path/to/foo.md --&gt;\n</code></pre>\n");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives inside indented code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "    <!-- @include: /path/to/foo.md -->\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toBe("<pre><code>&lt;!-- @include: /path/to/foo.md --&gt;\n</code></pre>\n");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives after an unclosed fence", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source =
+      "```\n<!-- @include: /path/to/foo.md -->\n\n<!-- @include: /path/to/bar.md -->\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(rendered).toContain("@include: /path/to/bar.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives inside fenced code block with useComment false", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+      useComment: false,
+    });
+
+    const source = "```md\n@include: /path/to/foo.md\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toBe(
+      '<pre><code class="language-md">@include: /path/to/foo.md\n</code></pre>\n',
+    );
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives inside deeply indented list code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "- item\n\n        <!-- @include: /path/to/foo.md -->\n\n- next\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should preserve directives with blockquote prefix", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "> quote\n>\n>     <!-- @include: /path/to/foo.md -->\n>\n> more\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should not run code detection when no directive exists", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "```md\nsome code\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toBe('<pre><code class="language-md">some code\n</code></pre>\n');
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should not expand directives inside code block of deep included file", () => {
+    const dir = mkdtempSync(join(tmpdir(), "include-codeblock-"));
+    writeFileSync(join(dir, "a.md"), "```md\n<!-- @include: b.md -->\n```\n");
+
+    try {
+      const mdWithOptions = MarkdownIt({ html: true })
+        .use(include, {
+          currentPath: (env: IncludeEnv) => env.filePath as string,
+          deep: true,
+        })
+        .use(container, { name: "tip" });
+      const env: IncludeEnv = { filePath: join(dir, "index.md") };
+
+      const rendered = mdWithOptions.render("<!-- @include: a.md -->", env);
+
+      expect(rendered).toContain("@include: b.md");
+      expect(env.includedFiles).toStrictEqual([join(dir, "a.md")]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("should preserve directives inside a multi-line indented code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "    line one\n    <!-- @include: /path/to/foo.md -->\n    line three\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(rendered).not.toContain("File not found");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should expand directives between two code blocks only", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = [
+      "```",
+      "<!-- @include: /path/to/a.md -->",
+      "```",
+      "",
+      "<!-- @include: /path/to/b.md -->",
+      "",
+      "```",
+      "<!-- @include: /path/to/c.md -->",
+      "```",
+    ].join("\n");
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/a.md");
+    expect(rendered).toContain("@include: /path/to/c.md");
+    expect(rendered).toContain("File not found");
+    expect(env.includedFiles).toStrictEqual(["/path/to/b.md"]);
+  });
+
+  it("should treat a fence with backtick in info as non-fence", () => {
+    // ```a`b 不是合法围栏（语言标识含反引号）→ 指令照常展开
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "```a`b\n<!-- @include: /path/to/foo.md -->\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("File not found");
+    expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
+  });
+
+  it("should keep looking for a closing fence after an over-indented fence line", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 4 空格缩进的 ``` 不闭合；随后的 ``` 才是闭合 → 指令保留在围栏内
+    const source = "```\n<!-- @include: /path/to/foo.md -->\n    ```\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should keep looking for a longer closing fence", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 开围栏 4 反引号；3 反引号行不闭合；4 反引号行闭合 → 指令保留
+    const source = "````\n<!-- @include: /path/to/foo.md -->\n```\n````\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should keep looking for a closing fence with trailing content", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // "``` extra" 尾随非空白不闭合；随后的 ``` 闭合 → 指令保留
+    const source = "```\n<!-- @include: /path/to/foo.md -->\n``` extra\n```\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should end an indented code block at a non-indented line", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 行 0 缩进代码块（指令保留）；行 1 非缩进结束代码块
+    const source = "    <!-- @include: /path/to/foo.md -->\nplain\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should treat an indented line after a blank line as code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 行 2 前有空行 → 缩进代码块（指令保留）
+    const source = "text\n\n    <!-- @include: /path/to/foo.md -->\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should expand a 4-space indented directive following a paragraph line", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 行 1 紧接段落（无空行）→ 是段落懒续行而非代码块 → 指令展开
+    const source = "text\n    <!-- @include: /path/to/foo.md -->\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("File not found");
+    expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
+  });
+
+  it("should handle trailing empty lines after a code block", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    const source = "```\n<!-- @include: /path/to/foo.md -->\n```\n\n\n";
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("@include: /path/to/foo.md");
+    expect(env.includedFiles).toStrictEqual([]);
+  });
+
+  it("should keep line numbers accurate after a multi-line directive", () => {
+    const md = MarkdownIt({ html: true }).use(include, {
+      currentPath: (env: IncludeEnv) => env.filePath as string,
+    });
+
+    // 多行指令（`<!--\n  @include: ... -->`）内部含换行，不应使后续行号欠计数
+    const source = [
+      "<!--",
+      "  @include: /path/to/foo.md",
+      "-->",
+      "",
+      "```",
+      "<!-- @include: /path/to/bar.md -->",
+      "```",
+    ].join("\n");
+    const env: IncludeEnv = { filePath: __filename };
+    const rendered = md.render(source, env);
+
+    expect(rendered).toContain("File not found");
+    expect(rendered).toContain("@include: /path/to/bar.md");
+    expect(env.includedFiles).toStrictEqual(["/path/to/foo.md"]);
+  });
+
+  it("should support calling resolveInclude directly", () => {
+    const dir = mkdtempSync(join(tmpdir(), "include-direct-"));
+    writeFileSync(join(dir, "a.md"), "# A\n");
+
+    try {
+      const md = MarkdownIt({ html: true });
+      const options = {
+        currentPath: (): string => join(dir, "index.md"),
+        resolvePath: (filePath: string): string => filePath,
+        deep: true,
+        resolveLinkPath: true,
+        resolveImagePath: true,
+        useComment: true,
+      } as Required<MarkdownItIncludeOptions>;
+      const includedFiles: string[] = [];
+      const result = resolveInclude(
+        "<!-- @include: a.md -->",
+        options,
+        { cwd: dir, includedFiles },
+        [],
+        md,
+      );
+
+      expect(result).toContain("# A");
+      expect(includedFiles).toStrictEqual([join(dir, "a.md")]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
