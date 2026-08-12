@@ -88,5 +88,5 @@ export interface MarkdownItPlantumlOptions {
    *
    * 图表渲染器
    */
-  render?: RendererRule;
+  renderer?: RendererRule;
 }

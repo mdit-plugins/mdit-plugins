@@ -86,7 +86,7 @@ Bob -> Alice : 你好
 - Type: `(content: string) => string`
 - Details: Image src getter. Takes diagram content and returns image link.
 
-### render
+### renderer
 
 - Type: `RendererRule`
 

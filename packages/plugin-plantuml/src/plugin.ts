@@ -21,7 +21,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       `${server}/${format}/${customEncodeBase64(
         deflate(`@start${name}\n${content.trim()}\n@end${name}`),
       )}`,
-    render = (
+    renderer = (
       tokens: Token[],
       index: number,
       options: Required<MarkdownItOptions>,
@@ -44,7 +44,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       name,
       open,
       close,
-      render,
+      renderer,
     });
   } else {
     // Handle ```name  blocks
@@ -58,7 +58,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       if (fenceName === fence) {
         token.info = spaceIndex === -1 ? "" : token.info.slice(spaceIndex + 1).trim();
 
-        return render(tokens, index, options, env, self);
+        return renderer(tokens, index, options, env, self);
       }
 
       return fenceRender(tokens, index, options, env, self);

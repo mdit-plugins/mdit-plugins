@@ -86,7 +86,7 @@ Bob -> Alice : 你好
 - 类型：`(content: string) => string`
 - 详情：图片地址获取器。接收图表内容并返回图片链接。
 
-### render
+### renderer
 
 - 类型：`RendererRule`
 
