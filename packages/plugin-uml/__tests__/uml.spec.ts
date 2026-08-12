@@ -125,7 +125,7 @@ abc
       name: "test",
       open: "teststart",
       close: "testend",
-      render: (tokens, index): string => {
+      renderer: (tokens, index): string => {
         const token = tokens[index];
         const { content, info, type } = token;
 

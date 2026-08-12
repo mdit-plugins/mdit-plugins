@@ -17,7 +17,7 @@ const mdIt = new MarkdownIt().use(uml, {
   name: "demo",
   open: "demostart",
   close: "demoend",
-  render: (tokens, index) => {
+  renderer: (tokens, index) => {
     // render content here
   },
 });
@@ -30,7 +30,7 @@ Another content
 `);
 ```
 
-This plugin will extract content between `@openmarker` and `@closemarker` into a single token, then render it with `render` function.
+This plugin will extract content between `@openmarker` and `@closemarker` into a single token, then render it with `renderer` function.
 
 ::: tip
 
@@ -70,7 +70,7 @@ The plugin is different from container plugin as contents inside container will 
 - Required: Yes
 - Details: Closing marker.
 
-### render
+### renderer
 
 - Type: `RendererRule`
 - Required: Yes

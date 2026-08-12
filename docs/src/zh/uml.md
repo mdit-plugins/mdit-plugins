@@ -17,7 +17,7 @@ const mdIt = new MarkdownIt().use(uml, {
   name: "demo",
   open: "demostart",
   close: "demoend",
-  render: (tokens, index) => {
+  renderer: (tokens, index) => {
     // render content here
   },
 });
@@ -30,7 +30,7 @@ Another content
 `);
 ```
 
-该插件会将 `@openmarker` 和 `@closemarker` 之间的内容提取到单个 Token 中，然后使用 `render` 函数对其进行渲染。
+该插件会将 `@openmarker` 和 `@closemarker` 之间的内容提取到单个 Token 中，然后使用 `renderer` 函数对其进行渲染。
 
 ::: tip
 
@@ -70,7 +70,7 @@ Another content
 - 必填：是
 - 详情：结束标记。
 
-### render
+### renderer
 
 - 类型：`RendererRule`
 - 必填：是

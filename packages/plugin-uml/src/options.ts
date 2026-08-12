@@ -28,10 +28,10 @@ export interface MarkdownItUMLOptions {
    *
    * 渲染函数
    */
-  render: RendererRule;
+  renderer: RendererRule;
 }
 
-export const defaultRender = (tokens: Token[], index: number): string => {
+export const defaultRenderer = (tokens: Token[], index: number): string => {
   const token = tokens[index];
 
   // escapeHtml so `info` (user-controlled) cannot escape the title attribute

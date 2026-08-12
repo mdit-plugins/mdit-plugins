@@ -2,10 +2,10 @@ import { dedent } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItUMLOptions } from "./options.js";
-import { defaultRender } from "./options.js";
+import { defaultRenderer } from "./options.js";
 
 export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
-  const { name = "uml", open = "start", close = "end", render = defaultRender } = options ?? {};
+  const { name = "uml", open = "start", close = "end", renderer = defaultRenderer } = options ?? {};
 
   const OPEN_MARKER = `@${open}`;
   const CLOSE_MARKER = `@${close}`;
@@ -102,5 +102,5 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.renderer.rules[name] = render;
+  md.renderer.rules[name] = renderer;
 };
