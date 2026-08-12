@@ -117,6 +117,42 @@ inline.</p>
         });
       });
 
+      describe("dollar with literal $ in content", () => {
+        it.for<[string, string]>([
+          // A $ surrounded by spaces inside the content (e.g. \text{a $ b}) is not a
+          // closing delimiter, keep scanning until the real closing $.
+          [String.raw`$\text{a $ b}$`, "<p>{Tex content: \\text{a $ b}}</p>\n"],
+          [String.raw`$\text{a $ b} x$`, "<p>{Tex content: \\text{a $ b} x}</p>\n"],
+          [String.raw`$x = a $ b$`, "<p>{Tex content: x = a $ b}</p>\n"],
+        ])("should render when a literal $ sits inside content: %s", ([input, expected]) => {
+          expect(dollarModeMarkdownIt.render(input)).toStrictEqual(expected);
+        });
+
+        it("should keep rejecting invalid closing candidates", () => {
+          expect(dollarModeMarkdownIt.render("$x$$")).toBe("<p>$x$$</p>\n");
+          expect(dollarModeMarkdownIt.render("$a = 1 $")).toBe("<p>$a = 1 $</p>\n");
+          expect(dollarModeMarkdownIt.render("$x$a")).toBe("<p>$x$a</p>\n");
+        });
+
+        it("should not cross a link boundary when scanning for closing $", () => {
+          // A closing $ must be found inside the current inline scope (link label),
+          // otherwise the math token would swallow the link's `](...)` and beyond.
+          expect(dollarModeMarkdownIt.render("[x $a](u) $b$")).toBe(
+            '<p><a href="u">x $a</a> {Tex content: b}</p>\n',
+          );
+          expect(dollarModeMarkdownIt.render("[price $5](page) then $x=1$")).toBe(
+            '<p><a href="page">price $5</a> then {Tex content: x=1}</p>\n',
+          );
+          expect(dollarModeMarkdownIt.render("before [x $a $ ](u) after $z$")).toBe(
+            '<p>before <a href="u">x $a $ </a> after {Tex content: z}</p>\n',
+          );
+          // A complete math expression inside the link label still works
+          expect(dollarModeMarkdownIt.render("[text $a $ b$](u)")).toBe(
+            '<p><a href="u">text {Tex content: a $ b}</a></p>\n',
+          );
+        });
+      });
+
       describe("rejection cases", () => {
         it.for<[string, string, string]>([
           ["unclosed marker", "$a = 1", "<p>$a = 1</p>\n"],
@@ -568,6 +604,30 @@ plain code
         it("should ignore bracket syntax", () => {
           expect(allowSpaceDollarMarkdownIt.render(String.raw`\(a=1\)`)).toBe("<p>(a=1)</p>\n");
           expect(allowSpaceDollarMarkdownIt.render(String.raw`\[a=1\]`)).toBe("<p>[a=1]</p>\n");
+        });
+
+        it("should parse space-padded expressions separately", () => {
+          // A space-padded `$` closes at the FIRST legal `$`, so consecutive
+          // expressions never merge into a single one.
+          expect(allowSpaceDollarMarkdownIt.render("$ a = 1 $ and $ b = 2$")).toBe(
+            "<p>{Tex content: a = 1} and {Tex content: b = 2}</p>\n",
+          );
+          expect(allowSpaceDollarMarkdownIt.render("$ a = 1 $ $ b = 2 $")).toBe(
+            "<p>{Tex content: a = 1} {Tex content: b = 2}</p>\n",
+          );
+          expect(allowSpaceDollarMarkdownIt.render("$a=1$ and $ b = 2$")).toBe(
+            "<p>{Tex content: a=1} and {Tex content: b = 2}</p>\n",
+          );
+        });
+
+        it("should close early when a literal $ sits inside content", () => {
+          // Known trade-off of allowInlineWithSpace: a space-padded literal `$`
+          // inside the content is indistinguishable from a closing `$`, so the
+          // scan stops there. (Default mode keeps scanning and renders
+          // `\text{a $ b}` correctly.)
+          expect(allowSpaceDollarMarkdownIt.render(String.raw`$\text{a $ b}$`)).toBe(
+            "<p>{Tex content: \\text{a} b}$</p>\n",
+          );
         });
       });
 
