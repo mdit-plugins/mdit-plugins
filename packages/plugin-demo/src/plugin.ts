@@ -10,12 +10,12 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
   {
     name = "demo",
-    openRender = (tokens: Token[], index: number): string =>
+    openRenderer = (tokens: Token[], index: number): string =>
       `<details><summary>${md.renderInline(tokens[index].info)}</summary>\n`,
-    closeRender = (): string => "</details>\n",
-    codeRender,
-    contentOpenRender,
-    contentCloseRender,
+    closeRenderer = (): string => "</details>\n",
+    codeRenderer,
+    contentOpenRenderer,
+    contentCloseRenderer,
     showCodeFirst = false,
   } = {},
 ) => {
@@ -134,7 +134,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     openToken.map = [startLine, nextLine];
 
     const pushCodeToken = (): void => {
-      const codeToken = state.push(codeRender ? `${name}_demo_code` : "fence", "code", 0);
+      const codeToken = state.push(codeRenderer ? `${name}_demo_code` : "fence", "code", 0);
 
       const indent = state.sCount[startLine];
 
@@ -149,7 +149,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .replace(/\n*$/, "\n");
       codeToken.map = [startLine, state.line];
       (codeToken.meta ??= {}).title = title;
-      if (!codeRender) {
+      if (!codeRenderer) {
         codeToken.info = "md";
         codeToken.markup = "```";
       }
@@ -188,11 +188,11 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md.block.ruler.before("fence", "demo", demoRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules[`${name}_demo_open`] = openRender;
-  md.renderer.rules[`${name}_demo_close`] = closeRender;
-  if (codeRender) md.renderer.rules[`${name}_demo_code`] = codeRender;
+  md.renderer.rules[`${name}_demo_open`] = openRenderer;
+  md.renderer.rules[`${name}_demo_close`] = closeRenderer;
+  if (codeRenderer) md.renderer.rules[`${name}_demo_code`] = codeRenderer;
 
-  if (contentOpenRender) md.renderer.rules[`${name}_demo_content_open`] = contentOpenRender;
+  if (contentOpenRenderer) md.renderer.rules[`${name}_demo_content_open`] = contentOpenRenderer;
 
-  if (contentCloseRender) md.renderer.rules[`${name}_demo_content_close`] = contentCloseRender;
+  if (contentCloseRenderer) md.renderer.rules[`${name}_demo_content_close`] = contentCloseRenderer;
 };

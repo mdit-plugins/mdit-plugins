@@ -24,33 +24,33 @@ export interface MarkdownItDemoOptions {
    *
    * 开始标签渲染函数
    */
-  openRender?: RendererRule;
+  openRenderer?: RendererRule;
 
   /**
    * Closing tag render function
    *
    * 结束标签渲染函数
    */
-  closeRender?: RendererRule;
+  closeRenderer?: RendererRule;
 
   /**
    * Code render function
    *
    * 代码渲染函数
    */
-  codeRender?: RendererRule;
+  codeRenderer?: RendererRule;
 
   /**
    * Content open tag render function
    *
    * 内容开始标签渲染函数
    */
-  contentOpenRender?: RendererRule;
+  contentOpenRenderer?: RendererRule;
 
   /**
    * Content close tag render function
    *
    * 内容结束标签渲染函数
    */
-  contentCloseRender?: RendererRule;
+  contentCloseRenderer?: RendererRule;
 }

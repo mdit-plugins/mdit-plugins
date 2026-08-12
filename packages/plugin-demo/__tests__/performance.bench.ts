@@ -335,22 +335,22 @@ interface DemoOptions {
   /**
    * Custom render function for opening tag
    */
-  openRender?: RenderRule;
+  openRenderer?: RendererRule;
   
   /**
    * Custom render function for closing tag
    */
-  closeRender?: RenderRule;
+  closeRenderer?: RendererRule;
   
   /**
    * Custom render function for opening content tag
    */
-  contentOpenRender?: RenderRule;
+  contentOpenRenderer?: RendererRule;
   
   /**
    * Custom render function for closing content tag
    */
-  contentCloseRender?: RenderRule;
+  contentCloseRenderer?: RendererRule;
 }
 \`\`\`
 
@@ -448,8 +448,8 @@ console.log("Custom demo");
       const md = new MarkdownIt().use(demoOld, {
         name: "preview",
         showCodeFirst: true,
-        openRender: () => `<section class="custom-demo"><div class="title">`,
-        closeRender: () => `</div></section>\n`,
+        openRenderer: () => `<section class="custom-demo"><div class="title">`,
+        closeRenderer: () => `</div></section>\n`,
       });
 
       md.render(customContent);
@@ -459,8 +459,8 @@ console.log("Custom demo");
       const md = new MarkdownIt().use(demoNew, {
         name: "preview",
         showCodeFirst: true,
-        openRender: () => `<section class="custom-demo"><div class="title">`,
-        closeRender: () => `</div></section>\n`,
+        openRenderer: () => `<section class="custom-demo"><div class="title">`,
+        closeRenderer: () => `</div></section>\n`,
       });
 
       md.render(customContent);

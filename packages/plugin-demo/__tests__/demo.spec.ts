@@ -362,16 +362,16 @@ ${demoContent}
 
   it("customRender", () => {
     const markdownItSummary = new MarkdownIt({ linkify: true }).use(demo, {
-      openRender: () => `<details><summary>\n`,
-      codeRender: (tokens, index, options, _env, self) => {
+      openRenderer: () => `<details><summary>\n`,
+      codeRenderer: (tokens, index, options, _env, self) => {
         tokens[index].type = "fence";
         tokens[index].info = "md";
         tokens[index].markup = "```";
 
         return `</summary>\n${self.rules.fence(tokens, index, options, _env, self)}`;
       },
-      contentOpenRender: () => "",
-      contentCloseRender: () => "",
+      contentOpenRenderer: () => "",
+      contentCloseRenderer: () => "",
     });
 
     expect(

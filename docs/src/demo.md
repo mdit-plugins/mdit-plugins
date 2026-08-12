@@ -48,7 +48,7 @@ The syntax is the same as [container](./container.md), except that the correspon
 - Default: `false`
 - Details: Whether code is displayed before result.
 
-### openRender
+### openRenderer
 
 - Type: `RendererRule`
 
@@ -56,7 +56,7 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 - Details: Opening tag render function.
 
-### closeRender
+### closeRenderer
 
 - Type: `RendererRule`
 
@@ -64,7 +64,7 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 - Details: Closing tag render function.
 
-### codeRender
+### codeRenderer
 
 - Type: `RendererRule`
 
@@ -72,7 +72,7 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 - Details: Code render function.
 
-### contentOpenRender
+### contentOpenRenderer
 
 - Type: `RendererRule`
 
@@ -80,7 +80,7 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 - Details: Content open tag render function.
 
-### contentCloseRender
+### contentCloseRenderer
 
 - Type: `RendererRule`
 
