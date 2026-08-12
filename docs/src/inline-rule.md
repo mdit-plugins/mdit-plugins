@@ -13,7 +13,7 @@ A unified inline syntax factory plugin for creating custom punctuation-based inl
 import MarkdownIt from "markdown-it";
 import { inlineRule } from "@mdit/plugin-inline-rule";
 
-const mdIt = MarkdownIt().use(inlineRule, {
+const mdIt = new MarkdownIt().use(inlineRule, {
   marker: "=",
   tag: "mark",
   token: "mark",

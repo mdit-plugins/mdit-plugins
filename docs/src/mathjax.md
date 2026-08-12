@@ -20,7 +20,7 @@ import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 
 const mathjaxInstance = await createMathjaxInstance(options);
-const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
+const mdIt = new MarkdownIt().use(mathjax, mathjaxInstance);
 
 const html = mdIt.render("$E=mc^2$");
 const style = await mathjaxInstance.outputStyle();
@@ -105,9 +105,10 @@ interface MarkdownItMathjaxOptions {
 
 The instance holds render content of each calls, so you should:
 
-- Call `mathjaxInstance.reset()` before each render in different pages, this ensure things like label are reset.
 - Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
 - Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
+
+The plugin automatically calls `mathjaxInstance.reset()` after each render, clearing user-defined macros, environments and labels so that state does not leak across documents. To keep macros available in every document, define them with the `tex.macros` option instead.
 
 We also have a package called `@mdit/plugin-mathjax-slim`, for which `@mathjax/src` and `@mathjax/mathjax-newcm-font` are optional peer deps.
 

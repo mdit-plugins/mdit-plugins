@@ -1,6 +1,5 @@
-import type MarkdownIt from "markdown-it";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { CoreRule } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 interface UCMicro {
   // oxlint-disable-next-line id-length
@@ -16,7 +15,7 @@ export const emojiRule = (
   shortcuts: Record<string, string>,
   scanRE: RegExp,
   replaceRE: RegExp,
-): RuleCore => {
+): CoreRule => {
   const arrayReplaceAt = md.utils.arrayReplaceAt;
   // oxlint-disable-next-line id-length
   const { Z, P, Cc } = (md.utils.lib as { ucmicro: UCMicro }).ucmicro;

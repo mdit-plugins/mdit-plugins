@@ -15,7 +15,7 @@ describe("mathjax-html", () => {
       },
     })!;
 
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b} \perp b$$`)).toMatchSnapshot("content");
 
@@ -33,7 +33,7 @@ describe("mathjax-html", () => {
       },
     })!;
 
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b} \perp b$$`)).toMatchSnapshot("content-svg");
 

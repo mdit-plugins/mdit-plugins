@@ -1,11 +1,14 @@
-import type { PluginWithOptions } from "markdown-it";
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
+import type { PluginWithOptions } from "@mdit/helper";
+import type { StateCore } from "markdown-it";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
 import { isLevelSelectedArray, isLevelSelectedNumber, uniqueSlug } from "./utils.js";
 
+const DEFAULT_PLACE_HOLDER = "heading";
+
 const DEFAULTS = {
+  defaultPlaceHolder: DEFAULT_PLACE_HOLDER,
   getTokensText: defaultGetTokensText,
   level: 1,
   slugify: defaultSlugify,
@@ -17,6 +20,7 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
   const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
 
   const {
+    defaultPlaceHolder,
     level,
     slugify,
     slugifyWithState,
@@ -45,27 +49,31 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const title = getTokensText(tokens[index + 1].children!);
 
-      let slug = token.attrGet("id");
+      let slug = token.attrGet("id") as string | null;
 
-      slug =
-        slug == null
-          ? uniqueSlug(
-              slugifyWithState ? slugifyWithState(title, state) : slugify(title),
-              slugs,
-              false,
-              uniqueSlugStartIndex,
-            )
-          : uniqueSlug(slug, slugs, true, uniqueSlugStartIndex);
+      if (slug == null) {
+        slug = slugifyWithState ? slugifyWithState(title, state) : slugify(title);
+
+        // Fall back to a stable placeholder when the slug is empty
+        // (e.g. image-only or empty headings) to avoid invalid empty ids
+        if (!slug) slug = defaultPlaceHolder || DEFAULT_PLACE_HOLDER;
+
+        slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex);
+      } else {
+        slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex);
+      }
 
       token.attrSet("id", slug);
 
       if (tabIndex !== false) token.attrSet("tabindex", `${tabIndex}`);
 
-      if (typeof permalink === "function") permalink(slug, resolvedOptions, state, index);
+      if (typeof permalink === "function") {
+        permalink(slug, resolvedOptions, state, index);
 
-      // A permalink renderer could modify the `tokens` array so
-      // make sure to get the up-to-date index on each iteration.
-      index = tokens.indexOf(token);
+        // A permalink renderer could modify the `tokens` array so
+        // make sure to get the up-to-date index on each iteration.
+        index = tokens.indexOf(token);
+      }
 
       // oxlint-disable-next-line promise/prefer-await-to-callbacks
       if (callback) callback(token, { slug, title });

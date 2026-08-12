@@ -13,7 +13,7 @@ Plugin for creating block-level custom tabs.
 import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
 
-const mdIt = MarkdownIt().use(tab, {
+const mdIt = new MarkdownIt().use(tab, {
   // your options, name is required
   name: "tabs",
 });
@@ -31,9 +31,9 @@ Any contents after a `@tab` marker and before container closing marker or new `@
 
 To support global tab switching state, the plugin allows you to add an id suffix in `tabs` container, which will be used as tab id, and Also allows you to add an id suffix in `@tab` marker, which will be used as tab value. So it's possible for you to make all tabs with same id share same switch event.
 
-By default the plugin renders related tabs dom for you, if you want to customize the rendering, you can pass `openRender`, `closeRender`, `tabOpenRender` and `tabCloseRender` to the plugin options.
+By default the plugin renders related tabs dom for you, if you want to customize the rendering, you can pass `openRenderer`, `closeRenderer`, `tabOpenRenderer` and `tabCloseRenderer` to the plugin options.
 
-`openRender` and `tabOpenRender` receives extra information as first args, see [Options](#options) for more details.
+`openRenderer` and `tabOpenRenderer` receives extra information as first args, see [Options](#options) for more details.
 
 The plugin doesn't inject any styles or events by default, but it ships an optional stylesheet (`@mdit/plugin-tab/style`) and browser helpers (`@mdit/plugin-tab/tab`, which exports `register()`, and `@mdit/plugin-tab/register-tab`, which auto-registers on import) that you can import yourself.
 
@@ -81,9 +81,9 @@ The plugin doesn't inject any styles or events by default, but it ships an optio
 - Required: Yes
 - Details: The name of the tab container.
 
-### openRender
+### openRenderer
 
-- Type: `TabsOpenRender`
+- Type: `TabsOpenRenderer`
 
 ```ts
 interface MarkdownItTabData {
@@ -110,6 +110,11 @@ interface MarkdownItTabData {
 
 interface MarkdownItTabInfo {
   /**
+   * Identifier of tab container
+   */
+  id: string | undefined;
+
+  /**
    * Which tab is active
    *
    * @description -1 means no tab is active
@@ -125,29 +130,29 @@ interface MarkdownItTabInfo {
 /**
  * Tabs open renderer
  */
-type TabsOpenRender = (
+type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
 
 - Details: Tabs open renderer.
 
-### closeRender
+### closeRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Tabs close renderer.
 
-### tabOpenRender
+### tabOpenRenderer
 
-- Type: `TabOpenRender`
+- Type: `TabOpenRenderer`
 
 ```ts
 interface MarkdownItTabData {
@@ -175,21 +180,21 @@ interface MarkdownItTabData {
 /**
  * Tab open renderer
  */
-type TabOpenRender = (
+type TabOpenRenderer = (
   info: MarkdownItTabData,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
 
 - Details: Tab open renderer.
 
-### tabCloseRender
+### tabCloseRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 

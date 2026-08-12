@@ -13,7 +13,7 @@ icon: list
 import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
 
-const mdIt = MarkdownIt().use(field, {
+const mdIt = new MarkdownIt().use(field, {
   // 你的选项
 });
 
@@ -190,25 +190,25 @@ interface FieldAttr {
 
 - 详情：允许的字段属性。如果不提供，所有属性都将被允许并按原样显示。
 
-### fieldsOpenRender
+### fieldsOpenRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：字段容器打开渲染函数。
 
-### fieldsCloseRender
+### fieldsCloseRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：字段容器关闭渲染函数。
 
-### fieldOpenRender
+### fieldOpenRenderer
 
-- 类型：`MarkdownItFieldOpenRender`
+- 类型：`MarkdownItFieldOpenRenderer`
 
 ```ts
 interface FieldAttrInfo {
@@ -245,24 +245,21 @@ interface FieldMeta {
   attributes: FieldAttrInfo[];
 }
 
-interface FieldToken extends Token {
-  meta: FieldMeta;
-}
-
-type MarkdownItFieldOpenRender = (
-  tokens: FieldToken[],
+type MarkdownItFieldOpenRenderer = (
+  meta: FieldMeta,
+  tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
 
 - 详情：字段项打开渲染函数。
 
-### fieldCloseRender
+### fieldCloseRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -300,7 +297,7 @@ type MarkdownItFieldOpenRender = (
 import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
 
-const mdIt = MarkdownIt().use(field, {
+const mdIt = new MarkdownIt().use(field, {
   name: "props",
   allowedAttributes: [
     { attr: "type", name: "属性类型" },

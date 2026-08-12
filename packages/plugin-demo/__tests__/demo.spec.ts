@@ -34,7 +34,7 @@ const codeContent = `\
 </code></pre>\
 `;
 
-const markdownIt = MarkdownIt({ linkify: true }).use(demo);
+const markdownIt = new MarkdownIt({ linkify: true }).use(demo);
 
 describe(demo, () => {
   it("should render", () => {
@@ -212,7 +212,7 @@ test
   });
 
   it("should not render when content has negative indentation", () => {
-    const markdownItPreview = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItPreview = new MarkdownIt({ linkify: true }).use(demo, {
       name: "preview",
     });
 
@@ -306,7 +306,7 @@ text2
   });
 
   it("customize container name", () => {
-    const markdownItPreview = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItPreview = new MarkdownIt({ linkify: true }).use(demo, {
       name: "preview",
     });
 
@@ -340,7 +340,7 @@ ${codeContent}
   });
 
   it("showCodeFirst", () => {
-    const markdownItCodeFirst = MarkdownIt({ linkify: true }).use(demo, {
+    const markdownItCodeFirst = new MarkdownIt({ linkify: true }).use(demo, {
       showCodeFirst: true,
     });
 
@@ -361,17 +361,17 @@ ${demoContent}
   });
 
   it("customRender", () => {
-    const markdownItSummary = MarkdownIt({ linkify: true }).use(demo, {
-      openRender: () => `<details><summary>\n`,
-      codeRender: (tokens, index, options, _env, self) => {
+    const markdownItSummary = new MarkdownIt({ linkify: true }).use(demo, {
+      openRenderer: () => `<details><summary>\n`,
+      codeRenderer: (tokens, index, options, _env, self) => {
         tokens[index].type = "fence";
         tokens[index].info = "md";
         tokens[index].markup = "```";
 
-        return `</summary>\n${self.rules.fence!(tokens, index, options, _env, self)}`;
+        return `</summary>\n${self.rules.fence(tokens, index, options, _env, self)}`;
       },
-      contentOpenRender: () => "",
-      contentCloseRender: () => "",
+      contentOpenRenderer: () => "",
+      contentCloseRenderer: () => "",
     });
 
     expect(
@@ -397,7 +397,7 @@ ${codeContent}
 > Caution text\
 `;
 
-    const markdownItAlert = MarkdownIt({ linkify: true }).use(alert, { deep: true }).use(demo);
+    const markdownItAlert = new MarkdownIt({ linkify: true }).use(alert, { deep: true }).use(demo);
 
     expect(
       markdownItAlert.render(`
@@ -426,7 +426,7 @@ ${alertContent}
 <!-- @include: ../../plugin-include/__tests__/__fixtures__/simpleInclude.md -->
 `;
 
-    const markdownItInclude = MarkdownIt({ linkify: true })
+    const markdownItInclude = new MarkdownIt({ linkify: true })
       .use(include, {
         currentPath: () => __filename,
       })

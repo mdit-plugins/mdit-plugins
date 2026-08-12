@@ -5,12 +5,10 @@ import { describe, expect, it } from "vitest";
 import { attrs } from "../../src/index.js";
 
 describe("tasklist rule", () => {
-  const markdownIt = MarkdownIt()
-    .use(attrs, { rule: ["list", "tasklist"] })
-    .use(tasklist);
+  const markdownIt = new MarkdownIt().use(attrs, { rule: ["list", "tasklist"] }).use(tasklist);
 
   it("should stay disabled by default", () => {
-    const markdownItDefault = MarkdownIt().use(attrs).use(tasklist);
+    const markdownItDefault = new MarkdownIt().use(attrs).use(tasklist);
     const expected = `\
 <ul class="task-list-container">
 <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo {.red}</label></li>
@@ -78,7 +76,7 @@ describe("tasklist rule", () => {
   });
 
   it("should apply attributes to task list items without labels", () => {
-    const markdownItNoLabel = MarkdownIt()
+    const markdownItNoLabel = new MarkdownIt()
       .use(attrs, { rule: ["list", "tasklist"] })
       .use(tasklist, { label: false });
     const src = "- [ ] foo {.red}";

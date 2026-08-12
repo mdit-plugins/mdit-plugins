@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 
 export const setTokenAttr = (token: Token, name: string, value: string): void => {
   const index = token.attrIndex(name);

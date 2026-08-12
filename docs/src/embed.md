@@ -17,7 +17,7 @@ Embed external content in your Markdown.
 import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
 
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     {
       name: "youtube",
@@ -39,7 +39,7 @@ const md = MarkdownIt().use(embed, {
 import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
 
-const md = MarkdownIt().use(embed, {
+const md = new MarkdownIt().use(embed, {
   config: [
     {
       name: "youtube",

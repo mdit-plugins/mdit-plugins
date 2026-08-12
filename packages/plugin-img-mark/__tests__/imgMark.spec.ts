@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 
 import { imgMark } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(imgMark);
-const markdownItWithCustomOptions = MarkdownIt({ linkify: true }).use(imgMark, {
+const markdownIt = new MarkdownIt({ linkify: true }).use(imgMark);
+const markdownItWithCustomOptions = new MarkdownIt({ linkify: true }).use(imgMark, {
   light: ["lightmode"],
   dark: ["darkmode"],
 });

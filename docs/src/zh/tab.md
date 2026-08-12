@@ -13,7 +13,7 @@ icon: table-columns
 import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
 
-const mdIt = MarkdownIt().use(tab, {
+const mdIt = new MarkdownIt().use(tab, {
   // 你的选项，name 是必填的
   name: "tabs",
 });
@@ -31,9 +31,9 @@ mdIt.render("content");
 
 为了支持全局标签切换状态，该插件允许你在 `tabs` 容器中添加一个 id 后缀，它将用作标签 id，并且还允许你在 `@tab` 标记中添加一个 id 后缀，将被使用作为选项卡值。 因此，你可以让所有具有相同 ID 的选项卡共享相同的切换事件。
 
-默认情况下，插件会为你呈现相关的标签 dom，如果你想自定义呈现，可以将 `openRender`、`closeRender`、`tabOpenRender` 和 `tabCloseRender` 传递给插件选项。
+默认情况下，插件会为你呈现相关的标签 dom，如果你想自定义呈现，可以将 `openRenderer`、`closeRenderer`、`tabOpenRenderer` 和 `tabCloseRenderer` 传递给插件选项。
 
-`openRender` 和 `tabOpenRender` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
+`openRenderer` 和 `tabOpenRenderer` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
 
 该插件默认不注入任何样式和事件，但提供了可选的样式表 (`@mdit/plugin-tab/style`) 和浏览器端辅助函数 (`@mdit/plugin-tab/tab` 导出 `register()`，`@mdit/plugin-tab/register-tab` 在导入时自动注册)，你可以自行导入。
 
@@ -81,9 +81,9 @@ mdIt.render("content");
 - 必填：是
 - 详情：选项卡容器的名称。
 
-### openRender
+### openRenderer
 
-- 类型：`TabsOpenRender`
+- 类型：`TabsOpenRenderer`
 
 ```ts
 interface MarkdownItTabData {
@@ -110,6 +110,11 @@ interface MarkdownItTabData {
 
 interface MarkdownItTabInfo {
   /**
+   * 选项卡容器标识符
+   */
+  id: string | undefined;
+
+  /**
    * 当前激活的选项卡
    *
    * @description -1 表示没有选项卡处于激活状态
@@ -125,29 +130,29 @@ interface MarkdownItTabInfo {
 /**
  * 选项卡容器打开渲染器
  */
-type TabsOpenRender = (
+type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
 
 - 详情：选项卡容器打开渲染函数。
 
-### closeRender
+### closeRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：选项卡容器结束渲染函数。
 
-### tabOpenRender
+### tabOpenRenderer
 
-- 类型：`TabOpenRender`
+- 类型：`TabOpenRenderer`
 
 ```ts
 interface MarkdownItTabData {
@@ -175,21 +180,21 @@ interface MarkdownItTabData {
 /**
  * 选项卡打开渲染器
  */
-type TabOpenRender = (
+type TabOpenRenderer = (
   info: MarkdownItTabData,
   tokens: Token[],
   index: number,
-  options: Options,
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 ```
 
 - 详情：选项卡开始渲染函数。
 
-### tabCloseRender
+### tabCloseRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

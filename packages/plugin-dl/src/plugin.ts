@@ -1,11 +1,12 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-deflist/blob/master/index.mjs */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
+import type { BlockRule, PluginSimple } from "@mdit/helper";
+import type { StateBlock } from "markdown-it";
 
 // Search `[:~][\n ]`, returns next pos after marker on success
 // or -1 on fail.
+const ddDepthKey = Symbol("dl");
+
 const checkAndSkipMarker = (state: StateBlock, line: number): number => {
   let start = state.bMarks[line] + state.tShift[line];
   const max = state.eMarks[line];
@@ -32,7 +33,7 @@ const markTightParagraph = (state: StateBlock, start: number, end: number, level
   for (let i = start; i < end; i++) {
     const token = state.tokens[i];
 
-    if (token.level !== level || token.nesting < 0) continue;
+    if (token.level !== level || !token.block || token.nesting < 0) continue;
     if (block >= 0) return;
     block = i;
   }
@@ -43,10 +44,12 @@ const markTightParagraph = (state: StateBlock, start: number, end: number, level
   state.tokens[block].hidden = true;
 };
 
-const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
+const dlRule: BlockRule = (state, startLine, endLine, silent) => {
   if (silent) {
     // validation mode validates a dd block only, not a whole definition list
-    if (state.ddIndent < 0) return false;
+    const ddDepth = state.env[ddDepthKey] as number | undefined;
+
+    if (ddDepth == null || ddDepth === 0) return false;
 
     return checkAndSkipMarker(state, startLine) >= 0 && state.sCount[startLine] < state.blkIndent;
   }
@@ -128,20 +131,19 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       contentStart = pos;
 
       const oldTight = state.tight;
-      const oldDDIndent = state.ddIndent;
       const oldIndent = state.blkIndent;
       const oldTShift = state.tShift[ddLine];
       const oldSCount = state.sCount[ddLine];
       const oldParentType = state.parentType;
 
-      state.blkIndent = state.ddIndent = state.sCount[ddLine] + 2;
+      state.blkIndent = state.sCount[ddLine] + 2;
       state.tShift[ddLine] = contentStart - state.bMarks[ddLine];
       state.sCount[ddLine] = offset;
       state.tight = true;
-      // @ts-expect-error: This type is not standard
       state.parentType = "dl";
-      // @ts-expect-error: An internal param is used
-      state.md.block.tokenize(state, ddLine, endLine, true);
+      state.env[ddDepthKey] = ((state.env[ddDepthKey] as number | undefined) ?? 0) + 1;
+      state.md.block.tokenize(state, ddLine, endLine);
+      (state.env[ddDepthKey] as number) -= 1;
 
       if (termIsTight)
         markTightParagraph(state, itemTokenIndex, state.tokens.length, ddOpenToken.level + 1);
@@ -151,7 +153,6 @@ const dlRule: RuleBlock = (state, startLine, endLine, silent) => {
       state.tight = oldTight;
       state.parentType = oldParentType;
       state.blkIndent = oldIndent;
-      state.ddIndent = oldDDIndent;
 
       state.push("dd_close", "dd", -1);
 

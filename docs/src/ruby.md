@@ -13,7 +13,7 @@ Plugin to support ruby annotation `<ruby>`.
 import MarkdownIt from "markdown-it";
 import { ruby } from "@mdit/plugin-ruby";
 
-const mdIt = MarkdownIt().use(ruby);
+const mdIt = new MarkdownIt().use(ruby);
 
 mdIt.render("{中国:zhōng|guó}");
 ```

@@ -13,7 +13,7 @@ icon: code
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // 你的选项，可选
 });
 
@@ -151,6 +151,27 @@ type MarkdownItAttrRuleName =
 - 类型：`string`
 - 默认值：`'}'`
 - 详情：属性右分隔符。
+
+## 编程式解析
+
+包导出了 `parseAttrs` 工具函数，以便其他工具 (如 shiki transformer) 复用属性解析逻辑：
+
+```ts
+import { parseAttrs } from "@mdit/plugin-attrs";
+
+parseAttrs("foo {.bar #baz data-a=b}");
+// [["class", "bar"], ["id", "baz"], ["data-a", "b"]]
+
+parseAttrs("foo"); // null
+```
+
+`parseAttrs(content, options)` 返回解析出的 `[key, value]` 属性元组，未找到有效属性部分时返回 `null`。有效属性部分未解析出任何属性（如全部被 `allowed` 过滤）时返回空数组。除了与插件选项行为一致的 `left`、`right` 和 `allowed` 外，还支持额外的 `where` 选项：
+
+### where
+
+- 类型：`"start" | "end" | "only"`
+- 默认值：`"end"`
+- 详情：属性部分在内容中的位置：位于开头、位于结尾，或内容仅包含属性部分。
 
 ## 示例
 

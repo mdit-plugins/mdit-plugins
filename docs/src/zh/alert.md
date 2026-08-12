@@ -13,7 +13,7 @@ icon: bell
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
 
-const mdIt = MarkdownIt().use(alert);
+const mdIt = new MarkdownIt().use(alert);
 
 mdIt.render(`
 > [!warning]
@@ -105,25 +105,25 @@ mdIt.render(`
 - 默认值：`false`
 - 详情：是否允许深层的警告语法。
 
-### openRender
+### openRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：提示开始标签渲染函数。
 
-### closeRender
+### closeRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：提示结束标签渲染函数。
 
-### titleRender
+### titleRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 - 详情：提示标题渲染函数。
 
 ## 示例

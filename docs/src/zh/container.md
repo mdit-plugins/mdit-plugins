@@ -13,7 +13,7 @@ icon: box-open
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
 
-const mdIt = MarkdownIt().use(container, {
+const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
   name: "warning",
 });
@@ -118,17 +118,17 @@ type Validator = (params: string, markup: string) => boolean;
 
 - 详情：校验内容是否应该作为此类型容器。
 
-### openRender
+### openRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：开始标签渲染函数。
 
-### closeRender
+### closeRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
@@ -143,7 +143,7 @@ type Validator = (params: string, markup: string) => boolean;
 ```js
 md.use(container, {
   name: "hint",
-  openRender: (tokens, index, _options) => {
+  openRenderer: (tokens, index, _options) => {
     const info = tokens[index].info.trim().slice(4).trim();
 
     return `<div class="custom-container hint">\n<p class="custom-container-title">${

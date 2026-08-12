@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%401.0.2...%40mdit%2Fplugin-stylize%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-stylize:** guard replacer result fields ([#637](https://github.com/mdit-plugins/mdit-plugins/issues/637)) ([42300b3](https://github.com/mdit-plugins/mdit-plugins/commit/42300b3afb972bfa99d431f56dccf8e083e88bf3))
+- **plugin-stylize:** reset regexp lastIndex before matching ([#631](https://github.com/mdit-plugins/mdit-plugins/issues/631)) ([b9f4944](https://github.com/mdit-plugins/mdit-plugins/commit/b9f49444467026527911a241469bd039f9bc3800))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%401.0.1...%40mdit%2Fplugin-stylize%401.0.2) (2026-07-29)
 
 ### Code Refactoring

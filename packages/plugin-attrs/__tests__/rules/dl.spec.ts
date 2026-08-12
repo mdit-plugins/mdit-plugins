@@ -5,13 +5,11 @@ import { describe, expect, it } from "vitest";
 import { attrs } from "../../src/index.js";
 
 describe("dl rule", () => {
-  const markdownIt = MarkdownIt()
-    .use(attrs, { rule: ["dl"] })
-    .use(dl);
+  const markdownIt = new MarkdownIt().use(attrs, { rule: ["dl"] }).use(dl);
 
   it("should stay disabled by default", () => {
     // without the dl rule the generic softbreak rule targets the dd
-    const markdownItDefault = MarkdownIt().use(attrs).use(dl);
+    const markdownItDefault = new MarkdownIt().use(attrs).use(dl);
     const expected = `\
 <dl>
 <dt>Term</dt>

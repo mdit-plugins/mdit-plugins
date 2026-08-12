@@ -108,13 +108,13 @@ const bracketTestData = {
 describe("tex plugin performance benchmarks", () => {
   // Dollar syntax benchmarks
   describe("dollar syntax performance", () => {
-    const currentMd = MarkdownIt().use(texCurrent, {
+    const currentMd = new MarkdownIt().use(texCurrent, {
       delimiters: "dollars",
       mathFence: true,
       render,
     });
 
-    const oldMd = MarkdownIt().use(texOld, {
+    const oldMd = new MarkdownIt().use(texOld, {
       delimiters: "dollars",
       mathFence: true,
       render,
@@ -225,13 +225,13 @@ describe("tex plugin performance benchmarks", () => {
 
   // Bracket syntax benchmarks
   describe("bracket syntax performance", () => {
-    const currentMd = MarkdownIt().use(texCurrent, {
+    const currentMd = new MarkdownIt().use(texCurrent, {
       delimiters: "brackets",
       mathFence: true,
       render,
     });
 
-    const oldMd = MarkdownIt().use(texOld, {
+    const oldMd = new MarkdownIt().use(texOld, {
       delimiters: "brackets",
       mathFence: true,
       render,
@@ -318,13 +318,13 @@ describe("tex plugin performance benchmarks", () => {
 
   // Combined syntax benchmarks (both dollars and brackets)
   describe("combined syntax performance", () => {
-    const currentMd = MarkdownIt().use(texCurrent, {
+    const currentMd = new MarkdownIt().use(texCurrent, {
       delimiters: "all",
       mathFence: true,
       render,
     });
 
-    const oldMd = MarkdownIt().use(texOld, {
+    const oldMd = new MarkdownIt().use(texOld, {
       delimiters: "all",
       mathFence: true,
       render,
@@ -369,13 +369,13 @@ describe("tex plugin performance benchmarks", () => {
 
   // Special edge cases benchmarks
   describe("edge cases performance", () => {
-    const currentMd = MarkdownIt().use(texCurrent, {
+    const currentMd = new MarkdownIt().use(texCurrent, {
       delimiters: "all",
       mathFence: true,
       render,
     });
 
-    const oldMd = MarkdownIt().use(texOld, {
+    const oldMd = new MarkdownIt().use(texOld, {
       delimiters: "all",
       mathFence: true,
       render,
@@ -423,14 +423,14 @@ describe("tex plugin performance benchmarks", () => {
 
   // AllowInlineWithSpace mode benchmarks
   describe("allowInlineWithSpace performance", () => {
-    const currentMd = MarkdownIt().use(texCurrent, {
+    const currentMd = new MarkdownIt().use(texCurrent, {
       delimiters: "dollars",
       allowInlineWithSpace: true,
       mathFence: true,
       render,
     });
 
-    const oldMd = MarkdownIt().use(texOld, {
+    const oldMd = new MarkdownIt().use(texOld, {
       delimiters: "dollars",
       allowInlineWithSpace: true,
       mathFence: true,

@@ -13,7 +13,7 @@ icon: link
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor);
+const mdIt = new MarkdownIt().use(anchor);
 
 mdIt.render("# 标题");
 ```
@@ -24,8 +24,13 @@ mdIt.render("# 标题");
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
-  slugify: (s) => encodeURIComponent(s.trim().toLowerCase().replace(/\s+/g, "-")),
+const mdIt = new MarkdownIt().use(anchor, {
+  slugify: (s) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fff-]+/g, "-")
+      .replace(/-+/g, "-"),
 });
 
 mdIt.render("# 你好 世界");
@@ -62,6 +67,15 @@ mdIt.render("# 你好 世界");
 - 类型：`(str: string) => string`
 - 详情：自定义 slug 化函数，将标题文本转换为 URL 友好的 slug。
 
+默认会转小写 ASCII 字母、保留非 ASCII 字符（如中文）、将空白与连字符折叠为单个连字符，并剥离其余 ASCII 标点。如果你想要严格百分号编码的 slug，可使用导出的 `legacySlugify`：
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+
+const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
+```
+
 ### slugifyWithState
 
 - 类型：`(str: string, state: StateCore) => string`
@@ -77,6 +91,12 @@ mdIt.render("# 你好 世界");
 - 类型：`number`
 - 默认值：`1`
 - 详情：重复 slug 编号的起始索引。设为 `2` 可得到 `title`、`title-2`、`title-3`。
+
+### defaultPlaceHolder
+
+- 类型：`string`
+- 默认值：`"heading"`
+- 详情：当标题没有文本内容、生成的 slug 为空时（如纯图片标题）使用的占位 slug。
 
 ### permalink
 
@@ -103,9 +123,7 @@ import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt()
-  .use(attrs, { allowed: ["id"] })
-  .use(anchor);
+const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
 mdIt.render("# 我的标题 {#custom-id}");
 ```
@@ -131,7 +149,7 @@ Anchor 插件会复用已有的 `id`。
 
 将整个标题内容包裹在永久链接锚点中。
 
-简单且开箱即用的无障碍方案。缺点是无法在标题中包含链接。
+简单且开箱即用的无障碍方案。若标题内已包含链接（markdown 链接，或在 `html` 开启时的原始 `<a>` 标签），则不会包裹，以避免产生非法的嵌套锚点。
 
 ```ts
 import { headerLink } from "@mdit/plugin-anchor";
@@ -188,7 +206,7 @@ import { ariaHidden } from "@mdit/plugin-anchor";
 import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `永久链接：${title}`,
     visuallyHiddenClass: "sr-only",

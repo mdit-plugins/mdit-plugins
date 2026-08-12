@@ -1,11 +1,12 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { linkInsideHeader } from "../src/permalink/index.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: Record<string, unknown>): MarkdownIt =>
-  MarkdownIt({ html: true }).use(anchor, options as Parameters<typeof anchor>[1]);
+const md = (options?: Record<string, unknown>): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
 describe("permalink.linkInsideHeader", () => {
   it("should render default", () => {
@@ -32,9 +33,7 @@ describe("permalink.linkInsideHeader", () => {
     const symbolToken = md({ permalink: linkInsideHeader() })
       .parse("# H1", {})
       .find((token) => token.type === "inline")
-      ?.children?.find(
-        (token) => (token.meta as Record<string, unknown> | null)?.isPermalinkSymbol === true,
-      );
+      ?.children?.find((token) => token.meta?.isPermalinkSymbol === true);
 
     expect(symbolToken?.type).toBe("html_inline");
     expect(symbolToken?.content).toBe("#");

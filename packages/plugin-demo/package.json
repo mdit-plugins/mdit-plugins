@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-demo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "demo plugin for MarkdownIt",
   "keywords": [
     "demo",
@@ -44,13 +44,10 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@types/markdown-it": "^14.1.2"
-  },
-  "devDependencies": {
     "@mdit/helper": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

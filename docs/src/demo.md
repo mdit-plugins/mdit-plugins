@@ -13,7 +13,7 @@ Display snippet render result and code at the same time.
 import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
 
-const mdIt = MarkdownIt().use(demo, {
+const mdIt = new MarkdownIt().use(demo, {
   // your options
 });
 
@@ -48,41 +48,41 @@ The syntax is the same as [container](./container.md), except that the correspon
 - Default: `false`
 - Details: Whether code is displayed before result.
 
-### openRender
+### openRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Opening tag render function.
 
-### closeRender
+### closeRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Closing tag render function.
 
-### codeRender
+### codeRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Code render function.
 
-### contentOpenRender
+### contentOpenRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Content open tag render function.
 
-### contentCloseRender
+### contentCloseRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 

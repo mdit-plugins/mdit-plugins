@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { layout } from "../src/index.js";
 
-const markdownIt = MarkdownIt().use(layout);
+const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("prevent XSS", () => {
@@ -59,7 +59,7 @@ Content
     });
 
     it("should escape class names in noInline mode", () => {
-      const mdNoInline = MarkdownIt().use(layout, { inlineStyles: false });
+      const mdNoInline = new MarkdownIt().use(layout, { inlineStyles: false });
 
       expect(
         mdNoInline.render(`\

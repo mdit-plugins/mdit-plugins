@@ -5,7 +5,7 @@ import { katex } from "../src/index.js";
 // oxlint-disable-next-line import/no-unassigned-import
 import "../src/mhchem.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(katex);
+const markdownIt = new MarkdownIt({ linkify: true }).use(katex);
 
 describe("extensions", () => {
   it("should work with mhchem", () => {

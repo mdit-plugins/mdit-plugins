@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-size%401.0.2...%40mdit%2Fplugin-img-size%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-img-size:** support trailing percent and normalize zero ([#647](https://github.com/mdit-plugins/mdit-plugins/issues/647)) ([69b72f1](https://github.com/mdit-plugins/mdit-plugins/commit/69b72f11c70cf27da3c35b65367e822b3a1409df))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-size%401.0.1...%40mdit%2Fplugin-img-size%401.0.2) (2026-07-29)
 
 ### Code Refactoring

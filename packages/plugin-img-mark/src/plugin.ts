@@ -1,4 +1,4 @@
-import type { PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItImgMarkOptions } from "./options.js";
 
@@ -6,15 +6,14 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
   md,
   { light = ["light"], dark = ["dark"] } = {},
 ): void => {
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const originalImageRender = md.renderer.rules.image!;
+  const originalImageRender = md.renderer.rules.image;
 
   const lightIds = light.map((item) => `#${item}`);
   const darkIds = dark.map((item) => `#${item}`);
 
   md.renderer.rules.image = (tokens, index, options, env, self): string => {
     const token = tokens[index];
-    const src = token.attrGet("src");
+    const src = token.attrGet("src") as string | null;
 
     if (src) {
       // strip only the matched marker suffix so a pre-existing url fragment is

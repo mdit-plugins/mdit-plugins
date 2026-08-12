@@ -1,6 +1,6 @@
 import { escapeHtml } from "@mdit/helper";
 import MarkdownIt from "markdown-it";
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { demo } from "../src/index.js";
@@ -20,7 +20,7 @@ describe("demo with highlight", () => {
     `<pre class="highlighted"><code class="language-${lang}">${escapeHtml(code)}</code></pre>`;
 
   it("should use highlight function for the code fence", () => {
-    const md = MarkdownIt({ highlight }).use(demo);
+    const md = new MarkdownIt({ highlight }).use(demo);
     const result = md.render(`
 ::: demo Title
 ${mdContent}
@@ -38,7 +38,7 @@ ${mdContent}
       return highlight(code, lang);
     };
 
-    const md = MarkdownIt({ highlight: trackingHighlight }).use(demo);
+    const md = new MarkdownIt({ highlight: trackingHighlight }).use(demo);
 
     md.render(`
 ::: demo Title
@@ -55,7 +55,7 @@ ${mdContent}
   });
 
   it("should set markup on fence token for compatibility with third-party plugins", () => {
-    const md = MarkdownIt().use(demo);
+    const md = new MarkdownIt().use(demo);
     const tokens = md.parse("::: demo Title\n# Hello\n:::", {});
     const fenceToken = tokens.find((tt: Token) => tt.type === "fence");
 
@@ -65,9 +65,9 @@ ${mdContent}
   });
 
   it("should work with fence renderer override that checks markup", () => {
-    const md = MarkdownIt();
+    const md = new MarkdownIt();
 
-    const originalFence = md.renderer.rules.fence!;
+    const originalFence = md.renderer.rules.fence;
 
     md.renderer.rules.fence = (tokens, idx, options, env, self): string => {
       const token = tokens[idx];

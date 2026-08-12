@@ -30,32 +30,32 @@ describe("imgSize plugin performance", () => {
   const largeContent = generateMarkdownWithImages(200, "normal");
 
   bench("old imgSize - Small content", () => {
-    const md = MarkdownIt().use(oldImgSize);
+    const md = new MarkdownIt().use(oldImgSize);
     md.render(smallContent);
   });
 
   bench("new imgSize - Small content", () => {
-    const md = MarkdownIt().use(newImgSize);
+    const md = new MarkdownIt().use(newImgSize);
     md.render(smallContent);
   });
 
   bench("old imgSize - Medium content", () => {
-    const md = MarkdownIt().use(oldImgSize);
+    const md = new MarkdownIt().use(oldImgSize);
     md.render(mediumContent);
   });
 
   bench("new imgSize - Medium content", () => {
-    const md = MarkdownIt().use(newImgSize);
+    const md = new MarkdownIt().use(newImgSize);
     md.render(mediumContent);
   });
 
   bench("old imgSize - Large content", () => {
-    const md = MarkdownIt().use(oldImgSize);
+    const md = new MarkdownIt().use(oldImgSize);
     md.render(largeContent);
   });
 
   bench("new imgSize - Large content", () => {
-    const md = MarkdownIt().use(newImgSize);
+    const md = new MarkdownIt().use(newImgSize);
     md.render(largeContent);
   });
 });
@@ -66,32 +66,32 @@ describe("obsidianImgSize plugin performance", () => {
   const largeContent = generateMarkdownWithImages(200, "obsidian");
 
   bench("old obsidianImgSize - Small content", () => {
-    const md = MarkdownIt().use(oldObsidianImgSize);
+    const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(smallContent);
   });
 
   bench("new obsidianImgSize - Small content", () => {
-    const md = MarkdownIt().use(newObsidianImgSize);
+    const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(smallContent);
   });
 
   bench("old obsidianImgSize - Medium content", () => {
-    const md = MarkdownIt().use(oldObsidianImgSize);
+    const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(mediumContent);
   });
 
   bench("new obsidianImgSize - Medium content", () => {
-    const md = MarkdownIt().use(newObsidianImgSize);
+    const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(mediumContent);
   });
 
   bench("old obsidianImgSize - Large content", () => {
-    const md = MarkdownIt().use(oldObsidianImgSize);
+    const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(largeContent);
   });
 
   bench("new obsidianImgSize - Large content", () => {
-    const md = MarkdownIt().use(newObsidianImgSize);
+    const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(largeContent);
   });
 });

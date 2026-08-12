@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.0.1...%40mdit%2Fplugin-inline-rule%402.1.0) (2026-08-10)
+
+### ✨ Features
+
+- **plugin-attrs:** add parseAttrs helper ([#645](https://github.com/mdit-plugins/mdit-plugins/issues/645)) ([56ce3a2](https://github.com/mdit-plugins/mdit-plugins/commit/56ce3a284e01253ebf27f41a8a7a011f0735789d))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.0.0...%40mdit%2Fplugin-inline-rule%402.0.1) (2026-07-29)
 
 ### Code Refactoring

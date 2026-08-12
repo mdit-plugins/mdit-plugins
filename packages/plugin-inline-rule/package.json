@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-inline-rule",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Unified inline syntax factory plugin for MarkdownIt",
   "keywords": [
     "inline-rule",
@@ -44,11 +44,10 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

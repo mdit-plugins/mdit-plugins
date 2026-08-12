@@ -10,12 +10,10 @@ interface InlineRuleBaseOptions {
    * 用作标记的标点符号字符
    *
    * @example
-   *   ```ts
    *   // Single character for sub/sup
    *   marker: "~";
    *   // Single character that gets doubled for spoiler
    *   marker: "!";
-   *   ```;
    */
   marker: string;
 
@@ -25,10 +23,8 @@ interface InlineRuleBaseOptions {
    * 渲染元素的 HTML 标签名称
    *
    * @example
-   *   ```ts
    *   tag: "sub";
    *   tag: "span";
-   *   ```;
    */
   tag: string;
 
@@ -38,10 +34,8 @@ interface InlineRuleBaseOptions {
    * 用于 markdown-it 令牌标识的令牌类型名称
    *
    * @example
-   *   ```ts
    *   token: "sub";
    *   token: "spoiler";
-   *   ```;
    */
   token: string;
 
@@ -51,12 +45,10 @@ interface InlineRuleBaseOptions {
    * 渲染元素的自定义 HTML 属性
    *
    * @example
-   *   ```ts
    *   attrs: [
    *     ["class", "spoiler"],
    *     ["tabindex", "-1"],
    *   ];
-   *   ```;
    *
    * @default undefined
    */
@@ -131,7 +123,6 @@ export interface NestedInlineRuleOptions extends InlineRuleBaseOptions {
  * 内联规则工厂插件的配置选项
  *
  * @example
- *   ```ts
  *   // Non-nested (linear scan) - for simple tags like sub/sup
  *   md.use(inlineRule, {
  *     marker: "^",
@@ -147,6 +138,5 @@ export interface NestedInlineRuleOptions extends InlineRuleBaseOptions {
  *     nested: true,
  *     placement: "before-emphasis",
  *   });
- *   ```;
  */
 export type InlineRuleOptions = NonNestedInlineRuleOptions | NestedInlineRuleOptions;

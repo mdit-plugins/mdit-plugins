@@ -1,4 +1,4 @@
-import type { PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "@mdit/helper";
 
 import { bareEmoji } from "./bare.js";
 import { emojiData } from "./data/full.js";

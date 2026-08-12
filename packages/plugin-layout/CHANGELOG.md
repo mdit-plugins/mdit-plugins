@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.0.2...%40mdit%2Fplugin-layout%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-layout:** keep [@end](https://github.com/end) trailing content ([#642](https://github.com/mdit-plugins/mdit-plugins/issues/642)) ([029dcc9](https://github.com/mdit-plugins/mdit-plugins/commit/029dcc92956e6fee48d5d0f4c001cd88d8ebfbfe))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.0.1...%40mdit%2Fplugin-layout%401.0.2) (2026-07-29)
 
 ### Code Refactoring

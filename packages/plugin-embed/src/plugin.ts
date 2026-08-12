@@ -1,8 +1,5 @@
-import type MarkdownIt from "markdown-it";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 
@@ -35,7 +32,7 @@ const checkClosingMarker = (src: string, current: number): boolean =>
  * Parse inline embed with bracket syntax: {%...%}
  */
 const createInlineEmbedRule =
-  (inlineEmbedMap: Map<string, EmbedConfig>): RuleInline =>
+  (inlineEmbedMap: Map<string, EmbedConfig>): InlineRule =>
   (state, silent) => {
     const isSpace = state.md.utils.isSpace;
     const start = state.pos;
@@ -112,7 +109,7 @@ const createInlineEmbedRule =
  * Parse block embed with syntax: {% ... %}
  */
 const createBlockEmbedRule =
-  (embedMap: Map<string, EmbedConfig>): RuleBlock =>
+  (embedMap: Map<string, EmbedConfig>): BlockRule =>
   (state, startLine, _, silent) => {
     const isSpace = state.md.utils.isSpace;
     const start = state.bMarks[startLine] + state.tShift[startLine];
@@ -225,7 +222,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     });
 
     // Register the renderers
-    md.renderer.rules.embed_block = (tokens: Token[], index: number): string => {
+    md.renderer.rules.embed_block = (tokens, index): string => {
       const token = tokens[index];
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
@@ -238,7 +235,7 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     // Register the inline rule
     md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
 
-    md.renderer.rules.embed_inline = (tokens: Token[], index: number): string => {
+    md.renderer.rules.embed_inline = (tokens, index): string => {
       const token = tokens[index];
 
       // oxlint-disable-next-line typescript/no-non-null-assertion

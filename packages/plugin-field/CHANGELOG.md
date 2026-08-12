@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%401.0.2...%40mdit%2Fplugin-field%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-field:** keep dl markers inside items ([#652](https://github.com/mdit-plugins/mdit-plugins/issues/652)) ([c63dcae](https://github.com/mdit-plugins/mdit-plugins/commit/c63dcae32305cd24dd5c8aca7ce48130a1ab47c6))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%401.0.1...%40mdit%2Fplugin-field%401.0.2) (2026-07-29)
 
 ### Code Refactoring

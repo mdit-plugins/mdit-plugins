@@ -1,12 +1,13 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { PermalinkGenerator } from "../src/permalink/index.js";
 import { linkAfterHeader } from "../src/permalink/index.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: Record<string, unknown>): MarkdownIt =>
-  MarkdownIt({ html: true }).use(anchor, options as Parameters<typeof anchor>[1]);
+const md = (options?: Record<string, unknown>): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
 const opts = {
   symbol: '<i class="icon"></i>',
@@ -112,7 +113,7 @@ describe("permalink.linkAfterHeader", () => {
         }),
       }).render("# ![img](url)"),
     ).toBe(
-      '<h1 id="" tabindex="-1"><img src="url" alt="img"></h1>\n<a class="header-anchor" href="#" aria-describedby="">X</a>',
+      '<h1 id="heading" tabindex="-1"><img src="url" alt="img"></h1>\n<a class="header-anchor" href="#heading" aria-describedby="heading">X</a>',
     );
   });
 

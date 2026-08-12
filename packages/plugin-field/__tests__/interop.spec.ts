@@ -1,12 +1,13 @@
 import { container } from "@mdit/plugin-container";
+import { dl } from "@mdit/plugin-dl";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
 
-const md = MarkdownIt().use(field);
-const mdWithContainer = MarkdownIt({ html: true })
-  .use(container, { name: "warning", openRender: () => '<div class="warning">' })
+const md = new MarkdownIt().use(field);
+const mdWithContainer = new MarkdownIt({ html: true })
+  .use(container, { name: "warning", openRenderer: () => '<div class="warning">' })
   .use(field);
 
 describe("field inside block elements", () => {
@@ -186,7 +187,7 @@ Nested content.
   });
 
   it("should support mix nesting", () => {
-    const mdProps = MarkdownIt().use(field).use(field, { name: "props" });
+    const mdProps = new MarkdownIt().use(field).use(field, { name: "props" });
 
     const result = mdProps.render(`
 :::: fields
@@ -208,5 +209,40 @@ Another parent description.
     expect(result).toContain("Parent description");
     expect(result).toContain("Another parent description");
     expect(result).toMatchSnapshot();
+  });
+});
+
+describe("field with dl plugin", () => {
+  it("should keep definition lists inside a field item intact", () => {
+    const mdWithDl = new MarkdownIt().use(field).use(dl);
+    const mdReverse = new MarkdownIt().use(dl).use(field);
+
+    const src = `\
+::: fields
+@prop@
+Description text
+: definition term
+: another definition
+:::
+`;
+
+    // The `:` marker lines are dl syntax, not field container markers, so they
+    // must not terminate the field item. The definition list renders with the
+    // correct term instead of a stray literal `:`.
+    const expected = `\
+<dl class="field-wrapper fields-fields" data-kind="fields">
+<dt class="field-name" data-level="1">prop</dt>
+<dd class="field-content" data-level="1">
+<dl>
+<dt>Description text</dt>
+<dd>definition term</dd>
+<dd>another definition</dd>
+</dl>
+</dd>
+</dl>
+`;
+
+    expect(mdWithDl.render(src)).toBe(expected);
+    expect(mdReverse.render(src)).toBe(expected);
   });
 });

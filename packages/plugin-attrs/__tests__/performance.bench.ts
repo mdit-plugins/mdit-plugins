@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
 import { describe, bench } from "vitest";
 
@@ -95,8 +96,8 @@ const mediumContent = createTestContent("medium");
 const largeContent = createTestContent("large");
 
 // Create markdown-it instances for original and optimized versions
-const createOriginalRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOriginal);
-const createOptimizedRenderer = (): MarkdownIt => new MarkdownIt().use(attrsOptimized);
+const createOriginalRenderer = (): MarkdownItType => new MarkdownIt().use(attrsOriginal);
+const createOptimizedRenderer = (): MarkdownItType => new MarkdownIt().use(attrsOptimized);
 
 describe("original vs Optimized Performance Comparison", () => {
   describe("small document (approx. 2000-3000 characters)", () => {
@@ -156,7 +157,7 @@ Plugins to add attrs to Markdown content.
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // your options, optional
 });
 
@@ -169,7 +170,7 @@ mdIt.render("# Heading 🎉{#heading}");
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // your options, optional
 });
 

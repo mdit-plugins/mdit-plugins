@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-anchor",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "Heading anchor plugin for MarkdownIt",
   "keywords": [
     "anchor",
@@ -44,13 +44,13 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "devDependencies": {
     "@mdit/plugin-attrs": "workspace:*",
-    "markdown-it": "14.3.0"
+    "markdown-it": "15.0.0"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   }
 }

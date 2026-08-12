@@ -1,11 +1,10 @@
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
 const getAlertRule =
   // oxlint-disable-next-line max-lines-per-function
-  (types: Set<string>, deep: boolean): RuleBlock =>
+  (types: Set<string>, deep: boolean): BlockRule =>
     // oxlint-disable-next-line max-lines-per-function
     (state, startLine, endLine, silent) => {
       if (
@@ -110,7 +109,6 @@ const getAlertRule =
         state.md.block.ruler.getRules("alert"),
       ].flat();
 
-      // @ts-expect-error: We are creating a new type called "alert"
       state.parentType = "alert";
 
       // Search the end of the block
@@ -338,9 +336,9 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   {
     alertNames = ["tip", "warning", "caution", "important", "note"],
     deep = false,
-    openRender,
-    closeRender,
-    titleRender,
+    openRenderer,
+    closeRenderer,
+    titleRenderer,
   } = {},
 ) => {
   const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
@@ -349,17 +347,19 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  if (openRender) md.renderer.rules.alert_open = openRender;
+  if (openRenderer) md.renderer.rules.alert_open = openRenderer;
 
-  if (closeRender) md.renderer.rules.alert_close = closeRender;
+  if (closeRenderer) md.renderer.rules.alert_close = closeRenderer;
 
   md.renderer.rules.alert_title =
-    titleRender ??
+    titleRenderer ??
     ((tokens, index): string => {
       const token = tokens[index];
 
-      return `<p class="markdown-alert-title">${
-        token.content[0].toUpperCase() + token.content.slice(1).toLowerCase()
-      }</p>\n`;
+      // capitalize the first letter and render the title as inline markdown,
+      // which escapes HTML unless the `html` option is enabled
+      return `<p class="markdown-alert-title">${md.renderInline(
+        token.content[0].toUpperCase() + token.content.slice(1),
+      )}</p>\n`;
     });
 };

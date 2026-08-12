@@ -13,7 +13,7 @@ Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/dis
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
 
-const mdIt = MarkdownIt().use(alert);
+const mdIt = new MarkdownIt().use(alert);
 
 mdIt.render(`
 > [!warning]
@@ -105,25 +105,25 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 - Default: `false`
 - Details: Whether to handle deep alert syntax.
 
-### openRender
+### openRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Hint opening tag render function.
 
-### closeRender
+### closeRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Hint closing tag render function.
 
-### titleRender
+### titleRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 - Details: Hint title render function.
 
 ## Demo

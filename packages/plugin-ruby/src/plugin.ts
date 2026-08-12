@@ -1,10 +1,9 @@
 /** Forked and modified from https://github.com/lostandfound/markdown-it-ruby/blob/master/index.js */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { InlineRule, PluginSimple } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
-const rubyRule: RuleInline = (state, silent) => {
+const rubyRule: InlineRule = (state, silent) => {
   let tokens: Token[];
   const start = state.pos;
   const max = state.posMax;

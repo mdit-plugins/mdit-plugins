@@ -5,7 +5,7 @@ import { layout } from "../src/index.js";
 
 describe(layout, () => {
   describe("inlineStyles option", () => {
-    const mdNoInline = MarkdownIt().use(layout, { inlineStyles: false });
+    const mdNoInline = new MarkdownIt().use(layout, { inlineStyles: false });
 
     it("should pass utilities as class names when inlineStyles is false", () => {
       expect(

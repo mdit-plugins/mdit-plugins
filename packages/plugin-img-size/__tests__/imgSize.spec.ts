@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { imgSize } from "../src/index.js";
 
 describe("default image size", () => {
-  const markdownIt = MarkdownIt().use(imgSize);
+  const markdownIt = new MarkdownIt().use(imgSize);
 
   describe("should not break original image syntax", () => {
     it("simple", () => {
@@ -283,6 +283,74 @@ describe("default image size", () => {
     });
   });
 
+  describe("should handle percent sign", () => {
+    it("should render width/height with a single trailing percent", () => {
+      const testCases = [
+        [
+          `![image =200%x300](/logo.svg)`,
+          '<p><img src="/logo.svg" alt="image" width="200%" height="300"></p>\n',
+        ],
+        [
+          `![image =200%x300%](/logo.svg)`,
+          '<p><img src="/logo.svg" alt="image" width="200%" height="300%"></p>\n',
+        ],
+        [
+          `![image =200x30%](/logo.svg)`,
+          '<p><img src="/logo.svg" alt="image" width="200" height="30%"></p>\n',
+        ],
+        [`![image =x30%](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="30%"></p>\n'],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+
+    it("should not render if percent is not a single trailing suffix", () => {
+      const testCases = [
+        [`![image =2%0x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =2%0x300"></p>\n'],
+        [`![image =200x3%0](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200x3%0"></p>\n'],
+        [`![image =200x%](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200x%"></p>\n'],
+        [`![image =%x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =%x300"></p>\n'],
+        [`![image =200%%x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image =200%%x300"></p>\n'],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+  });
+
+  describe("should handle zero sizes following Obsidian behavior", () => {
+    it("should drop zero dimensions", () => {
+      const testCases = [
+        [`![image =300x0](/logo.svg)`, '<p><img src="/logo.svg" alt="image" width="300"></p>\n'],
+        [`![image =0x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
+        [`![image =00x300](/logo.svg)`, '<p><img src="/logo.svg" alt="image" height="300"></p>\n'],
+        [
+          `![image =0200x300](/logo.svg)`,
+          '<p><img src="/logo.svg" alt="image" width="0200" height="300"></p>\n',
+        ],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+
+    it("should not render all-zero sizes", () => {
+      const testCases = [
+        [`![image =0x0](/logo.svg)`, '<p><img src="/logo.svg" alt="image =0x0"></p>\n'],
+        [`![image =0x](/logo.svg)`, '<p><img src="/logo.svg" alt="image =0x"></p>\n'],
+        [`![image =x0](/logo.svg)`, '<p><img src="/logo.svg" alt="image =x0"></p>\n'],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toStrictEqual(expected);
+      });
+    });
+  });
+
   it("should not render if width or height is not number", () => {
     const testCases = [
       [`![image =!bcxdef](/logo.svg)`, '<p><img src="/logo.svg" alt="image =!bcxdef"></p>\n'],
@@ -370,8 +438,8 @@ describe("default image size", () => {
 });
 
 describe("work with figure plugin", () => {
-  const markdownIt1 = MarkdownIt().use(imgSize).use(figure);
-  const markdownIt2 = MarkdownIt().use(figure).use(imgSize);
+  const markdownIt1 = new MarkdownIt().use(imgSize).use(figure);
+  const markdownIt2 = new MarkdownIt().use(figure).use(imgSize);
 
   it("should render with figure", () => {
     const testCases = [
@@ -389,7 +457,7 @@ describe("work with figure plugin", () => {
 });
 
 describe("img-size silent mode", () => {
-  const markdownIt = MarkdownIt().use(imgSize);
+  const markdownIt = new MarkdownIt().use(imgSize);
 
   it("should handle silent mode", () => {
     expect(markdownIt.render("[![alt =100x200](/logo.svg)](url)")).toContain(

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { obsidianImgSize } from "../src/index.js";
 
 describe("obsidian image size", () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(obsidianImgSize);
+  const markdownIt = new MarkdownIt({ linkify: true }).use(obsidianImgSize);
 
   describe("should not break original image syntax", () => {
     it("simple", () => {
@@ -359,8 +359,8 @@ describe("obsidian image size", () => {
 });
 
 describe("work with figure plugin", () => {
-  const markdownIt1 = MarkdownIt().use(obsidianImgSize).use(figure);
-  const markdownIt2 = MarkdownIt().use(figure).use(obsidianImgSize);
+  const markdownIt1 = new MarkdownIt().use(obsidianImgSize).use(figure);
+  const markdownIt2 = new MarkdownIt().use(figure).use(obsidianImgSize);
 
   it("should render with figure", () => {
     const testCases = [
@@ -378,7 +378,7 @@ describe("work with figure plugin", () => {
 });
 
 describe("obsidian-img-size silent mode", () => {
-  const markdownIt = MarkdownIt().use(obsidianImgSize);
+  const markdownIt = new MarkdownIt().use(obsidianImgSize);
 
   it("should handle silent mode", () => {
     expect(markdownIt.render("[![alt|100x200](/logo.svg)](url)")).toContain(

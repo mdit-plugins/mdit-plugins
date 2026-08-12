@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { sup } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(sup);
+const markdownIt = new MarkdownIt({ linkify: true }).use(sup);
 
 describe(sup, () => {
   it("should render", () => {

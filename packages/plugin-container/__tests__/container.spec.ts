@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { container } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(container, {
+const markdownIt = new MarkdownIt({ linkify: true }).use(container, {
   name: "test",
 });
 
@@ -299,7 +299,7 @@ yyy</p>
   });
 
   it("multi-char marker", () => {
-    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItMarker = new MarkdownIt({ linkify: true }).use(container, {
       name: "fox",
       marker: "foo",
       validate: (params) => params === "fox",
@@ -664,10 +664,10 @@ zzz</p>
   });
 
   it("renderer", () => {
-    const markdownItRender = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItRender = new MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
-      openRender: () => "<details><summary>click me</summary>\n",
-      closeRender: () => "</details>\n",
+      openRenderer: () => "<details><summary>click me</summary>\n",
+      closeRenderer: () => "</details>\n",
     });
 
     const testCases = [
@@ -683,7 +683,7 @@ zzz</p>
   });
 
   it("2 char marker", () => {
-    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItMarker = new MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
       marker: "->",
     });
@@ -701,7 +701,7 @@ zzz</p>
   });
 
   it("marker should not collide with fence", () => {
-    const markdownItMarker = MarkdownIt({ linkify: true }).use(container, {
+    const markdownItMarker = new MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
       marker: "`",
     });
@@ -721,16 +721,17 @@ zzz</p>
 
   it('should throw if "name" is not provided', () => {
     expect(() => {
-      MarkdownIt({ linkify: true }).use(container);
+      new MarkdownIt({ linkify: true }).use(container);
     }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
     expect(() => {
-      MarkdownIt({ linkify: true }).use(container, {});
+      // @ts-expect-error: error in test, missing required "name" option
+      new MarkdownIt({ linkify: true }).use(container, {});
     }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
   });
 
   describe("validator", () => {
     it("should skip rule if return value is falsy", () => {
-      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: () => false,
       });
@@ -739,7 +740,7 @@ zzz</p>
     });
 
     it("should accept rule if return value is true", () => {
-      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: () => true,
       });
@@ -759,7 +760,7 @@ bar
 
     it("rule should call it", () => {
       const spy = vi.fn<() => boolean>();
-      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: spy,
       });
@@ -769,7 +770,7 @@ bar
     });
 
     it("should not trim params", () => {
-      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: (params) => {
           expect(params).toBe(" \tname ");
@@ -782,7 +783,7 @@ bar
     });
 
     it("should allow analyze mark", () => {
-      const markdownItValidate = MarkdownIt({ linkify: true }).use(container, {
+      const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
         name: "name",
         validate: (_, mark) => mark.length >= 4,
       });

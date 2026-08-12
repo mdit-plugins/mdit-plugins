@@ -19,7 +19,7 @@ icon: align-center
 import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
 
-const mdIt = MarkdownIt().use(align);
+const mdIt = new MarkdownIt().use(align);
 
 mdIt.render(`\
 ::: center

@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-tab",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "tab plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
@@ -54,11 +54,10 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

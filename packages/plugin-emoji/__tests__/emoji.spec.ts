@@ -1,4 +1,4 @@
-import markdownit from "markdown-it";
+import Markdownit from "markdown-it";
 import { describe, it, expect } from "vitest";
 
 // data for integrity check testing
@@ -6,7 +6,7 @@ import { bareEmoji, lightEmoji, fullEmoji } from "../src/index.js";
 
 describe("markdown-it-emoji", () => {
   describe("default", () => {
-    const md = markdownit().use(fullEmoji);
+    const md = new Markdownit().use(fullEmoji);
 
     describe("aliases", () => {
       it("alias + original", () => {
@@ -66,7 +66,7 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(fullEmoji, {
+    const md = new Markdownit().use(fullEmoji, {
       definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",
@@ -91,7 +91,7 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("whitelist", () => {
-    const md = markdownit().use(fullEmoji, { enabled: ["smile", "grin"] });
+    const md = new Markdownit().use(fullEmoji, { enabled: ["smile", "grin"] });
 
     it("show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
@@ -99,7 +99,7 @@ describe("markdown-it-emoji", () => {
   });
 
   describe("autolinks", () => {
-    const md = markdownit({ linkify: true }).use(fullEmoji);
+    const md = new Markdownit({ linkify: true }).use(fullEmoji);
 
     it("disallow shortcuts inside autolinks", () => {
       expect(md.render("<http://www.example.org/wiki/Special:Preferences> :P")).toBe(
@@ -133,7 +133,7 @@ describe("markdown-it-emoji", () => {
 
 describe("markdown-it-emoji-light", () => {
   describe("default", () => {
-    const md = markdownit().use(lightEmoji);
+    const md = new Markdownit().use(lightEmoji);
 
     describe("aliases", () => {
       it("alias + original", () => {
@@ -193,7 +193,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(lightEmoji, {
+    const md = new Markdownit().use(lightEmoji, {
       definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",
@@ -218,7 +218,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("whitelist", () => {
-    const md = markdownit().use(lightEmoji, { enabled: ["smile", "grin"] });
+    const md = new Markdownit().use(lightEmoji, { enabled: ["smile", "grin"] });
 
     it("show only allowed emojies", () => {
       expect(md.render(":smile: :grin: :wink:")).toBe("<p>😄 😁 :wink:</p>\n");
@@ -226,7 +226,7 @@ describe("markdown-it-emoji-light", () => {
   });
 
   describe("autolinks", () => {
-    const md = markdownit({ linkify: true }).use(lightEmoji);
+    const md = new Markdownit({ linkify: true }).use(lightEmoji);
 
     it("disallow shortcuts inside autolinks", () => {
       expect(md.render("<http://www.example.org/wiki/Special:Preferences> :P")).toBe(
@@ -260,7 +260,7 @@ describe("markdown-it-emoji-light", () => {
 
 describe("markdown-it-emoji-bare", () => {
   describe("default", () => {
-    const md = markdownit().use(bareEmoji);
+    const md = new Markdownit().use(bareEmoji);
 
     describe("bare", () => {
       it("don't convert emojis without definitions", () => {
@@ -270,7 +270,7 @@ describe("markdown-it-emoji-bare", () => {
   });
 
   describe("options", () => {
-    const md = markdownit().use(bareEmoji, {
+    const md = new Markdownit().use(bareEmoji, {
       definitions: {
         one: "!!!one!!!",
         fifty: "!!50!!",

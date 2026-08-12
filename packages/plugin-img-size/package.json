@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-img-size",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "img-size plugin for MarkdownIt",
   "keywords": [
     "img-size",
@@ -44,13 +44,13 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "devDependencies": {
     "@mdit/plugin-figure": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

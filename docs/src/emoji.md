@@ -13,7 +13,7 @@ Emoji plugin for markdown-it.
 import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
 
-const mdIt = MarkdownIt().use(fullEmoji);
+const mdIt = new MarkdownIt().use(fullEmoji);
 
 mdIt.render("Hello from mars :satellite:");
 ```
@@ -77,7 +77,7 @@ import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
 import twemoji from "twemoji";
 
-const mdIt = MarkdownIt().use(fullEmoji);
+const mdIt = new MarkdownIt().use(fullEmoji);
 
 mdIt.renderer.rules.emoji = (tokens, idx) => {
   return twemoji.parse(tokens[idx].content);

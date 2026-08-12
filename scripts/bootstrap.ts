@@ -55,11 +55,8 @@ files.forEach((pkgName) => {
         build: "tsdown --config-loader unrun",
         clean: "rimraf ./lib",
       },
-      dependencies: {
-        "@types/markdown-it": "^14.1.1",
-      },
       peerDependencies: {
-        "markdown-it": "^14.2.0",
+        "markdown-it": "^15.0.0",
       },
       peerDependenciesMeta: {
         "markdown-it": {

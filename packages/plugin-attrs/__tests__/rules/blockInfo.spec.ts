@@ -1,13 +1,14 @@
 import { container } from "@mdit/plugin-container";
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { MarkdownItAttrsOptions } from "../../src/index.js";
 import { attrs } from "../../src/index.js";
 import { replaceDelimiters } from "../replaceDelimiters.js";
 
-const createContainerMarkdownIt = (options: MarkdownItAttrsOptions): MarkdownIt =>
-  MarkdownIt().use(attrs, options).use(container, { name: "warning" });
+const createContainerMarkdownIt = (options: MarkdownItAttrsOptions): MarkdownItType =>
+  new MarkdownIt().use(attrs, options).use(container, { name: "warning" });
 
 const createDualRuleTests = (
   baseOptions: MarkdownItAttrsOptions & { left: string; right: string },

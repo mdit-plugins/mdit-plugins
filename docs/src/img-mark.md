@@ -13,7 +13,7 @@ Plugins to mark images by ID suffix for theme mode.
 import MarkdownIt from "markdown-it";
 import { imgMark } from "@mdit/plugin-img-mark";
 
-const mdIt = MarkdownIt().use(imgMark, {
+const mdIt = new MarkdownIt().use(imgMark, {
   // your options, optional
 });
 

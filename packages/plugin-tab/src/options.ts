@@ -1,7 +1,4 @@
-import type { Options } from "markdown-it";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { Env, MarkdownItOptions, RendererRule, Renderer, Token } from "markdown-it";
 
 export interface MarkdownItTabData {
   /**
@@ -35,6 +32,13 @@ export interface MarkdownItTabData {
 
 export interface MarkdownItTabInfo {
   /**
+   * Identifier of tab container
+   *
+   * Tab 容器标识符
+   */
+  id: string | undefined;
+
+  /**
    * Which tab is active
    *
    * -1 means no tab is active 激活的 Tab
@@ -52,24 +56,22 @@ export interface MarkdownItTabInfo {
 }
 
 // oxlint-disable-next-line max-params
-export type TabsOpenRender = (
+export type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
   index: number,
-  options: Options,
-  // oxlint-disable-next-line typescript/no-explicit-any
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 
 // oxlint-disable-next-line max-params
-export type TabOpenRender = (
+export type TabOpenRenderer = (
   data: MarkdownItTabData,
   tokens: Token[],
   index: number,
-  options: Options,
-  // oxlint-disable-next-line typescript/no-explicit-any
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 
@@ -82,14 +84,14 @@ export interface MarkdownItTabOptions {
   name: string;
 
   /** Tabs open render */
-  openRender?: TabsOpenRender;
+  openRenderer?: TabsOpenRenderer;
 
   /** Tabs close render */
-  closeRender?: RenderRule;
+  closeRenderer?: RendererRule;
 
   /** Tab open render */
-  tabOpenRender?: TabOpenRender;
+  tabOpenRenderer?: TabOpenRenderer;
 
   /** Tab close render */
-  tabCloseRender?: RenderRule;
+  tabCloseRenderer?: RendererRule;
 }

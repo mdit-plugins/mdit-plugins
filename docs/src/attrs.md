@@ -13,7 +13,7 @@ Plugins to add attrs to Markdown content.
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
-const mdIt = MarkdownIt().use(attrs, {
+const mdIt = new MarkdownIt().use(attrs, {
   // your options, optional
 });
 
@@ -153,6 +153,27 @@ type MarkdownItAttrRuleName =
 - Type: `string`
 - Default: `'}'`
 - Details: Right delimiter for attributes.
+
+## Programmatic Parsing
+
+The package exports a `parseAttrs` helper so that other tools (e.g.: shiki transformers) can reuse the attrs parsing logic:
+
+```ts
+import { parseAttrs } from "@mdit/plugin-attrs";
+
+parseAttrs("foo {.bar #baz data-a=b}");
+// [["class", "bar"], ["id", "baz"], ["data-a", "b"]]
+
+parseAttrs("foo"); // null
+```
+
+`parseAttrs(content, options)` returns the parsed attrs as `[key, value]` tuples, or `null` when no valid attrs section is found. A valid section yielding no attrs (e.g.: all filtered out by `allowed`) returns an empty array. Besides `left`, `right` and `allowed` which behave the same as the plugin options, an extra `where` option is supported:
+
+### where
+
+- Type: `"start" | "end" | "only"`
+- Default: `"end"`
+- Details: Where the attrs section shall be located in the content: at the start, at the end, or the content shall only contain the attrs section.
 
 ## Demo
 

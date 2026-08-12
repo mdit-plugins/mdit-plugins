@@ -1,36 +1,30 @@
 /** Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { InlineRule, PluginSimple } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
+import { normalizeSize } from "./utils.js";
 
 // Parse image size
 //
-const parseNumber = (
-  str: string,
-  pos: number,
-  max: number,
-): { ok: boolean; pos: number; value: string } => {
+const parseNumber = (str: string, pos: number, max: number): { pos: number; value: string } => {
   const start = pos;
-  const result = {
-    ok: false,
-    pos,
-    value: "",
-  };
-
   let charCode = str.charCodeAt(pos);
 
-  while ((pos < max && charCode >= 48 /* 0 */ && charCode <= 57) /* 9 */ || charCode === 37 /* % */)
+  // a size must be a pure number, optionally followed by a single trailing `%`
+  if (pos >= max || charCode < 48 /* 0 */ || charCode > 57 /* 9 */) return { pos, value: "" };
+
+  while (pos < max && charCode >= 48 /* 0 */ && charCode <= 57 /* 9 */)
     // oxlint-disable-next-line no-param-reassign
     charCode = str.charCodeAt(++pos);
 
-  result.ok = true;
-  result.pos = pos;
-  result.value = str.slice(start, pos);
+  if (pos < max && charCode === 37 /* % */) {
+    // oxlint-disable-next-line no-param-reassign
+    pos++;
+  }
 
-  return result;
+  return { pos, value: str.slice(start, pos) };
 };
 
 const parseImageSize = (
@@ -67,15 +61,19 @@ const parseImageSize = (
   // oxlint-disable-next-line no-param-reassign
   pos = height.pos;
 
+  const size = normalizeSize(width.value, height.value);
+
+  if (!size) return null;
+
   return {
     pos,
-    width: width.value,
-    height: height.value,
+    width: size.width ?? "",
+    height: size.height ?? "",
   };
 };
 
 // oxlint-disable-next-line max-lines-per-function
-const legacyImgSizeRule: RuleInline = (state, silent) => {
+const legacyImgSizeRule: InlineRule = (state, silent) => {
   const env = state.env as ImgSizeEnv;
   const isSpace = state.md.utils.isSpace;
   const oldPos = state.pos;

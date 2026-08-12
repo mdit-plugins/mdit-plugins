@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-spoiler%402.0.1...%40mdit%2Fplugin-spoiler%402.0.2) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-spoiler:** avoid shared attrs ([#633](https://github.com/mdit-plugins/mdit-plugins/issues/633)) ([1a9f53c](https://github.com/mdit-plugins/mdit-plugins/commit/1a9f53c31ee4c9b22c0659d9cdd4d922f69ad868))
+
+### Documentation
+
+- fix copy-paste errors and add missing docs links in package READMEs ([#613](https://github.com/mdit-plugins/mdit-plugins/issues/613)) ([1de5e6a](https://github.com/mdit-plugins/mdit-plugins/commit/1de5e6a6aaf4df57d433cb8418f81a878cc905c1))
+
 ## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-spoiler%402.0.0...%40mdit%2Fplugin-spoiler%402.0.1) (2026-07-29)
 
 ### Code Refactoring

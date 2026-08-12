@@ -13,7 +13,7 @@ icon: image
 import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
 
-const mdIt = MarkdownIt().use(figure, {
+const mdIt = new MarkdownIt().use(figure, {
   // 你的选项，可选的
 });
 
@@ -49,6 +49,8 @@ mdIt.render("![image](https://example.com/image.png)");
 
   - `true`：**复制**除原生 img 属性（src、alt、srcset、width、height、loading 等）外的所有属性到 `<figure>`，图片保留这些属性。
   - `(string | RegExp)[]`：**移动**仅匹配的属性到 `<figure>`，图片失去这些属性。
+
+  原生 img 属性（src、alt、title、width、height 等）永远不会被移动或复制到 `<figure>` 上，且 `title` 始终作为 `<figcaption>` 内容显示。
 
   ```ts
   // 复制所有非原生属性到 figure（img 保留）

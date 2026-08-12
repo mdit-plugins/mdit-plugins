@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { embed } from "../src/index.js";
 
 describe(embed, () => {
-  const md = MarkdownIt().use(embed, {
+  const md = new MarkdownIt().use(embed, {
     config: [
       {
         name: "youtube",
@@ -198,7 +198,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
 
   describe("complex parameters", () => {
     it("should work with complex parameters", () => {
-      const mdComplex = MarkdownIt().use(embed, {
+      const mdComplex = new MarkdownIt().use(embed, {
         config: [
           {
             name: "codepen",
@@ -217,7 +217,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle parameters with spaces", () => {
-      const mdWithSpaces = MarkdownIt().use(embed, {
+      const mdWithSpaces = new MarkdownIt().use(embed, {
         config: [
           {
             name: "custom",
@@ -232,7 +232,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should handle nested curly braces in parameters", () => {
-      const mdNested = MarkdownIt().use(embed, {
+      const mdNested = new MarkdownIt().use(embed, {
         config: [
           {
             name: "data",
@@ -248,7 +248,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
   });
 
   describe("escape sequences", () => {
-    const mdEscape = MarkdownIt().use(embed, {
+    const mdEscape = new MarkdownIt().use(embed, {
       config: [
         {
           name: "test",
@@ -318,7 +318,7 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
     });
 
     it("should should not render with forbidden content", () => {
-      const mdInstance = MarkdownIt().use(embed, {
+      const mdInstance = new MarkdownIt().use(embed, {
         config: [
           { name: "block", setup: (): string => "block" },
           { name: "inline", setup: (): string => "inline", allowInline: true },
@@ -467,7 +467,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
   });
 
   describe("unicode support", () => {
-    const mdUnicode = MarkdownIt().use(embed, {
+    const mdUnicode = new MarkdownIt().use(embed, {
       config: [
         {
           name: "测试",
@@ -504,7 +504,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
   describe("multiple plugin instances", () => {
     it("should work when embed plugin is used multiple times", () => {
       // First instance with some configs
-      const mdMultiple = MarkdownIt()
+      const mdMultiple = new MarkdownIt()
         .use(embed, {
           config: [
             {
@@ -549,7 +549,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
 
     it("should allow overriding configs in second instance", () => {
       // First instance
-      let mdOverride = MarkdownIt().use(embed, {
+      let mdOverride = new MarkdownIt().use(embed, {
         config: [
           {
             name: "test",
@@ -577,7 +577,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
 
     it("should combine allowInline settings correctly", () => {
       // First instance - block only
-      let mdCombined = MarkdownIt().use(embed, {
+      let mdCombined = new MarkdownIt().use(embed, {
         config: [
           {
             name: "block-only",
@@ -611,7 +611,7 @@ Continue {% icon middle %} and {% badge final %} end.`;
   });
 
   describe("isInline parameter functionality", () => {
-    const mdDifferentStyles = MarkdownIt().use(embed, {
+    const mdDifferentStyles = new MarkdownIt().use(embed, {
       config: [
         {
           name: "style-aware",
@@ -684,7 +684,7 @@ Here is some text with {% style-aware inline-item %} embedded.
     });
 
     it("should maintain backward compatibility when isInline parameter is ignored", () => {
-      const mdBackwardCompatible = MarkdownIt().use(embed, {
+      const mdBackwardCompatible = new MarkdownIt().use(embed, {
         config: [
           {
             name: "legacy",
@@ -702,7 +702,7 @@ Here is some text with {% style-aware inline-item %} embedded.
     });
 
     it("should work with complex parameters and isInline distinction", () => {
-      const mdComplex = MarkdownIt().use(embed, {
+      const mdComplex = new MarkdownIt().use(embed, {
         config: [
           {
             name: "video",
@@ -735,7 +735,7 @@ Here is some text with {% style-aware inline-item %} embedded.
   });
 
   it("should cover multiple plugin instances and rules already registered", () => {
-    const multiMd = MarkdownIt()
+    const multiMd = new MarkdownIt()
       .use(embed, { config: [{ name: "a", setup: (): string => "a" }] })
       .use(embed, { config: [{ name: "b", setup: (): string => "b" }] });
 
@@ -745,11 +745,12 @@ Here is some text with {% style-aware inline-item %} embedded.
 
   it("should throw without options", () => {
     expect(() => {
-      MarkdownIt().use(embed);
+      new MarkdownIt().use(embed);
     }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
 
     expect(() => {
-      MarkdownIt().use(embed, {});
+      // @ts-expect-error: error in test, missing required "config" option
+      new MarkdownIt().use(embed, {});
     }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
   });
 });

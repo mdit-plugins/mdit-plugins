@@ -6,7 +6,7 @@ import { inlineRule } from "../src/index.js";
 describe("mixing", () => {
   describe("multiple registrations", () => {
     it("should support multiple different rules on the same instance", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "^",
           tag: "sup",
@@ -22,7 +22,7 @@ describe("mixing", () => {
     });
 
     it("should support mixing nested and non-nested rules", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "^",
           tag: "sup",
@@ -45,7 +45,7 @@ describe("mixing", () => {
 
   describe("nesting behavior", () => {
     it("nested: false should not parse inner inline markup", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "~",
         tag: "sub",
         token: "sub",
@@ -57,7 +57,7 @@ describe("mixing", () => {
     });
 
     it("nested: true should parse inner inline markup", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "!",
         tag: "span",
         token: "spoiler",
@@ -75,7 +75,7 @@ describe("mixing", () => {
 
   describe("cross-rule interaction", () => {
     it("should support spoiler with mark inside", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "!",
           tag: "span",
@@ -100,7 +100,7 @@ describe("mixing", () => {
     });
 
     it("should support three rules stacked together", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "^",
           tag: "sup",
@@ -126,7 +126,7 @@ describe("mixing", () => {
     });
 
     it("should support non-nested + nested + attrs stacked", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "^",
           tag: "sup",
@@ -156,7 +156,7 @@ describe("mixing", () => {
     });
 
     it("should support mixing before-emphasis and after-emphasis rules", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "=",
           tag: "mark",
@@ -178,7 +178,7 @@ describe("mixing", () => {
     });
 
     it("should support double non-nested + single non-nested stacked", () => {
-      const md = MarkdownIt()
+      const md = new MarkdownIt()
         .use(inlineRule, {
           marker: "%",
           tag: "span",
@@ -199,7 +199,7 @@ describe("mixing", () => {
 
   describe("rule ordering and priority", () => {
     it("last registered rule takes precedence for same marker", () => {
-      const md = MarkdownIt()
+      const md = new MarkdownIt()
         .use(inlineRule, {
           marker: "^",
           tag: "sup",
@@ -216,7 +216,7 @@ describe("mixing", () => {
     });
 
     it("rules registered with different placements do not interfere", () => {
-      const md = MarkdownIt()
+      const md = new MarkdownIt()
         .use(inlineRule, {
           marker: "=",
           tag: "mark",
@@ -244,7 +244,7 @@ describe("mixing", () => {
       // This test demonstrates that simple before/after emphasis is sufficient
       // and complex dependency arrays (e.g., [['before', 'mark'], ['after', 'emphasis']])
       // are not needed — rules work correctly regardless of registration order
-      const md1 = MarkdownIt()
+      const md1 = new MarkdownIt()
         .use(inlineRule, {
           marker: "=",
           tag: "mark",
@@ -263,7 +263,7 @@ describe("mixing", () => {
           attrs: [["class", "spoiler"]],
         });
 
-      const md2 = MarkdownIt()
+      const md2 = new MarkdownIt()
         .use(inlineRule, {
           marker: "!",
           tag: "span",
@@ -294,7 +294,7 @@ describe("mixing", () => {
 
   describe("single-marker nested (double:false) mixing", () => {
     it("should mix single-marker nested with non-nested rules", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "+",
           tag: "ins",
@@ -315,7 +315,7 @@ describe("mixing", () => {
     });
 
     it("should mix single-marker nested with double-marker nested rules", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "+",
           tag: "ins",
@@ -344,7 +344,7 @@ describe("mixing", () => {
     });
 
     it("should mix two single-marker nested rules with different markers", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "+",
           tag: "ins",
@@ -372,7 +372,7 @@ describe("mixing", () => {
     });
 
     it("should support single-marker nested with nested inner content", () => {
-      const md = MarkdownIt({ linkify: true })
+      const md = new MarkdownIt({ linkify: true })
         .use(inlineRule, {
           marker: "+",
           tag: "ins",

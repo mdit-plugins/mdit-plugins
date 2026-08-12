@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { imgLazyload } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(imgLazyload);
+const markdownIt = new MarkdownIt({ linkify: true }).use(imgLazyload);
 
 describe(imgLazyload, () => {
   it("should have loading=lazy attribute", () => {

@@ -13,7 +13,7 @@ Plugin to add `id` attributes to headings and optionally permalinks.
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor);
+const mdIt = new MarkdownIt().use(anchor);
 
 mdIt.render("# Heading");
 ```
@@ -24,8 +24,13 @@ With a custom slugify:
 import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
-  slugify: (s) => encodeURIComponent(s.trim().toLowerCase().replace(/\s+/g, "-")),
+const mdIt = new MarkdownIt().use(anchor, {
+  slugify: (s) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fff-]+/g, "-")
+      .replace(/-+/g, "-"),
 });
 
 mdIt.render("# Hello World");
@@ -62,6 +67,15 @@ Consectetur adipiscing elit.
 - Type: `(str: string) => string`
 - Details: Custom slugification function to transform heading text to URL-friendly slugs.
 
+By default it lowercases ASCII letters, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash, and strips other ASCII punctuation. If you want strictly percent-encoded slugs instead, use the exported `legacySlugify`:
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+
+const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
+```
+
 ### slugifyWithState
 
 - Type: `(str: string, state: StateCore) => string`
@@ -77,6 +91,12 @@ Consectetur adipiscing elit.
 - Type: `number`
 - Default: `1`
 - Details: Starting index for duplicate slug numbering. Set to `2` to get `title`, `title-2`, `title-3`.
+
+### defaultPlaceHolder
+
+- Type: `string`
+- Default: `"heading"`
+- Details: Placeholder slug used when a heading has no text content and generates an empty slug (e.g. image-only headings).
 
 ### permalink
 
@@ -103,9 +123,7 @@ import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt()
-  .use(attrs, { allowed: ["id"] })
-  .use(anchor);
+const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
 mdIt.render("# My Title {#custom-id}");
 ```
@@ -132,8 +150,9 @@ All renderers share these common options:
 
 Wraps the entire heading content in a permalink anchor.
 
-Simple and accessible out of the box. The caveat is that you cannot
-include links inside headings.
+Simple and accessible out of the box. Headings that already contain a link
+(either a markdown link or a raw `<a>` tag when `html` is enabled) are left
+untouched, since wrapping them would produce invalid nested anchors.
 
 ```ts
 import { headerLink } from "@mdit/plugin-anchor";
@@ -192,7 +211,7 @@ Unlike the other presets, `linkAfterHeader` has no default options — pass at l
 import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
 
-const mdIt = MarkdownIt().use(anchor, {
+const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({
     assistiveText: (title) => `Permalink for ${title}`,
     visuallyHiddenClass: "sr-only",

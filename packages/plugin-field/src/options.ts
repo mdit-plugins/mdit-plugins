@@ -1,7 +1,5 @@
-import type { Options } from "markdown-it";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { TokenMeta } from "@mdit/helper";
+import type { Env, MarkdownItOptions, RendererRule, Renderer, Token } from "markdown-it";
 
 export interface FieldAttr {
   /**
@@ -53,7 +51,7 @@ export interface FieldAttrInfo {
   value: string | true;
 }
 
-export interface FieldMeta {
+export interface FieldMeta extends TokenMeta {
   /**
    * Field name
    *
@@ -76,16 +74,13 @@ export interface FieldMeta {
   attributes: FieldAttrInfo[];
 }
 
-export interface FieldToken extends Token {
-  meta: FieldMeta;
-}
-
-export type MarkdownItFieldOpenRender = (
-  tokens: FieldToken[],
+// oxlint-disable-next-line max-params
+export type MarkdownItFieldOpenRenderer = (
+  meta: FieldMeta,
+  tokens: Token[],
   index: number,
-  options: Options,
-  // oxlint-disable-next-line typescript/no-explicit-any
-  env: any,
+  options: Required<MarkdownItOptions>,
+  env: Env | undefined,
   self: Renderer,
 ) => string;
 
@@ -134,26 +129,26 @@ export interface MarkdownItFieldOptions {
    *
    * 字段容器打开渲染函数
    */
-  fieldsOpenRender?: RenderRule;
+  fieldsOpenRenderer?: RendererRule;
 
   /**
    * Fields close render
    *
    * 字段容器关闭渲染函数
    */
-  fieldsCloseRender?: RenderRule;
+  fieldsCloseRenderer?: RendererRule;
 
   /**
    * Field item open render
    *
    * 字段项打开渲染函数
    */
-  fieldOpenRender?: MarkdownItFieldOpenRender;
+  fieldOpenRenderer?: MarkdownItFieldOpenRenderer;
 
   /**
    * Field item close render
    *
    * 字段项关闭渲染函数
    */
-  fieldCloseRender?: RenderRule;
+  fieldCloseRenderer?: RendererRule;
 }

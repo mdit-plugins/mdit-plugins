@@ -1,4 +1,4 @@
-import type Token from "markdown-it/lib/token.mjs";
+import type { Token } from "markdown-it";
 
 import type { DelimiterRange } from "../rules/types.js";
 import { getAttrs } from "./getAttrs.js";

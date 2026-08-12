@@ -1,6 +1,5 @@
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule } from "@mdit/helper";
+import type { Env, StateBlock, Token } from "markdown-it";
 
 import type { AllowedAttributes } from "./utils.js";
 import { parseAttributes } from "./utils.js";
@@ -12,9 +11,11 @@ export interface FieldContext {
   depthStack: number[];
 }
 
-interface FieldStateEnv extends Record<string, unknown> {
-  fieldContext?: FieldContext | undefined;
+interface FieldStateEnv extends Env {
+  [fieldContextKey]?: FieldContext | undefined;
 }
+
+const fieldContextKey = Symbol("field:context");
 
 interface FieldStateBlock extends StateBlock {
   env: FieldStateEnv;
@@ -84,7 +85,7 @@ export const checkFieldMarker = (
 };
 
 export const getFieldsRule =
-  (name: string, classPrefix: string): RuleBlock =>
+  (name: string, classPrefix: string): BlockRule =>
   (state: FieldStateBlock, startLine, endLine, silent) => {
     const start = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
@@ -194,9 +195,8 @@ export const getFieldsRule =
     const oldParentType = state.parentType;
     const oldLineMax = state.lineMax;
     const oldBlkIndent = state.blkIndent;
-    const oldContext = state.env.fieldContext;
+    const oldContext = state.env[fieldContextKey];
 
-    // @ts-expect-error: We are setting state.parentType to a dynamic value like `${name}_field` that is not covered by the StateBlock type definition
     state.parentType = `${name}_field`;
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;
@@ -216,12 +216,12 @@ export const getFieldsRule =
     ];
     if (id) openToken.attrSet("id", id);
 
-    state.env.fieldContext = { name, depthStack: [] };
+    state.env[fieldContextKey] = { name, depthStack: [] };
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
     // Close any remaining open field items from the depth stack
-    const depthStack = state.env.fieldContext.depthStack;
+    const depthStack = state.env[fieldContextKey].depthStack;
 
     for (let ii = depthStack.length - 1; ii >= 0; ii--) {
       // Close inner <dl> wrapper before closing parent when backtracking
@@ -231,7 +231,7 @@ export const getFieldsRule =
       state.push(`${name}_field_close`, "div", -1);
     }
 
-    state.env.fieldContext = oldContext;
+    state.env[fieldContextKey] = oldContext;
 
     const closeToken = state.push(`${name}_fields_close`, "dl", -1);
 
@@ -251,9 +251,9 @@ export const getFieldItemRule =
     name: string,
     allowedAttributes: AllowedAttributes | null,
     shouldParseAttributes: boolean,
-  ): RuleBlock =>
+  ): BlockRule =>
   (state: FieldStateBlock, startLine, endLine, silent) => {
-    const ctx = state.env.fieldContext;
+    const ctx = state.env[fieldContextKey];
 
     if (!ctx || ctx.name !== name) return false;
 
@@ -326,12 +326,21 @@ export const getFieldItemRule =
       const nextMax = state.eMarks[nextLine];
       const nextIndent = state.sCount[nextLine] - state.blkIndent;
 
-      // A container marker at the container level ends the item
-      if (nextIndent <= MAX_COSMETIC_INDENT && state.src.charCodeAt(nextStart) === 58 /* : */)
-        break;
-
-      // Check if it's a field marker within the cosmetic indent range
       if (nextIndent <= MAX_COSMETIC_INDENT) {
+        // A field container marker (3+ colons) at the container level ends the
+        // item. A single `:` (e.g. definition list syntax) is not a container
+        // marker and must stay inside the item.
+        let colonCount = 0;
+
+        while (
+          nextStart + colonCount < nextMax &&
+          state.src.charCodeAt(nextStart + colonCount) === 58 /* : */
+        )
+          colonCount++;
+
+        if (colonCount >= MIN_MARKER_NUM) break;
+
+        // Check if it's a field marker within the cosmetic indent range
         const nextMarker = checkFieldMarker(state, nextStart, nextMax);
 
         // oxlint-disable-next-line typescript/strict-boolean-expressions
@@ -348,7 +357,6 @@ export const getFieldItemRule =
     const oldParentType = state.parentType;
     const oldLineMax = state.lineMax;
 
-    // @ts-expect-error: We are creating a new type called "${name}_field_item"
     state.parentType = `${name}_field_item`;
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine;

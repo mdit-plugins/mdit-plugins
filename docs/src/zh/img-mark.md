@@ -13,7 +13,7 @@ icon: circle-half-stroke
 import MarkdownIt from "markdown-it";
 import { imgMark } from "@mdit/plugin-img-mark";
 
-const mdIt = MarkdownIt().use(imgMark, {
+const mdIt = new MarkdownIt().use(imgMark, {
   // 你的选项，可选的
 });
 

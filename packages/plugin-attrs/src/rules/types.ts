@@ -1,5 +1,5 @@
-import type Token from "markdown-it/lib/token.mjs";
-import type { Nesting } from "markdown-it/lib/token.mjs";
+import type { Nesting } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 export type DelimiterRange = [start: number, end: number];
 export type TestFunction<Value = unknown> = (value: Value) => boolean;
@@ -98,7 +98,6 @@ export interface AttrRule {
  * Define an attribute rule helper
  *
  * @example
- *   ```ts
  *   const rule = defineAttrRule({
  *     name: "example",
  *     tests: [],
@@ -106,7 +105,6 @@ export interface AttrRule {
  *       // transform logic
  *     },
  *   });
- *   ```;
  *
  * @param rule - Attribute rule definition / 属性规则定义
  * @returns Attribute rule passed through without modification / 未被修改的属性规则

@@ -14,10 +14,11 @@ import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
 import { CHTML } from "@mathjax/src/js/output/chtml.js";
 import { SVG } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
-import type MarkdownIt from "markdown-it";
+import type { MarkdownIt } from "markdown-it";
 
 import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "./options.js";
 import { loadTexPackages, texPackages } from "./tex/index.js";
+import { clearUserState } from "./utils.js";
 
 export const getDocumentOptions = async (
   options: MarkdownItMathjaxOptions,
@@ -83,6 +84,7 @@ export const createMathjaxInstance = async (
 
   const reset = (): void => {
     InputJax.reset();
+    clearUserState(InputJax);
   };
 
   const outputStyle = async (): Promise<string> => {
@@ -120,9 +122,30 @@ export const mathjax = (
     delimiters,
     documentOptions,
     mathFence,
+    reset,
     transformer,
   }: MathjaxInstance,
 ): void => {
+  // Reset the shared TeX input state (macros/labels) after each render so that
+  // state does not leak across documents rendered by the same instance.
+  const render = md.render.bind(md);
+  const renderInline = md.renderInline.bind(md);
+
+  md.render = (src, env): string => {
+    try {
+      return render(src, env);
+    } finally {
+      reset();
+    }
+  };
+  md.renderInline = (src, env): string => {
+    try {
+      return renderInline(src, env);
+    } finally {
+      reset();
+    }
+  };
+
   md.use(tex, {
     allowInlineWithSpace,
     delimiters,

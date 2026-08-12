@@ -13,7 +13,7 @@ icon: highlighter
 import MarkdownIt from "markdown-it";
 import { mark } from "@mdit/plugin-mark";
 
-const mdIt = MarkdownIt().use(mark);
+const mdIt = new MarkdownIt().use(mark);
 
 mdIt.render("VuePress Theme Hope ==十分强大==。");
 ```

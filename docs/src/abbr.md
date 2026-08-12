@@ -13,7 +13,7 @@ Plugin to support abbreviation tag `<abbr>`.
 import MarkdownIt from "markdown-it";
 import { abbr } from "@mdit/plugin-abbr";
 
-const mdIt = MarkdownIt().use(abbr);
+const mdIt = new MarkdownIt().use(abbr);
 
 mdIt.render(`
 *[HTML]: Hyper Text Markup Language

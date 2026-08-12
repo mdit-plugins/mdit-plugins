@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { align } from "../src/index.js";
 
-const markdownIt = MarkdownIt({ linkify: true }).use(align);
+const markdownIt = new MarkdownIt({ linkify: true }).use(align);
 
 describe(align, () => {
   it("should handle left", () => {

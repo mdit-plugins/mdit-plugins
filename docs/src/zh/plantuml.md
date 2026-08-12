@@ -13,7 +13,7 @@ icon: diagram-project
 import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
 
-const mdIt = MarkdownIt().use(plantuml);
+const mdIt = new MarkdownIt().use(plantuml);
 
 mdIt.render(`\
 @startuml
@@ -86,9 +86,9 @@ Bob -> Alice : 你好
 - 类型：`(content: string) => string`
 - 详情：图片地址获取器。接收图表内容并返回图片链接。
 
-### render
+### renderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

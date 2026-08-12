@@ -13,7 +13,7 @@ icon: lightbulb
 import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
 
-const mdIt = MarkdownIt().use(demo, {
+const mdIt = new MarkdownIt().use(demo, {
   // your options
 });
 
@@ -48,41 +48,41 @@ Text
 - 默认值：`false`
 - 详情：代码是否显示在内容前。
 
-### openRender
+### openRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：开始标签渲染函数。
 
-### closeRender
+### closeRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：结束标签渲染函数。
 
-### codeRender
+### codeRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：代码渲染函数。
 
-### contentOpenRender
+### contentOpenRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 
 - 详情：内容开始标签渲染函数。
 
-### contentCloseRender
+### contentCloseRenderer
 
-- 类型：`RenderRule`
+- 类型：`RendererRule`
 
 <!-- @include: ../render-rule.snippet.md -->
 

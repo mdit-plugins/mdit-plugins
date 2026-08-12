@@ -13,7 +13,7 @@ Plugin to support subscript.
 import MarkdownIt from "markdown-it";
 import { sub } from "@mdit/plugin-sub";
 
-const mdIt = MarkdownIt().use(sub);
+const mdIt = new MarkdownIt().use(sub);
 
 mdIt.render("H~2~O");
 ```

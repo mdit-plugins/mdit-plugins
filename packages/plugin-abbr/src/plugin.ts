@@ -1,26 +1,23 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-abbr/blob/master/index.mjs */
 
-import type { PluginSimple } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
+import type { BlockRule, CoreRule, PluginSimple } from "@mdit/helper";
+import type { Env, StateBlock, StateCore } from "markdown-it";
+
+interface AbbrEnv extends Env {
+  abbreviations?: Record<string, string>;
+}
 
 interface AbbrStateBlock extends StateBlock {
-  env: {
-    abbreviations?: Record<string, string>;
-  };
+  env: AbbrEnv;
 }
 
 interface AbbrStateCore extends StateCore {
-  env: {
-    abbreviations?: Record<string, string>;
-  };
+  env: AbbrEnv;
 }
 
 const ESCAPE_RE = /\\(?<char>.)/g;
 
-const abbrDefinition: RuleBlock = (state: AbbrStateBlock, startLine, _endLine, silent) => {
+const abbrDefinition: BlockRule = (state: AbbrStateBlock, startLine, _endLine, silent) => {
   let labelEnd = -1;
   let pos = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
@@ -74,14 +71,12 @@ export const abbr: PluginSimple = (md) => {
   // you can check character classes here:
   // http://www.unicode.org/Public/UNIDATA/UnicodeData.txt
   const OTHER_CHARS = " \r\n$+<=>^`|~";
-  // oxlint-disable-next-line typescript/no-unsafe-member-access
-  const UNICODE_PUNCTUATION_REGEXP = (lib.ucmicro.P as RegExp).source;
-  // oxlint-disable-next-line typescript/no-unsafe-member-access
-  const UNICODE_SPACE_REGEXP = (lib.ucmicro.Z as RegExp).source;
+  const UNICODE_PUNCTUATION_REGEXP = lib.ucmicro.P.source;
+  const UNICODE_SPACE_REGEXP = lib.ucmicro.Z.source;
   // oxlint-disable-next-line unicorn/no-array-callback-reference
   const WORDING_REGEXP_TEXT = `${UNICODE_PUNCTUATION_REGEXP}|${UNICODE_SPACE_REGEXP}|[${OTHER_CHARS.split("").map(escapeRE).join("")}]`;
 
-  const abbrReplace: RuleCore = (state: AbbrStateCore) => {
+  const abbrReplace: CoreRule = (state: AbbrStateCore) => {
     const tokens = state.tokens;
     const abbreviations = state.env.abbreviations;
 

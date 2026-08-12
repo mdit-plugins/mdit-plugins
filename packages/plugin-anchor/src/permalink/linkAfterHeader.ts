@@ -1,5 +1,4 @@
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { StateCore, Token } from "markdown-it";
 
 import {
   mergeDuplicateClassAttrs,

@@ -13,7 +13,7 @@ markdown-it 的表情插件。
 import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
 
-const mdIt = MarkdownIt().use(fullEmoji);
+const mdIt = new MarkdownIt().use(fullEmoji);
 
 mdIt.render("来自火星的问候 :satellite:");
 ```
@@ -70,7 +70,7 @@ import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
 import twemoji from "twemoji";
 
-const mdIt = MarkdownIt().use(fullEmoji);
+const mdIt = new MarkdownIt().use(fullEmoji);
 
 mdIt.renderer.rules.emoji = (tokens, idx) => {
   return twemoji.parse(tokens[idx].content);

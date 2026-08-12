@@ -8,7 +8,7 @@ import { attrs } from "../src/index.js";
 
 describe("plugin compatibility", () => {
   it("should work with katex plugin", () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(attrs).use(katex);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(attrs).use(katex);
 
     expect(markdownIt.render("$a^{3}$")).toBe(
       '<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">a^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></p>\n',
@@ -16,7 +16,7 @@ describe("plugin compatibility", () => {
   });
 
   describe("should work with mark plugin", () => {
-    const markdownIt = MarkdownIt({
+    const markdownIt = new MarkdownIt({
       html: true,
       linkify: true,
       typographer: true,
@@ -49,7 +49,7 @@ describe("plugin compatibility", () => {
   });
 
   describe("should work with figure plugin", () => {
-    const markdownIt = MarkdownIt({ html: true }).use(attrs).use(figure);
+    const markdownIt = new MarkdownIt({ html: true }).use(attrs).use(figure);
 
     it("should add class to image inside figure", () => {
       // attrs processes inline content before figure transforms paragraph to figure
@@ -87,9 +87,20 @@ describe("plugin compatibility", () => {
     });
 
     it("should work with figure disabled focusable", () => {
-      const md = MarkdownIt({ html: true }).use(attrs).use(figure, { focusable: false });
+      const md = new MarkdownIt({ html: true }).use(attrs).use(figure, { focusable: false });
       expect(md.render(`![image](/logo.svg "caption"){.center}`)).toBe(
         '<figure><img src="/logo.svg" alt="image" class="center"><figcaption>caption</figcaption></figure>\n',
+      );
+    });
+
+    it("should move class to figure with figure moveAttrs option", () => {
+      const md = new MarkdownIt({ html: true })
+        .use(attrs)
+        .use(figure, { moveAttrs: ["class"], focusable: false });
+
+      // class added by attrs is moved onto the figure by figure's moveAttrs
+      expect(md.render(`![image](/logo.svg "caption"){.center}`)).toBe(
+        '<figure class="center"><img src="/logo.svg" alt="image"><figcaption>caption</figcaption></figure>\n',
       );
     });
   });

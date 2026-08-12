@@ -13,7 +13,7 @@ Plugin for creating block-level custom containers.
 import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
 
-const mdIt = MarkdownIt().use(container, {
+const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
   name: "warning",
 });
@@ -118,17 +118,17 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 - Details: Validate whether it should be regarded as this container type.
 
-### openRender
+### openRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
 - Details: Opening tag render function.
 
-### closeRender
+### closeRenderer
 
-- Type: `RenderRule`
+- Type: `RendererRule`
 
 <!-- @include: ./render-rule.snippet.md -->
 
@@ -143,7 +143,7 @@ With the following code and some styles:
 ```js
 md.use(container, {
   name: "hint",
-  openRender: (tokens, index, _options) => {
+  openRenderer: (tokens, index, _options) => {
     const info = tokens[index].info.trim().slice(4).trim();
 
     return `<div class="custom-container hint">\n<p class="custom-container-title">${

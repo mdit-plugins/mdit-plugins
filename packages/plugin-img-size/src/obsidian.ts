@@ -1,6 +1,5 @@
-import type { PluginSimple } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { InlineRule, PluginSimple } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
 
@@ -85,7 +84,7 @@ const parseObsidianImageSize = (
   };
 };
 
-export const obsidianImgSizeRule: RuleInline = (state, silent) => {
+export const obsidianImgSizeRule: InlineRule = (state, silent) => {
   const isSpace = state.md.utils.isSpace;
   const env = state.env as ImgSizeEnv;
   const oldPos = state.pos;

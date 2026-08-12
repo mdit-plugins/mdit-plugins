@@ -2,10 +2,7 @@
 import { lstatSync, readFileSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
-import type { Options, PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import { dirname, extname, resolve } from "upath";
 
 import type { MarkdownItSnippetOptions } from "./options.js";
@@ -69,7 +66,7 @@ const createSnippetRule =
   (
     currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
     resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
-  ): RuleBlock =>
+  ): BlockRule =>
   (state, startLine, _endLine) => {
     const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
@@ -124,17 +121,11 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
   md.block.ruler.before("fence", "snippet", createSnippetRule(currentPath, resolvePath));
 
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const originalFence = md.renderer.rules.fence!;
+  const originalFence = md.renderer.rules.fence;
 
-  md.renderer.rules.fence = (
-    tokens: Token[],
-    index: number,
-    mdItOptions: Options,
-    env: SnippetEnv,
-    self: Renderer,
-  ): string => {
+  md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
     const token = tokens[index];
+    const snippetEnv = env as SnippetEnv;
     const { src, region } = (token.meta ??= {}) as {
       src: string;
       region: string;
@@ -161,7 +152,7 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
           token.content = content;
 
-          (env.snippetFiles ??= []).push(src);
+          (snippetEnv.snippetFiles ??= []).push(src);
         } else {
           token.content = `Unable to find snippet: ${src}`;
           token.info = "";

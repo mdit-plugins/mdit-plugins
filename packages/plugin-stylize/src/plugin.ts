@@ -1,6 +1,5 @@
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleCore } from "markdown-it/lib/parser_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { Token } from "markdown-it";
 
 import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
@@ -38,8 +37,9 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
 
       if (result) {
         tokenPrev.tag = tokenNext.tag = result.tag;
-        tokenPrev.attrs = Object.entries(result.attrs);
-        token.content = result.content;
+        // Guard against user replacers omitting optional fields at runtime
+        tokenPrev.attrs = Object.entries(result.attrs ?? {});
+        token.content = result.content ?? token.content;
       }
 
       // skip 2 tokens
@@ -61,7 +61,7 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
     return;
   }
 
-  const stylizeRule: RuleCore = (state) => {
+  const stylizeRule: CoreRule = (state) => {
     const tokens = state.tokens;
 
     let effectiveConfig = globalConfig;

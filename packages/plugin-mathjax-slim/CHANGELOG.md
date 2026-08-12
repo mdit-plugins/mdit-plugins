@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.1.1...%40mdit%2Fplugin-mathjax-slim%401.1.2) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-mathjax:** reset state after each render ([#649](https://github.com/mdit-plugins/mdit-plugins/issues/649)) ([85c5a0e](https://github.com/mdit-plugins/mdit-plugins/commit/85c5a0ee85a43734f70cc63e798f02cd6c4703b5))
+
 ## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.1.0...%40mdit%2Fplugin-mathjax-slim%401.1.1) (2026-07-29)
 
 ### Code Refactoring

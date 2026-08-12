@@ -14,15 +14,15 @@ import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
 
 // New syntax
-const mdNew = MarkdownIt().use(imgSize);
+const mdNew = new MarkdownIt().use(imgSize);
 mdNew.render("![image =300x200](https://example.com/image.png)");
 
 // Obsidian syntax
-const mdObsidian = MarkdownIt().use(obsidianImgSize);
+const mdObsidian = new MarkdownIt().use(obsidianImgSize);
 mdObsidian.render("![image|300x200](https://example.com/image.png)");
 
 // Legacy syntax
-const mdLegacy = MarkdownIt().use(legacyImgSize);
+const mdLegacy = new MarkdownIt().use(legacyImgSize);
 mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ```
 
@@ -32,12 +32,13 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 
 Append `=widthxheight` to image alt text with spaces as separator.
 
-Both `width` and `height` should be numbers as pixels and are optional.
+Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size whose width and height are both `0` is ignored.
 
 ```md
 ![Alt =200x300](/example.png)
 ![Alt =200x](/example.jpg "Title")
 ![Alt =x300](/example.bmp)
+![Alt =50%x300](/example.webp)
 ```
 
 Renders as ↓
@@ -46,6 +47,7 @@ Renders as ↓
 <img src="/example.png" alt="Alt" width="200" height="300" />
 <img src="/example.jpg" alt="Alt" title="Title" width="200" />
 <img src="/example.bmp" alt="Alt" height="300" />
+<img src="/example.webp" alt="Alt" width="50%" height="300" />
 ```
 
 ### Obsidian Syntax
@@ -75,12 +77,13 @@ Renders as ↓
 
 Append `=widthxheight` at the end of image link section with spaces as separator.
 
-Both `width` and `height` should be numbers as pixels and are optional.
+Both `width` and `height` should be numbers as pixels and are optional. A single trailing `%` is supported to use percentages, a dimension set to `0` is treated as unspecified, and a size whose width and height are both `0` is ignored.
 
 ```md
 ![Alt](/example.png =200x300)
 ![Alt](/example.jpg "Title" =200x)
 ![Alt](/example.bmp =x300)
+![Alt](/example.webp =50%x300)
 ```
 
 Renders as ↓
@@ -89,6 +92,7 @@ Renders as ↓
 <img src="/example.png" alt="Alt" width="200" height="300" />
 <img src="/example.jpg" alt="Alt" title="Title" width="200" />
 <img src="/example.bmp" alt="Alt" height="300" />
+<img src="/example.webp" alt="Alt" width="50%" height="300" />
 ```
 
 ::: tip Choosing between 3 Grammars
@@ -107,12 +111,14 @@ Renders as ↓
 ![Logo =200x200](/logo.svg "Markdown")
 ![Logo =150x](/logo.svg "Markdown")
 ![Logo =x100](/logo.svg "Markdown")
+![Logo =50%x300](/logo.svg "Markdown")
 
 <!-- Legacy Syntax -->
 
 ![Logo](/logo.svg "Markdown" =200x200)
 ![Logo](/logo.svg "Markdown" =150x)
 ![Logo](/logo.svg "Markdown" =x100)
+![Logo](/logo.svg "Markdown" =50%x300)
 
 <!-- Obsidian Syntax -->
 

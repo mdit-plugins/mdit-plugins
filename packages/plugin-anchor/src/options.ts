@@ -1,5 +1,4 @@
-import type StateCore from "markdown-it/lib/rules_core/state_core.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { StateCore, Token } from "markdown-it";
 
 import type { PermalinkGenerator } from "./permalink/types.js";
 
@@ -70,6 +69,15 @@ export interface AnchorOptions {
   uniqueSlugStartIndex?: number;
 
   /**
+   * Placeholder slug used when a heading has no text content and generates an empty slug
+   *
+   * 当标题没有文本内容、生成的 slug 为空时使用的占位 slug
+   *
+   * @default "heading"
+   */
+  defaultPlaceHolder?: string;
+
+  /**
    * Permalink generator function
    *
    * 永久链接生成器函数
@@ -100,5 +108,13 @@ export interface AnchorOptions {
  */
 export type ResolvedAnchorOptions = AnchorOptions &
   Required<
-    Pick<AnchorOptions, "getTokensText" | "level" | "slugify" | "tabIndex" | "uniqueSlugStartIndex">
+    Pick<
+      AnchorOptions,
+      | "defaultPlaceHolder"
+      | "getTokensText"
+      | "level"
+      | "slugify"
+      | "tabIndex"
+      | "uniqueSlugStartIndex"
+    >
   >;

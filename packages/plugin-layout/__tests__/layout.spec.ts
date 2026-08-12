@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { layout } from "../src/index.js";
 
-const markdownIt = MarkdownIt().use(layout);
+const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("indent", () => {
@@ -121,6 +121,38 @@ Content
 <div>
 <p>Content</p>
 </div>
+</div>
+`);
+      });
+
+      it("should not treat @end with trailing content as a valid end", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+content
+@end garbage
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>content
+@end garbage</p>
+</div>
+`);
+      });
+
+      it("should auto-close container to EOF when @end has trailing content", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+content
+@end garbage
+After
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>content
+@end garbage
+After</p>
 </div>
 `);
       });

@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-field",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "field plugin for MarkdownIt",
   "keywords": [
     "field",
@@ -46,14 +46,14 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "devDependencies": {
-    "@mdit/plugin-container": "workspace:*"
+    "@mdit/plugin-container": "workspace:*",
+    "@mdit/plugin-dl": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

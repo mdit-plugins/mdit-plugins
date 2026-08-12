@@ -1,13 +1,12 @@
 import { escapeHtml } from "@mdit/helper";
-import type { PluginWithOptions } from "markdown-it";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
+import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItIconOptions } from "./options.js";
 
 const COLON = 0x3a; /* : */
 const SPACE = 0x20;
 
-const iconRule: RuleInline = (state, silent) => {
+const iconRule: InlineRule = (state, silent) => {
   let found = false;
   const max = state.posMax;
   const start = state.pos;

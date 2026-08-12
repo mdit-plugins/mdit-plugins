@@ -27,7 +27,7 @@ const createDualRuleTests = (
     const testTitle = `blockEnd rules ${delimiterText} ${testSuffix}`;
 
     describe(testTitle, () => {
-      const markdownIt = MarkdownIt().use(attrs, options);
+      const markdownIt = new MarkdownIt().use(attrs, options);
 
       it(replaceDelimiters("should add attributes when {} in end of last inline", options), () => {
         const src = "some text {with=attrs}";
@@ -198,7 +198,7 @@ const createDualRuleTests = (
       });
 
       it("should restrict attributes by allowed (string)", () => {
-        const markdownItWithOptions = MarkdownIt().use(attrs, {
+        const markdownItWithOptions = new MarkdownIt().use(attrs, {
           ...options,
           allowed: ["id", "class"],
         });
@@ -210,7 +210,7 @@ const createDualRuleTests = (
       });
 
       it("should restrict attributes by allowed (regex)", () => {
-        const markdownItWithOptions = MarkdownIt().use(attrs, {
+        const markdownItWithOptions = new MarkdownIt().use(attrs, {
           ...options,
           allowed: [/^(?:class|attr)$/],
         });
@@ -265,7 +265,7 @@ createDualRuleTests(
 
 describe("end of block inside containers", () => {
   it("should apply attributes to the inner paragraph, not the container", () => {
-    const markdownIt = MarkdownIt().use(attrs).use(container, { name: "column" });
+    const markdownIt = new MarkdownIt().use(attrs).use(container, { name: "column" });
     const src = ":::column {.column-container}\n\ncolumn test1 {.column-1}\n\n:::\n";
     const expected =
       '<div class="column-container column">\n<p class="column-1">column test1</p>\n</div>\n';
@@ -276,7 +276,7 @@ describe("end of block inside containers", () => {
 
 describe("end of block child search", () => {
   it("should find attrs before tokens appended by heading anchor style plugins", () => {
-    const markdownIt = MarkdownIt();
+    const markdownIt = new MarkdownIt();
 
     headingAnchorPlugin(markdownIt);
     markdownIt.use(attrs);
@@ -287,7 +287,7 @@ describe("end of block child search", () => {
   });
 
   it("should skip trailing whitespace-only text children", () => {
-    const markdownIt = MarkdownIt();
+    const markdownIt = new MarkdownIt();
 
     trailingSpacePlugin(markdownIt);
     markdownIt.use(attrs);
@@ -296,27 +296,27 @@ describe("end of block child search", () => {
   });
 
   it("should skip trailing top level non-text tokens", () => {
-    const markdownIt = MarkdownIt({ html: true }).use(attrs);
+    const markdownIt = new MarkdownIt({ html: true }).use(attrs);
 
     expect(markdownIt.render("text {.c}<br>")).toBe('<p class="c">text<br></p>\n');
   });
 
   it("should not search past inline code", () => {
-    const markdownIt = MarkdownIt().use(attrs);
+    const markdownIt = new MarkdownIt().use(attrs);
 
     expect(markdownIt.render("text {.c}`code`")).toBe("<p>text {.c}<code>code</code></p>\n");
   });
 
   it("should not search past inline math", () => {
-    const markdownIt = MarkdownIt().use(attrs).use(katex);
-    const markdownItWithOnlyKatex = MarkdownIt().use(katex);
+    const markdownIt = new MarkdownIt().use(attrs).use(katex);
+    const markdownItWithOnlyKatex = new MarkdownIt().use(katex);
     const src = "text {.c}$a$";
 
     expect(markdownIt.render(src)).toBe(markdownItWithOnlyKatex.render(src));
   });
 
   it("should stop at unmatched opening tags", () => {
-    const markdownIt = MarkdownIt();
+    const markdownIt = new MarkdownIt();
 
     unmatchedOpenPlugin(markdownIt);
     markdownIt.use(attrs);

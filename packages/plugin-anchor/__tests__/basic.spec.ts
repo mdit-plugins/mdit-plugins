@@ -1,17 +1,18 @@
 import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
+import { describe, expect, it, vi } from "vitest";
 
+import { legacySlugify } from "../src/defaults.js";
 import type { AnchorOptions } from "../src/options.js";
 import type { PermalinkGenerator } from "../src/permalink/types.js";
 import { anchor } from "../src/plugin.js";
 
-const md = (options?: AnchorOptions): MarkdownIt => MarkdownIt({ html: true }).use(anchor, options);
+const md = (options?: AnchorOptions): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(anchor, options);
 
-const mdWithAttrs = (options?: AnchorOptions): MarkdownIt =>
-  MarkdownIt({ html: true })
-    .use(attrs, { allowed: ["id"] })
-    .use(anchor, options);
+const mdWithAttrs = (options?: AnchorOptions): MarkdownItType =>
+  new MarkdownIt({ html: true }).use(attrs, { allowed: ["id"] }).use(anchor, options);
 
 describe("basic functionality", () => {
   it("should add anchors to headings by default", () => {
@@ -64,6 +65,46 @@ describe("slug options", () => {
     );
   });
 
+  it("should slugify punctuation without percent-encoding", () => {
+    expect(md().render("# Hello, World! (C++)")).toBe(
+      '<h1 id="hello-world-c" tabindex="-1">Hello, World! (C++)</h1>\n',
+    );
+  });
+
+  it("should keep CJK in slug", () => {
+    expect(md().render("# 中文标题")).toBe('<h1 id="中文标题" tabindex="-1">中文标题</h1>\n');
+  });
+
+  it("should collapse consecutive dashes in slug", () => {
+    expect(md().render("# foo---bar")).toBe('<h1 id="foo-bar" tabindex="-1">foo---bar</h1>\n');
+  });
+
+  it("should trim trailing dashes in slug", () => {
+    expect(md().render("# Hello -")).toBe('<h1 id="hello" tabindex="-1">Hello -</h1>\n');
+  });
+
+  it("should trim leading dashes in slug", () => {
+    expect(md().render("# - foo")).toBe('<h1 id="foo" tabindex="-1">- foo</h1>\n');
+  });
+
+  it("should fold nbsp into a dash in slug", () => {
+    expect(md().render("# foo\u00A0bar")).toBe(
+      '<h1 id="foo-bar" tabindex="-1">foo\u00A0bar</h1>\n',
+    );
+  });
+
+  it("should percent-encode punctuation with legacySlugify", () => {
+    expect(legacySlugify("Hello, World! (C++)")).toBe("hello%2C-world!-(c%2B%2B)");
+  });
+
+  it("should percent-encode CJK with legacySlugify", () => {
+    expect(legacySlugify("中文标题")).toBe("%E4%B8%AD%E6%96%87%E6%A0%87%E9%A2%98");
+  });
+
+  it("should keep dash runs with legacySlugify", () => {
+    expect(legacySlugify("foo---bar")).toBe("foo---bar");
+  });
+
   it("should support custom slugify", () => {
     expect(
       md({
@@ -92,6 +133,76 @@ describe("slug options", () => {
         slugifyWithState: (title: string): string => `with-state-${title.toLowerCase()}`,
       }).render("# Bar"),
     ).toBe('<h1 id="with-state-bar" tabindex="-1">Bar</h1>\n');
+  });
+
+  it("should fall back to a stable slug for image-only headings", () => {
+    expect(md().render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug for empty headings", () => {
+    expect(md().render("# ")).toBe('<h1 id="heading" tabindex="-1"></h1>\n');
+  });
+
+  it("should deduplicate fallback slugs for multiple image-only headings", () => {
+    expect(md().render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-1" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should deduplicate fallback slug against existing slugs", () => {
+    expect(md().render("# Heading\n\n# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1">Heading</h1>\n<h1 id="heading-1" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug when custom slugify returns empty", () => {
+    expect(md({ slugify: () => "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to a stable slug when slugifyWithState returns empty", () => {
+    expect(md({ slugifyWithState: () => "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should deduplicate fallback slugs for three image-only headings", () => {
+    expect(md().render("# ![a](b)\n\n# ![c](d)\n\n# ![e](f)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-1" tabindex="-1"><img src="d" alt="c"></h1>\n<h1 id="heading-2" tabindex="-1"><img src="f" alt="e"></h1>\n',
+    );
+  });
+
+  it("should respect uniqueSlugStartIndex for fallback slugs", () => {
+    expect(md({ uniqueSlugStartIndex: 2 }).render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="heading-2" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should use custom defaultPlaceHolder", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# ![a](b)")).toBe(
+      '<h1 id="section" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should deduplicate custom defaultPlaceHolder for multiple image-only headings", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# ![a](b)\n\n# ![c](d)")).toBe(
+      '<h1 id="section" tabindex="-1"><img src="b" alt="a"></h1>\n<h1 id="section-1" tabindex="-1"><img src="d" alt="c"></h1>\n',
+    );
+  });
+
+  it("should deduplicate custom defaultPlaceHolder against existing slugs", () => {
+    expect(md({ defaultPlaceHolder: "section" }).render("# Section\n\n# ![a](b)")).toBe(
+      '<h1 id="section" tabindex="-1">Section</h1>\n<h1 id="section-1" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
+  });
+
+  it("should fall back to default placeholder when defaultPlaceHolder is empty", () => {
+    expect(md({ defaultPlaceHolder: "" }).render("# ![a](b)")).toBe(
+      '<h1 id="heading" tabindex="-1"><img src="b" alt="a"></h1>\n',
+    );
   });
 });
 
@@ -225,5 +336,32 @@ describe("legacy options", () => {
     expect(md(legacyOptions as AnchorOptions).render("# H1")).toBe(
       '<h1 id="h1" tabindex="-1">H1</h1>\n',
     );
+  });
+});
+
+describe("performance", () => {
+  it("should not scan the tokens array without a permalink", () => {
+    const src = "# H1\n\n## H2\n\n### H3\n\npara text here";
+
+    const countIndexOf = (instance: MarkdownItType): number => {
+      const spy = vi.spyOn(Array.prototype, "indexOf");
+
+      instance.render(src);
+
+      const count = spy.mock.calls.length;
+
+      spy.mockRestore();
+
+      return count;
+    };
+
+    const plainCount = countIndexOf(new MarkdownIt({ html: true }));
+    const noPermalinkCount = countIndexOf(md());
+    const withPermalinkCount = countIndexOf(md({ permalink: (): void => {} }));
+
+    // The anchor rule itself must not scan the tokens array without a permalink,
+    // and should do exactly one scan per selected heading when a permalink is set.
+    expect(noPermalinkCount).toBe(plainCount);
+    expect(withPermalinkCount).toBe(plainCount + 3);
   });
 });

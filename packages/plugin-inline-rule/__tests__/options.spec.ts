@@ -5,24 +5,36 @@ import { inlineRule } from "../src/index.js";
 
 describe("options", () => {
   it("should throw error if required options are missing", () => {
-    const md = MarkdownIt();
+    const md = new MarkdownIt();
 
-    expect(() => md.use(inlineRule, {})).toThrow(
+    expect(() =>
+      // @ts-expect-error: error in test, missing required options
+      md.use(inlineRule, {}),
+    ).toThrow(
       "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
     );
-    expect(() => md.use(inlineRule, { marker: "*", token: "star" })).toThrow(
+    expect(() =>
+      // @ts-expect-error: error in test, missing required options
+      md.use(inlineRule, { marker: "*", token: "star" }),
+    ).toThrow(
       "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
     );
-    expect(() => md.use(inlineRule, { marker: "*", tag: "star" })).toThrow(
+    expect(() =>
+      // @ts-expect-error: error in test, missing required options
+      md.use(inlineRule, { marker: "*", tag: "star" }),
+    ).toThrow(
       "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
     );
-    expect(() => md.use(inlineRule, { token: "star", tag: "star" })).toThrow(
+    expect(() =>
+      // @ts-expect-error: error in test, missing required options
+      md.use(inlineRule, { token: "star", tag: "star" }),
+    ).toThrow(
       "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
     );
   });
 
   it("should throw error if marker is not a single character", () => {
-    const md = MarkdownIt();
+    const md = new MarkdownIt();
 
     expect(() => md.use(inlineRule, { marker: "**", token: "bold", tag: "strong" })).toThrow(
       "Invalid marker for inlineRule plugin: 'marker' must be a single character.",
@@ -31,7 +43,7 @@ describe("options", () => {
 
   describe("placement option", () => {
     it("should register before emphasis with placement: 'before-emphasis'", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -44,7 +56,7 @@ describe("options", () => {
     });
 
     it("should register after emphasis with placement: 'after-emphasis' (default)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -54,7 +66,7 @@ describe("options", () => {
     });
 
     it("should register non-nested rule before emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -65,7 +77,7 @@ describe("options", () => {
     });
 
     it("should register nested rule after emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -80,7 +92,7 @@ describe("options", () => {
 
   describe("allowSpace option", () => {
     it("should allow spaces when allowSpace is true", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -91,7 +103,7 @@ describe("options", () => {
     });
 
     it("should disallow spaces when allowSpace is false (default)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -103,7 +115,7 @@ describe("options", () => {
 
   describe("attrs option", () => {
     it("should apply attrs on non-nested rule", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "span",
         token: "custom",
@@ -114,7 +126,7 @@ describe("options", () => {
     });
 
     it("should apply attrs on nested rule", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "span",
         token: "highlight",
@@ -130,7 +142,7 @@ describe("options", () => {
 
   describe("double option", () => {
     it("non-nested double: false (default) uses single marker", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -140,7 +152,7 @@ describe("options", () => {
     });
 
     it("non-nested double: true uses double marker", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -152,7 +164,7 @@ describe("options", () => {
     });
 
     it("nested always uses double markers regardless of double option", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -170,7 +182,7 @@ describe("options", () => {
 
   describe("exhaustive option matrix", () => {
     it("non-nested + single + after-emphasis (sup-like)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -182,7 +194,7 @@ describe("options", () => {
     });
 
     it("non-nested + single + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -193,7 +205,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -205,7 +217,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -217,7 +229,7 @@ describe("options", () => {
     });
 
     it("non-nested + single + allowSpace: true", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -228,7 +240,7 @@ describe("options", () => {
     });
 
     it("non-nested + single + allowSpace: false (explicit)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -240,7 +252,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + allowSpace: true", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -252,7 +264,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + allowSpace: false (explicit)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -265,7 +277,7 @@ describe("options", () => {
     });
 
     it("non-nested + single + attrs + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "span",
         token: "custom",
@@ -277,7 +289,7 @@ describe("options", () => {
     });
 
     it("non-nested + single + attrs + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "^",
         tag: "span",
         token: "custom",
@@ -290,7 +302,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + attrs + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -303,7 +315,7 @@ describe("options", () => {
     });
 
     it("non-nested + double + attrs + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "%",
         tag: "span",
         token: "custom",
@@ -316,7 +328,7 @@ describe("options", () => {
     });
 
     it("nested + before-emphasis (mark-like)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -329,7 +341,7 @@ describe("options", () => {
     });
 
     it("nested + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "=",
         tag: "mark",
         token: "mark",
@@ -342,7 +354,7 @@ describe("options", () => {
     });
 
     it("nested + attrs + before-emphasis (spoiler-like)", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "!",
         tag: "span",
         token: "spoiler",
@@ -361,7 +373,7 @@ describe("options", () => {
     });
 
     it("nested + attrs + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "!",
         tag: "span",
         token: "spoiler",
@@ -377,7 +389,7 @@ describe("options", () => {
 
   describe("nested + double:false (single-marker delimiter mode)", () => {
     it("nested + double:false + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -396,7 +408,7 @@ describe("options", () => {
     });
 
     it("nested + double:false + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "ins",
         token: "ins",
@@ -410,7 +422,7 @@ describe("options", () => {
     });
 
     it("nested + double:false + attrs + before-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "span",
         token: "ins",
@@ -427,7 +439,7 @@ describe("options", () => {
     });
 
     it("nested + double:false + attrs + after-emphasis", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "+",
         tag: "span",
         token: "ins",
@@ -443,7 +455,7 @@ describe("options", () => {
 
   describe("emphasis override", () => {
     it("should override underscore emphasis with double: true", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "_",
         tag: "u",
         token: "underline",
@@ -466,7 +478,7 @@ describe("options", () => {
     });
 
     it("should override underscore emphasis with double: false", () => {
-      const md = MarkdownIt().use(inlineRule, {
+      const md = new MarkdownIt().use(inlineRule, {
         marker: "_",
         tag: "u",
         token: "underline",

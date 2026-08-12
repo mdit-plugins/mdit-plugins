@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { icon } from "../src/index.js";
 
 describe("should work with default options", () => {
-  const markdownIt = MarkdownIt().use(fullEmoji).use(icon);
+  const markdownIt = new MarkdownIt().use(fullEmoji).use(icon);
 
   it("should render", () => {
     expect(markdownIt.render("::icon-name::")).toBe(`<p><i class="icon-name"></i></p>\n`);
@@ -81,13 +81,11 @@ xx</p>\n`);
 });
 
 describe("should work with custom render", () => {
-  const markdownIt = MarkdownIt()
-    .use(fullEmoji)
-    .use(icon, {
-      render(content) {
-        return `<Icon icon="${content}"></Icon>`;
-      },
-    });
+  const markdownIt = new MarkdownIt().use(fullEmoji).use(icon, {
+    render(content) {
+      return `<Icon icon="${content}"></Icon>`;
+    },
+  });
 
   it("should render", () => {
     expect(markdownIt.render("::icon-name::")).toBe('<p><Icon icon="icon-name"></Icon></p>\n');
@@ -99,7 +97,7 @@ describe("should work with custom render", () => {
 });
 
 describe("should work with render: undefined", () => {
-  const markdownIt = MarkdownIt().use(fullEmoji).use(icon, {
+  const markdownIt = new MarkdownIt().use(fullEmoji).use(icon, {
     render: undefined,
   });
 
@@ -114,7 +112,7 @@ describe("should work with render: undefined", () => {
 
 describe("silent mode", () => {
   it("should handle silent mode accurately", () => {
-    const md = MarkdownIt().use(icon);
+    const md = new MarkdownIt().use(icon);
     const src = "::icon::";
     const state = new md.inline.State(src, md, {}, []);
 

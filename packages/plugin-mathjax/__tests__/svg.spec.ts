@@ -7,7 +7,7 @@ import { examples } from "./utils.js";
 describe("mathjax-svg", () => {
   describe("inline mathjax", async () => {
     const instance = (await createMathjaxInstance())!;
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, instance);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, instance);
 
     it("reset and clearStyle should not throw", () => {
       expect(() => {
@@ -44,9 +44,9 @@ describe("mathjax-svg", () => {
     });
 
     it("should not output A11y", async () => {
-      const markdownItNoA11y = MarkdownIt({ linkify: true }).use(
+      const markdownItNoA11y = new MarkdownIt({ linkify: true }).use(
         mathjax,
-        await createMathjaxInstance({ a11y: false }),
+        (await createMathjaxInstance({ a11y: false }))!,
       );
 
       examples.forEach((example) => {
@@ -67,7 +67,10 @@ describe("mathjax-svg", () => {
   });
 
   describe("block mathjax", async () => {
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, await createMathjaxInstance());
+    const markdownIt = new MarkdownIt({ linkify: true }).use(
+      mathjax,
+      (await createMathjaxInstance())!,
+    );
 
     it("should render", () => {
       const blocks = [
@@ -119,7 +122,7 @@ $$
 
   it("generating style", async () => {
     const mathjaxInstance = (await createMathjaxInstance())!;
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
@@ -133,10 +136,12 @@ $$
 
     it("should log error when label is multiply defined", async () => {
       const mathjaxInstance = (await createMathjaxInstance())!;
-      const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+      const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
-      expect(markdownIt.render(source)).toMatch(/mjx-error/);
+      // State is reset after each render, so the duplicate label is only
+      // detected when both definitions appear within the same document.
+      expect(markdownIt.render(`${source}\n\n${source}`)).toMatch(/mjx-error/);
 
       const style = await mathjaxInstance.outputStyle();
 
@@ -145,7 +150,7 @@ $$
 
     it("should reset label with reset", async () => {
       const mathjaxInstance = (await createMathjaxInstance())!;
-      const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+      const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
       const content1 = markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`);
 
@@ -169,7 +174,7 @@ $$
     const mathjaxInstance = (await createMathjaxInstance({
       transformer: (content: string) => content.replaceAll(/^(?<tag><[a-z-]+ )/g, "$<tag>v-pre "),
     }))!;
-    const markdownIt = MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
 
     expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
     expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");

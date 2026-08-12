@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-attrs",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "attrs plugin for MarkdownIt",
   "keywords": [
     "attrs",
@@ -44,8 +44,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*"
   },
   "devDependencies": {
     "@mdit/plugin-container": "workspace:*",
@@ -57,7 +56,7 @@
     "markdown-it-multimd-table": "^4.2.3"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

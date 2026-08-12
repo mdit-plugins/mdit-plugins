@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-snippet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "snippet plugin for MarkdownIt",
   "keywords": [
     "include",
@@ -44,11 +44,10 @@
   },
   "dependencies": {
     "@mdit/helper": "workspace:*",
-    "@types/markdown-it": "^14.1.2",
     "upath": "^3.0.8"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

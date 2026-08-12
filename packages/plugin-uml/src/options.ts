@@ -1,5 +1,5 @@
-import type { RenderRule } from "markdown-it/lib/renderer.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import { escapeHtml } from "@mdit/helper";
+import type { RendererRule, Token } from "markdown-it";
 
 export interface MarkdownItUMLOptions {
   /**
@@ -28,11 +28,12 @@ export interface MarkdownItUMLOptions {
    *
    * 渲染函数
    */
-  render: RenderRule;
+  renderer: RendererRule;
 }
 
-export const defaultRender = (tokens: Token[], index: number): string => {
+export const defaultRenderer = (tokens: Token[], index: number): string => {
   const token = tokens[index];
 
-  return `<div class="${token.type}" title="${token.info}">${token.content}</div>`;
+  // escapeHtml so `info` (user-controlled) cannot escape the title attribute
+  return `<div class="${token.type}" title="${escapeHtml(token.info)}">${token.content}</div>`;
 };

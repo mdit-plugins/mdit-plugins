@@ -6,6 +6,7 @@ import MarkdownIt from "markdown-it";
 import { resolve, join } from "upath";
 import { describe, expect, it, vi } from "vitest";
 
+import { includePathsKey } from "../src/constant.js";
 import type { IncludeEnv } from "../src/index.js";
 import { include } from "../src/index.js";
 
@@ -65,7 +66,7 @@ const mdFixtureFrontmatterPathRelative = "./__fixtures__/frontmatter.md";
 const mdFixtureFrontmatterPath = resolve(__dirname, mdFixtureFrontmatterPathRelative);
 
 describe("directive", () => {
-  const md = MarkdownIt({ html: true })
+  const md = new MarkdownIt({ html: true })
     .use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
       useComment: false,
@@ -141,7 +142,7 @@ describe("directive", () => {
 });
 
 describe("comment", () => {
-  const md = MarkdownIt({ html: true })
+  const md = new MarkdownIt({ html: true })
     .use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     })
@@ -444,7 +445,7 @@ describe("comment", () => {
 </div>
 `;
 
-    const mdWithOptions = MarkdownIt({ html: true })
+    const mdWithOptions = new MarkdownIt({ html: true })
       .use(include, {
         currentPath: (env: IncludeEnv) => env.filePath as string,
         resolvePath: (str: string): string =>
@@ -549,7 +550,7 @@ foo
 </div>
 `;
 
-      const mdWithOptions = MarkdownIt({ html: true })
+      const mdWithOptions = new MarkdownIt({ html: true })
         .use(include, {
           currentPath: (env: IncludeEnv) => env.filePath as string,
           deep: true,
@@ -574,7 +575,7 @@ foo
       writeFileSync(join(dir, "b.md"), "b content\n<!-- @include: a.md -->");
 
       try {
-        const mdWithOptions = MarkdownIt({ html: true })
+        const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
             deep: true,
@@ -600,7 +601,7 @@ foo
       mkdirSync(dirPath);
 
       try {
-        const mdWithOptions = MarkdownIt({ html: true })
+        const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
           })
@@ -621,7 +622,7 @@ foo
       const dir = mkdtempSync(join(tmpdir(), "include-eacces-"));
 
       try {
-        const mdWithOptions = MarkdownIt({ html: true })
+        const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
           })
@@ -675,7 +676,7 @@ foo
         const env: IncludeEnv = {
           filePath: __filename,
         };
-        const mdWithOptions = MarkdownIt().use(include, {
+        const mdWithOptions = new MarkdownIt().use(include, {
           currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveLinkPath: false,
         });
@@ -697,7 +698,7 @@ foo
         const env: IncludeEnv = {
           filePath: __filename,
         };
-        const mdWithOptions = MarkdownIt().use(include, {
+        const mdWithOptions = new MarkdownIt().use(include, {
           currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveImagePath: false,
         });
@@ -719,7 +720,7 @@ foo
         const env: IncludeEnv = {
           filePath: __filename,
         };
-        const mdWithOptions = MarkdownIt().use(include, {
+        const mdWithOptions = new MarkdownIt().use(include, {
           currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           resolveImagePath: false,
           resolveLinkPath: false,
@@ -744,7 +745,7 @@ foo
         const env: IncludeEnv = {
           filePath: __filename,
         };
-        const mdWithOptions = MarkdownIt().use(include, {
+        const mdWithOptions = new MarkdownIt().use(include, {
           currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
           deep: true,
         });
@@ -818,19 +819,19 @@ foo
 describe("currentPath", () => {
   it("should throw if currentPath is not a function", () => {
     expect(() => {
-      MarkdownIt({ html: true }).use(include, {
-        currentPath: "not a function",
+      new MarkdownIt({ html: true }).use(include, {
+        currentPath: "not a function" as unknown as (env: IncludeEnv) => string,
       });
     }).toThrow('[@mdit/plugin-include]: "currentPath" is required');
 
     expect(() => {
-      MarkdownIt({ html: true }).use(include);
+      new MarkdownIt({ html: true }).use(include);
     }).toThrow('[@mdit/plugin-include]: "currentPath" is required');
   });
 
   it("should work with absolute path if currentPath is not return", () => {
-    const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: () => null,
+    const md = new MarkdownIt({ html: true }).use(include, {
+      currentPath: (() => null) as unknown as (env: IncludeEnv) => string,
     });
 
     const source = `\
@@ -850,8 +851,8 @@ describe("currentPath", () => {
   });
 
   it("should fail with relative path if currentPath is not return", () => {
-    const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: () => null,
+    const md = new MarkdownIt({ html: true }).use(include, {
+      currentPath: (() => null) as unknown as (env: IncludeEnv) => string,
     });
 
     const source = `\
@@ -870,7 +871,7 @@ describe("currentPath", () => {
   });
 
   it("should handle include-env-start edge cases", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: () => "/path/to/current.md",
     });
 
@@ -881,7 +882,7 @@ describe("currentPath", () => {
   });
 
   it("should ignore external links when resolving related links", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: () => "/path/to/current.md",
     });
 
@@ -893,7 +894,7 @@ describe("currentPath", () => {
   });
 
   it("should deep include with relative path and no cwd", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
       deep: true,
     });
@@ -905,7 +906,7 @@ describe("currentPath", () => {
   });
 
   it("should support includePushRule in silent mode", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     });
 
@@ -916,13 +917,13 @@ describe("currentPath", () => {
   });
 
   it("should resolveRelatedLink correctly with different paths", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     });
 
     const env: IncludeEnv = {
       filePath: "/a/main.md",
-      includedPaths: ["/a/subdir"],
+      [includePathsKey]: ["/a/subdir"],
     };
 
     const rendered = md.render("![img2](./img2.png)", env);
@@ -931,7 +932,7 @@ describe("currentPath", () => {
 
     const env2: IncludeEnv = {
       filePath: "/a/b/main.md",
-      includedPaths: ["/a"],
+      [includePathsKey]: ["/a"],
     };
     const rendered2 = md.render("![img](./img.png)", env2);
 
@@ -940,7 +941,7 @@ describe("currentPath", () => {
 
   it("should handle include_end failed", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     });
 
@@ -955,13 +956,13 @@ describe("currentPath", () => {
   });
 
   it("should handle falsy path in renderer", () => {
-    const md = MarkdownIt().use(include, {
+    const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     });
 
     const env: IncludeEnv = {
       filePath: null,
-      includedPaths: ["/foo/bar.md"],
+      [includePathsKey]: ["/foo/bar.md"],
     };
 
     const rendered = md.render("![img](./img.png) [link](./link.md)", env);

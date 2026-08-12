@@ -1,12 +1,7 @@
 /** Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js */
 
-import type { Options, PluginWithOptions } from "markdown-it";
-import type { RuleBlock } from "markdown-it/lib/parser_block.mjs";
-import type { RuleInline } from "markdown-it/lib/parser_inline.mjs";
-import type Renderer from "markdown-it/lib/renderer.mjs";
-import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
-import type Token from "markdown-it/lib/token.mjs";
+import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { StateBlock, StateInline } from "markdown-it";
 
 import type { MarkdownItTexOptions } from "./options.js";
 
@@ -76,7 +71,7 @@ const isDollarClose = (state: StateInline, pos: number, allowInlineWithSpace: bo
  * Parse inline math with dollar signs: $...$
  */
 const createDollarInlineTexRule =
-  (allowInlineWithSpace: boolean): RuleInline =>
+  (allowInlineWithSpace: boolean): InlineRule =>
   (state, silent) => {
     if (state.src[state.pos] !== "$") return false;
 
@@ -153,7 +148,7 @@ const createDollarInlineTexRule =
 /*
  * Parse inline math with bracket syntax: \(...\)
  */
-const createBracketInlineTexRule = (): RuleInline => (state, silent) => {
+const createBracketInlineTexRule = (): InlineRule => (state, silent) => {
   const start = state.pos;
 
   // Check for opening \(
@@ -240,7 +235,7 @@ const hasDollarPairWithTrailingContent = (state: StateBlock, pos: number, end: n
 /*
  * Parse block math with dollar signs: $$...$$
  */
-const dollarBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
+const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
 
@@ -315,7 +310,7 @@ const dollarBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
 /*
  * Parse block math with bracket syntax: \[...\]
  */
-const bracketBlockTexRule: RuleBlock = (state, startLine, endLine, silent) => {
+const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   let end = state.eMarks[startLine];
 
@@ -403,19 +398,14 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   if (mathFence) {
     const fence = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (
-      tokens: Token[],
-      index: number,
-      mdItOptions: Options,
-      env: unknown,
-      self: Renderer,
-    ): string => {
+    md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
       const token = tokens[index];
 
-      if (token.info.trim() === "math") return render(token.content, true, env);
+      if (token.info.trim() === "math")
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        return render(token.content, true, env!);
 
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      return fence!(tokens, index, mdItOptions, env, self);
+      return fence(tokens, index, mdItOptions, env, self);
     };
   }
 
@@ -435,7 +425,9 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>
-    render(tokens[index].content, false, env);
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    render(tokens[index].content, false, env!);
   md.renderer.rules.math_block = (tokens, index, _options, env): string =>
-    render(tokens[index].content, true, env);
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    render(tokens[index].content, true, env!);
 };

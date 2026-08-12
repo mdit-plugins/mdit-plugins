@@ -13,7 +13,7 @@ Plugin for creating Flexbox, CSS Grid, and Multi-column layouts using directives
 import MarkdownIt from "markdown-it";
 import { layout } from "@mdit/plugin-layout";
 
-const mdIt = MarkdownIt().use(layout);
+const mdIt = new MarkdownIt().use(layout);
 
 mdIt.render(`\
 @flexs gap-4

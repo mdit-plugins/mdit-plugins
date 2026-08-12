@@ -359,7 +359,7 @@ Content of tab 3
 :::
 `;
 
-    const customOpenRender = (info: MarkdownItTabData[]): string => {
+    const customOpenRenderer = (info: MarkdownItTabData[]): string => {
       const tabs = info.map(
         ({ title, isActive }, index) =>
           `<div class="custom-tab${
@@ -372,15 +372,16 @@ Content of tab 3
       )}\n</div>\n<div class="custom-tabs-content">`;
     };
 
-    const customCloseRender = (): string => `</div>\n</div>\n`;
+    const customCloseRenderer = (): string => `</div>\n</div>\n`;
 
     mdOld.use(tabOld, {
-      openRender: customOpenRender,
-      closeRender: customCloseRender,
+      openRenderer: customOpenRenderer,
+      closeRenderer: customCloseRenderer,
     });
     mdNew.use(tabNew, {
-      openRender: customOpenRender,
-      closeRender: customCloseRender,
+      name: "tab",
+      openRenderer: (info) => customOpenRenderer(info.data),
+      closeRenderer: customCloseRenderer,
     });
 
     bench("old Implementation", () => {

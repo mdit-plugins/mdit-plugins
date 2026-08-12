@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-plantuml",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "plantuml plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
@@ -49,14 +49,14 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/plugin-uml": "workspace:*",
-    "@types/markdown-it": "^14.1.2"
+    "@mdit/helper": "workspace:*",
+    "@mdit/plugin-uml": "workspace:*"
   },
   "devDependencies": {
     "pako": "3.0.1"
   },
   "peerDependencies": {
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^15.0.0"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

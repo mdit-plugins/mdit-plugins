@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%401.0.2...%40mdit%2Fplugin-uml%401.0.3) (2026-08-10)
+
+### 🐛 Bug Fixes
+
+- **plugin-uml:** escape info in default render ([#641](https://github.com/mdit-plugins/mdit-plugins/issues/641)) ([9f1c583](https://github.com/mdit-plugins/mdit-plugins/commit/9f1c583eb545f43dc5ca6c93ba250ed54647ef75))
+
 ## [1.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%401.0.1...%40mdit%2Fplugin-uml%401.0.2) (2026-07-29)
 
 ### Code Refactoring

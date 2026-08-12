@@ -10,7 +10,7 @@ import {
   LAYOUT_FLEX,
   LAYOUT_GRID,
   SPACE,
-} from "./types.js";
+} from "./constant.js";
 
 /**
  * Check if a string matches a target starting at the given position.
@@ -68,9 +68,13 @@ export const detectDirective = (
   // Check for "end"
   if (matchString(src, afterAt, END) && afterAt + END.length <= max) {
     const endPos = afterAt + END.length;
+    let spaceEnd = endPos;
 
-    if (endPos >= max || src.charCodeAt(endPos) === SPACE)
-      return { kind: "end", type: 0, nameEnd: endPos, depth };
+    // `@end` must be followed by only whitespace or end of line, otherwise the
+    // trailing content would be silently dropped.
+    while (spaceEnd < max && src.charCodeAt(spaceEnd) === SPACE) spaceEnd++;
+
+    if (spaceEnd >= max) return { kind: "end", type: 0, nameEnd: endPos, depth };
   }
 
   // Check for "flex" / "flexs"

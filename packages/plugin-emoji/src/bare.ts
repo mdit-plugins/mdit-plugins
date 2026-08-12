@@ -1,4 +1,4 @@
-import type { PluginWithOptions } from "markdown-it";
+import type { PluginWithOptions } from "@mdit/helper";
 
 import { normalizeOption } from "./normalizeOption.js";
 import type { EmojiPluginOptions } from "./options.js";

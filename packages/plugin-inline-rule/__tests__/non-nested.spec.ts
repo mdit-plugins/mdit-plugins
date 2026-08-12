@@ -6,7 +6,7 @@ import { inlineRule } from "../src/index.js";
 describe(inlineRule, () => {
   describe("non-nested (linear scan)", () => {
     describe("sup configuration (marker: ^, tag: sup)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "^",
         tag: "sup",
         token: "sup",
@@ -49,7 +49,7 @@ describe(inlineRule, () => {
     });
 
     describe("sub configuration (marker: ~, tag: sub)", () => {
-      const md = MarkdownIt({ linkify: true }).use(inlineRule, {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
         marker: "~",
         tag: "sub",
         token: "sub",

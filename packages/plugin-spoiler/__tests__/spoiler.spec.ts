@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { spoiler } from "../src/index.js";
 
 describe(spoiler, () => {
-  const markdownIt = MarkdownIt({ linkify: true }).use(spoiler);
+  const markdownIt = new MarkdownIt({ linkify: true }).use(spoiler);
 
   it("should render", () => {
     expect(markdownIt.render(`!!Mark!!`)).toBe(

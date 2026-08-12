@@ -120,7 +120,7 @@ exports[`snippet > should import all lines 5`] = `
 import MarkdownIt from &quot;markdown-it&quot;;
 
 // #region snippet
-const mdIt = MarkdownIt().use(snippet, {
+const mdIt = new MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
 });
@@ -397,7 +397,7 @@ exports[`snippet > should support region 4`] = `
 `;
 
 exports[`snippet > should support region 5`] = `
-"<pre><code class="language-ts">const mdIt = MarkdownIt().use(snippet, {
+"<pre><code class="language-ts">const mdIt = new MarkdownIt().use(snippet, {
   // your options, currentPath is required
   currentPath: (env) =&gt; env.filePath,
 });</code></pre>

@@ -13,7 +13,7 @@ icon: file-lines
 import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
 
-const mdIt = MarkdownIt().use(snippet, {
+const mdIt = new MarkdownIt().use(snippet, {
   // 你的选项，currentPath 是必填的
   currentPath: (env) => env.filePath,
 });
@@ -38,7 +38,7 @@ import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
 
-const mdIt = MarkdownIt();
+const mdIt = new MarkdownIt();
 
 mdIt.use(snippet, {
   currentPath: (env) => env.filePath,
@@ -133,7 +133,7 @@ import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
 
 // #region snippet
-const mdIt = MarkdownIt().use(snippet, {
+const mdIt = new MarkdownIt().use(snippet, {
   // 你的选项，currentPath 是必填的
   currentPath: (env) => env.filePath,
 });
@@ -151,7 +151,7 @@ import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
 
 // #region snippet
-const mdIt = MarkdownIt().use(snippet, {
+const mdIt = new MarkdownIt().use(snippet, {
   // 你的选项，currentPath 是必填的
   currentPath: (env) => env.filePath,
 });
