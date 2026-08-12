@@ -428,7 +428,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
 
-    openRender = (info: MarkdownItTabInfo): string => {
+    openRenderer = (info: MarkdownItTabInfo): string => {
       const { active, data, id: containerId } = info;
 
       const tabs = data.map(
@@ -451,12 +451,12 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 `;
     },
 
-    closeRender = (): string => `\
+    closeRenderer = (): string => `\
   </div>
 </div>
 `,
 
-    tabOpenRender = (info: MarkdownItTabData): string => {
+    tabOpenRenderer = (info: MarkdownItTabData): string => {
       const { index, id, isActive } = info;
 
       return `\
@@ -466,7 +466,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 `;
     },
 
-    tabCloseRender = (): string => `\
+    tabCloseRenderer = (): string => `\
 </div>
 `,
   } = options ?? {};
@@ -488,16 +488,16 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
     const meta = tokens[index].meta as TabContainerMeta;
     const info: MarkdownItTabInfo = meta.tabsData ?? { active: -1, data: [], id: meta.id };
 
-    return openRender(info, tokens, index, mdItOptions, env, self);
+    return openRenderer(info, tokens, index, mdItOptions, env, self);
   };
 
-  md.renderer.rules[`${name}_tabs_close`] = closeRender;
+  md.renderer.rules[`${name}_tabs_close`] = closeRenderer;
 
   md.renderer.rules[`${name}_tab_open`] = (tokens, index, mdItOptions, env, self): string => {
     const data = tabDataGetter(tokens, index);
 
-    return tabOpenRender(data, tokens, index, mdItOptions, env, self);
+    return tabOpenRenderer(data, tokens, index, mdItOptions, env, self);
   };
 
-  md.renderer.rules[`${name}_tab_close`] = tabCloseRender;
+  md.renderer.rules[`${name}_tab_close`] = tabCloseRenderer;
 };

@@ -202,11 +202,11 @@ content
       expect(result).not.toContain("data-id");
     });
 
-    it("should pass container id to custom openRender via info.id", () => {
+    it("should pass container id to custom openRenderer via info.id", () => {
       const mdInstance = new MarkdownIt().use(tab, {
         name: "tabs",
-        openRender: (info) => `<div data-info-id="${info.id}">`,
-        closeRender: () => "</div>",
+        openRenderer: (info) => `<div data-info-id="${info.id}">`,
+        closeRenderer: () => "</div>",
       });
 
       const result = mdInstance.render(`
@@ -219,11 +219,11 @@ content
       expect(result).toContain('<div data-info-id="event">');
     });
 
-    it("should pass undefined container id to custom openRender when no id is set", () => {
+    it("should pass undefined container id to custom openRenderer when no id is set", () => {
       const mdInstance = new MarkdownIt().use(tab, {
         name: "tabs",
-        openRender: (info) => `<div data-info-id="${info.id}">`,
-        closeRender: () => "</div>",
+        openRenderer: (info) => `<div data-info-id="${info.id}">`,
+        closeRenderer: () => "</div>",
       });
 
       const result = mdInstance.render(`
@@ -569,10 +569,10 @@ content
   it("should work with multiple instance", () => {
     const markdownItWithMultipleInstance = new MarkdownIt({ linkify: true }).use(tab).use(tab, {
       name: "test",
-      openRender: () => "<TestTabs>",
-      closeRender: () => "</TestTabs>",
-      tabOpenRender: () => "<TestTab>",
-      tabCloseRender: () => "</TestTab>",
+      openRenderer: () => "<TestTabs>",
+      closeRenderer: () => "</TestTabs>",
+      tabOpenRenderer: () => "<TestTab>",
+      tabCloseRenderer: () => "</TestTab>",
     });
 
     const source = [

@@ -56,7 +56,7 @@ export interface MarkdownItTabInfo {
 }
 
 // oxlint-disable-next-line max-params
-export type TabsOpenRender = (
+export type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
   index: number,
@@ -66,7 +66,7 @@ export type TabsOpenRender = (
 ) => string;
 
 // oxlint-disable-next-line max-params
-export type TabOpenRender = (
+export type TabOpenRenderer = (
   data: MarkdownItTabData,
   tokens: Token[],
   index: number,
@@ -84,14 +84,14 @@ export interface MarkdownItTabOptions {
   name: string;
 
   /** Tabs open render */
-  openRender?: TabsOpenRender;
+  openRenderer?: TabsOpenRenderer;
 
   /** Tabs close render */
-  closeRender?: RendererRule;
+  closeRenderer?: RendererRule;
 
   /** Tab open render */
-  tabOpenRender?: TabOpenRender;
+  tabOpenRenderer?: TabOpenRenderer;
 
   /** Tab close render */
-  tabCloseRender?: RendererRule;
+  tabCloseRenderer?: RendererRule;
 }
