@@ -52,7 +52,7 @@ jobs:
         run: pnpm run build
 
       - name: Linting check
-        run: pnpm lint
+        run: pnpm lint:check
 
       - name: Test check
         run: pnpm test
