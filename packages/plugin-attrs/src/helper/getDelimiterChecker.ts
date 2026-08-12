@@ -81,8 +81,7 @@ export const createDelimiterChecker = (
     // Quick check for minimum length requirements
     if (typeof content !== "string" || content.length < minContentLength) return false;
 
-    let start: number;
-    let end: number;
+    let end: number, start: number;
 
     if (where === "start") {
       // Check if content starts with left delimiter

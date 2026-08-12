@@ -20,18 +20,17 @@ import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from 
 import { loadTexPackages, texPackages } from "./tex/index.js";
 import { clearUserState } from "./utils.js";
 
+let AssistiveMmlHandler: typeof AssistiveMmlHandlerType,
+  CHTML: typeof CHTMLType,
+  RegisterHTMLHandler: typeof RegisterHTMLHandlerType,
+  SVG: typeof SVGType,
+  TeX: typeof TeXType,
+  chtmlFont: typeof chtmlFontType,
+  liteAdaptor: typeof liteAdaptorType,
+  mathjaxLib: typeof mathjaxType,
+  svgFont: typeof svgFontType;
 let isMathJaxInstalled = true;
-let mathjaxLib: typeof mathjaxType;
-let TeX: typeof TeXType;
-let CHTML: typeof CHTMLType;
-let SVG: typeof SVGType;
-let liteAdaptor: typeof liteAdaptorType;
-// move type import to front
-let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
-let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
 let isMathJaxNewcmFontInstalled = true;
-let chtmlFont: typeof chtmlFontType;
-let svgFont: typeof svgFontType;
 
 try {
   ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));

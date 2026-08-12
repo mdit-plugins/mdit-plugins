@@ -23,16 +23,15 @@ import { texPackages } from "./tex/index.js";
 import { clearUserState } from "./utils.js";
 
 let isMathJaxInstalled = true;
-let mathjaxLib: typeof mathjaxType;
-let TeX: typeof TeXType;
-let CHTML: typeof CHTMLType;
-let SVG: typeof SVGType;
-let liteAdaptor: typeof liteAdaptorType;
-let RegisterHTMLHandler: typeof RegisterHTMLHandlerType;
-let AssistiveMmlHandler: typeof AssistiveMmlHandlerType;
+let AssistiveMmlHandler: typeof AssistiveMmlHandlerType,
+  CHTML: typeof CHTMLType,
+  RegisterHTMLHandler: typeof RegisterHTMLHandlerType,
+  SVG: typeof SVGType,
+  TeX: typeof TeXType,
+  liteAdaptor: typeof liteAdaptorType,
+  mathjaxLib: typeof mathjaxType;
 let isMathJaxNewcmFontInstalled = true;
-let chtmlFont: typeof MathJaxNewcmHTMLFont;
-let svgFont: typeof MathJaxNewcmSVGFont;
+let chtmlFont: typeof MathJaxNewcmHTMLFont, svgFont: typeof MathJaxNewcmSVGFont;
 
 const require = createRequire(import.meta.url);
 

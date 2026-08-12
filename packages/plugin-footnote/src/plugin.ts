@@ -295,8 +295,7 @@ const footnoteRef: InlineRule = (state: FootNoteStateInline, silent) => {
 const footnoteTail: CoreRule = (state: FootNoteStateCore) => {
   const refTokens: Record<string, Token[]> = {};
 
-  let current: Token[];
-  let currentLabel: string;
+  let current: Token[], currentLabel: string;
   let isInsideRef = false;
 
   if (!state.env.footnotes?.list) {
