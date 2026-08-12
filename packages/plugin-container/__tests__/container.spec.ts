@@ -666,8 +666,8 @@ zzz</p>
   it("renderer", () => {
     const markdownItRender = new MarkdownIt({ linkify: true }).use(container, {
       name: "spoiler",
-      openRender: () => "<details><summary>click me</summary>\n",
-      closeRender: () => "</details>\n",
+      openRenderer: () => "<details><summary>click me</summary>\n",
+      closeRenderer: () => "</details>\n",
     });
 
     const testCases = [

@@ -36,12 +36,12 @@ export interface MarkdownItContainerOptions {
    *
    * 开始标签渲染函数
    */
-  openRender?: RendererRule;
+  openRenderer?: RendererRule;
 
   /**
    * Closing tag render function
    *
    * 结束标签渲染函数
    */
-  closeRender?: RendererRule;
+  closeRenderer?: RendererRule;
 }

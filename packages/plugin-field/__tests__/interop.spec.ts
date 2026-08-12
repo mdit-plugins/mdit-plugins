@@ -7,7 +7,7 @@ import { field } from "../src/index.js";
 
 const md = new MarkdownIt().use(field);
 const mdWithContainer = new MarkdownIt({ html: true })
-  .use(container, { name: "warning", openRender: () => '<div class="warning">' })
+  .use(container, { name: "warning", openRenderer: () => '<div class="warning">' })
   .use(field);
 
 describe("field inside block elements", () => {

@@ -40,7 +40,7 @@ const config: UserConfig = defineUserConfig({
     markdownIt.use(abbr);
     markdownIt.use(container, {
       name: "hint",
-      openRender: (tokens, index): string => {
+      openRenderer: (tokens, index): string => {
         const token = tokens[index];
 
         // resolve info (title)

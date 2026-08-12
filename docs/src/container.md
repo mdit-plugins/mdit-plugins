@@ -118,7 +118,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 - Details: Validate whether it should be regarded as this container type.
 
-### openRender
+### openRenderer
 
 - Type: `RendererRule`
 
@@ -126,7 +126,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 - Details: Opening tag render function.
 
-### closeRender
+### closeRenderer
 
 - Type: `RendererRule`
 
@@ -143,7 +143,7 @@ With the following code and some styles:
 ```js
 md.use(container, {
   name: "hint",
-  openRender: (tokens, index, _options) => {
+  openRenderer: (tokens, index, _options) => {
     const info = tokens[index].info.trim().slice(4).trim();
 
     return `<div class="custom-container hint">\n<p class="custom-container-title">${

@@ -18,7 +18,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     name,
     marker = ":",
     validate = (params: string): boolean => params.trim().split(" ", 2)[0] === name,
-    openRender = (
+    openRenderer = (
       tokens: Token[],
       index: number,
       mdItOptions: Required<MarkdownItOptions>,
@@ -30,7 +30,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
 
       return self.renderToken(tokens, index, mdItOptions);
     },
-    closeRender = (
+    closeRenderer = (
       tokens: Token[],
       index: number,
       mdItOptions: Required<MarkdownItOptions>,
@@ -159,6 +159,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
   md.block.ruler.before("fence", `container_${name}`, containerRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules[`container_${name}_open`] = openRender;
-  md.renderer.rules[`container_${name}_close`] = closeRender;
+  md.renderer.rules[`container_${name}_open`] = openRenderer;
+  md.renderer.rules[`container_${name}_close`] = closeRenderer;
 };
