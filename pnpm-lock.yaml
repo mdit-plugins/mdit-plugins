@@ -657,8 +657,8 @@ importers:
         version: 15.0.0
     devDependencies:
       katex:
-        specifier: 0.18.2
-        version: 0.18.2
+        specifier: 0.18.4
+        version: 0.18.4
 
   packages/plugin-layout:
     dependencies:
@@ -3397,6 +3397,10 @@ packages:
 
   katex@0.18.2:
     resolution: {integrity: sha512-3snve4y0SXTMequLim1FMiPvLGElySam0blN5xQZBqEY3lOJz1TnuaaiugnBZBqHzlSAGmFTYL7MCQkORuLKCA==}
+    hasBin: true
+
+  katex@0.18.4:
+    resolution: {integrity: sha512-IMPntbRLOU+eu88XDiFKqQ8Akhr9Tv7jDMXqPhjG9SI1JMA4DIgXk4x9k4skJz2NZJXBRbC+2pYBLj9olqcZow==}
     hasBin: true
 
   kind-of@6.0.3:
@@ -7769,6 +7773,10 @@ snapshots:
       commander: 8.3.0
 
   katex@0.18.2:
+    dependencies:
+      commander: 8.3.0
+
+  katex@0.18.4:
     dependencies:
       commander: 8.3.0
 
