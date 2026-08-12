@@ -821,9 +821,9 @@ This is a note</p>
 
   it("should support customize options", () => {
     const markdownItCustom = new MarkdownIt().use(alert, {
-      openRender: (tokens, index) => `<div class="${tokens[index].markup}-alert">\n`,
-      closeRender: () => `</div>\n`,
-      titleRender: (tokens, index) => {
+      openRenderer: (tokens, index) => `<div class="${tokens[index].markup}-alert">\n`,
+      closeRenderer: () => `</div>\n`,
+      titleRenderer: (tokens, index) => {
         const token = tokens[index];
         const title = {
           important: "重要",

@@ -336,9 +336,9 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   {
     alertNames = ["tip", "warning", "caution", "important", "note"],
     deep = false,
-    openRender,
-    closeRender,
-    titleRender,
+    openRenderer,
+    closeRenderer,
+    titleRenderer,
   } = {},
 ) => {
   const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
@@ -347,12 +347,12 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  if (openRender) md.renderer.rules.alert_open = openRender;
+  if (openRenderer) md.renderer.rules.alert_open = openRenderer;
 
-  if (closeRender) md.renderer.rules.alert_close = closeRender;
+  if (closeRenderer) md.renderer.rules.alert_close = closeRenderer;
 
   md.renderer.rules.alert_title =
-    titleRender ??
+    titleRenderer ??
     ((tokens, index): string => {
       const token = tokens[index];
 

@@ -105,7 +105,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 - Default: `false`
 - Details: Whether to handle deep alert syntax.
 
-### openRender
+### openRenderer
 
 - Type: `RendererRule`
 
@@ -113,7 +113,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 - Details: Hint opening tag render function.
 
-### closeRender
+### closeRenderer
 
 - Type: `RendererRule`
 
@@ -121,7 +121,7 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 - Details: Hint closing tag render function.
 
-### titleRender
+### titleRenderer
 
 - Type: `RendererRule`
 - Details: Hint title render function.

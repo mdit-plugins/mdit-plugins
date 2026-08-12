@@ -105,7 +105,7 @@ mdIt.render(`
 - 默认值：`false`
 - 详情：是否允许深层的警告语法。
 
-### openRender
+### openRenderer
 
 - 类型：`RendererRule`
 
@@ -113,7 +113,7 @@ mdIt.render(`
 
 - 详情：提示开始标签渲染函数。
 
-### closeRender
+### closeRenderer
 
 - 类型：`RendererRule`
 
@@ -121,7 +121,7 @@ mdIt.render(`
 
 - 详情：提示结束标签渲染函数。
 
-### titleRender
+### titleRenderer
 
 - 类型：`RendererRule`
 - 详情：提示标题渲染函数。

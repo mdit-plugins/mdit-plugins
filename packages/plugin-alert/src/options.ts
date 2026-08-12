@@ -24,19 +24,19 @@ export interface MarkdownItAlertOptions {
    *
    * 提示开始标签渲染函数
    */
-  openRender?: RendererRule;
+  openRenderer?: RendererRule;
 
   /**
    * Hint closing tag render function
    *
    * 提示结束标签渲染函数
    */
-  closeRender?: RendererRule;
+  closeRenderer?: RendererRule;
 
   /**
    * Hint title render function
    *
    * 提示标题渲染函数
    */
-  titleRender?: RendererRule;
+  titleRenderer?: RendererRule;
 }
