@@ -46,7 +46,7 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
-  markdown-it: 15.0.0
+  markdown-it: 15.0.1
 
 cleanupUnusedCatalogs: true
 
