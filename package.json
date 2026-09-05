@@ -27,7 +27,7 @@
     "@lerna-lite/publish": "5.6.1",
     "@mr-hope/tsconfig": "0.0.4",
     "@types/node": "24.13.3",
-    "@vitest/coverage-istanbul": "4.1.11",
+    "@vitest/coverage-istanbul": "5.0.0",
     "conventional-changelog-conventionalcommits": "10.4.0",
     "cross-env": "10.1.0",
     "happy-dom": "20.14.0",
@@ -45,7 +45,7 @@
     "tsdown": "0.23.0",
     "typescript": "7.0.2",
     "unrun": "0.3.1",
-    "vitest": "4.1.11"
+    "vitest": "5.0.0"
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
