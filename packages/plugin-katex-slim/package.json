@@ -52,7 +52,7 @@
     "@mdit/plugin-tex": "workspace:*"
   },
   "devDependencies": {
-    "katex": "0.18.4"
+    "katex": "0.18.5"
   },
   "peerDependencies": {
     "katex": "^0.16.25 || ^0.17.0 || ^0.18.0",
