@@ -36,7 +36,7 @@
     "nano-staged": "1.0.2",
     "npm-check-updates": "23.1.0",
     "oxc-config-hope": "0.3.13",
-    "oxfmt": "0.63.0",
+    "oxfmt": "0.66.0",
     "oxlint": "1.81.0",
     "oxlint-tsgolint": "7.0.2001",
     "picocolors": "1.1.1",
