@@ -30,7 +30,7 @@
     "@vitest/coverage-istanbul": "4.1.11",
     "conventional-changelog-conventionalcommits": "10.4.0",
     "cross-env": "10.1.0",
-    "happy-dom": "20.11.6",
+    "happy-dom": "20.14.0",
     "husky": "9.1.7",
     "markdownlint-cli2": "0.23.2",
     "nano-staged": "1.0.2",
