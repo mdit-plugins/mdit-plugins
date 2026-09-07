@@ -10,7 +10,6 @@ const config: ViteUserConfigExport = defineConfig({
     },
   },
   test: {
-    isolate: false,
     fsModuleCache: true,
     pool: "threads",
     coverage: {
