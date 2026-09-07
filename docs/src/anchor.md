@@ -40,6 +40,32 @@ mdIt.render("# Hello World");
 
 All headings matching the `level` option will receive `id` and `tabindex` attributes.
 
+## Sharing the slug registry
+
+Used slugs are stored on `env.markdownItAnchor.slugs` (a `{ [slug]: true }`
+map). A later plugin loaded after this one can read the same object on
+`state.env.markdownItAnchor.slugs`.
+
+The map lives on `env`, so it is shared across `render()` calls that receive
+the same object. Pass one `env` when several Markdown sources make up a single
+HTML page; pass a new `env` (or omit it) per page.
+
+You can also pre-seed reserved IDs:
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor } from "@mdit/plugin-anchor";
+
+const mdIt = new MarkdownIt().use(anchor);
+
+const env = { markdownItAnchor: { slugs: { h1: true } } };
+
+mdIt.render("# H1", env);
+// <h1 id="h1-1" tabindex="-1">H1</h1>
+
+// env.markdownItAnchor.slugs === { h1: true, "h1-1": true }
+```
+
 ## Demo
 
 ::: preview Demo

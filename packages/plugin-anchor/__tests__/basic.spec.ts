@@ -320,6 +320,30 @@ describe("attrs integration", () => {
   });
 });
 
+describe("env slug registry", () => {
+  it("should respect pre-seeded slugs in env", () => {
+    expect(md().render("# H1\n\n## H1", { markdownItAnchor: { slugs: { h1: true } } })).toBe(
+      '<h1 id="h1-1" tabindex="-1">H1</h1>\n<h2 id="h1-2" tabindex="-1">H1</h2>\n',
+    );
+  });
+
+  it("should expose used slugs on env", () => {
+    const env: Record<string, unknown> = {};
+
+    md().render("# H1\n\n## H2", env);
+
+    expect(env.markdownItAnchor).toStrictEqual({ slugs: { h1: true, h2: true } });
+  });
+
+  it("should reuse the slug registry across renders with the same env", () => {
+    const mdit = md();
+    const env: Record<string, unknown> = {};
+
+    expect(mdit.render("# H1", env)).toBe('<h1 id="h1" tabindex="-1">H1</h1>\n');
+    expect(mdit.render("# H1", env)).toBe('<h1 id="h1-1" tabindex="-1">H1</h1>\n');
+  });
+});
+
 describe("legacy options", () => {
   it("should ignore markdown-it-anchor legacy permalink options", () => {
     // The pre-9.x option surface was dropped intentionally - it must be

@@ -24,6 +24,20 @@ export interface AnchorInfo {
 }
 
 /**
+ * Shared anchor state stored in `state.env.markdownItAnchor`
+ *
+ * 存储在 `state.env.markdownItAnchor` 中的共享锚点状态
+ */
+export interface AnchorEnv {
+  /**
+   * Used slugs map, shared across renders that receive the same env
+   *
+   * 已使用的 slug 映射，在接收同一 env 的多次渲染间共享
+   */
+  slugs?: Record<string, boolean>;
+}
+
+/**
  * Options for the anchor plugin
  *
  * 锚点插件选项
