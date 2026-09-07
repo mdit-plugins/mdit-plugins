@@ -40,6 +40,28 @@ mdIt.render("# 你好 世界");
 
 所有匹配 `level` 选项的标题将自动添加 `id` 和 `tabindex` 属性。
 
+## 共享 slug 注册表
+
+已使用的 slug 存储在 `env.markdownItAnchor.slugs`（一个 `{ [slug]: true }` 映射）中。在此之后加载的插件可以通过 `state.env.markdownItAnchor.slugs` 读取同一个对象。
+
+该映射位于 `env` 上，因此在接收同一对象的多次 `render()` 调用之间共享。当多个 Markdown 源组成单个 HTML 页面时，传入同一个 `env`。当它们各自构成独立页面时，为每个页面传入新的 `env`（或省略）。
+
+你还可以预置保留的 ID：
+
+```ts
+import MarkdownIt from "markdown-it";
+import { anchor } from "@mdit/plugin-anchor";
+
+const mdIt = new MarkdownIt().use(anchor);
+
+const env = { markdownItAnchor: { slugs: { h1: true } } };
+
+mdIt.render("# H1", env);
+// <h1 id="h1-1" tabindex="-1">H1</h1>
+
+// env.markdownItAnchor.slugs === { h1: true, "h1-1": true }
+```
+
 ## 示例
 
 ::: preview 示例

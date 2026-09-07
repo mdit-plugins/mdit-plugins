@@ -2,7 +2,7 @@ import type { PluginWithOptions } from "@mdit/helper";
 import type { StateCore } from "markdown-it";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
-import type { AnchorOptions, ResolvedAnchorOptions } from "./options.js";
+import type { AnchorEnv, AnchorOptions, ResolvedAnchorOptions } from "./options.js";
 import { isLevelSelectedArray, isLevelSelectedNumber, uniqueSlug } from "./utils.js";
 
 const DEFAULT_PLACE_HOLDER = "heading";
@@ -32,7 +32,9 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
   } = resolvedOptions;
 
   md.core.ruler.push("anchor", (state: StateCore): void => {
-    const slugs: Record<string, boolean> = {};
+    const env = (state.env.markdownItAnchor ??= {}) as AnchorEnv;
+
+    const slugs = (env.slugs ??= {});
     const { tokens } = state;
 
     const isLevelSelected = Array.isArray(level)
