@@ -1,39 +1,42 @@
-import { readdirSync } from "node:fs";
+import { readdir } from "node:fs/promises";
 import { request } from "node:https";
 import path from "node:path";
 
-const packagesDir = path.resolve(process.cwd(), "packages");
-const packages = readdirSync(packagesDir);
+const root = path.resolve(import.meta.dirname, "../");
 
-export const sync = async (): Promise<void> => {
-  const promises = packages.map((packageName) =>
-    import(`../packages/${packageName}/package.json`, {
-      with: { type: "json" },
-    }).then(
-      ({ default: content }: { default: Record<string, unknown> }) =>
-        new Promise<void>((resolve) => {
-          const req = request(
-            `https://registry-direct.npmmirror.com/-/package/${content.name as string}/syncs`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Length": 0,
-              },
-            },
-          );
+const syncNpmMirror = (pkg: string): Promise<void> =>
+  new Promise<void>((resolve) => {
+    const req = request(`https://registry-direct.npmmirror.com/-/package/${pkg}/syncs`, {
+      method: "PUT",
+      headers: {
+        "Content-Length": 0,
+      },
+    });
 
-          req.write("");
+    req.write("");
 
-          req.on("close", () => {
-            resolve();
-          });
+    req.on("close", () => {
+      resolve();
+    });
 
-          req.end();
-        }),
+    req.end();
+  });
+
+const getPackageName = (importPath: string): Promise<string> =>
+  import(importPath, { with: { type: "json" } }).then(
+    ({ default: { name } }: { default: { name: string } }) => name,
+  );
+
+const syncPackage = (importPath: string): Promise<void> =>
+  getPackageName(importPath).then(syncNpmMirror);
+
+const syncDir = (dir: string): Promise<void[]> =>
+  readdir(path.resolve(root, dir)).then((names) =>
+    Promise.all(
+      names
+        .filter((name) => !name.startsWith("."))
+        .map((name) => syncPackage(`${root}/${dir}/${name}/package.json`)),
     ),
   );
 
-  await Promise.all(promises);
-};
-
-await sync();
+await syncDir("packages");
