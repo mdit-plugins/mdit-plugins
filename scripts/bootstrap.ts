@@ -43,17 +43,17 @@ files.forEach((pkgName) => {
       type: "module",
       exports: {
         ".": {
-          type: "./lib/index.d.ts",
-          default: "./lib/index.js",
+          type: "./dist/index.d.ts",
+          default: "./dist/index.js",
         },
         "./package.json": "./package.json",
       },
-      main: "lib/index.js",
-      types: "lib/index.d.ts",
-      files: ["lib"],
+      main: "dist/index.js",
+      types: "dist/index.d.ts",
+      files: ["dist"],
       scripts: {
-        build: "tsdown --config-loader unrun",
-        clean: "rimraf ./lib",
+        build: "tsdown",
+        clean: "rimraf ./dist",
       },
       peerDependencies: {
         "markdown-it": "^15.0.0",
