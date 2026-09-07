@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.0...%40mdit%2Fplugin-mathjax-slim%401.2.1) (2026-09-07)
+
+### 🐛 Bug Fixes
+
+- **plugin-mathjax-slim:** make @mathjax/src optional ([3f460fb](https://github.com/mdit-plugins/mdit-plugins/commit/3f460fb6f3d4ecceb40f973b0b33ad9cab0c454e))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.1.2...%40mdit%2Fplugin-mathjax-slim%401.2.0) (2026-08-12)
 
 ### ✨ Features

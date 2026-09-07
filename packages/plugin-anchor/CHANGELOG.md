@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.1.0...%40mdit%2Fplugin-anchor%402.2.0) (2026-09-07)
+
+### ✨ Features
+
+- **plugin-anchor:** share slug registry via env ([#689](https://github.com/mdit-plugins/mdit-plugins/issues/689)) ([735f134](https://github.com/mdit-plugins/mdit-plugins/commit/735f134e4030e13cfc260c3f437cf3b116a5fa17))
+
+### Miscellaneous Chores
+
+- **plugin-anchor:** add MIT license ([da4d33e](https://github.com/mdit-plugins/mdit-plugins/commit/da4d33e9e82c6fc2277a71e67b57b3375eb0ab3e))
+
+### Build System
+
+- bump deps ([#690](https://github.com/mdit-plugins/mdit-plugins/issues/690)) ([d169992](https://github.com/mdit-plugins/mdit-plugins/commit/d169992e3f47624bd9f47939fbb1e158e7c46444))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.0.0...%40mdit%2Fplugin-anchor%402.1.0) (2026-08-12)
 
 ### ✨ Features
