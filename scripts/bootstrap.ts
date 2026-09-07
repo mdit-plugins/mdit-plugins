@@ -56,7 +56,7 @@ files.forEach((pkgName) => {
         clean: "rimraf ./dist",
       },
       peerDependencies: {
-        "markdown-it": "^15.0.0",
+        "markdown-it": "^15.0.1",
       },
       peerDependenciesMeta: {
         "markdown-it": {

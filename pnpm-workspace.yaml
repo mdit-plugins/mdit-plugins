@@ -46,7 +46,6 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
-  markdown-it: 15.0.0
 
 cleanupUnusedCatalogs: true
 
@@ -56,23 +55,25 @@ packageExtensions:
   # FIXME: This is a bug in mathjax
   "@mathjax/mathjax-newcm-font":
     peerDependencies:
-      "@mathjax/src": ^4.1.2
+      "@mathjax/src": ^4.1.3
 
   # FIXME: This is a bug in mathjax
   "@mathjax/mathjax-tex-font":
     peerDependencies:
-      "@mathjax/src": ^4.1.2
+      "@mathjax/src": ^4.1.3
 
   "@lerna-lite/version":
     peerDependencies:
-      conventional-changelog-conventionalcommits: ^10.2.0
+      conventional-changelog-conventionalcommits: ^10.4.0
 
 minimumReleaseAgeExclude:
   - "@oxfmt/*"
   - "@oxlint/*"
+  - "@vuepress/*"
   - oxc-config-hope
   - oxfmt
   - oxlint
-
-patchedDependencies:
-  markdown-it-cjk-friendly@2.0.2: patches/markdown-it-cjk-friendly@2.0.2.patch
+  - vuepress-plugin-components
+  - vuepress-plugin-md-enhance
+  - vuepress-shared
+  - vuepress-theme-hope

@@ -1,5 +1,10 @@
 export default {
-  cooldown: 1,
+  cooldown: (name) => {
+    if (name.startsWith("@vuepress/") || name === "vuepress" || name.startsWith("vuepress-"))
+      return "0";
+
+    return 1;
+  },
   workspaces: true,
   peer: true,
   upgrade: true,

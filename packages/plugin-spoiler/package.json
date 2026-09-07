@@ -52,7 +52,7 @@
     "@mdit/plugin-inline-rule": "workspace:*"
   },
   "peerDependencies": {
-    "markdown-it": "^15.0.0"
+    "markdown-it": "^15.0.1"
   },
   "peerDependenciesMeta": {
     "markdown-it": {
