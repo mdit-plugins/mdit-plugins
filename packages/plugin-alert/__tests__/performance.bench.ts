@@ -1,10 +1,16 @@
 import MarkdownIt from "markdown-it";
-// oxlint-disable typescript/no-unsafe-argument
-import { bench, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 
+// oxlint-disable typescript/no-unsafe-argument
 // @ts-ignore
 import { alert as originalAlert } from "../src-old/index.js";
 import { alert } from "../src/index.js";
+
+const bench = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
 
 const generateTestContent = (size: "small" | "medium" | "large"): string => {
   const alertTypes = ["note", "tip", "warning", "caution", "important"];

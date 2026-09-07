@@ -1,10 +1,16 @@
 // oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
-import { bench, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 
 // @ts-ignore: This file only exists for benchmarking against the old version
 import { tex as texOld } from "../src-old/index.js";
 import { tex as texCurrent } from "../src/index.js";
+
+const bench = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
 
 const render = (content: string, displayMode: boolean): string =>
   displayMode ? `<p>{Tex content: ${content.trim()}}</p>\n` : `{Tex content: ${content.trim()}}`;

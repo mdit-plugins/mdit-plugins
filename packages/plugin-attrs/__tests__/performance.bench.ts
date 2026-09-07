@@ -1,11 +1,19 @@
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType } from "markdown-it";
 // oxlint-disable typescript/no-unsafe-argument
-import { describe, bench } from "vitest";
+import { describe, expect, test } from "vitest";
 
 // @ts-ignore
 import { attrs as attrsOriginal } from "../src-old/index.js";
 import { attrs as attrsOptimized } from "../src/index.js";
+
+const defineBenchmark = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
+
+const bench = defineBenchmark;
 
 /**
  * Create test content of different sizes

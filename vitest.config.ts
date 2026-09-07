@@ -10,6 +10,9 @@ const config: ViteUserConfigExport = defineConfig({
     },
   },
   test: {
+    isolate: false,
+    fsModuleCache: true,
+    pool: "threads",
     coverage: {
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],

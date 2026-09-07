@@ -17,7 +17,7 @@
     "packages:update": "pnpm up -r",
     "prepare": "husky",
     "test": "vitest run",
-    "test:bench": "vitest bench --run",
+    "test:bench": "vitest bench",
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc --noEmit"
   },
@@ -27,7 +27,7 @@
     "@lerna-lite/publish": "5.6.1",
     "@mr-hope/tsconfig": "0.0.4",
     "@types/node": "24.13.3",
-    "@vitest/coverage-istanbul": "4.1.11",
+    "@vitest/coverage-istanbul": "5.0.0",
     "conventional-changelog-conventionalcommits": "10.4.0",
     "cross-env": "10.1.0",
     "happy-dom": "20.14.0",
@@ -36,7 +36,7 @@
     "nano-staged": "1.0.2",
     "npm-check-updates": "23.1.0",
     "oxc-config-hope": "0.3.13",
-    "oxfmt": "0.63.0",
+    "oxfmt": "0.66.0",
     "oxlint": "1.81.0",
     "oxlint-tsgolint": "7.0.2001",
     "picocolors": "1.1.1",
@@ -45,7 +45,7 @@
     "tsdown": "0.23.0",
     "typescript": "7.0.2",
     "unrun": "0.3.1",
-    "vitest": "4.1.11"
+    "vitest": "5.0.0"
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
@@ -60,12 +60,12 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.18.0",
+      "version": "12.3.4",
       "onFail": "download"
     },
     "runtime": {
       "name": "node",
-      "version": "^22.22.0 || ^24.16.0 || ^26.3.0",
+      "version": "^22.22.0 || ^24.18.0 || ^26.6.0",
       "onFail": "error"
     }
   },

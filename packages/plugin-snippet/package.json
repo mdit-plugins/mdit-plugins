@@ -47,7 +47,7 @@
     "upath": "^3.0.8"
   },
   "peerDependencies": {
-    "markdown-it": "^15.0.0"
+    "markdown-it": "^15.0.1"
   },
   "peerDependenciesMeta": {
     "markdown-it": {

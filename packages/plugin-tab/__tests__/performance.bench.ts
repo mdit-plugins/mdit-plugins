@@ -1,12 +1,18 @@
 // oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
-import { describe, bench } from "vitest";
+import { describe, expect, test } from "vitest";
 
+// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 // @ts-ignore
 import { tab as tabOld } from "../src-old/index.js";
 import type { MarkdownItTabData } from "../src/index.js";
 import { tab as tabNew } from "../src/index.js";
+
+const bench = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
 
 describe("tab Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(tabOld);

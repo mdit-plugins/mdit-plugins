@@ -1,10 +1,16 @@
 import MarkdownIt from "markdown-it";
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
-import { describe, bench } from "vitest";
+import { describe, expect, test } from "vitest";
 
+// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
 // @ts-ignore
 import { demo as demoOld } from "../src-old/index.js";
 import { demo as demoNew } from "../src/index.js";
+
+const bench = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
 
 describe("demo Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(demoOld);

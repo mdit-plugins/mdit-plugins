@@ -1,11 +1,17 @@
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType } from "markdown-it";
-// oxlint-disable typescript/no-unsafe-argument
-import { describe, bench } from "vitest";
+import { describe, expect, test } from "vitest";
 
+// oxlint-disable typescript/no-unsafe-argument
 // @ts-ignore
 import { tasklist as tasklistOriginal } from "../src-old/index.js";
 import { tasklist as tasklistOptimized } from "../src/index.js";
+
+const bench = (name: string, fn: () => void): void => {
+  test(name, async ({ bench: benchmark }) => {
+    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
+  });
+};
 
 const createTestContent = (size: "small" | "medium" | "large"): string => {
   const simpleTasks = `- [ ] Simple task 1\n- [x] Completed task 2\n- [ ] Simple task 3\n\n`;
