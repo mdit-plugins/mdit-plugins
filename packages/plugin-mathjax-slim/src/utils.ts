@@ -1,15 +1,15 @@
 import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { TeX } from "@mathjax/src/js/input/tex.js";
-import { HandlerType } from "@mathjax/src/js/input/tex/HandlerTypes.js";
+import type { HandlerType } from "@mathjax/src/js/input/tex/HandlerTypes.js";
 
 interface TeXMacroMap {
   map: Map<string, unknown>;
 }
 
 const USER_MAPS: { handler: HandlerType; name: string }[] = [
-  { handler: HandlerType.MACRO, name: "new-Command" },
-  { handler: HandlerType.ENVIRONMENT, name: "new-Environment" },
-  { handler: HandlerType.DELIMITER, name: "new-Delimiter" },
+  { handler: "macro" as HandlerType.MACRO, name: "new-Command" },
+  { handler: "environment" as HandlerType.ENVIRONMENT, name: "new-Environment" },
+  { handler: "delimiter" as HandlerType.DELIMITER, name: "new-Delimiter" },
 ];
 
 /**
