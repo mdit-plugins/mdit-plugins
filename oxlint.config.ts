@@ -1,6 +1,7 @@
 import { defineHopeConfig } from "oxc-config-hope/oxlint";
+import type { OxlintConfig } from "oxc-config-hope/oxlint";
 
-export default defineHopeConfig(
+const oxlintConfig: OxlintConfig = defineHopeConfig(
   {
     ignore: ["**/__tests__/__fixtures__/", "**/.vuepress/snippets/"],
     rules: {
@@ -44,3 +45,5 @@ export default defineHopeConfig(
     },
   },
 );
+
+export default oxlintConfig;

@@ -22,4 +22,4 @@ export const CONTAINER_DISPLAY: Record<number, string> = {
   [LAYOUT_GRID]: "display:grid",
 };
 
-export const layoutKey = Symbol("layout");
+export const layoutKey: unique symbol = Symbol("layout");
