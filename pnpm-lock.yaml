@@ -537,7 +537,7 @@ importers:
         version: link:../plugin-tex
       katex:
         specifier: ^0.18.6
-        version: 0.18.6
+        version: 0.18.7
       markdown-it:
         specifier: ^15.0.1
         version: 15.0.1
@@ -3238,10 +3238,6 @@ packages:
 
   katex@0.16.47:
     resolution: {integrity: sha512-Eeo8Ys1doU1z+x8AZsPpQu+p/QcZBI5PeOo7QGQdy2x2m0MU/hYagBbGOmXwr5KVbEfVuWv9LpnQWeehogurjg==}
-    hasBin: true
-
-  katex@0.18.6:
-    resolution: {integrity: sha512-5B7yiIsr7gq9hlIH6uG7hTNglHSz7I+Csa9I66dK4Ljz/YEGQMoBcC1IwtFFp34I7byBcEPtCyYFNnzuxZnGlw==}
     hasBin: true
 
   katex@0.18.7:
@@ -7530,10 +7526,6 @@ snapshots:
   katex@0.16.47:
     dependencies:
       commander: 8.3.0
-
-  katex@0.18.6:
-    dependencies:
-      commander: 15.0.0
 
   katex@0.18.7:
     dependencies:
