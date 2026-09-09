@@ -1,5 +1,5 @@
-import { defineHopeConfig } from 'oxc-config-hope/oxlint';
-import type { OxlintConfig } from 'oxc-config-hope/oxlint';
+import { defineHopeConfig } from "oxc-config-hope/oxlint";
+import type { OxlintConfig } from "oxc-config-hope/oxlint";
 
 const oxlintConfig: OxlintConfig = defineHopeConfig(
   {
