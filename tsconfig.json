@@ -1,5 +1,8 @@
 {
   "extends": "@mr-hope/tsconfig/web.json",
+  "compilerOptions": {
+    "isolatedDeclarations": true
+  },
   "include": ["**/*.ts", "**/.vuepress/**/*.ts"],
   "exclude": ["**/snippets/example.ts", "**/__fixtures__/**"]
 }

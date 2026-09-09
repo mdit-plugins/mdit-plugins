@@ -1,1 +1,1 @@
-export const includePathsKey = Symbol("include:paths");
+export const includePathsKey: unique symbol = Symbol("include:paths");
