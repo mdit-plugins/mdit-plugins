@@ -108,6 +108,7 @@ settings:
 overrides:
   '@mdit/helper': workspace:*
   '@mdit/plugin-abbr': workspace:*
+  '@mdit/plugin-advanced-links': workspace:*
   '@mdit/plugin-alert': workspace:*
   '@mdit/plugin-align': workspace:*
   '@mdit/plugin-anchor': workspace:*
@@ -294,6 +295,15 @@ importers:
         version: 15.0.1
 
   packages/plugin-abbr:
+    dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
+      markdown-it:
+        specifier: ^15.0.1
+        version: 15.0.1
+
+  packages/plugin-advanced-links:
     dependencies:
       '@mdit/helper':
         specifier: workspace:*

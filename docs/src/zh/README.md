@@ -9,6 +9,11 @@ features:
     details: 缩写词
     link: ./abbr.html
 
+  - title: advanced-links
+    icon: puzzle-piece
+    details: 注册自定义链接并使用自己的渲染器
+    link: ./advanced-links.html
+
   - title: alert
     icon: bell
     details: GFM 警示

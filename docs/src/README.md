@@ -9,6 +9,11 @@ features:
     details: Abbreviation
     link: ./abbr.html
 
+  - title: advanced-links
+    icon: puzzle-piece
+    details: Register custom links with your own renderer
+    link: ./advanced-links.html
+
   - title: alert
     icon: bell
     details: GFM alerts
