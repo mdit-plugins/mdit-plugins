@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-ruby"
-icon: paperclip
+icon: gem
 ---
 
 提供 `<ruby>` 声明支持的插件。

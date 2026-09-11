@@ -135,7 +135,7 @@ features:
     link: ./plantuml.html
 
   - title: ruby
-    icon: paperclip
+    icon: gem
     details: Add ruby tag support
     link: ./ruby.html
 

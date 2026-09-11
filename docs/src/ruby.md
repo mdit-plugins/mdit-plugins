@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-ruby"
-icon: paperclip
+icon: gem
 ---
 
 Plugin to support ruby annotation `<ruby>`.

@@ -135,7 +135,7 @@ features:
     link: ./plantuml.html
 
   - title: ruby
-    icon: paperclip
+    icon: gem
     details: 添加 ruby 标签支持
     link: ./ruby.html
 
