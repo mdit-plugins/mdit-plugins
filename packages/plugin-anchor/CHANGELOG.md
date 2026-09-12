@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.0...%40mdit%2Fplugin-anchor%402.2.1) (2026-09-12)
+
+**Note:** Version bump only for package @mdit/plugin-anchor
+
 ## [2.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.1.0...%40mdit%2Fplugin-anchor%402.2.0) (2026-09-07)
 
 ### ✨ Features

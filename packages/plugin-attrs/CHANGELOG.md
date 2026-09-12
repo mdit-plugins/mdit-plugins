@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.1...%40mdit%2Fplugin-attrs%401.3.2) (2026-09-12)
+
+**Note:** Version bump only for package @mdit/plugin-attrs
+
 ## [1.3.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.0...%40mdit%2Fplugin-attrs%401.3.1) (2026-09-07)
 
 ### Build System

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.1.1...%40mdit%2Fplugin-tasklist%401.1.2) (2026-09-12)
+
+### Build System
+
+- enable isolatedDeclarations ([#691](https://github.com/mdit-plugins/mdit-plugins/issues/691)) ([240722a](https://github.com/mdit-plugins/mdit-plugins/commit/240722af402a1969e0796e61ab4f59a73f6a1664))
+
 ## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.1.0...%40mdit%2Fplugin-tasklist%401.1.1) (2026-09-07)
 
 ### Build System

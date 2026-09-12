@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex%401.1.1...%40mdit%2Fplugin-katex%401.1.2) (2026-09-12)
+
+### Build System
+
+- bump deps ([f698f05](https://github.com/mdit-plugins/mdit-plugins/commit/f698f054a988248b5ef3ee19af60563c599e0c1f))
+
 ## [1.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex%401.1.0...%40mdit%2Fplugin-katex%401.1.1) (2026-09-07)
 
 ### Build System
