@@ -12,6 +12,17 @@ const renderLink = (source: string): string => {
   return md.render(source).trim();
 };
 
+// Render with the inline syntax enabled / 在开启行内语法的实例上渲染
+const renderInline = (source: string): string => {
+  const md = new MarkdownIt().use(advancedLinks, {
+    name: "test",
+    inline: true,
+    renderer: (link): string => `[${link}]`,
+  });
+
+  return md.render(source).trim();
+};
+
 describe("link destination", () => {
   it("should parse plain links", () => {
     expect(renderLink("@[test](a.mp4)")).toBe("[a.mp4]");
@@ -73,6 +84,33 @@ describe("link destination", () => {
     invalidSources.forEach((source) => {
       expect(renderLink(source)).not.toBe("");
       expect(renderLink(source)).toContain("@");
+    });
+  });
+
+  describe("inline", () => {
+    it("should stop after the closing paren of the link", () => {
+      expect(renderInline("@[test](a)b)")).toBe("<p>[a]b)</p>");
+      expect(renderInline("@[test](a)b(c)")).toBe("<p>[a]b(c)</p>");
+      expect(renderInline("@[test](a) x")).toBe("<p>[a] x</p>");
+    });
+
+    it("should resolve escapes inside angle brackets", () => {
+      expect(renderInline(String.raw`@[test](<a\>b.mp4>)`)).toBe("[a>b.mp4]");
+      expect(renderInline(String.raw`@[test](<a\\b.mp4>)`)).toBe(String.raw`[a\b.mp4]`);
+    });
+
+    it("should reject a destination with whitespaces", () => {
+      expect(renderInline("@[test](a\tb.mp4)")).toContain("@");
+      expect(renderInline("@[test](a\nb.mp4)")).toContain("@");
+      expect(renderInline(String.raw`@[test](a\ b.mp4)`)).toContain("@");
+    });
+
+    it("should reject an unterminated destination", () => {
+      const sources = [String.raw`@[test](a\)`, "@[test](a(b.mp4)", "@[test](<a)"];
+
+      sources.forEach((source) => {
+        expect(renderInline(source)).toContain("@");
+      });
     });
   });
 });

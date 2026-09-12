@@ -284,10 +284,14 @@ cd to the plugin directory and run:
 
 ```bash
 cd packages/<name>
-pnpm exec vitest run --coverage
+pnpm exec vitest run --coverage --coverage.provider=istanbul
 ```
 
 Do NOT run `pnpm exec vitest run --coverage` in the root.
+
+The `--coverage.provider=istanbul` flag is required: the root `vitest.config.ts` is not picked up
+from a package directory, so without it vitest falls back to the `v8` provider, which is not
+installed (`@vitest/coverage-v8` is missing) and the run fails.
 
 ## Bug Fix Workflow
 

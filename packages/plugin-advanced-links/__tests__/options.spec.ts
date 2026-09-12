@@ -53,6 +53,22 @@ describe("options", () => {
     });
   });
 
+  describe("names", () => {
+    it("should match the name exactly", () => {
+      const md = new MarkdownIt()
+        .use(advancedLinks, { name: "a-b", renderer: (): string => "DASH" })
+        .use(advancedLinks, { name: "a.b", renderer: (): string => "DOT" })
+        .use(advancedLinks, { name: "a@b", renderer: (): string => "AT" });
+
+      expect(md.render("@[a-b](x)")).toBe("DASH");
+      expect(md.render("@[a.b](x)")).toBe("DOT");
+      expect(md.render("@[a@b](x)")).toBe("AT");
+      // a prefix of a registered name is not registered
+      expect(md.render("@[a-longer](x)")).toBe('<p>@<a href="x">a-longer</a></p>\n');
+      expect(md.render("@[a](x)")).toBe('<p>@<a href="x">a</a></p>\n');
+    });
+  });
+
   describe("env", () => {
     it("should pass env to the renderer", () => {
       const renderer = vi.fn<() => string>((): string => "x");

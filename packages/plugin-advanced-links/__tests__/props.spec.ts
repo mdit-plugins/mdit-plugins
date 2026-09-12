@@ -114,4 +114,55 @@ describe("props", () => {
 
     expect(md.render('@[test a="x\ny"](z)')).not.toContain("MATCHED");
   });
+
+  describe("boundaries", () => {
+    it("should allow brackets and parens inside quoted values", () => {
+      expect(renderProps('@[test a="]"](x)')).toBe('[x] {"a":"]"}');
+      expect(renderProps('@[test a="("](x)')).toBe('[x] {"a":"("}');
+      expect(renderProps('@[test a="[b](c)"](x)')).toBe('[x] {"a":"[b](c)"}');
+    });
+
+    it("should allow the `@` character", () => {
+      expect(renderProps("@[test a=x@y](x)")).toBe('[x] {"a":"x@y"}');
+      expect(renderProps('@[test a="@[b](c)"](x)')).toBe('[x] {"a":"@[b](c)"}');
+    });
+
+    it("should reject unquoted brackets", () => {
+      // the `]` closes the syntax early, so the text falls back to a normal link
+      expect(renderProps("@[test a=[b]](x)")).not.toContain("[x]");
+      expect(renderProps("@[test a=[b]](x)")).toContain("<a href=");
+      // the syntax is closed early and the rest is not a link either
+      expect(renderProps("@[test a=]](x)")).toBe("<p>@[test a=]](x)</p>");
+    });
+
+    it("should reject whitespaces around `=`", () => {
+      expect(renderProps("@[test a = 1](x)")).not.toContain("[x]");
+      expect(renderProps("@[test a= 1](x)")).toBe('[x] {"1":true,"a":""}');
+    });
+
+    it("should allow special characters in prop names", () => {
+      expect(renderProps("@[test a/b=1](x)")).toBe('[x] {"a/b":"1"}');
+      expect(renderProps("@[test a.b=1](x)")).toBe('[x] {"a.b":"1"}');
+      expect(renderProps("@[test a:b=1](x)")).toBe('[x] {"a:b":"1"}');
+      expect(renderProps("@[test #id=1](x)")).toBe('[x] {"#id":"1"}');
+    });
+
+    it("should parse a quoted value before the next prop", () => {
+      expect(renderProps('@[test a="x"b](y)')).toBe('[y] {"a":"x","b":true}');
+      expect(renderProps('@[test a="x"b=1](y)')).toBe('[y] {"a":"x","b":"1"}');
+    });
+
+    it("should keep escape sequences as-is", () => {
+      // only quoted values resolve escapes
+      expect(renderProps(String.raw`@[test a=x\ny](x)`)).toBe(String.raw`[x] {"a":"x\\ny"}`);
+      expect(renderProps(String.raw`@[test a="x\ny"](x)`)).toBe('[x] {"a":"xny"}');
+    });
+
+    it("should keep whitespaces inside quoted values", () => {
+      expect(renderProps('@[test a="x  y"](x)')).toBe('[x] {"a":"x  y"}');
+      expect(renderProps('@[test a="x\ty"](x)')).toBe(String.raw`[x] {"a":"x\ty"}`);
+      expect(renderProps('@[test a=" "](x)')).toBe('[x] {"a":" "}');
+      expect(renderProps('@[test a="  " b=1](x)')).toBe('[x] {"a":"  ","b":"1"}');
+    });
+  });
 });
