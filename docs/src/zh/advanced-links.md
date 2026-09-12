@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-advanced-links"
-icon: puzzle-piece
+icon: paperclip
 ---
 
 注册自定义的 `@[name ...props](link)` 语法，并使用你自己的渲染器。

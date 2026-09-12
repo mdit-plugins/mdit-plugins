@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-advanced-links"
-icon: puzzle-piece
+icon: paperclip
 ---
 
 Register custom `@[name ...props](link)` syntax with your own renderer.

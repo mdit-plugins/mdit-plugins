@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-field"
-icon: list
+icon: table-list
 ---
 
 支持创建块级自定义字段容器的插件。

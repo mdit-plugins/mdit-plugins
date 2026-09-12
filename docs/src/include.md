@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-include"
-icon: at
+icon: file-import
 ---
 
 Plugin to include other files in markdown.

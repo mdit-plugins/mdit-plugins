@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-attrs"
-icon: code
+icon: tags
 ---
 
 Plugins to add attrs to Markdown content.

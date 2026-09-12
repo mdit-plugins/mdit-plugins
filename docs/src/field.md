@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-field"
-icon: list
+icon: table-list
 ---
 
 Plugin for creating block-level custom field containers.

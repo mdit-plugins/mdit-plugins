@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-anchor"
-icon: link
+icon: anchor
 ---
 
 Plugin to add `id` attributes to headings and optionally permalinks.

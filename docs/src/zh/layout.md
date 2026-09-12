@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-layout"
-icon: grip
+icon: table-cells-large
 ---
 
 用于创建 Flexbox、CSS Grid 和多列布局的指令式插件。

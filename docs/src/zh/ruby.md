@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-ruby"
-icon: gem
+icon: language
 ---
 
 提供 `<ruby>` 声明支持的插件。

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-tasklist"
-icon: square-check
+icon: list-check
 ---
 
 Plugins to support tasklist.

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-ins"
-icon: square-plus
+icon: underline
 ---
 
 Plugins to add insert tag support.

@@ -5,12 +5,12 @@ home: true
 heroImage: /logo.svg
 features:
   - title: abbr
-    icon: book
+    icon: spell-check
     details: Abbreviation
     link: ./abbr.html
 
   - title: advanced-links
-    icon: puzzle-piece
+    icon: paperclip
     details: Register custom links with your own renderer
     link: ./advanced-links.html
 
@@ -25,12 +25,12 @@ features:
     link: ./align.html
 
   - title: anchor
-    icon: link
+    icon: anchor
     details: Add heading anchors and permalinks
     link: ./anchor.html
 
   - title: attrs
-    icon: code
+    icon: tags
     details: Add attrs to Markdown content
     link: ./attrs.html
 
@@ -45,7 +45,7 @@ features:
     link: ./demo.html
 
   - title: dl
-    icon: list-check
+    icon: book
     details: Definition lists
     link: ./dl.html
 
@@ -60,7 +60,7 @@ features:
     link: ./emoji.html
 
   - title: field
-    icon: list
+    icon: table-list
     details: Field containers
     link: ./field.html
 
@@ -95,7 +95,7 @@ features:
     link: ./img-size.html
 
   - title: include
-    icon: at
+    icon: file-import
     details: Include other files in markdown
     link: ./include.html
 
@@ -105,12 +105,12 @@ features:
     link: ./inline-rule.html
 
   - title: ins
-    icon: square-plus
+    icon: underline
     details: Ins tag support
     link: ./ins.html
 
   - title: layout
-    icon: grip
+    icon: table-cells-large
     details: Flexbox, Grid and Multi-column layouts
     link: ./layout.html
 
@@ -135,12 +135,12 @@ features:
     link: ./plantuml.html
 
   - title: ruby
-    icon: gem
+    icon: language
     details: Add ruby tag support
     link: ./ruby.html
 
   - title: snippet
-    icon: file-lines
+    icon: file-code
     details: Import code snippets in markdown
     link: ./snippet.html
 
@@ -150,7 +150,7 @@ features:
     link: ./spoiler.html
 
   - title: stylize
-    icon: wand-magic-sparkles
+    icon: palette
     details: Stylizing tokens
     link: ./stylize.html
 
@@ -170,7 +170,7 @@ features:
     link: ./tab.html
 
   - title: tasklist
-    icon: square-check
+    icon: list-check
     details: Support tasklist
     link: ./tasklist.html
 
@@ -180,7 +180,7 @@ features:
     link: ./tex.html
 
   - title: uml
-    icon: file-lines
+    icon: scissors
     details: Support splitting contents from context
     link: ./uml.html
 
