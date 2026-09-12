@@ -66,6 +66,18 @@ describe("options", () => {
       // a prefix of a registered name is not registered
       expect(md.render("@[a-longer](x)")).toBe('<p>@<a href="x">a-longer</a></p>\n');
       expect(md.render("@[a](x)")).toBe('<p>@<a href="x">a</a></p>\n');
+      // names are case-sensitive
+      expect(md.render("@[A-B](x)")).toBe('<p>@<a href="x">A-B</a></p>\n');
+    });
+
+    it("should support non-ASCII and prototype-like names", () => {
+      const md = new MarkdownIt()
+        .use(advancedLinks, { name: "视频", renderer: (): string => "CJK" })
+        .use(advancedLinks, { name: "__proto__", renderer: (): string => "PROTO" });
+
+      expect(md.render("@[视频 自动播放](a.mp4)")).toBe("CJK");
+      // configs are stored in a `Map`, so a prototype property name is a normal name
+      expect(md.render("@[__proto__](x)")).toBe("PROTO");
     });
   });
 

@@ -4,9 +4,11 @@
  * 从高级链接语法中解析出的属性
  *
  * A prop without a value is parsed as `true`, e.g. `@[video autoplay](link)` gives `{ autoplay:
- * true }`.
+ * true }`. `\` escapes the next character, so any key and value can be written within a single
+ * line, including a `]` which otherwise ends the props.
  *
- * 不带值的属性会被解析为 `true`，例如 `@[video autoplay](link)` 会得到 `{ autoplay: true }`。
+ * 不带值的属性会被解析为 `true`，例如 `@[video autoplay](link)` 会得到 `{ autoplay: true }`。 `\`
+ * 用于转义下一个字符，因此可以在单行内书写任意的 key 与 value，包括原本会结束属性的 `]`。 key 与 value。
  */
 export type AdvancedLinkProps = Record<string, string | true>;
 
@@ -15,7 +17,7 @@ export type AdvancedLinkProps = Record<string, string | true>;
  *
  * 高级链接语法的渲染器
  *
- * @param link - Link destination, passed as-is / 链接地址，原样传递
+ * @param link - Link destination, without normalization or validation / 链接地址，不加规范化与校验
  * @param props - Parsed props / 解析后的属性
  * @param env - MarkdownIt environment / MarkdownIt 环境
  * @returns Rendered HTML / 渲染的 HTML

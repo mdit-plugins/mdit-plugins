@@ -25,6 +25,9 @@ const createMarkdown = (html = false): MarkdownItType =>
 const video = (link: string): string => `<video src="${link}"></video>`;
 // Rendered `badge` / 渲染后的 `badge`
 const badge = (link: string): string => `<span class="badge badge-${link}">${link}</span>`;
+// Rendered `badge` with a custom text / 使用自定义文本渲染的 `badge`
+const badgeText = (text: string, link = "y"): string =>
+  `<span class="badge badge-${link}">${text}</span>`;
 // The syntax stays as text and falls back to a normal link / 语法保持为文本，回退为普通链接
 const fallback = (name: string, link: string, suffix = ""): string =>
   `<p>@<a href="${link}">${name}</a>${suffix}</p>\n`;
@@ -125,7 +128,7 @@ describe("block syntax", () => {
       );
     });
 
-    it("should not continue a lazy paragraph", () => {
+    it("should terminate a paragraph instead of lazily continuing", () => {
       const md = createMarkdown();
 
       // the block rule can interrupt a paragraph, so the lazy continuation is not used
@@ -151,6 +154,15 @@ describe("block syntax", () => {
       expect(md.render("- > @[video](a.mp4)")).toBe(
         `<ul>\n<li>\n<blockquote>\n${video("a.mp4")}</blockquote>\n</li>\n</ul>\n`,
       );
+    });
+
+    it("should keep the following list items", () => {
+      const md = createMarkdown();
+
+      expect(md.render("- @[video](a.mp4)\n\n- b")).toBe(
+        `<ul>\n<li>\n${video("a.mp4")}</li>\n<li>\n<p>b</p>\n</li>\n</ul>\n`,
+      );
+      expect(md.render("1)  @[video](a.mp4)")).toBe(`<ol>\n<li>\n${video("a.mp4")}</li>\n</ol>\n`);
     });
 
     it("should keep the blocks after the list item", () => {
@@ -200,6 +212,7 @@ describe("block syntax", () => {
       expect(md.render("`@[video](a.mp4)`")).toBe("<p><code>@[video](a.mp4)</code></p>\n");
       expect(md.render("`@[badge x](y)`")).toBe("<p><code>@[badge x](y)</code></p>\n");
       expect(md.render("``@[badge x](y)``")).toBe("<p><code>@[badge x](y)</code></p>\n");
+      expect(md.render("``a @[badge x](y) b``")).toBe("<p><code>a @[badge x](y) b</code></p>\n");
     });
   });
 
@@ -235,6 +248,7 @@ describe("block syntax", () => {
       expect(md.render("@[video](a.mp4)\t")).toBe(video("a.mp4"));
       // a hard break cannot happen in a block syntax
       expect(md.render("@[video](a.mp4)  \nnext")).toBe(`${video("a.mp4")}<p>next</p>\n`);
+      expect(md.render("a  \n@[video](a.mp4)")).toBe(`<p>a</p>\n${video("a.mp4")}`);
       expect(md.render("@[badge x](y)  ")).toBe(badge("y"));
     });
   });
@@ -248,7 +262,7 @@ describe("block syntax", () => {
       expect(md.render("#@[video](a.mp4)")).toBe('<p>#@<a href="a.mp4">video</a></p>\n');
     });
 
-    it("should not interrupt a setext heading underline", () => {
+    it("should let a setext heading underline take over", () => {
       const md = createMarkdown();
 
       // `lheading` runs before the block rule, matching the behavior of other block plugins
@@ -271,10 +285,42 @@ describe("block syntax", () => {
       );
     });
 
-    it("should consume a line next to a reference definition", () => {
+    it("should not take over a table cell", () => {
+      const md = createMarkdown();
+
+      // the block rule never runs inside a table cell
+      expect(md.render("| @[video](a.mp4) |\n| --- |")).toBe(
+        `<table>\n<thead>\n<tr>\n<th>@<a href="a.mp4">video</a></th>\n</tr>\n</thead>\n</table>\n`,
+      );
+      expect(md.render("| @[badge x](y) |\n| --- |")).toBe(
+        `<table>\n<thead>\n<tr>\n<th>${badge("y")}</th>\n</tr>\n</thead>\n</table>\n`,
+      );
+    });
+
+    it("should not be affected by a following reference definition", () => {
       const md = createMarkdown();
 
       expect(md.render("@[badge x](y)\n\n[badge x]: /z")).toBe(badge("y"));
+      expect(md.render("[ref]: /z\n@[video](a.mp4)")).toBe(video("a.mp4"));
+    });
+  });
+
+  describe("props", () => {
+    it("should support escaped and quoted brackets", () => {
+      const md = createMarkdown();
+
+      expect(md.render(String.raw`@[badge text=a\]b](y)`)).toBe(badgeText("a]b"));
+      expect(md.render(String.raw`@[badge text="a]b"](y)`)).toBe(badgeText("a]b"));
+      expect(md.render(String.raw`@[badge text=x\ y](y)`)).toBe(badgeText("x y"));
+      expect(md.render(String.raw`@[video a=b\]c](x.mp4)`)).toBe(video("x.mp4"));
+    });
+
+    it("should reject malformed props of a block", () => {
+      const md = createMarkdown();
+
+      // the line no longer matches the block syntax, so it stays a paragraph
+      expect(md.render(String.raw`@[video a=\](x.mp4)`)).toBe("<p>@[video a=](x.mp4)</p>\n");
+      expect(md.render("@[video a=x\\")).toBe(`${String.raw`<p>@[video a=x\</p>`}\n`);
     });
   });
 

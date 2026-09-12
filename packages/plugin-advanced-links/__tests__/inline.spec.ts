@@ -24,10 +24,7 @@ const createMarkdown = (html = false, breaks = false): MarkdownItType =>
 const plain = new MarkdownIt({ linkify: true });
 
 // Rendered `badge` / 渲染后的 `badge`
-const badge = (link: string, text = link): string =>
-  `<span class="badge badge-${link}">${text}</span>`;
-// The syntax stays as text and falls back to a normal link / 语法保持为文本，回退为普通链接
-const fallback = (name: string, link: string): string => `<p>@<a href="${link}">${name}</a></p>\n`;
+const badge = (link: string): string => `<span class="badge badge-${link}">${link}</span>`;
 
 describe("inline syntax", () => {
   describe("precedence", () => {
@@ -144,20 +141,12 @@ describe("inline syntax", () => {
     it("should not contribute to the image text", () => {
       const md = createMarkdown();
 
+      // the inline token is not part of the image text, so the surrounding spaces stay
       expect(md.render("![a @[badge x](y) b](z)")).toBe('<p><img src="z" alt="a  b"></p>\n');
+      // a block-only config is not matched, so it falls back to plain text
       expect(md.render("![a @[video x](y) b](z)")).toBe(
         '<p><img src="z" alt="a @video x b"></p>\n',
       );
-    });
-  });
-
-  describe("code spans", () => {
-    it("should not render inside a code span", () => {
-      const md = createMarkdown();
-
-      expect(md.render("`@[badge x](y)`")).toBe("<p><code>@[badge x](y)</code></p>\n");
-      expect(md.render("``a @[badge x](y) b``")).toBe("<p><code>a @[badge x](y) b</code></p>\n");
-      expect(md.render("`@[video](a.mp4)`")).toBe("<p><code>@[video](a.mp4)</code></p>\n");
     });
   });
 
@@ -258,39 +247,6 @@ describe("inline syntax", () => {
       expect(md.render("a <span>@[badge x](y)</span>")).toBe(
         `<p>a <span>${badge("y")}</span></p>\n`,
       );
-    });
-  });
-
-  describe("props boundary", () => {
-    it("should allow brackets and parens inside quoted values", () => {
-      const md = createMarkdown();
-
-      expect(md.render('@[badge a="](x)"](y)')).toBe(badge("y"));
-      expect(md.render('@[badge a="[b]"](c)')).toBe(badge("c"));
-      expect(md.render('@[badge a=")"](y)')).toBe(badge("y"));
-    });
-
-    it("should allow escaped quotes inside quoted values", () => {
-      const md = createMarkdown();
-
-      expect(md.render(String.raw`@[badge a="x\"y"](z)`)).toBe(badge("z"));
-      expect(md.render(String.raw`@[badge text="a\"b"](z)`)).toBe(badge("z", 'a"b'));
-    });
-
-    it("should reject unquoted `]` in the props", () => {
-      const md = createMarkdown();
-
-      // the `]` closes the syntax early, so the whole thing is unmatched
-      expect(md.render("@[badge a=[b]](y)")).toBe(fallback("badge a=[b]", "y"));
-      expect(md.render("a @[badge a=[b]](y) b")).toBe('<p>a @<a href="y">badge a=[b]</a> b</p>\n');
-    });
-
-    it("should allow `=` and other characters in props", () => {
-      const md = createMarkdown();
-
-      expect(md.render("a @[badge a=b=c](y) b")).toBe(`<p>a ${badge("y")} b</p>\n`);
-      expect(md.render("a @[badge a/b=1](y) b")).toBe(`<p>a ${badge("y")} b</p>\n`);
-      expect(md.render("a @[badge a=x@y](y) b")).toBe(`<p>a ${badge("y")} b</p>\n`);
     });
   });
 });

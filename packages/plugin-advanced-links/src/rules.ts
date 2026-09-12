@@ -1,7 +1,7 @@
 import type { BlockRule, InlineRule } from "@mdit/helper";
 import type { MarkdownIt } from "markdown-it";
 
-import { parseProps } from "./parseProps.js";
+import { scanProps } from "./scanProps.js";
 import type { AdvancedLinkConfigs, ScannedAtLink } from "./types.js";
 
 const AT = 0x40; /* @ */
@@ -9,9 +9,6 @@ const OPEN_BRACKET = 0x5b; /* [ */
 const CLOSE_BRACKET = 0x5d; /* ] */
 const OPEN_PAREN = 0x28; /* ( */
 const CLOSE_PAREN = 0x29; /* ) */
-const DOUBLE_QUOTE = 0x22; /* " */
-const SINGLE_QUOTE = 0x27; /* ' */
-const BACKSLASH = 0x5c; /* \ */
 const LINE_FEED = 0x0a; /* \n */
 const CARRIAGE_RETURN = 0x0d; /* \r */
 const SPACE = 0x20; /*   */
@@ -48,63 +45,21 @@ export const scanAtLink = (
   // requires `@[`
   if (src.charCodeAt(start) !== AT || src.charCodeAt(start + 1) !== OPEN_BRACKET) return null;
 
-  let pos = start + 2;
+  // the name ends with the first whitespace or the closing `]`
+  const nameStart = start + 2;
+  let pos = nameStart;
 
-  // find the matching `]`, while `]` inside quotes belongs to the props
   while (pos < max) {
     const code = src.charCodeAt(pos);
 
     if (isLineBreak(code)) return null;
 
-    if (code === CLOSE_BRACKET) break;
-
-    if (code === DOUBLE_QUOTE || code === SINGLE_QUOTE) {
-      pos++;
-
-      while (pos < max) {
-        const innerCode = src.charCodeAt(pos);
-
-        if (isLineBreak(innerCode)) return null;
-
-        // the escaped character never ends the quote
-        if (innerCode === BACKSLASH) {
-          pos += 2;
-
-          continue;
-        }
-
-        if (innerCode === code) break;
-
-        pos++;
-      }
-
-      // unterminated quote
-      if (pos >= max) return null;
-    }
+    if (code === CLOSE_BRACKET || code === SPACE || code === TAB) break;
 
     pos++;
   }
 
-  // no closing `]`
-  if (pos >= max) return null;
-
-  const contentStart = start + 2;
-  const contentEnd = pos;
-  let nameEnd = contentEnd;
-  let propsStart = contentEnd;
-
-  // the name ends with the first whitespace, the rest are props
-  for (let index = contentStart; index < contentEnd; index++) {
-    const code = src.charCodeAt(index);
-
-    if (code === SPACE || code === TAB) {
-      nameEnd = index;
-      propsStart = index + 1;
-      break;
-    }
-  }
-
-  const name = src.slice(contentStart, nameEnd);
+  const name = src.slice(nameStart, pos);
 
   // the name must not be empty
   if (!name) return null;
@@ -114,7 +69,18 @@ export const scanAtLink = (
   // unregistered names are left to other rules
   if (!config) return null;
 
-  pos = contentEnd + 1;
+  // the rest until `]` are the props
+  const scanned = scanProps(src, pos, max);
+
+  // malformed props are rejected, so that the raw text stays visible
+  if (!scanned) return null;
+
+  pos = scanned.end;
+
+  // requires `]`
+  if (pos >= max || src.charCodeAt(pos) !== CLOSE_BRACKET) return null;
+
+  pos++;
 
   // requires `(`
   if (pos >= max || src.charCodeAt(pos) !== OPEN_PAREN) return null;
@@ -136,15 +102,10 @@ export const scanAtLink = (
   // requires `)`
   if (pos >= max || src.charCodeAt(pos) !== CLOSE_PAREN) return null;
 
-  const props = parseProps(src.slice(propsStart, contentEnd));
-
-  // malformed props are rejected, so that the raw text stays visible
-  if (!props) return null;
-
   return {
     config,
     name,
-    props,
+    props: scanned.props,
     link,
     end: pos + 1,
   };
