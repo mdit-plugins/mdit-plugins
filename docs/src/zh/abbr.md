@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-abbr"
-icon: book
+icon: spell-check
 ---
 
 支持缩写词 `<abbr>` 标签的插件。

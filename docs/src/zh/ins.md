@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-ins"
-icon: square-plus
+icon: underline
 ---
 
 添加 ins 标签支持的插件。

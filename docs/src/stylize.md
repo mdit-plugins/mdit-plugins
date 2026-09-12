@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-stylize"
-icon: wand-magic-sparkles
+icon: palette
 ---
 
 Plugin for stylizing tokens.

@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-layout"
-icon: grip
+icon: table-cells-large
 ---
 
 Plugin for creating Flexbox, CSS Grid, and Multi-column layouts using directives.

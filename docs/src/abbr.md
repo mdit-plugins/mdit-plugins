@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-abbr"
-icon: book
+icon: spell-check
 ---
 
 Plugin to support abbreviation tag `<abbr>`.

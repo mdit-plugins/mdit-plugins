@@ -10,6 +10,7 @@ allowBuilds:
 overrides:
   "@mdit/helper": workspace:*
   "@mdit/plugin-abbr": workspace:*
+  "@mdit/plugin-advanced-links": workspace:*
   "@mdit/plugin-alert": workspace:*
   "@mdit/plugin-align": workspace:*
   "@mdit/plugin-anchor": workspace:*

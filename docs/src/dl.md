@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-dl"
-icon: list-check
+icon: book
 ---
 
 Plugin to support definition list.

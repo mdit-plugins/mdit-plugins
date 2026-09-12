@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-dl"
-icon: list-check
+icon: book
 ---
 
 支持定义列表的插件。

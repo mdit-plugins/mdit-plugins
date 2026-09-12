@@ -5,9 +5,14 @@ home: true
 heroImage: /logo.svg
 features:
   - title: abbr
-    icon: book
+    icon: spell-check
     details: 缩写词
     link: ./abbr.html
+
+  - title: advanced-links
+    icon: paperclip
+    details: 注册自定义链接并使用自己的渲染器
+    link: ./advanced-links.html
 
   - title: alert
     icon: bell
@@ -20,12 +25,12 @@ features:
     link: ./align.html
 
   - title: anchor
-    icon: link
+    icon: anchor
     details: 为标题添加锚点和永久链接
     link: ./anchor.html
 
   - title: attrs
-    icon: code
+    icon: tags
     details: 向 Markdown 内容添加属性
     link: ./attrs.html
 
@@ -35,7 +40,7 @@ features:
     link: ./container.html
 
   - title: dl
-    icon: list-check
+    icon: book
     details: 定义列表
     link: ./dl.html
 
@@ -55,7 +60,7 @@ features:
     link: ./emoji.html
 
   - title: field
-    icon: list
+    icon: table-list
     details: 字段容器
     link: ./field.html
 
@@ -90,7 +95,7 @@ features:
     link: ./img-size.html
 
   - title: include
-    icon: at
+    icon: file-import
     details: 在 Markdown 中包含其他文件
     link: ./include.html
 
@@ -100,12 +105,12 @@ features:
     link: ./inline-rule.html
 
   - title: ins
-    icon: square-plus
+    icon: underline
     details: 插入标签支持
     link: ./ins.html
 
   - title: layout
-    icon: grip
+    icon: table-cells-large
     details: 弹性盒、网格和多列布局
     link: ./layout.html
 
@@ -130,12 +135,12 @@ features:
     link: ./plantuml.html
 
   - title: ruby
-    icon: paperclip
+    icon: language
     details: 添加 ruby 标签支持
     link: ./ruby.html
 
   - title: snippet
-    icon: file-lines
+    icon: file-code
     details: 在 Markdown 中导入代码片段
     link: ./snippet.html
 
@@ -145,7 +150,7 @@ features:
     link: ./spoiler.html
 
   - title: stylize
-    icon: wand-magic-sparkles
+    icon: palette
     details: 样式化文字
     link: ./stylize.html
 
@@ -165,7 +170,7 @@ features:
     link: ./tab.html
 
   - title: tasklist
-    icon: square-check
+    icon: list-check
     details: 提供任务列表支持
     link: ./tasklist.html
 
@@ -175,7 +180,7 @@ features:
     link: ./tex.html
 
   - title: uml
-    icon: file-lines
+    icon: scissors
     details: 支持从上下文中拆分内容
     link: ./uml.html
 ---

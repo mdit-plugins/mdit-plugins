@@ -1,6 +1,6 @@
 ---
 title: "@mdit/plugin-anchor"
-icon: link
+icon: anchor
 ---
 
 为标题添加 `id` 属性，可附带永久链接的插件。
