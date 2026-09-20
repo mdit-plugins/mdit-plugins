@@ -37,7 +37,7 @@
     "npm-check-updates": "23.1.0",
     "oxc-config-hope": "0.3.13",
     "oxfmt": "0.68.0",
-    "oxlint": "1.82.0",
+    "oxlint": "1.83.0",
     "oxlint-tsgolint": "7.0.2002",
     "picocolors": "1.1.1",
     "publint": "0.3.24",
