@@ -51,7 +51,7 @@
     "markdown-it": "15.0.2"
   },
   "peerDependencies": {
-    "markdown-it": "^15.0.1"
+    "markdown-it": "^15.0.2"
   },
   "peerDependenciesMeta": {
     "markdown-it": {
