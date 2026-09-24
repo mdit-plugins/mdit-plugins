@@ -61,7 +61,7 @@ const md = new MarkdownIt().use(embed, {
 
 The plugin parses embed syntax in the format:
 
-```markdown
+```md
 {% name params %}
 ```
 
@@ -74,13 +74,13 @@ Where:
 
 To escape the embed syntax, use a backslash before the opening/closing brace:
 
-```markdown
+```md
 \{% name params %}
 ```
 
 You can also escape these markers in contents:
 
-```markdown
+```md
 \{% name params-containing-\{%value%\} %}
 ```
 
@@ -90,7 +90,7 @@ With usage example, the following embeds are supported:
 
 **Input:**
 
-```markdown
+```md
 {% youtube dQw4w9WgXcQ %}
 ```
 
@@ -108,7 +108,7 @@ With usage example, the following embeds are supported:
 
 **Input:**
 
-```markdown
+```md
 Click the {% icon home %} button to go home.
 ```
 

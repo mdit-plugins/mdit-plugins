@@ -55,7 +55,7 @@ const md = new MarkdownIt()
 
 ## 语法
 
-```markdown
+```md
 @[name ...props](link)
 ```
 
@@ -73,13 +73,13 @@ const md = new MarkdownIt()
 
 大部分属性都是简单值。当值里包含空白、`]` 或 `=` 时，用引号把它包起来：
 
-```markdown
+```md
 @[video title="Hello world" caption="1]2"](a.mp4)
 ```
 
 属性名不能用引号包起来，而 `]` 会结束属性，因此用 `\` 转义：
 
-```markdown
+```md
 @[video a\ b=1](a.mp4)
 ```
 
@@ -134,7 +134,7 @@ const md = new MarkdownIt()
 
 若要保留为纯文本，请转义语法的每个部分，或使用行内代码：
 
-```markdown
+```md
 \@\[video\](a.mp4)
 ```
 
@@ -180,7 +180,7 @@ type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknow
 
 **输入：**
 
-```markdown
+```md
 @[video](a.mp4)
 ```
 
@@ -192,7 +192,7 @@ type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknow
 
 **输入：**
 
-```markdown
+```md
 @[video autoplay](a.mp4)
 ```
 
@@ -204,7 +204,7 @@ type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknow
 
 **输入：**
 
-```markdown
+```md
 前往 @[badge primary text="首页"](home)。
 ```
 

@@ -61,7 +61,7 @@ const md = new MarkdownIt().use(embed, {
 
 插件解析以下格式的嵌入语法：
 
-```markdown
+```md
 {% name params %}
 ```
 
@@ -74,13 +74,13 @@ const md = new MarkdownIt().use(embed, {
 
 要转义嵌入语法，请在开始/结束括号前使用反斜杠：
 
-```markdown
+```md
 \{% name params %}
 ```
 
 你也可以在内容中转义这些标记：
 
-```markdown
+```md
 \{% name params-containing-\{%value%\} %}
 ```
 
@@ -92,7 +92,7 @@ const md = new MarkdownIt().use(embed, {
 
 **输入：**
 
-```markdown
+```md
 {% youtube dQw4w9WgXcQ %}
 ```
 
@@ -110,7 +110,7 @@ const md = new MarkdownIt().use(embed, {
 
 **输入：**
 
-```markdown
+```md
 点击 {% icon home %} 按钮回到首页。
 ```
 
@@ -186,7 +186,7 @@ const md = new MarkdownIt().use(embed, {
 
 **输入：**
 
-```markdown
+```md
 {% video https://example.com/video.mp4 800 600 %}
 ```
 
@@ -219,7 +219,7 @@ const md = new MarkdownIt().use(embed, {
 
 **使用：**
 
-```markdown
+```md
 {% youtube dQw4w9WgXcQ %}
 
 {% bilibili BV1xx411c7mu %}

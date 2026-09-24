@@ -55,7 +55,7 @@ The plugin can be used as many times as you need, each call registers one `name`
 
 ## Syntax
 
-```markdown
+```md
 @[name ...props](link)
 ```
 
@@ -73,13 +73,13 @@ Props are parsed into an object:
 
 Most props are plain values. When a value contains a whitespace, `]` or `=`, wrap it in quotes:
 
-```markdown
+```md
 @[video title="Hello world" caption="1]2"](a.mp4)
 ```
 
 A key cannot be quoted, and `]` ends the props, so escape them with `\`:
 
-```markdown
+```md
 @[video a\ b=1](a.mp4)
 ```
 
@@ -134,7 +134,7 @@ The link is passed to the renderer without normalization or validation, so escap
 
 To keep the syntax as plain text, escape each part of it, or use a code span:
 
-```markdown
+```md
 \@\[video\](a.mp4)
 ```
 
@@ -180,7 +180,7 @@ With the usage example above:
 
 **Input:**
 
-```markdown
+```md
 @[video](a.mp4)
 ```
 
@@ -192,7 +192,7 @@ With the usage example above:
 
 **Input:**
 
-```markdown
+```md
 @[video autoplay](a.mp4)
 ```
 
@@ -204,7 +204,7 @@ With the usage example above:
 
 **Input:**
 
-```markdown
+```md
 Go to @[badge primary text="home page"](home) now.
 ```
 
