@@ -132,11 +132,13 @@ The link is passed to the renderer without normalization or validation, so escap
 
 ::: tip Syntax as plain text
 
-To keep the syntax as plain text, escape each part of it, or use a code span:
+To keep the syntax as plain text, escape the `[`, or use a code span:
 
 ```md
-\@\[video\](a.mp4)
+@\[video](a.mp4)
 ```
+
+Escaping the `@` alone is not enough: the rest is then a normal Markdown link, e.g. `\@[video](a.mp4)` renders as `@` followed by a link to `a.mp4`.
 
 :::
 
