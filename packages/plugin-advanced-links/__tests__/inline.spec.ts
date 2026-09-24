@@ -151,9 +151,10 @@ describe("inline syntax", () => {
   });
 
   describe("escaping", () => {
-    it("should support escaping the `@`", () => {
+    it("should leave a normal link when only the `@` is escaped", () => {
       const md = createMarkdown();
 
+      // escaping the `@` only drops the plugin syntax, the rest is still a normal link
       expect(md.render(String.raw`\@[badge x](y)`)).toBe('<p>@<a href="y">badge x</a></p>\n');
       expect(md.render(String.raw`a\@[badge x](y)`)).toBe('<p>a@<a href="y">badge x</a></p>\n');
       expect(md.render(String.raw`\@[video](a.mp4)`)).toBe('<p>@<a href="a.mp4">video</a></p>\n');
@@ -165,9 +166,20 @@ describe("inline syntax", () => {
       expect(md.render(String.raw`\\@[badge x](y)`)).toBe(`<p>\\${badge("y")}</p>\n`);
     });
 
-    it("should support escaping the whole syntax", () => {
+    it("should support escaping the `[`", () => {
       const md = createMarkdown();
 
+      // the `[` is structural, escaping it is enough to keep the syntax as plain text
+      expect(md.render(String.raw`@\[badge x](y)`)).toBe("<p>@[badge x](y)</p>\n");
+      expect(md.render(String.raw`@\[video](a.mp4)`)).toBe("<p>@[video](a.mp4)</p>\n");
+      expect(md.render(String.raw`a @\[badge x](y) b`)).toBe("<p>a @[badge x](y) b</p>\n");
+    });
+
+    it("should support escaping more than the `[`", () => {
+      const md = createMarkdown();
+
+      // escaping the other parts works as well, but is not needed
+      expect(md.render(String.raw`@\[badge x\]\(y\)`)).toBe("<p>@[badge x](y)</p>\n");
       expect(md.render(String.raw`\@\[badge x\]\(y\)`)).toBe("<p>@[badge x](y)</p>\n");
     });
   });
