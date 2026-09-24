@@ -235,6 +235,13 @@ describe(advancedLinks, () => {
     it("should support escaping the syntax", () => {
       const md = createMarkdown();
 
+      // the `[` is structural, escaping it is enough to keep the syntax as plain text
+      expect(md.render(String.raw`@\[video](a.mp4)`)).toBe("<p>@[video](a.mp4)</p>\n");
+    });
+
+    it("should leave a normal link when only the `@` is escaped", () => {
+      const md = createMarkdown();
+
       expect(md.render(String.raw`\@[video](a.mp4)`)).toBe('<p>@<a href="a.mp4">video</a></p>\n');
     });
 
