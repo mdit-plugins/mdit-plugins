@@ -18,6 +18,8 @@ const msgPath = process.argv[2]
   ? path.resolve(process.argv[2])
   : path.resolve(".git/COMMIT_EDITMSG");
 const msg = (await readFile(msgPath, "utf-8")).trim();
+// Only the first line (subject) is validated; the body may be any format.
+const subject = msg.split("\n", 1)[0].trim();
 
 const types = [
   "feat",
@@ -36,9 +38,9 @@ const types = [
 ];
 const scopes = [...packageDirectories, "deps"];
 
-const commitRE = /^(?:revert: )?(?<type>[^(]*?)(?:\((?<scope>[^)]*?)\))?!?: .{1,50}$/mu;
+const commitRE = /^(?:revert: )?(?<type>[^(]*?)(?:\((?<scope>[^)]*?)\))?!?: .{1,50}$/u;
 
-const match = commitRE.exec(msg);
+const match = commitRE.exec(subject);
 
 if (!match) {
   console.error(
