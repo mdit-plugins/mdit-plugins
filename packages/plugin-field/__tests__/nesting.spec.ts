@@ -9,10 +9,10 @@ describe("prefix-mode nesting", () => {
   it("should handle prefix-mode nesting with content", () => {
     const result = md.render(`
 ::: fields
-@parent@
+@\`parent\`
 Description parent.
 
-@@child@
+@@\`child\`
 Description child.
 :::
 `);
@@ -31,10 +31,10 @@ Description child.
   it("should handle deep nesting", () => {
     const result = md.render(`
 ::: fields
-@level1@
-@@level2@
-@@@level3@
-@@@@level4@
+@\`level1\`
+@@\`level2\`
+@@@\`level3\`
+@@@@\`level4\`
 :::
 `);
 
@@ -48,12 +48,12 @@ Description child.
   it("should handle siblings at nested levels", () => {
     const result = md.render(`
 ::: fields
-@root@
-@@child1@
+@\`root\`
+@@\`child1\`
 
-@@child2@
-@@@grandchild@
-@@child3@
+@@\`child2\`
+@@@\`grandchild\`
+@@\`child3\`
 :::
 `);
 
@@ -67,11 +67,11 @@ Description child.
   it("should ignore visual indentation and trust only @ count", () => {
     const result = md.render(`
 ::: fields
-@parent@
-  @@child-1@
-@@child-2@
- @@@grandchild@
-@parent-2@
+@\`parent\`
+  @@\`child-1\`
+@@\`child-2\`
+ @@@\`grandchild\`
+@\`parent-2\`
 :::
 `);
 
@@ -96,8 +96,8 @@ Description child.
   it("should reject field markers at 4+ spaces indent (code block)", () => {
     const result = md.render(`
 ::: fields
-@prop@
-    @too-deep@
+@\`prop\`
+    @\`too-deep\`
 :::
 `);
 
@@ -108,10 +108,10 @@ Description child.
   it("should allow 0-3 spaces indent as cosmetic", () => {
     const result = md.render(`
 ::: fields
-@zero@
- @one@
-  @two@
-   @three@
+@\`zero\`
+ @\`one\`
+  @\`two\`
+   @\`three\`
 :::
 `);
 
@@ -123,13 +123,13 @@ Description child.
 
     const result2 = md.render(`
 ::: fields
-@prop1@
+@\`prop1\`
   Parent description.
 
-  @@prop1.key1@ type="string"
+  @@\`prop1.key1\` type="string"
   Key description.
 
-  @@prop1.key2@ type="number"
+  @@\`prop1.key2\` type="number"
   Key description.
 :::
 `);
@@ -143,10 +143,10 @@ Description child.
   it("should handle backtrack from deep to shallow depth", () => {
     const result = md.render(`
 ::: fields
-@root@
-@@child@
-@@@grandchild@
-@root2@
+@\`root\`
+@@\`child\`
+@@@\`grandchild\`
+@\`root2\`
 :::
 `);
 
@@ -163,9 +163,9 @@ Description child.
   it("should handle backtrack from skipped depth to mid level", () => {
     const result = md.render(`
 ::: fields
-@root@
-@@@deep@
-@@mid@
+@\`root\`
+@@@\`deep\`
+@@\`mid\`
 :::
 `);
 
@@ -181,7 +181,7 @@ Description child.
   it("should handle cosmetic indentation without affecting depth", () => {
     const result = md.render(`
 ::: fields
-  @prop@
+  @\`prop\`
   Description
 :::
 `);
@@ -195,10 +195,10 @@ describe("content belonging", () => {
   it("should attach content to the correct parent field", () => {
     const result = md.render(`
 ::: fields
-@parent@
+@\`parent\`
 Parent content here.
 
-@@child@
+@@\`child\`
 Child content here.
 :::
 `);
@@ -217,16 +217,16 @@ Child content here.
   it("should attach markdown content to nested fields correctly", () => {
     const result = md.render(`
 ::: fields
-@root@
+@\`root\`
 Root paragraph.
 
-@@child-a@
+@@\`child-a\`
 Child A paragraph.
 
-@@child-b@
+@@\`child-b\`
 Child B paragraph.
 
-@root2@
+@\`root2\`
 Root2 paragraph.
 :::
 `);
@@ -250,10 +250,10 @@ Root2 paragraph.
   it("should attach rich content (lists, code) to correct field", () => {
     const result = md.render(`
 ::: fields
-@parent@
+@\`parent\`
 - list in parent
 
-@@child@
+@@\`child\`
 \`\`\`js
 code in child
 \`\`\`
@@ -274,12 +274,12 @@ code in child
   it("should close backtracked items and attach content to correct field", () => {
     const result = md.render(`
 ::: fields
-@root@
-@@child@
+@\`root\`
+@@\`child\`
 Child paragraph.
-@@@grandchild@
+@@@\`grandchild\`
 Grandchild paragraph.
-@root2@
+@\`root2\`
 Root2 paragraph.
 :::
 `);
@@ -295,11 +295,11 @@ Root2 paragraph.
   it("should support nested containers with content", () => {
     const result = md.render(`
 :::: fields #outer
-@outer-prop@
+@\`outer-prop\`
   Outer description.
   
   ::: fields #inner
-  @inner-prop@
+  @\`inner-prop\`
   Inner description
   :::
 ::::
@@ -320,10 +320,10 @@ Root2 paragraph.
       .use(field, { name: "events" });
     const result = mdMultipleFields.render(`
 ::: props
-@prop1@
+@\`prop1\`
 Prop content.
   ::: events
-  @event1@
+  @\`event1\`
   Event content.
   :::
 :::

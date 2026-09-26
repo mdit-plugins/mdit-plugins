@@ -66,25 +66,7 @@ export interface FieldAttrItem {
    * 属性值
    */
   value: string | true;
-}
 
-/**
- * Parsed field attribute
- *
- * 解析后的字段属性
- *
- * @deprecated Use {@link FieldAttrItem} instead.
- *
- * 已废弃，请使用 {@link FieldAttrItem}。
- */
-export type FieldAttrInfo = FieldAttrItem;
-
-/**
- * Parsed field attribute with extra info
- *
- * 带额外信息的解析后字段属性
- */
-export interface FieldAttrDetail extends FieldAttrItem {
   /**
    * Quote style used in source
    *
@@ -114,13 +96,6 @@ export interface FieldMeta extends TokenMeta {
    * 排序后的字段属性
    */
   attributes: FieldAttrItem[];
-
-  /**
-   * Sorted field attributes with extra info
-   *
-   * 排序后的字段属性（含额外信息）
-   */
-  details: FieldAttrDetail[];
 }
 
 // oxlint-disable-next-line max-params

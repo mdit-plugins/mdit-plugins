@@ -5,11 +5,14 @@ import { field } from "../src/index.js";
 
 const md = new MarkdownIt({ html: true }).use(field);
 
+/** A literal backtick, keeps escape-heavy cases readable / 字面反引号，便于书写需要转义较重的用例 */
+const BT = "`";
+
 describe("edge cases", () => {
   it("should ignore fence with insufficient markers", () => {
     const result = md.render(`
 :: fields
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -20,7 +23,7 @@ describe("edge cases", () => {
   it("should handle nested fences with fewer markers", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 content
 ::
 :::
@@ -32,7 +35,7 @@ content
   it("should ignore malformed markers", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 content
 
 @prop
@@ -93,7 +96,7 @@ content
     const result = md.render(`
 paragraph
 ::: fields
-@item@
+@\`item\`
 :::
 `);
 
@@ -116,7 +119,7 @@ paragraph
     const result = md.render(`
 ::: fields
 only this text
-@prop1@
+@\`prop1\`
 Description 1
 :::
 `);
@@ -129,9 +132,9 @@ Description 1
   it("should handle sibling items correctly (breaking loop)", () => {
     const result = md.render(`
 ::: fields
-@item1@
+@\`item1\`
 content
-@item2@
+@\`item2\`
 content
 :::
 `);
@@ -144,7 +147,7 @@ content
   it("should ignore deeply nested closing fence", () => {
     const result = md.render(`
   ::: fields
-  @prop@
+  @\`prop\`
 :::
   :::
 `);
@@ -155,18 +158,18 @@ content
   it("should handle auto-close", () => {
     const input = `
 ::: fields
-@prop1@
+@\`prop1\`
 Description 1
 
-@prop2@
+@\`prop2\`
 Description 2
 `;
     const closedInput = `
 ::: fields
-@prop1@
+@\`prop1\`
 Description 1
 
-@prop2@
+@\`prop2\`
 Description 2
 :::
 `;
@@ -177,7 +180,7 @@ Description 2
   it("should handle trailing = in attributes", () => {
     const result = md.render(`
 ::: fields
-@prop@ key=
+@\`prop\` key=
 Description
 :::
 `);
@@ -186,13 +189,9 @@ Description
     expect(result).toContain("prop");
   });
 
-  it("should handle escaped backslash in field name", () => {
-    const result = md.render(`
-::: fields
-@name\\\\@
-Description
-:::
-`);
+  it("should keep backslashes in a field name", () => {
+    // runtime source: @`name\`
+    const result = md.render(["::: fields", `@${BT}name\\${BT}`, "Description", ":::"].join("\n"));
 
     expect(result).toContain("name\\");
   });
@@ -200,7 +199,7 @@ Description
   it("should handle backslash at end of quoted attribute", () => {
     const result = md.render(`
 ::: fields
-@prop@ key="val\\\\"
+@\`prop\` key="val\\\\"
 Description
 :::
 `);
@@ -211,7 +210,7 @@ Description
   it("should handle item without closing container", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 content`);
 
     expect(result).toContain("prop");
@@ -225,7 +224,7 @@ content`);
 
 - list
 
-@prop@
+@\`prop\`
 Description
 :::
 `);
@@ -239,11 +238,11 @@ Description
   it("should handle complex nested containers for scanner", () => {
     const result = md.render(`
 ::: fields
-@outer@
+@\`outer\`
   ::: fields
-  @inner@
+  @\`inner\`
   :::
-@outer2@
+@\`outer2\`
 :::
 `);
 
@@ -256,7 +255,7 @@ Description
     const result = md.render(`
 - list
   ::: fields
-  @prop@
+  @\`prop\`
   :::
 `);
 
@@ -266,7 +265,7 @@ Description
   it("should handle invalid closing fence in getFieldsRule", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 ::: invalid
 :::
 `);
@@ -278,21 +277,21 @@ Description
   it("should handle item with less indentation than container", () => {
     const result = md.render(`
   ::: fields
-@prop@
+@\`prop\`
   Description
   :::
 `);
 
     expect(result).not.toContain('class="field-name"');
-    expect(result).toContain("@prop@");
+    expect(result).toContain("@<code>prop</code>");
   });
 
   it("should handle nested container at same level in item loop", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 ::: fields
-@sub@
+@\`sub\`
 :::
 :::
 `);
@@ -303,9 +302,9 @@ Description
   it("should handle item breaking on another item at same level", () => {
     const result = md.render(`
 ::: fields
-@prop1@
+@\`prop1\`
 Description
-@prop2@
+@\`prop2\`
 Description 2
 :::
 `);
@@ -317,7 +316,7 @@ Description 2
   it("should handle unclosed quote in attributes", () => {
     const result = md.render(`
 ::: fields
-@prop@ key="val
+@\`prop\` key="val
 :::
 `);
 
@@ -327,7 +326,7 @@ Description 2
   it("should handle backslash at end of attributes string", () => {
     const result = md.render(`
 ::: fields
-@prop@ key="val\\`);
+@\`prop\` key="val\\`);
 
     expect(result).toContain("prop");
   });
@@ -335,7 +334,7 @@ Description 2
   it("should handle line with 0 indent that is not a closing fence", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 not a fence
 :::
 `);
@@ -348,7 +347,7 @@ not a fence
     const result = md.render(`
 - list item
   ::: fields
-@prop@
+@\`prop\`
   :::
 `);
 
@@ -358,7 +357,7 @@ not a fence
   it("should handle nested fences with extra content in getFieldsRule", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 ::: extra
 :::
 `);
@@ -370,7 +369,7 @@ not a fence
   it("should handle cosmetic-indented content after field item", () => {
     const result = md.render(`
 ::: fields
-  @prop@
+  @\`prop\`
 Text after prop
 :::
 `);

@@ -9,7 +9,7 @@ describe("basic rendering", () => {
   it("should render single field", () => {
     const result = md.render(`
 ::: fields
-@prop1@
+@\`prop1\`
 Description 1
 :::
 `);
@@ -22,10 +22,10 @@ Description 1
   it("should render multiple fields", () => {
     const result = md.render(`
 ::: fields
-@prop1@
+@\`prop1\`
 Description 1
 
-@prop2@
+@\`prop2\`
 Description 2
 :::
 `);
@@ -40,7 +40,7 @@ Description 2
   it("should render attributes", () => {
     const result = md.render(`
 ::: fields
-@prop1@ type="string" required
+@\`prop1\` type="string" required
 Description 1
 :::
 `);
@@ -53,7 +53,7 @@ Description 1
   it("should handle escaped quotes in attributes", () => {
     const result = md.render(`
 ::: fields
-@prop1@ default="foo\\"bar"
+@\`prop1\` default="foo\\"bar"
 :::
 `);
 
@@ -63,7 +63,7 @@ Description 1
   it("should handle attribute with trailing backslash (edge case)", () => {
     const result = md.render(`
 ::: fields
-@test@ attr="val\\
+@\`test\` attr="val\\
 :::
 `);
 
@@ -74,7 +74,7 @@ Description 1
   it("should handle unquoted attributes", () => {
     const result = md.render(`
 ::: fields
-@prop1@ type=number
+@\`prop1\` type=number
 :::
 `);
 
@@ -85,7 +85,7 @@ Description 1
   it("should handle mixed attributes", () => {
     const result = md.render(`
 ::: fields
-@prop1@ type="string" required default='value'
+@\`prop1\` type="string" required default='value'
 :::
 `);
 
@@ -95,22 +95,21 @@ Description 1
     expect(result).toContain("Default: value");
   });
 
-  it("should handle escaped name markers", () => {
+  it("should support @ in a field name", () => {
     const result = md.render(`
 ::: fields
-@\\@name\\@@
+@\`@name@\`
 Description
 :::
 `);
 
-    expect(result).toMatchSnapshot();
     expect(result).toContain(">@name@</dt>");
   });
 
   it("should ignore lines starting with escaped @", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 Description includes:
 \\@not-a-field
 :::
@@ -121,10 +120,24 @@ Description includes:
     expect(result).not.toContain(">not-a-field</dt>");
   });
 
+  it("should not treat an escaped @ followed by a code span as a field", () => {
+    const result = md.render(`
+::: fields
+@\`prop1\`
+Description includes:
+\\@\`prop2\`
+:::
+`);
+
+    expect(result).toContain("@<code>prop2</code>");
+    expect(result).not.toContain(">prop2</dt>");
+    expect(result.match(/field-name/g)).toHaveLength(1);
+  });
+
   it("should support #id syntax in fence", () => {
     const result = md.render(`
 ::: fields #my-id
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -135,7 +148,7 @@ Description includes:
   it("should support concatenated #id syntax", () => {
     const result = md.render(`
 ::: fields#my-id-2
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -146,7 +159,7 @@ Description includes:
   it("should support #id with extra params", () => {
     const result = md.render(`
 ::: fields #my-id-space extra
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -156,7 +169,7 @@ Description includes:
   it("should support concatenated #id with extra params", () => {
     const result = md.render(`
 ::: fields#my-id-concat extra
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -166,7 +179,7 @@ Description includes:
   it("should support code blocks inside fields", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
   Here is code:
   \`\`\`js
   console.log("test");
@@ -182,7 +195,7 @@ Description includes:
   it("should support lists inside fields", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
   - item 1
   - item 2
 :::
@@ -196,7 +209,7 @@ Description includes:
   it("should escape HTML in name and attributes", () => {
     const result = md.render(`
 ::: fields
-@<script>alert("XSS")</script>@ title="<img src=x onerror=alert(1)>"
+@\`<script>alert("XSS")</script>\` title="<img src=x onerror=alert(1)>"
 :::
 `);
 
@@ -208,7 +221,7 @@ Description includes:
   it("should handle 1-character attribute in ucFirst", () => {
     const result = md.render(`
 ::: fields
-@prop@ a=b
+@\`prop\` a=b
 :::
 `);
 

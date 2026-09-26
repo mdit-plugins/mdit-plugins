@@ -2,18 +2,25 @@ import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { field } from "../src/index.js";
-import type { FieldAttrDetail, FieldAttrItem } from "../src/options.js";
+import type { FieldAttrItem } from "../src/options.js";
 import { parseAttributes } from "../src/utils.js";
 
 const md = new MarkdownIt();
 
-const parse = (content: string): FieldAttrDetail[] => parseAttributes(content);
+const parse = (content: string): FieldAttrItem[] => parseAttributes(content);
 
-const getMeta = (content: string): { attributes: FieldAttrItem[]; details: FieldAttrDetail[] } => {
+const getMeta = (content: string): { attributes: FieldAttrItem[] } => {
   const tokens = new MarkdownIt().use(field).parse(`::: fields\n${content}\n:::\n`, {});
   const token = tokens.find((item) => item.type === "fields_field_open");
 
-  return token?.meta as { attributes: FieldAttrItem[]; details: FieldAttrDetail[] };
+  return token?.meta as { attributes: FieldAttrItem[] };
+};
+
+// the content of the first code span in a source, exactly as markdown-it reads it
+const markdownItCodeSpan = (source: string): string | undefined => {
+  const [token] = new MarkdownIt().parseInline(source, {});
+
+  return token?.children?.find((child) => child.type === "code_inline")?.content;
 };
 
 describe("markdown escape alignment", () => {
@@ -133,15 +140,6 @@ describe("backtick values", () => {
     ]);
   });
 
-  it("should unescape backticks and backslashes", () => {
-    expect(parse("key=`a\\`b`")).toStrictEqual([
-      { attr: "key", name: "Key", value: "a`b", quote: "backtick" },
-    ]);
-    expect(parse("key=`a\\\\`")).toStrictEqual([
-      { attr: "key", name: "Key", value: "a\\", quote: "backtick" },
-    ]);
-  });
-
   it("should keep other backslashes", () => {
     expect(parse("key=`^\\d+$`")).toStrictEqual([
       { attr: "key", name: "Key", value: String.raw`^\d+$`, quote: "backtick" },
@@ -155,6 +153,49 @@ describe("backtick values", () => {
     ]);
     expect(parse("key=`\\<div\\>`")).toStrictEqual([
       { attr: "key", name: "Key", value: String.raw`\<div\>`, quote: "backtick" },
+    ]);
+  });
+
+  it("should keep backslashes literally", () => {
+    expect(parse("key=`a\\b`")).toStrictEqual([
+      { attr: "key", name: "Key", value: String.raw`a\b`, quote: "backtick" },
+    ]);
+  });
+
+  it("should support longer delimiters", () => {
+    expect(parse("key=``a`b``")).toStrictEqual([
+      { attr: "key", name: "Key", value: "a`b", quote: "backtick" },
+    ]);
+    expect(parse("key=```a``b```")).toStrictEqual([
+      { attr: "key", name: "Key", value: "a``b", quote: "backtick" },
+    ]);
+  });
+
+  it("should parse a value exactly as markdown-it parses the code span", () => {
+    // the promise of the syntax is that the value matches what renderers and formatters see
+    const cases = ["`a`", "``a`b``", "`  a  `", "` `", "```a``b```", "`` `x` ``", "`a\\b`"];
+
+    expect(cases.map((span) => parse(`key=${span}`)[0].value)).toStrictEqual(
+      cases.map((span) => markdownItCodeSpan(span)),
+    );
+  });
+
+  it("should not treat a backslash as escaping the delimiter", () => {
+    // a literal backtick must be written with longer delimiters, not with a backslash
+    expect(parse("key=`a\\`b`")[0]).toStrictEqual({
+      attr: "key",
+      name: "Key",
+      value: "a\\",
+      quote: "backtick",
+    });
+  });
+
+  it("should strip one surrounding space following markdown", () => {
+    expect(parse("key=`` a ``")).toStrictEqual([
+      { attr: "key", name: "Key", value: "a", quote: "backtick" },
+    ]);
+    expect(parse("key=``   ``")).toStrictEqual([
+      { attr: "key", name: "Key", value: "   ", quote: "backtick" },
     ]);
   });
 
@@ -174,9 +215,17 @@ describe("backtick values", () => {
     ]);
   });
 
-  it("should support an empty value", () => {
+  it("should fall back when the delimiters are adjacent", () => {
+    // adjacent backticks form a single run, so there is no closing delimiter
     expect(parse("key=``")).toStrictEqual([
-      { attr: "key", name: "Key", value: "", quote: "backtick" },
+      { attr: "key", name: "Key", value: "``", quote: "none" },
+    ]);
+  });
+
+  it("should require a matching delimiter length", () => {
+    // a run of another length does not close the delimiter
+    expect(parse("key=`a``")).toStrictEqual([
+      { attr: "key", name: "Key", value: "`a``", quote: "none" },
     ]);
   });
 
@@ -209,10 +258,9 @@ describe("quote metadata", () => {
   });
 
   it("should report an empty quoted value", () => {
-    expect(parse("a=\"\" b='' c=``")).toStrictEqual([
+    expect(parse("a=\"\" b=''")).toStrictEqual([
       { attr: "a", name: "A", value: "", quote: "double" },
       { attr: "b", name: "B", value: "", quote: "single" },
-      { attr: "c", name: "C", value: "", quote: "backtick" },
     ]);
   });
 
@@ -241,37 +289,31 @@ describe("quote metadata", () => {
 });
 
 describe("field meta", () => {
-  it("should expose details as a superset of attributes", () => {
-    const { attributes, details } = getMeta(`@prop@ type="string" default=\`['a', 'b']\` required`);
+  it("should expose attributes with the quote style", () => {
+    const { attributes } = getMeta(`@\`prop\` type="string" default=\`['a', 'b']\` required`);
 
-    expect(details).toStrictEqual([
+    expect(attributes).toStrictEqual([
       { attr: "type", name: "Type", value: "string", quote: "double" },
       { attr: "default", name: "Default", value: "['a', 'b']", quote: "backtick" },
       { attr: "required", name: "Required", value: true, quote: "none" },
     ]);
-    expect(attributes).toStrictEqual(
-      details.map(({ attr, name, value }) => ({ attr, name, value })),
-    );
-    expect(Object.keys(attributes[0])).toStrictEqual(["attr", "name", "value"]);
   });
 
   it("should not expose attributes when parsing is disabled", () => {
     const tokens = new MarkdownIt()
       .use(field, { parseAttributes: false })
-      .parse(`::: fields\n@prop@ type="string"\n:::\n`, {});
+      .parse(`::: fields\n@\`prop\` type="string"\n:::\n`, {});
     const meta = tokens.find((item) => item.type === "fields_field_open")?.meta as {
       attributes: FieldAttrItem[];
-      details: FieldAttrDetail[];
     };
 
     expect(meta.attributes).toStrictEqual([]);
-    expect(meta.details).toStrictEqual([]);
   });
 
   it("should render a backtick value as a literal", () => {
     const result = new MarkdownIt()
       .use(field)
-      .render(`::: fields\n@prop@ default=\`['a', 'b']\`\n:::\n`);
+      .render(`::: fields\n@\`prop\` default=\`['a', 'b']\`\n:::\n`);
 
     expect(result).toContain("Default: [&#39;a&#39;, &#39;b&#39;]");
   });
