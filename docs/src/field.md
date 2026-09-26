@@ -66,8 +66,27 @@ Attributes are key-value pairs separated by `=`. Values can be quoted or unquote
 ```
 
 - For unquoted values, the value will end at the first space or whitespace.
-- For quoted values, both `"` and `'` are supported, and you can escape quotes with `\`.
+- Values can be quoted with `"`, `'` or `` ` ``.
+- Backslashes inside a `"` or `'` quoted value follow Markdown's escaping rules: a backslash before an ASCII punctuation character is removed, while any other backslash is kept as-is. So `default="^\d+$"` and `default="C:\new"` keep their backslashes, while `default="hello \"world\""` gives `hello "world"`. Unquoted values are taken literally. Since a backslash also escapes the closing quote, write `default="C:\\"` to end a value with a backslash.
 - If an attribute exists without `=`, it will be treated as a boolean attribute with the value `true`.
+
+#### Backtick Values
+
+A backtick value keeps its content literal, which is useful when the value collides with Markdown syntax:
+
+```md
+@prop1@ default=`['a', 'b']`
+```
+
+Values quoted with `"` or `'` are still parsed as Markdown by other tools, so `[a][b]` inside them may be reported as an undefined reference by linters. Other tools treat a backtick value as an inline code span, which avoids that.
+
+Inside a backtick value only a backtick and a backslash can be escaped: escape a backtick as `` \` `` and a backslash as `\\`, while any other backslash is kept as-is, so `` default=`^\d+\.\d+$` `` keeps both backslashes.
+
+```md
+@prop1@ default=`a\`b`
+```
+
+A backtick value ends at the first unescaped backtick, just like a value quoted with `"` or `'`, so a value that starts with a backtick is parsed as a backtick value. An unclosed backtick value falls back to an unquoted value.
 
 #### Allowed Attributes
 
@@ -222,7 +241,9 @@ interface FieldAttr {
 - Type: `MarkdownItFieldOpenRenderer`
 
 ```ts
-interface FieldAttrInfo {
+type FieldAttrQuote = "none" | "single" | "double" | "backtick";
+
+interface FieldAttrItem {
   /**
    * attribute name
    */
@@ -239,6 +260,13 @@ interface FieldAttrInfo {
   value: string | true;
 }
 
+interface FieldAttrDetail extends FieldAttrItem {
+  /**
+   * quote style used in source
+   */
+  quote: FieldAttrQuote;
+}
+
 interface FieldMeta {
   /**
    * field name
@@ -253,7 +281,12 @@ interface FieldMeta {
   /**
    * sorted field attributes
    */
-  attributes: FieldAttrInfo[];
+  attributes: FieldAttrItem[];
+
+  /**
+   * sorted field attributes with extra info, e.g. the quote style used in source
+   */
+  details: FieldAttrDetail[];
 }
 
 type MarkdownItFieldOpenRenderer = (
