@@ -20,7 +20,7 @@
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.31",
-    "@vuepress/helper": "2.0.0-rc.134",
+    "@vuepress/helper": "2.0.0-rc.135",
     "@vuepress/plugin-docsearch": "2.0.0-rc.134",
     "markdown-it": "catalog:",
     "sass-embedded": "1.105.0",
