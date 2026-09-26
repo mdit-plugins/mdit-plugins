@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.1...%40mdit%2Fplugin-mathjax-slim%401.2.2) (2026-09-26)
+
+### Build System
+
+- **deps:** unify shared deps with catalog ([9308d73](https://github.com/mdit-plugins/mdit-plugins/commit/9308d733b1cafecd4f4dc6a31a371d21a4ef158f))
+
 ## [1.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.0...%40mdit%2Fplugin-mathjax-slim%401.2.1) (2026-09-07)
 
 ### 🐛 Bug Fixes

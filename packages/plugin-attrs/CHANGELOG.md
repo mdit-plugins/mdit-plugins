@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.2...%40mdit%2Fplugin-attrs%401.3.3) (2026-09-26)
+
+### Build System
+
+- bump deps ([4a0c198](https://github.com/mdit-plugins/mdit-plugins/commit/4a0c1980891d4a5c520b0ad5955eb80230f070d1))
+- bump deps ([0e2795c](https://github.com/mdit-plugins/mdit-plugins/commit/0e2795c7466f50b60982b5ec511d4eee6fc1dd67))
+
 ## [1.3.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.1...%40mdit%2Fplugin-attrs%401.3.2) (2026-09-12)
 
 **Note:** Version bump only for package @mdit/plugin-attrs

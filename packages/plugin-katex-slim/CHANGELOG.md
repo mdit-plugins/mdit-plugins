@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.2...%40mdit%2Fplugin-katex-slim%401.1.3) (2026-09-26)
+
+### Miscellaneous Chores
+
+- **deps:** update dependency katex to v0.18.9 ([#705](https://github.com/mdit-plugins/mdit-plugins/issues/705)) ([5c4c091](https://github.com/mdit-plugins/mdit-plugins/commit/5c4c091a65783819f119b09e7af88f01c7d361ab))
+
+### Build System
+
+- **deps:** unify shared deps with catalog ([9308d73](https://github.com/mdit-plugins/mdit-plugins/commit/9308d733b1cafecd4f4dc6a31a371d21a4ef158f))
+
 ## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.1...%40mdit%2Fplugin-katex-slim%401.1.2) (2026-09-12)
 
 ### Miscellaneous Chores

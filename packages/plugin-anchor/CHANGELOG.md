@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.1...%40mdit%2Fplugin-anchor%402.2.2) (2026-09-26)
+
+### Miscellaneous Chores
+
+- **deps:** update dependency markdown-it to v15.0.2 ([#677](https://github.com/mdit-plugins/mdit-plugins/issues/677)) ([4ecc82e](https://github.com/mdit-plugins/mdit-plugins/commit/4ecc82e069825e9e2b00061843bcf2930fb17fdf))
+
+### Build System
+
+- bump deps ([4a0c198](https://github.com/mdit-plugins/mdit-plugins/commit/4a0c1980891d4a5c520b0ad5955eb80230f070d1))
+- bump deps ([0e2795c](https://github.com/mdit-plugins/mdit-plugins/commit/0e2795c7466f50b60982b5ec511d4eee6fc1dd67))
+- **deps:** unify shared deps with catalog ([9308d73](https://github.com/mdit-plugins/mdit-plugins/commit/9308d733b1cafecd4f4dc6a31a371d21a4ef158f))
+
 ## [2.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.0...%40mdit%2Fplugin-anchor%402.2.1) (2026-09-12)
 
 **Note:** Version bump only for package @mdit/plugin-anchor
