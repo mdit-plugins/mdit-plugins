@@ -16,7 +16,7 @@ describe("field inside block elements", () => {
       const result = md.render(`
 - list item
   ::: fields
-  @prop@
+  @\`prop\`
   Description
   :::
 `);
@@ -30,9 +30,9 @@ describe("field inside block elements", () => {
       const result = md.render(`
 - item
   ::: fields
-  @parent@
+  @\`parent\`
   Parent content.
-  @@child@
+  @@\`child\`
   Child content.
   :::
 `);
@@ -49,7 +49,7 @@ describe("field inside block elements", () => {
       const result = md.render(`
 1. first item
    ::: fields
-   @prop@
+   @\`prop\`
    Description
    :::
 `);
@@ -64,7 +64,7 @@ describe("field inside block elements", () => {
     it("should work inside a blockquote", () => {
       const result = md.render(`
 > ::: fields
-> @prop@
+> @\`prop\`
 > Description
 > :::
 `);
@@ -77,9 +77,9 @@ describe("field inside block elements", () => {
     it("should work with nested fields inside blockquote", () => {
       const result = md.render(`
 > ::: fields
-> @root@
+> @\`root\`
 > Root content.
-> @@child@
+> @@\`child\`
 > Child content.
 > :::
 `);
@@ -96,7 +96,7 @@ describe("field inside block elements", () => {
       const result = mdWithContainer.render(`
 :::: warning
 ::: fields
-@prop@
+@\`prop\`
 Description
 :::
 ::::
@@ -113,7 +113,7 @@ describe("block elements inside field content", () => {
   it("should support unordered list as field content", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 - item a
 - item b
 :::
@@ -127,7 +127,7 @@ describe("block elements inside field content", () => {
   it("should support ordered list as field content", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 1. first
 2. second
 :::
@@ -141,7 +141,7 @@ describe("block elements inside field content", () => {
   it("should support blockquote as field content", () => {
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 > This is a quote
 :::
 `);
@@ -153,7 +153,7 @@ describe("block elements inside field content", () => {
   it("should support nested container inside field content", () => {
     const result = mdWithContainer.render(`
 :::: fields
-@prop@
+@\`prop\`
 Content before warning.
 
 ::: warning
@@ -170,11 +170,11 @@ This is a warning inside the field.
   it("should support nested field container inside field content", () => {
     const result = md.render(`
 :::: fields
-@prop-item@
+@\`prop-item\`
 This is a standard field item content.
 
 ::: fields
-@nested-prop@
+@\`nested-prop\`
 Nested content.
 :::
 ::::
@@ -191,15 +191,15 @@ Nested content.
 
     const result = mdProps.render(`
 :::: fields
-@option@
+@\`option\`
 Parent description.
 ::: props
-@prop1@ type="string"
+@\`prop1\` type="string"
 Key description.
-@prop2@ type="number"
+@\`prop2\` type="number"
 Key description.
 :::
-@option2@
+@\`option2\`
 Another parent description.
 ::::
 `);
@@ -219,7 +219,7 @@ describe("field with dl plugin", () => {
 
     const src = `\
 ::: fields
-@prop@
+@\`prop\`
 Description text
 : definition term
 : another definition

@@ -8,7 +8,7 @@ describe("classPrefix option", () => {
     const customMd = new MarkdownIt().use(field, { classPrefix: "my-" });
     const result = customMd.render(`
 ::: fields
-@prop@ type="string"
+@\`prop\` type="string"
 Description
 :::
 `);
@@ -23,7 +23,7 @@ Description
     const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
-@prop@
+@\`prop\`
 :::
 `);
 
@@ -37,7 +37,7 @@ describe("parseAttributes option", () => {
     const noAttrMd = new MarkdownIt().use(field, { parseAttributes: false });
     const result = noAttrMd.render(`
 ::: fields
-@prop@ type="string" required
+@\`prop\` type="string" required
 Description
 :::
 `);
@@ -52,7 +52,7 @@ Description
     const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
-@prop@ type="string"
+@\`prop\` type="string"
 :::
 `);
 
@@ -66,7 +66,7 @@ describe("prevent CSS injection", () => {
     const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
-@prop@ evil"><script>alert(1)</script>=yes
+@\`prop\` evil"><script>alert(1)</script>=yes
 :::
 `);
 
@@ -79,7 +79,7 @@ describe("prevent CSS injection", () => {
     const md = new MarkdownIt().use(field);
     const result = md.render(`
 ::: fields
-@prop@ valid-key=val a.b=val2 good=val3
+@\`prop\` valid-key=val a.b=val2 good=val3
 :::
 `);
 

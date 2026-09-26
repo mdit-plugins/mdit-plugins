@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(field, {
 
 mdIt.render(`
 ::: fields
-@prop1@ type="string" required
+@\`prop1\` type="string" required
 Description 1
 :::
 `);
@@ -35,23 +35,44 @@ Description 1
 
 ### 项目
 
-在容器内部，以 `@名称@` 开头的行是字段项目。你可以在闭合的 `@` 后添加属性。
+在容器内部，以 `@` 开头并紧接行内代码的行是字段项目。你可以在闭合的反引号后添加属性。
 
 ```md
 ::: fields
-@prop1@ type="string" required
+@`prop1` type="string" required
 项目 1 描述
 :::
 ```
 
-在 `@名称@` 标记之后、容器关闭标记之前或同级的下一个 `@名称@` 标记之前的任何内容都将被视为字段内容。
+在标记之后、容器关闭标记之前或同级的下一个标记之前的任何内容都将被视为字段内容。
+
+#### 名称
+
+名称是行内代码，完全遵循 Markdown 的行内代码语法：
+
+```md
+@`locales.<localePath>.latestUpdateAt` type=string
+@`config[*].matches[*]` type=`RegExp`
+```
+
+名称必须在同一行内闭合，否则该行不是字段项目。
+
+::: tip 模板字符串
+
+在 JavaScript 模板字符串中书写时（如上面的 `mdIt.render` 例子），反引号需要转义：
+
+```ts
+@\`prop1\`
+```
+
+:::
 
 ### 属性
 
 属性是以 `=` 分隔的键值对。值可以使用引号，也可以不用。
 
 ```md
-@prop1@ type="string" required default="value"
+@`prop1` type="string" required default="value"
 ```
 
 - 对于不带引号的值，值将在第一个空格或空白处结束。
@@ -61,21 +82,15 @@ Description 1
 
 #### 反引号值
 
-反引号包裹的值会保持内容为字面量，适用于值与 Markdown 语法冲突的情况：
+反引号值是行内代码，完全遵循 Markdown 的行内代码语法：
 
 ```md
-@prop1@ default=`['a', 'b']`
+@`prop1` default=`['a', 'b']`
 ```
 
-使用 `"` 或 `'` 包裹的值仍会被其他工具按 Markdown 解析，其中 `[a][b]` 之类的写法可能被 linter 报为未定义的引用；反引号包裹的值会被这些工具视为行内代码，从而避免该问题。
+使用 `"` 或 `'` 包裹的值仍会被其他工具按 Markdown 解析，其中 `[a][b]` 之类的写法可能被 linter 报为未定义的引用；反引号值对这些工具来说是行内代码，从而避免该问题。
 
-反引号值中只有反引号和反斜杠可以被转义：反引号使用 `` \` `` 转义，反斜杠使用 `\\` 转义，其余反斜杠原样保留，因此 `` default=`^\d+\.\d+$` `` 会保留两个反斜杠。
-
-```md
-@prop1@ default=`a\`b`
-```
-
-与使用 `"` 或 `'` 包裹的值一样，反引号值会在第一个未被转义的反引号处结束，因此以反引号开头的值会被解析为反引号值；未闭合的反引号值会回退为不带引号的值。
+未被反引号闭合的值会回退为不带引号的值，且该值以起始反引号开头。
 
 #### 允许的属性
 
@@ -103,15 +118,15 @@ field(md, {
 
 ```md
 :::: fields
-@option@
+@`option`
 父级描述。
 ::: props
-@prop1@ type="string"
+@`prop1` type="string"
 键描述。
-@prop2@ type="number"
+@`prop2` type="number"
 键描述。
 :::
-@option2@
+@`option2`
 另一个父级描述。
 ::::
 ```
@@ -120,13 +135,13 @@ field(md, {
 
 ```md
 ::: fields
-@prop1@
+@`prop1`
 父级描述。
-@@prop1.key1@ type="string"
+@@`prop1.key1` type="string"
 键描述。
-@@prop1.key2@ type="number"
+@@`prop1.key2` type="number"
 键描述。
-@prop2@
+@`prop2`
 另一个父级描述。
 :::
 ```
@@ -138,27 +153,25 @@ field(md, {
 ```md
 <!-- prettier-ignore-start -->
 ::: fields
-@prop1@
+@`prop1`
   父级描述。
 
-  @@prop1.key1@ type="string"
+  @@`prop1.key1` type="string"
   键描述。
 
-  @@prop1.key2@ type="number"
+  @@`prop1.key2` type="number"
   键描述。
 :::
 <!-- prettier-ignore-end -->
 ```
 
-::: tip 嵌套和转义
+::: tip 转义
 
-- 如果你需要在字段容器内的行首使用 `@`，你可以使用 `\` 将其转义为 `\@`。
+字段容器内以 `@` 开头并紧接行内代码的行是字段项目。将 `@` 用 `\` 转义即可作为内容保留：
 
-- 如果你的字段名称包含 `@`，你可以使用 `\` 进行转义：
-
-  ```md
-  @user\@domain.com@
-  ```
+```md
+\@`not-a-field`
+```
 
 :::
 
@@ -247,9 +260,7 @@ interface FieldAttrItem {
    * 属性值
    */
   value: string | true;
-}
 
-interface FieldAttrDetail extends FieldAttrItem {
   /**
    * 源码中使用的引号类型
    */
@@ -271,11 +282,6 @@ interface FieldMeta {
    * 排序后的字段属性
    */
   attributes: FieldAttrItem[];
-
-  /**
-   * 排序后的字段属性（含额外信息，如源码中使用的引号类型）
-   */
-  details: FieldAttrDetail[];
 }
 
 type MarkdownItFieldOpenRenderer = (
@@ -303,10 +309,10 @@ type MarkdownItFieldOpenRenderer = (
 :::: preview 基础字段
 
 ::: fields
-@prop1@ type="string" required
+@`prop1` type="string" required
 项目 1 描述
 
-@prop2@ type="number"
+@`prop2` type="number"
 项目 2 描述
 :::
 
@@ -315,10 +321,10 @@ type MarkdownItFieldOpenRenderer = (
 :::: preview 嵌套字段
 
 ::: fields
-@parent@
+@`parent`
 父级项目描述。
 
-@@child@
+@@`child`
 子级项目描述。
 :::
 
@@ -340,10 +346,10 @@ const mdIt = new MarkdownIt().use(field, {
 ```
 
 ::: props
-@prop1@ type="string" required
+@`prop1` type="string" required
 这是一个必填的字符串属性。
 
-@prop2@ type="number"
+@`prop2` type="number"
 这是一个数字属性。
 :::
 

@@ -1,9 +1,8 @@
 import type { BlockRule } from "@mdit/helper";
 import type { Env, StateBlock, Token } from "markdown-it";
 
-import type { FieldAttrItem } from "./options.js";
 import type { AllowedAttributes } from "./utils.js";
-import { parseAttributes } from "./utils.js";
+import { parseAttributes, scanCodeSpan } from "./utils.js";
 
 export interface FieldContext {
   /** Container name (e.g., "fields", "props") */
@@ -26,8 +25,6 @@ const MIN_MARKER_NUM = 3;
 // Indentation from 0-3 spaces is cosmetic (visual only, does not affect nesting depth).
 // 4+ spaces triggers standard Markdown code block behavior.
 const MAX_COSMETIC_INDENT = 3;
-const ESCAPED_AT = String.raw`\@`;
-const ESCAPED_BACKSLASH = String.raw`\\`;
 
 // Attribute key sanitization: only alphanumeric and hyphens allowed
 const INVALID_KEY_CHAR_RE = /[^a-zA-Z0-9-]/;
@@ -43,6 +40,17 @@ const INVALID_KEY_CHAR_RE = /[^a-zA-Z0-9-]/;
 export const isValidAttrKey = (key: string): boolean =>
   key.length > 0 && !INVALID_KEY_CHAR_RE.test(key);
 
+/**
+ * Check whether a line starts with a field marker, whose name is a Markdown code span so that the
+ * name never clashes with Markdown syntax, e.g. `@`name``, `@@`a`b``.
+ *
+ * 检查一行是否以字段标记开头，其名字是一个 Markdown 代码片段，因此名字不会与 Markdown 语法冲突，例如 `@`name``、`@@`a`b``。
+ *
+ * @param state - Block state / 块状态
+ * @param start - Start position of the line / 行的起始位置
+ * @param max - End of the line / 行的结束位置
+ * @returns Marker end position, field name and depth, or `false` / 标记结束位置、字段名与层级，或 `false`
+ */
 export const checkFieldMarker = (
   state: StateBlock,
   start: number,
@@ -51,38 +59,22 @@ export const checkFieldMarker = (
   if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
 
   // Count leading @ chars for depth (depth = count, starting from 1)
-  let atCount = 0;
+  let depth = 0;
   let pos = start;
 
   while (pos < max && state.src.charCodeAt(pos) === 64 /* @ */) {
-    atCount++;
+    depth++;
     pos++;
   }
 
-  // Need at least one non-@ character before the closing @
-  if (pos >= max) return false;
+  // The name follows as a code span, and must not be separated from the @ chars
+  if (state.src.charCodeAt(pos) !== 96 /* ` */) return false;
 
-  const nameStart = pos;
+  const span = scanCodeSpan(state.src, pos, max);
 
-  while (pos < max) {
-    const code = state.src.charCodeAt(pos);
+  if (!span) return false;
 
-    if (code === 92 /* \ */) {
-      pos += 2;
-      continue;
-    }
-
-    if (code === 64 /* @ */) {
-      // Found closing @
-      const nameRaw = state.src.slice(nameStart, pos);
-      const name = nameRaw.replaceAll(ESCAPED_AT, "@").replaceAll(ESCAPED_BACKSLASH, "\\");
-      return { end: pos, name, depth: atCount };
-    }
-
-    pos++;
-  }
-
-  return false;
+  return { end: span.end, name: span.value, depth };
 };
 
 export const getFieldsRule =
@@ -269,7 +261,7 @@ export const getFieldItemRule =
     /* istanbul ignore next -- guard for plugins that raise blkIndent above 3 */
     if (indent > MAX_COSMETIC_INDENT) return false;
 
-    // Must match @name@ (with prefix depth)
+    // Must be an @ run immediately followed by a code span, the @ count giving the depth
     const marker = checkFieldMarker(state, start, max);
 
     if (marker === false) return false;
@@ -277,16 +269,10 @@ export const getFieldItemRule =
     if (silent) return true;
 
     // Parse attributes (if enabled), filtering out invalid keys
-    const afterName = state.src.slice(marker.end + 1, max);
-    const details = shouldParseAttributes
+    const afterName = state.src.slice(marker.end, max);
+    const attributes = shouldParseAttributes
       ? parseAttributes(afterName, allowedAttributes).filter((attr) => isValidAttrKey(attr.attr))
       : [];
-    // `attributes` keeps the value-only shape, `details` carries extra info
-    const attributes: FieldAttrItem[] = details.map((detail) => ({
-      attr: detail.attr,
-      name: detail.name,
-      value: detail.value,
-    }));
 
     const currentDepth = marker.depth;
 
@@ -358,7 +344,7 @@ export const getFieldItemRule =
     const tokenOpen = state.push(`${name}_field_open`, "div", 1);
 
     tokenOpen.attrSet("data-level", String(currentDepth));
-    tokenOpen.meta = { name: marker.name, level: currentDepth, attributes, details };
+    tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
     tokenOpen.map = [startLine, nextLine];
 
     const oldParentType = state.parentType;

@@ -10,16 +10,6 @@ exports[`basic rendering > should handle attribute with trailing backslash (edge
 "
 `;
 
-exports[`basic rendering > should handle escaped name markers 1`] = `
-"<dl class="field-wrapper fields-fields" data-kind="fields">
-<dt class="field-name" data-level="1">@name@</dt>
-<dd class="field-content" data-level="1">
-<p>Description</p>
-</dd>
-</dl>
-"
-`;
-
 exports[`basic rendering > should handle mixed attributes 1`] = `
 "<dl class="field-wrapper fields-fields" data-kind="fields">
 <dt class="field-name" data-level="1">prop1</dt>

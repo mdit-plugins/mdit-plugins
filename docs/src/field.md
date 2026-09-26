@@ -30,7 +30,7 @@ const mdIt = new MarkdownIt().use(field, {
 
 mdIt.render(`
 ::: fields
-@prop1@ type="string" required
+@\`prop1\` type="string" required
 Description 1
 :::
 `);
@@ -46,23 +46,44 @@ You can also provide an ID for the container using `::: fields #id`.
 
 ### Items
 
-Inside the container, lines starting with `@name@` are field items. You can add attributes after the closing `@`.
+Inside the container, a line starting with `@` followed by an inline code is a field item. You can add attributes after the closing backtick.
 
 ```md
 ::: fields
-@prop1@ type="string" required
+@`prop1` type="string" required
 Description 1
 :::
 ```
 
-Any contents after a `@name@` marker and before container closing marker or new `@name@` marker at the same level will be considered as the field content.
+Any contents after a marker and before the container closing marker or a new marker at the same level will be considered as the field content.
+
+#### Name
+
+The name is an inline code, fully following Markdown's inline code syntax:
+
+```md
+@`locales.<localePath>.latestUpdateAt` type=string
+@`config[*].matches[*]` type=`RegExp`
+```
+
+The name must be closed on the same line, otherwise the line is not a field item.
+
+::: tip Template literals
+
+A backtick needs escaping when the content is written inside a JavaScript template literal, like the `mdIt.render` example above:
+
+```ts
+@\`prop1\`
+```
+
+:::
 
 ### Attributes
 
 Attributes are key-value pairs separated by `=`. Values can be quoted or unquoted.
 
 ```md
-@prop1@ type="string" required default="value"
+@`prop1` type="string" required default="value"
 ```
 
 - For unquoted values, the value will end at the first space or whitespace.
@@ -72,21 +93,15 @@ Attributes are key-value pairs separated by `=`. Values can be quoted or unquote
 
 #### Backtick Values
 
-A backtick value keeps its content literal, which is useful when the value collides with Markdown syntax:
+A backtick value is an inline code, fully following Markdown's inline code syntax:
 
 ```md
-@prop1@ default=`['a', 'b']`
+@`prop1` default=`['a', 'b']`
 ```
 
-Values quoted with `"` or `'` are still parsed as Markdown by other tools, so `[a][b]` inside them may be reported as an undefined reference by linters. Other tools treat a backtick value as an inline code span, which avoids that.
+Values quoted with `"` or `'` are still parsed as Markdown by other tools, so `[a][b]` inside them may be reported as an undefined reference by linters. A backtick value is an inline code to those tools, which avoids that.
 
-Inside a backtick value only a backtick and a backslash can be escaped: escape a backtick as `` \` `` and a backslash as `\\`, while any other backslash is kept as-is, so `` default=`^\d+\.\d+$` `` keeps both backslashes.
-
-```md
-@prop1@ default=`a\`b`
-```
-
-A backtick value ends at the first unescaped backtick, just like a value quoted with `"` or `'`, so a value that starts with a backtick is parsed as a backtick value. An unclosed backtick value falls back to an unquoted value.
+A value that is not closed by a backtick falls back to an unquoted value, which starts with the opening backtick.
 
 #### Allowed Attributes
 
@@ -114,15 +129,15 @@ Same or different containers can be nested inside items at the same indentation 
 
 ```md
 :::: fields
-@option@
+@`option`
 Parent description.
 ::: props
-@prop1@ type="string"
+@`prop1` type="string"
 Key description.
-@prop2@ type="number"
+@`prop2` type="number"
 Key description.
 :::
-@option2@
+@`option2`
 Another parent description.
 ::::
 ```
@@ -131,13 +146,13 @@ To create a field item inside another field, increase the starting `@` by one fo
 
 ```md
 ::: fields
-@prop1@
+@`prop1`
 Parent description.
-@@prop1.key1@ type="string"
+@@`prop1.key1` type="string"
 Key description.
-@@prop1.key2@ type="number"
+@@`prop1.key2` type="number"
 Key description.
-@prop2@
+@`prop2`
 Another parent description.
 :::
 ```
@@ -149,13 +164,13 @@ Though common tools like prettier is not happy with indention less than 4, the p
 ```md
 <!-- prettier-ignore-start -->
 ::: fields
-@prop1@
+@`prop1`
   Parent description.
 
-  @@prop1.key1@ type="string"
+  @@`prop1.key1` type="string"
   Key description.
 
-  @@prop1.key2@ type="number"
+  @@`prop1.key2` type="number"
   Key description.
 :::
 <!-- prettier-ignore-end -->
@@ -163,13 +178,11 @@ Though common tools like prettier is not happy with indention less than 4, the p
 
 ::: tip Escaping
 
-- If you need to use `@` at the beginning of the line inside a field container, you can use `\` to escape it to `\@`.
+A line inside a field container that starts with `@` followed by an inline code is a field item. Escape the `@` with `\` to keep it as content:
 
-- If your field name contains `@`, you can escape it with `\`:
-
-  ```md
-  @user\@domain.com@
-  ```
+```md
+\@`not-a-field`
+```
 
 :::
 
@@ -258,9 +271,7 @@ interface FieldAttrItem {
    * attribute value
    */
   value: string | true;
-}
 
-interface FieldAttrDetail extends FieldAttrItem {
   /**
    * quote style used in source
    */
@@ -282,11 +293,6 @@ interface FieldMeta {
    * sorted field attributes
    */
   attributes: FieldAttrItem[];
-
-  /**
-   * sorted field attributes with extra info, e.g. the quote style used in source
-   */
-  details: FieldAttrDetail[];
 }
 
 type MarkdownItFieldOpenRenderer = (
@@ -314,10 +320,10 @@ type MarkdownItFieldOpenRenderer = (
 :::: preview Basic Fields
 
 ::: fields
-@prop1@ type="string" required
+@`prop1` type="string" required
 Description 1
 
-@prop2@ type="number"
+@`prop2` type="number"
 Description 2
 :::
 
@@ -326,10 +332,10 @@ Description 2
 :::: preview Nested Fields
 
 ::: fields
-@parent@
+@`parent`
 Parent description.
 
-@@child@
+@@`child`
 Child description.
 :::
 
@@ -351,10 +357,10 @@ const mdIt = new MarkdownIt().use(field, {
 ```
 
 ::: props
-@prop1@ type="string" required
+@`prop1` type="string" required
 This is a required string property.
 
-@prop2@ type="number"
+@`prop2` type="number"
 This is a number property.
 :::
 

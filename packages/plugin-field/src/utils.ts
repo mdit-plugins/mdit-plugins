@@ -1,4 +1,4 @@
-import type { FieldAttr, FieldAttrDetail, FieldAttrQuote } from "./options.js";
+import type { FieldAttr, FieldAttrItem, FieldAttrQuote } from "./options.js";
 
 const isSpace = (code: number): boolean => code === 0x20 /* space */ || code === 0x09; /* tab */
 
@@ -37,29 +37,79 @@ interface ParsedAttr {
 
 export const ucFirst = (str: string): string => (str ? str[0].toUpperCase() + str.slice(1) : "");
 
-/**
- * Check whether a character can be escaped with a backslash inside a `"` or `'` value, following
- * Markdown's rules.
- *
- * 检查字符在 `"` 或 `'` 值中是否可被反斜杠转义（遵循 Markdown 规则）。
- *
- * @param code - Character code / 字符码
- * @returns Whether the character can be escaped / 是否可被转义
- */
-const isMdEscapableCharCode = (code: number): boolean =>
+const isEscapableCharCode = (code: number): boolean =>
   code < 128 && ESCAPABLE_PUNCTUATION_TABLE[code] === 1;
 
 /**
- * Check whether a character can be escaped with a backslash inside a backtick value, where only a
- * backtick and a backslash are escaped.
+ * Normalize code span content following Markdown: when the content both begins and ends with a
+ * space character, but is not made of spaces only, one space is removed from both ends. This makes
+ * it possible to write a name or value starting or ending with a backtick.
  *
- * 检查字符在反引号值中是否可被反斜杠转义，其中只有反引号和反斜杠会被转义。
+ * 按 Markdown 规则规范化代码片段内容：当内容同时以空格开头和结尾，且不全是空格时，两端各移除一个空格。这样可以写出以反引号开头或结尾的名字或值。
  *
- * @param code - Character code / 字符码
- * @returns Whether the character can be escaped / 是否可被转义
+ * @param content - Raw code span content / 代码片段的原始内容
+ * @returns Normalized content / 规范化后的内容
  */
-const isBacktickEscapableCharCode = (code: number): boolean =>
-  code === 96 /* ` */ || code === 92; /* \ */
+const normalizeCodeSpan = (content: string): string => {
+  const length = content.length;
+
+  if (length < 3) return content;
+  if (content.charCodeAt(0) !== 32 /* space */ || content.charCodeAt(length - 1) !== 32 /* space */)
+    return content;
+
+  // content made of spaces only is kept as-is
+  let pos = 0;
+
+  while (pos < length && content.charCodeAt(pos) === 32 /* space */) pos++;
+
+  return pos === length ? content : content.slice(1, length - 1);
+};
+
+/**
+ * Scan a Markdown code span, delimited by a run of backticks and closed by another run of the same
+ * length, so a backtick inside the content is written with longer delimiters instead of escaping.
+ *
+ * 扫描 Markdown 代码片段：由一段反引号作分隔符，并由等长的另一段反引号闭合，因此内容里的反引号通过更长的分隔符书写，而不是转义。
+ *
+ * The scan is bounded by `max`, which must not cut a delimiter run, so callers pass the end of a
+ * single line.
+ *
+ * 扫描受 `max` 约束，且 `max` 不能截断分隔符，因此调用方传入单行的结束位置。
+ *
+ * @param content - Content to scan / 待扫描内容
+ * @param start - Start position, pointing at the opening delimiter / 起始位置，指向起始分隔符
+ * @param max - End of content / 内容结束位置
+ * @returns Normalized code span content and the position after it, or `null` when not closed /
+ *   规范化后的代码片段内容与结束位置，未闭合时返回 `null`
+ */
+export const scanCodeSpan = (
+  content: string,
+  start: number,
+  max: number,
+): { value: string; end: number } | null => {
+  let pos = start;
+
+  while (pos < max && content.charCodeAt(pos) === 96 /* ` */) pos++;
+
+  const delimiterLength = pos - start;
+  const contentStart = pos;
+
+  while (pos < max) {
+    if (content.charCodeAt(pos) !== 96 /* ` */) {
+      pos++;
+      continue;
+    }
+
+    const runStart = pos;
+
+    while (pos < max && content.charCodeAt(pos) === 96 /* ` */) pos++;
+
+    if (pos - runStart === delimiterLength)
+      return { value: normalizeCodeSpan(content.slice(contentStart, runStart)), end: pos };
+  }
+
+  return null;
+};
 
 /**
  * Unescape a quoted value: a backslash before an escapable character is removed, any other
@@ -68,10 +118,9 @@ const isBacktickEscapableCharCode = (code: number): boolean =>
  * 反转义引号内的值：可转义字符前的反斜杠会被移除，其余反斜杠原样保留。
  *
  * @param content - Raw quoted value / 引号内的原始值
- * @param isEscapable - Check whether a character can be escaped / 检查字符是否可被转义
  * @returns Unescaped value / 反转义后的值
  */
-const unescapeValue = (content: string, isEscapable: (code: number) => boolean): string => {
+const unescapeValue = (content: string): string => {
   if (!content.includes("\\")) return content;
 
   let result = "";
@@ -87,7 +136,7 @@ const unescapeValue = (content: string, isEscapable: (code: number) => boolean):
 
     const next = pos + 1;
 
-    if (next < length && isEscapable(content.charCodeAt(next))) {
+    if (next < length && isEscapableCharCode(content.charCodeAt(next))) {
       result += content.slice(last, pos) + content[next];
       pos = next + 1;
       last = pos;
@@ -145,12 +194,12 @@ export const normalizeAttributes = (allowedAttributes?: FieldAttr[]): AllowedAtt
  *
  * @param content - Attribute content / 属性内容
  * @param allowedAttributes - Allowed attributes / 允许的属性
- * @returns Parsed attributes with extra info / 带额外信息的解析结果
+ * @returns Parsed attributes / 解析后的属性
  */
 export const parseAttributes = (
   content: string,
   allowedAttributes: AllowedAttributes | null = null,
-): FieldAttrDetail[] => {
+): FieldAttrItem[] => {
   const attrs: Record<string, ParsedAttr> = {};
   const length = content.length;
   let pos = 0;
@@ -192,6 +241,21 @@ export const parseAttributes = (
 
         attrs[key] = { value: content.slice(pos, valEnd), quote };
         pos = valEnd;
+      } else if (quote === "backtick") {
+        // a backtick value is a code span, so its content is taken literally
+        const span = scanCodeSpan(content, pos, length);
+
+        if (span) {
+          attrs[key] = { value: span.value, quote };
+          pos = span.end;
+        } else {
+          // an unclosed backtick value falls back to an unquoted value, so that existing
+          // unquoted values starting with a backtick keep working
+          const valEnd = scanUnquotedEnd(content, pos, length);
+
+          attrs[key] = { value: content.slice(pos, valEnd), quote: "none" };
+          pos = valEnd;
+        }
       } else {
         const valueStart = pos + 1;
         let scan = valueStart;
@@ -214,26 +278,11 @@ export const parseAttributes = (
           scan++;
         }
 
-        if (closed || quote !== "backtick") {
-          // an unclosed `"` or `'` value takes the rest of the content
-          const valueEnd = closed ? scan : length;
-          // a backtick value is literal, so only a backtick and a backslash can be escaped in it
-          const isEscapable =
-            quote === "backtick" ? isBacktickEscapableCharCode : isMdEscapableCharCode;
+        // an unclosed value takes the rest of the content
+        const valueEnd = closed ? scan : length;
 
-          attrs[key] = {
-            value: unescapeValue(content.slice(valueStart, valueEnd), isEscapable),
-            quote,
-          };
-          pos = closed ? scan + 1 : length;
-        } else {
-          // an unclosed backtick value falls back to an unquoted value, so that existing
-          // unquoted values starting with a backtick keep working
-          const valEnd = scanUnquotedEnd(content, pos, length);
-
-          attrs[key] = { value: content.slice(pos, valEnd), quote: "none" };
-          pos = valEnd;
-        }
+        attrs[key] = { value: unescapeValue(content.slice(valueStart, valueEnd)), quote };
+        pos = closed ? scan + 1 : length;
       }
     } else {
       // boolean
