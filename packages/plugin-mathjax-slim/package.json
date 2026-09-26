@@ -49,13 +49,13 @@
     "@mdit/plugin-tex": "workspace:*"
   },
   "devDependencies": {
-    "@mathjax/mathjax-tex-font": "4.1.3",
-    "@mathjax/src": "4.1.3"
+    "@mathjax/mathjax-tex-font": "catalog:",
+    "@mathjax/src": "catalog:"
   },
   "peerDependencies": {
-    "@mathjax/mathjax-newcm-font": "^4.1.3",
-    "@mathjax/src": "^4.1.3",
-    "markdown-it": "^15.0.0"
+    "@mathjax/mathjax-newcm-font": "catalog:",
+    "@mathjax/src": "catalog:",
+    "markdown-it": "catalog:"
   },
   "peerDependenciesMeta": {
     "@mathjax/mathjax-newcm-font": {

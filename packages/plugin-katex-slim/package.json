@@ -52,11 +52,11 @@
     "@mdit/plugin-tex": "workspace:*"
   },
   "devDependencies": {
-    "katex": "0.18.9"
+    "katex": "catalog:"
   },
   "peerDependencies": {
-    "katex": "^0.16.25 || ^0.17.0 || ^0.18.0",
-    "markdown-it": "^15.0.0"
+    "katex": "catalog:",
+    "markdown-it": "catalog:"
   },
   "peerDependenciesMeta": {
     "katex": {

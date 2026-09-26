@@ -164,9 +164,24 @@ settings:
 
 catalogs:
   default:
+    '@mathjax/mathjax-newcm-font':
+      specifier: ^4.1.3
+      version: 4.1.3
+    '@mathjax/mathjax-tex-font':
+      specifier: ^4.1.3
+      version: 4.1.3
+    '@mathjax/src':
+      specifier: ^4.1.3
+      version: 4.1.3
+    katex:
+      specifier: ^0.18.9
+      version: 0.18.9
     markdown-it:
       specifier: ^15.0.2
       version: 15.0.2
+    upath:
+      specifier: ^3.0.8
+      version: 3.0.8
 
 overrides:
   '@mdit/helper': workspace:*
@@ -291,7 +306,7 @@ importers:
   docs:
     dependencies:
       '@mathjax/src':
-        specifier: 4.1.3
+        specifier: 'catalog:'
         version: 4.1.3
       '@mdit/plugin-abbr':
         specifier: workspace:*
@@ -406,7 +421,7 @@ importers:
         specifier: workspace:*
         version: link:../plugin-attrs
       markdown-it:
-        specifier: 15.0.2
+        specifier: 'catalog:'
         version: 15.0.2
 
   packages/plugin-attrs:
@@ -572,7 +587,7 @@ importers:
         specifier: 'catalog:'
         version: 15.0.2
       upath:
-        specifier: ^3.0.8
+        specifier: 'catalog:'
         version: 3.0.8
     devDependencies:
       '@mdit/plugin-container':
@@ -609,7 +624,7 @@ importers:
         specifier: workspace:*
         version: link:../plugin-tex
       katex:
-        specifier: ^0.18.9
+        specifier: 'catalog:'
         version: 0.18.9
       markdown-it:
         specifier: 'catalog:'
@@ -624,11 +639,11 @@ importers:
         specifier: workspace:*
         version: link:../plugin-tex
       markdown-it:
-        specifier: ^15.0.0
+        specifier: 'catalog:'
         version: 15.0.2
     devDependencies:
       katex:
-        specifier: 0.18.9
+        specifier: 'catalog:'
         version: 0.18.9
 
   packages/plugin-layout:
@@ -659,10 +674,10 @@ importers:
   packages/plugin-mathjax:
     dependencies:
       '@mathjax/mathjax-newcm-font':
-        specifier: ^4.1.3
+        specifier: 'catalog:'
         version: 4.1.3(@mathjax/src@4.1.3)
       '@mathjax/src':
-        specifier: ^4.1.3
+        specifier: 'catalog:'
         version: 4.1.3
       '@mdit/plugin-tex':
         specifier: workspace:*
@@ -672,26 +687,26 @@ importers:
         version: 15.0.2
     devDependencies:
       '@mathjax/mathjax-tex-font':
-        specifier: ^4.1.3
+        specifier: 'catalog:'
         version: 4.1.3(@mathjax/src@4.1.3)
 
   packages/plugin-mathjax-slim:
     dependencies:
       '@mathjax/mathjax-newcm-font':
-        specifier: ^4.1.3
+        specifier: 'catalog:'
         version: 4.1.3(@mathjax/src@4.1.3)
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../plugin-tex
       markdown-it:
-        specifier: ^15.0.0
+        specifier: 'catalog:'
         version: 15.0.2
     devDependencies:
       '@mathjax/mathjax-tex-font':
-        specifier: 4.1.3
+        specifier: 'catalog:'
         version: 4.1.3(@mathjax/src@4.1.3)
       '@mathjax/src':
-        specifier: 4.1.3
+        specifier: 'catalog:'
         version: 4.1.3
 
   packages/plugin-plantuml:
@@ -728,7 +743,7 @@ importers:
         specifier: 'catalog:'
         version: 15.0.2
       upath:
-        specifier: ^3.0.8
+        specifier: 'catalog:'
         version: 3.0.8
 
   packages/plugin-spoiler:

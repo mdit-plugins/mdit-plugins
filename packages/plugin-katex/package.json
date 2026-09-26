@@ -52,7 +52,7 @@
   "dependencies": {
     "@mdit/helper": "workspace:*",
     "@mdit/plugin-tex": "workspace:*",
-    "katex": "^0.18.9"
+    "katex": "catalog:"
   },
   "peerDependencies": {
     "markdown-it": "catalog:"
