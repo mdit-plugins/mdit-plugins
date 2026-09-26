@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%402.1.0...%40mdit%2Fplugin-field%403.0.0) (2026-09-26)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-field:** the `@name@` marker form, the `\@` escape inside a
+  name, and the `details` array are removed. Backtick quoted values no
+  longer support `\`` and `\\` escapes; write a longer delimiter instead.
+
+  - build(deps): update pnpm to 12.7.0
+
+### ✨ Features
+
+- **plugin-field:** use code spans for field names and values ([#714](https://github.com/mdit-plugins/mdit-plugins/issues/714)) ([eb37a5d](https://github.com/mdit-plugins/mdit-plugins/commit/eb37a5d1e72f17a12eed76136d1b2a29a1c5ef2b))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%402.0.1...%40mdit%2Fplugin-field%402.1.0) (2026-09-26)
 
 ### ✨ Features
