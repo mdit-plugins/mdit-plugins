@@ -28,7 +28,24 @@ export interface FieldAttr {
   boolean?: boolean;
 }
 
-export interface FieldAttrInfo {
+/**
+ * Quote style of an attribute value in source
+ *
+ * 属性值在源码中的引号类型
+ *
+ * - `none`: unquoted, the value ends at the first whitespace / 无引号，值以第一个空白结束
+ * - `single`: quoted with `'` / 使用 `'` 包裹
+ * - `double`: quoted with `"` / 使用 `"` 包裹
+ * - `backtick`: quoted with `` ` ``, keeping the content literal / 使用反引号包裹，内容保持字面量
+ */
+export type FieldAttrQuote = "none" | "single" | "double" | "backtick";
+
+/**
+ * Parsed field attribute
+ *
+ * 解析后的字段属性
+ */
+export interface FieldAttrItem {
   /**
    * Attribute name
    *
@@ -51,6 +68,31 @@ export interface FieldAttrInfo {
   value: string | true;
 }
 
+/**
+ * Parsed field attribute
+ *
+ * 解析后的字段属性
+ *
+ * @deprecated Use {@link FieldAttrItem} instead.
+ *
+ * 已废弃，请使用 {@link FieldAttrItem}。
+ */
+export type FieldAttrInfo = FieldAttrItem;
+
+/**
+ * Parsed field attribute with extra info
+ *
+ * 带额外信息的解析后字段属性
+ */
+export interface FieldAttrDetail extends FieldAttrItem {
+  /**
+   * Quote style used in source
+   *
+   * 源码中使用的引号类型
+   */
+  quote: FieldAttrQuote;
+}
+
 export interface FieldMeta extends TokenMeta {
   /**
    * Field name
@@ -71,7 +113,14 @@ export interface FieldMeta extends TokenMeta {
    *
    * 排序后的字段属性
    */
-  attributes: FieldAttrInfo[];
+  attributes: FieldAttrItem[];
+
+  /**
+   * Sorted field attributes with extra info
+   *
+   * 排序后的字段属性（含额外信息）
+   */
+  details: FieldAttrDetail[];
 }
 
 // oxlint-disable-next-line max-params

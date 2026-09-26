@@ -1,7 +1,24 @@
 import { describe, it, expect } from "vitest";
 
 import { isValidAttrKey } from "../src/rules.js";
-import { normalizeAttributes, parseAttributes, ucFirst } from "../src/utils.js";
+import type { AllowedAttributes } from "../src/utils.js";
+import {
+  normalizeAttributes,
+  parseAttributes as parseAttributeDetails,
+  ucFirst,
+} from "../src/utils.js";
+
+// Parsed attributes also carry a `quote` field, these tests only assert on parsed values.
+// See `quotes.spec.ts` for the quote metadata.
+const parseAttributes = (
+  content: string,
+  allowedAttributes: AllowedAttributes | null = null,
+): { attr: string; name: string; value: string | true }[] =>
+  parseAttributeDetails(content, allowedAttributes).map(({ attr, name, value }) => ({
+    attr,
+    name,
+    value,
+  }));
 
 describe(isValidAttrKey, () => {
   it("should accept alphanumeric and hyphens", () => {

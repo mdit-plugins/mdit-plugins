@@ -1,6 +1,7 @@
 import type { BlockRule } from "@mdit/helper";
 import type { Env, StateBlock, Token } from "markdown-it";
 
+import type { FieldAttrItem } from "./options.js";
 import type { AllowedAttributes } from "./utils.js";
 import { parseAttributes } from "./utils.js";
 
@@ -277,9 +278,15 @@ export const getFieldItemRule =
 
     // Parse attributes (if enabled), filtering out invalid keys
     const afterName = state.src.slice(marker.end + 1, max);
-    const attributes = shouldParseAttributes
+    const details = shouldParseAttributes
       ? parseAttributes(afterName, allowedAttributes).filter((attr) => isValidAttrKey(attr.attr))
       : [];
+    // `attributes` keeps the value-only shape, `details` carries extra info
+    const attributes: FieldAttrItem[] = details.map((detail) => ({
+      attr: detail.attr,
+      name: detail.name,
+      value: detail.value,
+    }));
 
     const currentDepth = marker.depth;
 
@@ -351,7 +358,7 @@ export const getFieldItemRule =
     const tokenOpen = state.push(`${name}_field_open`, "div", 1);
 
     tokenOpen.attrSet("data-level", String(currentDepth));
-    tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
+    tokenOpen.meta = { name: marker.name, level: currentDepth, attributes, details };
     tokenOpen.map = [startLine, nextLine];
 
     const oldParentType = state.parentType;

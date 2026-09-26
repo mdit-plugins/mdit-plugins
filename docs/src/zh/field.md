@@ -55,8 +55,27 @@ Description 1
 ```
 
 - 对于不带引号的值，值将在第一个空格或空白处结束。
-- 对于带引号的值，支持 `"` 和 `'`，并且你可以使用 `\` 转义引号。
+- 值可以使用 `"`、`'` 或 `` ` `` 包裹。
+- 被 `"` 或 `'` 包裹的值中的反斜杠遵循 Markdown 的转义规则：标点前的反斜杠会被移除，其余反斜杠原样保留。因此 `default="^\d+$"` 和 `default="C:\new"` 会保留反斜杠，而 `default="hello \"world\""` 会得到 `hello "world"`。不带引号的值会被视作字面量。由于反斜杠也会转义引号本身，想以反斜杠结尾请写成 `default="C:\\"`。
 - 如果一个属性存在但没有 `=`，它将被视为布尔属性，值为 `true`。
+
+#### 反引号值
+
+反引号包裹的值会保持内容为字面量，适用于值与 Markdown 语法冲突的情况：
+
+```md
+@prop1@ default=`['a', 'b']`
+```
+
+使用 `"` 或 `'` 包裹的值仍会被其他工具按 Markdown 解析，其中 `[a][b]` 之类的写法可能被 linter 报为未定义的引用；反引号包裹的值会被这些工具视为行内代码，从而避免该问题。
+
+反引号值中只有反引号和反斜杠可以被转义：反引号使用 `` \` `` 转义，反斜杠使用 `\\` 转义，其余反斜杠原样保留，因此 `` default=`^\d+\.\d+$` `` 会保留两个反斜杠。
+
+```md
+@prop1@ default=`a\`b`
+```
+
+与使用 `"` 或 `'` 包裹的值一样，反引号值会在第一个未被转义的反引号处结束，因此以反引号开头的值会被解析为反引号值；未闭合的反引号值会回退为不带引号的值。
 
 #### 允许的属性
 
@@ -211,7 +230,9 @@ interface FieldAttr {
 - 类型：`MarkdownItFieldOpenRenderer`
 
 ```ts
-interface FieldAttrInfo {
+type FieldAttrQuote = "none" | "single" | "double" | "backtick";
+
+interface FieldAttrItem {
   /**
    * 属性名
    */
@@ -228,6 +249,13 @@ interface FieldAttrInfo {
   value: string | true;
 }
 
+interface FieldAttrDetail extends FieldAttrItem {
+  /**
+   * 源码中使用的引号类型
+   */
+  quote: FieldAttrQuote;
+}
+
 interface FieldMeta {
   /**
    * 字段名称
@@ -242,7 +270,12 @@ interface FieldMeta {
   /**
    * 排序后的字段属性
    */
-  attributes: FieldAttrInfo[];
+  attributes: FieldAttrItem[];
+
+  /**
+   * 排序后的字段属性（含额外信息，如源码中使用的引号类型）
+   */
+  details: FieldAttrDetail[];
 }
 
 type MarkdownItFieldOpenRenderer = (
