@@ -6,7 +6,6 @@
       "allowBranch": "main",
       "conventionalCommits": true,
       "createRelease": "github",
-      "generateReleaseNotes": true,
       "skipBumpOnlyReleases": true,
       "exact": true,
       "message": "release: publish"
