@@ -49,7 +49,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*",
+    "@mdit/helper": "workspace:^",
     "@mdit/plugin-uml": "workspace:*"
   },
   "devDependencies": {

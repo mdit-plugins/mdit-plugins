@@ -44,7 +44,7 @@
     "update-emoji": "node  --use-env-proxy --experimental-strip-types scripts/update.ts"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*"
+    "@mdit/helper": "workspace:^"
   },
   "peerDependencies": {
     "markdown-it": "catalog:"

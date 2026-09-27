@@ -44,7 +44,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*"
+    "@mdit/helper": "workspace:^"
   },
   "peerDependencies": {
     "markdown-it": "catalog:"

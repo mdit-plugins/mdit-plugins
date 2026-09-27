@@ -44,7 +44,7 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:*"
+    "@mdit/helper": "workspace:^"
   },
   "devDependencies": {
     "@mdit/plugin-figure": "workspace:*"
