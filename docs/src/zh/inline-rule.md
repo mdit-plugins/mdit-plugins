@@ -29,52 +29,40 @@ mdIt.render("==高亮文本==");
 
 ## 选项
 
-### marker
+::: fields
+@`marker` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：用作标记的标点符号字符（例如 `"^"`、`"~"`、`"="`）。
+用作标记的标点符号字符（例如 `"^"`、`"~"`、`"="`）。
 
-### tag
+@`tag` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：渲染元素的 HTML 标签名称（例如 `"sup"`、`"mark"`、`"span"`）。
+渲染元素的 HTML 标签名称（例如 `"sup"`、`"mark"`、`"span"`）。
 
-### token
+@`token` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：用于 markdown-it 令牌标识的令牌类型名称（例如 `"sup"`、`"mark"`）。
+用于 markdown-it 令牌标识的令牌类型名称（例如 `"sup"`、`"mark"`）。
 
-### nested
+@`nested` type=boolean default=`false`
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：为 `false` 时使用高性能线性扫描，内部不解析内联标签。为 `true` 时使用分隔符状态机，支持标记内嵌套粗体、斜体等。
+为 `false` 时使用高性能线性扫描，内部不解析内联标签。为 `true` 时使用分隔符状态机，支持标记内嵌套粗体、斜体等。
 
-### double
+@`double` type=boolean default=`false`
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：标记是否必须成对出现（例如 `++` 而不是 `+`）。设为 `true` 时使用双标记。
+标记是否必须成对出现（例如 `++` 而不是 `+`）。设为 `true` 时使用双标记。
 
-### placement
+@`placement` type=`"before-emphasis" | "after-emphasis"` default=`"after-emphasis"`
 
-- 类型：`"before-emphasis" | "after-emphasis"`
-- 默认值：`"after-emphasis"`
-- 详情：相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
+相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
 
-### attrs
+@`attrs` type=`[attr: string, value: string][]`
 
-- 类型：`[attr: string, value: string][]`
-- 详情：渲染元素的自定义 HTML 属性。
+渲染元素的自定义 HTML 属性。
 
-### allowSpace
+@`allowSpace` type=boolean default=`false`
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否允许内容中的未转义空格。仅适用于非嵌套规则。
+是否允许内容中的未转义空格。仅适用于非嵌套规则。
+
+:::
 
 ## 示例
 

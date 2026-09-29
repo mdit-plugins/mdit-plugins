@@ -123,9 +123,10 @@ const md = new MarkdownIt().use(embed, {
 
 ## 配置选项
 
-### config
+::: fields
+@`config` type=`EmbedConfig[]` required
 
-- 类型：`EmbedConfig[]`
+嵌入配置数组。
 
 ```ts
 interface EmbedConfig {
@@ -150,16 +151,21 @@ interface EmbedConfig {
 }
 ```
 
-- 必填：是
-- 详情：嵌入配置数组。
+@@`config.name` type=string
 
-每个配置必须包含：
+在嵌入语法中使用的令牌名称。
 
-- `name`: 在嵌入语法中使用的令牌名称
-- `setup`: 接受参数并返回要嵌入的 HTML 字符串的函数
-- `allowInline`: 可选，是否允许在行内使用（默认为 `false`，仅在块级使用）
+@@`config.setup` type=`(ref: string, isInline: boolean) => string`
+
+接受参数并返回要嵌入的 HTML 字符串的函数。
+
+@@`config.allowInline` type=boolean default=`false`
+
+是否允许在行内使用。设为 `false` 时仅在块级使用。
 
 当 `allowInline` 设置为 `true` 时，嵌入既可以在块级使用（单独一行），也可以在行内使用（段落中）。
+
+:::
 
 ## 高级用法
 

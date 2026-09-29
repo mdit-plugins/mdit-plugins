@@ -153,20 +153,16 @@ A block syntax cannot interrupt a setext heading underline, so a line starting w
 
 ## Options
 
-### name
+::: fields
+@`name` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: Name used by the syntax. It must not be empty or contain whitespace, `[`, `]`, `(`, `)`, `"` or `'`. Registering the same name again replaces the previous config.
+Name used by the syntax. It must not be empty or contain whitespace, `[`, `]`, `(`, `)`, `"` or `'`. Registering the same name again replaces the previous config.
 
-### inline
+@`inline` type=boolean
 
-- Type: `boolean`
-- Details: Whether the syntax is also available inline.
+Whether the syntax is also available inline.
 
-### renderer
-
-- Type: `(link: string, props: AdvancedLinkProps, env: unknown) => string`
+@`renderer` type=`(link: string, props: AdvancedLinkProps, env: unknown) => string` required
 
 ```ts
 type AdvancedLinkProps = Record<string, string | true>;
@@ -174,8 +170,9 @@ type AdvancedLinkProps = Record<string, string | true>;
 type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknown) => string;
 ```
 
-- Required: Yes
-- Details: Renderer to generate HTML. `env` is the MarkdownIt environment. The link is passed without normalization or validation.
+Renderer to generate HTML. `env` is the MarkdownIt environment. The link is passed without normalization or validation.
+
+:::
 
 ## Examples
 

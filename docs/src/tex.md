@@ -83,34 +83,30 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 
 ## Options
 
+::: fields
 <!-- #region options -->
 
-### delimiters
+@`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
 
-- Type: `"brackets" | "dollars" | "all"`
-- Default: `"dollars"`
-- Details: Math delimiter syntax to enable.
-  - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style).
-  - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style).
-  - `"all"`: Enable both bracket and dollar syntaxes.
+Math delimiter syntax to enable.
 
-### mathFence
+- `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style).
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether parsed fence block with math language to display mode math.
+- `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style).
 
-### allowInlineWithSpace
+- `"all"`: Enable both bracket and dollar syntaxes.
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`. Note that a space-padded literal `$` inside the content (e.g. `$\text{a $ b}$`) is then treated as a closing `$`, closing the expression early.
+@`mathFence` type=boolean default=`false`
+
+Whether parsed fence block with math language to display mode math.
+
+@`allowInlineWithSpace` type=boolean default=`false`
+
+Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`. Note that a space-padded literal `$` inside the content (e.g. `$\text{a $ b}$`) is then treated as a closing `$`, closing the expression early.
 
 <!-- #endregion options -->
 
-### render
-
-- Type: `TexRender`
+@`render` type=TexRender required
 
 ```ts
 /**
@@ -124,8 +120,9 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 ```
 
-- Required: Yes
-- Details: Tex Render function. Takes content, displayMode, and environment, returns rendered string.
+Tex Render function. Takes content, displayMode, and environment, returns rendered string.
+
+:::
 
 ## Demo
 

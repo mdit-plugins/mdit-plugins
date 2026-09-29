@@ -81,11 +81,10 @@ import "@mdit/plugin-katex/mhchem";
 
 This plugin extends KaTeX options. Available options include:
 
+::: fields
 <!-- @include: ./tex.md#options -->
 
-### logger
-
-- Type: `KatexLogger`
+@`logger` type=KatexLogger
 
 ```ts
 type KatexLogger<MarkdownItEnv = unknown> = (
@@ -102,12 +101,13 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 ) => "error" | "warn" | "ignore" | boolean | undefined;
 ```
 
-- Details: Error logger function.
+Error logger function.
 
-### transformer
+@`transformer` type=`(content: string, displayMode: boolean) => string`
 
-- Type: `(content: string, displayMode: boolean) => string`
-- Details: Transformer function on output content.
+Transformer function on output content.
+
+:::
 
 ## Support List
 

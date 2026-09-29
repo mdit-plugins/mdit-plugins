@@ -42,23 +42,20 @@ mdIt.render("来自火星的问候 :satellite:");
 
 ## 选项
 
-### definitions
+::: fields
+@`definitions` type=`Record<string, string>` default="`{}` (取决于预设)"
 
-- 类型：`Record<string, string>`
-- 默认值：`{}` (取决于预设)
-- 详情：重写可用的表情定义。键是表情名称，值是表情字符。
+重写可用的表情定义。键是表情名称，值是表情字符。
 
-### enabled
+@`enabled` type=string[] default=`[]`
 
-- 类型：`string[]`
-- 默认值：`[]`
-- 详情：如果指定，则仅渲染此列表中的表情。否则，将渲染定义中的所有表情。
+如果指定，则仅渲染此列表中的表情。否则，将渲染定义中的所有表情。
 
-### shortcuts
+@`shortcuts` type=`Record<string, string | string[]>` default="`{}` (取决于预设)"
 
-- 类型：`Record<string, string | string[]>`
-- 默认值：`{}` (取决于预设)
-- 详情：重写默认快捷键。键是表情名称，值是表情的快捷键短语。
+重写默认快捷键。键是表情名称，值是表情的快捷键短语。
+
+:::
 
 ## 自定义渲染器
 

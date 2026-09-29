@@ -304,11 +304,12 @@ In prefix mode, `@@` = depth 2, `@@@` = depth 3, etc. Items and `@end` must use 
 
 ## Options
 
-### inlineStyles
+::: fields
+@`inlineStyles` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: When `true`, utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
+When `true`, utility classes are converted to inline CSS styles. When `false`, utilities are added as CSS class names for use with Tailwind CSS or custom stylesheets.
+
+:::
 
 ## Demo
 

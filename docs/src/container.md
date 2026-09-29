@@ -88,52 +88,45 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
 ## Options
 
-### name
+::: fields
+@`name` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: Container name.
+Container name.
 
-### marker
+@`marker` type=string default=`":"`
 
-- Type: `string`
-- Default: `":"`
-- Details: Container marker.
+Container marker.
 
-### validate
+@`validate` type=Validator
 
-- Type: `Validator`
+```ts
+/**
+ * Validate whether it should be regarded as this container type
+ *
+ * @param params the content after the marker
+ * @param markup marker character
+ * @returns is this container type or not
+ *
+ * @default params.trim().split(" ", 2)[0] === name
+ */
+type Validator = (params: string, markup: string) => boolean;
+```
 
-  ```ts
-  /**
-   * Validate whether it should be regarded as this container type
-   *
-   * @param params the content after the marker
-   * @param markup marker character
-   * @returns is this container type or not
-   *
-   * @default params.trim().split(" ", 2)[0] === name
-   */
-  type Validator = (params: string, markup: string) => boolean;
-  ```
+Validate whether it should be regarded as this container type.
 
-- Details: Validate whether it should be regarded as this container type.
-
-### openRenderer
-
-- Type: `RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Opening tag render function.
+Opening tag render function.
 
-### closeRenderer
-
-- Type: `RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Closing tag render function.
+Closing tag render function.
+
+:::
 
 ## Demo
 

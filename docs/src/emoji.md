@@ -42,30 +42,24 @@ Classic shortcuts: :-) :-(
 
 ## Options
 
-### definitions
-
-- Type: `Record<string, string>`
-- Default: `{}` (preset dependent)
+::: fields
+@`definitions` type=`Record<string, string>` default="`{}` (preset dependent)"
 
 Rewrite available emoji definitions. The key is the emoji name, and the value is the emoji character.
 
 Example: `{ name1: 'char1', name2: 'char2', ... }`
 
-### enabled
-
-- Type: `string[]`
-- Default: `[]`
+@`enabled` type=string[] default=`[]`
 
 If specified, only emojis in this list will be rendered. Otherwise, all emojis in the definitions will be rendered.
 
-### shortcuts
-
-- Type: `Record<string, string | string[]>`
-- Default: `{}` (preset dependent)
+@`shortcuts` type=`Record<string, string | string[]>` default="`{}` (preset dependent)"
 
 Rewrite default shortcuts. The key is the emoji name, and the value is the shortcut(s) for the emoji.
 
 Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
+
+:::
 
 ## Custom Renderer
 

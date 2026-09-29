@@ -35,14 +35,13 @@ VuePress Theme Hope is !!powerful!!.
 
 ## Options
 
-### tag
+::: fields
+@`tag` type=string default=`"span"`
 
-- Type: `string`
-- Default: `"span"`
-- Details: HTML tag name for the spoiler element.
+HTML tag name for the spoiler element.
 
-### attrs
+@`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
 
-- Type: `[attr: string, value: string][]`
-- Default: `[["class", "spoiler"], ["tabindex","-1"]]`
-- Details: Custom HTML attributes for the spoiler element.
+Custom HTML attributes for the spoiler element.
+
+:::

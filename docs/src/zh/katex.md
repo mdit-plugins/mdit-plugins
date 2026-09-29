@@ -81,11 +81,10 @@ import "@mdit/plugin-katex/mhchem";
 
 此插件扩展了 KaTeX 选项。可用选项包括：
 
+::: fields
 <!-- @include: ./tex.md#options -->
 
-### logger
-
-- 类型：`KatexLogger`
+@`logger` type=KatexLogger
 
 ```ts
 type KatexLogger<MarkdownItEnv = unknown> = (
@@ -102,12 +101,13 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 ) => "error" | "warn" | "ignore" | boolean | undefined;
 ```
 
-- 详情：错误日志记录器函数。
+错误日志记录器函数。
 
-### transformer
+@`transformer` type=`(content: string, displayMode: boolean) => string`
 
-- 类型：`(content: string, displayMode: boolean) => string`
-- 详情：输出内容的转换器函数。
+输出内容的转换器函数。
+
+:::
 
 ## 支持列表
 

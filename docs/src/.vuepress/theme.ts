@@ -36,6 +36,7 @@ const theme: ThemeFunction = hopeTheme({
     alert: true,
     attrs: true,
     codeTabs: true,
+    fields: true,
     figure: true,
     footnote: true,
     imgLazyload: true,

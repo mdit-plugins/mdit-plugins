@@ -79,16 +79,14 @@ mdIt.render("# H1", env);
 
 ## 选项
 
-### level
+::: fields
+@`level` type=`number | number[]` default=`1`
 
-- 类型：`number | number[]`
-- 默认值：`1`
-- 详情：要添加锚点的标题级别。数字表示「该级别及更深的级别（例如 `2` 表示 h2–h6）」，数组表示「精确匹配的级别」。
+要添加锚点的标题级别。数字表示「该级别及更深的级别（例如 `2` 表示 h2–h6）」，数组表示「精确匹配的级别」。
 
-### slugify
+@`slugify` type=`(str: string) => string`
 
-- 类型：`(str: string) => string`
-- 详情：自定义 slug 化函数，将标题文本转换为 URL 友好的 slug。
+自定义 slug 化函数，将标题文本转换为 URL 友好的 slug。
 
 默认会转小写 ASCII 字母、保留非 ASCII 字符（如中文）、将空白与连字符折叠为单个连字符，并剥离其余 ASCII 标点。如果你想要严格百分号编码的 slug，可使用导出的 `legacySlugify`：
 
@@ -99,45 +97,35 @@ import { anchor, legacySlugify } from "@mdit/plugin-anchor";
 const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
 
-### slugifyWithState
+@`slugifyWithState` type=`(str: string, state: StateCore) => string`
 
-- 类型：`(str: string, state: StateCore) => string`
-- 详情：类似 `slugify`，但可访问 markdown-it 状态，例如使用 `state.env`。
+类似 `slugify`，但可访问 markdown-it 状态，例如使用 `state.env`。
 
-### getTokensText
+@`getTokensText` type=`(tokens: Token[]) => string`
 
-- 类型：`(tokens: Token[]) => string`
-- 详情：自定义从标题 token 中提取文本内容的函数。默认包含 `text` 和 `code_inline` token。
+自定义从标题 token 中提取文本内容的函数。默认包含 `text` 和 `code_inline` token。
 
-### uniqueSlugStartIndex
+@`uniqueSlugStartIndex` type=number default=`1`
 
-- 类型：`number`
-- 默认值：`1`
-- 详情：重复 slug 编号的起始索引。设为 `2` 可得到 `title`、`title-2`、`title-3`。
+重复 slug 编号的起始索引。设为 `2` 可得到 `title`、`title-2`、`title-3`。
 
-### defaultPlaceHolder
+@`defaultPlaceHolder` type=string default=`"heading"`
 
-- 类型：`string`
-- 默认值：`"heading"`
-- 详情：当标题没有文本内容、生成的 slug 为空时（如纯图片标题）使用的占位 slug。
+当标题没有文本内容、生成的 slug 为空时（如纯图片标题）使用的占位 slug。
 
-### permalink
+@`permalink` type=PermalinkGenerator
 
-- 类型：`PermalinkGenerator`
-- 详情：渲染永久链接的函数。见下方[永久链接](#永久链接)。使用提供的预设之一或自行编写。
+渲染永久链接的函数。见下方[永久链接](#永久链接)。使用提供的预设之一或自行编写。
 
-### callback
+@`callback` type=`(token: Token, info: AnchorInfo) => void`
 
-- 类型：`(token: Token, info: AnchorInfo) => void`
-- 详情：在渲染每个标题后调用，传入 `token` 和包含 `slug`、`title` 的 `info` 对象。
+在渲染每个标题后调用，传入 `token` 和包含 `slug`、`title` 的 `info` 对象。
 
-### tabIndex
+@`tabIndex` type=`string | number | false` default=`"-1"`
 
-- 类型：`string | number | false`
-- 默认值：`"-1"`
-- 详情：标题上 `tabindex` 属性的值。默认 `-1` 使标题可被聚焦但不可通过键盘导航到达——屏幕阅读器会在跳转时朗读标题内容。设为 `false` 可移除该属性。
+标题上 `tabindex` 属性的值。默认 `-1` 使标题可被聚焦但不可通过键盘导航到达——屏幕阅读器会在跳转时朗读标题内容。设为 `false` 可移除该属性。
 
-::: tip 手动设置 ID
+:::: tip 手动设置 ID
 
 你可以通过 [@mdit/plugin-attrs](./attrs.md) 手动设置标题 ID。确保 attrs 在 anchor **之前**加载：
 
@@ -152,6 +140,8 @@ mdIt.render("# 我的标题 {#custom-id}");
 ```
 
 Anchor 插件会复用已有的 `id`。
+
+::::
 
 :::
 

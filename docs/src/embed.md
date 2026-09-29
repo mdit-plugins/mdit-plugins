@@ -121,9 +121,10 @@ Click the <i class="icon icon-home"></i> button to go home.
 
 ## Options
 
-### config
+::: fields
+@`config` type=`EmbedConfig[]` required
 
-- Type: `EmbedConfig[]`
+An array of embed configurations.
 
 ```ts
 interface EmbedConfig {
@@ -148,11 +149,16 @@ interface EmbedConfig {
 }
 ```
 
-- Required: Yes
-- Details: An array of embed configurations.
+@@`config.name` type=string
 
-Each configuration must have:
+The token name used in the embed syntax.
 
-- `name`: The token name used in the embed syntax
-- `setup`: A function that takes the parameters and returns the HTML string to embed
-- `allowInline`: Optional, whether the embed can be used inline (defaults to `false`, block-level only)
+@@`config.setup` type=`(ref: string, isInline: boolean) => string`
+
+A function that takes the parameters and returns the HTML string to embed.
+
+@@`config.allowInline` type=boolean default=`false`
+
+Whether the embed can be used inline. It is block-level only when set to `false`.
+
+:::

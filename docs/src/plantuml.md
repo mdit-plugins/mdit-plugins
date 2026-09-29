@@ -43,54 +43,43 @@ Bob -> Alice : 你好
 
 ## Options
 
-### type
+::: fields
+@`type` type=`"uml" | "fence"` default=`"uml"`
 
-- Type: `"uml" | "fence"`
-- Default: `"uml"`
-- Details: Plantuml parse type.
+Plantuml parse type.
 
-### name
+@`name` type=string default=`"uml"`
 
-- Type: `string`
-- Default: `"uml"`
-- Details: Diagram type. Only available when using default srcGetter.
+Diagram type. Only available when using default srcGetter.
 
-### fence
+@`fence` type=string
 
-- Type: `string`
-- Details: Fence info. Defaults to the value of `name`.
+Fence info. Defaults to the value of `name`.
 
-### open
+@`open` type=string
 
-- Type: `string`
-- Details: Opening marker. Only available with type "uml". Defaults to `"start" + name`.
+Opening marker. Only available with type "uml". Defaults to `"start" + name`.
 
-### close
+@`close` type=string
 
-- Type: `string`
-- Details: Closing marker. Only available with type "uml". Defaults to `"end" + name`.
+Closing marker. Only available with type "uml". Defaults to `"end" + name`.
 
-### server
+@`server` type=string default=`"https://www.plantuml.com/plantuml"`
 
-- Type: `string`
-- Default: `"https://www.plantuml.com/plantuml"`
-- Details: Plantuml server. Only available when using default srcGetter.
+Plantuml server. Only available when using default srcGetter.
 
-### format
+@`format` type=string default=`"svg"`
 
-- Type: `string`
-- Default: `"svg"`
-- Details: Image format. Only available when using default srcGetter.
+Image format. Only available when using default srcGetter.
 
-### srcGetter
+@`srcGetter` type=`(content: string) => string`
 
-- Type: `(content: string) => string`
-- Details: Image src getter. Takes diagram content and returns image link.
+Image src getter. Takes diagram content and returns image link.
 
-### renderer
-
-- Type: `RendererRule`
+@`renderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Diagram renderer.
+Diagram renderer.
+
+:::

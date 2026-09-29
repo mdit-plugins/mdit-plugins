@@ -189,27 +189,20 @@ A line inside a field container that starts with `@` followed by an inline code 
 
 ## Options
 
-### name
+::: fields
+@`name` type=string default=`"fields"`
 
-- Type: `string`
-- Default: `"fields"`
-- Details: Field container name.
+Field container name.
 
-### classPrefix
+@`classPrefix` type=string default=`"field-"`
 
-- Type: `string`
-- Default: `"field-"`
-- Details: CSS class prefix for generated class names.
+CSS class prefix for generated class names.
 
-### parseAttributes
+@`parseAttributes` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to parse `key="val"` attributes after the field marker.
+Whether to parse `key="val"` attributes after the field marker.
 
-### allowedAttributes
-
-- Type: `FieldAttr[]`
+@`allowedAttributes` type=FieldAttr[]
 
 ```ts
 interface FieldAttr {
@@ -232,27 +225,21 @@ interface FieldAttr {
 }
 ```
 
-- Details: Allowed attributes for fields. If not provided, all attributes will be allowed and displayed as-is.
+Allowed attributes for fields. If not provided, all attributes will be allowed and displayed as-is.
 
-### fieldsOpenRenderer
-
-- Type: `RendererRule`
+@`fieldsOpenRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Fields container open render.
+Fields container open render.
 
-### fieldsCloseRenderer
-
-- Type: `RendererRule`
+@`fieldsCloseRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Fields container close render.
+Fields container close render.
 
-### fieldOpenRenderer
-
-- Type: `MarkdownItFieldOpenRenderer`
+@`fieldOpenRenderer` type=MarkdownItFieldOpenRenderer
 
 ```ts
 type FieldAttrQuote = "none" | "single" | "double" | "backtick";
@@ -306,15 +293,15 @@ type MarkdownItFieldOpenRenderer = (
 ) => string;
 ```
 
-- Details: Field item open render.
+Field item open render.
 
-### fieldCloseRenderer
-
-- Type: `RendererRule`
+@`fieldCloseRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Field item close render.
+Field item close render.
+
+:::
 
 ## Demo
 

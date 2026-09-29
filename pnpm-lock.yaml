@@ -347,6 +347,9 @@ importers:
       '@vuepress/plugin-docsearch':
         specifier: 2.0.0-rc.137
         version: 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.0)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.0)(sass@1.105.0)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.0)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.0)(sass@1.105.0)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.11)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.1(@types/node@24.19.0)(sass-embedded@1.105.0)(sass@1.105.0)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
+      '@vuepress/plugin-markdown-field':
+        specifier: 2.0.0-rc.137
+        version: 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.0)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.0)(sass@1.105.0)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.0)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.0)(sass@1.105.0)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.11)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.1(@types/node@24.19.0)(sass-embedded@1.105.0)(sass@1.105.0)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.2

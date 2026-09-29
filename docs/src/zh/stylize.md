@@ -109,9 +109,8 @@ mdIt.render("Check FAQ for more details._Recommended_", {
 
 ## 选项
 
-### config
-
-- 类型：`MarkdownItStylizeConfig[]`
+::: fields
+@`config` type=MarkdownItStylizeConfig[]
 
 ```ts
 interface MarkdownItStylizeResult {
@@ -149,9 +148,10 @@ interface MarkdownItStylizeConfig {
 }
 ```
 
-- 详情：格式化配置数组。每个配置包含一个 `matcher`（字符串或正则表达式）和一个 `replacer` 函数。
+格式化配置数组。每个配置包含一个 `matcher`（字符串或正则表达式）和一个 `replacer` 函数。
 
-### localConfigGetter
+@`localConfigGetter` type=`(env?: any) => MarkdownItStylizeConfig[] | null`
 
-- 类型：`(env?: any) => MarkdownItStylizeConfig[] | null`
-- 详情：本地配置获取器。接收环境对象并返回本地格式化配置。
+本地配置获取器。接收环境对象并返回本地格式化配置。
+
+:::

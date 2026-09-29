@@ -33,34 +33,30 @@ mdIt.render("$E=mc^2$");
 
 ## 选项
 
+::: fields
 <!-- #region options -->
 
-### delimiters
+@`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
 
-- 类型：`"brackets" | "dollars" | "all"`
-- 默认值：`"dollars"`
-- 详情：启用的数学分隔符语法。
-  - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
-  - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
-  - `"all"`: 启用括号和美元符号两种语法。
+启用的数学分隔符语法。
 
-### mathFence
+- `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否将解析的数学语言 fence 块转换为显示模式数学。
+- `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
 
-### allowInlineWithSpace
+- `"all"`: 启用括号和美元符号两种语法。
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。注意：内容中带空格的字面 `$`（如 `$\text{a $ b}$`）此时会被当作闭合 `$`，从而提前结束表达式。
+@`mathFence` type=boolean default=`false`
+
+是否将解析的数学语言 fence 块转换为显示模式数学。
+
+@`allowInlineWithSpace` type=boolean default=`false`
+
+是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。注意：内容中带空格的字面 `$`（如 `$\text{a $ b}$`）此时会被当作闭合 `$`，从而提前结束表达式。
 
 <!-- #endregion options -->
 
-### render
-
-- 类型：`TexRender`
+@`render` type=TexRender required
 
 ```ts
 /**
@@ -74,8 +70,9 @@ mdIt.render("$E=mc^2$");
 type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 ```
 
-- 必填：是
-- 详情：Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
+Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
+
+:::
 
 ## 格式
 

@@ -43,54 +43,43 @@ Bob -> Alice : 你好
 
 ## 选项
 
-### type
+::: fields
+@`type` type=`"uml" | "fence"` default=`"uml"`
 
-- 类型：`"uml" | "fence"`
-- 默认值：`"uml"`
-- 详情：Plantuml 解析类型。
+Plantuml 解析类型。
 
-### name
+@`name` type=string default=`"uml"`
 
-- 类型：`string`
-- 默认值：`"uml"`
-- 详情：图表类型。仅在使用默认地址获取器时可用。
+图表类型。仅在使用默认地址获取器时可用。
 
-### fence
+@`fence` type=string
 
-- 类型：`string`
-- 详情：代码块名称。默认为 `name` 的值。
+代码块名称。默认为 `name` 的值。
 
-### open
+@`open` type=string
 
-- 类型：`string`
-- 详情：开始标记。仅当类型为 "uml" 时可用。默认为 `"start" + name`。
+开始标记。仅当类型为 "uml" 时可用。默认为 `"start" + name`。
 
-### close
+@`close` type=string
 
-- 类型：`string`
-- 详情：结束标记。仅当类型为 "uml" 时可用。默认为 `"end" + name`。
+结束标记。仅当类型为 "uml" 时可用。默认为 `"end" + name`。
 
-### server
+@`server` type=string default=`"https://www.plantuml.com/plantuml"`
 
-- 类型：`string`
-- 默认值：`"https://www.plantuml.com/plantuml"`
-- 详情：Plantuml 服务器。仅在使用默认地址获取器时可用。
+Plantuml 服务器。仅在使用默认地址获取器时可用。
 
-### format
+@`format` type=string default=`"svg"`
 
-- 类型：`string`
-- 默认值：`"svg"`
-- 详情：图片格式。仅在使用默认地址获取器时可用。
+图片格式。仅在使用默认地址获取器时可用。
 
-### srcGetter
+@`srcGetter` type=`(content: string) => string`
 
-- 类型：`(content: string) => string`
-- 详情：图片地址获取器。接收图表内容并返回图片链接。
+图片地址获取器。接收图表内容并返回图片链接。
 
-### renderer
-
-- 类型：`RendererRule`
+@`renderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：图表渲染器。
+图表渲染器。
+
+:::

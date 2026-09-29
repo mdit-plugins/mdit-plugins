@@ -76,15 +76,12 @@ The plugin doesn't inject any styles or events by default, but it ships an optio
 
 ## Options
 
-### name
+::: fields
+@`name` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: The name of the tab container.
+The name of the tab container.
 
-### openRenderer
-
-- Type: `TabsOpenRenderer`
+@`openRenderer` type=TabsOpenRenderer
 
 ```ts
 interface MarkdownItTabData {
@@ -141,19 +138,15 @@ type TabsOpenRenderer = (
 ) => string;
 ```
 
-- Details: Tabs open renderer.
+Tabs open renderer.
 
-### closeRenderer
-
-- Type: `RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Tabs close renderer.
+Tabs close renderer.
 
-### tabOpenRenderer
-
-- Type: `TabOpenRenderer`
+@`tabOpenRenderer` type=TabOpenRenderer
 
 ```ts
 interface MarkdownItTabData {
@@ -191,15 +184,15 @@ type TabOpenRenderer = (
 ) => string;
 ```
 
-- Details: Tab open renderer.
+Tab open renderer.
 
-### tabCloseRenderer
-
-- Type: `RendererRule`
+@`tabCloseRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Tab close renderer.
+Tab close renderer.
+
+:::
 
 ## Demo
 

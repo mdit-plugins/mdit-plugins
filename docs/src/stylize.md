@@ -109,9 +109,8 @@ For example, if you only want to match "SHOULD", "MUST" and "MAY", you should wr
 
 ## Options
 
-### config
-
-- Type: `MarkdownItStylizeConfig[]`
+::: fields
+@`config` type=MarkdownItStylizeConfig[]
 
 ```ts
 interface MarkdownItStylizeResult {
@@ -149,9 +148,10 @@ interface MarkdownItStylizeConfig {
 }
 ```
 
-- Details: Stylize config array. Each config contains a `matcher` (string or RegExp) and a `replacer` function.
+Stylize config array. Each config contains a `matcher` (string or RegExp) and a `replacer` function.
 
-### localConfigGetter
+@`localConfigGetter` type=`(env?: any) => MarkdownItStylizeConfig[] | null`
 
-- Type: `(env?: any) => MarkdownItStylizeConfig[] | null`
-- Details: Local config getter. Takes environment object and returns local stylize config.
+Local config getter. Takes environment object and returns local stylize config.
+
+:::

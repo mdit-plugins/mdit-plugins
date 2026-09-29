@@ -29,52 +29,40 @@ mdIt.render("==highlighted==");
 
 ## Options
 
-### marker
+::: fields
+@`marker` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: The punctuation character used as the marker (e.g., `"^"`, `"~"`, `"="`).
+The punctuation character used as the marker (e.g., `"^"`, `"~"`, `"="`).
 
-### tag
+@`tag` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: HTML tag name for the rendered element (e.g., `"sup"`, `"mark"`, `"span"`).
+HTML tag name for the rendered element (e.g., `"sup"`, `"mark"`, `"span"`).
 
-### token
+@`token` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: Token type name used for markdown-it token identification (e.g., `"sup"`, `"mark"`).
+Token type name used for markdown-it token identification (e.g., `"sup"`, `"mark"`).
 
-### nested
+@`nested` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine. Supports nested bold, italic, and other inline rules inside the markers (e.g., mark/spoiler/ins).
+When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine. Supports nested bold, italic, and other inline rules inside the markers (e.g., mark/spoiler/ins).
 
-### double
+@`double` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-marker syntax.
+Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-marker syntax.
 
-### placement
+@`placement` type=`"before-emphasis" | "after-emphasis"` default=`"after-emphasis"`
 
-- Type: `"before-emphasis" | "after-emphasis"`
-- Default: `"after-emphasis"`
-- Details: Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
+Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
 
-### attrs
+@`attrs` type=`[attr: string, value: string][]`
 
-- Type: `[attr: string, value: string][]`
-- Details: Custom HTML attributes for the rendered element.
+Custom HTML attributes for the rendered element.
 
-### allowSpace
+@`allowSpace` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether to allow unescaped spaces inside the content. Only applies to non-nested rules.
+Whether to allow unescaped spaces inside the content. Only applies to non-nested rules.
+
+:::
 
 ## Examples
 

@@ -29,37 +29,33 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 
 ## Options
 
-### focusable
+::: fields
+@`focusable` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether the figure is focusable.
+Whether the figure is focusable.
 
-### linkImage
+@`linkImage` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to convert linked images (`[![image](url)](link)`) to figures.
+Whether to convert linked images (`[![image](url)](link)`) to figures.
 
-### moveAttrs
+@`moveAttrs` type=`boolean | (string | RegExp)[]`
 
-- Type: `boolean | (string | RegExp)[]`
-- Details:
+Copy or move image attributes to `<figure>`.
 
-  Copy or move image attributes to `<figure>`.
+- `true`: **copy** all attributes except native img ones (src, alt, srcset, width, height, loading, etc.) to `<figure>`. Image keeps them.
+- `(string | RegExp)[]`: **move** only matching attributes to `<figure>`. Image loses them.
 
-  - `true`: **copy** all attributes except native img ones (src, alt, srcset, width, height, loading, etc.) to `<figure>`. Image keeps them.
-  - `(string | RegExp)[]`: **move** only matching attributes to `<figure>`. Image loses them.
+Native img attributes (src, alt, title, width, height, etc.) are never moved or copied to `<figure>`, and `title` is always used as the `<figcaption>` content.
 
-  Native img attributes (src, alt, title, width, height, etc.) are never moved or copied to `<figure>`, and `title` is always used as the `<figcaption>` content.
+```ts
+// Copy all non-native attrs to figure (img keeps them)
+moveAttrs: true;
 
-  ```ts
-  // Copy all non-native attrs to figure (img keeps them)
-  moveAttrs: true;
+// Move class and data-* attrs to figure (img loses them)
+moveAttrs: ["class", /^data-/];
+```
 
-  // Move class and data-* attrs to figure (img loses them)
-  moveAttrs: ["class", /^data-/];
-  ```
+:::
 
 ## Demo
 

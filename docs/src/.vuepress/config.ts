@@ -55,7 +55,6 @@ const config: UserConfig = defineUserConfig({
     markdownIt.use(ins);
     markdownIt.use(layout);
     markdownIt.use(ruby);
-    markdownIt.use(field);
     markdownIt.use(field, {
       name: "props",
       allowedAttributes: [

@@ -88,21 +88,16 @@ _here be dragons_
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：容器名称。
+容器名称。
 
-### marker
+@`marker` type=string default=`":"`
 
-- 类型：`string`
-- 默认值：`":"`
-- 详情：容器标识符。
+容器标识符。
 
-### validate
-
-- 类型：`Validator`
+@`validate` type=Validator
 
 ```ts
 /**
@@ -117,23 +112,21 @@ _here be dragons_
 type Validator = (params: string, markup: string) => boolean;
 ```
 
-- 详情：校验内容是否应该作为此类型容器。
+校验内容是否应该作为此类型容器。
 
-### openRenderer
-
-- 类型：`RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：开始标签渲染函数。
+开始标签渲染函数。
 
-### closeRenderer
-
-- 类型：`RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：结束标签渲染函数。
+结束标签渲染函数。
+
+:::
 
 ## 示例
 

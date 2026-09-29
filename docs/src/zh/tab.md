@@ -76,15 +76,12 @@ mdIt.render("content");
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：选项卡容器的名称。
+选项卡容器的名称。
 
-### openRenderer
-
-- 类型：`TabsOpenRenderer`
+@`openRenderer` type=TabsOpenRenderer
 
 ```ts
 interface MarkdownItTabData {
@@ -141,19 +138,15 @@ type TabsOpenRenderer = (
 ) => string;
 ```
 
-- 详情：选项卡容器打开渲染函数。
+选项卡容器打开渲染函数。
 
-### closeRenderer
-
-- 类型：`RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：选项卡容器结束渲染函数。
+选项卡容器结束渲染函数。
 
-### tabOpenRenderer
-
-- 类型：`TabOpenRenderer`
+@`tabOpenRenderer` type=TabOpenRenderer
 
 ```ts
 interface MarkdownItTabData {
@@ -191,15 +184,15 @@ type TabOpenRenderer = (
 ) => string;
 ```
 
-- 详情：选项卡开始渲染函数。
+选项卡开始渲染函数。
 
-### tabCloseRenderer
-
-- 类型：`RendererRule`
+@`tabCloseRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：选项卡结束渲染函数。
+选项卡结束渲染函数。
+
+:::
 
 ## 示例
 

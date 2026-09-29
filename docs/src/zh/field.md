@@ -178,27 +178,20 @@ field(md, {
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string default=`"fields"`
 
-- 类型：`string`
-- 默认值：`"fields"`
-- 详情：字段容器名称。
+字段容器名称。
 
-### classPrefix
+@`classPrefix` type=string default=`"field-"`
 
-- 类型：`string`
-- 默认值：`"field-"`
-- 详情：生成的 CSS 类名前缀。
+生成的 CSS 类名前缀。
 
-### parseAttributes
+@`parseAttributes` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：是否解析字段标记后的 `key="val"` 属性。
+是否解析字段标记后的 `key="val"` 属性。
 
-### allowedAttributes
-
-- 类型：`FieldAttr[]`
+@`allowedAttributes` type=FieldAttr[]
 
 ```ts
 interface FieldAttr {
@@ -221,27 +214,21 @@ interface FieldAttr {
 }
 ```
 
-- 详情：允许的字段属性。如果不提供，所有属性都将被允许并按原样显示。
+允许的字段属性。如果不提供，所有属性都将被允许并按原样显示。
 
-### fieldsOpenRenderer
-
-- 类型：`RendererRule`
+@`fieldsOpenRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：字段容器打开渲染函数。
+字段容器打开渲染函数。
 
-### fieldsCloseRenderer
-
-- 类型：`RendererRule`
+@`fieldsCloseRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：字段容器关闭渲染函数。
+字段容器关闭渲染函数。
 
-### fieldOpenRenderer
-
-- 类型：`MarkdownItFieldOpenRenderer`
+@`fieldOpenRenderer` type=MarkdownItFieldOpenRenderer
 
 ```ts
 type FieldAttrQuote = "none" | "single" | "double" | "backtick";
@@ -295,15 +282,15 @@ type MarkdownItFieldOpenRenderer = (
 ) => string;
 ```
 
-- 详情：字段项打开渲染函数。
+字段项打开渲染函数。
 
-### fieldCloseRenderer
-
-- 类型：`RendererRule`
+@`fieldCloseRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：字段项关闭渲染函数。
+字段项关闭渲染函数。
+
+:::
 
 ## 演示
 

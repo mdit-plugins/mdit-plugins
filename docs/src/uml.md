@@ -53,29 +53,23 @@ The plugin is different from container plugin as contents inside container will 
 
 ## Options
 
-### name
+::: fields
+@`name` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: UML name.
+UML name.
 
-### open
+@`open` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: Opening marker.
+Opening marker.
 
-### close
+@`close` type=string required
 
-- Type: `string`
-- Required: Yes
-- Details: Closing marker.
+Closing marker.
 
-### renderer
-
-- Type: `RendererRule`
-- Required: Yes
+@`renderer` type=RendererRule required
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Render function.
+Render function.
+
+:::
