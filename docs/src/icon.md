@@ -59,11 +59,11 @@ For the build-in helper and render function usage, see source code and related u
 - [src/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/utils.ts)
 - [\_\_tests\_\_/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.ts)
 
-::: tip Why not markdownit-plugin-emoji?
+::: tip Why not @md/plugin-emoji?
 
-`markdownit-plugin-emoji` only supports converting known emoji codes to icons, while this plugin supports any custom icon classes.
+`@md/plugin-emoji` only supports converting known emoji codes to icons, while this plugin supports any custom icon classes.
 
-This is useful when you are using it with font icon libraries like Font Awesome, Material Icons, etc.
+This is useful when you are using it with font icon libraries like Font Awesome, Material Icons, Iconify, etc.
 
 :::
 

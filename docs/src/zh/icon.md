@@ -59,11 +59,11 @@ const mdIt = new MarkdownIt().use(icon, {
 - [src/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/utils.ts)
 - [\_\_tests\_\_/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.ts)
 
-::: tip 为什么不使用 markdownit-plugin-emoji？
+::: tip 为什么不使用 @md/plugin-emoji？
 
-`markdownit-plugin-emoji` 仅支持将已知的表情代码转换为图标，而此插件支持任何自定义图标类。
+`@md/plugin-emoji` 仅支持将已知的表情代码转换为图标，而此插件支持任何自定义图标类。
 
-当你与字体图标库一起使用时，如 Font Awesome、Material Icons 等，这将非常有用。
+当你与字体图标库一起使用时，如 Font Awesome、Material Icons、Iconify 等，这将非常有用。
 
 :::
 
