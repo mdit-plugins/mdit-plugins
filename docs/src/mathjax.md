@@ -27,14 +27,7 @@ const html = mdIt.render("$E=mc^2$");
 const style = await mathjaxInstance.outputStyle();
 ```
 
-This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
-
-The instance holds render content of each calls, so you should:
-
-- Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
-- Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
-
-The plugin automatically calls `mathjaxInstance.reset()` after each render, clearing user-defined macros, environments and labels so that state does not leak across documents. To keep macros available in every document, define them with the `tex.macros` option instead.
+This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin. See [Options](#options) for the accepted options and [Instance](#instance) for the members the instance exposes.
 
 We also have a package called `@mdit/plugin-mathjax-slim`, for which `@mathjax/src` and `@mathjax/mathjax-newcm-font` are optional peer deps.
 
@@ -112,6 +105,41 @@ Transformer on output content.
 @`debug` type=boolean default=`false`
 
 Enable debug mode.
+
+:::
+
+## Instance
+
+`createMathjaxInstance(options)` resolves with the instance you pass to the plugin, or `null` when no $TeX$ input could be loaded. In addition to the resolved options, the instance exposes the following members:
+
+::: fields
+@`outputStyle` type=`() => Promise<string>`
+
+Return the CSS content collected from all rendered formulas.
+
+Font files are loaded on demand before the stylesheet is generated, and the style cache is cleared afterwards, so call it once all rendering is done. With the synchronous `createMathjaxInstance` from `@mdit/plugin-mathjax/sync`, the return type is `string` instead of `Promise<string>`.
+
+@`reset` type=`() => void`
+
+Reset the $TeX$ input, clearing user-defined macros, environments and labels.
+
+The plugin calls this after each render so that state does not leak across documents. To keep macros available in every document, define them with the `tex.macros` option instead.
+
+@`clearStyle` type=`() => void`
+
+Clear the style cache and reset both the input and output jax. It does nothing when the output jax has not been initialized yet.
+
+@`adaptor` type=LiteAdaptor
+
+The MathJax lite adaptor used to build the document and read the generated stylesheet.
+
+@`documentOptions` type=DocumentOptions
+
+The resolved MathJax document options, holding the `InputJax`, `OutputJax` and whether assistive MathML is enabled.
+
+@`transformer` type=`TeXTransformer | null`
+
+Transformer applied to the rendered content, `null` when the `transformer` option is not set.
 
 :::
 

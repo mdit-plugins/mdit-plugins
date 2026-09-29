@@ -27,14 +27,7 @@ const html = mdIt.render("$E=mc^2$");
 const style = await mathjaxInstance.outputStyle();
 ```
 
-这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。
-
-该实例包含每个调用的渲染内容，因此你应该：
-
-- 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
-- 如有必要，调用 `mathjaxInstance.clearStyle()` 清除现有样式缓存。
-
-插件会在每次渲染后自动调用 `mathjaxInstance.reset()`，清除用户定义的宏、环境与标签，避免状态跨文档泄漏。如需在所有文档中持续使用某个宏，请改用 `tex.macros` 选项定义。
+这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。接受的选项见[选项](#选项)，实例暴露的成员见[实例](#实例)。
 
 我们也有一个 `@mdit/plugin-mathjax-slim` 包，其中 `@mathjax/src` 和 `@mathjax/mathjax-newcm-font` 是可选对等依赖。
 
@@ -112,6 +105,41 @@ SVG 输出选项。
 @`debug` type=boolean default=`false`
 
 启用调试模式。
+
+:::
+
+## 实例
+
+`createMathjaxInstance(options)` 会 resolve 出你传给插件的实例，若无法加载 $TeX$ 输入则为 `null`。除了解析后的选项外，实例还暴露以下成员：
+
+::: fields
+@`outputStyle` type=`() => Promise<string>`
+
+返回汇总所有已渲染公式的 CSS 内容。
+
+生成样式表前会按需加载字体文件，并会在返回后清空样式缓存，因此请在全部渲染完成后再调用。使用来自 `@mdit/plugin-mathjax/sync` 的同步版 `createMathjaxInstance` 时，返回类型为 `string` 而非 `Promise<string>`。
+
+@`reset` type=`() => void`
+
+重置 $TeX$ 输入，清除用户定义的宏、环境与标签。
+
+插件会在每次渲染后自动调用它，避免状态跨文档泄漏。如需在所有文档中持续使用某个宏，请改用 `tex.macros` 选项定义。
+
+@`clearStyle` type=`() => void`
+
+清除样式缓存并重置输入与输出 jax。输出 jax 尚未初始化时不会做任何事。
+
+@`adaptor` type=LiteAdaptor
+
+用于构建文档、读取生成样式表的 MathJax lite adaptor。
+
+@`documentOptions` type=DocumentOptions
+
+解析后的 MathJax 文档选项，包含 `InputJax`、`OutputJax` 以及是否启用辅助 MathML。
+
+@`transformer` type=`TeXTransformer | null`
+
+应用于渲染内容的转换器，未设置 `transformer` 选项时为 `null`。
 
 :::
 
