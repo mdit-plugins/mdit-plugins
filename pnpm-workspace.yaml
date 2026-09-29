@@ -14,22 +14,9 @@ catalog:
   katex: ^0.18.9
   markdown-it: ^15.0.2
   upath: ^3.0.8
-cleanupUnusedCatalogs: true
+catalogPrune: true
 
 virtualStoreType: global
-
-minimumReleaseAgeExclude:
-  - "@oxfmt/*"
-  - "@oxlint/*"
-  - "@vuepress/*"
-  - oxc-config-hope
-  - oxfmt
-  - oxlint
-  - vuepress-plugin-components
-  - vuepress-plugin-md-enhance
-  - vuepress-shared
-  - vuepress-theme-hope
-minimumReleaseAgeExcludePrune: true
 
 overrides:
   "@mdit/helper": workspace:*
@@ -71,6 +58,7 @@ overrides:
   "@mdit/plugin-tasklist": workspace:*
   "@mdit/plugin-tex": workspace:*
   "@mdit/plugin-uml": workspace:*
+
 packageExtensions:
   # FIXME: This is a bug in mathjax
   "@mathjax/mathjax-newcm-font":
@@ -85,3 +73,19 @@ packageExtensions:
   "@lerna-lite/version":
     peerDependencies:
       conventional-changelog-conventionalcommits: ^10.4.0
+
+minimumReleaseAgeExclude:
+  - "@oxfmt/*"
+  - "@oxlint/*"
+  - "@vuepress/*"
+  - oxc-config-hope
+  - oxfmt
+  - oxlint
+  - vuepress-plugin-components
+  - vuepress-plugin-md-enhance
+  - vuepress-shared
+  - vuepress-theme-hope
+minimumReleaseAgeExcludePrune: true
+trustPolicy: no-downgrade
+trustPolicyExcludePrune: true
+trustPolicyIgnoreAfter: 720
