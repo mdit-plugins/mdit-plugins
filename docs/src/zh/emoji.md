@@ -30,16 +30,6 @@ mdIt.render("来自火星的问候 :satellite:");
 - `:表情名称:`
 - 捷键短语，如 `:)`, `:D` 等 (如果启用)
 
-## 示例
-
-::: preview 示例
-
-来自火星的问候 :satellite:
-
-经典快捷键: :-) :-(
-
-:::
-
 ## 选项
 
 ::: fields
@@ -54,6 +44,16 @@ mdIt.render("来自火星的问候 :satellite:");
 @`shortcuts` type=`Record<string, string | string[]>` default="`{}` (取决于预设)"
 
 重写默认快捷键。键是表情名称，值是表情的快捷键短语。
+
+:::
+
+## 示例
+
+::: preview 示例
+
+来自火星的问候 :satellite:
+
+经典快捷键: :-) :-(
 
 :::
 

@@ -67,23 +67,9 @@ mdIt.render("# H1", env);
 // env.markdownItAnchor.slugs === { h1: true, "h1-1": true }
 ```
 
-## Demo
-
-::: preview Demo
-
-### Hello World
-
-Lorem ipsum dolor sit amet.
-
-#### Sub Section
-
-Consectetur adipiscing elit.
-
-:::
-
 ## Options
 
-::: fields
+:::: fields
 @`level` type=`number | number[]` default=`1`
 
 Heading levels to add anchors to. A number means "the given level and deeper (e.g. `2` selects h2–h6)", an array means "exact levels".
@@ -129,7 +115,7 @@ Called after rendering each heading with the `token` and an `info` object contai
 
 Value of the `tabindex` attribute on headings. We set `-1` by default, which marks headings as focusable but not reachable by keyboard — screen readers will read the title when jumped to. Set to `false` to remove the attribute.
 
-:::: tip Manual ID support
+::: tip Manual ID support
 
 You can manually set heading IDs via [@mdit/plugin-attrs](./attrs.md). Make sure to load attrs **before** anchor:
 
@@ -145,7 +131,21 @@ mdIt.render("# My Title {#custom-id}");
 
 The anchor plugin will reuse the existing `id`.
 
+:::
+
 ::::
+
+## Demo
+
+::: preview Demo
+
+### Hello World
+
+Lorem ipsum dolor sit amet.
+
+#### Sub Section
+
+Consectetur adipiscing elit.
 
 :::
 

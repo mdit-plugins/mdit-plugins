@@ -29,81 +29,6 @@ const style = await mathjaxInstance.outputStyle();
 
 这个插件与其他插件有点不同。 它要求你先创建通过选项一个 Mathjax 实例，然后将其传递给插件。
 
-你可以设置如下选项:
-
-```ts
-interface MarkdownItMathjaxOptions {
-  /**
-   * 输出格式
-   *
-   * @default 'svg'
-   */
-
-  output?: "chtml" | "svg";
-
-  /**
-   * 启用的数学分隔符语法
-   *
-   * - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）
-   * - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）
-   * - `"all"`: 启用括号和美元符号两种语法
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * 是否允许两端带空格的内联数学
-   *
-   * @description 不建议将此设置为 true，因为它很可能会破坏 $ 的默认使用
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-
-  /**
-   * 是否将解析的数学语言 fence 块转换为显示模式数学
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * 是否启用无障碍
-   *
-   * @default true
-   */
-  a11y?: boolean;
-
-  /**
-   * TeX 输入选项
-   */
-  tex?: MathJaxTexInputOptions;
-
-  /**
-   * 通用 HTML 输出选项
-   */
-  chtml?: MathjaxCommonHTMLOutputOptions;
-
-  /**
-   * SVG 输出选项
-   */
-  svg?: MathjaxSVGOutputOptions;
-
-  /**
-   * 输出内容的转换器
-   */
-  transformer?: TeXTransformer;
-
-  /**
-   * 启用调试模式
-   *
-   * @default false
-   */
-  debug?: boolean;
-}
-```
-
 该实例包含每个调用的渲染内容，因此你应该：
 
 - 在所有渲染完成后调用 `mathjaxInstance.outputStyle()`，以获得最终的 CSS 内容。
@@ -134,6 +59,59 @@ interface MarkdownItMathjaxOptions {
   会被渲染为
 
   Euler’s identity \$e^{i\pi}+1=0$
+
+:::
+
+## 选项
+
+`createMathjaxInstance(options)` 支持以下选项：
+
+::: fields
+@`output` type=`"chtml" | "svg"` default=`"svg"`
+
+输出格式。
+
+@`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
+
+启用的数学分隔符语法。
+
+- `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
+- `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
+- `"all"`: 启用括号和美元符号两种语法。
+
+@`allowInlineWithSpace` type=boolean default=`false`
+
+是否允许两端带空格的内联数学。
+
+不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。
+
+@`mathFence` type=boolean default=`false`
+
+是否将解析的数学语言 fence 块转换为显示模式数学。
+
+@`a11y` type=boolean default=`true`
+
+是否启用无障碍。
+
+@`tex` type=MathJaxTexInputOptions
+
+TeX 输入选项。
+
+@`chtml` type=MathjaxCommonHTMLOutputOptions
+
+通用 HTML 输出选项。
+
+@`svg` type=MathjaxSVGOutputOptions
+
+SVG 输出选项。
+
+@`transformer` type=TeXTransformer
+
+输出内容的转换器。
+
+@`debug` type=boolean default=`false`
+
+启用调试模式。
 
 :::
 

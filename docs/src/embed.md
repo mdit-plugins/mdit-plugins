@@ -85,39 +85,7 @@ You can also escape these markers in contents:
 \{% name params-containing-\{%value%\} %}
 ```
 
-## Examples
-
-With usage example, the following embeds are supported:
-
-**Input:**
-
-```md
-{% youtube dQw4w9WgXcQ %}
-```
-
-**Output:**
-
-```html
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-  frameborder="0"
-  allowfullscreen
-></iframe>
-```
-
-**Input:**
-
-```md
-Click the {% icon home %} button to go home.
-```
-
-**Output:**
-
-```html
-Click the <i class="icon icon-home"></i> button to go home.
-```
+:::
 
 ## Options
 
@@ -162,3 +130,37 @@ A function that takes the parameters and returns the HTML string to embed.
 Whether the embed can be used inline. It is block-level only when set to `false`.
 
 :::
+
+## Examples
+
+With usage example, the following embeds are supported:
+
+**Input:**
+
+```md
+{% youtube dQw4w9WgXcQ %}
+```
+
+**Output:**
+
+```html
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allowfullscreen
+></iframe>
+```
+
+**Input:**
+
+```md
+Click the {% icon home %} button to go home.
+```
+
+**Output:**
+
+```html
+Click the <i class="icon icon-home"></i> button to go home.
+```

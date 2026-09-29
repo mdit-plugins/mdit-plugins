@@ -158,10 +158,6 @@ const md = new MarkdownIt()
 
 语法中使用的名称。不能为空，也不能包含空白、`[`、`]`、`(`、`)`、`"` 或 `'`。重复注册同名会覆盖之前的配置。
 
-@`inline` type=boolean
-
-语法是否也可在行内使用。
-
 @`renderer` type=`(link: string, props: AdvancedLinkProps, env: unknown) => string` required
 
 ```ts
@@ -171,6 +167,10 @@ type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknow
 ```
 
 生成 HTML 的渲染器。`env` 为 MarkdownIt 环境。链接不会被规范化或校验。
+
+@`inline` type=boolean
+
+语法是否也可在行内使用。
 
 :::
 

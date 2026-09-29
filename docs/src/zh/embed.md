@@ -87,40 +87,6 @@ const md = new MarkdownIt().use(embed, {
 
 :::
 
-## 示例
-
-基于上面的使用示例，支持以下嵌入：
-
-**输入：**
-
-```md
-{% youtube dQw4w9WgXcQ %}
-```
-
-**输出：**
-
-```html
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-  frameborder="0"
-  allowfullscreen
-></iframe>
-```
-
-**输入：**
-
-```md
-点击 {% icon home %} 按钮回到首页。
-```
-
-**输出：**
-
-```html
-点击 <i class="icon icon-home"></i> 按钮回到首页。
-```
-
 ## 配置选项
 
 ::: fields
@@ -166,6 +132,40 @@ interface EmbedConfig {
 当 `allowInline` 设置为 `true` 时，嵌入既可以在块级使用（单独一行），也可以在行内使用（段落中）。
 
 :::
+
+## 示例
+
+基于上面的使用示例，支持以下嵌入：
+
+**输入：**
+
+```md
+{% youtube dQw4w9WgXcQ %}
+```
+
+**输出：**
+
+```html
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allowfullscreen
+></iframe>
+```
+
+**输入：**
+
+```md
+点击 {% icon home %} 按钮回到首页。
+```
+
+**输出：**
+
+```html
+点击 <i class="icon icon-home"></i> 按钮回到首页。
+```
 
 ## 高级用法
 

@@ -55,28 +55,6 @@ mdIt.render("$E=mc^2$");
 
 :::
 
-## 示例
-
-::: preview 示例
-
-Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
-
-$$
-\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
-= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
-$$
-
-:::
-
-## mhchem 扩展
-
-如果你想加载 `mhchem` 扩展，你应该导入 `@mdit/plugin-katex/mhchem`:
-
-```ts
-import { katex } from "@mdit/plugin-katex";
-import "@mdit/plugin-katex/mhchem";
-```
-
 ## 选项
 
 此插件扩展了 KaTeX 选项。可用选项包括：
@@ -108,6 +86,28 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 输出内容的转换器函数。
 
 :::
+
+## 示例
+
+::: preview 示例
+
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
+$$
+
+:::
+
+## mhchem 扩展
+
+如果你想加载 `mhchem` 扩展，你应该导入 `@mdit/plugin-katex/mhchem`:
+
+```ts
+import { katex } from "@mdit/plugin-katex";
+import "@mdit/plugin-katex/mhchem";
+```
 
 ## 支持列表
 

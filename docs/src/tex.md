@@ -84,6 +84,22 @@ Escaping can be done by using `\` before the `$` character, or adding space both
 ## Options
 
 ::: fields
+@`render` type=TexRender required
+
+```ts
+/**
+ * Tex Render function
+ *
+ * @param content Text content
+ * @param displayMode whether is display mode
+ * @param env MarkdownIt environment
+ * @returns render result
+ */
+type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
+```
+
+Tex Render function. Takes content, displayMode, and environment, returns rendered string.
+
 <!-- #region options -->
 
 @`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
@@ -105,22 +121,6 @@ Whether parsed fence block with math language to display mode math.
 Whether to allow inline math with spaces on ends. NOT recommended to set this to true, because it will likely break the default usage of `$`. Note that a space-padded literal `$` inside the content (e.g. `$\text{a $ b}$`) is then treated as a closing `$`, closing the expression early.
 
 <!-- #endregion options -->
-
-@`render` type=TexRender required
-
-```ts
-/**
- * Tex Render function
- *
- * @param content Text content
- * @param displayMode whether is display mode
- * @param env MarkdownIt environment
- * @returns render result
- */
-type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
-```
-
-Tex Render function. Takes content, displayMode, and environment, returns rendered string.
 
 :::
 

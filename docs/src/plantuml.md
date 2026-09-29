@@ -23,24 +23,6 @@ Bob -> Alice : hello
 `);
 ```
 
-## Demo
-
-::: preview demo
-
-@startuml
-Bob -> Alice : hello
-@enduml
-
-:::
-
-::: preview Non-ascii demo
-
-@startuml
-Bob -> Alice : 你好
-@enduml
-
-:::
-
 ## Options
 
 ::: fields
@@ -81,5 +63,23 @@ Image src getter. Takes diagram content and returns image link.
 <!-- @include: ./render-rule.snippet.md -->
 
 Diagram renderer.
+
+:::
+
+## Demo
+
+::: preview demo
+
+@startuml
+Bob -> Alice : hello
+@enduml
+
+:::
+
+::: preview Non-ascii demo
+
+@startuml
+Bob -> Alice : 你好
+@enduml
 
 :::

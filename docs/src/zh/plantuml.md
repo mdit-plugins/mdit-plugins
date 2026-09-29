@@ -23,24 +23,6 @@ Bob -> Alice : hello
 `);
 ```
 
-## 示例
-
-::: preview 示例
-
-@startuml
-Bob -> Alice : hello
-@enduml
-
-:::
-
-::: preview 非 ASCII 示例
-
-@startuml
-Bob -> Alice : 你好
-@enduml
-
-:::
-
 ## 选项
 
 ::: fields
@@ -81,5 +63,23 @@ Plantuml 服务器。仅在使用默认地址获取器时可用。
 <!-- @include: ../render-rule.snippet.md -->
 
 图表渲染器。
+
+:::
+
+## 示例
+
+::: preview 示例
+
+@startuml
+Bob -> Alice : hello
+@enduml
+
+:::
+
+::: preview 非 ASCII 示例
+
+@startuml
+Bob -> Alice : 你好
+@enduml
 
 :::

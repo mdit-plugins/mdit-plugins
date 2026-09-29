@@ -25,14 +25,6 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 
 使用 `!! !!` 进行标记。
 
-## 示例
-
-::: preview 示例
-
-VuePress Theme Hope !!十分强大!!。
-
-:::
-
 ## 选项
 
 ::: fields
@@ -43,5 +35,13 @@ VuePress Theme Hope !!十分强大!!。
 @`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
 
 剧透元素的自定义 HTML 属性。
+
+:::
+
+## 示例
+
+::: preview 示例
+
+VuePress Theme Hope !!十分强大!!。
 
 :::

@@ -55,28 +55,6 @@ You should import `katex/dist/katex.min.css` from `katex` package or CDN yoursel
 
 :::
 
-## Demo
-
-::: preview
-
-Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
-
-$$
-\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
-= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
-$$
-
-:::
-
-## mhchem extension
-
-If you want to load the `mhchem` extension, you should import `@mdit/plugin-katex/mhchem`:
-
-```ts
-import { katex } from "@mdit/plugin-katex";
-import "@mdit/plugin-katex/mhchem";
-```
-
 ## Options
 
 This plugin extends KaTeX options. Available options include:
@@ -108,6 +86,28 @@ Error logger function.
 Transformer function on output content.
 
 :::
+
+## Demo
+
+::: preview
+
+Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
+$$
+
+:::
+
+## mhchem extension
+
+If you want to load the `mhchem` extension, you should import `@mdit/plugin-katex/mhchem`:
+
+```ts
+import { katex } from "@mdit/plugin-katex";
+import "@mdit/plugin-katex/mhchem";
+```
 
 ## Support List
 

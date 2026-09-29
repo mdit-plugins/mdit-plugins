@@ -25,14 +25,6 @@ With the default options, you can import `@mdit/plugin-spoiler/style` to apply s
 
 Use `!! !!` hide contents.
 
-## Demo
-
-::: preview Demo
-
-VuePress Theme Hope is !!powerful!!.
-
-:::
-
 ## Options
 
 ::: fields
@@ -43,5 +35,13 @@ HTML tag name for the spoiler element.
 @`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
 
 Custom HTML attributes for the spoiler element.
+
+:::
+
+## Demo
+
+::: preview Demo
+
+VuePress Theme Hope is !!powerful!!.
 
 :::

@@ -30,16 +30,6 @@ Different presets are available:
 - `:emoji_name:`
 - shortcuts like `:)`, `:D`, etc. (if enabled)
 
-## Demo
-
-::: preview Demo
-
-Hello from mars :satellite:
-
-Classic shortcuts: :-) :-(
-
-:::
-
 ## Options
 
 ::: fields
@@ -58,6 +48,16 @@ If specified, only emojis in this list will be rendered. Otherwise, all emojis i
 Rewrite default shortcuts. The key is the emoji name, and the value is the shortcut(s) for the emoji.
 
 Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
+
+:::
+
+## Demo
+
+::: preview Demo
+
+Hello from mars :satellite:
+
+Classic shortcuts: :-) :-(
 
 :::
 

@@ -63,23 +63,9 @@ mdIt.render("# H1", env);
 // env.markdownItAnchor.slugs === { h1: true, "h1-1": true }
 ```
 
-## 示例
-
-::: preview 示例
-
-### 你好世界
-
-这是一段示例文本。
-
-#### 子章节
-
-另一段文本。
-
-:::
-
 ## 选项
 
-::: fields
+:::: fields
 @`level` type=`number | number[]` default=`1`
 
 要添加锚点的标题级别。数字表示「该级别及更深的级别（例如 `2` 表示 h2–h6）」，数组表示「精确匹配的级别」。
@@ -125,7 +111,7 @@ const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 
 标题上 `tabindex` 属性的值。默认 `-1` 使标题可被聚焦但不可通过键盘导航到达——屏幕阅读器会在跳转时朗读标题内容。设为 `false` 可移除该属性。
 
-:::: tip 手动设置 ID
+::: tip 手动设置 ID
 
 你可以通过 [@mdit/plugin-attrs](./attrs.md) 手动设置标题 ID。确保 attrs 在 anchor **之前**加载：
 
@@ -141,7 +127,21 @@ mdIt.render("# 我的标题 {#custom-id}");
 
 Anchor 插件会复用已有的 `id`。
 
+:::
+
 ::::
+
+## 示例
+
+::: preview 示例
+
+### 你好世界
+
+这是一段示例文本。
+
+#### 子章节
+
+另一段文本。
 
 :::
 
