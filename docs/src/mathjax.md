@@ -110,7 +110,7 @@ Enable debug mode.
 
 ## Instance
 
-`createMathjaxInstance(options)` resolves with the instance you pass to the plugin, or `null` when no $TeX$ input could be loaded. In addition to the resolved options, the instance exposes the following members:
+`createMathjaxInstance(options)` resolves with the instance you pass to the plugin, or `null` when no $TeX$ input could be loaded. Besides the resolved options, the instance exposes the following methods:
 
 ::: fields
 @`outputStyle` type=`() => Promise<string>`
@@ -128,18 +128,6 @@ The plugin calls this after each render so that state does not leak across docum
 @`clearStyle` type=`() => void`
 
 Clear the style cache and reset both the input and output jax. It does nothing when the output jax has not been initialized yet.
-
-@`adaptor` type=LiteAdaptor
-
-The MathJax lite adaptor used to build the document and read the generated stylesheet.
-
-@`documentOptions` type=DocumentOptions
-
-The resolved MathJax document options, holding the `InputJax`, `OutputJax` and whether assistive MathML is enabled.
-
-@`transformer` type=`TeXTransformer | null`
-
-Transformer applied to the rendered content, `null` when the `transformer` option is not set.
 
 :::
 

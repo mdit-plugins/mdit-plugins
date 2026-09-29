@@ -110,7 +110,7 @@ SVG 输出选项。
 
 ## 实例
 
-`createMathjaxInstance(options)` 会 resolve 出你传给插件的实例，若无法加载 $TeX$ 输入则为 `null`。除了解析后的选项外，实例还暴露以下成员：
+`createMathjaxInstance(options)` 会 resolve 出你传给插件的实例，若无法加载 $TeX$ 输入则为 `null`。除了解析后的选项外，实例还暴露以下方法：
 
 ::: fields
 @`outputStyle` type=`() => Promise<string>`
@@ -128,18 +128,6 @@ SVG 输出选项。
 @`clearStyle` type=`() => void`
 
 清除样式缓存并重置输入与输出 jax。输出 jax 尚未初始化时不会做任何事。
-
-@`adaptor` type=LiteAdaptor
-
-用于构建文档、读取生成样式表的 MathJax lite adaptor。
-
-@`documentOptions` type=DocumentOptions
-
-解析后的 MathJax 文档选项，包含 `InputJax`、`OutputJax` 以及是否启用辅助 MathML。
-
-@`transformer` type=`TeXTransformer | null`
-
-应用于渲染内容的转换器，未设置 `transformer` 选项时为 `null`。
 
 :::
 
