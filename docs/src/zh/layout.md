@@ -304,11 +304,12 @@ mdIt.render(`\
 
 ## 选项
 
-### inlineStyles
+::: fields
+@`inlineStyles` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：当 `inlineStyles` 为 `true`（默认值）时，工具类会被转换为内联 CSS 样式。为 `false` 时，工具类会作为 CSS 类名添加，可配合 Tailwind CSS 或自定义样式表使用。
+当 `inlineStyles` 为 `true`（默认值）时，工具类会被转换为内联 CSS 样式。为 `false` 时，工具类会作为 CSS 类名添加，可配合 Tailwind CSS 或自定义样式表使用。
+
+:::
 
 ## 示例
 

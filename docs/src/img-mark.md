@@ -67,17 +67,16 @@ If the page theme mode is based on user preference, you should use:
 
 ## Options
 
-### light
+::: fields
+@`light` type=string[] default=`["light"]`
 
-- Type: `string[]`
-- Default: `["light"]`
-- Details: Lightmode only ids.
+Lightmode only ids.
 
-### dark
+@`dark` type=string[] default=`["dark"]`
 
-- Type: `string[]`
-- Default: `["dark"]`
-- Details: Darkmode only ids.
+Darkmode only ids.
+
+:::
 
 ## Demo
 

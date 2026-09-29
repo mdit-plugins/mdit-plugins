@@ -30,6 +30,23 @@ mdIt.render("来自火星的问候 :satellite:");
 - `:表情名称:`
 - 捷键短语，如 `:)`, `:D` 等 (如果启用)
 
+## 选项
+
+::: fields
+@`definitions` type=`Record<string, string>` default="`{}` (取决于预设)"
+
+重写可用的表情定义。键是表情名称，值是表情字符。
+
+@`enabled` type=string[] default=`[]`
+
+如果指定，则仅渲染此列表中的表情。否则，将渲染定义中的所有表情。
+
+@`shortcuts` type=`Record<string, string | string[]>` default="`{}` (取决于预设)"
+
+重写默认快捷键。键是表情名称，值是表情的快捷键短语。
+
+:::
+
 ## 示例
 
 ::: preview 示例
@@ -39,26 +56,6 @@ mdIt.render("来自火星的问候 :satellite:");
 经典快捷键: :-) :-(
 
 :::
-
-## 选项
-
-### definitions
-
-- 类型：`Record<string, string>`
-- 默认值：`{}` (取决于预设)
-- 详情：重写可用的表情定义。键是表情名称，值是表情字符。
-
-### enabled
-
-- 类型：`string[]`
-- 默认值：`[]`
-- 详情：如果指定，则仅渲染此列表中的表情。否则，将渲染定义中的所有表情。
-
-### shortcuts
-
-- 类型：`Record<string, string | string[]>`
-- 默认值：`{}` (取决于预设)
-- 详情：重写默认快捷键。键是表情名称，值是表情的快捷键短语。
 
 ## 自定义渲染器
 
@@ -73,9 +70,7 @@ import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
-mdIt.renderer.rules.emoji = (tokens, idx) => {
-  return twemoji.parse(tokens[idx].content);
-};
+mdIt.renderer.rules.emoji = (tokens, idx) => twemoji.parse(tokens[idx].content);
 ```
 
 你可以使用以下样式使图片高度与行高匹配：

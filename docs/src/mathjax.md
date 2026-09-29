@@ -27,89 +27,7 @@ const html = mdIt.render("$E=mc^2$");
 const style = await mathjaxInstance.outputStyle();
 ```
 
-This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin.
-
-You can set the following options:
-
-```ts
-interface MarkdownItMathjaxOptions {
-  /**
-   * Output syntax
-   *
-   * @default 'svg'
-   */
-
-  output?: "chtml" | "svg";
-
-  /**
-   * Math delimiter syntax to enable
-   *
-   * - `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style)
-   * - `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style)
-   * - `"all"`: Enable both bracket and dollar syntaxes
-   *
-   * @default "dollars"
-   */
-  delimiters?: "brackets" | "dollars" | "all";
-
-  /**
-   * Whether to allow inline math with spaces on ends
-   *
-   * @description NOT recommended to set this to true, because it will likely break the default usage of $
-   *
-   * @default false
-   */
-  allowInlineWithSpace?: boolean;
-
-  /**
-   * Whether parsed fence block with math language to display mode math
-   *
-   * @default false
-   */
-  mathFence?: boolean;
-
-  /**
-   * Enable A11y
-   *
-   * @default true
-   */
-  a11y?: boolean;
-
-  /**
-   * TeX input options
-   */
-  tex?: MathJaxTexInputOptions;
-
-  /**
-   * Common HTML output options
-   */
-  chtml?: MathjaxCommonHTMLOutputOptions;
-
-  /**
-   * SVG output options
-   */
-  svg?: MathjaxSVGOutputOptions;
-
-  /**
-   * Transformer on output content
-   */
-  transformer?: TeXTransformer;
-
-  /**
-   * Enable debug mode
-   *
-   * @default false
-   */
-  debug?: boolean;
-}
-```
-
-The instance holds render content of each calls, so you should:
-
-- Call `mathjaxInstance.outputStyle()` after all rendering is done, to get final CSS content.
-- Call `mathjaxInstance.clearStyle()` to clear existing style cache if necessary.
-
-The plugin automatically calls `mathjaxInstance.reset()` after each render, clearing user-defined macros, environments and labels so that state does not leak across documents. To keep macros available in every document, define them with the `tex.macros` option instead.
+This plugin is a bit different from other plugins. It requires you to create a Mathjax instance with options first, and then pass it to the plugin. See [Options](#options) for the accepted options and [Instance](#instance) for the members the instance exposes.
 
 We also have a package called `@mdit/plugin-mathjax-slim`, for which `@mathjax/src` and `@mathjax/mathjax-newcm-font` are optional peer deps.
 
@@ -134,6 +52,82 @@ The syntax depends on the `delimiters` option:
   will be
 
   Euler’s identity \$e^{i\pi}+1=0$
+
+:::
+
+## Options
+
+`createMathjaxInstance(options)` accepts the following options:
+
+::: fields
+@`output` type=`"chtml" | "svg"` default=`"svg"`
+
+Output syntax.
+
+@`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
+
+Math delimiter syntax to enable.
+
+- `"brackets"`: Use `\(...\)` for inline math and `\[...\]` for display math (LaTeX style).
+- `"dollars"`: Use `$...$` for inline math and `$$...$$` for display math (common Markdown style).
+- `"all"`: Enable both bracket and dollar syntaxes.
+
+@`allowInlineWithSpace` type=boolean default=`false`
+
+Whether to allow inline math with spaces on ends.
+
+NOT recommended to set this to true, because it will likely break the default usage of `$`.
+
+@`mathFence` type=boolean default=`false`
+
+Whether parsed fence block with math language to display mode math.
+
+@`a11y` type=boolean default=`true`
+
+Enable A11y.
+
+@`tex` type=MathJaxTexInputOptions
+
+TeX input options.
+
+@`chtml` type=MathjaxCommonHTMLOutputOptions
+
+Common HTML output options.
+
+@`svg` type=MathjaxSVGOutputOptions
+
+SVG output options.
+
+@`transformer` type=TeXTransformer
+
+Transformer on output content.
+
+@`debug` type=boolean default=`false`
+
+Enable debug mode.
+
+:::
+
+## Instance
+
+`createMathjaxInstance(options)` resolves with the instance you pass to the plugin, or `null` when no $TeX$ input could be loaded. Besides the resolved options, the instance exposes the following methods:
+
+::: fields
+@`outputStyle` type=`() => Promise<string>`
+
+Return the CSS content collected from all rendered formulas.
+
+Font files are loaded on demand before the stylesheet is generated, and the style cache is cleared afterwards, so call it once all rendering is done. With the synchronous `createMathjaxInstance` from `@mdit/plugin-mathjax/sync`, the return type is `string` instead of `Promise<string>`.
+
+@`reset` type=`() => void`
+
+Reset the $TeX$ input, clearing user-defined macros, environments and labels.
+
+The plugin calls this after each render so that state does not leak across documents. To keep macros available in every document, define them with the `tex.macros` option instead.
+
+@`clearStyle` type=`() => void`
+
+Clear the style cache and reset both the input and output jax. It does nothing when the output jax has not been initialized yet.
 
 :::
 

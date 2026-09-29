@@ -85,6 +85,52 @@ You can also escape these markers in contents:
 \{% name params-containing-\{%value%\} %}
 ```
 
+:::
+
+## Options
+
+::: fields
+@`config` type=`EmbedConfig[]` required
+
+An array of embed configurations.
+
+```ts
+interface EmbedConfig {
+  /**
+   * Embed token name
+   */
+  name: string;
+
+  /**
+   * Setup function to generate embed HTML
+   * @param ref
+   * @param isInline If `allowInline` is true, `isInline` represent that current matched content is inline
+   * @returns
+   */
+  setup: (ref: string, isInline: boolean) => string;
+
+  /**
+   * Whether the embed can be used inline
+   * @default false
+   */
+  allowInline?: boolean;
+}
+```
+
+@@`config.name` type=string
+
+The token name used in the embed syntax.
+
+@@`config.setup` type=`(ref: string, isInline: boolean) => string`
+
+A function that takes the parameters and returns the HTML string to embed.
+
+@@`config.allowInline` type=boolean default=`false`
+
+Whether the embed can be used inline. It is block-level only when set to `false`.
+
+:::
+
 ## Examples
 
 With usage example, the following embeds are supported:
@@ -118,41 +164,3 @@ Click the {% icon home %} button to go home.
 ```html
 Click the <i class="icon icon-home"></i> button to go home.
 ```
-
-## Options
-
-### config
-
-- Type: `EmbedConfig[]`
-
-```ts
-interface EmbedConfig {
-  /**
-   * Embed token name
-   */
-  name: string;
-
-  /**
-   * Setup function to generate embed HTML
-   * @param ref
-   * @param isInline If `allowInline` is true, `isInline` represent that current matched content is inline
-   * @returns
-   */
-  setup: (ref: string, isInline: boolean) => string;
-
-  /**
-   * Whether the embed can be used inline
-   * @default false
-   */
-  allowInline?: boolean;
-}
-```
-
-- Required: Yes
-- Details: An array of embed configurations.
-
-Each configuration must have:
-
-- `name`: The token name used in the embed syntax
-- `setup`: A function that takes the parameters and returns the HTML string to embed
-- `allowInline`: Optional, whether the embed can be used inline (defaults to `false`, block-level only)

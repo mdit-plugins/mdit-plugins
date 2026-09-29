@@ -37,57 +37,46 @@ Text
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string default=`"demo"`
 
-- 类型：`string`
-- 默认值：`"demo"`
-- 详情：容器名称。
+容器名称。
 
-### showCodeFirst
+@`showCodeFirst` type=boolean default=`false`
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：代码是否显示在内容前。
+代码是否显示在内容前。
 
-### openRenderer
-
-- 类型：`RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：开始标签渲染函数。
+开始标签渲染函数。
 
-### closeRenderer
-
-- 类型：`RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：结束标签渲染函数。
+结束标签渲染函数。
 
-### codeRenderer
-
-- 类型：`RendererRule`
+@`codeRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：代码渲染函数。
+代码渲染函数。
 
-### contentOpenRenderer
-
-- 类型：`RendererRule`
+@`contentOpenRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：内容开始标签渲染函数。
+内容开始标签渲染函数。
 
-### contentCloseRenderer
-
-- 类型：`RendererRule`
+@`contentCloseRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：内容结束标签渲染函数。
+内容结束标签渲染函数。
+
+:::
 
 ## 示例
 

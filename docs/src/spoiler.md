@@ -25,6 +25,19 @@ With the default options, you can import `@mdit/plugin-spoiler/style` to apply s
 
 Use `!! !!` hide contents.
 
+## Options
+
+::: fields
+@`tag` type=string default=`"span"`
+
+HTML tag name for the spoiler element.
+
+@`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
+
+Custom HTML attributes for the spoiler element.
+
+:::
+
 ## Demo
 
 ::: preview Demo
@@ -32,17 +45,3 @@ Use `!! !!` hide contents.
 VuePress Theme Hope is !!powerful!!.
 
 :::
-
-## Options
-
-### tag
-
-- Type: `string`
-- Default: `"span"`
-- Details: HTML tag name for the spoiler element.
-
-### attrs
-
-- Type: `[attr: string, value: string][]`
-- Default: `[["class", "spoiler"], ["tabindex","-1"]]`
-- Details: Custom HTML attributes for the spoiler element.

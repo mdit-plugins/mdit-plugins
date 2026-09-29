@@ -94,38 +94,32 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 
 ## Options
 
-### alertNames
+::: fields
+@`alertNames` type=string[] default=`['tip', 'warning', 'caution', 'important', 'note']`
 
-- Type: `string[]`
-- Default: `['tip', 'warning', 'caution', 'important', 'note']`
-- Details: Allowed alert names.
+Allowed alert names.
 
-### deep
+@`deep` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether to handle deep alert syntax.
+Whether to handle deep alert syntax.
 
-### openRenderer
-
-- Type: `RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Hint opening tag render function.
+Hint opening tag render function.
 
-### closeRenderer
-
-- Type: `RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Hint closing tag render function.
+Hint closing tag render function.
 
-### titleRenderer
+@`titleRenderer` type=RendererRule
 
-- Type: `RendererRule`
-- Details: Hint title render function.
+Hint title render function.
+
+:::
 
 ## Demo
 

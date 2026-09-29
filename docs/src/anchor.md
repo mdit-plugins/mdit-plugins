@@ -67,32 +67,16 @@ mdIt.render("# H1", env);
 // env.markdownItAnchor.slugs === { h1: true, "h1-1": true }
 ```
 
-## Demo
-
-::: preview Demo
-
-### Hello World
-
-Lorem ipsum dolor sit amet.
-
-#### Sub Section
-
-Consectetur adipiscing elit.
-
-:::
-
 ## Options
 
-### level
+:::: fields
+@`level` type=`number | number[]` default=`1`
 
-- Type: `number | number[]`
-- Default: `1`
-- Details: Heading levels to add anchors to. A number means "the given level and deeper (e.g. `2` selects h2–h6)", an array means "exact levels".
+Heading levels to add anchors to. A number means "the given level and deeper (e.g. `2` selects h2–h6)", an array means "exact levels".
 
-### slugify
+@`slugify` type=`(str: string) => string`
 
-- Type: `(str: string) => string`
-- Details: Custom slugification function to transform heading text to URL-friendly slugs.
+Custom slugification function to transform heading text to URL-friendly slugs.
 
 By default it lowercases ASCII letters, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash, and strips other ASCII punctuation. If you want strictly percent-encoded slugs instead, use the exported `legacySlugify`:
 
@@ -103,43 +87,33 @@ import { anchor, legacySlugify } from "@mdit/plugin-anchor";
 const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
 
-### slugifyWithState
+@`slugifyWithState` type=`(str: string, state: StateCore) => string`
 
-- Type: `(str: string, state: StateCore) => string`
-- Details: Like `slugify` but with access to the markdown-it state, e.g. to use `state.env`.
+Like `slugify` but with access to the markdown-it state, e.g. to use `state.env`.
 
-### getTokensText
+@`getTokensText` type=`(tokens: Token[]) => string`
 
-- Type: `(tokens: Token[]) => string`
-- Details: Custom function to extract the text contents from heading tokens. By default includes `text` and `code_inline` tokens.
+Custom function to extract the text contents from heading tokens. By default includes `text` and `code_inline` tokens.
 
-### uniqueSlugStartIndex
+@`uniqueSlugStartIndex` type=number default=`1`
 
-- Type: `number`
-- Default: `1`
-- Details: Starting index for duplicate slug numbering. Set to `2` to get `title`, `title-2`, `title-3`.
+Starting index for duplicate slug numbering. Set to `2` to get `title`, `title-2`, `title-3`.
 
-### defaultPlaceHolder
+@`defaultPlaceHolder` type=string default=`"heading"`
 
-- Type: `string`
-- Default: `"heading"`
-- Details: Placeholder slug used when a heading has no text content and generates an empty slug (e.g. image-only headings).
+Placeholder slug used when a heading has no text content and generates an empty slug (e.g. image-only headings).
 
-### permalink
+@`permalink` type=PermalinkGenerator
 
-- Type: `PermalinkGenerator`
-- Details: A function to render permalinks. See [Permalinks](#permalinks) below. Use one of the provided presets or provide your own.
+A function to render permalinks. See [Permalinks](#permalinks) below. Use one of the provided presets or provide your own.
 
-### callback
+@`callback` type=`(token: Token, info: AnchorInfo) => void`
 
-- Type: `(token: Token, info: AnchorInfo) => void`
-- Details: Called after rendering each heading with the `token` and an `info` object containing `slug` and `title`.
+Called after rendering each heading with the `token` and an `info` object containing `slug` and `title`.
 
-### tabIndex
+@`tabIndex` type=`string | number | false` default=`"-1"`
 
-- Type: `string | number | false`
-- Default: `"-1"`
-- Details: Value of the `tabindex` attribute on headings. We set `-1` by default, which marks headings as focusable but not reachable by keyboard — screen readers will read the title when jumped to. Set to `false` to remove the attribute.
+Value of the `tabindex` attribute on headings. We set `-1` by default, which marks headings as focusable but not reachable by keyboard — screen readers will read the title when jumped to. Set to `false` to remove the attribute.
 
 ::: tip Manual ID support
 
@@ -156,6 +130,22 @@ mdIt.render("# My Title {#custom-id}");
 ```
 
 The anchor plugin will reuse the existing `id`.
+
+:::
+
+::::
+
+## Demo
+
+::: preview Demo
+
+### Hello World
+
+Lorem ipsum dolor sit amet.
+
+#### Sub Section
+
+Consectetur adipiscing elit.
 
 :::
 

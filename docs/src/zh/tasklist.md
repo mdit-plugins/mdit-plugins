@@ -31,41 +31,32 @@ mdIt.render(`\
 
 ## 选项
 
-### disabled
+::: fields
+@`disabled` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：是否禁用 checkbox。
+是否禁用 checkbox。
 
-### label
+@`label` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：是否使用 `<label>` 来包裹文字。
+是否使用 `<label>` 来包裹文字。
 
-### containerClass
+@`containerClass` type=string default=`'task-list-container'`
 
-- 类型：`string`
-- 默认值：`'task-list-container'`
-- 详情：tasklist 容器的 class。
+tasklist 容器的 class。
 
-### itemClass
+@`itemClass` type=string default=`'task-list-item'`
 
-- 类型：`string`
-- 默认值：`'task-list-item'`
-- 详情：tasklist item 的 class。
+tasklist item 的 class。
 
-### labelClass
+@`labelClass` type=string default=`'task-list-item-label'`
 
-- 类型：`string`
-- 默认值：`'task-list-item-label'`
-- 详情：tasklist item label 的 class。
+tasklist item label 的 class。
 
-### checkboxClass
+@`checkboxClass` type=string default=`'task-list-item-checkbox'`
 
-- 类型：`string`
-- 默认值：`'task-list-item-checkbox'`
-- 详情：tasklist item checkbox 的 class。
+tasklist item checkbox 的 class。
+
+:::
 
 ## 示例
 

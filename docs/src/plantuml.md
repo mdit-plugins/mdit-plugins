@@ -23,6 +23,49 @@ Bob -> Alice : hello
 `);
 ```
 
+## Options
+
+::: fields
+@`type` type=`"uml" | "fence"` default=`"uml"`
+
+Plantuml parse type.
+
+@`name` type=string default=`"uml"`
+
+Diagram type. Only available when using default srcGetter.
+
+@`fence` type=string
+
+Fence info. Defaults to the value of `name`.
+
+@`open` type=string
+
+Opening marker. Only available with type "uml". Defaults to `"start" + name`.
+
+@`close` type=string
+
+Closing marker. Only available with type "uml". Defaults to `"end" + name`.
+
+@`server` type=string default=`"https://www.plantuml.com/plantuml"`
+
+Plantuml server. Only available when using default srcGetter.
+
+@`format` type=string default=`"svg"`
+
+Image format. Only available when using default srcGetter.
+
+@`srcGetter` type=`(content: string) => string`
+
+Image src getter. Takes diagram content and returns image link.
+
+@`renderer` type=RendererRule
+
+<!-- @include: ./render-rule.snippet.md -->
+
+Diagram renderer.
+
+:::
+
 ## Demo
 
 ::: preview demo
@@ -40,57 +83,3 @@ Bob -> Alice : 你好
 @enduml
 
 :::
-
-## Options
-
-### type
-
-- Type: `"uml" | "fence"`
-- Default: `"uml"`
-- Details: Plantuml parse type.
-
-### name
-
-- Type: `string`
-- Default: `"uml"`
-- Details: Diagram type. Only available when using default srcGetter.
-
-### fence
-
-- Type: `string`
-- Details: Fence info. Defaults to the value of `name`.
-
-### open
-
-- Type: `string`
-- Details: Opening marker. Only available with type "uml". Defaults to `"start" + name`.
-
-### close
-
-- Type: `string`
-- Details: Closing marker. Only available with type "uml". Defaults to `"end" + name`.
-
-### server
-
-- Type: `string`
-- Default: `"https://www.plantuml.com/plantuml"`
-- Details: Plantuml server. Only available when using default srcGetter.
-
-### format
-
-- Type: `string`
-- Default: `"svg"`
-- Details: Image format. Only available when using default srcGetter.
-
-### srcGetter
-
-- Type: `(content: string) => string`
-- Details: Image src getter. Takes diagram content and returns image link.
-
-### renderer
-
-- Type: `RendererRule`
-
-<!-- @include: ./render-rule.snippet.md -->
-
-- Details: Diagram renderer.

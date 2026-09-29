@@ -335,41 +335,32 @@ namespace HelloWorldApp {
 
 ## Options
 
-### currentPath
+::: fields
+@`currentPath` type=`(env: any) => string` required
 
-- Type: `(env: any) => string`
-- Required: Yes
-- Details: Get current filePath.
+Get current filePath.
 
-### resolvePath
+@`resolvePath` type=`(path: string, cwd: string | null) => string` default=`(path) => path`
 
-- Type: `(path: string, cwd: string | null) => string`
-- Default: `(path) => path`
-- Details: Handle include filePath.
+Handle include filePath.
 
-### deep
+@`deep` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether to deep include files in included Markdown files.
+Whether to deep include files in included Markdown files.
 
-### useComment
+@`useComment` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to use `<!-- @include: xxx -->` instead of `@include: xxx` to include files.
+Whether to use `<!-- @include: xxx -->` instead of `@include: xxx` to include files.
 
-### resolveImagePath
+@`resolveImagePath` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to resolve the image related path in the included Markdown file.
+Whether to resolve the image related path in the included Markdown file.
 
-### resolveLinkPath
+@`resolveLinkPath` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to resolve the related file link path in the included Markdown file.
+Whether to resolve the related file link path in the included Markdown file.
+
+:::
 
 ## Demo
 

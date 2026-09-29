@@ -334,17 +334,16 @@ namespace HelloWorldApp {
 
 ## 选项
 
-### currentPath
+::: fields
+@`currentPath` type=`(env: any) => string` required
 
-- 类型：`(env: any) => string`
-- 必填：是
-- 详情：获取当前文件路径。
+获取当前文件路径。
 
-### resolvePath
+@`resolvePath` type=`(path: string, cwd: string | null) => string` default=`(path) => path`
 
-- 类型：`(path: string, cwd: string | null) => string`
-- 默认值：`(path) => path`
-- 详情：处理片段文件路径。
+处理片段文件路径。
+
+:::
 
 ## 示例
 

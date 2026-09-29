@@ -25,6 +25,19 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 
 使用 `!! !!` 进行标记。
 
+## 选项
+
+::: fields
+@`tag` type=string default=`"span"`
+
+剧透元素的 HTML 标签名称。
+
+@`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
+
+剧透元素的自定义 HTML 属性。
+
+:::
+
 ## 示例
 
 ::: preview 示例
@@ -32,17 +45,3 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 VuePress Theme Hope !!十分强大!!。
 
 :::
-
-## 选项
-
-### tag
-
-- 类型：`string`
-- 默认值：`"span"`
-- 详情：剧透元素的 HTML 标签名称。
-
-### attrs
-
-- 类型：`[attr: string, value: string][]`
-- 默认值：`[["class", "spoiler"], ["tabindex","-1"]]`
-- 详情：剧透元素的自定义 HTML 属性。

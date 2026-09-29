@@ -94,38 +94,32 @@ mdIt.render(`
 
 ## 选项
 
-### alertNames
+::: fields
+@`alertNames` type=string[] default=`['tip', 'warning', 'caution', 'important', 'note']`
 
-- 类型：`string[]`
-- 默认值：`['tip', 'warning', 'caution', 'important', 'note']`
-- 详情：允许的警告名称。
+允许的警告名称。
 
-### deep
+@`deep` type=boolean default=`false`
 
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否允许深层的警告语法。
+是否允许深层的警告语法。
 
-### openRenderer
-
-- 类型：`RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：提示开始标签渲染函数。
+提示开始标签渲染函数。
 
-### closeRenderer
-
-- 类型：`RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：提示结束标签渲染函数。
+提示结束标签渲染函数。
 
-### titleRenderer
+@`titleRenderer` type=RendererRule
 
-- 类型：`RendererRule`
-- 详情：提示标题渲染函数。
+提示标题渲染函数。
+
+:::
 
 ## 示例
 

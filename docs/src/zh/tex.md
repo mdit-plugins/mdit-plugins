@@ -31,52 +31,6 @@ mdIt.render("$E=mc^2$");
 
 这个插件为 $\TeX$ 注册 Markdown 规则。 它将用 `render` 函数的结果替换 $\TeX$ 标记。
 
-## 选项
-
-<!-- #region options -->
-
-### delimiters
-
-- 类型：`"brackets" | "dollars" | "all"`
-- 默认值：`"dollars"`
-- 详情：启用的数学分隔符语法。
-  - `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
-  - `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
-  - `"all"`: 启用括号和美元符号两种语法。
-
-### mathFence
-
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否将解析的数学语言 fence 块转换为显示模式数学。
-
-### allowInlineWithSpace
-
-- 类型：`boolean`
-- 默认值：`false`
-- 详情：是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。注意：内容中带空格的字面 `$`（如 `$\text{a $ b}$`）此时会被当作闭合 `$`，从而提前结束表达式。
-
-<!-- #endregion options -->
-
-### render
-
-- 类型：`TexRender`
-
-```ts
-/**
- * Tex 渲染函数
- *
- * @param content 文本内容
- * @param displayMode 是否为显示模式
- * @param env MarkdownIt 环境
- * @returns 渲染结果
- */
-type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
-```
-
-- 必填：是
-- 详情：Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
-
 ## 格式
 
 插件根据 `delimiters` 选项支持不同的分隔符语法：
@@ -122,6 +76,49 @@ type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => 
 ```MD
 - $a=1$ 是一个 TeX 方程，而 $ a=1 $ 和 \$a=1$ 不是。
 ```
+
+:::
+
+## 选项
+
+::: fields
+@`render` type=TexRender required
+
+```ts
+/**
+ * Tex 渲染函数
+ *
+ * @param content 文本内容
+ * @param displayMode 是否为显示模式
+ * @param env MarkdownIt 环境
+ * @returns 渲染结果
+ */
+type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
+```
+
+Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
+
+<!-- #region options -->
+
+@`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
+
+启用的数学分隔符语法。
+
+- `"brackets"`: 使用 `\(...\)` 表示内联数学，使用 `\[...\]` 表示显示模式数学（LaTeX 风格）。
+
+- `"dollars"`: 使用 `$...$` 表示内联数学，使用 `$$...$$` 表示显示模式数学（常见 Markdown 风格）。
+
+- `"all"`: 启用括号和美元符号两种语法。
+
+@`mathFence` type=boolean default=`false`
+
+是否将解析的数学语言 fence 块转换为显示模式数学。
+
+@`allowInlineWithSpace` type=boolean default=`false`
+
+是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。注意：内容中带空格的字面 `$`（如 `$\text{a $ b}$`）此时会被当作闭合 `$`，从而提前结束表达式。
+
+<!-- #endregion options -->
 
 :::
 

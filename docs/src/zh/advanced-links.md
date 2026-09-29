@@ -153,20 +153,12 @@ const md = new MarkdownIt()
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：语法中使用的名称。不能为空，也不能包含空白、`[`、`]`、`(`、`)`、`"` 或 `'`。重复注册同名会覆盖之前的配置。
+语法中使用的名称。不能为空，也不能包含空白、`[`、`]`、`(`、`)`、`"` 或 `'`。重复注册同名会覆盖之前的配置。
 
-### inline
-
-- 类型：`boolean`
-- 详情：语法是否也可在行内使用。
-
-### renderer
-
-- 类型：`(link: string, props: AdvancedLinkProps, env: unknown) => string`
+@`renderer` type=`(link: string, props: AdvancedLinkProps, env: unknown) => string` required
 
 ```ts
 type AdvancedLinkProps = Record<string, string | true>;
@@ -174,8 +166,13 @@ type AdvancedLinkProps = Record<string, string | true>;
 type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknown) => string;
 ```
 
-- 必填：是
-- 详情：生成 HTML 的渲染器。`env` 为 MarkdownIt 环境。链接不会被规范化或校验。
+生成 HTML 的渲染器。`env` 为 MarkdownIt 环境。链接不会被规范化或校验。
+
+@`inline` type=boolean
+
+语法是否也可在行内使用。
+
+:::
 
 ## 示例
 

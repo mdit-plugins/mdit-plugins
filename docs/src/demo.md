@@ -37,57 +37,46 @@ The syntax is the same as [container](./container.md), except that the correspon
 
 ## Options
 
-### name
+::: fields
+@`name` type=string default=`"demo"`
 
-- Type: `string`
-- Default: `"demo"`
-- Details: Container name.
+Container name.
 
-### showCodeFirst
+@`showCodeFirst` type=boolean default=`false`
 
-- Type: `boolean`
-- Default: `false`
-- Details: Whether code is displayed before result.
+Whether code is displayed before result.
 
-### openRenderer
-
-- Type: `RendererRule`
+@`openRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Opening tag render function.
+Opening tag render function.
 
-### closeRenderer
-
-- Type: `RendererRule`
+@`closeRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Closing tag render function.
+Closing tag render function.
 
-### codeRenderer
-
-- Type: `RendererRule`
+@`codeRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Code render function.
+Code render function.
 
-### contentOpenRenderer
-
-- Type: `RendererRule`
+@`contentOpenRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Content open tag render function.
+Content open tag render function.
 
-### contentCloseRenderer
-
-- Type: `RendererRule`
+@`contentCloseRenderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-- Details: Content close tag render function.
+Content close tag render function.
+
+:::
 
 ## Demo
 

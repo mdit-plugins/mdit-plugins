@@ -65,13 +65,14 @@ will be
 
 :::
 
-## Advanced
+## Options
 
 You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
 
-### rule
+::: fields
+@`rule` type=`"all" | boolean | MarkdownItAttrRuleName[]` default=`"all"`
 
-- Type: `"all" | boolean | MarkdownItAttrRuleName[]`
+Rules to enable.
 
 ```ts
 type MarkdownItAttrRuleName =
@@ -91,69 +92,59 @@ type MarkdownItAttrRuleName =
   | "dl";
 ```
 
-- Default: `"all"`
-- Details: Rules to enable.
+The default is `"all"`, which enables all rules. This is the most important option, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
 
-  The default is `"all"`, which enables all rules. This is the most important option, as it controls which Markdown elements will have attrs enabled and affects the performance of the plugin.
+If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
 
-  If you only need id attrs for headings (for most cases), you shall set `rule: ["heading"]` to only enable attrs for headings.
+The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
 
-  The `fence` rule only applies to fenced code blocks, while the `blockInfo` rule covers other block tokens carrying attributes on their info line (e.g.: containers from `@mdit/plugin-container`). The `blockEnd` rule applies attributes written at the end of a block element - `block` is its legacy alias.
+The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`. The `dl` rule does the same for definition lists (e.g. `@mdit/plugin-dl`), whose paragraph-wrapped definitions hide attributes from the other rules.
 
-  The `tasklist` rule supports task list plugins that wrap item contents in a label (e.g. `@mdit/plugin-tasklist`). Task lists are not part of core markdown-it, so this rule must be enabled explicitly in the rule array and is excluded from `"all"`. The `dl` rule does the same for definition lists (e.g. `@mdit/plugin-dl`), whose paragraph-wrapped definitions hide attributes from the other rules.
+@`allowed` type=`(string | RegExp)[] | AllowedAttrEntry[]` default=`[]`
 
-### allowed
+Allowed attributes.
 
-- Type: `(string \| RegExp)[] \| AllowedAttrEntry[]`
+An empty list means allowing all attributes.
 
-  ```ts
-  interface AllowedAttrEntry {
-    name: string | RegExp;
-    value?: (string | RegExp)[];
-  }
-  ```
+```ts
+interface AllowedAttrEntry {
+  name: string | RegExp;
+  value?: (string | RegExp)[];
+}
+```
 
-- Default: `[]`
-- Details: Allowed attributes.
+You can use the simple format `(string | RegExp)[]` to only filter by attribute name:
 
-  An empty list means allowing all attributes.
+```ts
+// Only allow class and id attributes
+allowed: ["class", "id"];
+```
 
-  You can use the simple format `(string \| RegExp)[]` to only filter by attribute name:
+Or use the entry format `AllowedAttrEntry[]` to constrain allowed values per attribute:
 
-  ```ts
-  // Only allow class and id attributes
-  allowed: ["class", "id"];
-  ```
+```ts
+allowed: [
+  { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
+  { name: /^data-/, value: ["true", "false"] },
+  { name: "class" }, // allow class, any value
+];
+```
 
-  Or use the entry format `AllowedAttrEntry[]` to constrain allowed values per attribute:
+@`fenceAttrsOnPre` type=boolean default=`true`
 
-  ```ts
-  allowed: [
-    { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
-    { name: /^data-/, value: ["true", "false"] },
-    { name: "class" }, // allow class, any value
-  ];
-  ```
+Place fence attributes on `<pre>` instead of `<code>`.
 
-### fenceAttrsOnPre
+When enabled, attributes on fenced code blocks (e.g. ` ```js {data-file="index.js"} `) are moved from `<code>` to the outer `<pre>` tag. This is skipped when a custom fence renderer is already installed.
 
-- Type: `boolean`
-- Default: `true`
-- Details: Place fence attributes on `<pre>` instead of `<code>`.
+@`left` type=string default=`'{'`
 
-  When enabled, attributes on fenced code blocks (e.g. ` ```js {data-file="index.js"} `) are moved from `<code>` to the outer `<pre>` tag. This is skipped when a custom fence renderer is already installed.
+Left delimiter for attributes.
 
-### left
+@`right` type=string default=`'}'`
 
-- Type: `string`
-- Default: `'{'`
-- Details: Left delimiter for attributes.
+Right delimiter for attributes.
 
-### right
-
-- Type: `string`
-- Default: `'}'`
-- Details: Right delimiter for attributes.
+:::
 
 ## Programmatic Parsing
 
@@ -170,11 +161,12 @@ parseAttrs("foo"); // null
 
 `parseAttrs(content, options)` returns the parsed attrs as `[key, value]` tuples, or `null` when no valid attrs section is found. A valid section yielding no attrs (e.g.: all filtered out by `allowed`) returns an empty array. Besides `left`, `right` and `allowed` which behave the same as the plugin options, an extra `where` option is supported:
 
-### where
+::: fields
+@`where` type=`"start" | "end" | "only"` default=`"end"`
 
-- Type: `"start" | "end" | "only"`
-- Default: `"end"`
-- Details: Where the attrs section shall be located in the content: at the start, at the end, or the content shall only contain the attrs section.
+Where the attrs section shall be located in the content: at the start, at the end, or the content shall only contain the attrs section.
+
+:::
 
 ## Demo
 

@@ -31,41 +31,32 @@ mdIt.render(`\
 
 ## Options
 
-### disabled
+::: fields
+@`disabled` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to disable checkbox.
+Whether to disable checkbox.
 
-### label
+@`label` type=boolean default=`true`
 
-- Type: `boolean`
-- Default: `true`
-- Details: Whether to use `<label>` to wrap text.
+Whether to use `<label>` to wrap text.
 
-### containerClass
+@`containerClass` type=string default=`'task-list-container'`
 
-- Type: `string`
-- Default: `'task-list-container'`
-- Details: Class for tasklist container.
+Class for tasklist container.
 
-### itemClass
+@`itemClass` type=string default=`'task-list-item'`
 
-- Type: `string`
-- Default: `'task-list-item'`
-- Details: Class for tasklist item.
+Class for tasklist item.
 
-### labelClass
+@`labelClass` type=string default=`'task-list-item-label'`
 
-- Type: `string`
-- Default: `'task-list-item-label'`
-- Details: Class for tasklist item label.
+Class for tasklist item label.
 
-### checkboxClass
+@`checkboxClass` type=string default=`'task-list-item-checkbox'`
 
-- Type: `string`
-- Default: `'task-list-item-checkbox'`
-- Details: Class for tasklist item checkbox.
+Class for tasklist item checkbox.
+
+:::
 
 ## Demo
 

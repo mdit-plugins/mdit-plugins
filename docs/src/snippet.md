@@ -334,17 +334,16 @@ namespace HelloWorldApp {
 
 ## Options
 
-### currentPath
+::: fields
+@`currentPath` type=`(env: any) => string` required
 
-- Type: `(env: any) => string`
-- Required: Yes
-- Details: Get current filePath.
+Get current filePath.
 
-### resolvePath
+@`resolvePath` type=`(path: string, cwd: string | null) => string` default=`(path) => path`
 
-- Type: `(path: string, cwd: string | null) => string`
-- Default: `(path) => path`
-- Details: Handle snippet filePath.
+Handle snippet filePath.
+
+:::
 
 ## Demo
 

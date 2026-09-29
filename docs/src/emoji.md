@@ -30,6 +30,27 @@ Different presets are available:
 - `:emoji_name:`
 - shortcuts like `:)`, `:D`, etc. (if enabled)
 
+## Options
+
+::: fields
+@`definitions` type=`Record<string, string>` default="`{}` (preset dependent)"
+
+Rewrite available emoji definitions. The key is the emoji name, and the value is the emoji character.
+
+Example: `{ name1: 'char1', name2: 'char2', ... }`
+
+@`enabled` type=string[] default=`[]`
+
+If specified, only emojis in this list will be rendered. Otherwise, all emojis in the definitions will be rendered.
+
+@`shortcuts` type=`Record<string, string | string[]>` default="`{}` (preset dependent)"
+
+Rewrite default shortcuts. The key is the emoji name, and the value is the shortcut(s) for the emoji.
+
+Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
+
+:::
+
 ## Demo
 
 ::: preview Demo
@@ -39,33 +60,6 @@ Hello from mars :satellite:
 Classic shortcuts: :-) :-(
 
 :::
-
-## Options
-
-### definitions
-
-- Type: `Record<string, string>`
-- Default: `{}` (preset dependent)
-
-Rewrite available emoji definitions. The key is the emoji name, and the value is the emoji character.
-
-Example: `{ name1: 'char1', name2: 'char2', ... }`
-
-### enabled
-
-- Type: `string[]`
-- Default: `[]`
-
-If specified, only emojis in this list will be rendered. Otherwise, all emojis in the definitions will be rendered.
-
-### shortcuts
-
-- Type: `Record<string, string | string[]>`
-- Default: `{}` (preset dependent)
-
-Rewrite default shortcuts. The key is the emoji name, and the value is the shortcut(s) for the emoji.
-
-Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
 
 ## Custom Renderer
 
@@ -80,9 +74,7 @@ import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
-mdIt.renderer.rules.emoji = (tokens, idx) => {
-  return twemoji.parse(tokens[idx].content);
-};
+mdIt.renderer.rules.emoji = (tokens, idx) => twemoji.parse(tokens[idx].content);
 ```
 
 And you can make image height match the line height with this style:

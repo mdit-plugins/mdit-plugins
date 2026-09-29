@@ -55,6 +55,38 @@ You should import `katex/dist/katex.min.css` from `katex` package or CDN yoursel
 
 :::
 
+## Options
+
+This plugin extends KaTeX options. Available options include:
+
+::: fields
+<!-- @include: ./tex.md#options -->
+
+@`logger` type=KatexLogger
+
+```ts
+type KatexLogger<MarkdownItEnv = unknown> = (
+  errorCode:
+    | "unknownSymbol"
+    | "unicodeTextInMathMode"
+    | "mathVsTextUnits"
+    | "commentAtEnd"
+    | "htmlExtension"
+    | "newLineInDisplayMode",
+  errorMsg: string,
+  token: Token,
+  env: MarkdownItEnv,
+) => "error" | "warn" | "ignore" | boolean | undefined;
+```
+
+Error logger function.
+
+@`transformer` type=`(content: string, displayMode: boolean) => string`
+
+Transformer function on output content.
+
+:::
+
 ## Demo
 
 ::: preview
@@ -76,38 +108,6 @@ If you want to load the `mhchem` extension, you should import `@mdit/plugin-kate
 import { katex } from "@mdit/plugin-katex";
 import "@mdit/plugin-katex/mhchem";
 ```
-
-## Options
-
-This plugin extends KaTeX options. Available options include:
-
-<!-- @include: ./tex.md#options -->
-
-### logger
-
-- Type: `KatexLogger`
-
-```ts
-type KatexLogger<MarkdownItEnv = unknown> = (
-  errorCode:
-    | "unknownSymbol"
-    | "unicodeTextInMathMode"
-    | "mathVsTextUnits"
-    | "commentAtEnd"
-    | "htmlExtension"
-    | "newLineInDisplayMode",
-  errorMsg: string,
-  token: Token,
-  env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | boolean | undefined;
-```
-
-- Details: Error logger function.
-
-### transformer
-
-- Type: `(content: string, displayMode: boolean) => string`
-- Details: Transformer function on output content.
 
 ## Support List
 

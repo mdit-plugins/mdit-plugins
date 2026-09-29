@@ -67,17 +67,16 @@ darkmode-selector {
 
 ## 选项
 
-### light
+::: fields
+@`light` type=string[] default=`["light"]`
 
-- 类型：`string[]`
-- 默认值：`["light"]`
-- 详情：日间模式 ID。
+日间模式 ID。
 
-### dark
+@`dark` type=string[] default=`["dark"]`
 
-- 类型：`string[]`
-- 默认值：`["dark"]`
-- 详情：夜间模式 ID。
+夜间模式 ID。
+
+:::
 
 ## 示例
 

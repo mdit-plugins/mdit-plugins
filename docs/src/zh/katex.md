@@ -55,6 +55,38 @@ mdIt.render("$E=mc^2$");
 
 :::
 
+## 选项
+
+此插件扩展了 KaTeX 选项。可用选项包括：
+
+::: fields
+<!-- @include: ./tex.md#options -->
+
+@`logger` type=KatexLogger
+
+```ts
+type KatexLogger<MarkdownItEnv = unknown> = (
+  errorCode:
+    | "unknownSymbol"
+    | "unicodeTextInMathMode"
+    | "mathVsTextUnits"
+    | "commentAtEnd"
+    | "htmlExtension"
+    | "newLineInDisplayMode",
+  errorMsg: string,
+  token: Token,
+  env: MarkdownItEnv,
+) => "error" | "warn" | "ignore" | boolean | undefined;
+```
+
+错误日志记录器函数。
+
+@`transformer` type=`(content: string, displayMode: boolean) => string`
+
+输出内容的转换器函数。
+
+:::
+
 ## 示例
 
 ::: preview 示例
@@ -76,38 +108,6 @@ $$
 import { katex } from "@mdit/plugin-katex";
 import "@mdit/plugin-katex/mhchem";
 ```
-
-## 选项
-
-此插件扩展了 KaTeX 选项。可用选项包括：
-
-<!-- @include: ./tex.md#options -->
-
-### logger
-
-- 类型：`KatexLogger`
-
-```ts
-type KatexLogger<MarkdownItEnv = unknown> = (
-  errorCode:
-    | "unknownSymbol"
-    | "unicodeTextInMathMode"
-    | "mathVsTextUnits"
-    | "commentAtEnd"
-    | "htmlExtension"
-    | "newLineInDisplayMode",
-  errorMsg: string,
-  token: Token,
-  env: MarkdownItEnv,
-) => "error" | "warn" | "ignore" | boolean | undefined;
-```
-
-- 详情：错误日志记录器函数。
-
-### transformer
-
-- 类型：`(content: string, displayMode: boolean) => string`
-- 详情：输出内容的转换器函数。
 
 ## 支持列表
 

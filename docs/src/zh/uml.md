@@ -53,29 +53,23 @@ Another content
 
 ## 选项
 
-### name
+::: fields
+@`name` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：UML 名称。
+UML 名称。
 
-### open
+@`open` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：开始标记。
+开始标记。
 
-### close
+@`close` type=string required
 
-- 类型：`string`
-- 必填：是
-- 详情：结束标记。
+结束标记。
 
-### renderer
-
-- 类型：`RendererRule`
-- 必填：是
+@`renderer` type=RendererRule required
 
 <!-- @include: ../render-rule.snippet.md -->
 
-- 详情：渲染函数。
+渲染函数。
+
+:::

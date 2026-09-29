@@ -63,13 +63,14 @@ mdIt.render("# Heading 🎉{#heading}");
 
 :::
 
-## 高级
+## 选项
 
 你可以向 `@mdit/plugin-attrs` 传递选项以自定义插件行为。
 
-### rule
+::: fields
+@`rule` type=`"all" | boolean | MarkdownItAttrRuleName[]` default=`"all"`
 
-- 类型：`"all" | boolean | MarkdownItAttrRuleName[]`
+启用的规则。
 
 ```ts
 type MarkdownItAttrRuleName =
@@ -89,69 +90,59 @@ type MarkdownItAttrRuleName =
   | "dl";
 ```
 
-- 默认值：`"all"`
-- 详情：启用的规则。
+默认值为 `"all"`，这会启用所有规则。这是最重要的选项，因为它控制哪些 Markdown 元素将启用属性功能，并影响插件的性能。
 
-  默认值为 `"all"`，这会启用所有规则。这是最重要的选项，因为它控制哪些 Markdown 元素将启用属性功能，并影响插件的性能。
+如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
 
-  如果你只需要为标题添加 id 属性（在大多数情况下），你应该设置 `rule: ["heading"]` 来只为标题启用属性功能。
+`fence` 规则仅作用于代码块，而 `blockInfo` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。`blockEnd` 规则作用于写在块级元素末尾的属性，`block` 是它的旧别名。
 
-  `fence` 规则仅作用于代码块，而 `blockInfo` 规则作用于其他在信息行上携带属性的块级 token（例如 `@mdit/plugin-container` 的容器）。`blockEnd` 规则作用于写在块级元素末尾的属性，`block` 是它的旧别名。
+`tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。`dl` 规则同样为定义列表（例如 `@mdit/plugin-dl`）提供支持，其定义内容被段落包裹，属性对其他规则不可见。
 
-  `tasklist` 规则为将列表项内容包裹在 label 中的任务列表插件（例如 `@mdit/plugin-tasklist`）提供属性支持。任务列表不属于 markdown-it 核心语法，因此该规则需要在规则数组中显式启用，不包含在 `"all"` 中。`dl` 规则同样为定义列表（例如 `@mdit/plugin-dl`）提供支持，其定义内容被段落包裹，属性对其他规则不可见。
+@`allowed` type=`(string | RegExp)[] | AllowedAttrEntry[]` default=`[]`
 
-### allowed
+允许的属性。
 
-- 类型：`(string \| RegExp)[] \| AllowedAttrEntry[]`
+设置空数组意味着允许所有属性。
 
-  ```ts
-  interface AllowedAttrEntry {
-    name: string | RegExp;
-    value?: (string | RegExp)[];
-  }
-  ```
+```ts
+interface AllowedAttrEntry {
+  name: string | RegExp;
+  value?: (string | RegExp)[];
+}
+```
 
-- 默认值：`[]`
-- 详情：允许的属性。
+可以使用简单格式 `(string | RegExp)[]` 仅按属性名过滤：
 
-  设置空数组意味着允许所有属性。
+```ts
+// 只允许 class 和 id 属性
+allowed: ["class", "id"];
+```
 
-  可以使用简单格式 `(string \| RegExp)[]` 仅按属性名过滤：
+或使用条目格式 `AllowedAttrEntry[]` 按属性名独立约束允许的值：
 
-  ```ts
-  // 只允许 class 和 id 属性
-  allowed: ["class", "id"];
-  ```
+```ts
+allowed: [
+  { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
+  { name: /^data-/, value: ["true", "false"] },
+  { name: "class" }, // 允许 class，不限值
+];
+```
 
-  或使用条目格式 `AllowedAttrEntry[]` 按属性名独立约束允许的值：
+@`fenceAttrsOnPre` type=boolean default=`true`
 
-  ```ts
-  allowed: [
-    { name: "referrerpolicy", value: ["no-referrer", "no-referrer-when-downgrade"] },
-    { name: /^data-/, value: ["true", "false"] },
-    { name: "class" }, // 允许 class，不限值
-  ];
-  ```
+将代码块属性放在 `<pre>` 上而非 `<code>` 上。
 
-### fenceAttrsOnPre
+启用后，代码块的属性（如 ` ```js {data-file="index.js"} `）会从 `<code>` 移到外层 `<pre>` 标签。若已安装自定义代码块渲染器则跳过。
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：将代码块属性放在 `<pre>` 上而非 `<code>` 上。
+@`left` type=string default=`'{'`
 
-  启用后，代码块的属性（如 ` ```js {data-file="index.js"} `）会从 `<code>` 移到外层 `<pre>` 标签。若已安装自定义代码块渲染器则跳过。
+属性左分隔符。
 
-### left
+@`right` type=string default=`'}'`
 
-- 类型：`string`
-- 默认值：`'{'`
-- 详情：属性左分隔符。
+属性右分隔符。
 
-### right
-
-- 类型：`string`
-- 默认值：`'}'`
-- 详情：属性右分隔符。
+:::
 
 ## 编程式解析
 
@@ -168,11 +159,12 @@ parseAttrs("foo"); // null
 
 `parseAttrs(content, options)` 返回解析出的 `[key, value]` 属性元组，未找到有效属性部分时返回 `null`。有效属性部分未解析出任何属性（如全部被 `allowed` 过滤）时返回空数组。除了与插件选项行为一致的 `left`、`right` 和 `allowed` 外，还支持额外的 `where` 选项：
 
-### where
+::: fields
+@`where` type=`"start" | "end" | "only"` default=`"end"`
 
-- 类型：`"start" | "end" | "only"`
-- 默认值：`"end"`
-- 详情：属性部分在内容中的位置：位于开头、位于结尾，或内容仅包含属性部分。
+属性部分在内容中的位置：位于开头、位于结尾，或内容仅包含属性部分。
+
+:::
 
 ## 示例
 

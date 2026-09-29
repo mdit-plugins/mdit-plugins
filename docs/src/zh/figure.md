@@ -29,37 +29,33 @@ mdIt.render("![image](https://example.com/image.png)");
 
 ## 选项
 
-### focusable
+::: fields
+@`focusable` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：图片是否可聚焦。
+图片是否可聚焦。
 
-### linkImage
+@`linkImage` type=boolean default=`true`
 
-- 类型：`boolean`
-- 默认值：`true`
-- 详情：是否将链接图片 (`[![image](url)](link)`) 转换为 figure。
+是否将链接图片 (`[![image](url)](link)`) 转换为 figure。
 
-### moveAttrs
+@`moveAttrs` type=`boolean | (string | RegExp)[]`
 
-- 类型：`boolean | (string | RegExp)[]`
-- 详情：
+将图片属性复制或移动到 `<figure>` 上。
 
-  将图片属性复制或移动到 `<figure>` 上。
+- `true`：**复制**除原生 img 属性（src、alt、srcset、width、height、loading 等）外的所有属性到 `<figure>`，图片保留这些属性。
+- `(string | RegExp)[]`：**移动**仅匹配的属性到 `<figure>`，图片失去这些属性。
 
-  - `true`：**复制**除原生 img 属性（src、alt、srcset、width、height、loading 等）外的所有属性到 `<figure>`，图片保留这些属性。
-  - `(string | RegExp)[]`：**移动**仅匹配的属性到 `<figure>`，图片失去这些属性。
+原生 img 属性（src、alt、title、width、height 等）永远不会被移动或复制到 `<figure>` 上，且 `title` 始终作为 `<figcaption>` 内容显示。
 
-  原生 img 属性（src、alt、title、width、height 等）永远不会被移动或复制到 `<figure>` 上，且 `title` 始终作为 `<figcaption>` 内容显示。
+```ts
+// 复制所有非原生属性到 figure（img 保留）
+moveAttrs: true;
 
-  ```ts
-  // 复制所有非原生属性到 figure（img 保留）
-  moveAttrs: true;
+// 将 class 和 data-* 属性移动到 figure（img 失去）
+moveAttrs: ["class", /^data-/];
+```
 
-  // 将 class 和 data-* 属性移动到 figure（img 失去）
-  moveAttrs: ["class", /^data-/];
-  ```
+:::
 
 ## 示例
 
