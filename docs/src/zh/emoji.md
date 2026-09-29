@@ -70,9 +70,7 @@ import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
-mdIt.renderer.rules.emoji = (tokens, idx) => {
-  return twemoji.parse(tokens[idx].content);
-};
+mdIt.renderer.rules.emoji = (tokens, idx) => twemoji.parse(tokens[idx].content);
 ```
 
 你可以使用以下样式使图片高度与行高匹配：

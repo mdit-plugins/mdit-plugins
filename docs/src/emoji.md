@@ -74,9 +74,7 @@ import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
-mdIt.renderer.rules.emoji = (tokens, idx) => {
-  return twemoji.parse(tokens[idx].content);
-};
+mdIt.renderer.rules.emoji = (tokens, idx) => twemoji.parse(tokens[idx].content);
 ```
 
 And you can make image height match the line height with this style:
