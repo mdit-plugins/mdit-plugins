@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-include"
+shortTitle: "plugin-include"
 icon: file-import
 ---
 

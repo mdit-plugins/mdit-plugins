@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-mathjax"
+shortTitle: "plugin-mathjax"
 icon: square-root-variable
 ---
 

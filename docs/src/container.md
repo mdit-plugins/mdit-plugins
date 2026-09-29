@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-container"
+shortTitle: "plugin-container"
 icon: box-open
 ---
 

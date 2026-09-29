@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-advanced-links"
+shortTitle: "plugin-advanced-links"
 icon: paperclip
 ---
 

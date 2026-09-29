@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-sup"
+shortTitle: "plugin-sup"
 icon: superscript
 ---
 

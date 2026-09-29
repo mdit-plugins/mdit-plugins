@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-figure"
+shortTitle: "plugin-figure"
 icon: image
 ---
 

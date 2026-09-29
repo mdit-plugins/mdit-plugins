@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-img-mark"
+shortTitle: "plugin-img-mark"
 icon: circle-half-stroke
 ---
 

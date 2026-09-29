@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-layout"
+shortTitle: "plugin-layout"
 icon: table-cells-large
 ---
 

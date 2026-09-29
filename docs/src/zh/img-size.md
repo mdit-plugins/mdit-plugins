@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-img-size"
+shortTitle: "plugin-img-size"
 icon: up-right-and-down-left-from-center
 ---
 

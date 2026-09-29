@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-uml"
+shortTitle: "plugin-uml"
 icon: scissors
 ---
 

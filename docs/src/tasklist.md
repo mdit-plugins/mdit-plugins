@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-tasklist"
+shortTitle: "plugin-tasklist"
 icon: list-check
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-emoji"
+shortTitle: "plugin-emoji"
 icon: face-smile
 ---
 

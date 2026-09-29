@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-tab"
+shortTitle: "plugin-tab"
 icon: table-columns
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-anchor"
+shortTitle: "plugin-anchor"
 icon: anchor
 ---
 

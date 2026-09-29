@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-alert"
+shortTitle: "plugin-alert"
 icon: bell
 ---
 

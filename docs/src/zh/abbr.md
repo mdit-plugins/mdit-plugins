@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-abbr"
+shortTitle: "plugin-abbr"
 icon: spell-check
 ---
 

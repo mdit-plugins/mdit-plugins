@@ -1,5 +1,6 @@
 ---
 title: MarkdownIt 插件
+shortTitle: 主页
 icon: home
 home: true
 heroImage: /logo.svg

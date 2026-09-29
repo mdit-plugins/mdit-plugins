@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-align"
+shortTitle: "plugin-align"
 icon: align-center
 ---
 

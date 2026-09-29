@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-img-lazyload"
+shortTitle: "plugin-img-lazyload"
 icon: spinner
 ---
 

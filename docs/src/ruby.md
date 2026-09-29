@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-ruby"
+shortTitle: "plugin-ruby"
 icon: language
 ---
 

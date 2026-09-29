@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-stylize"
+shortTitle: "plugin-stylize"
 icon: palette
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-katex"
+shortTitle: "plugin-katex"
 icon: square-root-variable
 ---
 

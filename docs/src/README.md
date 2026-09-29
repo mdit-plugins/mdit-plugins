@@ -1,5 +1,6 @@
 ---
 title: MarkdownIt plugins
+shortTitle: home
 icon: home
 home: true
 heroImage: /logo.svg

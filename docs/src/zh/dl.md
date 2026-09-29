@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-dl"
+shortTitle: "plugin-dl"
 icon: book
 ---
 

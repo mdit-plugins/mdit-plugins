@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-mark"
+shortTitle: "plugin-mark"
 icon: highlighter
 ---
 

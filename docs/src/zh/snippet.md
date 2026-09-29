@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-snippet"
+shortTitle: "plugin-snippet"
 icon: file-code
 ---
 

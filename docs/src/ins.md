@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-ins"
+shortTitle: "plugin-ins"
 icon: underline
 ---
 

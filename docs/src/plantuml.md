@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-plantuml"
+shortTitle: "plugin-plantuml"
 icon: diagram-project
 ---
 

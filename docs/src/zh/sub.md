@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-sub"
+shortTitle: "plugin-sub"
 icon: subscript
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-field"
+shortTitle: "plugin-field"
 icon: table-list
 ---
 

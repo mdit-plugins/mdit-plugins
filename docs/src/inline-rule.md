@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-inline-rule"
+shortTitle: "plugin-inline-rule"
 icon: wand-magic-sparkles
 ---
 

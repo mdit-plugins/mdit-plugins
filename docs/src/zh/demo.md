@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-demo"
+shortTitle: "plugin-demo"
 icon: lightbulb
 ---
 

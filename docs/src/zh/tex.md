@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-tex"
+shortTitle: "plugin-tex"
 icon: square-root-variable
 ---
 

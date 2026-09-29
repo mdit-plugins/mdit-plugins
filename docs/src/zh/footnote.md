@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-footnote"
+shortTitle: "plugin-footnote"
 icon: quote-left
 ---
 

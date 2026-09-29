@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-attrs"
+shortTitle: "plugin-attrs"
 icon: tags
 ---
 

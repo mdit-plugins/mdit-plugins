@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-embed"
+shortTitle: "plugin-embed"
 icon: code
 ---
 

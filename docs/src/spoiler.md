@@ -1,5 +1,6 @@
 ---
 title: "@mdit/plugin-spoiler"
+shortTitle: "plugin-spoiler"
 icon: eraser
 ---
 
