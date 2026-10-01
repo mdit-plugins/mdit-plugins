@@ -75,16 +75,20 @@ packageExtensions:
       conventional-changelog-conventionalcommits: ^10.4.0
 
 minimumReleaseAgeExclude:
+  - "@mdit/*"
+  - "@mr-hope/*"
   - "@oxfmt/*"
   - "@oxlint/*"
   - "@vuepress/*"
-  - oxc-config-hope
-  - oxfmt
-  - oxlint
-  - vuepress-plugin-components
-  - vuepress-plugin-md-enhance
-  - vuepress-shared
-  - vuepress-theme-hope
+  - "oxc-config-hope"
+  - "oxfmt"
+  - "oxlint"
+  - "vuepress"
+  - "vuepress-*"
+  - "vuepress-plugin-components"
+  - "vuepress-plugin-md-enhance"
+  - "vuepress-shared"
+  - "vuepress-theme-hope"
 minimumReleaseAgeExcludePrune: true
 trustPolicy: no-downgrade
 trustPolicyExcludePrune: true

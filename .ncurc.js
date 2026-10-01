@@ -1,7 +1,21 @@
 export default {
-  cooldown: (name) => {
-    if (name.startsWith("@vuepress/") || name === "vuepress" || name.startsWith("vuepress-"))
-      return "0";
+  cooldown: (pkg) => {
+    if (
+      ["@mdit/", "@mr-hope/", "@oxfmt/", "@oxlint/", "@vuepress/", "vuepress-"].some((prefix) =>
+        pkg.startsWith(prefix),
+      ) ||
+      [
+        "oxc-config-hope",
+        "oxfmt",
+        "oxlint",
+        "vuepress",
+        "vuepress-plugin-components",
+        "vuepress-plugin-md-enhance",
+        "vuepress-shared",
+        "vuepress-theme-hope",
+      ].includes(pkg)
+    )
+      return 0;
 
     return 1;
   },
