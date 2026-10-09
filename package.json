@@ -29,7 +29,7 @@
     "@mr-hope/verify-commit-message": "0.1.1",
     "@types/node": "24.19.1",
     "@vitest/coverage-istanbul": "5.0.3",
-    "conventional-changelog-conventionalcommits": "10.4.0",
+    "conventional-changelog-conventionalcommits": "10.4.1",
     "cross-env": "10.1.0",
     "happy-dom": "20.14.5",
     "husky": "9.1.7",
