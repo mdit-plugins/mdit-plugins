@@ -11,8 +11,8 @@ icon: anchor
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor);
 
@@ -22,8 +22,8 @@ mdIt.render("# 标题");
 使用自定义 slugify：
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, {
   slugify: (s) =>
@@ -50,8 +50,8 @@ mdIt.render("# 你好 世界");
 你还可以预置保留的 ID：
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor);
 
@@ -77,8 +77,8 @@ mdIt.render("# H1", env);
 默认会转小写 ASCII 字母、保留非 ASCII 字符（如中文）、将空白与连字符折叠为单个连字符，并剥离其余 ASCII 标点。如果你想要严格百分号编码的 slug，可使用导出的 `legacySlugify`：
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
@@ -116,9 +116,9 @@ const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 你可以通过 [@mdit/plugin-attrs](./attrs.md) 手动设置标题 ID。确保 attrs 在 anchor **之前**加载：
 
 ```ts
-import MarkdownIt from "markdown-it";
-import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
+import { attrs } from "@mdit/plugin-attrs";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
@@ -216,8 +216,8 @@ import { ariaHidden } from "@mdit/plugin-anchor";
 与其他预设不同，`linkAfterHeader` 没有默认选项 —— 使用默认的 `visually-hidden` 样式时至少需要传入 `assistiveText` 和 `visuallyHiddenClass`：
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({

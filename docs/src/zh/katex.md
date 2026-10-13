@@ -17,8 +17,8 @@ icon: square-root-variable
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(katex);
 

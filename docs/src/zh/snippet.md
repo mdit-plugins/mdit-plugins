@@ -11,8 +11,8 @@ icon: file-code
 ## 使用 <Badge text="仅限 Node.js 环境" />
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(snippet, {
   // 你的选项，currentPath 是必填的
@@ -36,8 +36,9 @@ mdIt.render("<<< example.ts", {
 
 ```ts
 import { join } from "node:path";
-import MarkdownIt from "markdown-it";
+
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt();
 
@@ -130,8 +131,8 @@ cupiditate sequi.
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(snippet, {
@@ -148,8 +149,8 @@ mdIt.render("<<< ./path/to/snippet/file.md", {
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(snippet, {

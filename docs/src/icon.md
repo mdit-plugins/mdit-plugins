@@ -11,8 +11,8 @@ Plugins with icon support.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(icon);
 
@@ -32,8 +32,8 @@ Use `::icon classes::` to insert custom icons. By default the plugin renders a `
 If you are not satisfied with the default render, you can use `render` option to customize icon rendering:
 
 ```js
-import MarkdownIt from "markdown-it";
 import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(icon, {
   // only one render can be set, pick the one you need

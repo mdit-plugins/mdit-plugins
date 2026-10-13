@@ -11,8 +11,8 @@ Plugin to support plant uml base on [@mdit/plugin-uml](uml.md).
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(plantuml);
 

@@ -11,8 +11,8 @@ Plugin for creating block-level custom containers.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
@@ -55,6 +55,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
   ```md
   :::: warning
   Warning contents...
+
   ::: details
   Some details
   :::
@@ -65,6 +66,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 
   :::: warning
   Warning contents...
+
   ::: details
   Some details
   :::
@@ -103,11 +105,10 @@ Container marker.
 /**
  * Validate whether it should be regarded as this container type
  *
- * @param params the content after the marker
- * @param markup marker character
- * @returns is this container type or not
- *
  * @default params.trim().split(" ", 2)[0] === name
+ * @param params The content after the marker
+ * @param markup Marker character
+ * @returns Is this container type or not
  */
 type Validator = (params: string, markup: string) => boolean;
 ```

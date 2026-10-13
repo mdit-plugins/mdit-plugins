@@ -11,8 +11,8 @@ Plugins to support tasklist.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { tasklist } from "@mdit/plugin-tasklist";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tasklist, {
   // your options, optional

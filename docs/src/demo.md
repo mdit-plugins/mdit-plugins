@@ -11,8 +11,8 @@ Display snippet render result and code at the same time.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(demo, {
   // your options

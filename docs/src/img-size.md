@@ -11,8 +11,8 @@ Plugins to support setting size for images.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
+import MarkdownIt from "markdown-it";
 
 // New syntax
 const mdNew = new MarkdownIt().use(imgSize);

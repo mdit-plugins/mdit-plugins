@@ -11,8 +11,8 @@ Plugin for creating Flexbox, CSS Grid, and Multi-column layouts using directives
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { layout } from "@mdit/plugin-layout";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(layout);
 

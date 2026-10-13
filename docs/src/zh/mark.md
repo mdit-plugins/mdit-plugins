@@ -11,8 +11,8 @@ icon: highlighter
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { mark } from "@mdit/plugin-mark";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(mark);
 

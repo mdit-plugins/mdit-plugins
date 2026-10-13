@@ -11,8 +11,8 @@ icon: palette
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { stylize } from "@mdit/plugin-stylize";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(stylize, {
   config: [
@@ -114,31 +114,21 @@ mdIt.render("Check FAQ for more details._Recommended_", {
 
 ```ts
 interface MarkdownItStylizeResult {
-  /**
-   * 标签名称
-   */
+  /** 标签名称 */
   tag: string;
 
-  /**
-   * 属性设置
-   */
+  /** 属性设置 */
   attrs: Record<string, string | number>;
 
-  /**
-   * 标签内容
-   */
+  /** 标签内容 */
   content: string;
 }
 
 interface MarkdownItStylizeConfig {
-  /**
-   * 行内标记匹配器
-   */
+  /** 行内标记匹配器 */
   matcher: string | RegExp;
 
-  /**
-   * 内容替换器
-   */
+  /** 内容替换器 */
   replacer: (options: {
     tag: string;
     content: string;

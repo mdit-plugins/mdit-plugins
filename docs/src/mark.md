@@ -11,8 +11,8 @@ Plugins to mark and highlight contents.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { mark } from "@mdit/plugin-mark";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(mark);
 

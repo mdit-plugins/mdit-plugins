@@ -11,8 +11,8 @@ icon: quote-left
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { footnote } from "@mdit/plugin-footnote";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(footnote);
 

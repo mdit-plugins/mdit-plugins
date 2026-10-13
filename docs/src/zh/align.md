@@ -17,8 +17,8 @@ icon: align-center
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(align);
 
@@ -56,9 +56,11 @@ mdIt.render(`\
   ```md
   :::: center
   居中的内容...
+
   ::: left
   左对齐的内容...
   :::
+
   居中的内容...
   ::::
   ```
@@ -67,9 +69,11 @@ mdIt.render(`\
 
   :::: center
   居中的内容...
+
   ::: left
   左对齐的内容...
   :::
+
   居中的内容...
   ::::
 

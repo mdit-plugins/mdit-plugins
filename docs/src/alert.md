@@ -11,8 +11,8 @@ Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/dis
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(alert);
 

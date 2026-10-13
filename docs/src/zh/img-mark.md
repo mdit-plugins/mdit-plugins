@@ -11,8 +11,8 @@ icon: circle-half-stroke
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { imgMark } from "@mdit/plugin-img-mark";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(imgMark, {
   // 你的选项，可选的

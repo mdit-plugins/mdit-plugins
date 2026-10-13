@@ -11,8 +11,8 @@ icon: lightbulb
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { demo } from "@mdit/plugin-demo";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(demo, {
   // your options

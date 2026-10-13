@@ -11,8 +11,8 @@ Plugin to import code snippets in markdown.
 ## Usage <Badge text="Node.js runtime only" />
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(snippet, {
   // your options, currentPath is required
@@ -36,8 +36,9 @@ For example, the following code add support for `@src` alias:
 
 ```ts
 import { join } from "node:path";
-import MarkdownIt from "markdown-it";
+
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt();
 
@@ -130,8 +131,8 @@ cupiditate sequi.
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(snippet, {
@@ -148,8 +149,8 @@ mdIt.render("<<< ./path/to/snippet/file.md", {
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { snippet } from "@mdit/plugin-snippet";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(snippet, {

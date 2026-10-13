@@ -11,8 +11,8 @@ Plugin to support subscript.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { sub } from "@mdit/plugin-sub";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(sub);
 

@@ -11,8 +11,8 @@ icon: scissors
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(uml, {
   name: "demo",

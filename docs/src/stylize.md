@@ -11,8 +11,8 @@ Plugin for stylizing tokens.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { stylize } from "@mdit/plugin-stylize";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(stylize, {
   config: [
@@ -114,31 +114,21 @@ For example, if you only want to match "SHOULD", "MUST" and "MAY", you should wr
 
 ```ts
 interface MarkdownItStylizeResult {
-  /**
-   * Tag name
-   */
+  /** Tag name */
   tag: string;
 
-  /**
-   * Attributes settings
-   */
+  /** Attributes settings */
   attrs: Record<string, string | number>;
 
-  /**
-   * Tag content
-   */
+  /** Tag content */
   content: string;
 }
 
 interface MarkdownItStylizeConfig {
-  /**
-   * Inline token matcher
-   */
+  /** Inline token matcher */
   matcher: string | RegExp;
 
-  /**
-   * Content Replacer
-   */
+  /** Content Replacer */
   replacer: (options: {
     tag: string;
     content: string;

@@ -11,8 +11,8 @@ icon: table-columns
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tab, {
   // 你的选项，name 是必填的
@@ -85,49 +85,35 @@ mdIt.render("content");
 
 ```ts
 interface MarkdownItTabData {
-  /**
-   * 选项卡标题
-   */
+  /** 选项卡标题 */
   title: string;
 
-  /**
-   * 选项卡索引
-   */
+  /** 选项卡索引 */
   index: number;
 
-  /**
-   * 选项卡标识符
-   */
+  /** 选项卡标识符 */
   id: string | undefined;
 
-  /**
-   * 选项卡是否处于激活状态
-   */
+  /** 选项卡是否处于激活状态 */
   isActive: boolean;
 }
 
 interface MarkdownItTabInfo {
-  /**
-   * 选项卡容器标识符
-   */
+  /** 选项卡容器标识符 */
   id: string | undefined;
 
   /**
    * 当前激活的选项卡
    *
-   * @description -1 表示没有选项卡处于激活状态
+   * -1 表示没有选项卡处于激活状态
    */
   active: number;
 
-  /**
-   * 选项卡数据
-   */
+  /** 选项卡数据 */
   data: MarkdownItTabData[];
 }
 
-/**
- * 选项卡容器打开渲染器
- */
+/** 选项卡容器打开渲染器 */
 type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
@@ -150,30 +136,20 @@ type TabsOpenRenderer = (
 
 ```ts
 interface MarkdownItTabData {
-  /**
-   * 选项卡标题
-   */
+  /** 选项卡标题 */
   title: string;
 
-  /**
-   * 选项卡索引
-   */
+  /** 选项卡索引 */
   index: number;
 
-  /**
-   * 选项卡标识符
-   */
+  /** 选项卡标识符 */
   id: string | undefined;
 
-  /**
-   * 选项卡是否处于激活状态
-   */
+  /** 选项卡是否处于激活状态 */
   isActive: boolean;
 }
 
-/**
- * 选项卡打开渲染器
- */
+/** 选项卡打开渲染器 */
 type TabOpenRenderer = (
   info: MarkdownItTabData,
   tokens: Token[],

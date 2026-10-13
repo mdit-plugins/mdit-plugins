@@ -11,8 +11,8 @@ icon: diagram-project
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { plantuml } from "@mdit/plugin-plantuml";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(plantuml);
 

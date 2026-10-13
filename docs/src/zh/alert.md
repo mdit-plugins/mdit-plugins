@@ -11,8 +11,8 @@ icon: bell
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(alert);
 

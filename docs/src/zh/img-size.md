@@ -11,8 +11,8 @@ icon: up-right-and-down-left-from-center
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { legacyImgSize, imgSize, obsidianImgSize } from "@mdit/plugin-img-size";
+import MarkdownIt from "markdown-it";
 
 // 新格式
 const mdNew = new MarkdownIt().use(imgSize);

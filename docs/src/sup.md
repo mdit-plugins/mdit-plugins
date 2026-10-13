@@ -11,8 +11,8 @@ Plugin to support superscript.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { sup } from "@mdit/plugin-sup";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(sup);
 

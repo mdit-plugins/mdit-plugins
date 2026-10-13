@@ -174,6 +174,7 @@ All plugins use the shared `tsdownConfig` helper from `scripts/tsdown.ts`:
 
 ```ts
 import type { UserConfig } from "tsdown";
+
 import { tsdownConfig } from "../../scripts/tsdown.ts";
 
 const config: UserConfig[] = [
@@ -340,31 +341,24 @@ When fixing a bug, every fix MUST follow this strict 8-step workflow:
 ### Format Requirements
 
 - **Bilingual**: English + Chinese for all exported content
-- **@default**: Always include if exists for all properties (including `@default false`)
 - **@example**: Only for exported functions
-- **@description**: Optional, only if necessary to explain more
+- **@default**: Always include if exists for all properties (including `@default false`)
 - **@param**: Required for all parameters, should be bilingual, separate with `/` for English and Chinese
 - **@returns**: Required for all return values except `void` and `Promise<void>`, should be bilingual, separate with `/` for English and Chinese
 
-````ts
+```ts
 /**
  * English description
  *
  * 中文描述
  *
- * @description (optional) English detailed description
- *
- * 中文详细描述
- *
- * @param paramName - English description / 中文描述
+ * @example
+ *   // Example code in TypeScript
  *
  * @default defaultValue
- * @example
- * ```ts
- * // Example code in TypeScript
- * ```
+ * @param paramName - English description / 中文描述
  */
-````
+```
 
 ## Documentation Rules
 

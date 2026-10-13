@@ -11,8 +11,8 @@ Plugin to add `id` attributes to headings and optionally permalinks.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor);
 
@@ -22,8 +22,8 @@ mdIt.render("# Heading");
 With a custom slugify:
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, {
   slugify: (s) =>
@@ -54,8 +54,8 @@ HTML page; pass a new `env` (or omit it) per page.
 You can also pre-seed reserved IDs:
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor);
 
@@ -81,8 +81,8 @@ Custom slugification function to transform heading text to URL-friendly slugs.
 By default it lowercases ASCII letters, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash, and strips other ASCII punctuation. If you want strictly percent-encoded slugs instead, use the exported `legacySlugify`:
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor, legacySlugify } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, { slugify: legacySlugify });
 ```
@@ -120,9 +120,9 @@ Value of the `tabindex` attribute on headings. We set `-1` by default, which mar
 You can manually set heading IDs via [@mdit/plugin-attrs](./attrs.md). Make sure to load attrs **before** anchor:
 
 ```ts
-import MarkdownIt from "markdown-it";
-import { attrs } from "@mdit/plugin-attrs";
 import { anchor } from "@mdit/plugin-anchor";
+import { attrs } from "@mdit/plugin-attrs";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(attrs, { allowed: ["id"] }).use(anchor);
 
@@ -225,8 +225,8 @@ flexibility for accessible screen reader experiences.
 Unlike the other presets, `linkAfterHeader` has no default options — pass at least `assistiveText` and `visuallyHiddenClass` when using the default `visually-hidden` style:
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { anchor, linkAfterHeader } from "@mdit/plugin-anchor";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(anchor, {
   permalink: linkAfterHeader({

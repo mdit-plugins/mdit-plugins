@@ -11,8 +11,8 @@ icon: spell-check
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { abbr } from "@mdit/plugin-abbr";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(abbr);
 

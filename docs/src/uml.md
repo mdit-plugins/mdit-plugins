@@ -11,8 +11,8 @@ Plugin to support splitting contents from context.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { uml } from "@mdit/plugin-uml";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(uml, {
   name: "demo",

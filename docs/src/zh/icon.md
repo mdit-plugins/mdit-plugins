@@ -11,8 +11,8 @@ icon: icons
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { icon } from "@mdit/plugin-icon";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(icon);
 
@@ -32,8 +32,8 @@ mdIt.render("使用 ::face-smile:: 插入一个普通图标。");
 如果你对默认渲染不满意，可以使用 `render` 选项自定义图标渲染：
 
 ```js
-import MarkdownIt from "markdown-it";
 import { fontawesomeRender, icon, iconfontRender, iconifyRender } from "@mdit/plugin-icon";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(icon, {
   // 只能设置一个 render，选择你需要的那个

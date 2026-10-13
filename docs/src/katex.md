@@ -17,8 +17,8 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(katex);
 

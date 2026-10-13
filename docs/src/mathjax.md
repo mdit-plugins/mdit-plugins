@@ -17,8 +17,8 @@ This plugin is based on [@mdit/plugin-tex](tex.md).
 ## Usage <Badge text="No CDN Scripts" />
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
+import MarkdownIt from "markdown-it";
 
 const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = new MarkdownIt().use(mathjax, mathjaxInstance);

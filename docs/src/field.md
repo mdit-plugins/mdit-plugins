@@ -22,8 +22,8 @@ yarn add @mdit/plugin-field
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(field, {
   // your options
@@ -132,12 +132,14 @@ Same or different containers can be nested inside items at the same indentation 
 :::: fields
 @`option`
 Parent description.
+
 ::: props
 @`prop1` type="string"
 Key description.
 @`prop2` type="number"
 Key description.
 :::
+
 @`option2`
 Another parent description.
 ::::
@@ -206,18 +208,17 @@ Whether to parse `key="val"` attributes after the field marker.
 
 ```ts
 interface FieldAttr {
-  /**
-   * attribute name
-   */
+  /** Attribute name */
   attr: string;
 
   /**
-   * Display name of the attribute, if not provided, will use `attr` as display name with first letter capitalized.
+   * Display name of the attribute, if not provided, will use `attr` as display name with first
+   * letter capitalized.
    */
   name?: string;
 
   /**
-   * boolean attribute, any attribute existence will be treated as true, and value will be ignored.
+   * Boolean attribute, any attribute existence will be treated as true, and value will be ignored.
    *
    * @default false
    */
@@ -245,41 +246,27 @@ Fields container close render.
 type FieldAttrQuote = "none" | "single" | "double" | "backtick";
 
 interface FieldAttrItem {
-  /**
-   * attribute name
-   */
+  /** Attribute name */
   attr: string;
 
-  /**
-   * attribute display name
-   */
+  /** Attribute display name */
   name: string;
 
-  /**
-   * attribute value
-   */
+  /** Attribute value */
   value: string | true;
 
-  /**
-   * quote style used in source
-   */
+  /** Quote style used in source */
   quote: FieldAttrQuote;
 }
 
 interface FieldMeta {
-  /**
-   * field name
-   */
+  /** Field name */
   name: string;
 
-  /**
-   * field level, starting from 1
-   */
+  /** Field level, starting from 1 */
   level: number;
 
-  /**
-   * sorted field attributes
-   */
+  /** Sorted field attributes */
   attributes: FieldAttrItem[];
 }
 
@@ -332,8 +319,8 @@ Child description.
 :::: preview Custom Name and Attributes
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(field, {
   name: "props",

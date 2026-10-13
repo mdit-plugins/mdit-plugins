@@ -11,8 +11,8 @@ Plugin for generating figures with captions from images.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(figure, {
   // your options, optional

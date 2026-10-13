@@ -11,8 +11,8 @@ icon: spinner
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { imgLazyload } from "@mdit/plugin-img-lazyload";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(imgLazyload);
 

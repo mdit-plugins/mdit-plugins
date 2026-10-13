@@ -11,8 +11,8 @@ A unified inline syntax factory plugin for creating custom punctuation-based inl
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { inlineRule } from "@mdit/plugin-inline-rule";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(inlineRule, {
   marker: "=",

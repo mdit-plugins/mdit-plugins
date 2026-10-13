@@ -5,6 +5,7 @@ const oxfmtConfig: OxfmtConfig = defineHopeConfig({
   sortImports: {
     internalPattern: ["@deflate"],
   },
+  ignorePatterns: ["**/tab.md"],
 });
 
 export default oxfmtConfig;

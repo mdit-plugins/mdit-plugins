@@ -11,8 +11,8 @@ icon: tags
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(attrs, {
   // 你的选项，可选

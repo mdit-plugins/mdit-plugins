@@ -17,8 +17,8 @@ icon: square-root-variable
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { tex } from "@mdit/plugin-tex";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tex, {
   render: (content, displayMode) => {

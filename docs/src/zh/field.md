@@ -11,8 +11,8 @@ icon: table-list
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(field, {
   // 你的选项
@@ -121,12 +121,14 @@ field(md, {
 :::: fields
 @`option`
 父级描述。
+
 ::: props
 @`prop1` type="string"
 键描述。
 @`prop2` type="number"
 键描述。
 :::
+
 @`option2`
 另一个父级描述。
 ::::
@@ -195,14 +197,10 @@ field(md, {
 
 ```ts
 interface FieldAttr {
-  /**
-   * 属性名
-   */
+  /** 属性名 */
   attr: string;
 
-  /**
-   * 属性的显示名称。如果未提供，将使用 `attr` 作为显示名称，首字母大写。
-   */
+  /** 属性的显示名称。如果未提供，将使用 `attr` 作为显示名称，首字母大写。 */
   name?: string;
 
   /**
@@ -234,41 +232,27 @@ interface FieldAttr {
 type FieldAttrQuote = "none" | "single" | "double" | "backtick";
 
 interface FieldAttrItem {
-  /**
-   * 属性名
-   */
+  /** 属性名 */
   attr: string;
 
-  /**
-   * 属性显示名称
-   */
+  /** 属性显示名称 */
   name: string;
 
-  /**
-   * 属性值
-   */
+  /** 属性值 */
   value: string | true;
 
-  /**
-   * 源码中使用的引号类型
-   */
+  /** 源码中使用的引号类型 */
   quote: FieldAttrQuote;
 }
 
 interface FieldMeta {
-  /**
-   * 字段名称
-   */
+  /** 字段名称 */
   name: string;
 
-  /**
-   * 字段级别，从 1 开始
-   */
+  /** 字段级别，从 1 开始 */
   level: number;
 
-  /**
-   * 排序后的字段属性
-   */
+  /** 排序后的字段属性 */
   attributes: FieldAttrItem[];
 }
 
@@ -321,8 +305,8 @@ type MarkdownItFieldOpenRenderer = (
 :::: preview 自定义名称和属性
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { field } from "@mdit/plugin-field";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(field, {
   name: "props",

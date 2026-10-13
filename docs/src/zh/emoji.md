@@ -11,8 +11,8 @@ markdown-it 的表情插件。
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
@@ -64,8 +64,8 @@ mdIt.render("来自火星的问候 :satellite:");
 例如，使用 [twemoji](https://github.com/twitter/twemoji)：
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
+import MarkdownIt from "markdown-it";
 import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);

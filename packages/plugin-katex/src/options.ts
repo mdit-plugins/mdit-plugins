@@ -1,16 +1,12 @@
 import type { MarkdownItTexOptions } from "@mdit/plugin-tex";
-import type { KatexOptions, Token } from "katex";
+import type { StrictFunction, KatexOptions } from "katex";
+
+type LoggerParams = Parameters<StrictFunction>;
 
 export type KatexLogger<MarkdownItEnv = unknown> = (
-  errorCode:
-    | "unknownSymbol"
-    | "unicodeTextInMathMode"
-    | "mathVsTextUnits"
-    | "commentAtEnd"
-    | "htmlExtension"
-    | "newLineInDisplayMode",
-  errorMsg: string,
-  token: Token,
+  errorCode: LoggerParams[0],
+  errorMsg: LoggerParams[1],
+  token: LoggerParams[2] | undefined,
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | boolean | undefined;
 

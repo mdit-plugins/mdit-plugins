@@ -17,8 +17,8 @@ This plugin is based on [@mdit/plugin-container](container.md).
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(align);
 
@@ -56,9 +56,11 @@ Contents to align justify
   ```md
   :::: center
   Center contents...
+
   ::: left
   Left contents..
   :::
+
   Center contents...
   ::::
   ```
@@ -67,9 +69,11 @@ Contents to align justify
 
   :::: center
   Center contents...
+
   ::: left
   Left contents..
   :::
+
   Center contents...
   ::::
 

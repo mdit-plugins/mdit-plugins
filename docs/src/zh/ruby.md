@@ -11,8 +11,8 @@ icon: language
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { ruby } from "@mdit/plugin-ruby";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(ruby);
 

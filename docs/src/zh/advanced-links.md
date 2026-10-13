@@ -15,8 +15,8 @@ icon: paperclip
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt()
   .use(advancedLinks, {
@@ -34,8 +34,8 @@ const md = new MarkdownIt()
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt()
   .use(advancedLinks, {

@@ -17,8 +17,8 @@ icon: square-root-variable
 ## 使用 <Badge text="没有 CDN 脚本" />
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
+import MarkdownIt from "markdown-it";
 
 const mathjaxInstance = await createMathjaxInstance(options);
 const mdIt = new MarkdownIt().use(mathjax, mathjaxInstance);

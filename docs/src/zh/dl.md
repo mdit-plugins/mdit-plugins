@@ -11,8 +11,8 @@ icon: book
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { dl } from "@mdit/plugin-dl";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(dl);
 

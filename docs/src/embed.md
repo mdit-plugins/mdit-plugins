@@ -15,8 +15,8 @@ Embed external content in your Markdown.
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt().use(embed, {
   config: [
@@ -37,8 +37,8 @@ const md = new MarkdownIt().use(embed, {
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt().use(embed, {
   config: [
@@ -96,21 +96,22 @@ An array of embed configurations.
 
 ```ts
 interface EmbedConfig {
-  /**
-   * Embed token name
-   */
+  /** Embed token name */
   name: string;
 
   /**
    * Setup function to generate embed HTML
+   *
    * @param ref
-   * @param isInline If `allowInline` is true, `isInline` represent that current matched content is inline
+   * @param isInline If `allowInline` is true, `isInline` represent that current matched content is
+   *   inline
    * @returns
    */
   setup: (ref: string, isInline: boolean) => string;
 
   /**
    * Whether the embed can be used inline
+   *
    * @default false
    */
   allowInline?: boolean;

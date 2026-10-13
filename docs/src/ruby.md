@@ -11,8 +11,8 @@ Plugin to support ruby annotation `<ruby>`.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { ruby } from "@mdit/plugin-ruby";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(ruby);
 

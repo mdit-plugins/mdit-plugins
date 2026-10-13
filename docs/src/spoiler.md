@@ -11,8 +11,8 @@ Plugins to hide content.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { spoiler } from "@mdit/plugin-spoiler";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(spoiler);
 

@@ -11,8 +11,8 @@ icon: file-import
 ## 使用 <Badge text="仅限 Node.js 环境" />
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(include, {
   // 你的选项，currentPath 是必填的
@@ -36,8 +36,9 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 
 ```ts
 import { join } from "node:path";
-import MarkdownIt from "markdown-it";
+
 import { include } from "@mdit/plugin-include";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt();
 
@@ -129,8 +130,8 @@ cupiditate sequi.
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(include, {
@@ -147,8 +148,8 @@ mdIt.render("<!-- @include: ./path/to/include/file.md -->", {
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { include } from "@mdit/plugin-include";
+import MarkdownIt from "markdown-it";
 
 // #region snippet
 const mdIt = new MarkdownIt().use(include, {

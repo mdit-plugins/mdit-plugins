@@ -11,8 +11,8 @@ icon: table-cells-large
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { layout } from "@mdit/plugin-layout";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(layout);
 

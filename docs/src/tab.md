@@ -11,8 +11,8 @@ Plugin for creating block-level custom tabs.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { tab } from "@mdit/plugin-tab";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tab, {
   // your options, name is required
@@ -85,49 +85,35 @@ The name of the tab container.
 
 ```ts
 interface MarkdownItTabData {
-  /**
-   * Title of tab
-   */
+  /** Title of tab */
   title: string;
 
-  /**
-   * Tab index
-   */
+  /** Tab index */
   index: number;
 
-  /**
-   * Identifier of tab
-   */
+  /** Identifier of tab */
   id: string | undefined;
 
-  /**
-   * Whether the tab is active
-   */
+  /** Whether the tab is active */
   isActive: boolean;
 }
 
 interface MarkdownItTabInfo {
-  /**
-   * Identifier of tab container
-   */
+  /** Identifier of tab container */
   id: string | undefined;
 
   /**
    * Which tab is active
    *
-   * @description -1 means no tab is active
+   * -1 means no tab is active
    */
   active: number;
 
-  /**
-   * Data of tabs
-   */
+  /** Data of tabs */
   data: MarkdownItTabData[];
 }
 
-/**
- * Tabs open renderer
- */
+/** Tabs open renderer */
 type TabsOpenRenderer = (
   info: MarkdownItTabInfo,
   tokens: Token[],
@@ -150,30 +136,20 @@ Tabs close renderer.
 
 ```ts
 interface MarkdownItTabData {
-  /**
-   * Title of tab
-   */
+  /** Title of tab */
   title: string;
 
-  /**
-   * Tab index
-   */
+  /** Tab index */
   index: number;
 
-  /**
-   * Identifier of tab
-   */
+  /** Identifier of tab */
   id: string | undefined;
 
-  /**
-   * Whether the tab is active
-   */
+  /** Whether the tab is active */
   isActive: boolean;
 }
 
-/**
- * Tab open renderer
- */
+/** Tab open renderer */
 type TabOpenRenderer = (
   info: MarkdownItTabData,
   tokens: Token[],

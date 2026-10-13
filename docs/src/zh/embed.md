@@ -15,8 +15,8 @@ icon: code
 @tab TS
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt().use(embed, {
   config: [
@@ -37,8 +37,8 @@ const md = new MarkdownIt().use(embed, {
 @tab JS
 
 ```js
-import MarkdownIt from "markdown-it";
 import { embed } from "@mdit/plugin-embed";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt().use(embed, {
   config: [
@@ -96,13 +96,12 @@ const md = new MarkdownIt().use(embed, {
 
 ```ts
 interface EmbedConfig {
-  /**
-   * 嵌入令牌名称
-   */
+  /** 嵌入令牌名称 */
   name: string;
 
   /**
    * 生成嵌入 HTML 的设置函数
+   *
    * @param ref 参数
    * @param isInline 如果 allowInline 为 true，则 isInline 表示当前匹配的内容原文是否是 inline
    * @returns
@@ -111,6 +110,7 @@ interface EmbedConfig {
 
   /**
    * 是否允许在行内使用
+   *
    * @default false
    */
   allowInline?: boolean;

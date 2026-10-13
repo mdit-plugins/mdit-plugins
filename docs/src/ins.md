@@ -11,8 +11,8 @@ Plugins to add insert tag support.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { ins } from "@mdit/plugin-ins";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(ins);
 

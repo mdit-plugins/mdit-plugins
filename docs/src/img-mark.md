@@ -11,8 +11,8 @@ Plugins to mark images by ID suffix for theme mode.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { imgMark } from "@mdit/plugin-img-mark";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(imgMark, {
   // your options, optional

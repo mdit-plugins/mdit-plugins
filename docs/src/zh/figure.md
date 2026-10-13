@@ -11,8 +11,8 @@ icon: image
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { figure } from "@mdit/plugin-figure";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(figure, {
   // 你的选项，可选的

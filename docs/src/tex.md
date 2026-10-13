@@ -19,8 +19,8 @@ If you are looking for an out of box solution, you should try [@mdit/plugin-kate
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { tex } from "@mdit/plugin-tex";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tex, {
   render: (content, displayMode) => {
@@ -91,9 +91,9 @@ Escaping can be done by using `\` before the `$` character, or adding space both
  * Tex Render function
  *
  * @param content Text content
- * @param displayMode whether is display mode
+ * @param displayMode Whether is display mode
  * @param env MarkdownIt environment
- * @returns render result
+ * @returns Render result
  */
 type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 ```

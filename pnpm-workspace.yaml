@@ -11,7 +11,7 @@ catalog:
   "@mathjax/src": ^4.1.3
   "@mathjax/mathjax-newcm-font": ^4.1.3
   "@mathjax/mathjax-tex-font": ^4.1.3
-  katex: ^0.18.9
+  katex: ^0.19.0
   markdown-it: ^15.0.2
   upath: ^3.0.8
 catalogPrune: true
@@ -80,15 +80,15 @@ minimumReleaseAgeExclude:
   - "@oxfmt/*"
   - "@oxlint/*"
   - "@vuepress/*"
-  - "oxc-config-hope"
-  - "oxfmt"
-  - "oxlint"
-  - "vuepress"
-  - "vuepress-*"
-  - "vuepress-plugin-components"
-  - "vuepress-plugin-md-enhance"
-  - "vuepress-shared"
-  - "vuepress-theme-hope"
+  - oxc-config-hope
+  - oxfmt
+  - oxlint
+  - vuepress
+  - vuepress-*
+  - vuepress-plugin-components
+  - vuepress-plugin-md-enhance
+  - vuepress-shared
+  - vuepress-theme-hope
 minimumReleaseAgeExcludePrune: true
 trustPolicy: no-downgrade
 trustPolicyExcludePrune: true

@@ -11,8 +11,8 @@ Emoji plugin for markdown-it.
 ## Usage
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(fullEmoji);
 
@@ -68,8 +68,8 @@ By default, emojis are rendered as appropriate unicode chars. But you can change
 For example, to use [twemoji](https://github.com/twitter/twemoji):
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { fullEmoji } from "@mdit/plugin-emoji";
+import MarkdownIt from "markdown-it";
 import twemoji from "twemoji";
 
 const mdIt = new MarkdownIt().use(fullEmoji);

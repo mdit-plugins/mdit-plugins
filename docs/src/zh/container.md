@@ -11,8 +11,8 @@ icon: box-open
 ## 使用
 
 ```ts
-import MarkdownIt from "markdown-it";
 import { container } from "@mdit/plugin-container";
+import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(container, {
   // your options, name is required
@@ -55,6 +55,7 @@ _here be dragons_
   ```md
   :::: warning
   警告内容内容...
+
   ::: details
   详情...
   :::
@@ -65,6 +66,7 @@ _here be dragons_
 
   :::: warning
   警告内容内容...
+
   ::: details
   详情...
   :::
@@ -103,11 +105,10 @@ _here be dragons_
 /**
  * 校验内容是否应该作为此类型容器
  *
+ * @default params.trim().split(" ", 2)[0] === name
  * @param params 标识符后面的内容
  * @param markup 标识字符
  * @returns 是否是此容器类型
- *
- * @default params.trim().split(" ", 2)[0] === name
  */
 type Validator = (params: string, markup: string) => boolean;
 ```
