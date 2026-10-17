@@ -178,7 +178,7 @@ catalogs:
       version: 0.19.0
     markdown-it:
       specifier: ^15.0.2
-      version: 15.0.2
+      version: 15.0.3
     upath:
       specifier: ^3.0.8
       version: 3.0.8
@@ -355,7 +355,7 @@ importers:
         version: 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
       sass-embedded:
         specifier: 1.105.1
         version: 1.105.1
@@ -370,13 +370,13 @@ importers:
         version: 2.0.0-rc.110(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       vuepress-theme-hope:
         specifier: 2.0.0-rc.110
-        version: 2.0.0-rc.110(bb86586f268dd303c06fe0f84171ac9e)
+        version: 2.0.0-rc.110(6b2269b076f4008b42db0355c2a3ee2c)
 
   packages/helper:
     dependencies:
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-abbr:
     dependencies:
@@ -385,7 +385,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-advanced-links:
     dependencies:
@@ -394,7 +394,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-alert:
     dependencies:
@@ -403,7 +403,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-align:
     dependencies:
@@ -415,7 +415,7 @@ importers:
         version: link:../plugin-container
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-anchor:
     dependencies:
@@ -428,7 +428,7 @@ importers:
         version: link:../plugin-attrs
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-attrs:
     dependencies:
@@ -437,7 +437,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mdit/plugin-container':
         specifier: workspace:*
@@ -468,7 +468,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-demo:
     dependencies:
@@ -477,7 +477,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-dl:
     dependencies:
@@ -486,7 +486,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-embed:
     dependencies:
@@ -495,7 +495,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-emoji:
     dependencies:
@@ -504,7 +504,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-field:
     dependencies:
@@ -513,7 +513,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mdit/plugin-container':
         specifier: workspace:*
@@ -529,7 +529,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-footnote:
     dependencies:
@@ -538,7 +538,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-icon:
     dependencies:
@@ -547,7 +547,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mdit/plugin-emoji':
         specifier: workspace:*
@@ -560,7 +560,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-img-mark:
     dependencies:
@@ -569,7 +569,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-img-size:
     dependencies:
@@ -578,7 +578,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mdit/plugin-figure':
         specifier: workspace:*
@@ -591,7 +591,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
       upath:
         specifier: 'catalog:'
         version: 3.0.8
@@ -607,7 +607,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-ins:
     dependencies:
@@ -619,7 +619,7 @@ importers:
         version: link:../plugin-inline-rule
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-katex:
     dependencies:
@@ -634,7 +634,7 @@ importers:
         version: 0.19.0
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-katex-slim:
     dependencies:
@@ -646,7 +646,7 @@ importers:
         version: link:../plugin-tex
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       katex:
         specifier: 'catalog:'
@@ -659,7 +659,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mdit/plugin-container':
         specifier: workspace:*
@@ -675,7 +675,7 @@ importers:
         version: link:../plugin-inline-rule
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-mathjax:
     dependencies:
@@ -690,7 +690,7 @@ importers:
         version: link:../plugin-tex
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: 'catalog:'
@@ -706,7 +706,7 @@ importers:
         version: link:../plugin-tex
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: 'catalog:'
@@ -725,7 +725,7 @@ importers:
         version: link:../plugin-uml
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
     devDependencies:
       pako:
         specifier: 3.0.2
@@ -738,7 +738,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-snippet:
     dependencies:
@@ -747,7 +747,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
       upath:
         specifier: 'catalog:'
         version: 3.0.8
@@ -762,7 +762,7 @@ importers:
         version: link:../plugin-inline-rule
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-stylize:
     dependencies:
@@ -771,7 +771,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-sub:
     dependencies:
@@ -783,7 +783,7 @@ importers:
         version: link:../plugin-inline-rule
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-sup:
     dependencies:
@@ -795,7 +795,7 @@ importers:
         version: link:../plugin-inline-rule
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-tab:
     dependencies:
@@ -804,7 +804,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-tasklist:
     dependencies:
@@ -813,7 +813,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-tex:
     dependencies:
@@ -822,7 +822,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
   packages/plugin-uml:
     dependencies:
@@ -831,7 +831,7 @@ importers:
         version: link:../helper
       markdown-it:
         specifier: 'catalog:'
-        version: 15.0.2
+        version: 15.0.3
 
 packages:
 
@@ -2608,6 +2608,9 @@ packages:
   argparse@3.0.2:
     resolution: {integrity: sha512-mFdDM6WqWKraGLsVb+C9CahPnzTXOefAOLq3jYcca2YZ8bEWpr++Tzj+zSaKW9+X9L5uSxcm1AZ3Y6aZJ09OhQ==}
 
+  argparse@3.0.3:
+    resolution: {integrity: sha512-Sn98ftV3KfsO8xfLPHG6oT8y+b0yvbrLgZjgPDXsharNY15tTAjqIsIju4S32nl6/iEUNNE4v+yL2Zhm8ooP3w==}
+
   argue-cli@3.2.0:
     resolution: {integrity: sha512-VipTB0gXgGIFO2Rg9yEVN5wLt2AurJcZqDbgmYSwPwsykhLrQhs240/bfceev4w68lI8JshoOJIk9uW7tFzROw==}
     engines: {node: '>=22'}
@@ -3535,8 +3538,8 @@ packages:
     resolution: {integrity: sha512-9/7gE95FNPkfUWrjJIoHZza2iLmuJlPD0UNMxPi7bxUrbCR525YZY0r+zyfes0dZI5ZZ/uNIXUJca0pJvtw41g==}
     hasBin: true
 
-  markdown-it@15.0.2:
-    resolution: {integrity: sha512-q4IGxMv56jCqT4OCRCADBoDP3LO4MhmTXjFbphHPXs4g3j9Xg5RDnxqN8IF/3vIWEU+VCnUq+7JUg/cfy2E6Qw==}
+  markdown-it@15.0.3:
+    resolution: {integrity: sha512-+Az7Ojz3iRGu8KYMvJ6xVhvrxP3eE+vEtJX75Ow88XBpcQNV/0lGX5ZynIIBftREo4DC2jsveAMDaeltmm8QvQ==}
     hasBin: true
 
   markdownlint-cli2-formatter-default@0.0.6:
@@ -6583,7 +6586,7 @@ snapshots:
       - '@vuepress/bundler-webpack'
       - typescript
 
-  '@vuepress/plugin-markdown-ext@2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(markdown-it@15.0.2)(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))':
+  '@vuepress/plugin-markdown-ext@2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(markdown-it@15.0.3)(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))':
     dependencies:
       '@mdit/plugin-container': link:packages/plugin-container
       '@mdit/plugin-footnote': link:packages/plugin-footnote
@@ -6591,7 +6594,7 @@ snapshots:
       '@types/markdown-it': 14.2.0
       '@vuepress/helper': 2.0.0-rc.135(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       js-yaml: 5.4.3
-      markdown-it-cjk-friendly: 3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.2)
+      markdown-it-cjk-friendly: 3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.3)
       vuepress: 2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2))
     transitivePeerDependencies:
       - '@vuepress/bundler-vite'
@@ -6960,6 +6963,8 @@ snapshots:
   argparse@2.0.1: {}
 
   argparse@3.0.2: {}
+
+  argparse@3.0.3: {}
 
   argue-cli@3.2.0: {}
 
@@ -7836,10 +7841,10 @@ snapshots:
       '@types/markdown-it': 14.2.0
       markdown-it: 14.3.2
 
-  markdown-it-cjk-friendly@3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.2):
+  markdown-it-cjk-friendly@3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.3):
     dependencies:
       get-east-asian-width: 1.7.0
-      markdown-it: 15.0.2
+      markdown-it: 15.0.3
     optionalDependencies:
       '@types/markdown-it': 14.2.0
 
@@ -7865,9 +7870,9 @@ snapshots:
       punycode.js: 2.3.1
       uc.micro: 3.0.0
 
-  markdown-it@15.0.2:
+  markdown-it@15.0.3:
     dependencies:
-      argparse: 3.0.2
+      argparse: 3.0.3
       entities: 8.1.0
       linkify-it: 6.1.0
       mdurl: 2.1.0
@@ -9206,7 +9211,7 @@ snapshots:
       - '@vuepress/bundler-webpack'
       - typescript
 
-  vuepress-theme-hope@2.0.0-rc.110(bb86586f268dd303c06fe0f84171ac9e):
+  vuepress-theme-hope@2.0.0-rc.110(6b2269b076f4008b42db0355c2a3ee2c):
     dependencies:
       '@vuepress/helper': 2.0.0-rc.135(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-active-header-links': 2.0.0-rc.135(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
@@ -9220,7 +9225,7 @@ snapshots:
       '@vuepress/plugin-icon': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-links-check': 2.0.0-rc.135(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-markdown-chart': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
-      '@vuepress/plugin-markdown-ext': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(markdown-it@15.0.2)(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
+      '@vuepress/plugin-markdown-ext': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(markdown-it@15.0.3)(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-markdown-field': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-markdown-file-tree': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
       '@vuepress/plugin-markdown-hint': 2.0.0-rc.137(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vue@3.5.43(typescript@7.0.2))(vuepress@2.0.0-rc.31(@vue/compiler-sfc@3.5.43)(@vuepress/bundler-vite@2.0.0-rc.31(@types/node@24.19.2)(@vue/compiler-sfc@3.5.43)(sass-embedded@1.105.1)(sass@1.105.1)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.2.13)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.1)(sass@1.105.1)(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2)))
