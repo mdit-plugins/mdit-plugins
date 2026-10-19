@@ -120,6 +120,28 @@ abc
 `);
   });
 
+  it("should auto close at the end of the document", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
+
+    expect(markdownIt.render("@start\nabc\n")).toBe('<div class="uml" title="">abc</div>');
+  });
+
+  it("should keep the marker info as title", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
+
+    expect(markdownIt.render("@start title\nabc\n@end\n")).toBe(
+      '<div class="uml" title=" title">abc</div>',
+    );
+  });
+
+  it("should not close with trailing content after the close marker", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
+
+    expect(markdownIt.render("@start\nabc\n@end trailing\n")).toBe(
+      '<div class="uml" title="">abc\n@end trailing</div>',
+    );
+  });
+
   it("should render with options", () => {
     const markdownIt = new MarkdownIt({ linkify: true }).use(uml, {
       name: "test",

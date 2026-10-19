@@ -142,6 +142,30 @@ Some content
     expect(result).toMatchSnapshot();
   });
 
+  it("should support custom class names", () => {
+    const markdownItWithCustomClasses = new MarkdownIt({ linkify: true }).use(tasklist, {
+      containerClass: "custom-container",
+      itemClass: "custom-item",
+      checkboxClass: "custom-checkbox",
+      labelClass: "custom-label",
+    });
+
+    const result = markdownItWithCustomClasses.render("- [x] checked item");
+
+    expect(result).toContain('class="custom-container"');
+    expect(result).toContain('class="custom-item"');
+    expect(result).toContain('class="custom-checkbox"');
+    expect(result).toContain('class="custom-label"');
+  });
+
+  it("should reset ids between renders", () => {
+    const first = markdownIt.render("- [ ] first");
+    const second = markdownIt.render("- [ ] second");
+
+    expect(first).toContain('id="task-item-0"');
+    expect(second).toContain('id="task-item-0"');
+  });
+
   it("should not render", () => {
     const result = markdownIt.render(`
 - [ ]
