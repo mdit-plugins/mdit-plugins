@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-container%402.0.2...%40mdit%2Fplugin-container%402.0.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-container:** make render idempotent ([#772](https://github.com/mdit-plugins/mdit-plugins/issues/772)) ([6927df5](https://github.com/mdit-plugins/mdit-plugins/commit/6927df5f1546ce0747103fc5c75ea90c97e222d1))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-container%402.0.1...%40mdit%2Fplugin-container%402.0.2) (2026-09-26)
 
 ### Build System

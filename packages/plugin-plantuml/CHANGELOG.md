@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%402.0.2...%40mdit%2Fplugin-plantuml%402.0.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-plantuml:** make render idempotent ([#773](https://github.com/mdit-plugins/mdit-plugins/issues/773)) ([a64165b](https://github.com/mdit-plugins/mdit-plugins/commit/a64165b62c7af5a9b725a0968e526519e3eee5f8))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%402.0.1...%40mdit%2Fplugin-plantuml%402.0.2) (2026-09-26)
 
 ### Miscellaneous Chores

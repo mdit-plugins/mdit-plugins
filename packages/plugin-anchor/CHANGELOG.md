@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.2...%40mdit%2Fplugin-anchor%402.2.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- unify node engines to >=22 ([#738](https://github.com/mdit-plugins/mdit-plugins/issues/738)) ([893abf6](https://github.com/mdit-plugins/mdit-plugins/commit/893abf60051549c4195ed251e3c2c773176475e1))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.1...%40mdit%2Fplugin-anchor%402.2.2) (2026-09-26)
 
 ### Miscellaneous Chores

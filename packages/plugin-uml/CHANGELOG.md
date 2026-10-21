@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.2...%40mdit%2Fplugin-uml%402.0.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-uml:** escape default renderer content ([#744](https://github.com/mdit-plugins/mdit-plugins/issues/744)) ([2eeb673](https://github.com/mdit-plugins/mdit-plugins/commit/2eeb673d7587df6a7adbf9a38b46af9138d883e8))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.1...%40mdit%2Fplugin-uml%402.0.2) (2026-09-26)
 
 ### Build System

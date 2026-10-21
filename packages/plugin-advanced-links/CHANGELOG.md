@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.1...%40mdit%2Fplugin-advanced-links%400.2.2) (2026-10-21)
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [0.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.0...%40mdit%2Fplugin-advanced-links%400.2.1) (2026-09-26)
 
 ### Documentation

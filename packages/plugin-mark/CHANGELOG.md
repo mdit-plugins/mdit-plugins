@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.1.2...%40mdit%2Fplugin-mark%402.1.3) (2026-10-21)
+
+### Tests
+
+- **plugin-mark:** cover attrs isolation with attrs ([#776](https://github.com/mdit-plugins/mdit-plugins/issues/776)) ([5eff9ed](https://github.com/mdit-plugins/mdit-plugins/commit/5eff9edc93f6cfb0c214bc7858dfc4c18c43ede0))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.1.1...%40mdit%2Fplugin-mark%402.1.2) (2026-09-26)
 
 ### Build System

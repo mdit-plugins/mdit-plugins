@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.0.2...%40mdit%2Fplugin-tab%402.0.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-tab:** fix parsing and browser bugs ([#749](https://github.com/mdit-plugins/mdit-plugins/issues/749)) ([9fb2c8c](https://github.com/mdit-plugins/mdit-plugins/commit/9fb2c8c6a168cd444a7c3fceae0200e27c539cfd))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.0.1...%40mdit%2Fplugin-tab%402.0.2) (2026-09-26)
 
 ### Build System

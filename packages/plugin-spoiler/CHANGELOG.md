@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-spoiler%402.1.2...%40mdit%2Fplugin-spoiler%402.1.3) (2026-10-21)
+
+### Tests
+
+- **plugin-spoiler:** cover attrs isolation with attrs ([#763](https://github.com/mdit-plugins/mdit-plugins/issues/763)) ([cb644ec](https://github.com/mdit-plugins/mdit-plugins/commit/cb644eca786416af2efb05900b8ef331f1a3f351))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-spoiler%402.1.1...%40mdit%2Fplugin-spoiler%402.1.2) (2026-09-26)
 
 ### Build System

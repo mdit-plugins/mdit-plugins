@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.3...%40mdit%2Fplugin-katex-slim%401.1.4) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-katex-slim:** correct repository.directory ([#770](https://github.com/mdit-plugins/mdit-plugins/issues/770)) ([13f3bc0](https://github.com/mdit-plugins/mdit-plugins/commit/13f3bc0824c6222f5ed149075edcbf731c6c0f17))
+
+### Build System
+
+- bump deps ([dff84ca](https://github.com/mdit-plugins/mdit-plugins/commit/dff84cacdb7eb3820919e47ed4ed7b145fdae9ac))
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.2...%40mdit%2Fplugin-katex-slim%401.1.3) (2026-09-26)
 
 ### Miscellaneous Chores

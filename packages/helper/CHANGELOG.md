@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.1.2...%40mdit%2Fhelper%401.1.3) (2026-10-21)
+
+**Note:** Version bump only for package @mdit/helper
+
 ## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.1.1...%40mdit%2Fhelper%401.1.2) (2026-09-26)
 
 ### Build System

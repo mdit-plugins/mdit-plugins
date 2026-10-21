@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.1.2...%40mdit%2Fplugin-tex%401.1.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-tex:** limit inline scan to posMax ([#761](https://github.com/mdit-plugins/mdit-plugins/issues/761)) ([f01b0b9](https://github.com/mdit-plugins/mdit-plugins/commit/f01b0b9714d7172756bbf05c6c0ea7f00535eff9))
+- **plugin-tex:** verify bracket block closing in silent ([#757](https://github.com/mdit-plugins/mdit-plugins/issues/757)) ([4d7e535](https://github.com/mdit-plugins/mdit-plugins/commit/4d7e535580df8f5b5f9ba4a0e526fd673263e6ff))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+- **deps:** upgrade dependencies and require markdown-it ^15.0.3 ([#780](https://github.com/mdit-plugins/mdit-plugins/issues/780)) ([0f4900a](https://github.com/mdit-plugins/mdit-plugins/commit/0f4900a989cd0f932d2bfed65982791daf34b20d))
+
 ## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.1.1...%40mdit%2Fplugin-tex%401.1.2) (2026-09-26)
 
 ### Build System

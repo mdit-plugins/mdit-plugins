@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.1.3...%40mdit%2Fplugin-layout%401.1.4) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-layout:** keep outdented item content ([#764](https://github.com/mdit-plugins/mdit-plugins/issues/764)) ([9a731f0](https://github.com/mdit-plugins/mdit-plugins/commit/9a731f003f6cc20eb5b688b1048862fe805c195a))
+- unify node engines to >=22 ([#738](https://github.com/mdit-plugins/mdit-plugins/issues/738)) ([893abf6](https://github.com/mdit-plugins/mdit-plugins/commit/893abf60051549c4195ed251e3c2c773176475e1))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.1.2...%40mdit%2Fplugin-layout%401.1.3) (2026-09-26)
 
 ### Build System

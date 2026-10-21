@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.2...%40mdit%2Fplugin-embed%401.1.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-embed:** limit inline scan to posMax ([#760](https://github.com/mdit-plugins/mdit-plugins/issues/760)) ([f55cc8a](https://github.com/mdit-plugins/mdit-plugins/commit/f55cc8a902ae06b8875190e95087a3e555cd31df))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [1.1.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.1...%40mdit%2Fplugin-embed%401.1.2) (2026-09-26)
 
 ### Build System

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.2...%40mdit%2Fplugin-inline-rule%402.2.3) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-inline-rule:** copy attrs for each token ([#762](https://github.com/mdit-plugins/mdit-plugins/issues/762)) ([d448414](https://github.com/mdit-plugins/mdit-plugins/commit/d448414a96cdf350645c8476f7a15ecbfb958f21))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [2.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.1...%40mdit%2Fplugin-inline-rule%402.2.2) (2026-09-26)
 
 ### Build System

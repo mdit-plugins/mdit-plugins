@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.3...%40mdit%2Fplugin-attrs%401.3.4) (2026-10-21)
+
+### 🐛 Bug Fixes
+
+- **plugin-attrs:** align url scheme policy ([#779](https://github.com/mdit-plugins/mdit-plugins/issues/779)) ([7abeffa](https://github.com/mdit-plugins/mdit-plugins/commit/7abeffaf980f19d97d6155e2985e8a963682d543))
+- **plugin-attrs:** avoid importing markdown-it ([#766](https://github.com/mdit-plugins/mdit-plugins/issues/766)) ([eb433b8](https://github.com/mdit-plugins/mdit-plugins/commit/eb433b8e9d7a05fac0014086d94321e5e4d3942d))
+- **plugin-attrs:** block dangerous injected attrs ([#748](https://github.com/mdit-plugins/mdit-plugins/issues/748)) ([eb1bd5c](https://github.com/mdit-plugins/mdit-plugins/commit/eb1bd5cfaf5d322bd8258c916352fe2967cbe678))
+
+### Build System
+
+- bump deps ([163db70](https://github.com/mdit-plugins/mdit-plugins/commit/163db70ec5ced49a132509996b5e58a62da930a3))
+
 ## [1.3.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.2...%40mdit%2Fplugin-attrs%401.3.3) (2026-09-26)
 
 ### Build System
