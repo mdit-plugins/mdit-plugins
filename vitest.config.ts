@@ -15,6 +15,12 @@ const config: ViteUserConfigExport = defineConfig({
     coverage: {
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],
+      thresholds: {
+        statements: 100,
+        branches: 100,
+        functions: 100,
+        lines: 100,
+      },
       reporter: process.env.TEST_REPORT ? ["cobertura", "text"] : ["text", "html"],
     },
     benchmark: {
