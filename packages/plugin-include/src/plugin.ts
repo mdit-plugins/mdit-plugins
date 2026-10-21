@@ -404,7 +404,7 @@ const resolveRelatedLink = (
   token: Token,
   filePath: string,
   includedPaths?: string[],
-): void => {
+): (() => void) | null => {
   const attrIndex = token.attrIndex(attr);
   const url = token.attrs?.[attrIndex]?.[1] as string | undefined;
 
@@ -415,13 +415,21 @@ const resolveRelatedLink = (
       const includeDir = relative(dirname(filePath), includedPaths[length - 1]);
 
       const resolvedPath = join(includeDir, url);
-
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      token.attrs![attrIndex][1] = resolvedPath.startsWith(".")
-        ? resolvedPath
-        : `./${resolvedPath}`;
+      const attrs = token.attrs!;
+
+      attrs[attrIndex][1] = resolvedPath.startsWith(".") ? resolvedPath : `./${resolvedPath}`;
+
+      // restore the original url after rendering, so that rendering the same
+      // token stream again resolves it from the original value instead of
+      // nesting the include directory over and over
+      return () => {
+        attrs[attrIndex][1] = url;
+      };
     }
   }
+
+  return null;
 };
 
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
@@ -511,10 +519,16 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
         const filePath = currentPath(includeEnv);
 
-        if (filePath) resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey]);
+        const restoreUrl = filePath
+          ? resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey])
+          : null;
 
-        // pass token to default renderer.
-        return defaultImageRender(tokens, index, mdItOptions, env, self);
+        try {
+          // pass token to default renderer.
+          return defaultImageRender(tokens, index, mdItOptions, env, self);
+        } finally {
+          restoreUrl?.();
+        }
       };
     }
 
@@ -530,10 +544,16 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
         const filePath = currentPath(includeEnv);
 
-        if (filePath) resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey]);
+        const restoreUrl = filePath
+          ? resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey])
+          : null;
 
-        // pass token to default renderer.
-        return defaultLinkRender(tokens, index, mdItOptions, env, self);
+        try {
+          // pass token to default renderer.
+          return defaultLinkRender(tokens, index, mdItOptions, env, self);
+        } finally {
+          restoreUrl?.();
+        }
       };
     }
   }
