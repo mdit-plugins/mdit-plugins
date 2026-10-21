@@ -73,7 +73,7 @@ const testData = {
 // Bracket syntax test data
 const bracketTestData = {
   small: {
-    inline: "\\(a=1\\) and \\(b=2\\) with simple equations",
+    inline: String.raw`\(a=1\) and \(b=2\) with simple equations`,
     block: "\\[\na = 1 \\\\\nb = 2\n\\]",
     mixed: "An equation \\(E=mc^2\\) inline. \\[\n\\sum_{i=1}^n i = \\frac{n(n+1)}{2}\n\\]",
   },

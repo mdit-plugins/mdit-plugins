@@ -130,7 +130,7 @@ describe(parseAttributes, () => {
         { attr: "msg", name: "Msg", value: 'hello "world"' },
       ]);
       expect(parseAttributes(String.raw`path="C:\\Window"`)).toStrictEqual([
-        { attr: "path", name: "Path", value: "C:\\Window" },
+        { attr: "path", name: "Path", value: String.raw`C:\Window` },
       ]);
     });
 
