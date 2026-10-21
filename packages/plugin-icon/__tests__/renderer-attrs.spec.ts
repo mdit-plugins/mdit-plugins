@@ -28,8 +28,6 @@ describe("plugin-icon: renderer attribute safety", () => {
     expect(defaultRender("test href=javascript:alert(1)")).toBe('<i icon="test"></i>');
     expect(defaultRender('test href=" javascript:alert(1)"')).toBe('<i icon="test"></i>');
     expect(defaultRender('test href="java\tscript:alert(1)"')).toBe('<i icon="test"></i>');
-    expect(defaultRender('test href="java\nscript:alert(1)"')).toBe('<i icon="test"></i>');
-    expect(defaultRender('test href="java\rscript:alert(1)"')).toBe('<i icon="test"></i>');
     expect(defaultRender("test src=vbscript:msgbox(1)")).toBe('<i icon="test"></i>');
     expect(defaultRender("test HREF=javascript:alert(1)")).toBe('<i icon="test"></i>');
     expect(defaultRender("test href=https://example.com")).toBe(
@@ -53,6 +51,10 @@ describe("plugin-icon: renderer attribute safety", () => {
   it("should stringify only safe attrs", () => {
     expect(stringifyAttrs({ onclick: "alert(1)", "data-foo": "bar" })).toBe(' data-foo="bar"');
     expect(stringifyAttrs({ opacity: "0.5" })).toBe(' opacity="0.5"');
+    expect(stringifyAttrs({ href: "java\nscript:alert(1)" })).toBe("");
+    expect(stringifyAttrs({ href: "java\rscript:alert(1)" })).toBe("");
+    expect(stringifyAttrs({ href: "\u0001javascript:alert(1)" })).toBe("");
+    expect(stringifyAttrs({ href: "" })).toBe(' href=""');
 
     expect(stringifyAttrs({})).toBe("");
   });

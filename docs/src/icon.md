@@ -87,6 +87,8 @@ The package exports the following bundled renderers, which additionally read `si
 - `fontawesomeRender`: outputs `<i class="{classes}">` for [Font Awesome](https://fontawesome.com/), completing short aliases and adding `fa-solid` when no family is given.
 - `iconfontRender`: outputs `<span class="iconfont icon-{content}">` for [iconfont](https://www.iconfont.cn/).
 
+For safety, the bundled renderers ignore event handler attributes (`on*`) and URL attributes whose value uses a dangerous URL scheme (`javascript:` or `vbscript:`); other attributes are rendered as-is.
+
 Only one renderer can be set at a time. Set it to a custom function to fully control the output, or leave it unset to keep the default `<i class="{content}"></i>` output.
 
 :::

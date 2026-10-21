@@ -87,6 +87,8 @@ const mdIt = new MarkdownIt().use(icon, {
 - `fontawesomeRender`：为 [Font Awesome](https://fontawesome.com/) 输出 `<i class="{classes}">`，会补全短别名，并在未指定字体族时追加 `fa-solid`。
 - `iconfontRender`：为 [iconfont](https://www.iconfont.cn/) 输出 `<span class="iconfont icon-{content}">`。
 
+出于安全考虑，内置渲染器会忽略事件处理器属性（`on*`）以及使用危险 URL scheme（`javascript:` 或 `vbscript:`）的 URL 属性；其他属性会原样渲染。
+
 同一时间只能设置一个渲染器。将其设为自定义函数即可完全控制输出；不设置时保持默认的 `<i class="{content}"></i>` 输出。
 
 :::
