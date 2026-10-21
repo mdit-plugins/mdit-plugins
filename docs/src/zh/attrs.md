@@ -63,6 +63,19 @@ mdIt.render("# Heading 🎉{#heading}");
 
 :::
 
+::: warning 安全
+
+由于属性来自 Markdown 内容，`@mdit/plugin-attrs` 会丢弃可能执行脚本的属性：
+
+- 事件处理器属性，即名称以 `on` 开头的属性（大小写不敏感），例如 `onclick`、`onerror`；
+- 值使用危险 URL scheme（`javascript:` 或 `vbscript:`）的 URL 属性（`href`、`src`、`action`、`formaction`、`poster`、`srcset`、`xlink:href` 等），包括用前导控制字符、制表符或换行混淆的写法。
+
+该过滤始终生效，即使属性出现在 `allowed` 中也会被丢弃，`parseAttrs` 行为一致。其他属性如 `class`、`id`、`style`、`aria-*`、`data-*` 不受影响。
+
+插件不会清洗你通过 markdown-it 的 `html` 选项显式启用的 HTML。请只对可信 Markdown 启用 attrs，或在不可信场景通过 `allowed` 限制可生成的属性。
+
+:::
+
 ## 选项
 
 你可以向 `@mdit/plugin-attrs` 传递选项以自定义插件行为。
@@ -103,6 +116,8 @@ type MarkdownItAttrRuleName =
 允许的属性。
 
 设置空数组意味着允许所有属性。
+
+危险属性（见上方安全警告）即使出现在此处也会被丢弃。
 
 ```ts
 interface AllowedAttrEntry {

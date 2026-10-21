@@ -7,6 +7,7 @@ import {
   QUOTE_MARKER,
 } from "./constants.js";
 import { isUnescapedQuote } from "./getDelimiterChecker.js";
+import { isSafeAttr } from "./isSafeAttr.js";
 import type { Attr, AttrFilter } from "./types.js";
 
 const isAllowedKeyChar = (charCode: number): boolean =>
@@ -108,5 +109,8 @@ export const getAttrs = (str: string, range: DelimiterRange, filter: AttrFilter 
   // append last key/value pair
   if (key !== "") attrs.push([key, value]);
 
-  return filter ? attrs.filter(([attrKey, attrValue]) => filter(attrKey, attrValue)) : attrs;
+  return attrs.filter(
+    ([attrKey, attrValue]) =>
+      isSafeAttr(attrKey, attrValue) && (!filter || filter(attrKey, attrValue)),
+  );
 };

@@ -65,6 +65,19 @@ will be
 
 :::
 
+::: warning Security
+
+Because attributes are taken from Markdown content, `@mdit/plugin-attrs` drops attributes that could execute scripts:
+
+- event handler attributes, i.e. any attribute whose name starts with `on` (case-insensitive), such as `onclick` or `onerror`;
+- URL attributes (`href`, `src`, `action`, `formaction`, `poster`, `srcset`, `xlink:href`, etc.) whose value uses a dangerous URL scheme (`javascript:` or `vbscript:`), including values obfuscated with leading control characters, tabs or line breaks.
+
+This filtering is always applied, even when the attribute is listed in `allowed`, and `parseAttrs` behaves the same. Other attributes such as `class`, `id`, `style`, `aria-*` and `data-*` are untouched.
+
+The plugin does not sanitize HTML that you explicitly enable through markdown-it's `html` option. Only enable attrs for trusted Markdown, or restrict generated attributes with `allowed`.
+
+:::
+
 ## Options
 
 You can pass options to `@mdit/plugin-attrs` to customize plugin behavior.
@@ -105,6 +118,8 @@ The `tasklist` rule supports task list plugins that wrap item contents in a labe
 Allowed attributes.
 
 An empty list means allowing all attributes.
+
+Dangerous attributes (see the Security warning above) are always dropped, even when they are listed here.
 
 ```ts
 interface AllowedAttrEntry {
