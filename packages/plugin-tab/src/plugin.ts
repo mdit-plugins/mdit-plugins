@@ -1,4 +1,4 @@
-import { escapeHtml } from "@mdit/helper";
+import { escapeHtml, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
 import type { StateBlock, Token, Env } from "markdown-it";
 
@@ -79,7 +79,6 @@ const createTabItemRule =
 
     const indent = state.sCount[startLine];
     let nextLine = startLine + 1;
-    let autoClosed = false;
 
     // Search for the end of the block
     for (
@@ -91,6 +90,18 @@ const createTabItemRule =
       nextLine++
     ) {
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
+      const nextLineMax = state.eMarks[nextLine];
+
+      // outdented content is not part of the current tab item
+      if (nextLineStart < nextLineMax && state.sCount[nextLine] < indent) break;
+
+      // markers inside fenced code blocks are literal text, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
+      }
 
       if (
         // marker should be indented same as opening one
@@ -99,10 +110,9 @@ const createTabItemRule =
         state.src[nextLineStart] === "@" &&
         // check rest of marker
         // oxlint-disable-next-line typescript/strict-boolean-expressions
-        checkTabMarker(state, nextLineStart, state.eMarks[nextLine])
+        checkTabMarker(state, nextLineStart, nextLineMax)
       ) {
         // found!
-        autoClosed = true;
         break;
       }
     }
@@ -114,7 +124,7 @@ const createTabItemRule =
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -165,9 +175,9 @@ const createTabItemRule =
     };
     if (id) openToken.meta.id = id;
 
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine];
 
-    state.md.block.tokenize(state, startLine + 1, nextLine + (autoClosed ? 0 : 1));
+    state.md.block.tokenize(state, startLine + 1, nextLine);
 
     const closeToken = state.push(`${name}_tab_close`, "", -1);
 
@@ -177,7 +187,7 @@ const createTabItemRule =
     state.parentType = oldParent;
     state.lineMax = oldLineMax;
     state.blkIndent = oldBlkIndent;
-    state.line = nextLine + (autoClosed ? 0 : 1);
+    state.line = nextLine;
 
     return true;
   };
@@ -252,6 +262,14 @@ const createTabContainerRule =
         break;
       }
 
+      // fences inside the container are literal content, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
+      }
+
       if (
         // closing fence should be indented same as opening one
         state.sCount[nextLine] === indent &&
@@ -285,7 +303,7 @@ const createTabContainerRule =
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -306,12 +324,12 @@ const createTabContainerRule =
     openToken.block = true;
     openToken.info = name;
     openToken.meta = id ? { id } : {};
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine];
 
     state.env[tabNameKey] = name;
     state.env[tabLevelKey] = state.level;
 
-    state.md.block.tokenize(state, startLine + 1, nextLine - (autoClosed ? 1 : 0));
+    state.md.block.tokenize(state, startLine + 1, nextLine);
 
     state.env[tabNameKey] = oldName;
     state.env[tabLevelKey] = oldLevel;
@@ -341,7 +359,7 @@ const createTabsCoreRule =
 
       const data: MarkdownItTabData[] = [];
       let activeIndex = -1;
-      let isTabStart = false;
+      let inTabItem = false;
       let nestingDepth = 0;
       const { level } = token;
 
@@ -365,8 +383,8 @@ const createTabsCoreRule =
 
         // skip processing tokens deep inside other blocks
         if (child.level > level + 1 || nestingDepth > 0) {
-          // hide contents before first tab
-          if (!isTabStart) {
+          // hide contents outside any tab item
+          if (!inTabItem) {
             child.type = `${name}_tabs_empty`;
             child.hidden = true;
           }
@@ -375,7 +393,7 @@ const createTabsCoreRule =
         }
 
         if (type === `${name}_tab_open`) {
-          isTabStart = true;
+          inTabItem = true;
 
           meta.index = data.length;
           // tab is active
@@ -394,9 +412,12 @@ const createTabsCoreRule =
           continue;
         }
 
-        if (type === `${name}_tab_close`) continue;
+        if (type === `${name}_tab_close`) {
+          inTabItem = false;
+          continue;
+        }
 
-        // hide contents before first tab
+        // hide contents outside any tab item
         child.type = `${name}_tabs_empty`;
         child.hidden = true;
       }
