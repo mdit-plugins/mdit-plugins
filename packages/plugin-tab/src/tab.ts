@@ -32,17 +32,16 @@ const syncTabs = (btn: HTMLButtonElement, name: string, sourceWrapper: HTMLEleme
 
   if (!tabId) return;
 
-  document
-    .querySelectorAll<HTMLButtonElement>(`.${name}-tab-button[data-id="${tabId}"]`)
-    .forEach((syncBtn) => {
-      if (syncBtn === btn) return;
+  // compare the id through the dataset to avoid building a CSS selector from it
+  document.querySelectorAll<HTMLButtonElement>(`.${name}-tab-button`).forEach((syncBtn) => {
+    if (syncBtn === btn || syncBtn.dataset.id !== tabId) return;
 
-      const syncWrapper = syncBtn.closest<HTMLElement>(`.${name}-tabs-wrapper`);
+    const syncWrapper = syncBtn.closest<HTMLElement>(`.${name}-tabs-wrapper`);
 
-      if (!syncWrapper || syncWrapper === sourceWrapper) return;
+    if (!syncWrapper || syncWrapper === sourceWrapper) return;
 
-      activateTab(syncBtn, syncWrapper, name);
-    });
+    activateTab(syncBtn, syncWrapper, name);
+  });
 };
 
 const initTabsWrapper = (wrapper: HTMLElement, name: string): void => {
@@ -86,16 +85,21 @@ export const register = ({ name = "tabs" }: TabOptions = {}): void => {
   });
 
   const handler = (event: MouseEvent): void => {
-    const target = event.target as HTMLElement;
+    const target = event.target;
 
-    if (!target.classList.contains(`${name}-tab-button`)) return;
+    if (!(target instanceof Element)) return;
 
-    const wrapper = target.closest<HTMLElement>(`.${name}-tabs-wrapper`);
+    // clicks on child elements of a button should also activate the tab
+    const btn = target.closest<HTMLButtonElement>(`.${name}-tab-button`);
+
+    if (!btn) return;
+
+    const wrapper = btn.closest<HTMLElement>(`.${name}-tabs-wrapper`);
 
     if (!wrapper) return;
 
-    activateTab(target as HTMLButtonElement, wrapper, name);
-    syncTabs(target as HTMLButtonElement, name, wrapper);
+    activateTab(btn, wrapper, name);
+    syncTabs(btn, name, wrapper);
   };
 
   document.addEventListener("click", handler);
