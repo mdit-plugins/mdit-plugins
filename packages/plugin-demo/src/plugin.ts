@@ -147,7 +147,8 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         .join("\n")
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
-      codeToken.map = [startLine, state.line];
+      // the code content is the source between the opening and closing markers
+      codeToken.map = [startLine + 1, nextLine];
       (codeToken.meta ??= {}).title = title;
       if (!codeRenderer) {
         codeToken.info = "md";
