@@ -110,4 +110,111 @@ describe("attrs", () => {
       expect(md.render("^a^")).toBe(expected);
     });
   });
+
+  describe("attrs factory", () => {
+    // A factory must return a fresh array on every call, so each token owns
+    // independent outer and inner arrays (no leakage, no accumulation).
+    const createAttrsFactory = (): (() => [string, string][]) => () => createAttrs();
+
+    describe("nested rule", () => {
+      const createMd = (attrs: [string, string][] | (() => [string, string][])): MarkdownItType =>
+        new MarkdownIt().use(inlineRule, {
+          marker: "=",
+          tag: "span",
+          token: "highlight",
+          nested: true,
+          double: true,
+          placement: "before-emphasis",
+          // Temporary cast: the factory overload is added in the next commit.
+          attrs: attrs as [string, string][],
+        });
+
+      it("should assign independent attrs from the factory for each token", () => {
+        const tokens = getOpenTokens(createMd(createAttrsFactory()), "==a==\n\n==b==");
+
+        expect(tokens).toHaveLength(2);
+        expect(tokens[0].attrs).toStrictEqual(createAttrs());
+        expect(tokens[1].attrs).toStrictEqual(createAttrs());
+        expect(tokens[0].attrs).not.toBe(tokens[1].attrs);
+        expect(tokens[0].attrs?.[0]).not.toBe(tokens[1].attrs?.[0]);
+
+        tokens[0].attrJoin("class", "extra");
+
+        expect(tokens[0].attrs).toStrictEqual([
+          ["class", "custom extra"],
+          ["tabindex", "-1"],
+        ]);
+        expect(tokens[1].attrs).toStrictEqual(createAttrs());
+      });
+
+      it("should evaluate the factory for every token", () => {
+        let index = 0;
+
+        const tokens = getOpenTokens(
+          createMd(() => [["class", `custom-${index++}`]]),
+          "==a==\n\n==b==",
+        );
+
+        expect(tokens.map(({ attrs }) => attrs)).toStrictEqual([
+          [["class", "custom-0"]],
+          [["class", "custom-1"]],
+        ]);
+      });
+
+      it("should not accumulate attrs across repeated renders", () => {
+        const md = createMd(createAttrsFactory());
+
+        md.renderer.rules.highlight_open = (tokens, index, options, _env, self): string => {
+          tokens[index].attrJoin("class", "extra");
+
+          return self.renderToken(tokens, index, options);
+        };
+
+        const expected = '<p><span class="custom extra" tabindex="-1">a</span></p>\n';
+
+        expect(md.render("==a==")).toBe(expected);
+        expect(md.render("==a==")).toBe(expected);
+      });
+    });
+
+    describe("non-nested rule", () => {
+      const createMd = (attrs: [string, string][] | (() => [string, string][])): MarkdownItType =>
+        new MarkdownIt().use(inlineRule, {
+          marker: "^",
+          tag: "sup",
+          token: "sup",
+          // Temporary cast: the factory overload is added in the next commit.
+          attrs: attrs as [string, string][],
+        });
+
+      it("should assign independent attrs from the factory for each token", () => {
+        const tokens = getOpenTokens(createMd(createAttrsFactory()), "^a^\n\n^b^");
+
+        expect(tokens).toHaveLength(2);
+        expect(tokens[0].attrs).toStrictEqual(createAttrs());
+        expect(tokens[1].attrs).toStrictEqual(createAttrs());
+        expect(tokens[0].attrs).not.toBe(tokens[1].attrs);
+        expect(tokens[0].attrs?.[0]).not.toBe(tokens[1].attrs?.[0]);
+
+        tokens[0].attrJoin("class", "extra");
+
+        expect(tokens[1].attrs).toStrictEqual(createAttrs());
+      });
+
+      it("should not accumulate attrs across repeated renders", () => {
+        const md = createMd(createAttrsFactory());
+
+        md.renderer.rules.sup_open = (tokens, index, options, _env, self): string => {
+          tokens[index].attrJoin("class", "extra");
+
+          return self.renderToken(tokens, index, options);
+        };
+
+        const expected = '<p><sup class="custom extra" tabindex="-1">a</sup></p>\n';
+
+        expect(md.render("^a^")).toBe(expected);
+        expect(md.render("^a^")).toBe(expected);
+      });
+    });
+  });
 });
