@@ -166,6 +166,25 @@ describe("tab browser", () => {
         }).not.toThrow();
       });
 
+      it("should activate the tab when a child element of the button is clicked", () => {
+        const wrapper = document.querySelector<HTMLElement>(".tabs-tabs-wrapper")!;
+        const btns = wrapper.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
+        const label = document.createElement("strong");
+
+        label.textContent = "label";
+        btns[1].append(label);
+        label.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+        expect(btns[0].classList.contains("active")).toBe(false);
+        expect(btns[1].classList.contains("active")).toBe(true);
+      });
+
+      it("should ignore clicks whose target is not an element", () => {
+        expect(() => {
+          document.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        }).not.toThrow();
+      });
+
       it("should skip activateTab when button has no data-tab", () => {
         const wrapper = document.querySelector<HTMLElement>(".tabs-tabs-wrapper")!;
         const btns = wrapper.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
@@ -221,6 +240,49 @@ describe("tab browser", () => {
 
         expect(btns2[0].classList.contains("active")).toBe(true);
         expect(btns2[1].classList.contains("active")).toBe(false);
+      });
+
+      it("should sync tabs whose data-id contains quotes and brackets", () => {
+        const tabId = 'lang"quoted]';
+        const wrapper1 = createTabsWrapper("tabs", { tabId });
+        const wrapper2 = createTabsWrapper("tabs", { tabId });
+        const otherWrapper = createTabsWrapper("tabs", { tabId: "other" });
+
+        document.body.append(wrapper1);
+        document.body.append(wrapper2);
+        document.body.append(otherWrapper);
+        register();
+
+        const [, btn1] = wrapper1.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
+        const btns2 = wrapper2.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
+        const otherBtns = otherWrapper.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
+
+        expect(() => btn1.dispatchEvent(new MouseEvent("click", { bubbles: true }))).not.toThrow();
+
+        expect(btns2[1].classList.contains("active")).toBe(true);
+        // buttons with another data-id are not synced
+        expect(otherBtns[0].classList.contains("active")).toBe(true);
+        expect(otherBtns[1].classList.contains("active")).toBe(false);
+      });
+
+      it("should ignore matching buttons outside any wrapper", () => {
+        const wrapper = createTabsWrapper("tabs", { tabId: "lang" });
+        const orphanBtn = document.createElement("button");
+
+        orphanBtn.className = "tabs-tab-button";
+        orphanBtn.dataset.tab = "1";
+        orphanBtn.dataset.id = "lang";
+        document.body.append(wrapper);
+        document.body.append(orphanBtn);
+        register();
+
+        const btns = wrapper.querySelectorAll<HTMLButtonElement>(".tabs-tab-button");
+
+        expect(() =>
+          btns[1].dispatchEvent(new MouseEvent("click", { bubbles: true })),
+        ).not.toThrow();
+        expect(btns[1].classList.contains("active")).toBe(true);
+        expect(orphanBtn.classList.contains("active")).toBe(false);
       });
 
       it("should not sync with buttons in the same wrapper", () => {
