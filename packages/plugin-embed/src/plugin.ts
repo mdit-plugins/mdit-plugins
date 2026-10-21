@@ -36,10 +36,12 @@ const createInlineEmbedRule =
   (state, silent) => {
     const isSpace = state.md.utils.isSpace;
     const start = state.pos;
-    const max = state.src.length;
+    const max = state.posMax;
 
     // minimum length check for inline embed - at least 5 characters: {%x%}
-    if (max - start < 5) return false;
+    // In silent mode markdown-it is only probing for a link/image label end,
+    // so scanning (and consuming) the embed could swallow the closing `]`.
+    if (silent || max - start < 5) return false;
 
     // check opening marker
     if (!checkInlineOpeningMarker(state.src, start)) return false;
@@ -84,21 +86,20 @@ const createInlineEmbedRule =
     // Check if embed name exists in the map
     if (!inlineEmbedMap.has(name)) return false;
 
-    if (!silent) {
-      const token = state.push("embed_inline", "embed", 0);
-      const params =
-        spacer < contentEnd
-          ? state.src
-              .slice(spacer + 1, contentEnd)
-              .trim()
-              .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
-              .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
-          : "";
+    const token = state.push("embed_inline", "embed", 0);
+    const params =
+      spacer < contentEnd
+        ? state.src
+            .slice(spacer + 1, contentEnd)
+            .trim()
+            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
+        : "";
 
-      token.markup = "{% %}";
-      token.info = name;
-      token.content = params;
-    }
+    token.markup = "{% %}";
+    token.info = name;
+    token.content = params;
+
     // Move past the closing %} marker
     state.pos = contentEnd + 2;
 
