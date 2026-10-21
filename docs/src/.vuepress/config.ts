@@ -47,7 +47,7 @@ const config: UserConfig = defineUserConfig({
         const info = token.info.trim().slice(4).trim();
 
         return `<div class="custom-container hint">\n<p class="custom-container-title">${
-          info ?? "Hint"
+          info || "Hint"
         }</p>\n`;
       },
     });
