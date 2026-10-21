@@ -64,6 +64,8 @@ Nested content
 
 Though common tools like prettier is not happy with indention less than 4, the plugin is designed to be flexible with indentation as long as it is less than code fence indentation (4 spaces by default). This allows for more natural nesting without strict indentation requirements.
 
+A line indented less than its item marker ends that item. Its content is parsed by the parent container instead of being dropped.
+
 ```md
 <!-- prettier-ignore-start -->
 @flexs

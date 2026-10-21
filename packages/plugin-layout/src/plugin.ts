@@ -101,6 +101,28 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
     const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
     const nextLineMax = state.eMarks[nextLine];
 
+    // Blank lines never end the item, tokenize skips them as well
+    if (nextLineStart >= nextLineMax) continue;
+
+    const nextDirective =
+      state.src.charCodeAt(nextLineStart) === AT
+        ? detectDirective(state.src, nextLineStart, nextLineMax)
+        : null;
+
+    if (state.sCount[nextLine] < indent) {
+      // `state.blkIndent` is raised to `indent` for the item content, so tokenize
+      // stops before any outdented line. Such a line must end the item so that its
+      // content is parsed again by an upper container, unless it is an `@end` that
+      // closes a nested container (directive indentation is flexible).
+      const closesNestedContainer =
+        nextDirective != null &&
+        nextDirective.depth === ctx.depth &&
+        nextDirective.kind === "end" &&
+        nesting > 0;
+
+      if (!closesNestedContainer) break;
+    }
+
     // directives inside fenced code blocks are literal text, skip them
     const fenceEnd = scanFence(state, nextLine, endLine, indent);
 
@@ -109,16 +131,12 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
       continue;
     }
 
-    if (nextLineStart >= nextLineMax) continue;
-    if (state.src.charCodeAt(nextLineStart) !== AT) continue;
+    if (nextDirective == null || nextDirective.depth !== ctx.depth) continue;
 
-    const nextDir = detectDirective(state.src, nextLineStart, nextLineMax);
-
-    if (!nextDir || nextDir.depth !== ctx.depth) continue;
-
-    if (nextDir.kind === "container") nesting++;
-    else if (nextDir.kind === "end" && nesting > 0) nesting--;
-    else if (nextDir.kind === "item" && nextDir.type === ctx.type && nesting === 0) break;
+    if (nextDirective.kind === "container") nesting++;
+    else if (nextDirective.kind === "end" && nesting > 0) nesting--;
+    else if (nextDirective.kind === "item" && nextDirective.type === ctx.type && nesting === 0)
+      break;
   }
 
   const oldParent = state.parentType;
