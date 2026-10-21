@@ -11,7 +11,7 @@
     "docs:dev": "pnpm run --filter=docs docs:dev",
     "lint": "oxlint --fix && oxfmt",
     "lint:check": "oxlint && oxfmt --check",
-    "lint:md": "markdownlint-cli2 **/*.md",
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "packages:bootstrap": "node --experimental-strip-types scripts/bootstrap.ts",
     "packages:check-update": "pnpm dlx npm-check-updates",
     "packages:update": "pnpm up -r",
