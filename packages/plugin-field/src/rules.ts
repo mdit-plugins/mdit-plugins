@@ -1,3 +1,4 @@
+import { scanFence } from "@mdit/helper";
 import type { BlockRule } from "@mdit/helper";
 import type { Env, StateBlock, Token } from "markdown-it";
 
@@ -314,6 +315,14 @@ export const getFieldItemRule =
 
     for (; nextLine < endLine; nextLine++) {
       if (state.isEmpty(nextLine)) continue;
+
+      // directives inside fenced code blocks are literal text, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, state.blkIndent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
+      }
 
       const nextStart = state.bMarks[nextLine] + state.tShift[nextLine];
       const nextMax = state.eMarks[nextLine];
