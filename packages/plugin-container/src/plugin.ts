@@ -4,11 +4,19 @@
  */
 
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { MarkdownItOptions, Renderer, Token } from "markdown-it";
+import type { RendererRule } from "markdown-it";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
+
+// Render an opening / closing tag without mutating the token, so that the same
+// token stream can be rendered multiple times.
+const defaultOpenRenderer: RendererRule = (tokens, index, mdItOptions, _env, self) =>
+  self.renderToken(tokens, index, mdItOptions);
+
+const defaultCloseRenderer: RendererRule = (tokens, index, mdItOptions, _env, self) =>
+  self.renderToken(tokens, index, mdItOptions);
 
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
   if (typeof options !== "object" || !options.name)
@@ -18,26 +26,13 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     name,
     marker = ":",
     validate = (params: string): boolean => params.trim().split(" ", 2)[0] === name,
-    openRenderer = (
-      tokens: Token[],
-      index: number,
-      mdItOptions: Required<MarkdownItOptions>,
-      _env: unknown,
-      self: Renderer,
-    ): string => {
-      // add a class to the opening tag
-      tokens[index].attrJoin("class", name);
-
-      return self.renderToken(tokens, index, mdItOptions);
-    },
-    closeRenderer = (
-      tokens: Token[],
-      index: number,
-      mdItOptions: Required<MarkdownItOptions>,
-      _env: unknown,
-      self: Renderer,
-    ): string => self.renderToken(tokens, index, mdItOptions),
+    openRenderer = defaultOpenRenderer,
+    closeRenderer = defaultCloseRenderer,
   } = options;
+
+  // with the default renderer, the container class is added when the token is
+  // created, so rendering the same token stream again stays idempotent
+  const addDefaultClass = openRenderer === defaultOpenRenderer;
 
   const markerStart = marker[0];
   const markerLength = marker.length;
@@ -140,6 +135,7 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     openToken.block = true;
     openToken.info = params;
     openToken.map = [startLine, nextLine];
+    if (addDefaultClass) openToken.attrJoin("class", name);
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
