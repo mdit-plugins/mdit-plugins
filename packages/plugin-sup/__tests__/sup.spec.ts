@@ -1,4 +1,6 @@
+import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { sup } from "../src/index.js";
@@ -41,5 +43,32 @@ describe(sup, () => {
     expect(markdownIt.render(`*^f`)).toBe("<p>*^f</p>\n");
 
     expect(markdownIt.render(`b*^`)).toBe("<p>b*^</p>\n");
+  });
+});
+
+describe("sup with attrs plugin", () => {
+  const createMd = (): MarkdownItType => new MarkdownIt({ linkify: true }).use(attrs).use(sup);
+
+  it("should not leak inline attrs between sup tokens", () => {
+    expect(createMd().render("^a^{.x}\n\n^b^")).toBe(
+      '<p><sup class="x">a</sup></p>\n<p><sup>b</sup></p>\n',
+    );
+    expect(createMd().render("^a^{.x} ^b^")).toBe('<p><sup class="x">a</sup> <sup>b</sup></p>\n');
+  });
+
+  it("should not accumulate attrs across renders", () => {
+    const md = createMd();
+    const expected = '<p><sup class="x">a</sup></p>\n<p><sup>b</sup></p>\n';
+
+    expect(md.render("^a^{.x}\n\n^b^")).toBe(expected);
+    expect(md.render("^a^{.x}\n\n^b^")).toBe(expected);
+    expect(md.render("^c^\n\n^d^")).toBe("<p><sup>c</sup></p>\n<p><sup>d</sup></p>\n");
+  });
+
+  it("should keep attrs independent between adjacent tokens", () => {
+    expect(createMd().render("^a^{.x}^b^{.y}")).toBe(
+      '<p><sup class="x">a</sup><sup class="y">b</sup></p>\n',
+    );
+    expect(createMd().render("2^4^^5^{.x}")).toBe('<p>2<sup>4</sup><sup class="x">5</sup></p>\n');
   });
 });
