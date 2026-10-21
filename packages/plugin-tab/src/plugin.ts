@@ -1,4 +1,4 @@
-import { escapeHtml } from "@mdit/helper";
+import { escapeHtml, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
 import type { StateBlock, Token, Env } from "markdown-it";
 
@@ -91,6 +91,14 @@ const createTabItemRule =
       nextLine++
     ) {
       const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
+
+      // markers inside fenced code blocks are literal text, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
+      }
 
       if (
         // marker should be indented same as opening one
@@ -250,6 +258,14 @@ const createTabContainerRule =
         // - :::
         //  test
         break;
+      }
+
+      // fences inside the container are literal content, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
       }
 
       if (
