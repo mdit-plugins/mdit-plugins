@@ -234,11 +234,11 @@ importers:
         specifier: 2.0.1
         version: 2.0.1
       '@lerna-lite/cli':
-        specifier: 5.6.3
-        version: 5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
+        specifier: 5.6.4
+        version: 5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
       '@lerna-lite/publish':
-        specifier: 5.6.3
-        version: 5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)
+        specifier: 5.6.4
+        version: 5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)
       '@mr-hope/tsconfig':
         specifier: 0.0.4
         version: 0.0.4(typescript@7.0.2)
@@ -1061,8 +1061,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lerna-lite/cli@5.6.3':
-    resolution: {integrity: sha512-DL79xF5lGeT/7JflVm9L9Gz3z5EJW1zsc/UbUi7dCXMNGKgeD0HSO976GVQi5hSNQDBwYEApWKtEdZOntdn9+A==}
+  '@lerna-lite/cli@5.6.4':
+    resolution: {integrity: sha512-Oyh/ReScWByM9KxcPHVkeatDeygGuCZtEZgf+o4gZo9KPvG0Xy3WxTlpyzYs4LG869orBi1Ru+G73oCq5+G8bQ==}
     engines: {node: ^22.17.0 || >=24.0.0}
     hasBin: true
     peerDependencies:
@@ -1086,24 +1086,24 @@ packages:
       '@lerna-lite/watch':
         optional: true
 
-  '@lerna-lite/core@5.6.3':
-    resolution: {integrity: sha512-33QjLOI+Nsgio2+BAhepCala8H0gaRiOoAEz2T/eGm+vUx2gxEaL/rXRBSCJSRE3LVGGYTat8NMyIQ5F3CxVVg==}
+  '@lerna-lite/core@5.6.4':
+    resolution: {integrity: sha512-QvCoTbJ67q0v0ZwL/C6yRDj38PeNBJGeIig8w8Y/9LVQ6ufuvwOj9Z+Ag10YE0UfVSrXLCMlgWlfrGs1J0zC6g==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/init@5.6.3':
-    resolution: {integrity: sha512-Ad1J0tdkF9oMiLXth7Y00QYW9ZSeRd0kAeLQNGVOJknpVEwPhaOG+T4R062FPpKOx58EIVJvvVOm8HNTlUqV5w==}
+  '@lerna-lite/init@5.6.4':
+    resolution: {integrity: sha512-B5I+2VOKjr7cmxt2DDDQoxnL+eergZQ82+8h61IJBb9yt5D60f8R8chkuARJcTTErwhco0RzRSZ/5N16yJeGMg==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
   '@lerna-lite/npmlog@5.4.1':
     resolution: {integrity: sha512-APylzmp9eDWsM5ZLnTUwV6uwTshtWAbKIF4sA0/SgBsdbgfJUVoz5VTviBnyODCKRzpjcR1MAlRTcjUmKXSbKA==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/publish@5.6.3':
-    resolution: {integrity: sha512-sw45Ld5XKwlQ3R5k2I8GhOJ0bcy2RUvWTOcoz0JizEJxP0qO5uAwaEq1x1UnUmlSvH8DTYNVnf2sSQolLkrGFA==}
+  '@lerna-lite/publish@5.6.4':
+    resolution: {integrity: sha512-kpAWEdt2TBjF2tM7eOEKx/XyL0ukvzqY1QTyfYiiLl6al3K0j7lfQnG1XS8deOekFxgGj2xcUo94K+xwARtWHQ==}
     engines: {node: ^22.17.0 || >=24.0.0}
 
-  '@lerna-lite/version@5.6.3':
-    resolution: {integrity: sha512-aPzu2FOL5UW1GcfgXg92KVWDjgl6z4LLjzeDZ6kcYfftJAWsiGDNtZo8boRUq5QUJcU7eY3+leTPte8NfbOtPQ==}
+  '@lerna-lite/version@5.6.4':
+    resolution: {integrity: sha512-K02p93Q3M2Sjqd4PfLsf3aRGG+3W1P5heiQwX4AisE3ffsdbmWNm05O37NF9ifB+PGEfiR+9Ntzrfeu8vtluuA==}
     engines: {node: ^22.17.0 || >=24.0.0}
     peerDependencies:
       conventional-changelog-conventionalcommits: ^10.4.0
@@ -5269,21 +5269,21 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lerna-lite/cli@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)':
+  '@lerna-lite/cli@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)':
     dependencies:
-      '@lerna-lite/core': 5.6.3(@types/node@24.19.2)
-      '@lerna-lite/init': 5.6.3(@types/node@24.19.2)
+      '@lerna-lite/core': 5.6.4(@types/node@24.19.2)
+      '@lerna-lite/init': 5.6.4(@types/node@24.19.2)
       '@lerna-lite/npmlog': 5.4.1
       dotenv: 18.0.8
       import-local: 3.2.0
       yargs: 18.2.0
     optionalDependencies:
-      '@lerna-lite/publish': 5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)
-      '@lerna-lite/version': 5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)
+      '@lerna-lite/publish': 5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)
+      '@lerna-lite/version': 5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@lerna-lite/core@5.6.3(@types/node@24.19.2)':
+  '@lerna-lite/core@5.6.4(@types/node@24.19.2)':
     dependencies:
       '@inquirer/expand': 5.1.6(@types/node@24.19.2)
       '@inquirer/input': 5.1.7(@types/node@24.19.2)
@@ -5303,9 +5303,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@lerna-lite/init@5.6.3(@types/node@24.19.2)':
+  '@lerna-lite/init@5.6.4(@types/node@24.19.2)':
     dependencies:
-      '@lerna-lite/core': 5.6.3(@types/node@24.19.2)
+      '@lerna-lite/core': 5.6.4(@types/node@24.19.2)
       write-json-file: 7.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -5315,12 +5315,12 @@ snapshots:
       fast-string-width: 3.0.2
       signal-exit: 4.1.0
 
-  '@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)':
+  '@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1)':
     dependencies:
-      '@lerna-lite/cli': 5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
-      '@lerna-lite/core': 5.6.3(@types/node@24.19.2)
+      '@lerna-lite/cli': 5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
+      '@lerna-lite/core': 5.6.4(@types/node@24.19.2)
       '@lerna-lite/npmlog': 5.4.1
-      '@lerna-lite/version': 5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)
+      '@lerna-lite/version': 5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)
       '@npmcli/arborist': 9.9.2(supports-color@8.1.1)
       '@npmcli/package-json': 7.0.5
       ci-info: 4.4.0
@@ -5343,12 +5343,12 @@ snapshots:
       - conventional-commits-filter
       - supports-color
 
-  '@lerna-lite/version@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)':
+  '@lerna-lite/version@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)':
     dependencies:
       '@conventional-changelog/git-client': 3.2.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.3)
       '@conventional-changelog/template': 1.4.0
-      '@lerna-lite/cli': 5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.3(@lerna-lite/publish@5.6.3(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
-      '@lerna-lite/core': 5.6.3(@types/node@24.19.2)
+      '@lerna-lite/cli': 5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@lerna-lite/version@5.6.4(@lerna-lite/publish@5.6.4(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1)(supports-color@8.1.1))(@types/node@24.19.2)(conventional-changelog-conventionalcommits@10.4.1)(conventional-commits-filter@6.0.1))(@types/node@24.19.2)
+      '@lerna-lite/core': 5.6.4(@types/node@24.19.2)
       '@lerna-lite/npmlog': 5.4.1
       '@octokit/plugin-enterprise-rest': 6.0.1
       '@octokit/rest': 22.0.1
