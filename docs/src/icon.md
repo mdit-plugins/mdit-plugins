@@ -29,6 +29,8 @@ Use `::icon classes::` to insert custom icons. By default the plugin renders a `
 ::icon1 =16 /red::
 ```
 
+The icon content must stay on a single line: `::` pairs separated by a line break are rendered as plain text.
+
 If you are not satisfied with the default render, you can use `render` option to customize icon rendering:
 
 ```js

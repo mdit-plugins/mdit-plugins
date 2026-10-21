@@ -4,6 +4,7 @@ import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownItIconOptions } from "./options.js";
 
 const COLON = 0x3a; /* : */
+const NEWLINE = 0x0a; /* \n */
 const SPACE = 0x20;
 
 const iconRule: InlineRule = (state, silent) => {
@@ -38,15 +39,32 @@ const iconRule: InlineRule = (state, silent) => {
       break;
     }
 
+    // icon content must stay on a single line
+    if (state.src.charCodeAt(state.pos) === NEWLINE) break;
+
     state.md.inline.skipToken(state);
   }
 
+  if (!found) {
+    state.pos = start;
+
+    return false;
+  }
+
   if (
-    !found ||
     // ::xxx ::
     //      ^
     state.src.charCodeAt(state.pos - 1) === SPACE
   ) {
+    state.pos = start;
+
+    return false;
+  }
+
+  // a nested token (e.g. a multi-line code span) can hide a line break from the loop above
+  const newlineIndex = state.src.indexOf("\n", start + 2);
+
+  if (newlineIndex !== -1 && newlineIndex < state.pos) {
     state.pos = start;
 
     return false;
