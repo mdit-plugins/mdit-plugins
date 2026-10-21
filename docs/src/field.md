@@ -181,11 +181,15 @@ Though common tools like prettier is not happy with indention less than 4, the p
 
 ::: tip Escaping
 
-A line inside a field container that starts with `@` followed by an inline code is a field item. Escape the `@` with `\` to keep it as content:
+A line inside a field container that starts with `@` followed by an inline code is a field item. Escape the `@` with `\` to keep it as content, and lines inside fenced code blocks are literal text as well:
 
-```md
+````md
 \@`not-a-field`
+
 ```
+@`not-a-field`
+```
+````
 
 :::
 
