@@ -163,11 +163,11 @@ interface NestedPostProcessConfig {
 const createNestedPostProcess = (
   config: NestedPostProcessConfig,
 ): ((state: StateInline, delimiters: Delimiter[]) => void) => {
-  const { markerCode, tag, token, markup, double, attrs } = config;
-  const closeType = `${token}_close`;
+  const { markerCode, tag, token: tokenType, markup, double, attrs } = config;
+  const closeType = `${tokenType}_close`;
 
   return (state, delimiters): void => {
-    let tk;
+    let token;
     const loneMarkers: number[] = [];
     const max = delimiters.length;
 
@@ -177,20 +177,20 @@ const createNestedPostProcess = (
       if (startDelim.marker === markerCode && startDelim.end !== -1) {
         const endDelim = delimiters[startDelim.end];
 
-        tk = state.tokens[startDelim.token];
-        tk.type = `${token}_open`;
-        tk.tag = tag;
-        tk.nesting = 1;
-        tk.markup = markup;
-        tk.content = "";
-        if (attrs) tk.attrs = cloneAttrs(attrs);
+        token = state.tokens[startDelim.token];
+        token.type = `${tokenType}_open`;
+        token.tag = tag;
+        token.nesting = 1;
+        token.markup = markup;
+        token.content = "";
+        if (attrs) token.attrs = cloneAttrs(attrs);
 
-        tk = state.tokens[endDelim.token];
-        tk.type = closeType;
-        tk.tag = tag;
-        tk.nesting = -1;
-        tk.markup = markup;
-        tk.content = "";
+        token = state.tokens[endDelim.token];
+        token.type = closeType;
+        token.tag = tag;
+        token.nesting = -1;
+        token.markup = markup;
+        token.content = "";
 
         // Mark delimiters as consumed so other handlers (e.g., emphasis) won't re-process
         endDelim.end = -1;
@@ -222,9 +222,9 @@ const createNestedPostProcess = (
 
         jj--;
 
-        tk = state.tokens[jj];
+        token = state.tokens[jj];
         state.tokens[jj] = state.tokens[ii];
-        state.tokens[ii] = tk;
+        state.tokens[ii] = token;
       }
     }
   };
