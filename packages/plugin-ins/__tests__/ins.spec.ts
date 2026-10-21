@@ -1,4 +1,6 @@
+import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { ins } from "../src/index.js";
@@ -72,5 +74,33 @@ test++
 `),
     ).toBe(`<p>++
 test++</p>\n`);
+  });
+});
+
+describe("ins with attrs plugin", () => {
+  const createMd = (): MarkdownItType => new MarkdownIt({ linkify: true }).use(attrs).use(ins);
+
+  it("should not leak inline attrs between ins tokens", () => {
+    expect(createMd().render("++a++{.x}\n\n++b++")).toBe(
+      '<p><ins class="x">a</ins></p>\n<p><ins>b</ins></p>\n',
+    );
+    expect(createMd().render("++a++{.x} ++b++")).toBe(
+      '<p><ins class="x">a</ins> <ins>b</ins></p>\n',
+    );
+  });
+
+  it("should not accumulate attrs across renders", () => {
+    const md = createMd();
+    const expected = '<p><ins class="x">a</ins></p>\n<p><ins>b</ins></p>\n';
+
+    expect(md.render("++a++{.x}\n\n++b++")).toBe(expected);
+    expect(md.render("++a++{.x}\n\n++b++")).toBe(expected);
+    expect(md.render("++c++\n\n++d++")).toBe("<p><ins>c</ins></p>\n<p><ins>d</ins></p>\n");
+  });
+
+  it("should put attrs on the correct token when nested", () => {
+    expect(createMd().render("++**a**++{.x}\n\n++**b**++")).toBe(
+      '<p><ins class="x"><strong>a</strong></ins></p>\n<p><ins><strong>b</strong></ins></p>\n',
+    );
   });
 });

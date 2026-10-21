@@ -47,6 +47,9 @@
     "@mdit/helper": "workspace:^",
     "@mdit/plugin-inline-rule": "workspace:*"
   },
+  "devDependencies": {
+    "@mdit/plugin-attrs": "workspace:*"
+  },
   "peerDependencies": {
     "markdown-it": "catalog:"
   },
