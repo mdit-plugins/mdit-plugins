@@ -28,6 +28,38 @@ describe("plugin-attrs: security", () => {
     expect(markdownIt.render(`![alt](img.png){src="javascript:alert(1)"}`)).toBe(
       '<p><img src="img.png" alt="alt"></p>\n',
     );
+    expect(markdownIt.render(`[text](url){href="file:///etc/passwd"}`)).toBe(
+      '<p><a href="url">text</a></p>\n',
+    );
+    expect(markdownIt.render(`![alt](img.png){src="FILE:///etc/passwd"}`)).toBe(
+      '<p><img src="img.png" alt="alt"></p>\n',
+    );
+  });
+
+  it("should only keep data urls accepted by markdown-it", () => {
+    const acceptedDataUrls = [
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP",
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg",
+      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ",
+      "data:image/webp;base64,UklGRiIAAABXRUJQVlA4",
+      "DATA:IMAGE/PNG;base64,iVBORw0KGgoAAAANSUhEUg",
+    ];
+
+    acceptedDataUrls.forEach((src) => {
+      expect(parseAttrs(`{src="${src}"}`)).toStrictEqual([["src", src]]);
+    });
+
+    expect(parseAttrs(`{href="data:text/html;base64,PHNjcmlwdD4="}`)).toStrictEqual([]);
+    expect(parseAttrs(`{href="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4="}`)).toStrictEqual([]);
+    // markdown-it requires the `;` parameter separator in the image data URL
+    expect(parseAttrs(`{src="data:image/png,abc"}`)).toStrictEqual([]);
+    expect(markdownIt.render(`# title {src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg"}`)).toBe(
+      '<h1 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg">title</h1>\n',
+    );
+    expect(markdownIt.render(`# title {src="data:text/html;base64,PHNjcmlwdD4="}`)).toBe(
+      "<h1>title</h1>\n",
+    );
+    expect(parseAttrs(`{href="file:///etc/passwd"}`)).toStrictEqual([]);
   });
 
   it("should keep normal attributes", () => {
@@ -55,6 +87,7 @@ describe("plugin-attrs: security", () => {
     expect(parseAttrs(`{href=" \u0001javascript:alert(1)"}`)).toStrictEqual([]);
     expect(parseAttrs(`{HREF=javascript:alert(1)}`)).toStrictEqual([]);
     expect(parseAttrs(`{href=vbscript:msgbox(1)}`)).toStrictEqual([]);
+
     expect(parseAttrs(`{href=javascript}`)).toStrictEqual([["href", "javascript"]]);
     expect(parseAttrs(`{href=java:alert(1)}`)).toStrictEqual([["href", "java:alert(1)"]]);
   });
