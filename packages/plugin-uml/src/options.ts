@@ -34,6 +34,7 @@ export interface MarkdownItUMLOptions {
 export const defaultRenderer = (tokens: Token[], index: number): string => {
   const token = tokens[index];
 
-  // escapeHtml so `info` (user-controlled) cannot escape the title attribute
-  return `<div class="${token.type}" title="${escapeHtml(token.info)}">${token.content}</div>`;
+  // escapeHtml so that `info` and `content` (both controlled by the markdown
+  // author) cannot inject HTML or escape the title attribute
+  return `<div class="${token.type}" title="${escapeHtml(token.info)}">${escapeHtml(token.content)}</div>`;
 };

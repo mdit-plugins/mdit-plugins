@@ -51,6 +51,12 @@ Another content
 
 :::
 
+::: warning 安全
+
+默认渲染器会转义 `info` 与提取出的内容，因此 UML 块中的 HTML 会被当作纯文本渲染。若你需要渲染 UML 块生成的原始 HTML，必须传入自定义 `renderer`。
+
+:::
+
 ## 选项
 
 ::: fields
