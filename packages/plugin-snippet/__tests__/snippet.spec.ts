@@ -17,7 +17,7 @@ vi.mock("node:fs", async (importOriginal) => {
   return {
     ...actual,
     // oxlint-disable-next-line typescript/explicit-function-return-type
-    lstatSync: (...args: Parameters<typeof actual.lstatSync>) => {
+    statSync: (...args: Parameters<typeof actual.statSync>) => {
       // oxlint-disable-next-line eslint/prefer-destructuring
       const path = args[0];
 
@@ -32,10 +32,10 @@ vi.mock("node:fs", async (importOriginal) => {
 
       // oxlint-disable-next-line eslint/curly
       if (String(path) === blockedPath) {
-        return { isFile: (): boolean => true } as ReturnType<typeof actual.lstatSync>;
+        return { isFile: (): boolean => true } as ReturnType<typeof actual.statSync>;
       }
 
-      return actual.lstatSync(...args);
+      return actual.statSync(...args);
     },
     // oxlint-disable-next-line typescript/explicit-function-return-type
     readFileSync: (...args: Parameters<typeof actual.readFileSync>) => {
