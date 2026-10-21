@@ -7,6 +7,23 @@ const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("item outdent", () => {
+    it("should keep content inside an item that is not indented", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Content
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content</p>
+</div>
+</div>
+`);
+    });
+
     it("should return outdented content to the container instead of dropping it", () => {
       expect(
         markdownIt.render(`\
