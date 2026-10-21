@@ -68,9 +68,10 @@ mdIt.render("# Heading 🎉{#heading}");
 由于属性来自 Markdown 内容，`@mdit/plugin-attrs` 会丢弃可能执行脚本的属性：
 
 - 事件处理器属性，即名称以 `on` 开头的属性（大小写不敏感），例如 `onclick`、`onerror`；
-- 值使用危险 URL scheme（`javascript:` 或 `vbscript:`）的 URL 属性（`href`、`src`、`action`、`formaction`、`poster`、`srcset`、`xlink:href` 等），包括用前导控制字符、制表符或换行混淆的写法。
+- 值使用危险 URL scheme（`javascript:`、`vbscript:` 或 `file:`）的 URL 属性（`href`、`src`、`action`、`formaction`、`poster`、`srcset`、`xlink:href` 等），包括用前导控制字符、制表符或换行混淆的写法；
+- markdown-it 允许的图片 data URL（`data:image/gif;`、`data:image/png;`、`data:image/jpeg;`、`data:image/webp;`）之外的 `data:` URL 属性，如 `data:text/html`、`data:image/svg+xml` 会被丢弃。
 
-该过滤始终生效，即使属性出现在 `allowed` 中也会被丢弃，`parseAttrs` 行为一致。其他属性如 `class`、`id`、`style`、`aria-*`、`data-*` 不受影响。
+URL 属性策略与 markdown-it 内置的链接校验一致。该过滤始终生效，即使属性出现在 `allowed` 中也会被丢弃，`parseAttrs` 行为一致。其他属性如 `class`、`id`、`style`、`aria-*`、`data-*` 不受影响。
 
 插件不会清洗你通过 markdown-it 的 `html` 选项显式启用的 HTML。请只对可信 Markdown 启用 attrs，或在不可信场景通过 `allowed` 限制可生成的属性。
 

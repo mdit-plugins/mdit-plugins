@@ -70,9 +70,10 @@ will be
 Because attributes are taken from Markdown content, `@mdit/plugin-attrs` drops attributes that could execute scripts:
 
 - event handler attributes, i.e. any attribute whose name starts with `on` (case-insensitive), such as `onclick` or `onerror`;
-- URL attributes (`href`, `src`, `action`, `formaction`, `poster`, `srcset`, `xlink:href`, etc.) whose value uses a dangerous URL scheme (`javascript:` or `vbscript:`), including values obfuscated with leading control characters, tabs or line breaks.
+- URL attributes (`href`, `src`, `action`, `formaction`, `poster`, `srcset`, `xlink:href`, etc.) whose value uses a dangerous URL scheme (`javascript:`, `vbscript:` or `file:`), including values obfuscated with leading control characters, tabs or line breaks;
+- `data:` URL attributes, except the image data URLs accepted by markdown-it (`data:image/gif;`, `data:image/png;`, `data:image/jpeg;` and `data:image/webp;`); other data URLs such as `data:text/html` or `data:image/svg+xml` are dropped.
 
-This filtering is always applied, even when the attribute is listed in `allowed`, and `parseAttrs` behaves the same. Other attributes such as `class`, `id`, `style`, `aria-*` and `data-*` are untouched.
+The URL attribute policy matches markdown-it's built-in link validation. This filtering is always applied, even when the attribute is listed in `allowed`, and `parseAttrs` behaves the same. Other attributes such as `class`, `id`, `style`, `aria-*` and `data-*` are untouched.
 
 The plugin does not sanitize HTML that you explicitly enable through markdown-it's `html` option. Only enable attrs for trusted Markdown, or restrict generated attributes with `allowed`.
 
