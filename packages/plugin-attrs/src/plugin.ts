@@ -92,6 +92,13 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
   // Place fence attributes on <pre> instead of <code>, but only when enabled,
   // the fence rule is active, and no custom fence renderer is already present.
   if (fenceAttrsOnPre && rules.some(({ name }) => name === "code-block")) {
+    // The wrapper below clears `token.attrs` and re-injects them into the opening `<pre>`, which
+    // is only valid for markdown-it's default fence output. `md.renderer.rules.fence` may already
+    // be replaced by the caller or another plugin, so it cannot be the default reference:
+    // comparing it with itself would wrap a custom renderer, and calling `use(attrs)` twice would
+    // stack wrappers. A pristine default rule is needed; `getDefaultFenceRule` creates a renderer
+    // of the same class via the passed renderer's constructor (which copies `default_rules`), so
+    // there is no runtime import of markdown-it. It runs once in `md.use()`, not on the hot path.
     const defaultFence = getDefaultFenceRule(md.renderer);
     const currentFence = md.renderer.rules.fence;
     const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence;
