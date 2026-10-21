@@ -84,4 +84,27 @@ after
       expect(result).toContain("<p>after</p>");
     });
   });
+
+  describe("line bound", () => {
+    it("should parse a multiline reference definition ending a tab", () => {
+      const source = `:::tabs
+@tab A
+[ref]:
+/url
+@tab B
+x
+:::
+
+[ref]
+`;
+      const result = markdownIt.render(source);
+
+      // the multiline reference definition is consumed by the reference rule
+      expect(result).not.toContain("[ref]:");
+      // and it resolves in the rest of the document
+      expect(result).toContain('<a href="/url">ref</a>');
+      // the tab content around it is intact
+      expect(result).toContain("<p>x</p>");
+    });
+  });
 });
