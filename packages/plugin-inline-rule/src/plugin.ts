@@ -6,6 +6,13 @@ import type { InlineRuleOptions } from "./options.js";
 
 const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(?:^|[^\\])(?:\\\\)*\s/u;
 
+// Clone attrs so that every token owns an independent outer and inner array.
+// markdown-it's `Token#attrJoin` mutates the attribute value array in place (this is what
+// `@mdit/plugin-attrs` uses), so sharing a single attrs array between tokens would leak attributes to
+// every token created by the same rule.
+const cloneAttrs = (attrs: [string, string][]): [string, string][] =>
+  attrs.map(([key, value]): [string, string] => [key, value]);
+
 interface LinearRuleConfig {
   markerCode: number;
   tag: string;
@@ -67,7 +74,7 @@ const createLinearRule = (config: LinearRuleConfig): InlineRule => {
     const openToken = state.push(`${token}_open`, tag, 1);
 
     openToken.markup = markup;
-    if (attrs) openToken.attrs = attrs;
+    if (attrs) openToken.attrs = cloneAttrs(attrs);
 
     const textToken = state.push("text", "", 0);
 
@@ -176,7 +183,7 @@ const createNestedPostProcess = (
         tk.nesting = 1;
         tk.markup = markup;
         tk.content = "";
-        if (attrs) tk.attrs = attrs;
+        if (attrs) tk.attrs = cloneAttrs(attrs);
 
         tk = state.tokens[endDelim.token];
         tk.type = closeType;
