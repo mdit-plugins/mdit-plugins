@@ -1,5 +1,5 @@
 // oxlint-disable-next-line import/no-nodejs-modules
-import { lstatSync, readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
@@ -133,7 +133,9 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
     if (src) {
       try {
-        if (lstatSync(src, { throwIfNoEntry: false })?.isFile()) {
+        // `statSync` follows symbolic links, so symlinked snippet files are
+        // resolved like regular files.
+        if (statSync(src, { throwIfNoEntry: false })?.isFile()) {
           let content = readFileSync(src, "utf-8");
 
           if (region) {
