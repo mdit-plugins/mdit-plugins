@@ -32,9 +32,9 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 
 剧透元素的 HTML 标签名称。
 
-@`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])` default=`() => [["class", "spoiler"], ["tabindex","-1"]]`
 
-剧透元素的自定义 HTML 属性。
+剧透元素的自定义 HTML 属性。静态数组会为每个令牌克隆一份；工厂函数会为每个令牌调用一次，且必须返回新数组（推荐用于动态属性）。
 
 :::
 
