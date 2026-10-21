@@ -1,6 +1,6 @@
 import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
-import type { MarkdownIt as MarkdownItType } from "markdown-it";
+import type { MarkdownIt as MarkdownItType, Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import type { MarkdownItSpoilerOptions } from "../src/index.js";
@@ -145,5 +145,60 @@ describe("spoiler with attrs plugin", () => {
 
     expect(md.render("!!a!!{.x}")).toBe('<p><span class="spoiler x">a</span></p>\n');
     expect(userAttrs).toStrictEqual([["class", "spoiler"]]);
+  });
+});
+
+describe("spoiler with attrs factory", () => {
+  const createMd = (options?: MarkdownItSpoilerOptions): MarkdownItType =>
+    new MarkdownIt({ linkify: true }).use(attrs).use(spoiler, options);
+
+  const getOpenTokens = (md: MarkdownItType, src: string): Token[] =>
+    md
+      .parse(src, {})
+      .flatMap((token) => token.children ?? [])
+      .filter(({ type }) => type === "spoiler_open");
+
+  it("should call the factory for every token and keep attrs independent", () => {
+    const tokens = getOpenTokens(
+      createMd({ attrs: () => [["class", "custom"]] }),
+      "!!a!!\n\n!!b!!",
+    );
+
+    expect(tokens).toHaveLength(2);
+    expect(tokens[0].attrs).toStrictEqual([["class", "custom"]]);
+    expect(tokens[1].attrs).toStrictEqual([["class", "custom"]]);
+    expect(tokens[0].attrs).not.toBe(tokens[1].attrs);
+    expect(tokens[0].attrs?.[0]).not.toBe(tokens[1].attrs?.[0]);
+  });
+
+  it("should support dynamic attrs that differ per token", () => {
+    let index = 0;
+
+    const tokens = getOpenTokens(
+      createMd({ attrs: () => [["class", `custom-${index++}`]] }),
+      "!!a!!\n\n!!b!!",
+    );
+
+    expect(tokens.map(({ attrs: tokenAttrs }) => tokenAttrs)).toStrictEqual([
+      [["class", "custom-0"]],
+      [["class", "custom-1"]],
+    ]);
+  });
+
+  it("should use a factory for the default attrs", () => {
+    const tokens = getOpenTokens(createMd(), "!!a!!\n\n!!b!!");
+
+    expect(tokens[0].attrs).toStrictEqual([
+      ["class", "spoiler"],
+      ["tabindex", "-1"],
+    ]);
+    expect(tokens[0].attrs).not.toBe(tokens[1].attrs);
+
+    tokens[0].attrJoin("class", "extra");
+
+    expect(tokens[1].attrs).toStrictEqual([
+      ["class", "spoiler"],
+      ["tabindex", "-1"],
+    ]);
   });
 });
