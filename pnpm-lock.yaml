@@ -767,6 +767,10 @@ importers:
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.2
+    devDependencies:
+      '@mdit/plugin-attrs':
+        specifier: workspace:*
+        version: link:../plugin-attrs
 
   packages/plugin-stylize:
     dependencies:

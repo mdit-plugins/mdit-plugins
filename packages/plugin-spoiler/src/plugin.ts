@@ -7,12 +7,12 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
   md,
   {
     tag = "span",
-    // a fresh array is created on every `use(spoiler)` call, so token attrs are
-    // not shared by reference across instances (avoiding cross-render leakage)
-    attrs = [
+    // A factory is used by default so every token receives a fresh attrs array: token attrs are
+    // never shared, and `@mdit/plugin-attrs` can never mutate the plugin options.
+    attrs = (): [string, string][] => [
       ["class", "spoiler"],
       ["tabindex", "-1"],
-    ] as [string, string][],
+    ],
   } = {},
 ) => {
   inlineRule(md, {

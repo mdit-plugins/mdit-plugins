@@ -32,9 +32,9 @@ Use `!! !!` hide contents.
 
 HTML tag name for the spoiler element.
 
-@`attrs` type=`[attr: string, value: string][]` default=`[["class", "spoiler"], ["tabindex","-1"]]`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])` default=`() => [["class", "spoiler"], ["tabindex","-1"]]`
 
-Custom HTML attributes for the spoiler element.
+Custom HTML attributes for the spoiler element. A static array is cloned for every token; a factory function is called once per token and must return a new array (recommended for dynamic attributes).
 
 :::
 
