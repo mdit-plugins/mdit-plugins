@@ -32,8 +32,10 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       const { content, info } = token;
 
       token.tag = "img";
-      token.attrPush(["src", srcGetter(content)]);
-      token.attrPush(["alt", info || "PlantUML Diagram"]);
+      // use attrSet so that rendering the same token twice does not duplicate
+      // the src / alt attributes
+      token.attrSet("src", srcGetter(content));
+      token.attrSet("alt", info || "PlantUML Diagram");
 
       return self.renderToken(tokens, index, options);
     },
@@ -52,13 +54,20 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
 
     md.renderer.rules.fence = (tokens, index, options, env, self): string => {
       const token = tokens[index];
-      const spaceIndex = token.info.indexOf(" ");
-      const fenceName = spaceIndex === -1 ? token.info : token.info.slice(0, spaceIndex);
+      const { info } = token;
+      const spaceIndex = info.indexOf(" ");
+      const fenceName = spaceIndex === -1 ? info : info.slice(0, spaceIndex);
 
       if (fenceName === fence) {
-        token.info = spaceIndex === -1 ? "" : token.info.slice(spaceIndex + 1).trim();
+        // the renderer reads the alt text from `info`, so swap it in temporarily
+        // and restore it afterwards to keep the token stream unchanged
+        token.info = spaceIndex === -1 ? "" : info.slice(spaceIndex + 1).trim();
 
-        return renderer(tokens, index, options, env, self);
+        try {
+          return renderer(tokens, index, options, env, self);
+        } finally {
+          token.info = info;
+        }
       }
 
       return fenceRender(tokens, index, options, env, self);
