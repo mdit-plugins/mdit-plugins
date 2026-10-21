@@ -54,7 +54,7 @@ mdIt.use(include, {
 });
 ```
 
-此外，默认情况下，包含文件中的图像和链接将相对于导入的文件进行解析，但是你可以通过在插件选项中将 `resolveImagePath` 和 `resolveLinkPath` 设置为 `false` 来更改此行为。
+此外，默认情况下，包含文件中的相对图像和链接将相对于导入的文件进行解析（包括 `image.png` 这样的裸相对路径）。你可以通过在插件选项中将 `resolveImagePath` 和 `resolveLinkPath` 设置为 `false` 来更改此行为。锚点（`#section`）、绝对路径（`/image.png`、`//example.com/image.png`）、仅查询链接（`?q=1`）以及带协议的 URL（`https:`、`mailto:`、`data:` 等）将保持原样。
 
 此外，该插件支持 `deep` 功能，如果此选项设置为 `true`，它将处理包含文件中嵌套的 `@include`。
 
@@ -354,11 +354,11 @@ namespace HelloWorldApp {
 
 @`resolveImagePath` type=boolean default=`true`
 
-是否解析包含的 Markdown 文件的里的相对图像路径。
+是否解析包含的 Markdown 文件中的相对图像路径。
 
 @`resolveLinkPath` type=boolean default=`true`
 
-是否解析包含的 Markdown 文件的里的文件相对路径。
+是否解析包含的 Markdown 文件中的相对文件链接路径。
 
 :::
 

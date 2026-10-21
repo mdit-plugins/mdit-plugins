@@ -399,6 +399,31 @@ const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean 
   return false;
 };
 
+// Check whether the url is a path relative to the included file.
+// Anchors (`#foo`), absolute paths (`/foo`, `//example.com/foo`), query-only
+// urls (`?foo`) and urls with a scheme (`https:`, `mailto:`, `data:`, `C:`, ...)
+// are kept as-is.
+const isRelativeUrl = (url: string): boolean => {
+  const firstCharCode = url.charCodeAt(0);
+
+  if (firstCharCode === 35 /* # */ || firstCharCode === 47 /* / */ || firstCharCode === 63 /* ? */)
+    return false;
+
+  const { length } = url;
+
+  // a scheme (e.g. `https:`) must be terminated by ":" before any path, query
+  // or hash character, otherwise the url is a relative path
+  for (let index = 1; index < length; index++) {
+    const charCode = url.charCodeAt(index);
+
+    if (charCode === 58 /* : */) return false;
+
+    if (charCode === 35 /* # */ || charCode === 47 /* / */ || charCode === 63 /* ? */) break;
+  }
+
+  return true;
+};
+
 const resolveRelatedLink = (
   attr: string,
   token: Token,
@@ -408,7 +433,7 @@ const resolveRelatedLink = (
   const attrIndex = token.attrIndex(attr);
   const url = token.attrs?.[attrIndex]?.[1] as string | undefined;
 
-  if (url?.[0] === "." && Array.isArray(includedPaths)) {
+  if (url && isRelativeUrl(url) && Array.isArray(includedPaths)) {
     const { length } = includedPaths;
 
     if (length) {

@@ -1,0 +1,7 @@
+[Anchor](#section)
+![Root](/images/a.png)
+[External](https://example.com/a.png)
+[Mail](mailto:a@example.com)
+[Query](?q=1)
+![Protocol relative](//example.com/a.png)
+![](<>)
