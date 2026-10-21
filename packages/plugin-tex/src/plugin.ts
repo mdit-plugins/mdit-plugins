@@ -342,8 +342,6 @@ const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 91 /* [ */)
     return false;
 
-  if (silent) return true;
-
   let contentEnd = skipWhitespaceBack(state, end, start);
   let pos = start + 2;
   let firstLine: string;
@@ -388,6 +386,11 @@ const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   }
 
   if (!found) return false;
+
+  // In silent mode markdown-it only probes whether the line starts a block.
+  // Report a match only when the closing `\]` is actually found, otherwise the
+  // paragraph would be split even though the content is not a math block.
+  if (silent) return true;
 
   state.line = current + 1;
 
