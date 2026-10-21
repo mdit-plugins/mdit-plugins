@@ -4,19 +4,19 @@
  */
 
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { RendererRule } from "markdown-it";
+import type { MarkdownItOptions, Renderer, RendererRule, Token } from "markdown-it";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
-// Render an opening / closing tag without mutating the token, so that the same
-// token stream can be rendered multiple times.
-const defaultOpenRenderer: RendererRule = (tokens, index, mdItOptions, _env, self) =>
-  self.renderToken(tokens, index, mdItOptions);
-
-const defaultCloseRenderer: RendererRule = (tokens, index, mdItOptions, _env, self) =>
-  self.renderToken(tokens, index, mdItOptions);
+const defaultCloseRenderer: RendererRule = (
+  tokens: Token[],
+  index: number,
+  mdItOptions: Required<MarkdownItOptions>,
+  _env: unknown,
+  self: Renderer,
+): string => self.renderToken(tokens, index, mdItOptions);
 
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
   if (typeof options !== "object" || !options.name)
@@ -26,13 +26,28 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     name,
     marker = ":",
     validate = (params: string): boolean => params.trim().split(" ", 2)[0] === name,
-    openRenderer = defaultOpenRenderer,
-    closeRenderer = defaultCloseRenderer,
+    openRenderer,
+    closeRenderer,
   } = options;
 
-  // with the default renderer, the container class is added when the token is
-  // created, so rendering the same token stream again stays idempotent
-  const addDefaultClass = openRenderer === defaultOpenRenderer;
+  // Render an opening tag, adding the container class to the token.
+  // The class is only appended when it is not present yet, so that rendering
+  // the same token stream again stays idempotent.
+  const defaultOpenRenderer: RendererRule = (
+    tokens: Token[],
+    index: number,
+    mdItOptions: Required<MarkdownItOptions>,
+    _env: unknown,
+    self: Renderer,
+  ): string => {
+    const token = tokens[index];
+    const classValue = token.attrGet("class");
+
+    if (classValue == null || !String(classValue).split(" ").includes(name))
+      token.attrJoin("class", name);
+
+    return self.renderToken(tokens, index, mdItOptions);
+  };
 
   const markerStart = marker[0];
   const markerLength = marker.length;
@@ -135,7 +150,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     openToken.block = true;
     openToken.info = params;
     openToken.map = [startLine, nextLine];
-    if (addDefaultClass) openToken.attrJoin("class", name);
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
@@ -155,6 +169,6 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
   md.block.ruler.before("fence", `container_${name}`, containerRule, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules[`container_${name}_open`] = openRenderer;
-  md.renderer.rules[`container_${name}_close`] = closeRenderer;
+  md.renderer.rules[`container_${name}_open`] = openRenderer ?? defaultOpenRenderer;
+  md.renderer.rules[`container_${name}_close`] = closeRenderer ?? defaultCloseRenderer;
 };
