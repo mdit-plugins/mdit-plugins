@@ -7,8 +7,8 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
   md,
   {
     tag = "span",
-    // a fresh array is created on every `use(spoiler)` call, so token attrs are
-    // not shared by reference across instances (avoiding cross-render leakage)
+    // `inline-rule` clones these attrs for every token, so this array is never
+    // shared with token instances nor mutated by `@mdit/plugin-attrs`
     attrs = [
       ["class", "spoiler"],
       ["tabindex", "-1"],
