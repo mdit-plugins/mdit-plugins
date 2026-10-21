@@ -1,6 +1,8 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
+import { attrs } from "../../plugin-attrs/src/index.js";
 import { mark } from "../src/index.js";
 
 const markdownIt = new MarkdownIt({ linkify: true }).use(mark);
@@ -84,5 +86,33 @@ test
 `),
     ).toBe(`<h1>==
 test</h1>\n`);
+  });
+});
+
+describe("mark with attrs plugin", () => {
+  const createMd = (): MarkdownItType => new MarkdownIt({ linkify: true }).use(attrs).use(mark);
+
+  it("should not leak inline attrs between mark tokens", () => {
+    expect(createMd().render("==a=={.x}\n\n==b==")).toBe(
+      '<p><mark class="x">a</mark></p>\n<p><mark>b</mark></p>\n',
+    );
+    expect(createMd().render("==a=={.x} ==b==")).toBe(
+      '<p><mark class="x">a</mark> <mark>b</mark></p>\n',
+    );
+  });
+
+  it("should not accumulate attrs across renders", () => {
+    const md = createMd();
+    const expected = '<p><mark class="x">a</mark></p>\n<p><mark>b</mark></p>\n';
+
+    expect(md.render("==a=={.x}\n\n==b==")).toBe(expected);
+    expect(md.render("==a=={.x}\n\n==b==")).toBe(expected);
+    expect(md.render("==c==\n\n==d==")).toBe("<p><mark>c</mark></p>\n<p><mark>d</mark></p>\n");
+  });
+
+  it("should put attrs on the correct token when nested", () => {
+    expect(createMd().render("==**a**=={.x}\n\n==**b**==")).toBe(
+      '<p><mark class="x"><strong>a</strong></mark></p>\n<p><mark><strong>b</strong></mark></p>\n',
+    );
   });
 });
