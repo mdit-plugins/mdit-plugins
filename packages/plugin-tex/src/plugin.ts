@@ -73,10 +73,12 @@ const isDollarClose = (state: StateInline, pos: number, allowInlineWithSpace: bo
 const createDollarInlineTexRule =
   (allowInlineWithSpace: boolean): InlineRule =>
   (state, silent) => {
-    if (state.src[state.pos] !== "$") return false;
+    // In silent mode markdown-it is only probing for a link/image label end, so
+    // matching (and consuming) the math could swallow the closing `]`.
+    if (silent || state.src[state.pos] !== "$") return false;
 
     if (!isDollarOpen(state, state.pos, allowInlineWithSpace)) {
-      if (!silent) state.pending += "$";
+      state.pending += "$";
 
       state.pos++;
 
@@ -142,7 +144,7 @@ const createDollarInlineTexRule =
 
     // No closing delimiter found.  Consume $ and continue.
     if (match === -1) {
-      if (!silent) state.pending += "$";
+      state.pending += "$";
 
       state.pos += 1;
 
@@ -151,19 +153,17 @@ const createDollarInlineTexRule =
 
     // Check if we have empty content, ie: $$.  Do not parse.
     if (match - (state.pos + 1) === 0) {
-      if (!silent) state.pending += "$$";
+      state.pending += "$$";
 
       state.pos += 2;
 
       return true;
     }
 
-    if (!silent) {
-      const token = state.push("math_inline", "math", 0);
+    const token = state.push("math_inline", "math", 0);
 
-      token.markup = "$";
-      token.content = state.src.slice(state.pos + 1, match);
-    }
+    token.markup = "$";
+    token.content = state.src.slice(state.pos + 1, match);
 
     state.pos = match + 1;
 
@@ -175,17 +175,24 @@ const createDollarInlineTexRule =
  */
 const createBracketInlineTexRule = (): InlineRule => (state, silent) => {
   const start = state.pos;
+  const max = state.posMax;
 
+  // In silent mode markdown-it is only probing for a link/image label end, so
+  // matching (and consuming) the math could swallow the closing `]`.
   // Check for opening \(
-  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 40 /* ( */)
+  if (
+    silent ||
+    start + 1 >= max ||
+    state.src.charCodeAt(start) !== 92 /* \ */ ||
+    state.src.charCodeAt(start + 1) !== 40 /* ( */
+  )
     return false;
 
-  // Look for closing \)
+  // Look for closing \) within the current inline scope (posMax)
   let pos = start + 2;
   let found = false;
-  const srcLength = state.src.length;
 
-  while (pos < srcLength - 1) {
+  while (pos + 1 < max) {
     if (state.src.charCodeAt(pos) === 92 /* \ */ && state.src.charCodeAt(pos + 1) === 41 /* ) */) {
       // Check if the opening \( was escaped
       const openingBackslashes = countPrecedingBackslashes(state.src, start);
@@ -207,12 +214,10 @@ const createBracketInlineTexRule = (): InlineRule => (state, silent) => {
 
   if (!found) return false;
 
-  if (!silent) {
-    const token = state.push("math_inline", "math", 0);
+  const token = state.push("math_inline", "math", 0);
 
-    token.markup = INLINE_MARKER;
-    token.content = state.src.slice(start + 2, pos);
-  }
+  token.markup = INLINE_MARKER;
+  token.content = state.src.slice(start + 2, pos);
 
   state.pos = pos + 2;
 
