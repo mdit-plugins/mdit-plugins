@@ -1,6 +1,9 @@
+import { attrs } from "@mdit/plugin-attrs";
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
+import type { MarkdownItSpoilerOptions } from "../src/index.js";
 import { spoiler } from "../src/index.js";
 
 describe(spoiler, () => {
@@ -108,5 +111,39 @@ test!!</p>\n`);
     const second = new MarkdownIt({ linkify: true }).use(spoiler);
 
     expect(second.render("!!b!!")).toBe('<p><span class="spoiler" tabindex="-1">b</span></p>\n');
+  });
+});
+
+describe("spoiler with attrs plugin", () => {
+  const createMd = (options?: MarkdownItSpoilerOptions): MarkdownItType =>
+    new MarkdownIt({ linkify: true }).use(attrs).use(spoiler, options);
+
+  it("should not leak inline attrs between spoilers", () => {
+    expect(createMd().render("!!a!!{.x}\n\n!!b!!")).toBe(
+      '<p><span class="spoiler x" tabindex="-1">a</span></p>\n' +
+        '<p><span class="spoiler" tabindex="-1">b</span></p>\n',
+    );
+  });
+
+  it("should not accumulate attrs across renders", () => {
+    const md = createMd();
+    const expected =
+      '<p><span class="spoiler x" tabindex="-1">a</span></p>\n' +
+      '<p><span class="spoiler" tabindex="-1">b</span></p>\n';
+
+    expect(md.render("!!a!!{.x}\n\n!!b!!")).toBe(expected);
+    expect(md.render("!!a!!{.x}\n\n!!b!!")).toBe(expected);
+    expect(md.render("!!c!!\n\n!!d!!")).toBe(
+      '<p><span class="spoiler" tabindex="-1">c</span></p>\n' +
+        '<p><span class="spoiler" tabindex="-1">d</span></p>\n',
+    );
+  });
+
+  it("should not mutate user provided attrs", () => {
+    const userAttrs: [string, string][] = [["class", "spoiler"]];
+    const md = createMd({ attrs: userAttrs });
+
+    expect(md.render("!!a!!{.x}")).toBe('<p><span class="spoiler x">a</span></p>\n');
+    expect(userAttrs).toStrictEqual([["class", "spoiler"]]);
   });
 });
