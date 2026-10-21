@@ -48,7 +48,7 @@ const createPackageDir = (
  * @param tempDir Temporary repository directory
  */
 const runBootstrap = (tempDir: string): void => {
-  execFileSync(process.execPath, ["--experimental-strip-types", bootstrapScript], {
+  execFileSync(process.execPath, [bootstrapScript], {
     cwd: tempDir,
     encoding: "utf8",
     stdio: "pipe",
