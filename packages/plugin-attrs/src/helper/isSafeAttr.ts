@@ -16,25 +16,31 @@
  *
  * ## Relation to markdown-it's `validateLink`
  *
- * Markdown-it v15.0.2 validates links with the overridable instance method
- * `MarkdownIt#validateLink` (`src/markdownit.ts:137-142`; protocol regexes at
- * `src/markdownit.ts:60-61`). It is called by the built-in rules at
- * `src/rules_inline/link.ts:46-47`, `src/rules_inline/image.ts:42-43`,
- * `src/rules_inline/autolink.ts:30-31`, `src/rules_inline/linkify.ts:62-63`,
- * `src/rules_core/linkify.ts:77-78` and `src/rules_block/reference.ts:116-117`.
+ * The accept/reject policy mirrors markdown-it's built-in link validation
+ * (`MarkdownIt#validateLink` in `src/markdownit.ts:137-142`, with the protocol regexes at
+ * `src/markdownit.ts:60-61`, v15.0.2):
  *
- * It is intentionally not reused here:
+ * - `javascript:`, `vbscript:` and `file:` are always rejected;
+ * - `data:` URLs are only accepted for `data:image/(gif|png|jpeg|webp);` (the same `GOOD_DATA_RE` as
+ *   markdown-it), so e.g. `data:text/html` and `data:image/svg+xml` are rejected;
+ * - Relative URLs and any other schemes (`mailto:`, `tel:`, ...) are accepted.
  *
- * - It is only exposed as an instance method (the package exports the `MarkdownIt` class only), so
- *   the default implementation cannot be imported directly;
- * - It validates link destinations, while this helper also guards every URL-bearing attribute
+ * It is called by the built-in rules at `src/rules_inline/link.ts:46-47`,
+ * `src/rules_inline/image.ts:42-43`, `src/rules_inline/autolink.ts:30-31`,
+ * `src/rules_inline/linkify.ts:62-63`, `src/rules_core/linkify.ts:77-78` and
+ * `src/rules_block/reference.ts:116-117`.
+ *
+ * It cannot be called directly from this helper:
+ *
+ * - It is only exposed as an overridable instance method (the package exports the `MarkdownIt` class
+ *   only), so the default implementation cannot be imported as a standalone function;
+ * - It only validates link destinations, while this helper also guards every URL-bearing attribute
  *   (`URL_ATTR_NAMES`) and rejects `on*` event handler attributes, which markdown-it never emits;
- * - It uses `url.trim().toLowerCase()` + `BAD_PROTO_RE`, which misses control characters inside the
- *   scheme, so reusing it would reopen the bypass above;
- * - It is a documented plugin hook (`md.validateLink = () => true` is allowed), so delegating
- *   security filtering to it would let an override silently disable the attrs filter;
- * - It additionally rejects `file:` and most `data:` URLs, whereas this plugin deliberately keeps
- *   `data:` attribute values working.
+ * - It is a documented plugin hook (`md.validateLink = () => true` is allowed), so delegating the
+ *   attrs security filter to it would let an override silently disable it;
+ * - It validates the raw `trim().toLowerCase()` result, which misses control characters inside the
+ *   scheme, so the WHATWG preprocessing above is kept on our side: the policy is the same, the
+ *   string normalization is stricter.
  *
  * The check runs at attrs-parse time (`getAttrs`), so every rule and `parseAttrs` are covered
  * before any rendering happens.
@@ -60,13 +66,28 @@ const URL_ATTR_NAMES = new Set([
   "xlink:href",
 ]);
 
+/** URL schemes that are always unsafe on URL attributes (mirrors markdown-it's `BAD_PROTO_RE`) */
+const DANGEROUS_SCHEMES = new Set(["file", "javascript", "vbscript"]);
+
+/** Data URLs accepted by markdown-it (`GOOD_DATA_RE` in `src/markdownit.ts:61`) */
+const SAFE_DATA_URL_RE = /^image\/(?:gif|png|jpeg|webp);/i;
+
+interface ParsedUrl {
+  /** Lower-cased URL scheme, empty when the value is a relative URL */
+  scheme: string;
+  /** Value after the scheme separator `:` (meaningful only when `scheme` is non-empty) */
+  rest: string;
+}
+
 /**
- * Get the URL scheme of an attribute value
+ * Parse the URL scheme of an attribute value
+ *
+ * Applies the browser URL preprocessing described in the file header before reading the scheme.
  *
  * @param value Attribute value
- * @returns Lower-cased URL scheme, empty when the value is a relative URL
+ * @returns The lower-cased scheme (empty for a relative URL) and the remaining value after `:`
  */
-const getUrlScheme = (value: string): string => {
+const parseUrl = (value: string): ParsedUrl => {
   const { length } = value;
   let index = 0;
   let scheme = "";
@@ -86,25 +107,31 @@ const getUrlScheme = (value: string): string => {
     if (charCode === 0x09 /* \t */ || charCode === 0x0a /* \n */ || charCode === 0x0d /* \r */)
       continue;
 
-    if (charCode === 0x3a /* : */) return scheme.toLowerCase();
+    if (charCode === 0x3a /* : */)
+      return { scheme: scheme.toLowerCase(), rest: value.slice(index + 1) };
 
     scheme += String.fromCharCode(charCode);
   }
 
   // no `:` means the value is a relative URL
-  return "";
+  return { scheme: "", rest: "" };
 };
 
 /**
- * Check whether an attribute value uses a dangerous URL scheme
+ * Check whether an attribute value uses a URL scheme rejected by the plugin's policy
+ *
+ * The policy mirrors markdown-it's link validation: `javascript:`, `vbscript:` and `file:` are
+ * rejected, and `data:` is only accepted for image data URLs.
  *
  * @param value Attribute value
  * @returns Whether the value uses a dangerous URL scheme
  */
 const hasDangerousUrlScheme = (value: string): boolean => {
-  const scheme = getUrlScheme(value);
+  const { scheme, rest } = parseUrl(value);
 
-  return scheme === "javascript" || scheme === "vbscript";
+  if (scheme === "data") return !SAFE_DATA_URL_RE.test(rest);
+
+  return DANGEROUS_SCHEMES.has(scheme);
 };
 
 /**
