@@ -134,6 +134,31 @@ abc
 `);
   });
 
+  it("should keep raw content in default render when html is enabled", () => {
+    const markdownIt = new MarkdownIt({ html: true }).use(uml);
+
+    expect(markdownIt.render("@start\n<b>raw</b>\n@end\n")).toBe(
+      '<div class="uml" title=""><b>raw</b></div>',
+    );
+  });
+
+  it("should escape content in default render when html is disabled", () => {
+    const markdownIt = new MarkdownIt({ html: false }).use(uml);
+
+    expect(markdownIt.render("@start\n<b>raw</b>\n@end\n")).toBe(
+      '<div class="uml" title="">&lt;b&gt;raw&lt;/b&gt;</div>',
+    );
+  });
+
+  it("should always escape title regardless of html option", () => {
+    const source = '@start"><script>alert(1)</script>\nabc\n@end\n';
+    const expected =
+      '<div class="uml" title="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">abc</div>';
+
+    expect(new MarkdownIt({ html: true }).use(uml).render(source)).toBe(expected);
+    expect(new MarkdownIt({ html: false }).use(uml).render(source)).toBe(expected);
+  });
+
   it("should keep raw content for custom renderer", () => {
     const markdownIt = new MarkdownIt({ linkify: true }).use(uml, {
       name: "uml",
