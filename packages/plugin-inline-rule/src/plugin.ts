@@ -2,9 +2,18 @@ import { UNESCAPE_RE } from "@mdit/helper";
 import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { Delimiter, StateInline } from "markdown-it";
 
-import type { InlineRuleOptions } from "./options.js";
+import type { InlineRuleAttrs, InlineRuleOptions } from "./options.js";
 
 const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(?:^|[^\\])(?:\\\\)*\s/u;
+
+// Resolve attrs for a single token. A factory is expected to return a fresh array for every call,
+// while a static template array is cloned (both outer array and inner tuples) so that tokens never
+// share attribute arrays. markdown-it's `Token#attrJoin` mutates the inner arrays in place (this is
+// what `@mdit/plugin-attrs` uses), so sharing them would leak attributes between tokens.
+const resolveAttrs = (attrs: InlineRuleAttrs): [string, string][] =>
+  typeof attrs === "function"
+    ? attrs()
+    : attrs.map(([key, value]): [string, string] => [key, value]);
 
 interface LinearRuleConfig {
   markerCode: number;
@@ -12,7 +21,7 @@ interface LinearRuleConfig {
   token: string;
   markup: string;
   allowSpace: boolean;
-  attrs: [string, string][] | undefined;
+  attrs: InlineRuleAttrs | undefined;
 }
 
 const createLinearRule = (config: LinearRuleConfig): InlineRule => {
@@ -67,7 +76,7 @@ const createLinearRule = (config: LinearRuleConfig): InlineRule => {
     const openToken = state.push(`${token}_open`, tag, 1);
 
     openToken.markup = markup;
-    if (attrs) openToken.attrs = attrs;
+    if (attrs) openToken.attrs = resolveAttrs(attrs);
 
     const textToken = state.push("text", "", 0);
 
@@ -150,17 +159,17 @@ interface NestedPostProcessConfig {
   token: string;
   markup: string;
   double: boolean;
-  attrs: [string, string][] | undefined;
+  attrs: InlineRuleAttrs | undefined;
 }
 
 const createNestedPostProcess = (
   config: NestedPostProcessConfig,
 ): ((state: StateInline, delimiters: Delimiter[]) => void) => {
-  const { markerCode, tag, token, markup, double, attrs } = config;
-  const closeType = `${token}_close`;
+  const { markerCode, tag, token: tokenType, markup, double, attrs } = config;
+  const closeType = `${tokenType}_close`;
 
   return (state, delimiters): void => {
-    let tk;
+    let token;
     const loneMarkers: number[] = [];
     const max = delimiters.length;
 
@@ -170,20 +179,20 @@ const createNestedPostProcess = (
       if (startDelim.marker === markerCode && startDelim.end !== -1) {
         const endDelim = delimiters[startDelim.end];
 
-        tk = state.tokens[startDelim.token];
-        tk.type = `${token}_open`;
-        tk.tag = tag;
-        tk.nesting = 1;
-        tk.markup = markup;
-        tk.content = "";
-        if (attrs) tk.attrs = attrs;
+        token = state.tokens[startDelim.token];
+        token.type = `${tokenType}_open`;
+        token.tag = tag;
+        token.nesting = 1;
+        token.markup = markup;
+        token.content = "";
+        if (attrs) token.attrs = resolveAttrs(attrs);
 
-        tk = state.tokens[endDelim.token];
-        tk.type = closeType;
-        tk.tag = tag;
-        tk.nesting = -1;
-        tk.markup = markup;
-        tk.content = "";
+        token = state.tokens[endDelim.token];
+        token.type = closeType;
+        token.tag = tag;
+        token.nesting = -1;
+        token.markup = markup;
+        token.content = "";
 
         // Mark delimiters as consumed so other handlers (e.g., emphasis) won't re-process
         endDelim.end = -1;
@@ -215,9 +224,9 @@ const createNestedPostProcess = (
 
         jj--;
 
-        tk = state.tokens[jj];
+        token = state.tokens[jj];
         state.tokens[jj] = state.tokens[ii];
-        state.tokens[ii] = tk;
+        state.tokens[ii] = token;
       }
     }
   };

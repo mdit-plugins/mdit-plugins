@@ -54,9 +54,9 @@ Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-ma
 
 Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
 
-@`attrs` type=`[attr: string, value: string][]`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
 
-Custom HTML attributes for the rendered element.
+Custom HTML attributes for the rendered element. A static array is cloned for every token, so tokens never share attribute arrays. A factory function is called once per token and must return a new array; it is the recommended way to provide dynamic attributes and avoids the per-token clone.
 
 @`allowSpace` type=boolean default=`false`
 
