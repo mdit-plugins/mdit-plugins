@@ -1,5 +1,5 @@
 import { escapeHtml } from "@mdit/helper";
-import type { RendererRule, Token } from "markdown-it";
+import type { MarkdownItOptions, RendererRule, Token } from "markdown-it";
 
 export interface MarkdownItUMLOptions {
   /**
@@ -31,10 +31,19 @@ export interface MarkdownItUMLOptions {
   renderer: RendererRule;
 }
 
-export const defaultRenderer = (tokens: Token[], index: number): string => {
+export const defaultRenderer = (
+  tokens: Token[],
+  index: number,
+  options: Required<MarkdownItOptions>,
+): string => {
   const token = tokens[index];
 
-  // escapeHtml so that `info` and `content` (both controlled by the markdown
-  // author) cannot inject HTML or escape the title attribute
-  return `<div class="${token.type}" title="${escapeHtml(token.info)}">${escapeHtml(token.content)}</div>`;
+  // `title` is always escaped: it is embedded into an attribute and must never
+  // be able to break out of it, regardless of the `html` option.
+  // The content follows markdown-it's semantics: with `html: false` the plugin
+  // must not output author-provided HTML; with `html: true` author HTML is
+  // trusted, so the application is responsible for sanitizing the final output.
+  const content = options.html ? token.content : escapeHtml(token.content);
+
+  return `<div class="${token.type}" title="${escapeHtml(token.info)}">${content}</div>`;
 };

@@ -53,7 +53,7 @@ The plugin is different from container plugin as contents inside container will 
 
 ::: warning Security
 
-The default renderer escapes `info` and the extracted content, so HTML inside a UML block is rendered as plain text. If you want to render the raw HTML generated from a UML block, you must pass your own `renderer`.
+The `title` attribute is always escaped. Following markdown-it's `html` option semantics, the default renderer only escapes the extracted content when `html: false` (the default), so author-provided HTML inside a UML block is rendered as plain text. With `html: true`, the content is kept as raw HTML: author HTML is trusted in that mode, so sanitize the rendered output before displaying it (markdown-it does not sanitize it for you). Pass your own `renderer` if you need full control.
 
 :::
 

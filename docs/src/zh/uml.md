@@ -53,7 +53,7 @@ Another content
 
 ::: warning 安全
 
-默认渲染器会转义 `info` 与提取出的内容，因此 UML 块中的 HTML 会被当作纯文本渲染。若你需要渲染 UML 块生成的原始 HTML，必须传入自定义 `renderer`。
+`title` 属性始终会被转义。遵循 markdown-it 的 `html` 选项语义，默认渲染器仅在 `html: false`（默认值）时转义提取出的内容，因此 UML 块中由作者提供的 HTML 会作为纯文本渲染。当 `html: true` 时，内容会按原始 HTML 保留：该模式下作者 HTML 被信任，请在展示渲染结果前自行 sanitize（markdown-it 不会替你处理）。若需要完全控制，请传入自定义 `renderer`。
 
 :::
 
