@@ -50,7 +50,7 @@ const testLine = (line: string, regexp: RegExp, regionName: string, end = false)
   const [full, tag, name] = regexp.exec(line.trim()) ?? [];
 
   return Boolean(
-    full && tag && name === regionName && tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/),
+    full && tag && name === regionName && (end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/).test(tag),
   );
 };
 

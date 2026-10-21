@@ -109,7 +109,7 @@ export const extractAttrs = <Data extends { content: string }>(
   const attrs: AttrsInfo = {};
 
   const content = data.content
-    .replace(
+    .replaceAll(
       ATTR_REGEXP,
       // oxlint-disable-next-line max-params
       (

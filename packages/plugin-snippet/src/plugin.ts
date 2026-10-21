@@ -30,7 +30,7 @@ const testLine = (line: string, regexp: RegExp, regionName: string, end = false)
     full &&
     tag &&
     name === regionName &&
-    tag.match(end ? REGION_END_MARKER_RE : REGION_START_MARKER_RE),
+    (end ? REGION_END_MARKER_RE : REGION_START_MARKER_RE).test(tag),
   );
 };
 

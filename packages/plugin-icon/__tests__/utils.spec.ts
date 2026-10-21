@@ -158,7 +158,7 @@ describe(extractAttrs, () => {
       ).toStrictEqual({
         attrs: {
           key1: "value with &",
-          key2: "value with <tag\\>",
+          key2: String.raw`value with <tag\>`,
           key3: "value with =equals",
         },
         content: "",
