@@ -54,7 +54,7 @@ mdIt.use(include, {
 });
 ```
 
-Also, by default, images and links in included files will be resolved relative to the imported file, however you can change this behavior by setting `resolveImagePath` and `resolveLinkPath` to `false` in plugin options.
+Also, by default, relative images and links in included files will be resolved relative to the imported file, including bare relative paths like `image.png`. You can change this behavior by setting `resolveImagePath` and `resolveLinkPath` to `false` in plugin options. Anchors (`#section`), absolute paths (`/image.png`, `//example.com/image.png`), query-only links (`?q=1`) and URLs with a scheme (`https:`, `mailto:`, `data:` etc.) are kept as-is.
 
 Moreover, the plugin support `deep` function, which will handle nested `@include` in included files if this option is set to `true`.
 
@@ -355,11 +355,11 @@ Whether to use `<!-- @include: xxx -->` instead of `@include: xxx` to include fi
 
 @`resolveImagePath` type=boolean default=`true`
 
-Whether to resolve the image related path in the included Markdown file.
+Whether to resolve the relative image path in the included Markdown file.
 
 @`resolveLinkPath` type=boolean default=`true`
 
-Whether to resolve the related file link path in the included Markdown file.
+Whether to resolve the relative file link path in the included Markdown file.
 
 :::
 
