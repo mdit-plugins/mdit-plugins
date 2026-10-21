@@ -399,29 +399,62 @@ const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean 
   return false;
 };
 
+// Check whether the url is a path relative to the included file.
+// Anchors (`#foo`), absolute paths (`/foo`, `//example.com/foo`), query-only
+// urls (`?foo`) and urls with a scheme (`https:`, `mailto:`, `data:`, `C:`, ...)
+// are kept as-is.
+const isRelativeUrl = (url: string): boolean => {
+  const firstCharCode = url.charCodeAt(0);
+
+  if (firstCharCode === 35 /* # */ || firstCharCode === 47 /* / */ || firstCharCode === 63 /* ? */)
+    return false;
+
+  const { length } = url;
+
+  // a scheme (e.g. `https:`) must be terminated by ":" before any path, query
+  // or hash character, otherwise the url is a relative path
+  for (let index = 1; index < length; index++) {
+    const charCode = url.charCodeAt(index);
+
+    if (charCode === 58 /* : */) return false;
+
+    if (charCode === 35 /* # */ || charCode === 47 /* / */ || charCode === 63 /* ? */) break;
+  }
+
+  return true;
+};
+
 const resolveRelatedLink = (
   attr: string,
   token: Token,
   filePath: string,
   includedPaths?: string[],
-): void => {
+): (() => void) | null => {
   const attrIndex = token.attrIndex(attr);
   const url = token.attrs?.[attrIndex]?.[1] as string | undefined;
 
-  if (url?.[0] === "." && Array.isArray(includedPaths)) {
+  if (url && isRelativeUrl(url) && Array.isArray(includedPaths)) {
     const { length } = includedPaths;
 
     if (length) {
       const includeDir = relative(dirname(filePath), includedPaths[length - 1]);
 
       const resolvedPath = join(includeDir, url);
-
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      token.attrs![attrIndex][1] = resolvedPath.startsWith(".")
-        ? resolvedPath
-        : `./${resolvedPath}`;
+      const attrs = token.attrs!;
+
+      attrs[attrIndex][1] = resolvedPath.startsWith(".") ? resolvedPath : `./${resolvedPath}`;
+
+      // restore the original url after rendering, so that rendering the same
+      // token stream again resolves it from the original value instead of
+      // nesting the include directory over and over
+      return () => {
+        attrs[attrIndex][1] = url;
+      };
     }
   }
+
+  return null;
 };
 
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
@@ -511,10 +544,16 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
         const filePath = currentPath(includeEnv);
 
-        if (filePath) resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey]);
+        const restoreUrl = filePath
+          ? resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey])
+          : null;
 
-        // pass token to default renderer.
-        return defaultImageRender(tokens, index, mdItOptions, env, self);
+        try {
+          // pass token to default renderer.
+          return defaultImageRender(tokens, index, mdItOptions, env, self);
+        } finally {
+          restoreUrl?.();
+        }
       };
     }
 
@@ -530,10 +569,16 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
         const filePath = currentPath(includeEnv);
 
-        if (filePath) resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey]);
+        const restoreUrl = filePath
+          ? resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey])
+          : null;
 
-        // pass token to default renderer.
-        return defaultLinkRender(tokens, index, mdItOptions, env, self);
+        try {
+          // pass token to default renderer.
+          return defaultLinkRender(tokens, index, mdItOptions, env, self);
+        } finally {
+          restoreUrl?.();
+        }
       };
     }
   }
