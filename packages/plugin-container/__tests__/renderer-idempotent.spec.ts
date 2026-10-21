@@ -18,4 +18,20 @@ describe("container renderer idempotency", () => {
     expect(firstRender).toBe(expected);
     expect(secondRender).toBe(expected);
   });
+
+  it("should append the container class after classes added by other plugins", () => {
+    const md = new MarkdownIt().use(container, { name: "note" });
+    const tokens = md.parse("::: note\ncontent\n:::\n", {});
+
+    // simulate attributes added by another plugin (e.g. @mdit/plugin-attrs)
+    // before the token gets rendered
+    tokens[0].attrSet("class", "custom");
+
+    expect(md.renderer.render(tokens, md.options, {})).toBe(
+      `<div class="custom note">
+<p>content</p>
+</div>
+`,
+    );
+  });
 });
