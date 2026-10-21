@@ -7,6 +7,11 @@ const getAlertRule =
   (types: Set<string>, deep: boolean): BlockRule =>
     // oxlint-disable-next-line max-lines-per-function
     (state, startLine, endLine, silent) => {
+      // Save the state before any modification, so it can always be restored,
+      // including in silent mode.
+      const oldLineMax = state.lineMax;
+      const oldParentType = state.parentType;
+
       if (
         // if it's indented more than 3 spaces, it should be a code block
         state.sCount[startLine] - state.blkIndent >= 4 ||
@@ -102,8 +107,6 @@ const getAlertRule =
       const oldBSCount: number[] = [];
       const oldSCount: number[] = [];
       const oldTShift: number[] = [];
-      const oldLineMax = state.lineMax;
-      const oldParentType = state.parentType;
       const terminatorRules = [
         state.md.block.ruler.getRules("blockquote"),
         state.md.block.ruler.getRules("alert"),
@@ -132,6 +135,7 @@ const getAlertRule =
       let currentLine = startLine;
       let lastLineEmpty = false;
       let hasBodyContent = false;
+      let terminated = false;
 
       for (; currentLine < endLine; currentLine++) {
         // check if it's outdented, i.e. it's inside list item and indented
@@ -238,8 +242,10 @@ const getAlertRule =
           // Quirk to enforce "hard termination mode" for paragraphs;
           // normally if you call `tokenize(state, startLine, nextLine)`,
           // paragraphs will look below nextLine for paragraph continuation,
-          // but if blockquote is terminated by another tag, they shouldn't
-          state.lineMax = currentLine;
+          // but if blockquote is terminated by another tag, they shouldn't.
+          // Only record the line here: `state.lineMax` must not be modified
+          // until the alert is confirmed and the rule is not in silent mode.
+          terminated = true;
 
           if (state.blkIndent !== 0 && !silent) {
             // state.blkIndent was non-zero, we now set it to zero,
@@ -272,6 +278,7 @@ const getAlertRule =
 
       const restoreState = (): void => {
         state.lineMax = oldLineMax;
+        state.parentType = oldParentType;
 
         // Restore original tShift; this might not be necessary since the parser
         // has already been here, but just to make sure we can do that.
@@ -285,21 +292,27 @@ const getAlertRule =
 
       // If we didn't find any alert body, so we don't have a valid alert
       if (startLine + 1 >= currentLine || !hasBodyContent) {
-        state.parentType = oldParentType;
-
-        // If we are in silent mode, we don't need to restore the state
-        if (!silent) restoreState();
+        // Always restore the state, including in silent mode.
+        restoreState();
 
         return false;
       }
 
       // from now we know that it's going to be a valid alert,
       // so no point trying to find the end of it in silent mode
-      if (silent) return true;
+      if (silent) {
+        // The rule must not have side effects in silent mode.
+        restoreState();
+
+        return true;
+      }
 
       const oldIndent = state.blkIndent;
 
       state.blkIndent = 0;
+
+      // Only enforce "hard termination mode" once the alert is confirmed
+      if (terminated) state.lineMax = currentLine;
 
       const titleLines: [number, number] = [startLine, startLine + 1];
       const contentLines: [number, number] = [startLine + 1, 0];
@@ -325,7 +338,6 @@ const getAlertRule =
       contentLines[1] = state.line;
 
       state.blkIndent = oldIndent;
-      state.parentType = oldParentType;
       restoreState();
 
       return true;
