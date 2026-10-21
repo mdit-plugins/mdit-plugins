@@ -20,7 +20,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
-    "directory": "packages/plugin-mathjax"
+    "directory": "packages/plugin-mathjax-slim"
   },
   "files": [
     "dist"
