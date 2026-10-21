@@ -4,5 +4,5 @@
     "isolatedDeclarations": true
   },
   "include": ["**/*.ts", "**/.vuepress/**/*.ts"],
-  "exclude": ["**/snippets/example.ts", "**/__fixtures__/**"]
+  "exclude": ["**/snippets/example.ts", "**/__fixtures__/**", "**/dist/**"]
 }
