@@ -2,6 +2,7 @@ import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType, Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
+import type { InlineRuleAttrs } from "../src/index.js";
 import { inlineRule } from "../src/index.js";
 
 const createAttrs = (): [string, string][] => [
@@ -117,7 +118,7 @@ describe("attrs", () => {
     const createAttrsFactory = (): (() => [string, string][]) => () => createAttrs();
 
     describe("nested rule", () => {
-      const createMd = (attrs: [string, string][] | (() => [string, string][])): MarkdownItType =>
+      const createMd = (attrs: InlineRuleAttrs): MarkdownItType =>
         new MarkdownIt().use(inlineRule, {
           marker: "=",
           tag: "span",
@@ -125,8 +126,7 @@ describe("attrs", () => {
           nested: true,
           double: true,
           placement: "before-emphasis",
-          // Temporary cast: the factory overload is added in the next commit.
-          attrs: attrs as [string, string][],
+          attrs,
         });
 
       it("should assign independent attrs from the factory for each token", () => {
@@ -178,13 +178,12 @@ describe("attrs", () => {
     });
 
     describe("non-nested rule", () => {
-      const createMd = (attrs: [string, string][] | (() => [string, string][])): MarkdownItType =>
+      const createMd = (attrs: InlineRuleAttrs): MarkdownItType =>
         new MarkdownIt().use(inlineRule, {
           marker: "^",
           tag: "sup",
           token: "sup",
-          // Temporary cast: the factory overload is added in the next commit.
-          attrs: attrs as [string, string][],
+          attrs,
         });
 
       it("should assign independent attrs from the factory for each token", () => {

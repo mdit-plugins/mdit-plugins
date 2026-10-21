@@ -2,16 +2,18 @@ import { UNESCAPE_RE } from "@mdit/helper";
 import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { Delimiter, StateInline } from "markdown-it";
 
-import type { InlineRuleOptions } from "./options.js";
+import type { InlineRuleAttrs, InlineRuleOptions } from "./options.js";
 
 const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(?:^|[^\\])(?:\\\\)*\s/u;
 
-// Clone attrs so that every token owns an independent outer and inner array.
-// markdown-it's `Token#attrJoin` mutates the attribute value array in place (this is what
-// `@mdit/plugin-attrs` uses), so sharing a single attrs array between tokens would leak attributes to
-// every token created by the same rule.
-const cloneAttrs = (attrs: [string, string][]): [string, string][] =>
-  attrs.map(([key, value]): [string, string] => [key, value]);
+// Resolve attrs for a single token. A factory is expected to return a fresh array for every call,
+// while a static template array is cloned (both outer array and inner tuples) so that tokens never
+// share attribute arrays. markdown-it's `Token#attrJoin` mutates the inner arrays in place (this is
+// what `@mdit/plugin-attrs` uses), so sharing them would leak attributes between tokens.
+const resolveAttrs = (attrs: InlineRuleAttrs): [string, string][] =>
+  typeof attrs === "function"
+    ? attrs()
+    : attrs.map(([key, value]): [string, string] => [key, value]);
 
 interface LinearRuleConfig {
   markerCode: number;
@@ -19,7 +21,7 @@ interface LinearRuleConfig {
   token: string;
   markup: string;
   allowSpace: boolean;
-  attrs: [string, string][] | undefined;
+  attrs: InlineRuleAttrs | undefined;
 }
 
 const createLinearRule = (config: LinearRuleConfig): InlineRule => {
@@ -74,7 +76,7 @@ const createLinearRule = (config: LinearRuleConfig): InlineRule => {
     const openToken = state.push(`${token}_open`, tag, 1);
 
     openToken.markup = markup;
-    if (attrs) openToken.attrs = cloneAttrs(attrs);
+    if (attrs) openToken.attrs = resolveAttrs(attrs);
 
     const textToken = state.push("text", "", 0);
 
@@ -157,7 +159,7 @@ interface NestedPostProcessConfig {
   token: string;
   markup: string;
   double: boolean;
-  attrs: [string, string][] | undefined;
+  attrs: InlineRuleAttrs | undefined;
 }
 
 const createNestedPostProcess = (
@@ -183,7 +185,7 @@ const createNestedPostProcess = (
         token.nesting = 1;
         token.markup = markup;
         token.content = "";
-        if (attrs) token.attrs = cloneAttrs(attrs);
+        if (attrs) token.attrs = resolveAttrs(attrs);
 
         token = state.tokens[endDelim.token];
         token.type = closeType;
