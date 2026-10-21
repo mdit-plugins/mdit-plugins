@@ -47,11 +47,16 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      - name: Linting check
-        run: pnpm lint:check
+      - name: Type check
+        run: pnpm run type-check
 
-      - name: Test check
-        run: pnpm test
+      - name: Linting check
+        run: |
+          pnpm run lint:check
+          pnpm run lint:md
+
+      - name: Test coverage
+        run: pnpm run test:coverage
 
       - name: Config git
         run: |
