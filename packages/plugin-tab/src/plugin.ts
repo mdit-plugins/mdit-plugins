@@ -79,7 +79,6 @@ const createTabItemRule =
 
     const indent = state.sCount[startLine];
     let nextLine = startLine + 1;
-    let autoClosed = false;
 
     // Search for the end of the block
     for (
@@ -114,7 +113,6 @@ const createTabItemRule =
         checkTabMarker(state, nextLineStart, nextLineMax)
       ) {
         // found!
-        autoClosed = true;
         break;
       }
     }
@@ -126,7 +124,7 @@ const createTabItemRule =
     state.parentType = `tab`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -177,7 +175,7 @@ const createTabItemRule =
     };
     if (id) openToken.meta.id = id;
 
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine];
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 
@@ -305,7 +303,7 @@ const createTabContainerRule =
     state.parentType = `${name}_tabs`;
 
     // this will prevent lazy continuations from ever going past our end marker
-    state.lineMax = nextLine - (autoClosed ? 1 : 0);
+    state.lineMax = nextLine;
 
     // this will update the block indent
     state.blkIndent = indent;
@@ -326,7 +324,7 @@ const createTabContainerRule =
     openToken.block = true;
     openToken.info = name;
     openToken.meta = id ? { id } : {};
-    openToken.map = [startLine, nextLine - (autoClosed ? 1 : 0)];
+    openToken.map = [startLine, nextLine];
 
     state.env[tabNameKey] = name;
     state.env[tabLevelKey] = state.level;
