@@ -54,9 +54,9 @@ mdIt.render("==高亮文本==");
 
 相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
 
-@`attrs` type=`[attr: string, value: string][]`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
 
-渲染元素的自定义 HTML 属性。
+渲染元素的自定义 HTML 属性。静态数组会为每个令牌克隆一份，因此令牌之间不会共享属性数组。工厂函数会为每个令牌调用一次，且必须返回新数组；这是提供动态属性的推荐方式，并免去逐令牌克隆。
 
 @`allowSpace` type=boolean default=`false`
 
