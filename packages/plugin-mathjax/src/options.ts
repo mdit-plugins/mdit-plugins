@@ -109,6 +109,9 @@ export interface MathjaxInstance<Sync extends boolean = false> extends Required<
    */
   outputStyle: () => Sync extends true ? string : Promise<string>;
 
+  /** Render one formula synchronously / 同步渲染单个公式 */
+  render: (content: string, displayMode: boolean) => string;
+
   /** Reset tex (including labels) / 重置 TeX（包含标签） */
   reset: () => void;
 

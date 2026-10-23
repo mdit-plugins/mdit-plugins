@@ -216,7 +216,10 @@ const requestWorker = (state: RuntimeState, request: WorkerRequest): WorkerRespo
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const mathjax = (md: MarkdownIt, options: MarkdownItSyncMathjaxOptions = {}): void => {
+export const installSyncMathjax = (
+  md: MarkdownIt,
+  options: MarkdownItSyncMathjaxOptions = {},
+): void => {
   if (mathjaxMethods.has(md)) {
     throw new Error(
       "[@mdit/plugin-mathjax] the mathjax plugin is already installed on this MarkdownIt instance",

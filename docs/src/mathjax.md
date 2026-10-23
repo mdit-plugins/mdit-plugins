@@ -61,9 +61,9 @@ const css = await mathjaxInstance.outputStyle();
 `@mdit/plugin-mathjax` v2 changes the main entry from an instance-based plugin to a regular synchronous markdown-it plugin. Review the following changes before upgrading:
 
 - `mathjax` now takes options as its second argument: `mathjax(md, options)` instead of `mathjax(md, instance)`, and `md.render()` is synchronous again.
-- `createMathjaxInstance` has moved to `@mdit/plugin-mathjax/async` and is no longer exported from the main entry.
+- `createMathjaxInstance` now lives in `@mdit/plugin-mathjax/async`. It is still re-exported from the main entry as a deprecated compatibility export for v1 users and will be removed in the next major.
 - `@mdit/plugin-mathjax/sync` has been removed. The main entry itself is synchronous on Node.js.
-- There is no instance to create, pass around or await. Use `getMathjax(md)` to access `outputStyle`, `reset`, `clearStyle` and `dispose`.
+- The synchronous v2 API needs no instance: use `getMathjax(md)` to access `outputStyle`, `reset`, `clearStyle` and `dispose`. The legacy `mathjax(md, instance)` call is still accepted (deprecated) for backwards compatibility.
 - The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `./async`.
 - Options must be structured-cloneable. Function options are rejected with a clear error, see [Options](#options).
 
@@ -186,7 +186,7 @@ The synchronous main entry sends options to a worker thread, so all options must
 - `fontData`, `wrapperFactory` and `cssStyles` in `chtml` / `svg` (custom fonts, wrappers and styles)
 - `linebreaks.LinebreakVisitor` in `chtml` / `svg`
 
-Import from `@mdit/plugin-mathjax/async` when you need any of them. `transformer` is the only function option supported by the synchronous entry. Any other non-cloneable value, such as a function in `tex.macros`, is rejected as well.
+Import from `@mdit/plugin-mathjax/async` (or use the deprecated instance API) when you need any of them. `transformer` is the only function option supported by the synchronous entry. Any other non-cloneable value, such as a function in `tex.macros`, is rejected as well.
 
 :::
 

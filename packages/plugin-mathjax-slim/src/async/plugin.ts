@@ -129,6 +129,14 @@ export const createMathjaxInstance = async (
     clearUserState(InputJax);
   };
 
+  const render = (content: string, displayMode: boolean): string => {
+    const mathDocument = mathjaxLib
+      .document(content, documentOptions)
+      .convert(content, { display: displayMode }) as LiteElement;
+
+    return adaptor.outerHTML(mathDocument);
+  };
+
   const outputStyle = async (): Promise<string> => {
     await OutputJax.font.loadDynamicFiles();
 
@@ -150,6 +158,7 @@ export const createMathjaxInstance = async (
     delimiters: options.delimiters ?? "dollars",
     mathFence: options.mathFence ?? false,
     clearStyle,
+    render,
     reset,
     outputStyle,
     transformer: options.transformer ?? null,
@@ -160,10 +169,9 @@ export const mathjax = (
   md: MarkdownIt,
   {
     allowInlineWithSpace,
-    adaptor,
     delimiters,
-    documentOptions,
     mathFence,
+    render: renderMath,
     reset,
     transformer,
   }: MathjaxInstance,
@@ -193,11 +201,7 @@ export const mathjax = (
     delimiters,
     mathFence,
     render: (content, displayMode) => {
-      const mathDocument = mathjaxLib.document(content, documentOptions).convert(content, {
-        display: displayMode,
-      }) as LiteElement;
-
-      const result = adaptor.outerHTML(mathDocument);
+      const result = renderMath(content, displayMode);
 
       return transformer?.(result, displayMode) ?? result;
     },

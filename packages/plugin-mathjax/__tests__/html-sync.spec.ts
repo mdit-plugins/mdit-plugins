@@ -3,9 +3,10 @@ import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { getMathjax, mathjax } from "../src/index.js";
+import type { MarkdownItSyncMathjaxOptions } from "../src/index.js";
 import { examples } from "./utils.js";
 
-const createMarkdownIt = (options: Parameters<typeof mathjax>[1] = {}): MarkdownItType =>
+const createMarkdownIt = (options: MarkdownItSyncMathjaxOptions = {}): MarkdownItType =>
   new MarkdownIt({ linkify: true }).use(mathjax, { output: "chtml", ...options });
 
 describe("mathjax-html", () => {
