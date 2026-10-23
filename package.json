@@ -33,7 +33,7 @@
     "cross-env": "10.1.0",
     "happy-dom": "21.0.4",
     "husky": "9.1.7",
-    "markdownlint-cli2": "0.23.3",
+    "markdownlint-cli2": "0.24.0",
     "nano-staged": "1.0.2",
     "npm-check-updates": "23.1.1",
     "oxc-config-hope": "0.3.15",
