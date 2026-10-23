@@ -256,8 +256,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       happy-dom:
-        specifier: 21.0.3
-        version: 21.0.3
+        specifier: 21.0.4
+        version: 21.0.4
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -302,7 +302,7 @@ importers:
         version: 0.3.1(synckit@0.11.13)
       vitest:
         specifier: 5.0.5
-        version: 5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.3)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1))
+        version: 5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.4)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1))
 
   docs:
     dependencies:
@@ -3150,8 +3150,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@21.0.3:
-    resolution: {integrity: sha512-PesNgu5BnIEmAwzKGewB3K1ORFeznFZJ4JrRz89ea1wkHnxskdpzX9sN/+zb4KO6k8oSMhyJSj/cwXAFrYBBNA==}
+  happy-dom@21.0.4:
+    resolution: {integrity: sha512-tFm+GaLBgo6o0awHnvHaNoraVo27qJ+2tZEtZ+cIa08hXbeitrxAJajLI05hsUy/2/YTKcUjQYzHe5mCcraLBw==}
     engines: {node: '>=20.0.0'}
 
   has-flag@4.0.0:
@@ -6163,7 +6163,7 @@ snapshots:
       magicast: 0.5.5
       obug: 3.0.0
       tinyrainbow: 3.2.0
-      vitest: 5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.3)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1))
+      vitest: 5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.4)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1))
 
   '@vitest/istanbul-lib-coverage@1.0.2': {}
 
@@ -7461,7 +7461,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@21.0.3:
+  happy-dom@21.0.4:
     dependencies:
       '@types/node': 24.19.2
       '@types/whatwg-mimetype': 3.0.2
@@ -9091,7 +9091,7 @@ snapshots:
       sass-embedded: 1.105.2
       yaml: 2.9.1
 
-  vitest@5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.3)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1)):
+  vitest@5.0.5(@types/node@24.19.2)(@vitest/coverage-istanbul@5.0.5)(happy-dom@21.0.4)(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1)):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/mocker': 5.0.5(vite@8.3.4(@types/node@24.19.2)(sass-embedded@1.105.2)(sass@1.105.2)(yaml@2.9.1))
@@ -9110,7 +9110,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.19.2
       '@vitest/coverage-istanbul': 5.0.5(vitest@5.0.5)
-      happy-dom: 21.0.3
+      happy-dom: 21.0.4
     transitivePeerDependencies:
       - msw
 
