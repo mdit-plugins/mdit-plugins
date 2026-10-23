@@ -145,6 +145,21 @@ describe("synchronous mathjax plugin", () => {
     dispose(md);
   });
 
+  it("keeps rendering after outputStyle and clearStyle", () => {
+    const md = setup({ output: "svg", a11y: false });
+    const { clearStyle, outputStyle } = getMathjax(md);
+
+    expect(md.render("$x$")).toMatch(/jax="SVG"/);
+    expect(outputStyle()).toContain("mjx-container");
+    expect(md.render("$y$")).toMatch(/jax="SVG"/);
+
+    clearStyle();
+
+    expect(md.render("$z$")).toMatch(/jax="SVG"/);
+
+    dispose(md);
+  });
+
   it("applies transformer on the main thread", () => {
     const md = setup({
       output: "svg",

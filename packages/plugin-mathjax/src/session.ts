@@ -110,16 +110,16 @@ export const createSession = async (options: SerializableMathjaxOptions): Promis
     clearUserState(InputJax);
   };
 
-  const convert = async (content: string, display: boolean): Promise<string> => {
-    const document = mathjaxLib.document("", documentOptions) as MathDocument<
+  // Reuse one MathJax document for the whole session lifetime: MathJax's document API supports
+  // repeated conversions, and reusing it avoids rebuilding handlers/factories for every document.
+  let mathDocument: MathDocument<LiteElement, string, HTMLElement> | null = null;
+
+  const getDocument = (): MathDocument<LiteElement, string, HTMLElement> =>
+    (mathDocument ??= mathjaxLib.document("", documentOptions) as MathDocument<
       LiteElement,
       string,
       HTMLElement
-    >;
-    const node = await document.convertPromise(content, { display });
-
-    return adaptor.outerHTML(node as LiteElement);
-  };
+    >);
 
   return {
     adaptor,
@@ -129,11 +129,15 @@ export const createSession = async (options: SerializableMathjaxOptions): Promis
     clearStyle,
     reset,
     async render(items: MathjaxItem[]): Promise<string[]> {
+      const document = getDocument();
       const html: string[] = [];
 
-      // Sequential conversion keeps MathJax document state deterministic.
-      // oxlint-disable-next-line no-await-in-loop
-      for (const item of items) html.push(await convert(item.content, item.display));
+      for (const item of items) {
+        // oxlint-disable-next-line no-await-in-loop
+        const node = await document.convertPromise(item.content, { display: item.display });
+
+        html.push(adaptor.outerHTML(node as LiteElement));
+      }
 
       // Keep the existing "reset after each document" state-isolation semantics.
       reset();
