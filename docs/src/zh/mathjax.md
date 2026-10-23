@@ -24,7 +24,7 @@ const md = new MarkdownIt().use(mathjax, { output: "svg" });
 
 const html = md.render("$e^{i\\pi}+1=0$"); // 完全同步
 
-const { outputStyle, reset, clearStyle, dispose } = getMathjax(md);
+const { outputStyle, reset, clearStyle, dispose, warmup } = getMathjax(md);
 
 const css = outputStyle(); // 完全同步
 ```
@@ -171,6 +171,10 @@ SVG 输出选项。
 
 启用调试模式。
 
+@`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
+
+文档中公式的转换方式。`"batch"` 会收集整篇文档的公式，在最外层 render 结束时用一次 worker 往返转换；嵌套的 `md.render()` / `md.renderInline()` 在 flush 前返回内部占位符。`"immediate"` 会在遇到公式时立即转换，嵌套 render 会立即返回最终 HTML，代价是每个公式一次 worker 往返。
+
 @`workerTimeout` type=number default=`30000`
 
 单次同步 worker 调用的超时时间（毫秒）。仅同步主入口使用。
@@ -228,7 +232,7 @@ const md = new MarkdownIt().use(mathjax, { output: "svg" });
 // 先渲染，再获取已渲染公式的 CSS。
 md.render("$e^{i\\pi}+1=0$");
 
-const { outputStyle, reset, clearStyle, dispose } = getMathjax(md);
+const { outputStyle, reset, clearStyle, dispose, warmup } = getMathjax(md);
 
 const css = outputStyle();
 

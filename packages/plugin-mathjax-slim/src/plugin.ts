@@ -1,8 +1,5 @@
 /**
- * Natural synchronous MathJax plugin.
- *
- * Unlike the async entry (which requires `await createMathjaxInstance()`), this plugin is used like
- * every other markdown-it plugin:
+ * Synchronous MathJax plugin, used like every other markdown-it plugin:
  *
  * ```ts
  * const md = new MarkdownIt().use(mathjax, { output: "svg" });
@@ -16,7 +13,7 @@
  * are collected through placeholders and flushed together); everything else (e.g. `transformer`)
  * stays on the main thread.
  *
- * 自然同步 MathJax 插件：像普通 markdown-it 插件一样使用，渲染全同步。 Node 侧用 synckit + worker 执行 MathJax 官方异步 API，每篇文档一次
+ * 同步 MathJax 插件：像普通 markdown-it 插件一样使用，渲染全同步。 Node 侧用 synckit + worker 执行 MathJax 官方异步 API，每篇文档一次
  * IPC 批量往返。
  */
 
@@ -34,11 +31,30 @@ import type {
 } from "./protocol.js";
 
 /**
- * Options of the synchronous plugin.
+ * Options of the experimental synchronous plugin.
  *
  * 同步插件选项。
  */
 export interface MarkdownItSyncMathjaxOptions extends MarkdownItMathjaxOptions {
+  /**
+   * How formulas of a markdown document are converted.
+   *
+   * - `"batch"`: collect all formulas of the document and convert them in one worker round-trip when
+   *   the outermost render finishes. Nested `md.render()` / `md.renderInline()` calls return
+   *   internal placeholders until that flush.
+   * - `"immediate"`: convert every formula as soon as it is encountered, so nested render calls
+   *   return final HTML immediately, at the cost of one worker round-trip per formula.
+   *
+   * 文档中公式的转换方式。
+   *
+   * - `"batch"`：收集整篇文档的公式，在最外层 render 结束时用一次 worker 往返转换；嵌套的 `md.render()` / `md.renderInline()` 在
+   *   flush 前返回内部占位符。
+   * - `"immediate"`：遇到公式立即转换，嵌套 render 会立即返回最终 HTML，代价是每个公式一次 worker 往返。
+   *
+   * @default "batch"
+   */
+  renderStrategy?: "batch" | "immediate";
+
   /**
    * Timeout of a single synchronous worker call in milliseconds.
    *
@@ -80,18 +96,46 @@ export interface MathjaxMethods {
 
   /** Reset TeX state (macros / labels) / 重置 TeX 状态（宏与标签） */
   reset: () => void;
+
+  /**
+   * Initialize the worker and MathJax session synchronously, moving the one-time initialization
+   * cost (~100ms) away from the first document.
+   *
+   * 同步初始化 worker 与 MathJax session，把一次性初始化开销（约 100ms）从首篇文档移走。
+   *
+   * @param options - Warmup options / 预热选项
+   */
+  warmup: (options?: WarmupOptions) => void;
+}
+
+/**
+ * Options of `getMathjax(md).warmup()`.
+ *
+ * `getMathjax(md).warmup()` 的选项。
+ */
+export interface WarmupOptions {
+  /**
+   * Also load all dynamic font files (adds ~73ms for SVG / ~35ms for CHTML on the first call).
+   *
+   * 同时加载全部动态字体文件（首次调用会增加 SVG 约 73ms / CHTML 约 35ms）。
+   *
+   * @default false
+   */
+  preloadFonts?: boolean;
 }
 
 type WorkerFn = (request: WorkerRequest) => WorkerResponse | Promise<WorkerResponse>;
 
 interface RuntimeState {
   depth: number;
+  dirty: boolean;
   disposed: boolean;
   initialized: boolean;
   items: MathjaxItem[];
   nonce: string;
   sessionId: string;
   options: SerializableMathjaxOptions;
+  renderStrategy: "batch" | "immediate";
   transformer: TeXTransformer | null;
   timeout: number;
   workerUrl: URL | string;
@@ -168,7 +212,8 @@ const createRuntime = (options: MarkdownItSyncMathjaxOptions): RuntimeState => {
     );
   }
 
-  const { transformer, workerPath, workerTimeout, ...serializableOptions } = options;
+  const { renderStrategy, transformer, workerPath, workerTimeout, ...serializableOptions } =
+    options;
 
   try {
     // Fail early with a clear error instead of a DataCloneError inside the worker.
@@ -184,12 +229,14 @@ const createRuntime = (options: MarkdownItSyncMathjaxOptions): RuntimeState => {
 
   return {
     depth: 0,
+    dirty: false,
     disposed: false,
     initialized: false,
     items: [],
     nonce,
     sessionId: crypto.randomUUID(),
     options: serializableOptions,
+    renderStrategy: renderStrategy ?? "batch",
     transformer: transformer ?? null,
     timeout: workerTimeout ?? DEFAULT_WORKER_TIMEOUT,
     workerUrl: workerPath ?? WORKER_URL,
@@ -209,6 +256,32 @@ const requestWorker = (state: RuntimeState, request: WorkerRequest): WorkerRespo
   }
 
   return worker(request);
+};
+
+/**
+ * Convert one formula immediately in the worker (used by the `immediate` render strategy).
+ *
+ * 立即在 worker 中转换单个公式（用于 `immediate` 渲染策略）。
+ *
+ * @param state - Runtime state / 运行时状态
+ * @param content - TeX content / TeX 内容
+ * @param display - Whether it is display math / 是否行间公式
+ * @returns Rendered HTML / 渲染后的 HTML
+ */
+const convertImmediate = (state: RuntimeState, content: string, display: boolean): string => {
+  const response = requestWorker(state, {
+    type: "render",
+    sessionId: state.sessionId,
+    items: [{ content, display }],
+  });
+
+  /* istanbul ignore next -- defensive: the worker always returns html for a render request */
+  if (!("html" in response))
+    throw new TypeError("[@mdit/plugin-mathjax-slim] unexpected worker response for render");
+
+  const value = response.html[0];
+
+  return state.transformer ? state.transformer(value, display) : value;
 };
 
 /**
@@ -266,6 +339,10 @@ export const installSyncMathjax = (
     delimiters: options.delimiters,
     mathFence: options.mathFence,
     render: (content, display) => {
+      state.dirty = true;
+
+      if (state.renderStrategy === "immediate") return convertImmediate(state, content, display);
+
       const index = state.items.length;
 
       state.items.push({ content, display });
@@ -274,9 +351,8 @@ export const installSyncMathjax = (
     },
   });
 
-  // Collect formulas during a whole render pass, then convert them in a single
-  // synchronous worker round-trip. Nested renders are collected by the outermost
-  // call, so only depth 0 -> 1 flushes.
+  // `batch` collects formulas for the whole render pass and flushes them in one worker round-trip
+  // at the outermost return; `immediate` has nothing left to do here besides the document reset.
   const originalRender = md.renderer.render.bind(md.renderer);
 
   md.renderer.render = function render(tokens, renderOptions, env): string {
@@ -284,6 +360,8 @@ export const installSyncMathjax = (
 
     try {
       const result = originalRender(tokens, renderOptions, env);
+
+      if (state.renderStrategy === "immediate") return result;
 
       return state.depth === 1 ? flush(result) : result;
     } catch (err) {
@@ -296,6 +374,13 @@ export const installSyncMathjax = (
       throw err;
     } finally {
       state.depth -= 1;
+
+      // Reset TeX/macro state once per document (and only when math was rendered), not once per
+      // formula, so documents without math do not pay a worker round-trip at all.
+      if (state.depth === 0 && state.initialized && state.dirty) {
+        state.dirty = false;
+        requestWorker(state, { type: "reset", sessionId: state.sessionId });
+      }
     }
   };
 
@@ -326,6 +411,13 @@ export const installSyncMathjax = (
       if (!state.initialized) return;
 
       requestWorker(state, { type: "reset", sessionId: state.sessionId });
+    },
+    warmup: (warmupOptions?: WarmupOptions): void => {
+      requestWorker(state, {
+        type: "warmup",
+        sessionId: state.sessionId,
+        preloadFonts: warmupOptions?.preloadFonts ?? false,
+      });
     },
   };
 

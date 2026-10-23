@@ -36,6 +36,7 @@ interface Session {
   InputJax: InputJax;
   OutputJax: OutputJax;
   clearStyle: () => void;
+  preloadFonts: () => Promise<void>;
   render: (items: MathjaxItem[]) => Promise<string[]>;
   reset: () => void;
   style: () => Promise<string>;
@@ -127,6 +128,9 @@ export const createSession = async (options: SerializableMathjaxOptions): Promis
     InputJax,
     OutputJax,
     clearStyle,
+    preloadFonts: async (): Promise<void> => {
+      await OutputJax.font.loadDynamicFiles();
+    },
     reset,
     async render(items: MathjaxItem[]): Promise<string[]> {
       const document = getDocument();
@@ -138,9 +142,6 @@ export const createSession = async (options: SerializableMathjaxOptions): Promis
 
         html.push(adaptor.outerHTML(node as LiteElement));
       }
-
-      // Keep the existing "reset after each document" state-isolation semantics.
-      reset();
 
       return html;
     },

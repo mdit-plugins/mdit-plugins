@@ -36,6 +36,12 @@ runAsWorker(async (request: WorkerRequest): Promise<WorkerResponse> => {
       return { html: await getSession(request.sessionId).render(request.items) };
     }
 
+    case "warmup": {
+      if (request.preloadFonts) await getSession(request.sessionId).preloadFonts();
+
+      return { ok: true };
+    }
+
     case "style": {
       return { style: await getSession(request.sessionId).style() };
     }

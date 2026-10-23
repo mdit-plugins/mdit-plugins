@@ -16,6 +16,8 @@ describe("session", () => {
     expect(html[1]).toMatch(/jax="SVG"/);
     expect(html[0]).toContain("<mjx-assistive-mml");
 
+    await session.preloadFonts();
+
     const style = await session.style();
 
     expect(style.length).toBeGreaterThan(0);

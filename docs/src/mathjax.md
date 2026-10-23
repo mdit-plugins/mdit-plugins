@@ -24,7 +24,7 @@ const md = new MarkdownIt().use(mathjax, { output: "svg" });
 
 const html = md.render("$e^{i\\pi}+1=0$"); // Fully synchronous
 
-const { outputStyle, reset, clearStyle, dispose } = getMathjax(md);
+const { outputStyle, reset, clearStyle, dispose, warmup } = getMathjax(md);
 
 const css = outputStyle(); // Fully synchronous
 ```
@@ -171,6 +171,10 @@ Transformer on output content. Runs on the main thread after the worker returns 
 
 Enable debug mode.
 
+@`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
+
+How formulas of a markdown document are converted. With `"batch"`, all formulas are collected and converted in one worker round-trip when the outermost render finishes; nested `md.render()` / `md.renderInline()` calls return internal placeholders until that flush. With `"immediate"`, every formula is converted as soon as it is encountered, so nested render calls return final HTML immediately at the cost of one worker round-trip per formula.
+
 @`workerTimeout` type=number default=`30000`
 
 Timeout of a single synchronous worker call in milliseconds. Only used by the synchronous main entry.
@@ -217,6 +221,10 @@ Terminate the worker-side session and release its MathJax state.
 
 After calling it, the markdown-it instance can no longer render math and `getMathjax(md)` throws; create a new `MarkdownIt` instance to render again.
 
+@`warmup` type=`(options?: WarmupOptions) => void`
+
+Initialize the worker and the MathJax session synchronously, so the first document does not pay the one-time initialization cost (~100ms). `warmup({ preloadFonts: true })` also loads all dynamic font files, which additionally takes ~73ms for SVG and ~35ms for CHTML on the first call. Because it blocks, call it before a batch of renders when predictable timing matters.
+
 :::
 
 ```ts
@@ -228,7 +236,7 @@ const md = new MarkdownIt().use(mathjax, { output: "svg" });
 // Render first, then collect the CSS for the rendered formulas.
 md.render("$e^{i\\pi}+1=0$");
 
-const { outputStyle, reset, clearStyle, dispose } = getMathjax(md);
+const { outputStyle, reset, clearStyle, dispose, warmup } = getMathjax(md);
 
 const css = outputStyle();
 
@@ -237,6 +245,9 @@ reset();
 
 // Clear the style cache and math jax state.
 clearStyle();
+
+// Initialize now instead of on the first rendered document.
+warmup();
 
 // Release the worker session when the MarkdownIt instance is no longer used.
 dispose();

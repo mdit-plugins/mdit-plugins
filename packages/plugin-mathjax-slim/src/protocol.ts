@@ -30,6 +30,7 @@ export type SerializableMathjaxOptions = Omit<MarkdownItMathjaxOptions, "transfo
 export type WorkerRequest =
   | { type: "create"; sessionId: string; options: SerializableMathjaxOptions }
   | { type: "render"; sessionId: string; items: MathjaxItem[] }
+  | { type: "warmup"; sessionId: string; preloadFonts: boolean }
   | { type: "style"; sessionId: string }
   | { type: "reset"; sessionId: string }
   | { type: "clearStyle"; sessionId: string }

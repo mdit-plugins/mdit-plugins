@@ -306,6 +306,121 @@ describe("synchronous mathjax plugin", () => {
     dispose(md);
   });
 
+  it("warmup initializes the worker and can preload fonts", () => {
+    const md = setup({ output: "chtml", a11y: false });
+    const { warmup } = getMathjax(md);
+
+    expect(() => warmup()).not.toThrow();
+    expect(() => warmup({ preloadFonts: true })).not.toThrow();
+    expect(md.render(String.raw`$\mathbb{R}$`)).toMatch(/jax="CHTML"/);
+
+    dispose(md);
+  });
+
+  it("does not call the worker again for documents without math", () => {
+    const md = setup({ output: "svg", a11y: false });
+
+    expect(md.render("$x$")).toMatch(/jax="SVG"/);
+    expect(md.render("plain text")).toBe("<p>plain text</p>\n");
+    expect(md.renderInline("plain inline")).toBe("plain inline");
+
+    dispose(md);
+  });
+
+  it("returns placeholders to nested renders in batch mode", () => {
+    const md = setup({ output: "svg", a11y: false });
+    const paragraphOpen = md.renderer.rules.paragraph_open;
+    let inner = "";
+
+    md.renderer.rules.paragraph_open = (tokens, index, options, _env, self): string => {
+      inner = md.renderInline("$nested$");
+
+      return `${inner}${self.renderToken(tokens, index, options)}`;
+    };
+
+    const html = md.render("$outer$");
+
+    expect(inner).toContain(CONTROL_CHAR);
+    expect(html).not.toContain(CONTROL_CHAR);
+    expect(html.match(/jax="SVG"/g)).toHaveLength(2);
+
+    md.renderer.rules.paragraph_open = paragraphOpen;
+    dispose(md);
+  });
+
+  it("immediate strategy returns final HTML to nested renders", () => {
+    const md = setup({ output: "svg", a11y: false, renderStrategy: "immediate" });
+    const paragraphOpen = md.renderer.rules.paragraph_open;
+    let inner = "";
+
+    md.renderer.rules.paragraph_open = (tokens, index, options, _env, self): string => {
+      inner = md.renderInline("$nested$");
+
+      return `${inner}${self.renderToken(tokens, index, options)}`;
+    };
+
+    const html = md.render("$outer$");
+
+    expect(inner).not.toContain(CONTROL_CHAR);
+    expect(inner).toMatch(/jax="SVG"/);
+    expect(html.match(/jax="SVG"/g)).toHaveLength(2);
+
+    md.renderer.rules.paragraph_open = paragraphOpen;
+    dispose(md);
+  });
+
+  it("immediate strategy keeps document-order TeX state in nested renders", () => {
+    const md = setup({ output: "svg", a11y: false, renderStrategy: "immediate" });
+    const paragraphOpen = md.renderer.rules.paragraph_open;
+    let calls = 0;
+    let inner = "";
+
+    md.renderer.rules.paragraph_open = (tokens, index, options, _env, self): string => {
+      calls += 1;
+
+      // oxlint-disable-next-line vitest/no-conditional-in-test
+      if (calls === 2) inner = md.renderInline(String.raw`$\foo$`);
+
+      return self.renderToken(tokens, index, options);
+    };
+
+    const html = md.render(
+      [String.raw`$\newcommand{\foo}{bar}$`, "text", String.raw`$\foo$`].join("\n\n"),
+    );
+
+    expect(inner).not.toContain("merror");
+    expect(inner).not.toContain('fill="red"');
+    expect(html).not.toContain("merror");
+
+    md.renderer.rules.paragraph_open = paragraphOpen;
+    dispose(md);
+  });
+
+  it("immediate strategy applies transformer", () => {
+    const md = setup({
+      output: "svg",
+      a11y: false,
+      renderStrategy: "immediate",
+      transformer: (html) => `<!--immediate-->${html}`,
+    });
+
+    expect(md.render("$x$")).toContain("<!--immediate-->");
+
+    dispose(md);
+  });
+
+  it("immediate strategy keeps documents isolated", () => {
+    const md = setup({ output: "svg", a11y: false, renderStrategy: "immediate" });
+
+    md.render(String.raw`$\newcommand{\foo2}{bar}\foo2$`);
+
+    const baseline = setup({ output: "svg", a11y: false }).render(String.raw`$\foo2$`);
+
+    expect(normalize(md.render(String.raw`$\foo2$`))).toBe(normalize(baseline));
+
+    dispose(md);
+  });
+
   it("throws after dispose", () => {
     const md = setup({ output: "svg" });
 
