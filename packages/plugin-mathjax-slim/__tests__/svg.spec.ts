@@ -1,7 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/index.js";
+import { createMathjaxInstance, mathjax } from "../src/async/index.js";
 import { examples } from "./utils.js";
 
 describe("mathjax-svg", () => {

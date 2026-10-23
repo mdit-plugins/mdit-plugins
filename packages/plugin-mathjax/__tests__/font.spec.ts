@@ -3,7 +3,7 @@ import { MathJaxTexFont as MathJaxTexSVGFont } from "@mathjax/mathjax-tex-font/j
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/index.js";
+import { createMathjaxInstance, mathjax } from "../src/async/index.js";
 
 describe("mathjax-html", () => {
   it("should support custom chtml font data", async () => {

@@ -1,205 +1,361 @@
-/** Forked from https://github.com/tani/markdown-it-mathjax3/blob/master/index.ts */
+/**
+ * Natural synchronous MathJax plugin.
+ *
+ * Unlike the async entry (which requires `await createMathjaxInstance()`), this plugin is used like
+ * every other markdown-it plugin:
+ *
+ * ```ts
+ * const md = new MarkdownIt().use(mathjax, { output: "svg" });
+ * const html = md.render("$x$"); // fully synchronous
+ * const { outputStyle } = getMathjax(md);
+ * const css = outputStyle(); // fully synchronous
+ * ```
+ *
+ * Node.js implementation: MathJax's official async API runs in a worker thread and `synckit` blocks
+ * the main thread on the results. One IPC round-trip is made per markdown-it render pass (formulas
+ * are collected through placeholders and flushed together); everything else (e.g. `transformer`)
+ * stays on the main thread.
+ *
+ * 自然同步 MathJax 插件：像普通 markdown-it 插件一样使用，渲染全同步。 Node 侧用 synckit + worker 执行 MathJax 官方异步 API，每篇文档一次
+ * IPC 批量往返。
+ */
 
-import type { MathJaxNewcmFont as chtmlFontType } from "@mathjax/mathjax-newcm-font/js/chtml.js";
-import type { MathJaxNewcmFont as svgFontType } from "@mathjax/mathjax-newcm-font/js/svg.js";
-import type { AssistiveMmlHandler as AssistiveMmlHandlerType } from "@mathjax/src/js/a11y/assistive-mml.js";
-import type { LiteDocument } from "@mathjax/src/js/adaptors/lite/Document.js";
-import type { LiteElement, LiteNode } from "@mathjax/src/js/adaptors/lite/Element.js";
-import type { LiteText } from "@mathjax/src/js/adaptors/lite/Text.js";
-import type { liteAdaptor as liteAdaptorType } from "@mathjax/src/js/adaptors/liteAdaptor.js";
-import type { MathDocument } from "@mathjax/src/js/core/MathDocument.js";
-import type { RegisterHTMLHandler as RegisterHTMLHandlerType } from "@mathjax/src/js/handlers/html.js";
-import type { TeX as TeXType } from "@mathjax/src/js/input/tex.js";
-import type { mathjax as mathjaxType } from "@mathjax/src/js/mathjax.js";
-import type { CHTML as CHTMLType } from "@mathjax/src/js/output/chtml.js";
-import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type { MarkdownIt } from "markdown-it";
+import { createSyncFn } from "synckit";
+import type { Syncify } from "synckit";
 
-import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "./options.js";
-import { loadTexPackages, texPackages } from "./tex/index.js";
-import { clearUserState } from "./utils.js";
+import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
+import type {
+  MathjaxItem,
+  SerializableMathjaxOptions,
+  WorkerRequest,
+  WorkerResponse,
+} from "./protocol.js";
 
-let AssistiveMmlHandler: typeof AssistiveMmlHandlerType,
-  CHTML: typeof CHTMLType,
-  RegisterHTMLHandler: typeof RegisterHTMLHandlerType,
-  SVG: typeof SVGType,
-  TeX: typeof TeXType,
-  chtmlFont: typeof chtmlFontType,
-  liteAdaptor: typeof liteAdaptorType,
-  mathjaxLib: typeof mathjaxType,
-  svgFont: typeof svgFontType;
-let isMathJaxInstalled = true;
-let isMathJaxNewcmFontInstalled = true;
+/**
+ * Options of the synchronous plugin.
+ *
+ * 同步插件选项。
+ */
+export interface MarkdownItSyncMathjaxOptions extends MarkdownItMathjaxOptions {
+  /**
+   * Timeout of a single synchronous worker call in milliseconds.
+   *
+   * 单次同步 worker 调用的超时时间（毫秒）。
+   *
+   * @default 30000
+   */
+  workerTimeout?: number;
 
-try {
-  ({ mathjax: mathjaxLib } = await import("@mathjax/src/js/mathjax.js"));
-  ({ TeX } = await import("@mathjax/src/js/input/tex.js"));
-  ({ CHTML } = await import("@mathjax/src/js/output/chtml.js"));
-  ({ SVG } = await import("@mathjax/src/js/output/svg.js"));
-  ({ liteAdaptor } = await import("@mathjax/src/js/adaptors/liteAdaptor.js"));
-  ({ RegisterHTMLHandler } = await import("@mathjax/src/js/handlers/html.js"));
-  ({ AssistiveMmlHandler } = await import("@mathjax/src/js/a11y/assistive-mml.js"));
-} catch {
-  /* istanbul ignore next -- @preserve */
-  isMathJaxInstalled = false;
+  /**
+   * Custom worker entry, used internally to test the source implementation against the built
+   * worker.
+   *
+   * 自定义 worker 入口，仅用于让源码实现对接构建后的 worker。
+   *
+   * @internal
+   */
+  workerPath?: URL | string;
 }
 
-try {
-  chtmlFont = (await import("@mathjax/mathjax-newcm-font/js/chtml.js")).MathJaxNewcmFont;
-  svgFont = (await import("@mathjax/mathjax-newcm-font/js/svg.js")).MathJaxNewcmFont;
-} catch {
-  /* istanbul ignore next -- @preserve */
-  isMathJaxNewcmFontInstalled = false;
+/**
+ * Synchronous MathJax methods, retrieved with `getMathjax(md)`.
+ *
+ * 同步 MathJax 方法集合，通过 `getMathjax(md)` 获取。
+ */
+export interface MathjaxMethods {
+  /** Clear the style cache and reset both input and output jax / 清除样式缓存并重置输入输出 jax */
+  clearStyle: () => void;
+
+  /** Terminate the worker-side session / 终止 worker 侧 session */
+  dispose: () => void;
+
+  /**
+   * Return the CSS content collected from all rendered formulas synchronously.
+   *
+   * 同步返回所有已渲染公式收集到的 CSS。
+   */
+  outputStyle: () => string;
+
+  /** Reset TeX state (macros / labels) / 重置 TeX 状态（宏与标签） */
+  reset: () => void;
 }
 
-export const getDocumentOptions = async (
-  options: MarkdownItMathjaxOptions,
-): Promise<DocumentOptions> => {
-  /* istanbul ignore if -- @preserve */
-  if (!isMathJaxInstalled)
-    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
+type WorkerFn = (request: WorkerRequest) => WorkerResponse | Promise<WorkerResponse>;
 
-  const isCHTML = options.output === "chtml";
-  const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+interface RuntimeState {
+  depth: number;
+  disposed: boolean;
+  initialized: boolean;
+  items: MathjaxItem[];
+  nonce: string;
+  sessionId: string;
+  options: SerializableMathjaxOptions;
+  transformer: TeXTransformer | null;
+  timeout: number;
+  workerUrl: URL | string;
+}
 
-  /* istanbul ignore if -- @preserve */
-  if (!userOptions.fontData && !isMathJaxNewcmFontInstalled)
-    throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-newcm-font" is not installed!');
+// Source mode (`vitest` importing `src/index.ts`) has no built worker next to it, so fall
+// back to the package build output. The published entry always resolves `dist/worker.js`.
+/* istanbul ignore next -- the `.ts` branch only exists for in-repo tests; published entries are `.js` */
+const WORKER_URL = import.meta.url.endsWith(".ts")
+  ? new URL("../dist/worker.js", import.meta.url)
+  : new URL("worker.js", import.meta.url);
+const DEFAULT_WORKER_TIMEOUT = 30_000;
 
-  const outputOptions = Object.assign(
-    {
-      fontData: isCHTML ? chtmlFont : svgFont,
-    },
-    // fontURL can be set to undefined if you want to bundle the fonts yourself
-    // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
-    userOptions?.fontData
-      ? {}
-      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
-    isCHTML && !userOptions.fontData
-      ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
-      : {},
-    userOptions,
-  );
+const syncFnCache = new Map<string, Syncify<WorkerFn>>();
 
-  mathjaxLib.asyncLoad = (file): Promise<unknown> => {
-    if (options.debug)
-      // oxlint-disable-next-line no-console
-      console.debug(`[MathJax]: loading ${file}...`);
+/**
+ * Registered MathJax runtimes, keyed by the markdown-it instance.
+ *
+ * 已注册的 MathJax 运行时，以 markdown-it 实例为键。
+ */
+const mathjaxMethods = new WeakMap<MarkdownIt, MathjaxMethods>();
 
-    return import(file);
-  };
+const getSyncFn = (workerPath: URL | string, timeout: number): Syncify<WorkerFn> => {
+  const key = workerPath.toString();
+  const cached = syncFnCache.get(key);
 
-  await loadTexPackages(options.tex?.packages);
+  if (cached) return cached;
 
-  return {
-    InputJax: new TeX<LiteElement, string, HTMLElement>({
-      packages: ["base", ...texPackages],
-      ...options.tex,
-    }),
-    OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
-    enableAssistiveMml: options.a11y !== false,
-  };
+  const syncFn = createSyncFn<WorkerFn>(workerPath, { timeout });
+
+  syncFnCache.set(key, syncFn);
+
+  return syncFn;
 };
 
-export const createMathjaxInstance = async (
-  options: MarkdownItMathjaxOptions = {},
-): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
+const FORBIDDEN_OUTPUT_OPTION_KEYS = [
+  "fontData",
+  "wrapperFactory",
+  "cssStyles",
+  "preFilters",
+  "postFilters",
+] as const;
 
-  const { OutputJax, InputJax } = documentOptions;
+const collectUnsupportedOptions = (options: MarkdownItSyncMathjaxOptions): string[] => {
+  const names: string[] = [];
 
-  const adaptor = liteAdaptor();
-  // oxlint-disable-next-line new-cap
-  const handler = RegisterHTMLHandler(adaptor);
+  if (options.tex?.formatError) names.push("tex.formatError");
 
-  // oxlint-disable-next-line new-cap
-  if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+  for (const outputName of ["chtml", "svg"] as const) {
+    const outputOptions = options[outputName];
 
-  const clearStyle = (): void => {
-    // if there is no adaptor, output jax is not initialized yet, so nothing to clear
-    if (OutputJax.adaptor == null) return;
+    if (!outputOptions) continue;
 
-    InputJax.reset();
-    OutputJax.reset();
-  };
+    for (const key of FORBIDDEN_OUTPUT_OPTION_KEYS)
+      if (key in outputOptions) names.push(`${outputName}.${key}`);
 
-  const reset = (): void => {
-    InputJax.reset();
-    clearUserState(InputJax);
-  };
+    if (
+      "linebreaks" in outputOptions &&
+      outputOptions.linebreaks &&
+      "LinebreakVisitor" in outputOptions.linebreaks
+    )
+      names.push(`${outputName}.linebreaks.LinebreakVisitor`);
+  }
 
-  const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+  return names;
+};
 
-    const style = adaptor.cssText(
-      OutputJax.styleSheet(
-        mathjaxLib.document("", documentOptions) as MathDocument<LiteElement, string, HTMLElement>,
-      ),
+const createRuntime = (options: MarkdownItSyncMathjaxOptions): RuntimeState => {
+  const unsupported = collectUnsupportedOptions(options);
+
+  if (unsupported.length > 0) {
+    throw new TypeError(
+      `[@mdit/plugin-mathjax-slim] the following options cannot be sent to the worker: ${unsupported.join(", ")}. Use "@mdit/plugin-mathjax-slim/async" instead.`,
     );
+  }
 
-    clearStyle();
+  const { transformer, workerPath, workerTimeout, ...serializableOptions } = options;
 
-    return style;
-  };
+  try {
+    // Fail early with a clear error instead of a DataCloneError inside the worker.
+    structuredClone(serializableOptions);
+  } catch (err) {
+    throw new TypeError(
+      `[@mdit/plugin-mathjax-slim] options are not serializable: ${(err as Error).message}. Use "@mdit/plugin-mathjax-slim/async" instead.`,
+      { cause: err },
+    );
+  }
+
+  const nonce = crypto.randomUUID().replaceAll("-", "");
 
   return {
-    adaptor,
-    documentOptions,
-    allowInlineWithSpace: options.allowInlineWithSpace ?? false,
-    delimiters: options.delimiters ?? "dollars",
-    mathFence: options.mathFence ?? false,
-    clearStyle,
-    reset,
-    outputStyle,
-    transformer: options.transformer ?? null,
+    depth: 0,
+    disposed: false,
+    initialized: false,
+    items: [],
+    nonce,
+    sessionId: crypto.randomUUID(),
+    options: serializableOptions,
+    transformer: transformer ?? null,
+    timeout: workerTimeout ?? DEFAULT_WORKER_TIMEOUT,
+    workerUrl: workerPath ?? WORKER_URL,
   };
 };
 
-export const mathjax = (
-  md: MarkdownIt,
-  {
-    allowInlineWithSpace,
-    adaptor,
-    delimiters,
-    documentOptions,
-    mathFence,
-    reset,
-    transformer,
-  }: MathjaxInstance,
-): void => {
-  // Reset the shared TeX input state (macros/labels) after each render so that
-  // state does not leak across documents rendered by the same instance.
-  const render = md.render.bind(md);
-  const renderInline = md.renderInline.bind(md);
+const requestWorker = (state: RuntimeState, request: WorkerRequest): WorkerResponse => {
+  if (state.disposed)
+    throw new Error("[@mdit/plugin-mathjax-slim] the instance has already been disposed");
 
-  md.render = (src, env): string => {
-    try {
-      return render(src, env);
-    } finally {
-      reset();
-    }
-  };
-  md.renderInline = (src, env): string => {
-    try {
-      return renderInline(src, env);
-    } finally {
-      reset();
-    }
+  const worker = getSyncFn(state.workerUrl, state.timeout);
+
+  if (!state.initialized) {
+    worker({ type: "create", sessionId: state.sessionId, options: state.options });
+
+    state.initialized = true;
+  }
+
+  return worker(request);
+};
+
+/**
+ * Create a synchronous MathJax plugin, sharing the MathJax state of the given markdown-it instance.
+ *
+ * 创建同步 MathJax 插件，并共享给定 markdown-it 实例的 MathJax 状态。
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @param options - Plugin options / 插件选项
+ */
+export const mathjax = (md: MarkdownIt, options: MarkdownItSyncMathjaxOptions = {}): void => {
+  if (mathjaxMethods.has(md)) {
+    throw new Error(
+      "[@mdit/plugin-mathjax-slim] the mathjax plugin is already installed on this MarkdownIt instance",
+    );
+  }
+
+  const state = createRuntime(options);
+  const placeholderRegExp = new RegExp(String.raw`\u0002mjx-${state.nonce}-(\d+)\u0003`, "g");
+
+  const placeholderFor = (index: number): string => `\u0002mjx-${state.nonce}-${index}\u0003`;
+
+  const flush = (html: string): string => {
+    const items = state.items;
+
+    state.items = [];
+
+    if (items.length === 0) return html;
+
+    const response = requestWorker(state, {
+      type: "render",
+      sessionId: state.sessionId,
+      items,
+    });
+
+    /* istanbul ignore next -- defensive: the worker always returns html for a render request */
+    if (!("html" in response))
+      throw new TypeError("[@mdit/plugin-mathjax-slim] unexpected worker response for render");
+
+    const rendered = response.html;
+
+    return html.replaceAll(placeholderRegExp, (_, index: string) => {
+      const itemIndex = Number(index);
+      const value = rendered[itemIndex];
+
+      return state.transformer ? state.transformer(value, items[itemIndex].display) : value;
+    });
   };
 
   md.use(tex, {
-    allowInlineWithSpace,
-    delimiters,
-    mathFence,
-    render: (content, displayMode) => {
-      const mathDocument = mathjaxLib.document(content, documentOptions).convert(content, {
-        display: displayMode,
-      }) as LiteElement;
+    allowInlineWithSpace: options.allowInlineWithSpace,
+    delimiters: options.delimiters,
+    mathFence: options.mathFence,
+    render: (content, display) => {
+      const index = state.items.length;
 
-      const result = adaptor.outerHTML(mathDocument);
+      state.items.push({ content, display });
 
-      return transformer?.(result, displayMode) ?? result;
+      return placeholderFor(index);
     },
   });
+
+  // Collect formulas during a whole render pass, then convert them in a single
+  // synchronous worker round-trip. Nested renders are collected by the outermost
+  // call, so only depth 0 -> 1 flushes.
+  const originalRender = md.renderer.render.bind(md.renderer);
+
+  md.renderer.render = function render(tokens, renderOptions, env): string {
+    state.depth += 1;
+
+    try {
+      const result = originalRender(tokens, renderOptions, env);
+
+      return state.depth === 1 ? flush(result) : result;
+    } catch (err) {
+      // A failed render pass never reaches the worker, but its collected items
+      // would otherwise be flushed with the next document and leak TeX state
+      // (e.g. \newcommand) into it.
+      /* istanbul ignore next -- a nested render throwing is covered by the outer pass */
+      if (state.depth === 1) state.items = [];
+
+      throw err;
+    } finally {
+      state.depth -= 1;
+    }
+  };
+
+  const methods: MathjaxMethods = {
+    clearStyle: (): void => {
+      if (!state.initialized) return;
+
+      requestWorker(state, { type: "clearStyle", sessionId: state.sessionId });
+    },
+    dispose: (): void => {
+      if (state.disposed) return;
+
+      if (state.initialized) requestWorker(state, { type: "dispose", sessionId: state.sessionId });
+
+      state.disposed = true;
+      mathjaxMethods.delete(md);
+    },
+    outputStyle: (): string => {
+      const response = requestWorker(state, { type: "style", sessionId: state.sessionId });
+
+      /* istanbul ignore next -- defensive: the worker always returns style for a style request */
+      if (!("style" in response))
+        throw new TypeError("[@mdit/plugin-mathjax-slim] unexpected worker response for style");
+
+      return response.style;
+    },
+    reset: (): void => {
+      if (!state.initialized) return;
+
+      requestWorker(state, { type: "reset", sessionId: state.sessionId });
+    },
+  };
+
+  mathjaxMethods.set(md, methods);
+};
+
+/**
+ * Get the synchronous MathJax methods of a markdown-it instance.
+ *
+ * Unlike a `md.mathjax` property, this helper keeps the type augmentation local and avoids
+ * polluting the global `MarkdownIt` type for users that do not use this plugin.
+ *
+ * 获取某个 markdown-it 实例上的同步 MathJax 方法。相比挂 `md.mathjax` 属性，该 helper 不会污染全局 `MarkdownIt`
+ * 类型，也不会让所有实例多出一个可选属性。
+ *
+ * @example
+ *   ```ts
+ *   const md = new MarkdownIt().use(mathjax, { output: "svg" });
+ *   const { outputStyle } = getMathjax(md);
+ *   const css = outputStyle();
+ *   ```;
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @returns MathJax methods / MathJax 方法集合
+ */
+export const getMathjax = (md: MarkdownIt): MathjaxMethods => {
+  const methods = mathjaxMethods.get(md);
+
+  if (!methods) {
+    throw new Error(
+      "[@mdit/plugin-mathjax-slim] mathjax is not installed on this MarkdownIt instance. Use `md.use(mathjax, options)` first.",
+    );
+  }
+
+  return methods;
 };
