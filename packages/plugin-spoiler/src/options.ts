@@ -1,7 +1,13 @@
 import type { InlineRuleAttrs } from "@mdit/plugin-inline-rule";
 
 export interface MarkdownItSpoilerOptions {
-  /** @default "span" */
+  /**
+   * HTML tag name for the spoiler element
+   *
+   * 剧透元素的 HTML 标签名称
+   *
+   * @default "span"
+   */
   tag?: string;
 
   /**

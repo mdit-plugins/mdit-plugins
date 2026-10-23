@@ -19,6 +19,7 @@
 This repo contains the following plugins:
 
 - @mdit/plugin-abbr
+- @mdit/plugin-advanced-links
 - @mdit/plugin-alert
 - @mdit/plugin-align
 - @mdit/plugin-anchor
@@ -28,6 +29,7 @@ This repo contains the following plugins:
 - @mdit/plugin-dl
 - @mdit/plugin-embed
 - @mdit/plugin-emoji
+- @mdit/plugin-field
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
 - @mdit/plugin-icon
@@ -45,7 +47,7 @@ This repo contains the following plugins:
 - @mdit/plugin-mathjax-slim (Workable in browser with bundlers, but no CDN scripts)
 - @mdit/plugin-plantuml
 - @mdit/plugin-ruby
-- @mdit/plugin-snippet (Node.js only as it needs the `fs` api))
+- @mdit/plugin-snippet (Node.js only as it needs the `fs` api)
 - @mdit/plugin-spoiler
 - @mdit/plugin-stylize
 - @mdit/plugin-sub

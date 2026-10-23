@@ -2,13 +2,10 @@ import type { IncludeEnv } from "./types.js";
 
 export interface MarkdownItIncludeOptions {
   /**
-   * Get current filePath
+   * Get current file path
    *
-   * 获得当前文件路径
-   *
-   * @default (path) => path
+   * 获取当前文件路径
    */
-
   currentPath: (env: IncludeEnv) => string;
 
   /**
@@ -18,7 +15,6 @@ export interface MarkdownItIncludeOptions {
    *
    * @default (path) => path
    */
-
   resolvePath?: (path: string, cwd: string | null) => string;
 
   /**

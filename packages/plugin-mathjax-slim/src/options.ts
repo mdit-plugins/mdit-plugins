@@ -74,35 +74,47 @@ export interface MarkdownItMathjaxOptions extends Pick<
   debug?: boolean;
 }
 
+/**
+ * Mathjax document options
+ *
+ * Mathjax 文档选项
+ */
 export interface DocumentOptions {
+  /** Input jax / 输入 jax */
   InputJax: TeX<LiteElement, string, HTMLElement>;
+
+  /** Output jax / 输出 jax */
   OutputJax: CHTML<LiteElement, string, HTMLElement> | SVG<LiteElement, string, HTMLElement>;
+
+  /** Whether to enable assistive MML / 是否启用辅助 MML */
   enableAssistiveMml: boolean;
 }
 
-/** Mathjax instance common options */
+/** Mathjax instance common options / Mathjax 实例通用选项 */
 export interface MathjaxInstance<Sync extends boolean = false> extends Required<
   Pick<MarkdownItMathjaxOptions, "allowInlineWithSpace" | "delimiters" | "mathFence">
 > {
-  /** Mathjax adaptor */
+  /** Mathjax adaptor / Mathjax 适配器 */
   adaptor: LiteAdaptor;
 
-  /** Mathjax document options */
+  /** Mathjax document options / Mathjax 文档选项 */
   documentOptions: DocumentOptions;
 
   /**
-   * Output style for rendered content and clears it
+   * Output style for rendered content; clears the style cache afterwards
    *
-   * @returns Style
+   * 已渲染内容的输出样式，返回后会清空样式缓存
+   *
+   * @returns Style content / 样式内容
    */
   outputStyle: () => Sync extends true ? string : Promise<string>;
 
-  /** Reset tex (including labels) */
+  /** Reset tex (including labels) / 重置 TeX（包含标签） */
   reset: () => void;
 
-  /** Clear style cache */
+  /** Clear the style cache and reset both input and output jax / 清除样式缓存并重置输入与输出 jax */
   clearStyle: () => void;
 
-  /** Output content transformer */
+  /** Output content transformer / 输出内容转换器 */
   transformer: TeXTransformer | null;
 }

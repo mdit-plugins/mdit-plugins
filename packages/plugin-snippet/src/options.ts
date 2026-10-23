@@ -2,22 +2,18 @@ import type { SnippetEnv } from "./types.js";
 
 export interface MarkdownItSnippetOptions {
   /**
-   * Get current filePath
+   * Get current file path
    *
-   * 获得当前文件路径
-   *
-   * @default (path) => path
+   * 获取当前文件路径
    */
-
   currentPath: (env: SnippetEnv) => string;
 
   /**
-   * Handle include filePath
+   * Handle snippet file path
    *
-   * 处理 include 文件路径
+   * 处理 snippet 文件路径
    *
    * @default (path) => path
    */
-
   resolvePath?: (path: string, cwd: string | null) => string;
 }

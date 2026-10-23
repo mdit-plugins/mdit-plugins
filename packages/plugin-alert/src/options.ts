@@ -6,7 +6,7 @@ export interface MarkdownItAlertOptions {
    *
    * 允许的警告名称
    *
-   * @default ["important", "note", "tip", "warning", "caution"]
+   * @default ["tip", "warning", "caution", "important", "note"]
    */
   alertNames?: string[];
 

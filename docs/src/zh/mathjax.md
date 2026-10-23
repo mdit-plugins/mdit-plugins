@@ -110,7 +110,7 @@ SVG 输出选项。
 
 ## 实例
 
-`createMathjaxInstance(options)` 会 resolve 出你传给插件的实例，若无法加载 $TeX$ 输入则为 `null`。除了解析后的选项外，实例还暴露以下方法：
+`createMathjaxInstance(options)` 会 resolve 出你传给插件的实例。除了解析后的选项外，实例还暴露以下方法：
 
 ::: fields
 @`outputStyle` type=`() => Promise<string>`

@@ -15,7 +15,7 @@ import { tab } from "@mdit/plugin-tab";
 import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tab, {
-  // 你的选项，name 是必填的
+  // 你的选项，name 默认为 "tabs"
   name: "tabs",
 });
 
@@ -77,7 +77,7 @@ mdIt.render("content");
 ## 选项
 
 ::: fields
-@`name` type=string required
+@`name` type=string default=`"tabs"`
 
 选项卡容器的名称。
 

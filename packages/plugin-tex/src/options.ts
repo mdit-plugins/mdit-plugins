@@ -28,17 +28,14 @@ export interface MarkdownItTexOptions<MarkdownItEnv = Env> {
   mathFence?: boolean;
 
   /**
-   * Tex Render function
+   * Tex render function
    *
-   * @param content Text content
-   * @param displayMode Whether is display mode
-   * @param env MarkdownIt environment
-   * @param content 文本内容
-   * @param displayMode 是否是显示模式
-   * @param env MarkdownIt 环境变量
-   * @returns Render result
    * Tex 渲染函数
-   * @returns 渲染结果
+   *
+   * @param content - Text content / 文本内容
+   * @param displayMode - Whether it is display mode / 是否是显示模式
+   * @param env - MarkdownIt environment / MarkdownIt 环境变量
+   * @returns Render result / 渲染结果
    */
   render: (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
 

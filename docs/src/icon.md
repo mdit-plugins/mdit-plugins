@@ -21,7 +21,7 @@ mdIt.render("Use ::face-smile:: for a plain icon.");
 
 ## Syntax
 
-Use `::icon classes::` to insert custom icons. By default the plugin renders a `<i>` tag with the raw content as its class. The bundled renderers (`defaultRender`, `iconifyRender`, `fontawesomeRender` and `iconfontRender`), used via the `render` option, additionally treat any part starting with `=` as a size definition and any part starting with `/` as a color definition:
+Use `::icon classes::` to insert custom icons. By default the plugin renders a `<i>` tag with the HTML-escaped content as its class. The bundled renderers (`defaultRender`, `iconifyRender`, `fontawesomeRender` and `iconfontRender`), used via the `render` option, additionally treat any part starting with `=` as a size definition and any part starting with `/` as a color definition:
 
 ```md
 <!-- with `render: defaultRender`: <i icon="icon1" style="font-size:16px;color:red"></i> -->
@@ -54,12 +54,12 @@ const mdIt = new MarkdownIt().use(icon, {
 });
 ```
 
-For the build-in helper and render function usage, see source code and related unit tests for more details:
+For the built-in helper and render function usage, see source code and related unit tests for more details:
 
 - [src/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/render.ts)
-- [\_\_tests\_\_/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/render.ts)
+- [\_\_tests\_\_/render.spec.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/render.spec.ts)
 - [src/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/utils.ts)
-- [\_\_tests\_\_/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.ts)
+- [\_\_tests\_\_/utils.spec.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.spec.ts)
 
 ::: tip Icon vs. emoji
 
@@ -80,7 +80,7 @@ In short, pick `@mdit/plugin-emoji` when you want to map emoji codes to images o
 
 Render function that turns the icon content into HTML.
 
-By default the plugin outputs `<i class="{content}"></i>`, using the raw content as the class name.
+By default the plugin outputs `<i class="{content}"></i>`, using the HTML-escaped content as the class name.
 
 The package exports the following bundled renderers, which additionally read `size`, `color` and attributes from the content:
 

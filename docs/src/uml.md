@@ -60,22 +60,22 @@ The `title` attribute is always escaped. Following markdown-it's `html` option s
 ## Options
 
 ::: fields
-@`name` type=string required
+@`name` type=string default=`"uml"`
 
 UML name.
 
-@`open` type=string required
+@`open` type=string default=`"start"`
 
 Opening marker.
 
-@`close` type=string required
+@`close` type=string default=`"end"`
 
 Closing marker.
 
-@`renderer` type=RendererRule required
+@`renderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->
 
-Render function.
+Render function. Defaults to the built-in renderer, which wraps the content in a `<div>` whose class is the UML name and whose `title` is the escaped info string.
 
 :::

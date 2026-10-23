@@ -60,22 +60,22 @@ Another content
 ## 选项
 
 ::: fields
-@`name` type=string required
+@`name` type=string default=`"uml"`
 
 UML 名称。
 
-@`open` type=string required
+@`open` type=string default=`"start"`
 
 开始标记。
 
-@`close` type=string required
+@`close` type=string default=`"end"`
 
 结束标记。
 
-@`renderer` type=RendererRule required
+@`renderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
 
-渲染函数。
+渲染函数。默认使用内置渲染器，将内容包裹在 class 为 UML 名称、`title` 为转义后 info 字符串的 `<div>` 中。
 
 :::

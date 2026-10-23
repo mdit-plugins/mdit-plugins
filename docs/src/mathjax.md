@@ -110,7 +110,7 @@ Enable debug mode.
 
 ## Instance
 
-`createMathjaxInstance(options)` resolves with the instance you pass to the plugin, or `null` when no $TeX$ input could be loaded. Besides the resolved options, the instance exposes the following methods:
+`createMathjaxInstance(options)` resolves with the instance you pass to the plugin. Besides the resolved options, the instance exposes the following methods:
 
 ::: fields
 @`outputStyle` type=`() => Promise<string>`

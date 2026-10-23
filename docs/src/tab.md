@@ -15,7 +15,7 @@ import { tab } from "@mdit/plugin-tab";
 import MarkdownIt from "markdown-it";
 
 const mdIt = new MarkdownIt().use(tab, {
-  // your options, name is required
+  // your options, name defaults to "tabs"
   name: "tabs",
 });
 
@@ -77,7 +77,7 @@ The plugin doesn't inject any styles or events by default, but it ships an optio
 ## Options
 
 ::: fields
-@`name` type=string required
+@`name` type=string default=`"tabs"`
 
 The name of the tab container.
 

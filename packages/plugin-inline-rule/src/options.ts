@@ -112,7 +112,17 @@ interface InlineRuleBaseOptions {
  * markers. Best for simple tags like sub/sup. 使用高性能线性扫描器。 标记内部不会解析内联标签（粗体、斜体等）。 最适合 sub/sup 等简单标签。
  */
 export interface NonNestedInlineRuleOptions extends InlineRuleBaseOptions {
-  /** @default false */
+  /**
+   * Whether the rule is nested
+   *
+   * 规则是否嵌套
+   *
+   * Always `false` for non-nested rules.
+   *
+   * 非嵌套规则恒为 `false`。
+   *
+   * @default false
+   */
   nested?: false;
 
   /**

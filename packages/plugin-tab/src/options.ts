@@ -41,9 +41,11 @@ export interface MarkdownItTabInfo {
   /**
    * Which tab is active
    *
-   * -1 means no tab is active 激活的 Tab
+   * 当前激活的 Tab
    *
-   * -1 表示没有 Tab 激活
+   * `-1` means no tab is active.
+   *
+   * `-1` 表示没有 Tab 激活。
    */
   active: number;
 
@@ -83,15 +85,31 @@ export interface MarkdownItTabOptions {
    */
   name: string;
 
-  /** Tabs open render */
+  /**
+   * Tabs open renderer
+   *
+   * 选项卡容器打开渲染函数
+   */
   openRenderer?: TabsOpenRenderer;
 
-  /** Tabs close render */
+  /**
+   * Tabs close renderer
+   *
+   * 选项卡容器结束渲染函数
+   */
   closeRenderer?: RendererRule;
 
-  /** Tab open render */
+  /**
+   * Tab open renderer
+   *
+   * 选项卡打开渲染函数
+   */
   tabOpenRenderer?: TabOpenRenderer;
 
-  /** Tab close render */
+  /**
+   * Tab close renderer
+   *
+   * 选项卡结束渲染函数
+   */
   tabCloseRenderer?: RendererRule;
 }

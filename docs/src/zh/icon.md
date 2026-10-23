@@ -21,7 +21,7 @@ mdIt.render("使用 ::face-smile:: 插入一个普通图标。");
 
 ## 语法
 
-使用 `::icon classes::` 插入自定义图标。默认情况下，插件会渲染一个以原始内容作为 class 的 `<i>` 标签。通过 `render` 选项使用内置渲染器（`defaultRender`、`iconifyRender`、`fontawesomeRender` 和 `iconfontRender`）时，任何以 `=` 开头的部分会被视为大小定义，以 `/` 开头的部分会被视为颜色定义：
+使用 `::icon classes::` 插入自定义图标。默认情况下，插件会渲染一个以 HTML 转义后的内容作为 class 的 `<i>` 标签。通过 `render` 选项使用内置渲染器（`defaultRender`、`iconifyRender`、`fontawesomeRender` 和 `iconfontRender`）时，任何以 `=` 开头的部分会被视为大小定义，以 `/` 开头的部分会被视为颜色定义：
 
 ```md
 <!-- 使用 `render: defaultRender` 时：<i icon="icon1" style="font-size:16px;color:red"></i> -->
@@ -57,9 +57,9 @@ const mdIt = new MarkdownIt().use(icon, {
 有关内置帮助器和渲染函数的使用，请查看源代码和相关单元测试以获取更多详细信息：
 
 - [src/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/render.ts)
-- [\_\_tests\_\_/render.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/render.ts)
+- [\_\_tests\_\_/render.spec.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/render.spec.ts)
 - [src/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/src/utils.ts)
-- [\_\_tests\_\_/utils.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.ts)
+- [\_\_tests\_\_/utils.spec.ts](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/plugin-icon/__tests__/utils.spec.ts)
 
 ::: tip 图标插件与 emoji 插件
 
@@ -80,7 +80,7 @@ const mdIt = new MarkdownIt().use(icon, {
 
 将图标内容转换为 HTML 的渲染函数。
 
-默认情况下，插件输出 `<i class="{content}"></i>`，即以原始内容作为 class 名。
+默认情况下，插件输出 `<i class="{content}"></i>`，即以 HTML 转义后的内容作为 class 名。
 
 包中导出了以下内置渲染器，它们会额外从内容中读取 `size`、`color` 和属性：
 
