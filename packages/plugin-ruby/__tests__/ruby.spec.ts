@@ -103,4 +103,12 @@ describe(ruby, () => {
     expect(markdownIt.render("{abc:}")).toBe("<p>{abc:}</p>\n");
     expect(markdownIt.render("{ab:}")).toBe("<p>{ab:}</p>\n");
   });
+
+  it("should not render unclosed ruby", () => {
+    expect(markdownIt.render("{abc:def")).toBe("<p>{abc:def</p>\n");
+  });
+
+  it("should keep extra colons in ruby text", () => {
+    expect(markdownIt.render("{a:b:c}")).toBe("<p><ruby>a<rt>b:c</rt></ruby></p>\n");
+  });
 });

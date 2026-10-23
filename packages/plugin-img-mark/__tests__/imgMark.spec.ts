@@ -64,4 +64,24 @@ describe(imgMark, () => {
       '<p><img src="/a#frag" alt="image" data-mode="darkmode-only"></p>\n',
     );
   });
+
+  it("should prefer the light marker when both match", () => {
+    expect(markdownIt.render("![image](/a#dark#light)")).toBe(
+      '<p><img src="/a#dark" alt="image" data-mode="lightmode-only"></p>\n',
+    );
+  });
+
+  it("should do nothing with empty marker lists", () => {
+    const markdownItWithoutMarkers = new MarkdownIt({ linkify: true }).use(imgMark, {
+      light: [],
+      dark: [],
+    });
+
+    expect(markdownItWithoutMarkers.render("![image](/a#light)")).toBe(
+      '<p><img src="/a#light" alt="image"></p>\n',
+    );
+    expect(markdownItWithoutMarkers.render("![image](/a#dark)")).toBe(
+      '<p><img src="/a#dark" alt="image"></p>\n',
+    );
+  });
 });

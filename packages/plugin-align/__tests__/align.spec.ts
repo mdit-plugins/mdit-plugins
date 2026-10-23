@@ -29,4 +29,20 @@ describe(align, () => {
       '<div style="text-align:justify">\n<p><em>content</em></p>\n</div>\n',
     );
   });
+
+  it("should handle nesting", () => {
+    expect(
+      markdownIt.render(
+        ":::: center\nCenter contents...\n\n::: left\nLeft contents..\n:::\n\n::::",
+      ),
+    ).toBe(
+      '<div style="text-align:center">\n<p>Center contents...</p>\n' +
+        '<div style="text-align:left">\n<p>Left contents..</p>\n</div>\n' +
+        "</div>\n",
+    );
+  });
+
+  it("should allow escaping the marker", () => {
+    expect(markdownIt.render("\\::: left\n\n:::\n")).toBe("<p>::: left</p>\n<p>:::</p>\n");
+  });
 });

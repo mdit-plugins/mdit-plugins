@@ -110,6 +110,19 @@ describe("should work with render: undefined", () => {
   });
 });
 
+describe("should pass the env to a custom render", () => {
+  it("should receive the render env", () => {
+    const markdownIt = new MarkdownIt().use(icon, {
+      render: (content: string, env: unknown): string =>
+        `<Icon icon="${content}" alt="${(env as { alt: string }).alt}"></Icon>`,
+    });
+
+    expect(markdownIt.render("::icon-name::", { alt: "alt text" })).toBe(
+      '<p><Icon icon="icon-name" alt="alt text"></Icon></p>\n',
+    );
+  });
+});
+
 describe("silent mode", () => {
   it("should handle silent mode accurately", () => {
     const md = new MarkdownIt().use(icon);
