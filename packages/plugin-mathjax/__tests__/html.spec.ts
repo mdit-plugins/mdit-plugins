@@ -2,7 +2,7 @@ import { mathjax as mathjaxLib } from "@mathjax/src/js/mathjax.js";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
-import { createMathjaxInstance, getDocumentOptions, mathjax } from "../src/index.js";
+import { createMathjaxInstance, getDocumentOptions, mathjax } from "../src/async/index.js";
 import { examples } from "./utils.js";
 
 describe("mathjax-html", () => {

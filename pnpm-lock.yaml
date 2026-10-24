@@ -693,6 +693,9 @@ importers:
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.3
+      synckit:
+        specifier: ^0.12.3
+        version: 0.12.3
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: 'catalog:'
@@ -709,6 +712,9 @@ importers:
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.3
+      synckit:
+        specifier: ^0.12.3
+        version: 0.12.3
     devDependencies:
       '@mathjax/mathjax-tex-font':
         specifier: 'catalog:'
@@ -978,6 +984,9 @@ packages:
 
   '@docsearch/js@5.1.2':
     resolution: {integrity: sha512-ZScgB1upT5i4Ob1EYfp964lc5Xx0w9VUMLTeH099LPAU7v01STDIgIMu31rhYcLRi4RHIr0UtfB2VvcRPKvNWQ==}
+
+  '@dual-bundle/import-meta-resolve@4.2.1':
+    resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
 
   '@epic-web/invariant@1.0.0':
     resolution: {integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==}
@@ -4415,6 +4424,10 @@ packages:
     resolution: {integrity: sha512-eNRKgb3z66Yp3D2CixVujOUvXLFUTij/zVnV8KRyvFdQwpz7I5DS8UfRkTeLzb64u+dkzDSdelE24izu+zSSUg==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  synckit@0.12.3:
+    resolution: {integrity: sha512-U+/AXT6LWsxnj2vz9HeUuPWBNgdWxjyIEjEPdbJARC9txmgPzo2VEdqnFo4hHaNyMPtycyVJrSaQYeQv/PoyyA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+
   tar@7.5.22:
     resolution: {integrity: sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA==}
     engines: {node: '>=18'}
@@ -5192,6 +5205,8 @@ snapshots:
   '@docsearch/css@5.1.2': {}
 
   '@docsearch/js@5.1.2': {}
+
+  '@dual-bundle/import-meta-resolve@4.2.1': {}
 
   '@epic-web/invariant@1.0.0': {}
 
@@ -8886,6 +8901,11 @@ snapshots:
 
   synckit@0.11.13:
     dependencies:
+      '@pkgr/core': 0.3.6
+
+  synckit@0.12.3:
+    dependencies:
+      '@dual-bundle/import-meta-resolve': 4.2.1
       '@pkgr/core': 0.3.6
 
   tar@7.5.22:

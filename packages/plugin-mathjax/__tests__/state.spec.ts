@@ -2,11 +2,8 @@ import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
 
-import { createMathjaxInstance, mathjax as mathjaxAsync } from "../src/index.js";
-import {
-  createMathjaxInstance as createSyncInstance,
-  mathjax as mathjaxSync,
-} from "../src/sync.js";
+import { createMathjaxInstance, mathjax as mathjaxAsync } from "../src/async/index.js";
+import { getMathjax, mathjax as mathjaxSync } from "../src/index.js";
 
 const setupAsync = async (): Promise<{ md: MarkdownItType }> => {
   const instance = (await createMathjaxInstance({ output: "svg", a11y: false }))!;
@@ -14,11 +11,9 @@ const setupAsync = async (): Promise<{ md: MarkdownItType }> => {
   return { md: new MarkdownIt({ html: true }).use(mathjaxAsync, instance) };
 };
 
-const setupSync = (): { md: MarkdownItType } => {
-  const instance = createSyncInstance({ output: "svg", a11y: false })!;
-
-  return { md: new MarkdownIt({ html: true }).use(mathjaxSync, instance) };
-};
+const setupSync = (): { md: MarkdownItType } => ({
+  md: new MarkdownIt({ html: true }).use(mathjaxSync, { output: "svg", a11y: false }),
+});
 
 // The SVG output contains an incrementing id counter (e.g. `MJX-1`, `MJX-3`)
 // shared by the output jax, so normalize it away before comparing renders.
@@ -70,16 +65,16 @@ describe("mathjax state isolation", () => {
   });
 
   describe("sync", () => {
-    it("should reset state after render and renderInline", () => {
-      const instance = createSyncInstance({ output: "svg", a11y: false })!;
-      const resetSpy = vi.spyOn(instance, "reset");
-      const md = new MarkdownIt({ html: true }).use(mathjaxSync, instance);
+    it("reset and clearStyle should not throw", () => {
+      const { md } = setupSync();
+      const { clearStyle, reset } = getMathjax(md);
 
       md.render("$x$");
-      expect(resetSpy).toHaveBeenCalledTimes(1);
 
-      md.renderInline("$y$");
-      expect(resetSpy).toHaveBeenCalledTimes(2);
+      expect(() => {
+        clearStyle();
+        reset();
+      }).not.toThrow();
     });
 
     it("should not leak newcommand macros across documents", () => {
