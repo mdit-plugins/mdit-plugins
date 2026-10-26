@@ -42,6 +42,19 @@ const startsWithTodoMarkdown = (token: Token): "checked" | boolean => {
   return contentChar === 32 /* space */ || contentChar === 160; /* \u00A0 */
 };
 
+// The checkbox marker takes the first three characters of the inline content: `[ ]`, `[x]` or `[X]`.
+// It is normally part of the first text token. However, when `[x]` matches a link reference
+// definition, markdown-it parses the marker as a link (`link_open`, text `x`, `link_close`), so
+// that whole link has to be removed instead.
+const removeTodoMarker = (children: Token[]): void => {
+  if (children[0].type === "text") {
+    children[0].content = children[0].content.slice(3);
+    return;
+  }
+
+  children.splice(0, 3);
+};
+
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
   md,
   {
@@ -76,7 +89,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
       token.children ??= [];
 
       // remove the checkbox syntax letter
-      token.children[0].content = token.children[0].content.slice(3);
+      removeTodoMarker(token.children);
 
       const id = `task-item-${state.env[tasklistIdKey]++}`;
 
