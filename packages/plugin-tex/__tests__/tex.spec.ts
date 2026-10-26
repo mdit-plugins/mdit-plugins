@@ -303,6 +303,7 @@ $$`,
             `- test
 
   $$a = 1
+  $$
 
 test.`,
             `<ul>\n<li>\n<p>test</p>\n<p>{Tex content: a = 1}</p>\n</li>\n</ul>\n<p>test.</p>\n`,
@@ -334,17 +335,18 @@ a = 1
           },
         );
 
-        it("should handle empty block content", () => {
-          expect(dollarModeMarkdownIt.render("$$")).toBe("<p>{Tex content: }</p>\n");
+        it("should keep incomplete $$ delimiters as text", () => {
+          expect(dollarModeMarkdownIt.render("$$")).toBe("<p>$$</p>\n");
           expect(dollarModeMarkdownIt.render("A $$ B")).toBe("<p>A $$ B</p>\n");
         });
 
         it("should handle complex block scenarios", () => {
+          // An unclosed block delimiter is plain text, see unclosed-block.spec.ts
           expect(
             dollarModeMarkdownIt.render(`$$
 a = 1
 b = 2`),
-          ).toMatch(/\{Tex content:/u);
+          ).toBe("<p>$$\na = 1\nb = 2</p>\n");
 
           expect(
             dollarModeMarkdownIt.render(`  $$
