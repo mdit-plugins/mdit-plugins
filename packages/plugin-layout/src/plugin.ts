@@ -40,6 +40,8 @@ const findMatchingEnd = (
 ): number => {
   let nesting = 1;
 
+  const isSpace = state.md.utils.isSpace;
+
   for (let line = startLine; line < endLine; line++) {
     const lineStart = state.bMarks[line] + state.tShift[line];
     const lineMax = state.eMarks[line];
@@ -55,7 +57,7 @@ const findMatchingEnd = (
     if (lineStart >= lineMax) continue;
     if (state.src.charCodeAt(lineStart) !== AT) continue;
 
-    const dir = detectDirective(state.src, lineStart, lineMax);
+    const dir = detectDirective(state.src, lineStart, lineMax, isSpace);
 
     if (!dir || dir.depth !== depth) continue;
 
@@ -75,10 +77,11 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 
   if (!ctx || state.level !== ctx.level) return false;
 
+  const isSpace = state.md.utils.isSpace;
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  const directive = detectDirective(state.src, start, max);
+  const directive = detectDirective(state.src, start, max, isSpace);
 
   if (
     !directive ||
@@ -91,7 +94,7 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
   if (silent) return true;
 
   const indent = state.sCount[startLine];
-  const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max);
+  const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max, isSpace);
 
   let nextLine = startLine + 1;
   let nesting = 0;
@@ -106,7 +109,7 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 
     const nextDirective =
       state.src.charCodeAt(nextLineStart) === AT
-        ? detectDirective(state.src, nextLineStart, nextLineMax)
+        ? detectDirective(state.src, nextLineStart, nextLineMax, isSpace)
         : null;
 
     if (state.sCount[nextLine] < indent) {
@@ -173,10 +176,11 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 };
 
 const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLine, silent) => {
+  const isSpace = state.md.utils.isSpace;
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  const directive = detectDirective(state.src, start, max);
+  const directive = detectDirective(state.src, start, max, isSpace);
 
   if (!directive || directive.kind !== "container") return false;
 
@@ -196,7 +200,7 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
   if (silent) return true;
 
   const indent = state.sCount[startLine];
-  const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max);
+  const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max, isSpace);
   const nextLine = findMatchingEnd(state, startLine + 1, endLine, depth, indent);
 
   const oldParent = state.parentType;

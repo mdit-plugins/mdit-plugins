@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { layout } from "../src/index.js";
 
@@ -242,6 +242,46 @@ A
           markdownIt.render(`\
 @flexs
 @flex unknown-item-class
+A
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+</div>
+`);
+      });
+
+      it("should ignore Object.prototype members as utilities in inline mode", () => {
+        const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+        expect(
+          markdownIt.render(`\
+@flexs constructor __proto__
+@flex
+A
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+</div>
+`);
+
+        expect(warnSpy).toHaveBeenCalledTimes(2);
+
+        vi.restoreAllMocks();
+      });
+
+      it("should ignore Object.prototype members on items in inline mode", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+@flex constructor
 A
 @end
 `),

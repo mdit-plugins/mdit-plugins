@@ -7,7 +7,6 @@ export const LAYOUT_COLUMN = 3;
 export const AT = 64; /* @ */
 export const DOT = 46; /* . */
 export const HASH = 35; /* # */
-export const SPACE = 32; /*   */
 export const DASH = 45; /* - */
 
 // Directive strings

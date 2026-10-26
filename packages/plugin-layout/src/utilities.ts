@@ -291,8 +291,11 @@ export const resolveParameterizedUtility = (utility: string): string => {
  * @param utility - Utility class name / 工具类名
  * @returns CSS style string or empty string / CSS 样式字符串或空字符串
  */
-export const resolveUtility = (utility: string): string =>
-  STATIC_UTILITIES[utility] ?? resolveParameterizedUtility(utility);
+export const resolveUtility = (utility: string): string => {
+  if (Object.hasOwn(STATIC_UTILITIES, utility)) return STATIC_UTILITIES[utility];
+
+  return resolveParameterizedUtility(utility);
+};
 
 /**
  * Build inline style string from utilities and optional base display.
