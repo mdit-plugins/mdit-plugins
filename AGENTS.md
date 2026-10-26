@@ -54,8 +54,6 @@ mdit-plugins/
 | `docs.yml`        | PR to main, push | Build and deploy docs to GitHub Pages                      |
 | `publish.yml`     | Push to main     | Build and publish packages via Lerna                       |
 
-All workflows use `pnpm/action-setup@v6` and `pnpm ci`.
-
 ## Package Structure
 
 Each plugin follows this structure:

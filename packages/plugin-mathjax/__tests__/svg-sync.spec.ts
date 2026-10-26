@@ -1,18 +1,23 @@
 import MarkdownIt from "markdown-it";
+import type { MarkdownIt as MarkdownItType } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { createMathjaxInstance, mathjax } from "../src/sync.js";
+import { getMathjax, mathjax } from "../src/index.js";
+import type { MarkdownItSyncMathjaxOptions } from "../src/index.js";
 import { examples } from "./utils.js";
+
+const createMarkdownIt = (options: MarkdownItSyncMathjaxOptions = {}): MarkdownItType =>
+  new MarkdownIt({ linkify: true }).use(mathjax, options);
 
 describe("mathjax-svg", () => {
   describe("inline mathjax", () => {
-    const instance = createMathjaxInstance()!;
-    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, instance);
+    const markdownIt = createMarkdownIt();
+    const methods = getMathjax(markdownIt);
 
     it("reset and clearStyle should not throw", () => {
       expect(() => {
-        instance.clearStyle();
-        instance.reset();
+        methods.clearStyle();
+        methods.reset();
       }).not.toThrow();
     });
 
@@ -44,10 +49,7 @@ describe("mathjax-svg", () => {
     });
 
     it("should not output A11y", () => {
-      const markdownItNoA11y = new MarkdownIt({ linkify: true }).use(
-        mathjax,
-        createMathjaxInstance({ a11y: false })!,
-      );
+      const markdownItNoA11y = createMarkdownIt({ a11y: false });
 
       examples.forEach((example) => {
         const inline = markdownItNoA11y.render(`$${example}$`);
@@ -67,7 +69,7 @@ describe("mathjax-svg", () => {
   });
 
   describe("block mathjax", () => {
-    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, createMathjaxInstance()!);
+    const markdownIt = createMarkdownIt();
 
     it("should render", () => {
       const blocks = [
@@ -118,12 +120,12 @@ $$
   });
 
   it("generating style", () => {
-    const mathjaxInstance = createMathjaxInstance()!;
-    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    const markdownIt = createMarkdownIt();
+    const { outputStyle } = getMathjax(markdownIt);
 
     expect(markdownIt.render(String.raw`$$\frac{a}{b}$$`)).toMatchSnapshot("content");
 
-    const style = mathjaxInstance.outputStyle();
+    const style = outputStyle();
 
     expect(style.split("\n").length).toMatchSnapshot("style");
   });
@@ -132,46 +134,45 @@ $$
     const source = String.raw`$$\label{eq:1}\frac{a}{b}$$`;
 
     it("should log error when label is multiply defined", () => {
-      const mathjaxInstance = createMathjaxInstance()!;
-      const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+      const markdownIt = createMarkdownIt();
+      const { outputStyle } = getMathjax(markdownIt);
 
       expect(markdownIt.render(source)).not.toMatch(/mjx-error/);
       // State is reset after each render, so the duplicate label is only
       // detected when both definitions appear within the same document.
       expect(markdownIt.render(`${source}\n\n${source}`)).toMatch(/mjx-error/);
 
-      const style = mathjaxInstance.outputStyle();
+      const style = outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
 
     it("should reset label with reset", () => {
-      const mathjaxInstance = createMathjaxInstance()!;
-      const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+      const markdownIt = createMarkdownIt();
+      const { outputStyle, reset } = getMathjax(markdownIt);
 
       const content1 = markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`);
 
       expect(content1).not.toMatch(/mjx-error/);
       expect(content1).toMatchSnapshot("content1");
 
-      mathjaxInstance.reset();
+      reset();
 
       const content2 = markdownIt.render(String.raw`$$\label{eq:1}\frac{a}{b}$$`);
 
       expect(content2).not.toMatch(/mjx-error/);
       expect(content2).toMatchSnapshot("content2");
 
-      const style = mathjaxInstance.outputStyle();
+      const style = outputStyle();
 
       expect(style.split("\n").length).toMatchSnapshot("style");
     });
   });
 
   it("should work with transformer", () => {
-    const mathjaxInstance = createMathjaxInstance({
+    const markdownIt = createMarkdownIt({
       transformer: (content: string) => content.replaceAll(/^(?<tag><[a-z-]+ )/g, "$<tag>v-pre "),
-    })!;
-    const markdownIt = new MarkdownIt({ linkify: true }).use(mathjax, mathjaxInstance);
+    });
 
     expect(markdownIt.render(`$$a=1$$`)).toContain(" v-pre ");
     expect(markdownIt.render(`$a=1$`)).toContain(" v-pre ");

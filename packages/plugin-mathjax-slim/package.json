@@ -32,9 +32,9 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./sync": {
-      "types": "./dist/sync-node.d.ts",
-      "default": "./dist/sync-node.js"
+    "./async": {
+      "types": "./dist/async/index.d.ts",
+      "default": "./dist/async/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -46,7 +46,8 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/plugin-tex": "workspace:*"
+    "@mdit/plugin-tex": "workspace:*",
+    "synckit": "^0.12.3"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "catalog:",

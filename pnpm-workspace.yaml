@@ -95,3 +95,5 @@ minimumReleaseAgeExcludePrune: true
 trustPolicy: no-downgrade
 trustPolicyExcludePrune: true
 trustPolicyIgnoreAfter: 720
+patchedDependencies:
+  "@vuepress/plugin-markdown-math@2.0.0-rc.137": patches/@vuepress__plugin-markdown-math@2.0.0-rc.137.patch
