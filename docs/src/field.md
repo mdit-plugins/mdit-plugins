@@ -8,17 +8,6 @@ Plugin for creating block-level custom field containers.
 
 <!-- more -->
 
-## Installation
-
-```bash
-# pnpm
-pnpm add @mdit/plugin-field
-# npm
-npm install @mdit/plugin-field
-# yarn
-yarn add @mdit/plugin-field
-```
-
 ## Usage
 
 ```ts

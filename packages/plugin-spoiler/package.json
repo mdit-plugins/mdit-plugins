@@ -1,7 +1,7 @@
 {
   "name": "@mdit/plugin-spoiler",
   "version": "2.1.3",
-  "description": "spoiler plugin for MarkdownIt",
+  "description": "Spoiler plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
     "markdown-it-plugin",

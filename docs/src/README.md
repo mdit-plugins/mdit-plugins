@@ -127,7 +127,7 @@ features:
 
   - title: mathjax
     icon: square-root-variable
-    details: Render math expressions with Mathjax
+    details: Render math expressions with MathJax
     link: ./mathjax.html
 
   - title: plantuml

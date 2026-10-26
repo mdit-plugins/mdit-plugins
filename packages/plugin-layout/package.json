@@ -1,7 +1,7 @@
 {
   "name": "@mdit/plugin-layout",
   "version": "1.1.4",
-  "description": "layout plugin for MarkdownIt",
+  "description": "A directive-based layout engine plugin for MarkdownIt supporting Flexbox, CSS Grid, and Multi-column layouts",
   "keywords": [
     "columns",
     "flexbox",

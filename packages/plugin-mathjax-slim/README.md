@@ -2,7 +2,9 @@
 
 [![Version](https://img.shields.io/npm/v/@mdit/plugin-mathjax-slim.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-mathjax-slim.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-mathjax-slim?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-mathjax-slim)
 
-Mathjax plugin for MarkdownIt. `@mathjax/src` is declared as an optional peer dependency here.
+Mathjax plugin for MarkdownIt.
+
+`@mathjax/src` is declared as an optional peer dependency here.
 
 This package can only run in Node.js environment.
 
