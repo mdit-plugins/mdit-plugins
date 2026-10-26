@@ -292,7 +292,7 @@ pnpm run test:coverage
 files run:
 
 ```bash
-pnpm exec vitest run alignTest
+pnpm exec vitest run align
 pnpm exec vitest run packages/plugin-align/__tests__/align.spec.ts
 ```
 
