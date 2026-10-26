@@ -135,6 +135,7 @@ interface RuntimeState {
   nonce: string;
   sessionId: string;
   options: SerializableMathjaxOptions;
+  enableHtml: boolean;
   renderStrategy: "batch" | "immediate";
   transformer: TeXTransformer | null;
   timeout: number;
@@ -203,7 +204,10 @@ const collectUnsupportedOptions = (options: MarkdownItSyncMathjaxOptions): strin
   return names;
 };
 
-const createRuntime = (options: MarkdownItSyncMathjaxOptions): RuntimeState => {
+const createRuntime = (
+  options: MarkdownItSyncMathjaxOptions,
+  enableHtml: boolean,
+): RuntimeState => {
   const unsupported = collectUnsupportedOptions(options);
 
   if (unsupported.length > 0) {
@@ -236,6 +240,7 @@ const createRuntime = (options: MarkdownItSyncMathjaxOptions): RuntimeState => {
     nonce,
     sessionId: crypto.randomUUID(),
     options: serializableOptions,
+    enableHtml,
     renderStrategy: renderStrategy ?? "batch",
     transformer: transformer ?? null,
     timeout: workerTimeout ?? DEFAULT_WORKER_TIMEOUT,
@@ -250,7 +255,12 @@ const requestWorker = (state: RuntimeState, request: WorkerRequest): WorkerRespo
   const worker = getSyncFn(state.workerUrl, state.timeout);
 
   if (!state.initialized) {
-    worker({ type: "create", sessionId: state.sessionId, options: state.options });
+    worker({
+      type: "create",
+      sessionId: state.sessionId,
+      options: state.options,
+      enableHtml: state.enableHtml,
+    });
 
     state.initialized = true;
   }
@@ -302,7 +312,7 @@ export const installSyncMathjax = (
     );
   }
 
-  const state = createRuntime(options);
+  const state = createRuntime(options, md.options.html);
   const placeholderRegExp = new RegExp(String.raw`\u0002mjx-${state.nonce}-(\d+)\u0003`, "g");
 
   const placeholderFor = (index: number): string => `\u0002mjx-${state.nonce}-${index}\u0003`;

@@ -32,7 +32,7 @@ const getSession = (sessionId: string): Session => {
 runAsWorker(async (request: WorkerRequest): Promise<WorkerResponse> => {
   switch (request.type) {
     case "create": {
-      sessions.set(request.sessionId, await createSession(request.options));
+      sessions.set(request.sessionId, await createSession(request.options, request.enableHtml));
 
       return { ok: true };
     }

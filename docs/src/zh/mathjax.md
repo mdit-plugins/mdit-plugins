@@ -66,6 +66,7 @@ const css = await mathjaxInstance.outputStyle();
 - 不再需要创建、传递或 await 实例。请通过 `getMathjax(md)` 获取 `outputStyle`、`reset`、`clearStyle` 与 `dispose`。
 - 同步主入口依赖 Node.js（`worker_threads`）。浏览器或不支持 worker 线程的运行时请使用 `./async`。
 - 选项必须可结构化克隆。函数类选项会被明确拒绝并提示改用异步入口，详见[选项](#选项)。
+- HTML 相关 TeX 包（`html` 与 `texhtml`）不再默认启用：开启 markdown-it 的 `html` 选项时会加入默认列表，也可以通过 `tex.packages` 显式启用，详见[安全](#安全)。
 
 :::
 
@@ -193,6 +194,34 @@ SVG 输出选项。
 需要上述任意选项时，请从 `@mdit/plugin-mathjax/async` 导入。`transformer` 是同步主入口唯一支持的函数类选项。其他不可克隆的值（例如 `tex.macros` 中的函数）同样会被拒绝。
 
 :::
+
+## 安全
+
+`html` TeX 包提供 `\href`、`\class`、`\style`、`\cssId` 等宏，可以生成可点击链接并向输出注入属性；`texhtml` 会注册原始 `<tex-html>` 支持（除非开启 MathJax 的 `allowTexHTML` 选项，否则不生效）。开启它们渲染不可信 TeX 输入时，`\href{javascript:...}` 会变成可点击的脚本链接。
+
+默认包列表不启用它们：使用 `new MarkdownIt()`（关闭原始 HTML）时不会加载 HTML 相关包。仅当 markdown-it 实例开启原始 HTML 时，才会把它们加入默认列表：
+
+```ts
+// 默认：不加载 HTML 相关 TeX 包，`\href` 会渲染为红色的宏占位符
+const safeMd = new MarkdownIt().use(mathjax);
+
+// 开启 Markdown 中的原始 HTML 后，默认也会启用 HTML 相关 TeX 包
+const trustedMd = new MarkdownIt({ html: true }).use(mathjax);
+```
+
+显式提供的 `tex.packages` 列表视为可信的开发者配置并原样使用，因此即使关闭 Markdown 中的原始 HTML，也可以启用 HTML 相关包：
+
+```ts
+const md = new MarkdownIt().use(mathjax, {
+  tex: { packages: ["ams", "html", "texhtml"] },
+});
+```
+
+仅在 TeX 输入可信时启用它们：显式配置并不会让不可信的 Markdown 变得安全，`\href{javascript:...}` 仍然是脚本链接。
+
+`html` 选项在插件安装（`md.use(...)`）时读取；之后通过 `md.set()` 修改不会生效。
+
+异步入口中，由传给 `md.use(mathjax, instance)` 的 markdown-it 实例的 `html` 选项在安装时决定默认列表。MathJax 实例持有共享的 TeX 状态，因此只能安装到一个 markdown-it 实例上；每个实例（尤其是信任级别不同的实例）都应使用单独的 `createMathjaxInstance()` 结果。
 
 ## MathJax 方法
 

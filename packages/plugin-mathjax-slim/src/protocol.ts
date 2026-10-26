@@ -28,7 +28,13 @@ export type SerializableMathjaxOptions = Omit<MarkdownItMathjaxOptions, "transfo
 
 /** Worker request / worker 请求 */
 export type WorkerRequest =
-  | { type: "create"; sessionId: string; options: SerializableMathjaxOptions }
+  | {
+      type: "create";
+      sessionId: string;
+      options: SerializableMathjaxOptions;
+      /** Whether the markdown-it instance enables raw HTML / markdown-it 实例是否开启 HTML */
+      enableHtml: boolean;
+    }
   | { type: "render"; sessionId: string; items: MathjaxItem[] }
   | { type: "warmup"; sessionId: string; preloadFonts: boolean }
   | { type: "style"; sessionId: string }

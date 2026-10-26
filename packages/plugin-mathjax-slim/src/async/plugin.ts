@@ -17,8 +17,55 @@ import { tex } from "@mdit/plugin-tex";
 import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "../options.js";
-import { loadTexPackages, texPackages } from "../tex/index.js";
+import { loadTexPackages, resolveTexPackages } from "../tex/index.js";
 import { clearUserState } from "../utils.js";
+
+type InputJax = DocumentOptions["InputJax"];
+
+interface InstanceTexState {
+  /** Whether HTML-related TeX packages are enabled / 是否启用 HTML 相关 TeX 包 */
+  enableHtml: boolean;
+
+  /** Create a TeX input jax with the given HTML capability / 创建具有指定 HTML 能力的 TeX 输入 jax */
+  createInputJax: (enableHtml: boolean) => InputJax;
+}
+
+const instanceTexStates = new WeakMap<MathjaxInstance, InstanceTexState>();
+
+/**
+ * MathJax instances that are already installed on a markdown-it instance.
+ *
+ * A MathJax instance owns shared TeX state, so it must not be shared by multiple markdown-it
+ * instances with different trust levels.
+ *
+ * 已安装到 markdown-it 实例上的 MathJax 实例。
+ *
+ * MathJax 实例持有共享的 TeX 状态，因此同一个实例不能被多个信任级别不同的 markdown-it 实例共用。
+ */
+const installedInstances = new WeakSet<MathjaxInstance>();
+
+/**
+ * Match the HTML-related TeX packages of an instance with the markdown-it `html` option.
+ *
+ * 让实例的 HTML 相关 TeX 包与 markdown-it 的 `html` 选项保持一致。
+ *
+ * @param instance - MathJax instance / MathJax 实例
+ * @param enableHtml - Whether HTML is enabled / 是否启用 HTML
+ */
+const applyHtmlPackages = (instance: MathjaxInstance, enableHtml: boolean): void => {
+  const state = instanceTexStates.get(instance);
+
+  if (!state) {
+    throw new Error(
+      "[@mdit/plugin-mathjax-slim] the given instance was not created by `createMathjaxInstance` from this package",
+    );
+  }
+
+  if (state.enableHtml === enableHtml) return;
+
+  instance.documentOptions.InputJax = state.createInputJax(enableHtml);
+  state.enableHtml = enableHtml;
+};
 
 let AssistiveMmlHandler: typeof AssistiveMmlHandlerType,
   CHTML: typeof CHTMLType,
@@ -90,12 +137,16 @@ export const getDocumentOptions = async (
     return import(file);
   };
 
-  await loadTexPackages(options.tex?.packages);
+  const userPackages = options.tex?.packages;
+
+  // Load the HTML-related packages eagerly: `mathjax()` decides about them synchronously once the
+  // markdown-it instance is available, so their configurations must already be registered.
+  await loadTexPackages([...resolveTexPackages(userPackages), "html", "texhtml"]);
 
   return {
     InputJax: new TeX<LiteElement, string, HTMLElement>({
-      packages: ["base", ...texPackages],
       ...options.tex,
+      packages: resolveTexPackages(userPackages),
     }),
     OutputJax: new (isCHTML ? CHTML : SVG)<LiteElement, string, HTMLElement>(outputOptions),
     enableAssistiveMml: options.a11y !== false,
@@ -107,7 +158,7 @@ export const createMathjaxInstance = async (
 ): Promise<MathjaxInstance | null> => {
   const documentOptions = await getDocumentOptions(options);
 
-  const { OutputJax, InputJax } = documentOptions;
+  const { OutputJax } = documentOptions;
 
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
@@ -120,13 +171,13 @@ export const createMathjaxInstance = async (
     // if there is no adaptor, output jax is not initialized yet, so nothing to clear
     if (OutputJax.adaptor == null) return;
 
-    InputJax.reset();
+    documentOptions.InputJax.reset();
     OutputJax.reset();
   };
 
   const reset = (): void => {
-    InputJax.reset();
-    clearUserState(InputJax);
+    documentOptions.InputJax.reset();
+    clearUserState(documentOptions.InputJax);
   };
 
   const render = (content: string, displayMode: boolean): string => {
@@ -151,7 +202,7 @@ export const createMathjaxInstance = async (
     return style;
   };
 
-  return {
+  const instance: MathjaxInstance = {
     adaptor,
     documentOptions,
     allowInlineWithSpace: options.allowInlineWithSpace ?? false,
@@ -163,19 +214,43 @@ export const createMathjaxInstance = async (
     outputStyle,
     transformer: options.transformer ?? null,
   };
+
+  instanceTexStates.set(instance, {
+    enableHtml: false,
+    createInputJax: (enableHtml: boolean): InputJax =>
+      new TeX<LiteElement, string, HTMLElement>({
+        ...options.tex,
+        packages: resolveTexPackages(options.tex?.packages, enableHtml),
+      }),
+  });
+
+  return instance;
 };
 
-export const mathjax = (
-  md: MarkdownIt,
-  {
+export const mathjax = (md: MarkdownIt, instance: MathjaxInstance): void => {
+  if (installedInstances.has(instance)) {
+    throw new Error(
+      "[@mdit/plugin-mathjax-slim] the instance is already installed on a MarkdownIt instance. Create a separate MathJax instance with `createMathjaxInstance` for each `MarkdownIt` instance",
+    );
+  }
+
+  // The markdown-it `html` option is read when the plugin is installed; later changes through
+  // `md.set()` are intentionally not observed, so a single MathJax instance always maps to a single
+  // trust level.
+  // markdown-it 的 `html` 选项在插件安装时读取；之后通过 `md.set()` 的修改不会生效，从而保证一个
+  // MathJax 实例只对应一个信任级别。
+  applyHtmlPackages(instance, md.options.html);
+
+  installedInstances.add(instance);
+
+  const {
     allowInlineWithSpace,
     delimiters,
     mathFence,
     render: renderMath,
     reset,
     transformer,
-  }: MathjaxInstance,
-): void => {
+  } = instance;
   // Reset the shared TeX input state (macros/labels) after each render so that
   // state does not leak across documents rendered by the same instance.
   const render = md.render.bind(md);
