@@ -551,8 +551,9 @@ These are known and tracked. Do not assume they work, and do not copy them as pa
 - **Bootstrap is incomplete**: `scripts/bootstrap.ts` does not generate `sideEffects` / `unpkg` /
   `jsdelivr` / `engines` / runtime deps / `tsdown.config.ts` / `LICENSE`, and its README template lacks
   the `## [Docs]` section. Complete new packages manually.
-- **Four packages miss LICENSE files**: `plugin-demo`, `plugin-field`, `plugin-inline-rule`,
-  `plugin-plantuml`. The rest use `LICENSE` (not `LICENSE.md`).
+- **Package LICENSE files**: all packages use `LICENSE` (not `LICENSE.md`). The four packages that
+  were missing it (`plugin-demo`, `plugin-field`, `plugin-inline-rule`, `plugin-plantuml`) are fixed
+  in #788.
 - **`minimumReleaseAge` is not enabled** (only the `*Exclude` lists exist), so pnpm has no
   new-version cooldown; renovate and ncu still apply their own cooldowns.
 - **Keep this file in sync** when changing scripts, workflow triggers, test config or release steps.
