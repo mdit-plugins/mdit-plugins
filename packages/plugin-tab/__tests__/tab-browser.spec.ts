@@ -301,6 +301,138 @@ describe("tab browser", () => {
     });
   });
 
+  describe("nested tabs", () => {
+    // mirrors the markup rendered by the plugin: buttons in the header, panels in the container
+    const createStructuredWrapper = ({
+      activeIndex = -1,
+    }: { activeIndex?: number } = {}): HTMLElement => {
+      const wrapper = document.createElement("div");
+      const header = document.createElement("div");
+      const container = document.createElement("div");
+
+      wrapper.className = "tabs-tabs-wrapper";
+      header.className = "tabs-tabs-header";
+      container.className = "tabs-tabs-container";
+      wrapper.append(header, container);
+
+      for (let i = 0; i < 2; i++) {
+        const btn = document.createElement("button");
+
+        btn.className = "tabs-tab-button";
+        btn.dataset.tab = String(i);
+        header.append(btn);
+
+        const panel = document.createElement("div");
+
+        panel.className = "tabs-tab-content";
+        panel.dataset.index = String(i);
+        container.append(panel);
+
+        if (i === activeIndex) {
+          btn.classList.add("active");
+          btn.dataset.active = "";
+          panel.classList.add("active");
+          panel.dataset.active = "";
+        }
+      }
+
+      return wrapper;
+    };
+
+    const createNestedWrapper = ({
+      outerActiveIndex = 0,
+      innerActiveIndex = 0,
+    }: {
+      outerActiveIndex?: number;
+      innerActiveIndex?: number;
+    } = {}): {
+      outer: HTMLElement;
+      outerButtons: HTMLButtonElement[];
+      outerPanels: HTMLElement[];
+      inner: HTMLElement;
+      innerButtons: HTMLButtonElement[];
+      innerPanels: HTMLElement[];
+    } => {
+      const outer = createStructuredWrapper({ activeIndex: outerActiveIndex });
+      const outerButtons = [...outer.querySelectorAll<HTMLButtonElement>(".tabs-tab-button")];
+      const outerPanels = [...outer.querySelectorAll<HTMLElement>(".tabs-tab-content")];
+
+      const inner = createStructuredWrapper({ activeIndex: innerActiveIndex });
+      const innerButtons = [...inner.querySelectorAll<HTMLButtonElement>(".tabs-tab-button")];
+      const innerPanels = [...inner.querySelectorAll<HTMLElement>(".tabs-tab-content")];
+
+      // nest the inner tabs inside the last panel of the outer tabs
+      outerPanels[1].append(inner);
+
+      return { outer, outerButtons, outerPanels, inner, innerButtons, innerPanels };
+    };
+
+    it("should initialize the outer wrapper when only the inner wrapper has an active tab", () => {
+      const { outer, outerButtons, outerPanels, innerButtons, innerPanels } = createNestedWrapper({
+        outerActiveIndex: -1,
+        innerActiveIndex: 0,
+      });
+
+      document.body.append(outer);
+      register();
+
+      // outer wrapper must activate its own first tab instead of skipping init
+      expect(outerButtons[0].classList.contains("active")).toBe(true);
+      expect(outerPanels[0].classList.contains("active")).toBe(true);
+      expect(outerPanels[1].classList.contains("active")).toBe(false);
+      // outer wrapper must always keep exactly one visible panel
+      expect(outerPanels.filter((panel) => panel.classList.contains("active"))).toHaveLength(1);
+
+      // inner active state must be kept untouched
+      expect(innerButtons[0].classList.contains("active")).toBe(true);
+      expect(innerButtons[1].classList.contains("active")).toBe(false);
+      expect(innerPanels[0].classList.contains("active")).toBe(true);
+      expect(innerPanels[1].classList.contains("active")).toBe(false);
+    });
+
+    it("should not change the inner wrapper when an outer tab is clicked", () => {
+      const { outer, outerButtons, outerPanels, innerButtons, innerPanels } = createNestedWrapper();
+
+      document.body.append(outer);
+      register();
+
+      outerButtons[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+      // outer wrapper switches to the second tab
+      expect(outerButtons[0].classList.contains("active")).toBe(false);
+      expect(outerButtons[1].classList.contains("active")).toBe(true);
+      expect(outerPanels[0].classList.contains("active")).toBe(false);
+      expect(outerPanels[1].classList.contains("active")).toBe(true);
+
+      // inner wrapper keeps its own active tab
+      expect(innerButtons[0].classList.contains("active")).toBe(true);
+      expect(innerButtons[1].classList.contains("active")).toBe(false);
+      expect(innerPanels[0].classList.contains("active")).toBe(true);
+      expect(innerPanels[1].classList.contains("active")).toBe(false);
+    });
+
+    it("should not change the outer wrapper when an inner tab is clicked", () => {
+      const { outer, outerButtons, outerPanels, innerButtons, innerPanels } = createNestedWrapper();
+
+      document.body.append(outer);
+      register();
+
+      innerButtons[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+      // inner wrapper switches to the second tab
+      expect(innerButtons[0].classList.contains("active")).toBe(false);
+      expect(innerButtons[1].classList.contains("active")).toBe(true);
+      expect(innerPanels[0].classList.contains("active")).toBe(false);
+      expect(innerPanels[1].classList.contains("active")).toBe(true);
+
+      // outer wrapper keeps its own active tab
+      expect(outerButtons[0].classList.contains("active")).toBe(true);
+      expect(outerButtons[1].classList.contains("active")).toBe(false);
+      expect(outerPanels[0].classList.contains("active")).toBe(true);
+      expect(outerPanels[1].classList.contains("active")).toBe(false);
+    });
+  });
+
   describe(destroy, () => {
     it("should remove click handler", () => {
       const wrapper = createTabsWrapper();
