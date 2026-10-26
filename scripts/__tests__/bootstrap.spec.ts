@@ -155,6 +155,10 @@ describe("scripts/bootstrap.ts", () => {
     const readme = readFileSync(path.join(tempDir, "packages", "plugin-demo", "README.md"), "utf8");
 
     expect(readme).toContain("# @mdit/plugin-demo");
+    expect(readme).toContain("demo plugin for MarkdownIt.");
+    expect(readme).toContain(
+      "## [Docs](https://mdit-plugins.github.io/demo.html) | [文档](https://mdit-plugins.github.io/zh/demo.html)",
+    );
     expect(readme).toContain("pnpm add -D @mdit/plugin-demo");
 
     rmSync(tempDir, { force: true, recursive: true });
