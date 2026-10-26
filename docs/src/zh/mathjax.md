@@ -221,6 +221,10 @@ SVG 输出选项。
 
 调用后，该 markdown-it 实例将无法继续渲染数学公式，`getMathjax(md)` 也会抛出错误；如需继续渲染，请创建新的 `MarkdownIt` 实例。
 
+@`warmup` type=`(options?: WarmupOptions) => void`
+
+同步初始化 worker 与 MathJax session，使首篇文档不必承担一次性初始化开销（约 100ms）。`warmup({ preloadFonts: true })` 还会加载全部动态字体文件，首次调用时 SVG 约需额外 73ms，CHTML 约需额外 35ms。由于该调用会阻塞，若你需要可预期的耗时，请在一批渲染开始前调用。
+
 :::
 
 ```ts
@@ -241,6 +245,9 @@ reset();
 
 // 清除样式缓存与数学 jax 状态。
 clearStyle();
+
+// 现在初始化，而不是等到首篇文档渲染时。
+warmup();
 
 // 不再使用该 MarkdownIt 实例时，释放 worker session。
 dispose();
