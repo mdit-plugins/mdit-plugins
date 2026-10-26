@@ -102,11 +102,20 @@ export const scanAtLink = (
   // requires `)`
   if (pos >= max || src.charCodeAt(pos) !== CLOSE_PAREN) return null;
 
+  // Normalize and validate the destination the same way as a regular Markdown link: normalization
+  // percent-encodes control characters, so an entity-decoded tab or newline cannot hide a dangerous
+  // scheme from the validation. The renderer still has to HTML-escape the link and the props.
+  // 与普通 Markdown 链接一样规范化并校验目标地址：规范化会对控制字符进行百分号编码，因此实体解码得到的
+  // 制表符或换行无法在校验时藏匿危险 scheme。渲染器生成 HTML 时仍必须对链接与属性值做 HTML 转义。
+  const normalizedLink = md.normalizeLink(link);
+
+  if (!md.validateLink(normalizedLink)) return null;
+
   return {
     config,
     name,
     props: scanned.props,
-    link,
+    link: normalizedLink,
     end: pos + 1,
   };
 };

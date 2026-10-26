@@ -46,14 +46,61 @@ describe("link destination", () => {
   });
 
   it("should parse links wrapped in angle brackets", () => {
-    expect(renderLink("@[test](<a b.mp4>)")).toBe("[a b.mp4]");
+    expect(renderLink("@[test](<a b.mp4>)")).toBe("[a%20b.mp4]");
     expect(renderLink("@[test](<>)")).toBe("[]");
   });
 
-  it("should pass the link as-is", () => {
-    // the link is neither normalized nor validated, the renderer is responsible for it
-    expect(renderLink("@[test](javascript:alert(1))")).toBe("[javascript:alert(1)]");
+  it("should normalize the link like a normal Markdown link", () => {
+    // entity-decoded control characters are percent-encoded before validation, so they cannot
+    // hide a dangerous scheme from `md.validateLink`
+    expect(renderLink("@[test](<java&#9;script:alert(1)>)")).toBe("[java%09script:alert(1)]");
+    expect(renderLink("@[test](<java&#x09;script:alert(1)>)")).toBe("[java%09script:alert(1)]");
+    expect(renderLink("@[test](<java&Tab;script:alert(1)>)")).toBe("[java%09script:alert(1)]");
+    expect(renderLink("@[test](<java&#10;script:alert(1)>)")).toBe("[java%0Ascript:alert(1)]");
+    expect(renderLink("@[test](<java&#13;script:alert(1)>)")).toBe("[java%0Dscript:alert(1)]");
+    expect(renderLink("@[test](<data&#9;:text/html,hello>)")).toBe("[data%09:text/html,hello]");
+  });
+
+  it("should validate the link with md.validateLink", () => {
+    // unsafe schemes are rejected, like a normal Markdown link, so the raw text is rendered
+    expect(renderLink("@[test](javascript:alert(1))")).toBe("<p>@[test](javascript:alert(1))</p>");
+    expect(renderLink("@[test](vbscript:msgbox(1))")).toBe("<p>@[test](vbscript:msgbox(1))</p>");
+    expect(renderLink("@[test](file:///etc/passwd)")).toBe("<p>@[test](file:///etc/passwd)</p>");
+    expect(renderLink("@[test](data:text/html,hello)")).toBe(
+      "<p>@[test](data:text/html,hello)</p>",
+    );
+
+    // `data:image/*` is allowed by markdown-it
+    expect(renderLink("@[test](data:image/png;base64,AAAA)")).toBe("[data:image/png;base64,AAAA]");
+
+    // whitespace in an unbracketed destination is still rejected
     expect(renderLink("@[test](a b.mp4)")).toContain("@");
+  });
+
+  it("should honor a custom md.validateLink", () => {
+    const md = new MarkdownIt();
+
+    md.validateLink = (url: string): boolean => url.startsWith("app:");
+    md.use(advancedLinks, {
+      name: "test",
+      renderer: (link): string => `[${link}]`,
+    });
+
+    expect(md.render("@[test](app://home)").trim()).toBe("[app://home]");
+    expect(md.render("@[test](https://example.com)").trim()).toBe(
+      "<p>@[test](https://example.com)</p>",
+    );
+
+    const inlineMd = new MarkdownIt();
+
+    inlineMd.validateLink = (url: string): boolean => url.startsWith("app:");
+    inlineMd.use(advancedLinks, {
+      name: "test",
+      inline: true,
+      renderer: (link): string => `[${link}]`,
+    });
+
+    expect(inlineMd.render("Go @[test](app://home) now").trim()).toBe("<p>Go [app://home] now</p>");
   });
 
   it("should not tolerate whitespaces around the link", () => {
@@ -73,7 +120,7 @@ describe("link destination", () => {
   });
 
   it("should unescape the destination", () => {
-    // the link is not normalized nor validated, but escapes and entities are resolved
+    // escapes and entities are resolved before the destination is normalized
     expect(renderLink("@[test](a&amp;b)")).toBe("[a&b]");
     expect(renderLink(String.raw`@[test](a\*b)`)).toBe("[a*b]");
   });
@@ -115,8 +162,8 @@ describe("link destination", () => {
     });
 
     it("should resolve escapes inside angle brackets", () => {
-      expect(renderInline(String.raw`@[test](<a\>b.mp4>)`)).toBe("[a>b.mp4]");
-      expect(renderInline(String.raw`@[test](<a\\b.mp4>)`)).toBe(String.raw`[a\b.mp4]`);
+      expect(renderInline(String.raw`@[test](<a\>b.mp4>)`)).toBe("[a%3Eb.mp4]");
+      expect(renderInline(String.raw`@[test](<a\\b.mp4>)`)).toBe(String.raw`[a%5Cb.mp4]`);
     });
 
     it("should reject a destination with whitespaces", () => {

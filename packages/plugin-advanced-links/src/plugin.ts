@@ -99,21 +99,27 @@ const registerRenderers = (md: MarkdownIt, configs: AdvancedLinkConfigs): void =
  * 高级链接插件
  *
  * Provides the `@[name ...props](link)` syntax. The plugin can be used multiple times with
- * different names, and each name can have its own renderer.
+ * different names, and each name can have its own renderer. The link is normalized with
+ * `md.normalizeLink` and validated with `md.validateLink`, but renderers must HTML-escape the link
+ * and every prop value.
  *
- * 提供 `@[name ...props](link)` 语法。插件可使用多次以注册不同的名称，每个名称可以有自己的渲染器。
+ * 提供 `@[name ...props](link)` 语法。插件可使用多次以注册不同的名称，每个名称可以有自己的渲染器。链接会经 `md.normalizeLink` 规范化并通过
+ * `md.validateLink` 校验，但渲染器必须对链接与所有属性值进行 HTML 转义。
  *
  * @example
  *   ```ts
+ *   import { escapeHtml } from "@mdit/helper";
+ *
  *   const md = new MarkdownIt()
  *   .use(advancedLinks, {
  *   name: "video",
- *   renderer: (link) => `<video src="${link}" controls></video>`,
+ *   renderer: (link) => `<video src="${escapeHtml(link)}" controls></video>`,
  *   })
  *   .use(advancedLinks, {
  *   name: "badge",
  *   inline: true,
- *   renderer: (link, props) => `<span class="${link}">${props.text || link}</span>`,
+ *   renderer: (link, props) =>
+ *   `<span class="${escapeHtml(link)}">${escapeHtml(String(props.text || link))}</span>`,
  *   });
  *   ```
  *

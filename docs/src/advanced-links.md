@@ -15,6 +15,7 @@ Register custom `@[name ...props](link)` syntax with your own renderer.
 @tab TS
 
 ```ts
+import { escapeHtml } from "@mdit/helper";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
 import MarkdownIt from "markdown-it";
 
@@ -22,18 +23,20 @@ const md = new MarkdownIt()
   .use(advancedLinks, {
     name: "video",
     renderer: (link, props) =>
-      `<video src="${link}" controls${props.autoplay ? " autoplay" : ""}></video>`,
+      `<video src="${escapeHtml(link)}" controls${props.autoplay ? " autoplay" : ""}></video>`,
   })
   .use(advancedLinks, {
     name: "badge",
     inline: true,
-    renderer: (link, props) => `<span class="badge badge-${link}">${props.text || link}</span>`,
+    renderer: (link, props) =>
+      `<span class="badge badge-${escapeHtml(link)}">${escapeHtml(String(props.text || link))}</span>`,
   });
 ```
 
 @tab JS
 
 ```js
+import { escapeHtml } from "@mdit/helper";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
 import MarkdownIt from "markdown-it";
 
@@ -41,12 +44,13 @@ const md = new MarkdownIt()
   .use(advancedLinks, {
     name: "video",
     renderer: (link, props) =>
-      `<video src="${link}" controls${props.autoplay ? " autoplay" : ""}></video>`,
+      `<video src="${escapeHtml(link)}" controls${props.autoplay ? " autoplay" : ""}></video>`,
   })
   .use(advancedLinks, {
     name: "badge",
     inline: true,
-    renderer: (link, props) => `<span class="badge badge-${link}">${props.text || link}</span>`,
+    renderer: (link, props) =>
+      `<span class="badge badge-${escapeHtml(link)}">${escapeHtml(String(props.text || link))}</span>`,
   });
 ```
 
@@ -117,7 +121,7 @@ Prop names:
 
 Link:
 
-- The link is not normalized nor validated, unlike a normal Markdown link: MarkdownIt resolves its backslash escapes and HTML entities, but the result is neither percent-encoded nor checked.
+- The link is normalized with `md.normalizeLink` and validated with `md.validateLink`, like a normal Markdown link, so dangerous schemes such as `javascript:`, `vbscript:`, `file:` or `data:text/*` are rejected and the syntax stays plain text. Normalization percent-encodes control characters, so an entity-decoded tab or newline cannot hide a dangerous scheme from validation.
 
 Limits:
 
@@ -129,7 +133,13 @@ Limits:
 
 The name must not be empty or contain whitespace, `[`, `]`, `(`, `)`, `"` or `'`, otherwise the plugin throws an error. Names are matched exactly, and an unregistered name is left to other rules, so `@[unknown](x)` is rendered as a normal link.
 
-The link is passed to the renderer without normalization or validation, so escape and validate it yourself when generating HTML. A title in the destination (`@[video](a.mp4 "title")`) is not supported, use a prop instead.
+The link is normalized and validated like a normal Markdown link, but the renderer still receives text that is not HTML-escaped. A title in the destination (`@[video](a.mp4 "title")`) is not supported, use a prop instead.
+
+::: warning Untrusted input
+
+`link` (normalized and validated) and every `props` value are not HTML-escaped. Always HTML-escape them before interpolating them into markup, for example with `escapeHtml` from `[@mdit/helper](https://www.npmjs.com/package/@mdit/helper)` (install it, or use any HTML-escaping utility). `md.validateLink` only checks the URL scheme; it does not make the value safe inside an HTML attribute, and it can be overridden on the markdown-it instance when you need a custom URL policy.
+
+:::
 
 ::: tip Syntax as plain text
 
@@ -166,7 +176,7 @@ type AdvancedLinkProps = Record<string, string | true>;
 type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknown) => string;
 ```
 
-Renderer to generate HTML. `env` is the MarkdownIt environment. The link is passed without normalization or validation.
+Renderer to generate HTML. `env` is the MarkdownIt environment. The link is normalized with `md.normalizeLink` and validated with `md.validateLink`; the link and all prop values are not HTML-escaped and must be escaped before being interpolated into markup.
 
 @`inline` type=boolean
 
