@@ -24,7 +24,7 @@ import { SVG } from "@mathjax/src/js/output/svg.js";
 import type { DocumentOptions } from "./options.js";
 import type { MathjaxItem, SerializableMathjaxOptions } from "./protocol.js";
 import { texLoaders } from "./tex/loader.js";
-import { texPackages } from "./tex/packages.js";
+import { resolveTexPackages } from "./tex/utils.js";
 import { clearUserState } from "./utils.js";
 
 type InputJax = TeX<LiteElement, string, HTMLElement>;
@@ -47,12 +47,15 @@ const loadTexPackage = async (packages: string[]): Promise<void> => {
 
   await Promise.all(
     packages
-      .filter((pkg) => pkg in texLoaders)
+      .filter((pkg) => Object.hasOwn(texLoaders, pkg))
       .map((pkg) => texLoaders[pkg as keyof typeof texLoaders]()),
   );
 };
 
-export const createSession = async (options: SerializableMathjaxOptions): Promise<Session> => {
+export const createSession = async (
+  options: SerializableMathjaxOptions,
+  enableHtml = false,
+): Promise<Session> => {
   const isCHTML = options.output === "chtml";
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
   const outputOptions = Object.assign(
@@ -73,7 +76,7 @@ export const createSession = async (options: SerializableMathjaxOptions): Promis
   mathjaxLib.asyncLoad = (file): Promise<unknown> => import(file);
 
   const { packages: userPackages, ...texOptions } = options.tex ?? {};
-  const packages = ["base", ...(userPackages ?? texPackages)];
+  const packages = resolveTexPackages(userPackages, enableHtml);
 
   await loadTexPackage(packages);
 

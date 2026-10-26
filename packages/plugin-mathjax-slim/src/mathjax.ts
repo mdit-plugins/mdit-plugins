@@ -55,6 +55,14 @@ export interface MathJaxTexInputOptions {
   /**
    * Extensions to use
    *
+   * The default list never contains the HTML-related packages (`html` and `texhtml`); they are
+   * added to the default list when the plugin is installed on a markdown-it instance that enables
+   * the `html` option. An explicit `packages` list is trusted developer configuration and used
+   * as-is.
+   *
+   * 默认列表从不包含 HTML 相关包（`html` 与 `texhtml`）；仅当插件安装到开启 `html` 选项的 markdown-it 实例时才加入默认列表。显式提供的
+   * `packages` 列表视为可信的开发者配置并原样使用。
+   *
    * @default [
    *   'action',
    *   'ams',
@@ -78,17 +86,14 @@ export interface MathJaxTexInputOptions {
    *   'enclose',
    *   'extpfeil',
    *   'gensymb',
-   *   'html',
    *   'mathtools',
    *   'mhchem',
    *   'newcommand',
    *   'noerrors',
    *   'noundefined',
    *   'physics',
-   *   'require',
    *   'setoptions',
    *   'tagformat',
-   *   'texhtml',
    *   'textcomp',
    *   'textmacros',
    *   'unicode',

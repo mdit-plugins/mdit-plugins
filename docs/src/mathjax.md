@@ -66,6 +66,7 @@ const css = await mathjaxInstance.outputStyle();
 - The synchronous v2 API needs no instance: use `getMathjax(md)` to access `outputStyle`, `reset`, `clearStyle` and `dispose`.
 - The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `./async`.
 - Options must be structured-cloneable. Function options are rejected with a clear error, see [Options](#options).
+- The HTML-related TeX packages (`html` and `texhtml`) are no longer enabled by default. They are added to the default list when markdown-it's `html` option is enabled, or can be enabled explicitly with `tex.packages`, see [Security](#security).
 
 :::
 
@@ -193,6 +194,34 @@ The synchronous main entry sends options to a worker thread, so all options must
 Import from `@mdit/plugin-mathjax/async` when you need any of them. `transformer` is the only function option supported by the synchronous entry. Any other non-cloneable value, such as a function in `tex.macros`, is rejected as well.
 
 :::
+
+## Security
+
+The `html` TeX package provides macros such as `\href`, `\class`, `\style` and `\cssId`, which can create clickable links and inject attributes into the output; `texhtml` registers raw `<tex-html>` support (inert unless MathJax's `allowTexHTML` option is enabled). Enabling them for untrusted TeX input allows `\href{javascript:...}` to become a clickable script URL.
+
+The default package list does not enable them: with `new MarkdownIt()` (raw HTML disabled) the HTML-related packages are not loaded. They are only added to the default list when the markdown-it instance enables raw HTML:
+
+```ts
+// Default: the HTML-related TeX packages are not loaded, `\href` stays a red macro placeholder.
+const safeMd = new MarkdownIt().use(mathjax);
+
+// Enabling raw HTML in Markdown also enables the HTML-related TeX packages by default.
+const trustedMd = new MarkdownIt({ html: true }).use(mathjax);
+```
+
+An explicit `tex.packages` list is trusted developer configuration and is used as-is, so the HTML-related packages can also be enabled while keeping raw HTML in Markdown disabled:
+
+```ts
+const md = new MarkdownIt().use(mathjax, {
+  tex: { packages: ["ams", "html", "texhtml"] },
+});
+```
+
+Only enable them when the TeX input is trusted: an explicit configuration does not make untrusted Markdown safe, and `\href{javascript:...}` remains a script URL.
+
+The `html` option is read when the plugin is installed (`md.use(...)`); changing it later with `md.set()` is not observed.
+
+For the async entry, the `html` option of the markdown-it instance passed to `md.use(mathjax, instance)` decides the default list when the instance is installed. A MathJax instance owns shared TeX state, so it can only be installed on one markdown-it instance; use a separate `createMathjaxInstance()` result for each instance, especially when they have different trust levels.
 
 ## MathJax Methods
 
