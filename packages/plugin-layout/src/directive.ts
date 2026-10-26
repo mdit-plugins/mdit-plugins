@@ -9,8 +9,9 @@ import {
   LAYOUT_COLUMN,
   LAYOUT_FLEX,
   LAYOUT_GRID,
-  SPACE,
 } from "./constant.js";
+
+type IsSpace = (charCode: number) => boolean;
 
 /**
  * Check if a string matches a target starting at the given position.
@@ -31,10 +32,11 @@ export const matchString = (src: string, pos: number, target: string): boolean =
  * Check if a character code indicates the end of a directive name.
  *
  * @param code - Character code / 字符编码
+ * @param isSpace - Whitespace checker / 空白字符检查函数
  * @returns Whether it's a valid boundary / 是否是有效的边界
  */
-export const isDirectiveBoundary = (code: number): boolean =>
-  code === DOT || code === HASH || code === SPACE;
+export const isDirectiveBoundary = (code: number, isSpace: IsSpace): boolean =>
+  code === DOT || code === HASH || isSpace(code);
 
 /**
  * Detect the type of layout directive at the given position. Supports both single `@` (depth 1) and
@@ -45,12 +47,14 @@ export const isDirectiveBoundary = (code: number): boolean =>
  * @param src - Source string / 源字符串
  * @param pos - Position (should point to '@') / 位置（应指向 '@'）
  * @param max - End of line / 行尾位置
+ * @param isSpace - Whitespace checker / 空白字符检查函数
  * @returns Detection result or null / 检测结果或 null
  */
 export const detectDirective = (
   src: string,
   pos: number,
   max: number,
+  isSpace: IsSpace,
 ): { kind: "container" | "item" | "end"; type: number; nameEnd: number; depth: number } | null => {
   if (src.charCodeAt(pos) !== AT) return null;
 
@@ -72,7 +76,7 @@ export const detectDirective = (
 
     // `@end` must be followed by only whitespace or end of line, otherwise the
     // trailing content would be silently dropped.
-    while (spaceEnd < max && src.charCodeAt(spaceEnd) === SPACE) spaceEnd++;
+    while (spaceEnd < max && isSpace(src.charCodeAt(spaceEnd))) spaceEnd++;
 
     if (spaceEnd >= max) return { kind: "end", type: 0, nameEnd: endPos, depth };
   }
@@ -85,12 +89,12 @@ export const detectDirective = (
     if (
       afterFlex < max &&
       src.charCodeAt(afterFlex) === 115 /* s */ &&
-      (afterFlex + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterFlex + 1)))
+      (afterFlex + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterFlex + 1), isSpace))
     )
       return { kind: "container", type: LAYOUT_FLEX, nameEnd: afterFlex + 1, depth };
 
     // "flex" (item)
-    if (afterFlex >= max || isDirectiveBoundary(src.charCodeAt(afterFlex)))
+    if (afterFlex >= max || isDirectiveBoundary(src.charCodeAt(afterFlex), isSpace))
       return { kind: "item", type: LAYOUT_FLEX, nameEnd: afterFlex, depth };
   }
 
@@ -102,12 +106,12 @@ export const detectDirective = (
     if (
       afterGrid < max &&
       src.charCodeAt(afterGrid) === 115 /* s */ &&
-      (afterGrid + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterGrid + 1)))
+      (afterGrid + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterGrid + 1), isSpace))
     )
       return { kind: "container", type: LAYOUT_GRID, nameEnd: afterGrid + 1, depth };
 
     // "grid" (item)
-    if (afterGrid >= max || isDirectiveBoundary(src.charCodeAt(afterGrid)))
+    if (afterGrid >= max || isDirectiveBoundary(src.charCodeAt(afterGrid), isSpace))
       return { kind: "item", type: LAYOUT_GRID, nameEnd: afterGrid, depth };
   }
 
@@ -119,12 +123,12 @@ export const detectDirective = (
     if (
       afterColumn < max &&
       src.charCodeAt(afterColumn) === 115 /* s */ &&
-      (afterColumn + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterColumn + 1)))
+      (afterColumn + 1 >= max || isDirectiveBoundary(src.charCodeAt(afterColumn + 1), isSpace))
     )
       return { kind: "container", type: LAYOUT_COLUMN, nameEnd: afterColumn + 1, depth };
 
     // "column" (item)
-    if (afterColumn >= max || isDirectiveBoundary(src.charCodeAt(afterColumn)))
+    if (afterColumn >= max || isDirectiveBoundary(src.charCodeAt(afterColumn), isSpace))
       return { kind: "item", type: LAYOUT_COLUMN, nameEnd: afterColumn, depth };
   }
 
@@ -137,12 +141,14 @@ export const detectDirective = (
  * @param src - Source string / 源字符串
  * @param startPos - Position after the directive name / 指令名称后的位置
  * @param max - End of line / 行尾位置
+ * @param isSpace - Whitespace checker / 空白字符检查函数
  * @returns Parsed metadata / 解析后的元数据
  */
 export const parseAttributes = (
   src: string,
   startPos: number,
   max: number,
+  isSpace: IsSpace,
 ): { classes: string[]; id: string; utilities: string[] } => {
   const classes: string[] = [];
   let id = "";
@@ -161,7 +167,7 @@ export const parseAttributes = (
       while (end < max) {
         const ch = src.charCodeAt(end);
 
-        if (ch === DOT || ch === HASH || ch === SPACE) break;
+        if (ch === DOT || ch === HASH || isSpace(ch)) break;
         end++;
       }
 
@@ -175,25 +181,25 @@ export const parseAttributes = (
       while (end < max) {
         const ch = src.charCodeAt(end);
 
-        if (ch === DOT || ch === HASH || ch === SPACE) break;
+        if (ch === DOT || ch === HASH || isSpace(ch)) break;
         end++;
       }
 
       if (end > start) id = src.slice(start, end);
       pos = end;
     } else {
-      if (code === SPACE) {
+      if (isSpace(code)) {
         // Skip space then parse utilities
         pos++;
 
         while (pos < max) {
           // Skip spaces between utilities
-          while (pos < max && src.charCodeAt(pos) === SPACE) pos++;
+          while (pos < max && isSpace(src.charCodeAt(pos))) pos++;
           if (pos >= max) break;
 
           const start = pos;
 
-          while (pos < max && src.charCodeAt(pos) !== SPACE) pos++;
+          while (pos < max && !isSpace(src.charCodeAt(pos))) pos++;
           utilities.push(src.slice(start, pos));
         }
       }

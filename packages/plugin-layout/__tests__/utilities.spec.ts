@@ -155,6 +155,14 @@ describe(resolveUtility, () => {
       expect(resolveUtility("bg-red")).toBe("");
     });
 
+    it("should not resolve Object.prototype members", () => {
+      expect(resolveUtility("constructor")).toBe("");
+      expect(resolveUtility("__proto__")).toBe("");
+      expect(resolveUtility("toString")).toBe("");
+      expect(resolveUtility("hasOwnProperty")).toBe("");
+      expect(resolveUtility("valueOf")).toBe("");
+    });
+
     it("should return empty string for parameterized utilities with non-numeric values", () => {
       expect(resolveUtility("gap-abc")).toBe("");
       expect(resolveUtility("gap-x-abc")).toBe("");
@@ -214,6 +222,15 @@ describe(buildStyleString, () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     expect(buildStyleString(["unknown", "nope"], "")).toBe("");
+    expect(warnSpy).toHaveBeenCalledTimes(2);
+
+    vi.restoreAllMocks();
+  });
+
+  it("should ignore and warn for Object.prototype members", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    expect(buildStyleString(["constructor", "toString"], "display:flex")).toBe("display:flex");
     expect(warnSpy).toHaveBeenCalledTimes(2);
 
     vi.restoreAllMocks();
