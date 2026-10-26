@@ -31,6 +31,10 @@ Use `::icon classes::` to insert custom icons. By default the plugin renders a `
 
 The icon content must stay on a single line: `::` pairs separated by a line break are rendered as plain text.
 
+The bundled renderers also read HTML attributes from the content. Event handler attributes (`on*`) and URL attributes with a `javascript:` or `vbscript:` value are dropped, so untrusted icon content cannot execute script. Other attributes are kept and their values are HTML-escaped. `size` and `color` are converted into `font-size` and `color` declarations.
+
+Inline `style` attributes are kept: they cannot execute script in modern browsers, but untrusted content can still change the page appearance (visual spoofing, clickjacking) or trigger external `url()` requests. Sanitize the rendered HTML if it must be strictly isolated from untrusted content.
+
 If you are not satisfied with the default render, you can use `render` option to customize icon rendering:
 
 ```js
