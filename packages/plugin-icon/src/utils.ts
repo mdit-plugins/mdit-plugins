@@ -54,6 +54,108 @@ export const extractColor = <Data extends { content: string }>(
 
 export type AttrsInfo = Record<string, string>;
 
+/** Event handler attribute names, which can execute script and are always dropped. */
+const EVENT_HANDLER_ATTR_REGEXP = /^on/i;
+
+/**
+ * URL-bearing attributes whose value is validated against dangerous URL schemes.
+ *
+ * 需要校验危险 URL scheme 的 URL 属性。
+ */
+const URL_ATTR_NAMES = new Set([
+  "action",
+  "background",
+  "cite",
+  "codebase",
+  "data",
+  "formaction",
+  "href",
+  "longdesc",
+  "manifest",
+  "ping",
+  "poster",
+  "src",
+  "usemap",
+  "xlink:href",
+]);
+
+/**
+ * Attributes that can embed or execute content in other elements.
+ *
+ * The bundled renderers only output `<i>`, `<span>` and `<iconify-icon>`, where these attributes
+ * are inert, but they are dropped defensively as they have no use for icons.
+ *
+ * 在其他元素中可嵌入或执行内容的属性。
+ *
+ * 内置渲染器只输出 `<i>`、`<span>` 与 `<iconify-icon>`，这些属性在这些元素上无效，但它们对图标没有用途， 因此仍会防御性地丢弃。
+ */
+const UNSAFE_ATTR_NAMES = new Set(["formaction", "imagesrcset", "srcdoc", "srcset"]);
+
+/** Characters that browsers strip from URLs before parsing them. */
+const URL_STRIPPED_CHAR_REGEXP = /[\t\n\r]/g;
+
+/**
+ * Matches the URL scheme, ignoring the leading whitespace and control characters browsers trim.
+ *
+ * 匹配 URL scheme，忽略浏览器在解析前会去除的前导空白与控制字符。
+ */
+// oxlint-disable-next-line no-control-regex -- browsers trim leading C0 controls before parsing URLs
+const URL_SCHEME_REGEXP = /^[\u0000-\u0020]*(?<scheme>[a-z][a-z0-9+.-]*):/i;
+
+/**
+ * Get the URL scheme of an attribute value
+ *
+ * @param value Attribute value / 属性值
+ * @returns Lower-cased URL scheme, empty for relative URLs / 小写的 URL scheme，相对 URL 返回空字符串
+ */
+const getUrlScheme = (value: string): string => {
+  const { scheme } =
+    URL_SCHEME_REGEXP.exec(value.replaceAll(URL_STRIPPED_CHAR_REGEXP, ""))?.groups ?? {};
+
+  return scheme ? scheme.toLowerCase() : "";
+};
+
+/**
+ * Check whether an attribute value uses a dangerous URL scheme
+ *
+ * @param value Attribute value / 属性值
+ * @returns Whether the value uses `javascript:` or `vbscript:` / 是否使用 `javascript:` 或 `vbscript:`
+ */
+const hasDangerousUrlScheme = (value: string): boolean => {
+  const scheme = getUrlScheme(value);
+
+  return scheme === "javascript" || scheme === "vbscript";
+};
+
+/**
+ * Check whether an attribute can be rendered
+ *
+ * Event handler attributes (`on*`) are always dropped, as are URL attributes whose value uses the
+ * `javascript:` or `vbscript:` scheme. Other attributes, including `style`, are kept and their
+ * values are HTML-escaped. Inline styles cannot execute script in modern browsers, but untrusted
+ * content can still change the page appearance or trigger external `url()` requests; sanitize the
+ * rendered HTML if it must be strictly isolated.
+ *
+ * 判断属性是否可以输出。
+ *
+ * 事件处理器属性（`on*`）始终会被丢弃；使用 `javascript:` 或 `vbscript:` scheme 的 URL 属性也会被丢弃。 其他属性（包括
+ * `style`）会被保留，其值会进行 HTML 转义。内联样式在现代浏览器中无法执行脚本，但不可信内容 仍可改变页面外观或触发外部 `url()` 请求；若需要严格隔离，请对渲染结果做 HTML
+ * 清洗。
+ *
+ * @param name Attribute name / 属性名
+ * @param value Attribute value / 属性值
+ * @returns Whether the attribute is safe to render / 属性是否可安全输出
+ */
+const isSafeAttr = (name: string, value: string): boolean => {
+  if (EVENT_HANDLER_ATTR_REGEXP.test(name)) return false;
+
+  const normalizedName = name.toLowerCase();
+
+  if (UNSAFE_ATTR_NAMES.has(normalizedName)) return false;
+
+  return !(URL_ATTR_NAMES.has(normalizedName) && hasDangerousUrlScheme(value));
+};
+
 const ATTR_NAME_REGEXP = "[A-Za-z_][a-zA-Z0-9_-]*";
 
 const ATTR_REGEXP = new RegExp(
@@ -98,10 +200,18 @@ const ATTR_REGEXP = new RegExp(
 );
 
 /**
- * Parse attrs string to object
+ * Parse attrs string to object.
  *
- * @param data Input data with content string
- * @returns Data with attrs object and cleaned content string
+ * Attributes that could execute script (event handlers and URL attributes with a dangerous URL
+ * scheme) are dropped together with their values, everything else is kept. Attribute values are
+ * HTML-escaped when they are rendered.
+ *
+ * 解析属性字符串为对象。
+ *
+ * 可能执行脚本的属性（事件处理器，以及使用危险 URL scheme 的 URL 属性）会连同其值一起被丢弃，其余属性保留。 输出时属性值会进行 HTML 转义。
+ *
+ * @param data Input data with content string / 包含内容字符串的输入数据
+ * @returns Data with attrs object and cleaned content string / 包含属性对象与清理后内容字符串的数据
  */
 export const extractAttrs = <Data extends { content: string }>(
   data: Data & { attrs?: AttrsInfo },
@@ -129,11 +239,15 @@ export const extractAttrs = <Data extends { content: string }>(
           quote: string | undefined;
         },
       ) => {
-        attrs[info.attr] = info.emptyValue
+        const value = info.emptyValue
           ? ""
           : (info.valueWithoutQuotes ??
             // oxlint-disable-next-line typescript/no-non-null-assertion
             info.valueWithQuotes!.replaceAll(new RegExp(`\\\\${info.quote}`, "g"), info.quote!));
+
+        if (!isSafeAttr(info.attr, value)) return "";
+
+        attrs[info.attr] = value;
 
         return "";
       },
@@ -169,11 +283,19 @@ export const appendStyle = (
 /**
  * Stringify attrs object
  *
- * @param attrs Attrs object
- * @returns Stringified attrs
+ * Attributes that could execute script (event handlers and URL attributes with a dangerous URL
+ * scheme) are dropped as a second line of defense; attribute values are HTML-escaped.
+ *
+ * 序列化属性对象。
+ *
+ * 作为第二道防线，可能执行脚本的属性（事件处理器，以及使用危险 URL scheme 的 URL 属性）会被丢弃；属性值会进行 HTML 转义。
+ *
+ * @param attrs Attrs object / 属性对象
+ * @returns Stringified attrs / 序列化后的属性字符串
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
   const result = Object.entries(attrs)
+    .filter(([key, value]) => isSafeAttr(key, value))
     .map(([key, value]) => `${key}="${escapeHtml(value)}"`)
     .join(" ");
 
