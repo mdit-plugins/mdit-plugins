@@ -61,7 +61,7 @@ const css = await mathjaxInstance.outputStyle();
 `@mdit/plugin-mathjax` v2 将主入口从基于实例的插件改为普通的同步 markdown-it 插件。升级前请先了解以下变化：
 
 - `mathjax` 的第二个参数现在是选项：`mathjax(md, options)`，不再是 `mathjax(md, instance)`，且 `md.render()` 恢复为同步调用。
-- `createMathjaxInstance` 已移动到 `@mdit/plugin-mathjax/async`，主入口不再导出它。
+- `createMathjaxInstance` 只保留在 `@mdit/plugin-mathjax/async` 中，主入口不再导出它。
 - `@mdit/plugin-mathjax/sync` 已被移除；在 Node.js 下主入口本身就是同步的。
 - 不再需要创建、传递或 await 实例。请通过 `getMathjax(md)` 获取 `outputStyle`、`reset`、`clearStyle` 与 `dispose`。
 - 同步主入口依赖 Node.js（`worker_threads`）。浏览器或不支持 worker 线程的运行时请使用 `./async`。
@@ -71,7 +71,7 @@ const css = await mathjaxInstance.outputStyle();
 
 ### 迁移
 
-迁移前（v1 / 异步入口）：
+迁移前（v1）：
 
 ```ts
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
@@ -96,7 +96,7 @@ const html = md.render("$E=mc^2$");
 const style = getMathjax(md).outputStyle();
 ```
 
-`@mdit/plugin-mathjax-slim` 包也同步发生了变化：主入口使用新的同步 API（`@mathjax/src` 与 `@mathjax/mathjax-newcm-font` 仍为可选对等依赖），`./async` 保留实例 API，`./sync` 被移除；除此之外用法与 `@mdit/plugin-mathjax` 相同。
+`@mdit/plugin-mathjax-slim` 包也同步发生了变化：主入口使用新的同步 API（`@mathjax/src` 与 `@mathjax/mathjax-newcm-font` 仍为可选对等依赖），`./async` 保留实例 API，`./sync` 被移除；除此之外用法与 `@mdit/plugin-mathjax` 相同。本仓库通过 pnpm patch 让 VuePress 的 `@vuepress/plugin-markdown-math` 暂时使用 v2 API，待上游发布后移除补丁。
 
 ## 格式
 

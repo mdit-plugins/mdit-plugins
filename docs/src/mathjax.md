@@ -61,9 +61,9 @@ const css = await mathjaxInstance.outputStyle();
 `@mdit/plugin-mathjax` v2 changes the main entry from an instance-based plugin to a regular synchronous markdown-it plugin. Review the following changes before upgrading:
 
 - `mathjax` now takes options as its second argument: `mathjax(md, options)` instead of `mathjax(md, instance)`, and `md.render()` is synchronous again.
-- `createMathjaxInstance` now lives in `@mdit/plugin-mathjax/async`. It is still re-exported from the main entry as a deprecated compatibility export for v1 users and will be removed in the next major.
+- `createMathjaxInstance` is only available from `@mdit/plugin-mathjax/async` now. The main entry no longer re-exports it.
 - `@mdit/plugin-mathjax/sync` has been removed. The main entry itself is synchronous on Node.js.
-- The synchronous v2 API needs no instance: use `getMathjax(md)` to access `outputStyle`, `reset`, `clearStyle` and `dispose`. The legacy `mathjax(md, instance)` call is still accepted (deprecated) for backwards compatibility.
+- The synchronous v2 API needs no instance: use `getMathjax(md)` to access `outputStyle`, `reset`, `clearStyle` and `dispose`.
 - The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `./async`.
 - Options must be structured-cloneable. Function options are rejected with a clear error, see [Options](#options).
 
@@ -71,7 +71,7 @@ const css = await mathjaxInstance.outputStyle();
 
 ### Migration
 
-Before (v1 / the async entry):
+Before (v1):
 
 ```ts
 import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
@@ -96,7 +96,7 @@ const html = md.render("$E=mc^2$");
 const style = getMathjax(md).outputStyle();
 ```
 
-The `@mdit/plugin-mathjax-slim` package follows the same change: its main entry uses the new synchronous API (with `@mathjax/src` and `@mathjax/mathjax-newcm-font` as optional peer dependencies), `./async` keeps the instance API, and `./sync` is removed. Its usage is otherwise the same as `@mdit/plugin-mathjax`.
+The `@mdit/plugin-mathjax-slim` package follows the same change: its main entry uses the new synchronous API (with `@mathjax/src` and `@mathjax/mathjax-newcm-font` as optional peer dependencies), `./async` keeps the instance API, and `./sync` is removed. The VuePress `@vuepress/plugin-markdown-math` package is patched in this repository to use the v2 API until it is released upstream. Its usage is otherwise the same as `@mdit/plugin-mathjax`.
 
 ## Syntax
 
@@ -190,7 +190,7 @@ The synchronous main entry sends options to a worker thread, so all options must
 - `fontData`, `wrapperFactory` and `cssStyles` in `chtml` / `svg` (custom fonts, wrappers and styles)
 - `linebreaks.LinebreakVisitor` in `chtml` / `svg`
 
-Import from `@mdit/plugin-mathjax/async` (or use the deprecated instance API) when you need any of them. `transformer` is the only function option supported by the synchronous entry. Any other non-cloneable value, such as a function in `tex.macros`, is rejected as well.
+Import from `@mdit/plugin-mathjax/async` when you need any of them. `transformer` is the only function option supported by the synchronous entry. Any other non-cloneable value, such as a function in `tex.macros`, is rejected as well.
 
 :::
 
