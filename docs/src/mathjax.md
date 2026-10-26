@@ -67,6 +67,7 @@ const css = await mathjaxInstance.outputStyle();
 - The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `./async`.
 - Options must be structured-cloneable. Function options are rejected with a clear error, see [Options](#options).
 - The HTML-related TeX packages (`html` and `texhtml`) are no longer enabled by default. They are added to the default list when markdown-it's `html` option is enabled, or can be enabled explicitly with `tex.packages`, see [Security](#security).
+- The font-extension TeX packages (`bbm`, `bboldx` and `dsfont`) are no longer enabled by default: the bundled NewCM font does not ship their extension data. `\mathbb` now uses the standard double-struck variant; commands that need those extensions (`\mathbbm`, `\mathds`, ...) are unavailable unless you enable the packages explicitly with `tex.packages`. See [Font and TeX Package Limitations](#font-and-tex-package-limitations).
 
 :::
 
@@ -154,7 +155,7 @@ Enable A11y.
 
 @`tex` type=MathJaxTexInputOptions
 
-TeX input options.
+TeX input options. The default package list excludes HTML-related and font-extension packages, see [Font and TeX Package Limitations](#font-and-tex-package-limitations).
 
 @`chtml` type=MathjaxCommonHTMLOutputOptions
 
@@ -222,6 +223,14 @@ Only enable them when the TeX input is trusted: an explicit configuration does n
 The `html` option is read when the plugin is installed (`md.use(...)`); changing it later with `md.set()` is not observed.
 
 For the async entry, the `html` option of the markdown-it instance passed to `md.use(mathjax, instance)` decides the default list when the instance is installed. A MathJax instance owns shared TeX state, so it can only be installed on one markdown-it instance; use a separate `createMathjaxInstance()` result for each instance, especially when they have different trust levels.
+
+## Font and TeX Package Limitations
+
+The plugin bundles MathJax's NewCM font (`@mathjax/mathjax-newcm-font`). Standard math variants work out of the box: `\mathbb` renders as double-struck, `\mathcal` as calligraphic, `\mathfrak` as fraktur, and so on. Font files are loaded through MathJax's dynamic font loader.
+
+The bundled font does not ship the font-extension data used by the `bbm`, `bboldx` and `dsfont` TeX packages. These packages are therefore not enabled by default: loading them would replace standard macros (e.g. `\mathbb`) with missing font variants and fall back to normal glyphs with an `Invalid variant` warning. If you enable them explicitly through `tex.packages`, commands such as `\mathbbm` and `\mathds` still fall back with a warning because the extension data is missing.
+
+The synchronous main entry sends its options to a worker, so a custom `fontData` cannot be used there; use `@mdit/plugin-mathjax/async` if you need a custom font with additional extensions.
 
 ## MathJax Methods
 

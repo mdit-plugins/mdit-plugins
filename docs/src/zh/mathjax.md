@@ -67,6 +67,7 @@ const css = await mathjaxInstance.outputStyle();
 - 同步主入口依赖 Node.js（`worker_threads`）。浏览器或不支持 worker 线程的运行时请使用 `./async`。
 - 选项必须可结构化克隆。函数类选项会被明确拒绝并提示改用异步入口，详见[选项](#选项)。
 - HTML 相关 TeX 包（`html` 与 `texhtml`）不再默认启用：开启 markdown-it 的 `html` 选项时会加入默认列表，也可以通过 `tex.packages` 显式启用，详见[安全](#安全)。
+- 字体扩展 TeX 包（`bbm`、`bboldx` 与 `dsfont`）不再默认启用：内置的 NewCM 字体不包含它们的扩展数据。`\mathbb` 现在使用标准的 double-struck 变体；依赖这些扩展的命令（`\mathbbm`、`\mathds` 等）需通过 `tex.packages` 显式启用对应包，详见下文「字体与 TeX 包限制」。
 
 :::
 
@@ -154,7 +155,7 @@ const style = getMathjax(md).outputStyle();
 
 @`tex` type=MathJaxTexInputOptions
 
-TeX 输入选项。
+TeX 输入选项。默认包列表不包含 HTML 相关包与字体扩展包，详见下文「字体与 TeX 包限制」。
 
 @`chtml` type=MathjaxCommonHTMLOutputOptions
 
@@ -222,6 +223,14 @@ const md = new MarkdownIt().use(mathjax, {
 `html` 选项在插件安装（`md.use(...)`）时读取；之后通过 `md.set()` 修改不会生效。
 
 异步入口中，由传给 `md.use(mathjax, instance)` 的 markdown-it 实例的 `html` 选项在安装时决定默认列表。MathJax 实例持有共享的 TeX 状态，因此只能安装到一个 markdown-it 实例上；每个实例（尤其是信任级别不同的实例）都应使用单独的 `createMathjaxInstance()` 结果。
+
+## 字体与 TeX 包限制
+
+插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等；字体文件通过 MathJax 的动态字体加载器按需加载。
+
+内置字体不包含 `bbm`、`bboldx`、`dsfont` 这三个 TeX 包所需的字体扩展数据，因此这些包默认不启用：加载它们会用缺失的字体变体替换标准宏（如 `\mathbb`），在 `Invalid variant` 警告后回退为普通字形。即使通过 `tex.packages` 显式启用，`\mathbbm`、`\mathds` 等命令仍会因扩展数据缺失而告警并回退。
+
+同步主入口会把选项发送到 worker，因此无法使用自定义 `fontData`；如需带额外扩展的自定义字体，请使用 `@mdit/plugin-mathjax/async`。
 
 ## MathJax 方法
 

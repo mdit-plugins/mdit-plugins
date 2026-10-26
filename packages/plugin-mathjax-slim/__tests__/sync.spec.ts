@@ -317,6 +317,19 @@ describe("synchronous mathjax plugin", () => {
     dispose(md);
   });
 
+  it("renders mathbb with the built-in double-struck variant", () => {
+    const md = setup({ output: "svg", a11y: false });
+
+    const html = md.render(String.raw`$\mathbb{R}$`);
+
+    // The bundled NewCM font ships a double-struck variant. The font-extension packages would
+    // replace it with a missing variant and fall back to a plain `R`.
+    expect(html).toContain("NCM-DS-");
+    expect(html).not.toContain("NCM-N-52");
+
+    dispose(md);
+  });
+
   it("does not call the worker again for documents without math", () => {
     const md = setup({ output: "svg", a11y: false });
 
