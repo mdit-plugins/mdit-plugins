@@ -76,6 +76,15 @@ A **bold** text 2.
     });
   });
 
+  it("should use the default name when options omit it", () => {
+    const mdInstance = new MarkdownIt().use(tab, {});
+
+    const result = mdInstance.render("::: tabs\n@tab test\ncontent\n:::\n");
+
+    expect(result).toContain('class="tabs-tabs-wrapper"');
+    expect(result).toContain('class="tabs-tab-button" data-tab="0">test</button>');
+  });
+
   it("should ignore other markers", () => {
     const sources = [
       `

@@ -82,8 +82,10 @@ export interface MarkdownItTabOptions {
    * The name of the tab container.
    *
    * Tab 容器的名称。
+   *
+   * @default "tabs"
    */
-  name: string;
+  name?: string;
 
   /**
    * Tabs open renderer
