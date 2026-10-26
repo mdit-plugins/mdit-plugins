@@ -15,6 +15,7 @@ icon: paperclip
 @tab TS
 
 ```ts
+import { escapeHtml } from "@mdit/helper";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
 import MarkdownIt from "markdown-it";
 
@@ -22,18 +23,20 @@ const md = new MarkdownIt()
   .use(advancedLinks, {
     name: "video",
     renderer: (link, props) =>
-      `<video src="${link}" controls${props.autoplay ? " autoplay" : ""}></video>`,
+      `<video src="${escapeHtml(link)}" controls${props.autoplay ? " autoplay" : ""}></video>`,
   })
   .use(advancedLinks, {
     name: "badge",
     inline: true,
-    renderer: (link, props) => `<span class="badge badge-${link}">${props.text || link}</span>`,
+    renderer: (link, props) =>
+      `<span class="badge badge-${escapeHtml(link)}">${escapeHtml(String(props.text || link))}</span>`,
   });
 ```
 
 @tab JS
 
 ```js
+import { escapeHtml } from "@mdit/helper";
 import { advancedLinks } from "@mdit/plugin-advanced-links";
 import MarkdownIt from "markdown-it";
 
@@ -41,12 +44,13 @@ const md = new MarkdownIt()
   .use(advancedLinks, {
     name: "video",
     renderer: (link, props) =>
-      `<video src="${link}" controls${props.autoplay ? " autoplay" : ""}></video>`,
+      `<video src="${escapeHtml(link)}" controls${props.autoplay ? " autoplay" : ""}></video>`,
   })
   .use(advancedLinks, {
     name: "badge",
     inline: true,
-    renderer: (link, props) => `<span class="badge badge-${link}">${props.text || link}</span>`,
+    renderer: (link, props) =>
+      `<span class="badge badge-${escapeHtml(link)}">${escapeHtml(String(props.text || link))}</span>`,
   });
 ```
 
@@ -117,7 +121,7 @@ const md = new MarkdownIt()
 
 链接：
 
-- 链接不加规范化与校验，这一点与普通的 Markdown 链接不同：MarkdownIt 会解析其中的反斜杠转义与 HTML 实体，但结果既不会被百分号编码，也不会被校验。
+- 链接会像普通 Markdown 链接一样经 `md.normalizeLink` 规范化并通过 `md.validateLink` 校验，因此 `javascript:`、`vbscript:`、`file:`、`data:text/*` 等危险 scheme 会被拒绝，语法保持为纯文本。规范化会对控制字符进行百分号编码，因此实体解码得到的制表符或换行无法在校验时藏匿危险 scheme。
 
 限制：
 
@@ -129,7 +133,13 @@ const md = new MarkdownIt()
 
 名称不能为空，也不能包含空白、`[`、`]`、`(`、`)`、`"` 或 `'`，否则插件会抛出错误。名称需要完全匹配，未注册的名称会交由其他规则处理，因此 `@[unknown](x)` 会渲染为普通链接。
 
-链接不加规范化与校验地传递给渲染器，生成 HTML 时请自行转义和校验。不支持在链接中写标题（`@[video](a.mp4 "title")`），请改用属性。
+链接会像普通 Markdown 链接一样被规范化并校验，但渲染器收到的文本仍未做 HTML 转义。不支持在链接中写标题（`@[video](a.mp4 "title")`），请改用属性。
+
+::: warning 不可信输入
+
+`link`（已规范化并校验）与所有 `props` 值都未做 HTML 转义。把它们插入 HTML 之前必须进行 HTML 转义，例如使用 `[@mdit/helper](https://www.npmjs.com/package/@mdit/helper)` 的 `escapeHtml`（需要安装该包，或使用任意 HTML 转义工具）。`md.validateLink` 只校验 URL scheme，并不能让值在 HTML 属性中变得安全；需要自定义 URL 策略时可以在 markdown-it 实例上覆盖它。
+
+:::
 
 ::: tip 纯文本语法
 
@@ -166,7 +176,7 @@ type AdvancedLinkProps = Record<string, string | true>;
 type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknown) => string;
 ```
 
-生成 HTML 的渲染器。`env` 为 MarkdownIt 环境。链接不会被规范化或校验。
+生成 HTML 的渲染器。`env` 为 MarkdownIt 环境。链接会经 `md.normalizeLink` 规范化并通过 `md.validateLink` 校验；链接与所有属性值都未做 HTML 转义，插入 HTML 之前必须进行 HTML 转义。
 
 @`inline` type=boolean
 

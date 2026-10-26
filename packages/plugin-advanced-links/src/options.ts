@@ -17,7 +17,8 @@ export type AdvancedLinkProps = Record<string, string | true>;
  *
  * 高级链接语法的渲染器
  *
- * @param link - Link destination, without normalization or validation / 链接地址，不加规范化与校验
+ * @param link - Link destination normalized with `md.normalizeLink` and validated with
+ *   `md.validateLink` / 经 `md.normalizeLink` 规范化并通过 `md.validateLink` 校验的链接地址
  * @param props - Parsed props / 解析后的属性
  * @param env - MarkdownIt environment / MarkdownIt 环境
  * @returns Rendered HTML / 渲染的 HTML
@@ -68,9 +69,17 @@ export interface MarkdownItAdvancedLinksOptions<MarkdownItEnv = unknown> {
    *
    * @example
    *   ```ts
+   *   import { escapeHtml } from "@mdit/helper";
+   *
    *   renderer: (link, props) =>
-   *   `<iframe src="${link}"${props.full ? " allowfullscreen" : ""}></iframe>`;
+   *   `<iframe src="${escapeHtml(link)}"${props.full ? " allowfullscreen" : ""}></iframe>`;
    *   ```
+   *
+   *   The link is validated with `md.validateLink`, but the link and all prop values are raw text and
+   *   must be HTML-escaped before being interpolated into markup.
+   *
+   *   链接会通过 `md.validateLink` 校验，但链接与所有属性值都是原始文本，插入 HTML 之前必须进行 HTML
+   *   转义。
    */
   renderer: AdvancedLinkRenderer<MarkdownItEnv>;
 }

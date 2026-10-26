@@ -62,9 +62,9 @@ export interface ScannedAtLink {
   props: AdvancedLinkProps;
 
   /**
-   * Link destination
+   * Link destination, normalized with `md.normalizeLink` and validated with `md.validateLink`
    *
-   * 链接地址
+   * 链接地址，已经过 `md.normalizeLink` 规范化并通过 `md.validateLink` 校验
    */
   link: string;
 
