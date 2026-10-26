@@ -1,5 +1,4 @@
-import { statSync } from "node:fs";
-import path from "node:path";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import MarkdownIt from "markdown-it";
@@ -26,25 +25,18 @@ const dispose = (md: MarkdownItType): void => {
 // The plugin resolves `./worker.js` relative to its built entry. Source tests use
 // the built worker so that both the source code and the shipped worker are covered.
 const WORKER_PATH = new URL("../dist/worker.js", import.meta.url);
-const SRC_DIR = fileURLToPath(new URL("../src/", import.meta.url));
 
 // The worker entry has to be built: Node's type stripping cannot resolve the
-// `.js` relative imports of a `.ts` worker. Refuse to silently test a stale build.
-const assertWorkerIsFresh = (): void => {
-  const workerMtime = statSync(fileURLToPath(WORKER_PATH)).mtimeMs;
-  const stale = ["session.ts", "worker.ts", "protocol.ts"].some(
-    (file) => statSync(path.join(SRC_DIR, file)).mtimeMs > workerMtime,
-  );
+// `.js` relative imports of a `.ts` worker. Fail with a clear message instead of
+// comparing mtimes, which change on checkout and do not reflect content.
+const assertWorkerIsBuilt = (): void => {
+  if (existsSync(fileURLToPath(WORKER_PATH))) return;
 
-  if (stale) {
-    throw new Error(
-      "dist/worker.js is stale. Run `pnpm build` in packages/plugin-mathjax-slim before running these tests.",
-    );
-  }
+  throw new Error("dist/worker.js is missing. Run `pnpm run build` before running these tests.");
 };
 
 // oxlint-disable-next-line vitest/require-hook
-assertWorkerIsFresh();
+assertWorkerIsBuilt();
 
 const setup = (options?: MarkdownItSyncMathjaxOptions): MarkdownItType =>
   new MarkdownIt({ linkify: true }).use(mathjaxNext, {

@@ -279,18 +279,25 @@ For `packages/*/src/**`, certain oxlint rules are disabled due to performance co
 
 ### How to Run Tests
 
-cd to the plugin directory and run:
+Run tests from the repository root: Vitest only loads the root `vitest.config.ts` when it is
+started from the repo root. Running it inside a package directory skips the shared configuration.
+
+**Full suite (same as CI):**
 
 ```bash
-cd packages/<name>
-pnpm exec vitest run --coverage --coverage.provider=istanbul
+pnpm run test:coverage
 ```
 
-Do NOT run `pnpm exec vitest run --coverage` in the root.
+**Single test file or subset (debugging):** pass a path or filename filter; only matching test
+files run:
 
-The `--coverage.provider=istanbul` flag is required: the root `vitest.config.ts` is not picked up
-from a package directory, so without it vitest falls back to the `v8` provider, which is not
-installed (`@vitest/coverage-v8` is missing) and the run fails.
+```bash
+pnpm exec vitest run align
+pnpm exec vitest run packages/plugin-align/__tests__/align.spec.ts
+```
+
+Tests import workspace packages through their built `dist` entries, so run `pnpm run build` once
+after cloning and after changing another package's public entry point. CI builds before tests.
 
 ## Bug Fix Workflow
 
@@ -300,7 +307,7 @@ When fixing a bug, every fix MUST follow this strict 8-step workflow:
 2. **Verify it fails**: Run the unit test and confirm it fails (bug reproduced).
 3. **Fix the source**: Modify the source code to fix the bug.
 4. **Verify the fix**: Run the unit test and confirm it passes.
-5. **Coverage**: Confirm the modified code still has 100% coverage (`pnpm exec vitest run --coverage` in the plugin directory). If not, adjust or add unit tests until coverage is back to 100%.
+5. **Coverage**: Confirm the modified code still has 100% coverage by running `pnpm run test:coverage` in the repo root (same command as CI; the four 100% thresholds fail the run if coverage drops). If not, adjust or add tests until it passes.
 6. **Subagent review**: Send the concrete bug details to a subagent to review your changes. The subagent may ONLY review — it must NOT modify any files. Provide only the bug details, NOT your implementation approach, so the subagent independently evaluates whether your fix is correct.
 7. **Iterate**: Read the subagent's feedback. If it raises new issues, return to step 1 (add a test exposing the new issue → …) and repeat until the subagent reports no issues and considers the fix fully OK.
 8. **Commit & push**: Create a branch with an appropriate name (e.g. `fix/plugin-<name>-<desc>`), commit with a message conforming to `scripts/verifyCommit.ts` (format `type(scope): subject`, subject ≤ 50 chars), and push to origin.
@@ -308,7 +315,7 @@ When fixing a bug, every fix MUST follow this strict 8-step workflow:
 ### Commit Iron Rules
 
 - **Linter must pass**: `pnpm run lint:check` (oxlint + oxfmt) reports no errors.
-- **Coverage must be 100%**: `pnpm exec vitest run --coverage` (in the corresponding plugin directory) reports 100% statements/branches/functions/lines.
+- **Coverage must be 100%**: `pnpm run test:coverage` in the repo root reports 100% statements/branches/functions/lines.
 - **Never commit if not passing**: If any of the above fails, do not commit — fix until it passes.
 - **Never push directly to `main`**: Work must never be pushed directly to the `main` branch, unless the user explicitly asks to do so. Always work on and push feature branches.
 
