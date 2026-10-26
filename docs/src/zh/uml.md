@@ -59,23 +59,25 @@ Another content
 
 ## 选项
 
+这四个选项在 TypeScript 类型中均为必填。
+
 ::: fields
-@`name` type=string default=`"uml"`
+@`name` type=string required
 
-UML 名称。
+UML 名称。运行时默认为 `"uml"`。
 
-@`open` type=string default=`"start"`
+@`open` type=string required
 
-开始标记。
+开始标记。运行时默认为 `"start"`。
 
-@`close` type=string default=`"end"`
+@`close` type=string required
 
-结束标记。
+结束标记。运行时默认为 `"end"`。
 
-@`renderer` type=RendererRule
+@`renderer` type=RendererRule required
 
 <!-- @include: ../render-rule.snippet.md -->
 
-渲染函数。默认使用内置渲染器，将内容包裹在 class 为 UML 名称、`title` 为转义后 info 字符串的 `<div>` 中。
+渲染函数。运行时默认使用内置渲染器，将内容包裹在 class 为 UML 名称、`title` 为转义后 info 字符串的 `<div>` 中。
 
 :::

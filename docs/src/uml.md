@@ -59,23 +59,25 @@ The `title` attribute is always escaped. Following markdown-it's `html` option s
 
 ## Options
 
+All four options are required by the TypeScript types.
+
 ::: fields
-@`name` type=string default=`"uml"`
+@`name` type=string required
 
-UML name.
+UML name. Defaults to `"uml"` at runtime.
 
-@`open` type=string default=`"start"`
+@`open` type=string required
 
-Opening marker.
+Opening marker. Defaults to `"start"` at runtime.
 
-@`close` type=string default=`"end"`
+@`close` type=string required
 
-Closing marker.
+Closing marker. Defaults to `"end"` at runtime.
 
-@`renderer` type=RendererRule
+@`renderer` type=RendererRule required
 
 <!-- @include: ./render-rule.snippet.md -->
 
-Render function. Defaults to the built-in renderer, which wraps the content in a `<div>` whose class is the UML name and whose `title` is the escaped info string.
+Render function. Defaults to the built-in renderer at runtime, which wraps the content in a `<div>` whose class is the UML name and whose `title` is the escaped info string.
 
 :::
