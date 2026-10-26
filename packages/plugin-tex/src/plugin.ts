@@ -277,8 +277,6 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   // parsed by the inline rules instead of being swallowed into the block.
   if (hasDollarPairWithTrailingContent(state, start + 2, end)) return false;
 
-  if (silent) return true;
-
   let contentEnd = skipWhitespaceBack(state, end, start);
   let pos = start + 2;
   let firstLine: string;
@@ -322,7 +320,14 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
     }
   }
 
-  state.line = found ? current + 1 : current;
+  if (!found) return false;
+
+  // In silent mode markdown-it only probes whether the line starts a block.
+  // Report a match only when the closing `$$` is actually found, otherwise the
+  // paragraph would be split and the rest of the document would be swallowed.
+  if (silent) return true;
+
+  state.line = current + 1;
 
   const token = state.push("math_block", "math", 0);
 
