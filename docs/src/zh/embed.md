@@ -183,7 +183,7 @@ const md = new MarkdownIt().use(embed, {
         const [src, width = "560", height = "315"] = params.split(" ");
         return `<video width="${width}" height="${height}" controls>
           <source src="${src}" type="video/mp4">
-          您的浏览器不支持视频播放。
+          你的浏览器不支持视频播放。
         </video>`;
       },
     },

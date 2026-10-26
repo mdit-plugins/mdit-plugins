@@ -130,6 +130,8 @@ A function that takes the parameters and returns the HTML string to embed.
 
 Whether the embed can be used inline. It is block-level only when set to `false`.
 
+When `allowInline` is set to `true`, the embed works both as a block (on its own line) and inline (inside a paragraph).
+
 :::
 
 ## Examples
@@ -164,4 +166,115 @@ Click the {% icon home %} button to go home.
 
 ```html
 Click the <i class="icon icon-home"></i> button to go home.
+```
+
+## Advanced Usage
+
+### Complex Parameters
+
+You can handle complex parameters inside the `setup` function:
+
+```ts
+const md = new MarkdownIt().use(embed, {
+  config: [
+    {
+      name: "video",
+      setup: (params: string, isInline: boolean) => {
+        // Parse parameters: src width height
+        const [src, width = "560", height = "315"] = params.split(" ");
+        return `<video width="${width}" height="${height}" controls>
+          <source src="${src}" type="video/mp4">
+          Your browser does not support video playback.
+        </video>`;
+      },
+    },
+  ],
+});
+```
+
+**Input:**
+
+```md
+{% video https://example.com/video.mp4 800 600 %}
+```
+
+### Multiple Embed Types
+
+You can configure multiple different embed types:
+
+```ts
+const md = new MarkdownIt().use(embed, {
+  config: [
+    // YouTube
+    {
+      name: "youtube",
+      setup: (id) => `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
+    },
+    // Bilibili
+    {
+      name: "bilibili",
+      setup: (bvid) =>
+        `<iframe src="https://player.bilibili.com/player.html?bvid=${bvid}"></iframe>`,
+    },
+    // Custom HTML
+    {
+      name: "alert",
+      setup: (message) => `<div class="alert alert-warning">${message}</div>`,
+    },
+  ],
+});
+```
+
+**Usage:**
+
+```md
+{% youtube dQw4w9WgXcQ %}
+
+{% bilibili BV1xx411c7mu %}
+
+{% alert This is an important notice! %}
+```
+
+## Caveats
+
+1. **Security**: Make sure to handle user input properly in the `setup` function to avoid XSS attacks.
+2. **Performance**: Consider lazy loading when you have a large number of embeds.
+3. **Compatibility**: Make sure the generated HTML is compatible with your target environment.
+
+## Migration Guide
+
+If you are migrating from another embed plugin, here are some common migration examples:
+
+### Migrating from markdown-it-video
+
+```ts
+// Before
+md.use(video);
+
+// Now
+md.use(embed, {
+  config: [
+    {
+      name: "video",
+      setup: (src) => `<video controls><source src="${src}"></video>`,
+    },
+  ],
+});
+```
+
+### Migrating from markdown-it-youtube
+
+```ts
+// Before
+md.use(youtube);
+
+// Now
+md.use(embed, {
+  config: [
+    {
+      name: "youtube",
+      setup: (id) => `<iframe src="https://www.youtube.com/embed/${id}"></iframe>`,
+    },
+  ],
+});
 ```
