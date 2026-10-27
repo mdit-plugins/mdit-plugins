@@ -3,7 +3,7 @@ type TabHandler = (event: MouseEvent) => void;
 // The registry is stored on `globalThis` with a globally registered symbol, so that
 // independent module copies (ESM `./tab` and the UMD `./register-tab` bundle) share
 // the same handlers and neither of them can attach or leave behind a duplicate listener.
-const HANDLERS_KEY = Symbol.for("mdit:plugin-tab:handlers");
+const HANDLERS_KEY = Symbol.for("@mdit/plugin-tab:handlers");
 
 const getHandlers = (): Map<string, TabHandler> => {
   const registry = globalThis as typeof globalThis & {

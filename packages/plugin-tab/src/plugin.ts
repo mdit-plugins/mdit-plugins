@@ -5,7 +5,7 @@ import type { Env, MarkdownIt, MarkdownItOptions, StateBlock, Token } from "mark
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
 // `Symbol.for` keeps the marker shared between the ESM and UMD builds of this package
-const installedTabsKey = Symbol.for("mdit:plugin-tab:installed");
+const installedTabsKey = Symbol.for("@mdit/plugin-tab:installed");
 
 const getInstalledTabs = (md: MarkdownIt): Set<string> => {
   const mdWithInstalledTabs = md as MarkdownIt & { [installedTabsKey]?: Set<string> };
