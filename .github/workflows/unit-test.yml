@@ -27,9 +27,7 @@ jobs:
         uses: pnpm/setup@v3
         with:
           runtime: node@${{ matrix.node-version }}
-
-      - name: Install Deps
-        run: pnpm ci
+          require-lockfile: true
 
       - name: Build project
         run: pnpm build

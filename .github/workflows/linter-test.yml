@@ -20,9 +20,7 @@ jobs:
         uses: pnpm/setup@v3
         with:
           runtime: node@^24.22.1
-
-      - name: Install Deps
-        run: pnpm ci
+          require-lockfile: true
 
       - name: Check package READMEs
         run: pnpm run packages:check-readme
