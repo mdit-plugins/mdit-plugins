@@ -3,12 +3,28 @@ const handlers = new Map<string, (event: MouseEvent) => void>();
 const ACTIVE_CLASS = "active";
 const DATA_ACTIVE = "data-active";
 
+// Query the elements owned by the given wrapper, excluding the ones inside nested tab wrappers
+const queryOwnElements = <T extends Element>(
+  wrapper: HTMLElement,
+  selector: string,
+  name: string,
+): T[] => {
+  const wrapperSelector = `.${name}-tabs-wrapper`;
+  const elements: T[] = [];
+
+  wrapper.querySelectorAll<T>(selector).forEach((element) => {
+    if (element.closest(wrapperSelector) === wrapper) elements.push(element);
+  });
+
+  return elements;
+};
+
 const activateTab = (btn: HTMLButtonElement, wrapper: HTMLElement, name: string): void => {
   const dataTab = btn.dataset.tab;
 
   if (!dataTab) return;
 
-  wrapper.querySelectorAll<HTMLButtonElement>(`.${name}-tab-button`).forEach((b) => {
+  queryOwnElements<HTMLButtonElement>(wrapper, `.${name}-tab-button`, name).forEach((b) => {
     const isActive = b.dataset.tab === dataTab;
 
     b.classList.toggle(ACTIVE_CLASS, isActive);
@@ -17,7 +33,7 @@ const activateTab = (btn: HTMLButtonElement, wrapper: HTMLElement, name: string)
     else b.removeAttribute(DATA_ACTIVE);
   });
 
-  wrapper.querySelectorAll<HTMLElement>(`.${name}-tab-content`).forEach((panel) => {
+  queryOwnElements<HTMLElement>(wrapper, `.${name}-tab-content`, name).forEach((panel) => {
     const isActive = panel.dataset.index === dataTab;
 
     panel.classList.toggle(ACTIVE_CLASS, isActive);
@@ -45,13 +61,13 @@ const syncTabs = (btn: HTMLButtonElement, name: string, sourceWrapper: HTMLEleme
 };
 
 const initTabsWrapper = (wrapper: HTMLElement, name: string): void => {
-  const hasActive = wrapper.querySelector(`.${name}-tab-button.${ACTIVE_CLASS}`) != null;
+  const buttons = queryOwnElements<HTMLButtonElement>(wrapper, `.${name}-tab-button`, name);
 
-  if (!hasActive) {
-    const firstBtn = wrapper.querySelector<HTMLButtonElement>(`.${name}-tab-button`);
+  if (buttons.length === 0) return;
 
-    if (firstBtn) activateTab(firstBtn, wrapper, name);
-  }
+  const hasActive = buttons.some((btn) => btn.classList.contains(ACTIVE_CLASS));
+
+  if (!hasActive) activateTab(buttons[0], wrapper, name);
 };
 
 /**
