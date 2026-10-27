@@ -1,8 +1,19 @@
 import { escapeHtml, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
-import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
+import type { Env, MarkdownIt, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
+
+// `Symbol.for` keeps the marker shared between the ESM and UMD builds of this package
+const installedTabsKey = Symbol.for("mdit:plugin-tab:installed");
+
+const getInstalledTabs = (md: MarkdownIt): Set<string> => {
+  const mdWithInstalledTabs = md as MarkdownIt & { [installedTabsKey]?: Set<string> };
+
+  mdWithInstalledTabs[installedTabsKey] ??= new Set();
+
+  return mdWithInstalledTabs[installedTabsKey];
+};
 
 const MIN_MARKER_NUM = 3;
 const TAB_MARKER = "@tab";
@@ -498,6 +509,11 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 `,
   } = options ?? {};
 
+  const installedTabs = getInstalledTabs(md);
+
+  // repeated installation of the same configuration must not register the rules twice
+  if (installedTabs.has(name)) return;
+
   const tabsCoreRule = createTabsCoreRule(name);
 
   md.block.ruler.before("fence", `${name}_tabs`, createTabContainerRule(name), {
@@ -527,4 +543,6 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   };
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRenderer;
+
+  installedTabs.add(name);
 };
