@@ -74,7 +74,7 @@ type KatexLogger<MarkdownItEnv = unknown> = (
     | "htmlExtension"
     | "newLineInDisplayMode",
   errorMsg: string,
-  token: Token,
+  token: Token | undefined,
   env: MarkdownItEnv,
 ) => "error" | "warn" | "ignore" | boolean | undefined;
 ```
