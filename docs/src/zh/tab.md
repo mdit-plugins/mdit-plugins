@@ -36,6 +36,12 @@ mdIt.render("content");
 
 `openRenderer` 和 `tabOpenRenderer` 接收额外信息作为第一个参数，有关更多详细信息，请参阅 [选项](#选项)。
 
+::: tip 标题与脚注
+
+选项卡标题会作为独立的行内内容渲染。依赖 env 的行内语法（例如脚注引用）不会在其中解析，而是按原文显示；请把脚注放在选项卡正文中。
+
+:::
+
 该插件默认不注入任何样式和事件，但提供了可选的样式表 (`@mdit/plugin-tab/style`) 和浏览器端辅助函数 (`@mdit/plugin-tab/tab` 导出 `register()`，`@mdit/plugin-tab/register-tab` 在导入时自动注册)，你可以自行导入。
 
 ::: tip 嵌套和转义

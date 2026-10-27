@@ -454,7 +454,6 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
       _tokens: Token[],
       _index: number,
       _options: Required<MarkdownItOptions>,
-      env: Env | undefined,
     ): string => {
       const { active, data, id: containerId } = info;
 
@@ -464,7 +463,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === dataIndex ? " active" : ""
           }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === dataIndex ? " data-active" : ""
-          }>${md.renderInline(title, env)}</button>`,
+          }>${md.renderInline(title)}</button>`,
       );
 
       return `\

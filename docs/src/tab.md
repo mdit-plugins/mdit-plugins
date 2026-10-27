@@ -36,6 +36,12 @@ By default the plugin renders related tabs dom for you, if you want to customize
 
 `openRenderer` and `tabOpenRenderer` receives extra information as first args, see [Options](#options) for more details.
 
+::: tip Titles and footnotes
+
+Tab titles are rendered as a standalone inline pass. Env-dependent inline syntax such as footnote references is not resolved there and appears literally; use footnotes in the tab content instead.
+
+:::
+
 The plugin doesn't inject any styles or events by default, but it ships an optional stylesheet (`@mdit/plugin-tab/style`) and browser helpers (`@mdit/plugin-tab/tab`, which exports `register()`, and `@mdit/plugin-tab/register-tab`, which auto-registers on import) that you can import yourself.
 
 ::: tip Nesting and escaping
