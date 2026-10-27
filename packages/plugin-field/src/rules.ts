@@ -78,6 +78,7 @@ export const checkFieldMarker = (
   return { end: span.end, name: span.value, depth };
 };
 
+// oxlint-disable max-lines-per-function
 export const getFieldsRule =
   (name: string, classPrefix: string): BlockRule =>
   (state: FieldStateBlock, startLine, endLine, silent) => {
@@ -162,6 +163,14 @@ export const getFieldsRule =
         break;
       }
 
+      // directives inside fenced code blocks are literal text, skip them
+      const fenceEnd = scanFence(state, nextLine, endLine, indent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
+      }
+
       if (
         // closing fence should be indented same as opening one
         state.sCount[nextLine] === indent &&
@@ -239,6 +248,8 @@ export const getFieldsRule =
 
     return true;
   };
+
+// oxlint-enable max-lines-per-function
 
 export const getFieldItemRule =
   (
