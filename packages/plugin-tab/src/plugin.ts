@@ -1,6 +1,6 @@
 import { escapeHtml, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
-import type { StateBlock, Token, Env } from "markdown-it";
+import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
@@ -449,7 +449,13 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   const {
     name = "tabs",
 
-    openRenderer = (info: MarkdownItTabInfo): string => {
+    openRenderer = (
+      info: MarkdownItTabInfo,
+      _tokens: Token[],
+      _index: number,
+      _options: Required<MarkdownItOptions>,
+      env: Env | undefined,
+    ): string => {
       const { active, data, id: containerId } = info;
 
       const tabs = data.map(
@@ -458,7 +464,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === dataIndex ? " active" : ""
           }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === dataIndex ? " data-active" : ""
-          }>${md.renderInline(title)}</button>`,
+          }>${md.renderInline(title, env)}</button>`,
       );
 
       return `\
