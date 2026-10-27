@@ -311,12 +311,12 @@ export const getFieldItemRule =
       state.push(`${name}_fields_inner_close`, "dl", -1);
 
     // Open inner <dl> wrapper only on first descent to a deeper level
-    if (
+    const shouldOpenInner =
       depthStack.length > 0 &&
       currentDepth > depthStack[depthStack.length - 1] &&
-      lastClosedDepth !== currentDepth
-    )
-      state.push(`${name}_fields_inner_open`, "dl", 1);
+      lastClosedDepth !== currentDepth;
+
+    if (shouldOpenInner) state.push(`${name}_fields_inner_open`, "dl", 1);
 
     // Push current depth onto stack
     depthStack.push(currentDepth);
@@ -367,6 +367,12 @@ export const getFieldItemRule =
     tokenOpen.meta = { name: marker.name, level: currentDepth, attributes };
     tokenOpen.map = [startLine, nextLine];
 
+    // A field item may be parsed while tokenizing another block container
+    // (e.g. a blockquote or a list item). It cannot extend past that container,
+    // so it must be closed before the container's close token is emitted.
+    const isNestedBlock =
+      state.parentType !== `${name}_field` && state.parentType !== `${name}_field_item`;
+
     const oldParentType = state.parentType;
     const oldLineMax = state.lineMax;
 
@@ -379,7 +385,15 @@ export const getFieldItemRule =
     state.parentType = oldParentType;
     state.lineMax = oldLineMax;
 
-    // Note: field_close tokens are NOT pushed here. Closing is handled by:
+    if (isNestedBlock) {
+      state.push(`${name}_field_close`, "div", -1);
+
+      if (shouldOpenInner) state.push(`${name}_fields_inner_close`, "dl", -1);
+
+      depthStack.pop();
+    }
+
+    // Note: otherwise field_close tokens are NOT pushed here. Closing is handled by:
     // (1) depth stack cleanup in getFieldsRule when exiting the container, or
     // (2) sibling/backtrack logic when encountering a field at equal or lower depth.
 
@@ -398,6 +412,18 @@ export const getFieldsScanner =
       const { level } = token;
       let isFieldStart = false;
       let nestingDepth = 0;
+      // Containers hidden before the first field. If the first field turns out
+      // to be nested inside them (e.g. a blockquote or list item), their open
+      // tokens are restored so the emitted tags stay balanced.
+      const hiddenContainers: { index: number; type: string }[] = [];
+
+      const hideToken = (index: number, innerToken: Token): void => {
+        if (innerToken.nesting > 0) hiddenContainers.push({ index, type: innerToken.type });
+        else if (innerToken.nesting < 0 && hiddenContainers.length > 0) hiddenContainers.pop();
+
+        innerToken.type = `${name}_fields_empty`;
+        innerToken.hidden = true;
+      };
 
       for (let jj = ii + 1; jj < tokens.length; jj++) {
         const innerToken = tokens[jj];
@@ -416,19 +442,29 @@ export const getFieldsScanner =
           continue;
         }
 
-        // skip processing tokens deep inside other blocks
-        if (innerToken.level > level + 1 || nestingDepth > 0) {
-          // hide contents before first field
+        // A field item may be nested inside another block, e.g. a blockquote
+        // or a list item, so it is recognized at any depth.
+        if (nestingDepth === 0 && type === `${name}_field_open`) {
           if (!isFieldStart) {
-            innerToken.type = `${name}_fields_empty`;
-            innerToken.hidden = true;
+            for (const hidden of hiddenContainers) {
+              const hiddenToken = tokens[hidden.index];
+
+              hiddenToken.type = hidden.type;
+              hiddenToken.hidden = false;
+            }
+
+            hiddenContainers.length = 0;
           }
 
+          isFieldStart = true;
           continue;
         }
 
-        if (type === `${name}_field_open`) {
-          isFieldStart = true;
+        // skip processing tokens deep inside other blocks
+        if (innerToken.level > level + 1 || nestingDepth > 0) {
+          // hide contents before first field
+          if (!isFieldStart) hideToken(jj, innerToken);
+
           continue;
         }
 
@@ -440,8 +476,7 @@ export const getFieldsScanner =
           continue;
 
         // hide contents before first field
-        innerToken.type = `${name}_fields_empty`;
-        innerToken.hidden = true;
+        if (!isFieldStart) hideToken(jj, innerToken);
       }
     }
   };
