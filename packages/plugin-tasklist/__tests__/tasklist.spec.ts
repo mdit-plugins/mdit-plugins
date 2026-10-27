@@ -88,7 +88,7 @@ describe(tasklist, () => {
     expect(result).toMatchSnapshot();
   });
 
-  it("should increase id", () => {
+  it("should render multiple lists", () => {
     const result = markdownIt.render(`
 - [ ] unchecked item 1
 - [ ] unchecked item 2
@@ -156,14 +156,6 @@ Some content
     expect(result).toContain('class="custom-item"');
     expect(result).toContain('class="custom-checkbox"');
     expect(result).toContain('class="custom-label"');
-  });
-
-  it("should reset ids between renders", () => {
-    const first = markdownIt.render("- [ ] first");
-    const second = markdownIt.render("- [ ] second");
-
-    expect(first).toContain('id="task-item-0"');
-    expect(second).toContain('id="task-item-0"');
   });
 
   it("should not render", () => {

@@ -11,7 +11,7 @@ describe("tasklist rule", () => {
     const markdownItDefault = new MarkdownIt().use(attrs).use(tasklist);
     const expected = `\
 <ul class="task-list-container">
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo {.red}</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> foo {.red}</label></li>
 </ul>
 `;
 
@@ -22,8 +22,8 @@ describe("tasklist rule", () => {
     const src = "- [ ] foo {.red}\n- [x] done {#did}";
     const expected = `\
 <ul class="task-list-container">
-<li class="task-list-item red"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo</label></li>
-<li class="task-list-item" id="did"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> done</label></li>
+<li class="task-list-item red"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> foo</label></li>
+<li class="task-list-item" id="did"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> done</label></li>
 </ul>
 `;
 
@@ -34,7 +34,7 @@ describe("tasklist rule", () => {
     const src = "- [ ] foo{.red}";
     const expected = `\
 <ul class="task-list-container">
-<li class="task-list-item red"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo</label></li>
+<li class="task-list-item red"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> foo</label></li>
 </ul>
 `;
 
@@ -45,8 +45,8 @@ describe("tasklist rule", () => {
     const src = "- [ ] foo\n- [ ] bar\n{.fancy}";
     const expected = `\
 <ul class="task-list-container fancy">
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo</label></li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-1" disabled="disabled"><label class="task-list-item-label" for="task-item-1"> bar</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> foo</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> bar</label></li>
 </ul>
 `;
 
@@ -57,7 +57,7 @@ describe("tasklist rule", () => {
     const src = "1. [x] foo {.red}";
     const expected = `\
 <ol class="task-list-container">
-<li class="task-list-item red"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" checked="checked" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> foo</label></li>
+<li class="task-list-item red"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> foo</label></li>
 </ol>
 `;
 
@@ -68,7 +68,7 @@ describe("tasklist rule", () => {
     const src = "- [ ] *foo {.red}*";
     const expected = `\
 <ul class="task-list-container">
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"><label class="task-list-item-label" for="task-item-0"> <em>foo {.red}</em></label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> <em>foo {.red}</em></label></li>
 </ul>
 `;
 
@@ -82,7 +82,7 @@ describe("tasklist rule", () => {
     const src = "- [ ] foo {.red}";
     const expected = `\
 <ul class="task-list-container">
-<li class="task-list-item red"><input type="checkbox" class="task-list-item-checkbox" id="task-item-0" disabled="disabled"> foo</li>
+<li class="task-list-item red"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> foo</li>
 </ul>
 `;
 
