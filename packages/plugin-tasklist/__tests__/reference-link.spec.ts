@@ -16,7 +16,9 @@ describe("tasklist with link reference definitions", () => {
     expect(result).not.toContain("<a ");
     expect(result).not.toContain('href="/url"');
     expect(result).toContain('checked="checked"');
-    expect(result).toContain('<label class="task-list-item-label" for="task-item-0"> done</label>');
+    expect(result).toContain(
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> done</label>',
+    );
   });
 
   it("should keep content after the marker", () => {
@@ -31,10 +33,10 @@ describe("tasklist with link reference definitions", () => {
 
     expect(result).not.toContain('href="/url"');
     expect(result).toContain(
-      '<label class="task-list-item-label" for="task-item-0"> <a href="/foo">foo</a></label>',
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> <a href="/foo">foo</a></label>',
     );
     expect(result).toContain(
-      '<label class="task-list-item-label" for="task-item-1"> <a href="https://example.com">bar</a></label>',
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> <a href="https://example.com">bar</a></label>',
     );
     expect(result).toContain(" unchecked</label>");
     expect(result.match(/checked="checked"/g)).toHaveLength(2);

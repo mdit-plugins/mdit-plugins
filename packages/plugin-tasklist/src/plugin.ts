@@ -1,11 +1,10 @@
 /** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { StateCore, Token } from "markdown-it";
+import type { Token } from "markdown-it";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
-import type { TaskListEnv } from "./types.js";
-import { tasklistIdKey } from "./types.js";
 import {
   getParentTokenIndex,
   isInlineToken,
@@ -13,10 +12,6 @@ import {
   isParagraphToken,
   setTokenAttr,
 } from "./utils.js";
-
-interface TaskListStateCore extends StateCore {
-  env: TaskListEnv;
-}
 
 // The leading whitespace in a list item (token.content) is already trimmed off by markdown-it.
 // The regex below checks for '[ ] ' or '[x] ' or '[X] ' at the start of the string token.content,
@@ -55,21 +50,22 @@ const removeTodoMarker = (children: Token[]): void => {
   children.splice(0, 3);
 };
 
-export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
-  md,
-  {
+export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, options = {}) => {
+  // Registering the core rule twice would wrap the same inline token again, producing nested
+  // labels and duplicated checkboxes.
+  if (hasRule(md, "task_list", "core")) return;
+
+  const {
     disabled = true,
     label = true,
     containerClass = "task-list-container",
     itemClass = "task-list-item",
     checkboxClass = "task-list-item-checkbox",
     labelClass = "task-list-item-label",
-  } = {},
-) => {
-  const taskListRule: CoreRule = (state: TaskListStateCore) => {
-    const tokens = state.tokens;
+  } = options;
 
-    state.env[tasklistIdKey] ??= 0;
+  const taskListRule: CoreRule = (state) => {
+    const tokens = state.tokens;
 
     for (let index = 2; index < tokens.length; index++) {
       const token = tokens[index];
@@ -91,27 +87,14 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
       // remove the checkbox syntax letter
       removeTodoMarker(token.children);
 
-      const id = `task-item-${state.env[tasklistIdKey]++}`;
-
-      if (label) {
-        // add label
-        const labelToken = new state.Token("label_open", "label", 1);
-
-        labelToken.attrs = [
-          ["class", labelClass],
-          ["for", id],
-        ];
-
-        token.children.unshift(labelToken);
-        token.children.push(new state.Token("label_close", "label", -1));
-      }
-
       const checkboxToken = new state.Token("checkbox_input", "input", 0);
 
+      // No `id`/`for` attributes are emitted: ids are per document and would collide when multiple
+      // documents are rendered on the same page. Nesting the input inside the label keeps the
+      // native label/checkbox association without any document-scoped identifier.
       checkboxToken.attrs = [
         ["type", "checkbox"],
         ["class", checkboxClass],
-        ["id", id],
       ];
 
       // if token.content starts with '[x] ' or '[X] '
@@ -119,8 +102,17 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (
 
       if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
 
-      // checkbox
+      // checkbox, placed before the label is unshifted so that it ends up inside the label
       token.children.unshift(checkboxToken);
+
+      if (label) {
+        const labelToken = new state.Token("label_open", "label", 1);
+
+        labelToken.attrs = [["class", labelClass]];
+
+        token.children.unshift(labelToken);
+        token.children.push(new state.Token("label_close", "label", -1));
+      }
 
       setTokenAttr(tokens[index - 2], "class", itemClass);
       setTokenAttr(tokens[getParentTokenIndex(tokens, index - 2)], "class", containerClass);
