@@ -1,5 +1,6 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-abbr/blob/master/index.mjs */
 
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginSimple } from "@mdit/helper";
 import type { Env, StateBlock, StateCore } from "markdown-it";
 
@@ -65,6 +66,9 @@ const abbrDefinition: BlockRule = (state: AbbrStateBlock, startLine, _endLine, s
 };
 
 export const abbr: PluginSimple = (md) => {
+  // A second installation would wrap the abbreviation text twice.
+  if (hasRule(md, "abbr_replace", "core")) return;
+
   const { arrayReplaceAt, escapeRE, lib } = md.utils;
 
   // ASCII characters in Cc, Sc, Sm, Sk categories we should terminate on;

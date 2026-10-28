@@ -1,5 +1,6 @@
 /** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
 
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, InlineRule, PluginSimple } from "@mdit/helper";
 import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
@@ -404,6 +405,9 @@ const footnoteTail: CoreRule = (state: FootNoteStateCore) => {
 };
 
 export const footnote: PluginSimple = (md) => {
+  // A second installation would append the footnote section twice.
+  if (hasRule(md, "footnoteTail", "core")) return;
+
   md.renderer.rules.footnote_ref = renderFootnoteRef;
   md.renderer.rules.footnote_block_open = renderFootnoteBlockOpen;
   md.renderer.rules.footnote_block_close = renderFootnoteBlockClose;
