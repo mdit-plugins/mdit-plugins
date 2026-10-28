@@ -360,7 +360,36 @@ namespace HelloWorldApp {
 
 是否解析包含的 Markdown 文件中的相对文件链接路径。
 
+@`allowOutsideRoot` type=boolean default=`false`
+
+是否允许读取 `projectRoot` 之外的文件。即使启用，`denyFiles` 仍然生效。
+
+@`projectRoot` type=string default=`process.cwd()`
+
+项目根目录；相对路径按 `process.cwd()` 解析。它必须是已存在的目录，否则插件会在安装时抛错。
+
+@`denyFiles` type=`readonly (string | RegExp)[]` default=`defaultSensitiveFiles`
+
+即使在 `projectRoot` 内也禁止读取的文件模式。传入时会替换默认列表；需要扩展时展开 `defaultSensitiveFiles`。
+
 :::
+
+## 安全
+
+默认情况下，插件只读取 `projectRoot` 内的文件，并拒绝匹配 `defaultSensitiveFiles` 的文件（例如 `.env`、私钥和 `.git/**`）。`allowOutsideRoot: true` 只会关闭根目录检查，`denyFiles` 仍然生效。
+
+处理不可信的 Markdown 时，仍应在低权限或沙箱进程中构建。denylist 并非穷尽列表，不能替代沙箱隔离。
+
+`denyFiles` 会替换默认列表。需要扩展时展开 `defaultSensitiveFiles`：
+
+```ts
+import { defaultSensitiveFiles, include } from "@mdit/plugin-include";
+
+mdIt.use(include, {
+  // ...
+  denyFiles: [...defaultSensitiveFiles, "my-secret.json"],
+});
+```
 
 ## 示例
 

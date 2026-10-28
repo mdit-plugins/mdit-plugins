@@ -8,7 +8,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { includePathsKey } from "../src/constant.js";
 import type { IncludeEnv } from "../src/index.js";
-import { include, resolveInclude } from "../src/index.js";
+import { defaultSensitiveFiles, include, resolveInclude } from "../src/index.js";
 import type { MarkdownItIncludeOptions } from "../src/options.js";
 
 // Simulate an unreadable file (EACCES) for a specific marker path, delegating
@@ -71,6 +71,7 @@ describe("directive", () => {
     .use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
       useComment: false,
+      allowOutsideRoot: true,
     })
     .use(container, { name: "tip" });
 
@@ -146,6 +147,7 @@ describe("comment", () => {
   const md = new MarkdownIt({ html: true })
     .use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
+      allowOutsideRoot: true,
     })
     .use(container, { name: "tip" });
 
@@ -580,6 +582,7 @@ foo
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
             deep: true,
+            projectRoot: dir,
           })
           .use(container, { name: "tip" });
         const env: IncludeEnv = {
@@ -605,6 +608,7 @@ foo
         const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
+            projectRoot: dir,
           })
           .use(container, { name: "tip" });
         const env: IncludeEnv = {
@@ -626,6 +630,8 @@ foo
         const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
             currentPath: (env: IncludeEnv) => env.filePath as string,
+            projectRoot: dir,
+            allowOutsideRoot: true,
           })
           .use(container, { name: "tip" });
         const env: IncludeEnv = {
@@ -1094,6 +1100,7 @@ describe("should not expand directives inside code blocks", () => {
         .use(include, {
           currentPath: (env: IncludeEnv) => env.filePath as string,
           deep: true,
+          projectRoot: dir,
         })
         .use(container, { name: "tip" });
       const env: IncludeEnv = { filePath: join(dir, "index.md") };
@@ -1124,6 +1131,7 @@ describe("should not expand directives inside code blocks", () => {
   it("should expand directives between two code blocks only", () => {
     const md = MarkdownIt({ html: true }).use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
+      allowOutsideRoot: true,
     });
 
     const source = [
@@ -1150,6 +1158,7 @@ describe("should not expand directives inside code blocks", () => {
     // ```a`b 不是合法围栏（语言标识含反引号）→ 指令照常展开
     const md = MarkdownIt({ html: true }).use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
+      allowOutsideRoot: true,
     });
 
     const source = "```a`b\n<!-- @include: /path/to/foo.md -->\n```\n";
@@ -1233,6 +1242,7 @@ describe("should not expand directives inside code blocks", () => {
   it("should expand a 4-space indented directive following a paragraph line", () => {
     const md = MarkdownIt({ html: true }).use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
+      allowOutsideRoot: true,
     });
 
     // 行 1 紧接段落（无空行）→ 是段落懒续行而非代码块 → 指令展开
@@ -1260,6 +1270,7 @@ describe("should not expand directives inside code blocks", () => {
   it("should keep line numbers accurate after a multi-line directive", () => {
     const md = MarkdownIt({ html: true }).use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
+      allowOutsideRoot: true,
     });
 
     // 多行指令（`<!--\n  @include: ... -->`）内部含换行，不应使后续行号欠计数
@@ -1293,6 +1304,9 @@ describe("should not expand directives inside code blocks", () => {
         resolveLinkPath: true,
         resolveImagePath: true,
         useComment: true,
+        projectRoot: dir,
+        allowOutsideRoot: false,
+        denyFiles: defaultSensitiveFiles,
       } as Required<MarkdownItIncludeOptions>;
       const includedFiles: string[] = [];
       const result = resolveInclude(

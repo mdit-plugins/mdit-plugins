@@ -1,23 +1,29 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { existsSync, readFileSync, statSync } from "node:fs";
 
-import { NEWLINE_RE, dedent, hasRule, scanFence } from "@mdit/helper";
+import { NEWLINE_RE, defaultSensitiveFiles, dedent, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, StateBlock, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
 import { includePathsKey } from "./constant.js";
 import type { MarkdownItIncludeOptions } from "./options.js";
+import { createSecurityChecker } from "./security.js";
+import type { SecurityChecker } from "./security.js";
 import type { IncludeEnv } from "./types.js";
 
-interface ImportFileLineInfo {
+interface ImportFileInfoBase {
   filePath: string;
+  /** Path exactly as requested by the user / 用户原始请求路径 */
+  requestedPath?: string;
+}
+
+interface ImportFileLineInfo extends ImportFileInfoBase {
   lineStart?: number | undefined;
   lineEnd?: number | undefined;
 }
 
-interface ImportFileRegionInfo {
-  filePath: string;
+interface ImportFileRegionInfo extends ImportFileInfoBase {
   region: string;
 }
 
@@ -27,6 +33,7 @@ interface IncludeInfo {
   cwd: string | null;
   includedFiles: string[];
   resolvedPath?: boolean;
+  checkSecurity?: SecurityChecker;
   stack?: string[];
 }
 
@@ -86,7 +93,7 @@ const findRegion = (
 
 export const handleInclude = (
   info: ImportFileInfo,
-  { cwd, includedFiles, resolvedPath }: IncludeInfo,
+  { cwd, includedFiles, resolvedPath, checkSecurity }: IncludeInfo,
 ): string => {
   const { filePath } = info;
   let realPath = filePath;
@@ -103,6 +110,8 @@ export const handleInclude = (
 
     realPath = resolve(cwd, filePath);
   }
+
+  (checkSecurity ?? createSecurityChecker({}))(info.requestedPath ?? filePath, realPath);
 
   includedFiles.push(realPath);
 
@@ -219,13 +228,22 @@ const scanCodeRanges = (content: string, md: MarkdownIt): [number, number][] => 
   return ranges;
 };
 
+// oxlint-disable-next-line max-lines-per-function
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
-  { cwd, includedFiles, stack = [] }: IncludeInfo,
+  { cwd, includedFiles, checkSecurity, stack = [] }: IncludeInfo,
   codeRanges: [number, number][],
   md: MarkdownIt,
 ): string => {
+  const security =
+    checkSecurity ??
+    createSecurityChecker({
+      allowOutsideRoot: options.allowOutsideRoot,
+      projectRoot: options.projectRoot,
+      denyFiles: options.denyFiles,
+    });
+
   const expand = (
     indent: string,
     includePath: string,
@@ -252,7 +270,7 @@ export const resolveInclude = (
 
     const fileContent = handleInclude(
       Object.assign(
-        { filePath: actualPath },
+        { filePath: actualPath, requestedPath: includePath },
         region
           ? { region }
           : {
@@ -262,7 +280,7 @@ export const resolveInclude = (
               lineEnd: lineEnd ? Number(lineEnd) : undefined,
             },
       ),
-      { cwd, includedFiles, resolvedPath },
+      { cwd, includedFiles, resolvedPath, checkSecurity: security },
     );
 
     let included = fileContent;
@@ -281,6 +299,7 @@ export const resolveInclude = (
                 ? resolve(cwd, dirname(actualPath))
                 : null,
             includedFiles,
+            checkSecurity: security,
             stack,
           },
           scanCodeRanges(fileContent, md),
@@ -457,6 +476,7 @@ const resolveRelatedLink = (
   return null;
 };
 
+// oxlint-disable-next-line max-lines-per-function
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
   // A second installation would run the include rule twice and expand nested directives twice.
   if (hasRule(md, "md_import", "core")) return;
@@ -468,10 +488,19 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
     resolveLinkPath = true,
     resolveImagePath = true,
     useComment = true,
+    allowOutsideRoot = false,
+    projectRoot,
+    denyFiles,
   } = options ?? {};
 
   if (typeof currentPath !== "function")
     throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
+
+  const checkSecurity = createSecurityChecker({
+    allowOutsideRoot,
+    projectRoot,
+    denyFiles,
+  });
 
   const includeRule: CoreRule = (state): void => {
     const env = state.env as IncludeEnv;
@@ -494,10 +523,14 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
         resolveLinkPath,
         resolveImagePath,
         useComment,
+        allowOutsideRoot,
+        projectRoot: projectRoot ?? process.cwd(),
+        denyFiles: denyFiles ?? defaultSensitiveFiles,
       },
       {
         cwd: filePath ? dirname(filePath) : null,
         includedFiles,
+        checkSecurity,
       },
       codeRanges,
       md,
