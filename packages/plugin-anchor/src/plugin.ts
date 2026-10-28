@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { PluginWithOptions } from "@mdit/helper";
 import type { StateCore } from "markdown-it";
 
@@ -17,6 +18,10 @@ const DEFAULTS = {
 };
 
 export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void => {
+  // Repeated installation would run the anchor rule twice; the second pass sees the ids
+  // written by the first one and throws on non-unique slugs.
+  if (hasRule(md, "anchor", "core")) return;
+
   const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
 
   const {

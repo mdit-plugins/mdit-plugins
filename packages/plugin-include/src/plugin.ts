@@ -1,7 +1,7 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { existsSync, readFileSync, statSync } from "node:fs";
 
-import { NEWLINE_RE, dedent, scanFence } from "@mdit/helper";
+import { NEWLINE_RE, dedent, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, StateBlock, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
@@ -458,6 +458,9 @@ const resolveRelatedLink = (
 };
 
 export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
+  // A second installation would run the include rule twice and expand nested directives twice.
+  if (hasRule(md, "md_import", "core")) return;
+
   const {
     currentPath,
     resolvePath = (filePath: string): string => filePath,

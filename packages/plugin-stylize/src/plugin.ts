@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -49,6 +50,9 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
 };
 
 export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options = {}) => {
+  // A second installation would apply the replacer twice to the same tokens.
+  if (hasRule(md, "stylize_tag", "core")) return;
+
   const globalConfig = options.config ?? [];
   const localConfigGetter = options.localConfigGetter;
 
