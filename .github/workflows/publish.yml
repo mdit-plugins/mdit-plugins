@@ -23,7 +23,20 @@ permissions:
 jobs:
   publish:
     name: Publish packages
+    # Only release from the main branch. This also blocks manual
+    # `workflow_dispatch` runs (including `publish_only` retries) from any
+    # other branch, since `github.ref` is the dispatched branch there.
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # Serialize releases and never cancel an in-flight one: an interrupted
+    # publish could leave npm and GitHub releases out of sync.
+    concurrency:
+      group: publish-packages
+      cancel-in-progress: false
+    # The `release` environment is the placeholder for required reviewers /
+    # deployment branch protection rules, so every publish needs approval.
+    environment: release
     steps:
       - name: Check if user is allowed to push new release
         if: ${{ github.actor != 'Mister-Hope' }}
