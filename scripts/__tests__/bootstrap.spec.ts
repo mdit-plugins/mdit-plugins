@@ -163,4 +163,83 @@ describe("scripts/bootstrap.ts", () => {
 
     rmSync(tempDir, { force: true, recursive: true });
   });
+
+  it("should generate package metadata matching existing packages", () => {
+    const tempDir = createTempRepo();
+
+    createPackageDir(tempDir, "plugin-demo");
+    runBootstrap(tempDir);
+
+    const pkg = readPackageJSON(tempDir, "plugin-demo");
+
+    expect(pkg.sideEffects).toBe(false);
+    expect(pkg.unpkg).toBe("./dist/cdn.umd.js");
+    expect(pkg.jsdelivr).toBe("./dist/cdn.umd.js");
+    expect(pkg.engines).toStrictEqual({ node: ">=22" });
+    expect(pkg.dependencies).toStrictEqual({ "@mdit/helper": "workspace:^" });
+    expect(pkg).not.toHaveProperty("main");
+    expect(pkg).not.toHaveProperty("types");
+
+    rmSync(tempDir, { force: true, recursive: true });
+  });
+
+  it("should generate a tsdown config with the UMD global name", () => {
+    const tempDir = createTempRepo();
+
+    createPackageDir(tempDir, "plugin-demo-box");
+    runBootstrap(tempDir);
+
+    const config = readFileSync(
+      path.join(tempDir, "packages", "plugin-demo-box", "tsdown.config.ts"),
+      "utf8",
+    );
+
+    expect(config).toContain('tsdownConfig("index")');
+    expect(config).toContain('globalName: "mdItPluginDemoBox"');
+    expect(config).toContain('"markdown-it": "markdownit"');
+    expect(config).toContain("export default config;");
+
+    rmSync(tempDir, { force: true, recursive: true });
+  });
+
+  it("should copy the repository LICENSE into the package", () => {
+    const tempDir = createTempRepo();
+
+    createPackageDir(tempDir, "plugin-demo");
+    runBootstrap(tempDir);
+
+    const repositoryLicense = readFileSync(
+      path.resolve(import.meta.dirname, "..", "..", "LICENSE"),
+      "utf8",
+    );
+    const packageLicense = readFileSync(
+      path.join(tempDir, "packages", "plugin-demo", "LICENSE"),
+      "utf8",
+    );
+
+    expect(packageLicense).toBe(repositoryLicense);
+
+    rmSync(tempDir, { force: true, recursive: true });
+  });
+
+  it("should generate the ESM-only template for the helper package", () => {
+    const tempDir = createTempRepo();
+
+    createPackageDir(tempDir, "helper");
+    runBootstrap(tempDir);
+
+    const pkg = readPackageJSON(tempDir, "helper");
+    const config = readFileSync(
+      path.join(tempDir, "packages", "helper", "tsdown.config.ts"),
+      "utf8",
+    );
+
+    expect(pkg.unpkg).toBeUndefined();
+    expect(pkg.jsdelivr).toBeUndefined();
+    expect(pkg.dependencies).toBeUndefined();
+    expect(config).toContain('const config: UserConfig = tsdownConfig("index");');
+    expect(config).not.toContain("globalName");
+
+    rmSync(tempDir, { force: true, recursive: true });
+  });
 });
