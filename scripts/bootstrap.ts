@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { renderReadme } from "./syncReadme.ts";
@@ -32,6 +32,55 @@ const shouldBootstrap = (pkgName: string): boolean => {
   );
 };
 
+/**
+ * Convert a kebab-case plugin name to PascalCase for the UMD global name
+ *
+ * @param value - Kebab-case name / kebab-case 名称
+ * @returns PascalCase name / PascalCase 名称
+ */
+const toPascalCase = (value: string): string =>
+  value
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+
+/** Repository root LICENSE, copied into every bootstrapped package / 仓库根目录 LICENSE，复制到每个新包 */
+const licenseContent = readFileSync(path.resolve(import.meta.dirname, "..", "LICENSE"), "utf8");
+
+/**
+ * Render the shared tsdown config for a bootstrapped package
+ *
+ * @param isHelper - Whether the package is the helper package (ESM only) / 是否为 helper 包（仅 ESM）
+ * @param globalName - UMD global name / UMD 全局变量名
+ * @returns Tsdown config file content / tsdown 配置文件内容
+ */
+const renderTsdownConfig = (isHelper: boolean, globalName: string): string =>
+  isHelper
+    ? `import type { UserConfig } from "tsdown";
+
+import { tsdownConfig } from "../../scripts/tsdown.ts";
+
+const config: UserConfig = tsdownConfig("index");
+
+export default config;
+`
+    : `import type { UserConfig } from "tsdown";
+
+import { tsdownConfig } from "../../scripts/tsdown.ts";
+
+const config: UserConfig[] = [
+  tsdownConfig("index"),
+  tsdownConfig("index", {
+    globalName: "${globalName}",
+    globals: {
+      "markdown-it": "markdownit",
+    },
+  }),
+];
+
+export default config;
+`;
+
 readdirSync(packagesDir).forEach((pkgName) => {
   if (!shouldBootstrap(pkgName)) return;
 
@@ -64,7 +113,15 @@ readdirSync(packagesDir).forEach((pkgName) => {
       email: "mister-hope@outlook.com",
       url: "https://mister-hope.com",
     },
+    files: ["dist"],
     type: "module",
+    sideEffects: false,
+    ...(isHelper
+      ? {}
+      : {
+          unpkg: "./dist/cdn.umd.js",
+          jsdelivr: "./dist/cdn.umd.js",
+        }),
     exports: {
       ".": {
         types: "./dist/index.d.ts",
@@ -72,13 +129,20 @@ readdirSync(packagesDir).forEach((pkgName) => {
       },
       "./package.json": "./package.json",
     },
-    main: "dist/index.js",
-    types: "dist/index.d.ts",
-    files: ["dist"],
+    publishConfig: {
+      access: "public",
+    },
     scripts: {
       build: "tsdown",
       clean: "rimraf ./dist",
     },
+    ...(isHelper
+      ? {}
+      : {
+          dependencies: {
+            "@mdit/helper": "workspace:^",
+          },
+        }),
     peerDependencies: {
       "markdown-it": "catalog:",
     },
@@ -87,12 +151,21 @@ readdirSync(packagesDir).forEach((pkgName) => {
         optional: true,
       },
     },
-    publishConfig: {
-      access: "public",
+    engines: {
+      node: ">=22",
     },
   };
 
   writeFileSync(pkgPath, `${JSON.stringify(pkgJSON, null, 2)}\n`);
+
+  // generate LICENSE by copying the repository root license
+  writeFileSync(path.join(packagesDir, pkgName, "LICENSE"), licenseContent);
+
+  // generate tsdown.config.ts
+  writeFileSync(
+    path.join(packagesDir, pkgName, "tsdown.config.ts"),
+    renderTsdownConfig(isHelper, `mdItPlugin${toPascalCase(shortName)}`),
+  );
 
   const readmePath = path.join(packagesDir, pkgName, "README.md");
 
