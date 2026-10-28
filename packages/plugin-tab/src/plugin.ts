@@ -1,4 +1,4 @@
-import { escapeHtml, scanFence } from "@mdit/helper";
+import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
 import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
@@ -499,16 +499,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   } = options ?? {};
 
   // Repeated installation of the same configuration must not register the rules twice.
-  // Check the ruler registry by rule name: `Ruler.getRules()` returns unnamed functions, while
-  // name checks also work across separate plugin module copies (ESM/UMD) and do not add
-  // properties to the MarkdownIt instance.
-  if (
-    // oxlint-disable-next-line eslint/no-underscore-dangle
-    md.block.ruler.__rules__.some(
-      ({ name: ruleName }) => ruleName === `${name}_tabs` || ruleName === `${name}_tab`,
-    )
-  )
-    return;
+  if (hasRule(md, `${name}_tabs`, "block")) return;
 
   const tabsCoreRule = createTabsCoreRule(name);
 
