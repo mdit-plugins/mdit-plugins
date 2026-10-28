@@ -1,4 +1,4 @@
-import { escapeHtml, scanFence } from "@mdit/helper";
+import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
 import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
@@ -497,6 +497,9 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
 </div>
 `,
   } = options ?? {};
+
+  // Repeated installation of the same configuration must not register the rules twice.
+  if (hasRule(md, `${name}_tabs`, "block")) return;
 
   const tabsCoreRule = createTabsCoreRule(name);
 

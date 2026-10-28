@@ -1,4 +1,19 @@
-const handlers = new Map<string, (event: MouseEvent) => void>();
+type TabHandler = (event: MouseEvent) => void;
+
+// The registry is stored on `globalThis` with a globally registered symbol, so that
+// independent module copies (ESM `./tab` and the UMD `./register-tab` bundle) share
+// the same handlers and neither of them can attach or leave behind a duplicate listener.
+const HANDLERS_KEY = Symbol.for("@mdit/plugin-tab:handlers");
+
+const getHandlers = (): Map<string, TabHandler> => {
+  const registry = globalThis as typeof globalThis & {
+    [HANDLERS_KEY]?: Map<string, TabHandler>;
+  };
+
+  registry[HANDLERS_KEY] ??= new Map();
+
+  return registry[HANDLERS_KEY];
+};
 
 const ACTIVE_CLASS = "active";
 const DATA_ACTIVE = "data-active";
@@ -94,6 +109,8 @@ export interface TabOptions {
  * @param options - Options / 选项
  */
 export const register = ({ name = "tabs" }: TabOptions = {}): void => {
+  const handlers = getHandlers();
+
   if (handlers.has(name)) return;
 
   document.querySelectorAll<HTMLElement>(`.${name}-tabs-wrapper`).forEach((wrapper) => {
@@ -130,6 +147,7 @@ export const register = ({ name = "tabs" }: TabOptions = {}): void => {
  * @param options - Options / 选项
  */
 export const destroy = ({ name = "tabs" }: TabOptions = {}): void => {
+  const handlers = getHandlers();
   const handler = handlers.get(name);
 
   if (handler) {
