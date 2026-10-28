@@ -1,5 +1,6 @@
 /** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -51,11 +52,8 @@ const removeTodoMarker = (children: Token[]): void => {
 
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, options = {}) => {
   // Registering the core rule twice would wrap the same inline token again, producing nested
-  // labels and duplicated checkboxes. Use the rule registry itself as the install marker:
-  // `Ruler.getRules()` returns unnamed functions, while a name check also matches across
-  // separate plugin module copies (ESM/UMD) and does not add properties to the MarkdownIt instance.
-  // oxlint-disable-next-line eslint/no-underscore-dangle
-  if (md.core.ruler.__rules__.some(({ name }) => name === "task_list")) return;
+  // labels and duplicated checkboxes.
+  if (hasRule(md, "task_list", "core")) return;
 
   const {
     disabled = true,
