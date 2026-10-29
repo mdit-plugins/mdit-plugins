@@ -10,6 +10,7 @@ import { snippet } from "../src/index.js";
 
 const md = new MarkdownIt({ html: true }).use(snippet, {
   currentPath: (env: SnippetEnv) => env.filePath as string,
+  projectRoot: tmpdir(),
 });
 
 // Creating symbolic links on Windows requires administrator privileges or

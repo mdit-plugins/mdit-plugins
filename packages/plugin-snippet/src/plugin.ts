@@ -6,6 +6,8 @@ import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import { dirname, extname, resolve } from "upath";
 
 import type { MarkdownItSnippetOptions } from "./options.js";
+import { createSecurityChecker } from "./security.js";
+import type { SecurityChecker } from "./security.js";
 import type { SnippetEnv } from "./types.js";
 
 const REGIONS_RE = [
@@ -66,6 +68,7 @@ const createSnippetRule =
   (
     currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
     resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
+    checkSecurity: SecurityChecker,
   ): BlockRule =>
   (state, startLine, _endLine) => {
     const env = state.env as SnippetEnv;
@@ -92,9 +95,12 @@ const createSnippetRule =
     const [, region = "", lines = "", lang = ""] = SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
     const cwd = currentFilePath ? dirname(currentFilePath) : ".";
-    const resolvedPath = resolvePath(snippetPath.trim(), cwd);
+    const requestedPath = snippetPath.trim();
+    const resolvedPath = resolvePath(requestedPath, cwd);
     const absolutePath = resolve(cwd, resolvedPath);
     const ext = extname(absolutePath).slice(1);
+
+    checkSecurity(requestedPath, absolutePath);
 
     state.line = startLine + 1;
 
@@ -105,6 +111,7 @@ const createSnippetRule =
     token.meta = {
       src: absolutePath,
       region,
+      requestedPath,
     };
     token.map = [startLine, startLine + 1];
 
@@ -114,24 +121,45 @@ const createSnippetRule =
 const defaultPathResolver = (filePath: string): string => filePath;
 
 export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
-  const { currentPath, resolvePath = defaultPathResolver } = options ?? {};
+  const {
+    currentPath,
+    resolvePath = defaultPathResolver,
+    allowOutsideRoot = false,
+    projectRoot,
+    denyFiles,
+  } = options ?? {};
 
   if (typeof currentPath !== "function")
     throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
 
-  md.block.ruler.before("fence", "snippet", createSnippetRule(currentPath, resolvePath));
+  const checkSecurity = createSecurityChecker({
+    allowOutsideRoot,
+    projectRoot,
+    denyFiles,
+  });
+
+  md.block.ruler.before(
+    "fence",
+    "snippet",
+    createSnippetRule(currentPath, resolvePath, checkSecurity),
+  );
 
   const originalFence = md.renderer.rules.fence;
 
   md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
     const token = tokens[index];
     const snippetEnv = env as SnippetEnv;
-    const { src, region } = (token.meta ??= {}) as {
+    const { src, region, requestedPath } = (token.meta ??= {}) as {
       src: string;
       region: string;
+      requestedPath?: string;
     };
 
     if (src) {
+      // Re-validate at the actual read site: a custom token can carry `meta.src`
+      // without going through the snippet block rule.
+      checkSecurity(requestedPath ?? src, src);
+
       try {
         // `statSync` follows symbolic links, so symlinked snippet files are
         // resolved like regular files.

@@ -59,6 +59,11 @@ vi.mock("node:fs", async (importOriginal) => {
 describe(snippet, () => {
   const md = new MarkdownIt({ html: true }).use(snippet, {
     currentPath: (env: SnippetEnv) => env.filePath as string,
+    projectRoot: resolve(__dirname, ".."),
+  });
+  const mdOutsideRoot = new MarkdownIt({ html: true }).use(snippet, {
+    currentPath: (env: SnippetEnv) => env.filePath as string,
+    allowOutsideRoot: true,
   });
 
   const fixturesRelative = "./__fixtures__/";
@@ -162,6 +167,7 @@ describe(snippet, () => {
   it("should give warnings with not exist path", () => {
     const mdError = new MarkdownIt({ html: true }).use(snippet, {
       currentPath: () => "/fake/md",
+      allowOutsideRoot: true,
     });
     const source = [
       "<<< not-exisit.md#snippet{1-3}",
@@ -182,7 +188,7 @@ describe(snippet, () => {
     const env: SnippetEnv = {
       filePath: __filename,
     };
-    const rendered = md.render("<<< /__eacces__/blocked.md", env);
+    const rendered = mdOutsideRoot.render("<<< /__eacces__/blocked.md", env);
 
     expect(rendered).toContain("Failed to read snippet");
     expect(env.snippetFiles).toBeUndefined();
@@ -192,7 +198,7 @@ describe(snippet, () => {
     const env: SnippetEnv = {
       filePath: __filename,
     };
-    const rendered = md.render("<<< /__eacces__/blocked-dir", env);
+    const rendered = mdOutsideRoot.render("<<< /__eacces__/blocked-dir", env);
 
     expect(rendered).toContain("Failed to read snippet");
     expect(env.snippetFiles).toBeUndefined();
