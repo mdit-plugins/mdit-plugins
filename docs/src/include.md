@@ -361,7 +361,36 @@ Whether to resolve the relative image path in the included Markdown file.
 
 Whether to resolve the relative file link path in the included Markdown file.
 
+@`allowOutsideRoot` type=boolean default=`false`
+
+Whether to allow reading files outside `projectRoot`. Even when enabled, `denyFiles` still applies.
+
+@`projectRoot` type=string default=`process.cwd()`
+
+Project root; relative paths are resolved against `process.cwd()`. It must be an existing directory, otherwise the plugin throws during installation.
+
+@`denyFiles` type=`readonly (string | RegExp)[]` default=`defaultSensitiveFiles`
+
+Patterns of files that must not be read, even inside `projectRoot`. When provided, it replaces the default list; spread `defaultSensitiveFiles` to extend it.
+
 :::
+
+## Security
+
+By default, the plugin only reads files inside `projectRoot` and refuses files matching `defaultSensitiveFiles` (for example `.env`, private keys and `.git/**`). `allowOutsideRoot: true` disables only the root check; `denyFiles` still applies.
+
+When processing untrusted Markdown, still run the build in a low-privilege or sandboxed process. The denylist is not exhaustive, so it cannot replace sandboxing.
+
+`denyFiles` replaces the default list. Spread `defaultSensitiveFiles` to extend it:
+
+```ts
+import { defaultSensitiveFiles, include } from "@mdit/plugin-include";
+
+mdIt.use(include, {
+  // ...
+  denyFiles: [...defaultSensitiveFiles, "my-secret.json"],
+});
+```
 
 ## Demo
 
