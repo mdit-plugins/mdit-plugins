@@ -1,3 +1,8 @@
+/**
+ * Forked and modified from
+ * https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/normalize_opts.mjs
+ */
+
 // Convert input options to more useable format
 // and compile search regexp
 

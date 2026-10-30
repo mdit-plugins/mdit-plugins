@@ -1,3 +1,8 @@
+/**
+ * Forked and modified from
+ * https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/replace.mjs
+ */
+
 import type { CoreRule } from "@mdit/helper";
 import type { MarkdownIt, Token } from "markdown-it";
 

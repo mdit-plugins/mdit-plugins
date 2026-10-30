@@ -1,3 +1,8 @@
+/**
+ * Forked and modified from
+ * https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/shortcuts.mjs
+ */
+
 // Emoticons -> Emoji mapping.
 //
 // (!) Some patterns skipped, to avoid collisions
