@@ -1,6 +1,6 @@
 /** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
 
-import { hasRule } from "@mdit/helper";
+import { escapeHtml, hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, InlineRule, PluginSimple } from "@mdit/helper";
 import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
@@ -33,7 +33,9 @@ const renderFootnoteAnchorName: RendererRule = (tokens, index, _options, env) =>
   // increasing id
   const id = (tokens[index].meta as FootNoteMeta).id;
 
-  return `${typeof docId === "string" ? `-${docId}-` : ""}${(id + 1).toString()}`;
+  // `docId` comes from the caller-provided `env` and is interpolated into `id` / `href`
+  // attributes, so it must be escaped to prevent attribute injection.
+  return `${typeof docId === "string" ? `-${escapeHtml(docId)}-` : ""}${(id + 1).toString()}`;
 };
 
 const renderFootnoteCaption: RendererRule = (tokens: Token[], index) =>
