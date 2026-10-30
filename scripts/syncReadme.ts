@@ -63,7 +63,7 @@ const README_EXTRAS: Readonly<Record<string, ReadmeExtras>> = {
     installPackages: ["@mathjax/src"],
     notes: [
       "`@mathjax/src` is declared as an optional peer dependency here.",
-      "This package can only run in Node.js environment.",
+      "The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `@mdit/plugin-mathjax-slim/async` instead.",
     ],
   },
   "plugin-snippet": {
