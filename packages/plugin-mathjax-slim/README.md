@@ -6,7 +6,7 @@ Mathjax plugin for MarkdownIt.
 
 `@mathjax/src` is declared as an optional peer dependency here.
 
-This package can only run in Node.js environment.
+The synchronous main entry requires Node.js (`worker_threads`). In browsers or runtimes without worker threads, use `@mdit/plugin-mathjax-slim/async` instead.
 
 ## [Docs](https://mdit-plugins.github.io/mathjax.html) | [文档](https://mdit-plugins.github.io/zh/mathjax.html)
 
