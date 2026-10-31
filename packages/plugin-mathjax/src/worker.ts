@@ -19,7 +19,7 @@ const sessions = new Map<string, Session>();
 const getSession = (sessionId: string): Session => {
   const session = sessions.get(sessionId);
 
-  if (!session) throw new Error(`[@mdit/plugin-mathjax/next] unknown session: ${sessionId}`);
+  if (!session) throw new Error(`[@mdit/plugin-mathjax] unknown session: ${sessionId}`);
 
   return session;
 };
@@ -65,7 +65,7 @@ runAsWorker(async (request: WorkerRequest): Promise<WorkerResponse> => {
     }
 
     default: {
-      throw new Error(`[@mdit/plugin-mathjax/next] unknown request: ${String(request)}`);
+      throw new Error(`[@mdit/plugin-mathjax] unknown request: ${String(request)}`);
     }
   }
 });
