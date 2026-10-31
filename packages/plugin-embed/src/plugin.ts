@@ -194,7 +194,7 @@ const createBlockEmbedRule =
   };
 
 export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) => {
-  if (typeof options !== "object" || !Array.isArray(options.config))
+  if (typeof options !== "object" || options == null || !Array.isArray(options.config))
     throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
 
   // Get existing maps or create new ones to support multiple plugin instances

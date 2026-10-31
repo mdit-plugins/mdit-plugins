@@ -19,7 +19,7 @@ const defaultCloseRenderer: RendererRule = (
 ): string => self.renderToken(tokens, index, mdItOptions);
 
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
-  if (typeof options !== "object" || !options.name)
+  if (typeof options !== "object" || options == null || !options.name)
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");
 
   const {
