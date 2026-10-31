@@ -111,6 +111,21 @@ describe("scripts/bootstrap.ts", () => {
     rmSync(tempDir, { force: true, recursive: true });
   });
 
+  it("should generate homepages on the documentation site", () => {
+    const tempDir = createTempRepo();
+
+    createPackageDir(tempDir, "helper");
+    createPackageDir(tempDir, "plugin-demo-box");
+    runBootstrap(tempDir);
+
+    expect(readPackageJSON(tempDir, "helper").homepage).toBe("https://mdit-plugins.github.io/");
+    expect(readPackageJSON(tempDir, "plugin-demo-box").homepage).toBe(
+      "https://mdit-plugins.github.io/demo-box.html",
+    );
+
+    rmSync(tempDir, { force: true, recursive: true });
+  });
+
   it("should only bootstrap package directories with src/index.ts", () => {
     const tempDir = createTempRepo();
 

@@ -99,8 +99,8 @@ const readManifest = (manifestPath: string): PackageManifest => {
  * Get the documentation slug of a package
  *
  * The slug is read from the package homepage when it points to the documentation site. Packages
- * hosted elsewhere (e.g. `@mdit/plugin-emoji`) fall back to the directory name without the
- * `plugin-` prefix. `@mdit/helper` has no documentation page.
+ * whose homepage points elsewhere fall back to the directory name without the `plugin-` prefix.
+ * `@mdit/helper` has no documentation page.
  *
  * @param pkg Package metadata
  * @returns Documentation slug, or `null` when the package has no docs page

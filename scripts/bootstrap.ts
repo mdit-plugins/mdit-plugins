@@ -89,7 +89,9 @@ readdirSync(packagesDir).forEach((pkgName) => {
   const shortName = isHelper ? pkgName : pkgName.replace(/^plugin-/, "");
   const packageName = isHelper ? "@mdit/helper" : `@mdit/plugin-${shortName}`;
   const desc = `${shortName} plugin for MarkdownIt`;
-  const homepage = `https://github.com/mdit-plugins/mdit-plugins/packages/${pkgName}#readme`;
+  const homepage = isHelper
+    ? "https://mdit-plugins.github.io/"
+    : `https://mdit-plugins.github.io/${shortName}.html`;
   const pkgPath = path.join(packagesDir, pkgName, "package.json");
 
   // generate package.json
