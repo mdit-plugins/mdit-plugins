@@ -70,6 +70,34 @@ const globToRegExp = (glob: string): RegExp => {
   return new RegExp(`${source}$`);
 };
 
+/**
+ * Cache of compiled glob patterns.
+ *
+ * The cache is intentionally unbounded: patterns come from plugin options (the default list is a
+ * fixed set of 23 globs), not from per-file input, so the number of distinct globs is bounded by
+ * the application configuration. Bounding the cache would evict entries and silently reintroduce
+ * recompilation on every check; the memory cost of a few compiled RegExps is negligible in
+ * comparison.
+ *
+ * 已编译 glob 模式缓存。
+ *
+ * 缓存有意不设上限：模式来自插件配置（默认列表是固定的 23 个 glob），而不是逐文件输入，所以不同 glob
+ * 的数量由应用配置决定。若限制容量，淘汰条目会让后续检查重新编译，反而失去缓存意义；而少量已编译正则占用的内存可以忽略。
+ */
+const globRegExpCache = new Map<string, RegExp>();
+
+const getGlobRegExp = (glob: string): RegExp => {
+  const cached = globRegExpCache.get(glob);
+
+  if (cached) return cached;
+
+  const regExp = globToRegExp(glob);
+
+  globRegExpCache.set(glob, regExp);
+
+  return regExp;
+};
+
 const testRegExp = (pattern: RegExp, value: string): boolean => {
   // a global / sticky regex keeps `lastIndex` between calls
   if (pattern.global || pattern.sticky) pattern.lastIndex = 0;
@@ -105,7 +133,7 @@ export const isSensitiveFile = (
     if (typeof pattern === "string") {
       const target = pattern.includes("/") ? path : basename;
 
-      if (globToRegExp(pattern).test(target)) return true;
+      if (getGlobRegExp(pattern).test(target)) return true;
     } else if (testRegExp(pattern, path) || testRegExp(pattern, basename)) {
       return true;
     }
