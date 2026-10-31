@@ -4,7 +4,14 @@ import type { Token } from "markdown-it";
 
 import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
-const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void => {
+const scanTokens = <
+  // oxlint-disable-next-line typescript/no-explicit-any
+  MarkdownEnv extends Record<string, any>,
+>(
+  tokens: Token[],
+  config: MarkdownItStylizeConfig<MarkdownEnv>[],
+  env: MarkdownEnv,
+): void => {
   for (let index = 1, len = tokens.length; index < len - 1; index++) {
     const token = tokens[index];
     const content = token.content;
@@ -19,21 +26,28 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
     if (tokenPrev.tag !== tokenNext.tag || tokenPrev.nesting !== 1 || tokenNext.nesting !== -1)
       continue;
 
-    const matchedConfig = config.find(({ matcher }) => {
-      if (typeof matcher === "string") return matcher === content;
+    let matched = false;
 
-      // reset `lastIndex` so a `g`-flagged regexp does not carry state across
-      // tokens or renders (which would make matches alternate unexpectedly)
-      matcher.lastIndex = 0;
+    // Try configs in order: matching is not enough, the replacer result decides
+    // whether the next config gets a chance.
+    for (const { matcher, replacer } of config) {
+      if (typeof matcher === "string") {
+        if (matcher !== content) continue;
+      } else {
+        // reset `lastIndex` so a `g`-flagged regexp does not carry state across
+        // tokens or renders (which would make matches alternate unexpectedly)
+        matcher.lastIndex = 0;
 
-      return matcher.test(content);
-    });
+        if (!matcher.test(content)) continue;
+      }
 
-    if (matchedConfig) {
-      const result = matchedConfig.replacer({
+      matched = true;
+
+      const result = replacer({
         tag: tokenPrev.tag,
         content: token.content,
         attrs: Object.fromEntries(tokenPrev.attrs ?? []),
+        env,
       });
 
       if (result) {
@@ -41,11 +55,12 @@ const scanTokens = (tokens: Token[], config: MarkdownItStylizeConfig[]): void =>
         // Guard against user replacers omitting optional fields at runtime
         tokenPrev.attrs = Object.entries(result.attrs ?? {});
         token.content = result.content ?? token.content;
+        break;
       }
-
-      // skip 2 tokens
-      index += 2;
     }
+
+    // skip 2 tokens
+    if (matched) index += 2;
   }
 };
 
@@ -87,7 +102,8 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
     for (let i = 0; i < length; i++) {
       const token = tokens[i];
 
-      if (token.type === "inline" && token.children) scanTokens(token.children, effectiveConfig);
+      if (token.type === "inline" && token.children)
+        scanTokens(token.children, effectiveConfig, state.env);
     }
   };
 

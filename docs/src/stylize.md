@@ -27,7 +27,9 @@ The `config` option receives an array, where each element accepts 2 options:
 
 - `matcher`: should be `string` or `RegExp`.
 
-- `replacer`: a function customizing the matched token
+- `replacer`: a function customizing the matched token. It receives the token `tag`, `content`, `attrs` and the Markdown `env` object.
+
+Configs from `localConfigGetter` are tried first, then the global `config` ones; within each list, configs are tried in order. A config is only applied when its `replacer` returns a result: if the matcher matches but the replacer returns `null` or `undefined`, the next matching config is tried. This makes it possible to configure several rules for the same token.
 
 For example, you can use the following config to transform `*Recommended*` into a Badge `<Badge type="tip">Recommended</Badge>`:
 
@@ -77,7 +79,7 @@ Also, we provide a `localConfigGetter` to receive env object in case you want to
 
 ```ts {2,7-17}
 mdIt.use(stylize, {
-  localConfigGetter: (env) => env.stylize || [],
+  localConfigGetter: (env) => env?.stylize ?? [],
 });
 
 mdIt.render("Check FAQ for more details._Recommended_", {
@@ -110,7 +112,7 @@ For example, if you only want to match "SHOULD", "MUST" and "MAY", you should wr
 ## Options
 
 ::: fields
-@`config` type=MarkdownItStylizeConfig[]
+@`config` type=`MarkdownItStylizeConfig<MarkdownEnv>[]`
 
 ```ts
 interface MarkdownItStylizeResult {
@@ -124,7 +126,7 @@ interface MarkdownItStylizeResult {
   content: string;
 }
 
-interface MarkdownItStylizeConfig {
+interface MarkdownItStylizeConfig<MarkdownEnv extends Record<string, any> = Record<string, any>> {
   /** Inline token matcher */
   matcher: string | RegExp;
 
@@ -133,14 +135,16 @@ interface MarkdownItStylizeConfig {
     tag: string;
     content: string;
     attrs: Record<string, string | number>;
-    env?: any;
+    env: MarkdownEnv;
   }) => MarkdownItStylizeResult | null | undefined;
 }
 ```
 
-Stylize config array. Each config contains a `matcher` (string or RegExp) and a `replacer` function.
+Stylize config array. Each config contains a `matcher` (string or RegExp) and a `replacer` function. Local configs are tried first, then the global ones; within each list, configs are tried in order until a `replacer` returns a result.
 
-@`localConfigGetter` type=`(env?: any) => MarkdownItStylizeConfig[] | null`
+`MarkdownEnv` is an optional type parameter of the plugin options (defaulting to `Record<string, any>`); the `env` argument is always provided to `replacer`.
+
+@`localConfigGetter` type=`(env?: MarkdownEnv) => MarkdownItStylizeConfig<MarkdownEnv>[] | null`
 
 Local config getter. Takes environment object and returns local stylize config.
 

@@ -21,7 +21,10 @@ export interface MarkdownItStylizeResult {
   content: string;
 }
 
-export interface MarkdownItStylizeConfig {
+export interface MarkdownItStylizeConfig<
+  // oxlint-disable-next-line typescript/no-explicit-any
+  MarkdownEnv extends Record<string, any> = Record<string, any>,
+> {
   /**
    * Inline token matcher
    *
@@ -38,8 +41,7 @@ export interface MarkdownItStylizeConfig {
     tag: string;
     content: string;
     attrs: Record<string, string | number>;
-    // oxlint-disable-next-line typescript/no-explicit-any
-    env?: any;
+    env: MarkdownEnv;
   }) => MarkdownItStylizeResult | null | undefined;
 }
 
@@ -52,7 +54,7 @@ export interface MarkdownItStylizeOptions<
    *
    * 格式化配置
    */
-  config?: MarkdownItStylizeConfig[];
+  config?: MarkdownItStylizeConfig<MarkdownEnv>[];
 
   /**
    * Local config getter
@@ -63,5 +65,5 @@ export interface MarkdownItStylizeOptions<
    * 本地配置获取器
    * @returns 本地格式化配置
    */
-  localConfigGetter?: (env?: MarkdownEnv) => MarkdownItStylizeConfig[] | null;
+  localConfigGetter?: (env?: MarkdownEnv) => MarkdownItStylizeConfig<MarkdownEnv>[] | null;
 }
