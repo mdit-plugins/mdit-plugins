@@ -158,6 +158,12 @@ const isSafeAttr = (name: string, value: string): boolean => {
 
 const ATTR_NAME_REGEXP = "[A-Za-z_][a-zA-Z0-9_-]*";
 
+/** Escaped double quote inside a double-quoted attribute value. */
+const ESCAPED_DOUBLE_QUOTE_REGEXP = /\\"/g;
+
+/** Escaped single quote inside a single-quoted attribute value. */
+const ESCAPED_SINGLE_QUOTE_REGEXP = /\\'/g;
+
 const ATTR_REGEXP = new RegExp(
   // oxlint-disable-next-line prefer-template
   String.raw`\b` +
@@ -243,7 +249,11 @@ export const extractAttrs = <Data extends { content: string }>(
           ? ""
           : (info.valueWithoutQuotes ??
             // oxlint-disable-next-line typescript/no-non-null-assertion
-            info.valueWithQuotes!.replaceAll(new RegExp(`\\\\${info.quote}`, "g"), info.quote!));
+            info.valueWithQuotes!.replaceAll(
+              info.quote === '"' ? ESCAPED_DOUBLE_QUOTE_REGEXP : ESCAPED_SINGLE_QUOTE_REGEXP,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
+              info.quote!,
+            ));
 
         if (!isSafeAttr(info.attr, value)) return "";
 

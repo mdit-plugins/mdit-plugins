@@ -173,6 +173,18 @@ describe(extractAttrs, () => {
         },
         content: "",
       });
+
+      expect(
+        extractAttrs({
+          content: String.raw`data-key1="value with space" data-key2="I am \"God\"!"`,
+        }),
+      ).toStrictEqual({
+        attrs: {
+          "data-key1": "value with space",
+          "data-key2": 'I am "God"!',
+        },
+        content: "",
+      });
     });
 
     it("value needs encoding", () => {
