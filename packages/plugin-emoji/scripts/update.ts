@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
+import { resolveAliases } from "./emojiAliases.js";
+
 const __dirname = import.meta.dirname;
 const root = path.resolve(__dirname, ".."); // packages/plugin-emoji
 
@@ -20,11 +22,18 @@ const main = async (): Promise<void> => {
 
   if (!response.ok) throw new Error(`Bad response code: ${response.status}`);
 
-  const definitions = (await response.json()) as { emoji: string; aliases: string[] }[];
+  const definitions = (await response.json()) as {
+    emoji: string;
+    aliases: string[];
+    description?: string;
+  }[];
 
-  // Drop aliases without names (with names "uXXXX")
   definitions.forEach((definition) => {
-    definition.aliases = definition.aliases.filter((a) => !/^u[0-9a-b]{4,}$/i.test(a));
+    definition.aliases = resolveAliases(
+      definition.aliases,
+      definition.emoji,
+      definition.description,
+    );
   });
 
   const emojis: Record<string, string> = {};
