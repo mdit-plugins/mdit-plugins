@@ -1,17 +1,15 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType } from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument
-// @ts-ignore
-import { tasklist as tasklistOriginal } from "../src-old/index.js";
-import { tasklist as tasklistOptimized } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-tasklist");
+const currentModule = await loadCurrent("plugin-tasklist");
+const tasklistOriginal = baselineModule.tasklist as BenchPlugin;
+const tasklistOptimized = currentModule.tasklist as BenchPlugin;
 
 const createTestContent = (size: "small" | "medium" | "large"): string => {
   const simpleTasks = `- [ ] Simple task 1\n- [x] Completed task 2\n- [ ] Simple task 3\n\n`;
@@ -57,36 +55,36 @@ const createOptimizedRenderer = (): MarkdownItType => new MarkdownIt().use(taskl
 
 describe("tasklist: Original vs Optimized Performance", () => {
   describe("small document", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(smallContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(smallContent);
     });
   });
 
   describe("medium document", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(mediumContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(mediumContent);
     });
   });
 
   describe("large document", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(largeContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(largeContent);
     });
@@ -130,12 +128,12 @@ describe("tasklist: Original vs Optimized Performance", () => {
       "",
     ].join("\n");
 
-    bench("original version - Real document", () => {
+    defineBench("original version - Real document", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(realDocContent);
     });
 
-    bench("optimized version - Real document", () => {
+    defineBench("optimized version - Real document", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(realDocContent);
     });

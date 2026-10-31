@@ -1,16 +1,14 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument
-// @ts-ignore
-import { alert as originalAlert } from "../src-old/index.js";
-import { alert } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-alert");
+const currentModule = await loadCurrent("plugin-alert");
+const originalAlert = baselineModule.alert as BenchPlugin;
+const alert = currentModule.alert as BenchPlugin;
 
 const generateTestContent = (size: "small" | "medium" | "large"): string => {
   const alertTypes = ["note", "tip", "warning", "caution", "important"];
@@ -53,32 +51,32 @@ describe("alert Plugin Performance Benchmarks", () => {
     large: generateTestContent("large"),
   };
 
-  bench("small document - Original", () => {
+  defineBench("small document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.small);
   });
 
-  bench("small document - Optimized", () => {
+  defineBench("small document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.small);
   });
 
-  bench("medium document - Original", () => {
+  defineBench("medium document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.medium);
   });
 
-  bench("medium document - Optimized", () => {
+  defineBench("medium document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.medium);
   });
 
-  bench("large document - Original", () => {
+  defineBench("large document - Original", () => {
     const md = new MarkdownIt().use(originalAlert);
     md.render(testCases.large);
   });
 
-  bench("large document - Optimized", () => {
+  defineBench("large document - Optimized", () => {
     const md = new MarkdownIt().use(alert);
     md.render(testCases.large);
   });

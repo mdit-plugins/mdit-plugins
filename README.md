@@ -57,6 +57,18 @@ This repo contains the following plugins:
 - @mdit/plugin-tex
 - @mdit/plugin-uml
 
+## Benchmarks
+
+Benchmarks compare the current working tree against a baseline built from `origin/main` (override with `BENCH_BASELINE_REF`):
+
+```bash
+pnpm run bench:prepare # build current tree + baseline worktree
+pnpm run test:bench    # run comparisons
+pnpm run bench:clean   # remove the baseline worktree
+```
+
+Both sides are production `dist` builds, so the comparison is apples-to-apples. The baseline checkout is created under `temp/` and is git-ignored.
+
 ## Contact
 
 We recommend you to contact using [issues](https://github.com/mdit-plugins/mdit-plugins/issues) and [discussions](https://github.com/mdit-plugins/mdit-plugins/discussions).

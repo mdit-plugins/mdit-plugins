@@ -1,16 +1,14 @@
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
+// oxlint-disable vitest/require-hook, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// @ts-ignore: This file only exists for benchmarking against the old version
-import { tex as texOld } from "../src-old/index.js";
-import { tex as texCurrent } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-tex");
+const currentModule = await loadCurrent("plugin-tex");
+const texOld = baselineModule.tex as BenchPlugin;
+const texCurrent = currentModule.tex as BenchPlugin;
 
 const render = (content: string, displayMode: boolean): string =>
   displayMode ? `<p>{Tex content: ${content.trim()}}</p>\n` : `{Tex content: ${content.trim()}}`;
@@ -127,103 +125,103 @@ describe("tex plugin performance benchmarks", () => {
     });
 
     describe("small documents (~1K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(testData.small.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(testData.small.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(testData.small.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(testData.small.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(testData.small.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(testData.small.mixed);
       });
 
-      bench("current - mathFence", () => {
+      defineBench("current - mathFence", () => {
         currentMd.render(testData.small.mathFence);
       });
 
-      bench("old - mathFence", () => {
+      defineBench("old - mathFence", () => {
         oldMd.render(testData.small.mathFence);
       });
     });
 
     describe("medium documents (~10K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(testData.medium.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(testData.medium.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(testData.medium.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(testData.medium.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(testData.medium.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(testData.medium.mixed);
       });
 
-      bench("current - mathFence", () => {
+      defineBench("current - mathFence", () => {
         currentMd.render(testData.medium.mathFence);
       });
 
-      bench("old - mathFence", () => {
+      defineBench("old - mathFence", () => {
         oldMd.render(testData.medium.mathFence);
       });
     });
 
     describe("large documents (~100K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(testData.large.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(testData.large.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(testData.large.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(testData.large.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(testData.large.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(testData.large.mixed);
       });
 
-      bench("current - mathFence", () => {
+      defineBench("current - mathFence", () => {
         currentMd.render(testData.large.mathFence);
       });
 
-      bench("old - mathFence", () => {
+      defineBench("old - mathFence", () => {
         oldMd.render(testData.large.mathFence);
       });
     });
@@ -244,79 +242,79 @@ describe("tex plugin performance benchmarks", () => {
     });
 
     describe("small documents (~1K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(bracketTestData.small.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(bracketTestData.small.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(bracketTestData.small.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(bracketTestData.small.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(bracketTestData.small.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(bracketTestData.small.mixed);
       });
     });
 
     describe("medium documents (~10K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(bracketTestData.medium.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(bracketTestData.medium.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(bracketTestData.medium.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(bracketTestData.medium.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(bracketTestData.medium.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(bracketTestData.medium.mixed);
       });
     });
 
     describe("large documents (~100K chars)", () => {
-      bench("current - inline", () => {
+      defineBench("current - inline", () => {
         currentMd.render(bracketTestData.large.inline);
       });
 
-      bench("old - inline", () => {
+      defineBench("old - inline", () => {
         oldMd.render(bracketTestData.large.inline);
       });
 
-      bench("current - block", () => {
+      defineBench("current - block", () => {
         currentMd.render(bracketTestData.large.block);
       });
 
-      bench("old - block", () => {
+      defineBench("old - block", () => {
         oldMd.render(bracketTestData.large.block);
       });
 
-      bench("current - mixed", () => {
+      defineBench("current - mixed", () => {
         currentMd.render(bracketTestData.large.mixed);
       });
 
-      bench("old - mixed", () => {
+      defineBench("old - mixed", () => {
         oldMd.render(bracketTestData.large.mixed);
       });
     });
@@ -343,31 +341,31 @@ describe("tex plugin performance benchmarks", () => {
     };
 
     describe("small documents (~2K chars)", () => {
-      bench("current - combined", () => {
+      defineBench("current - combined", () => {
         currentMd.render(combinedData.small);
       });
 
-      bench("old - combined", () => {
+      defineBench("old - combined", () => {
         oldMd.render(combinedData.small);
       });
     });
 
     describe("medium documents (~20K chars)", () => {
-      bench("current - combined", () => {
+      defineBench("current - combined", () => {
         currentMd.render(combinedData.medium);
       });
 
-      bench("old - combined", () => {
+      defineBench("old - combined", () => {
         oldMd.render(combinedData.medium);
       });
     });
 
     describe("large documents (~200K chars)", () => {
-      bench("current - combined", () => {
+      defineBench("current - combined", () => {
         currentMd.render(combinedData.large);
       });
 
-      bench("old - combined", () => {
+      defineBench("old - combined", () => {
         oldMd.render(combinedData.large);
       });
     });
@@ -392,11 +390,11 @@ describe("tex plugin performance benchmarks", () => {
       .fill(String.raw`\$escaped\$ and \\(also\\) escaped`)
       .join(" ");
 
-    bench("current - escape heavy", () => {
+    defineBench("current - escape heavy", () => {
       currentMd.render(escapeHeavyContent);
     });
 
-    bench("old - escape heavy", () => {
+    defineBench("old - escape heavy", () => {
       oldMd.render(escapeHeavyContent);
     });
 
@@ -405,11 +403,11 @@ describe("tex plugin performance benchmarks", () => {
       .fill(String.raw`$unclosed and \(also unclosed`)
       .join(" ");
 
-    bench("current - unclosed markers", () => {
+    defineBench("current - unclosed markers", () => {
       currentMd.render(uncloseMarkers);
     });
 
-    bench("old - unclosed markers", () => {
+    defineBench("old - unclosed markers", () => {
       oldMd.render(uncloseMarkers);
     });
 
@@ -418,11 +416,11 @@ describe("tex plugin performance benchmarks", () => {
       .fill("Normal text $a=1$ more text \\(b=2\\) end. $$\nc=3\n$$ Final text.")
       .join("\n\n");
 
-    bench("current - mixed content", () => {
+    defineBench("current - mixed content", () => {
       currentMd.render(mixedContent);
     });
 
-    bench("old - mixed content", () => {
+    defineBench("old - mixed content", () => {
       oldMd.render(mixedContent);
     });
   });
@@ -445,11 +443,11 @@ describe("tex plugin performance benchmarks", () => {
 
     const spaceHeavyContent = Array(500).fill("$ a = 1 $ and $ b = 2 $ with spaces").join(" ");
 
-    bench("current - space heavy", () => {
+    defineBench("current - space heavy", () => {
       currentMd.render(spaceHeavyContent);
     });
 
-    bench("old - space heavy", () => {
+    defineBench("old - space heavy", () => {
       oldMd.render(spaceHeavyContent);
     });
   });

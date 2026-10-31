@@ -1,19 +1,15 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItType } from "markdown-it";
-// oxlint-disable typescript/no-unsafe-argument
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// @ts-ignore
-import { attrs as attrsOriginal } from "../src-old/index.js";
-import { attrs as attrsOptimized } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const defineBenchmark = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
-
-const bench = defineBenchmark;
+const baselineModule = await loadBaseline("plugin-attrs");
+const currentModule = await loadCurrent("plugin-attrs");
+const attrsOriginal = baselineModule.attrs as BenchPlugin;
+const attrsOptimized = currentModule.attrs as BenchPlugin;
 
 /**
  * Create test content of different sizes
@@ -109,36 +105,36 @@ const createOptimizedRenderer = (): MarkdownItType => new MarkdownIt().use(attrs
 
 describe("original vs Optimized Performance Comparison", () => {
   describe("small document (approx. 2000-3000 characters)", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(smallContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(smallContent);
     });
   });
 
   describe("medium document (approx. 6000-9000 characters)", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(mediumContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(mediumContent);
     });
   });
 
   describe("large document (approx. 15000-20000 characters)", () => {
-    bench("original version", () => {
+    defineBench("original version", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(largeContent);
     });
 
-    bench("optimized version", () => {
+    defineBench("optimized version", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(largeContent);
     });
@@ -357,12 +353,12 @@ A line with break
 }
 </style>`;
 
-    bench("original version - Real document", () => {
+    defineBench("original version - Real document", () => {
       const mdIt = createOriginalRenderer();
       mdIt.render(realDocContent);
     });
 
-    bench("optimized version - Real document", () => {
+    defineBench("optimized version - Real document", () => {
       const mdIt = createOptimizedRenderer();
       mdIt.render(realDocContent);
     });

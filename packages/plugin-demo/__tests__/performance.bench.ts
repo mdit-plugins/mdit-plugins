@@ -1,16 +1,14 @@
+// oxlint-disable vitest/require-hook, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
-// @ts-ignore
-import { demo as demoOld } from "../src-old/index.js";
-import { demo as demoNew } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-demo");
+const currentModule = await loadCurrent("plugin-demo");
+const demoOld = baselineModule.demo as BenchPlugin;
+const demoNew = currentModule.demo as BenchPlugin;
 
 describe("demo Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(demoOld);
@@ -53,11 +51,11 @@ This is another section in the small document.
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(smallContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(smallContent);
     });
   });
@@ -128,11 +126,11 @@ class DemoClass {
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(mediumContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(mediumContent);
     });
   });
@@ -248,11 +246,11 @@ More text and content to increase document size and complexity...
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(largeContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(largeContent);
     });
   });
@@ -384,11 +382,11 @@ This is the final section of our demo with some **bold text** and *italic text* 
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(realWorldContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(realWorldContent);
     });
   });
@@ -428,11 +426,11 @@ console.log("Third demo");
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(multipleContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(multipleContent);
     });
   });
@@ -450,7 +448,7 @@ console.log("Custom demo");
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       const md = new MarkdownIt().use(demoOld, {
         name: "preview",
         showCodeFirst: true,
@@ -461,7 +459,7 @@ console.log("Custom demo");
       md.render(customContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       const md = new MarkdownIt().use(demoNew, {
         name: "preview",
         showCodeFirst: true,

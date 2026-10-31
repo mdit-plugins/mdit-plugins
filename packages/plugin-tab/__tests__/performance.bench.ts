@@ -1,18 +1,15 @@
-// oxlint-disable vitest/require-hook
+// oxlint-disable vitest/require-hook, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
-// @ts-ignore
-import { tab as tabOld } from "../src-old/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 import type { MarkdownItTabData } from "../src/index.js";
-import { tab as tabNew } from "../src/index.js";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-tab");
+const currentModule = await loadCurrent("plugin-tab");
+const tabOld = baselineModule.tab as BenchPlugin;
+const tabNew = currentModule.tab as BenchPlugin;
 
 describe("tab Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(tabOld);
@@ -46,11 +43,11 @@ Content of tab 3
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(simpleTabsContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(simpleTabsContent);
     });
   });
@@ -110,11 +107,11 @@ int main() {
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(mediumTabsContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(mediumTabsContent);
     });
   });
@@ -236,11 +233,11 @@ Content of the third tab in the second group.
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(complexTabsContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(complexTabsContent);
     });
   });
@@ -308,11 +305,11 @@ console.log(example${groupIndex + 1}_${tabIndex + 1}());
   .join("\n\n")}
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(largeTabsContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(largeTabsContent);
     });
   });
@@ -341,11 +338,11 @@ print("Hello from Python")
     mdOld.use(tabOld, { name: "code-group" });
     mdNew.use(tabNew, { name: "code-group" });
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(customTabContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(customTabContent);
     });
   });
@@ -386,15 +383,15 @@ Content of tab 3
     });
     mdNew.use(tabNew, {
       name: "tab",
-      openRenderer: (info) => customOpenRenderer(info.data),
+      openRenderer: (info: { data: MarkdownItTabData[] }) => customOpenRenderer(info.data),
       closeRenderer: customCloseRenderer,
     });
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(customRenderContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(customRenderContent);
     });
   });

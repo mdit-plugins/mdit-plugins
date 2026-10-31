@@ -1,16 +1,14 @@
+// oxlint-disable vitest/require-hook, unicorn/new-for-builtins
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument, unicorn/new-for-builtins
-// @ts-ignore
-import { container as containerOld } from "../src-old/index.js";
-import { container as containerNew } from "../src/index.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-container");
+const currentModule = await loadCurrent("plugin-container");
+const containerOld = baselineModule.container as BenchPlugin;
+const containerNew = currentModule.container as BenchPlugin;
 
 describe("container Plugin Benchmark", () => {
   const mdOld = new MarkdownIt().use(containerOld, { name: "info" });
@@ -46,11 +44,11 @@ console.log(greet("World"));
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(smallContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(smallContent);
     });
   });
@@ -113,11 +111,11 @@ class ContainerClass {
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(mediumContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(mediumContent);
     });
   });
@@ -200,11 +198,11 @@ class DataProcessor {
 :::
 `;
 
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       mdOld.render(largeContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       mdNew.render(largeContent);
     });
   });
@@ -232,7 +230,7 @@ This is dangerous content.
 `;
 
     // 这里需要为多容器测试单独创建 MarkdownIt 实例
-    bench("old Implementation", () => {
+    defineBench("old Implementation", () => {
       const md = new MarkdownIt()
         .use(containerOld, { name: "info" })
         .use(containerOld, { name: "warning" })
@@ -241,7 +239,7 @@ This is dangerous content.
       md.render(realContent);
     });
 
-    bench("new Implementation", () => {
+    defineBench("new Implementation", () => {
       const md = new MarkdownIt()
         .use(containerNew, { name: "info" })
         .use(containerNew, { name: "warning" })
