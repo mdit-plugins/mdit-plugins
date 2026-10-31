@@ -79,10 +79,10 @@ describe("scripts/tsdown.ts", () => {
     });
   });
 
-  it("should always bundle @mdit and markdown-it for UMD builds", () => {
+  it("should always bundle @mdit packages for UMD builds", () => {
     const config = tsdownConfig("index", { globalName: "mditPluginDemo", alwaysBundle: ["pako"] });
 
-    expect(config.deps?.alwaysBundle).toStrictEqual([/^@mdit\//, /^markdown-it/, "pako"]);
+    expect(config.deps?.alwaysBundle).toStrictEqual([/^@mdit\//, "pako"]);
   });
 
   it("should map copy entries relative to src", () => {

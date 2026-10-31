@@ -88,9 +88,7 @@ export const tsdownConfig = (
 ): UserConfig => {
   const files = Array.isArray(fileInfo) ? fileInfo : [fileInfo];
 
-  const alwaysBundleOptions = globalName
-    ? [/^@mdit\//, /^markdown-it/, ...alwaysBundle]
-    : alwaysBundle;
+  const alwaysBundleOptions = globalName ? [/^@mdit\//, ...alwaysBundle] : alwaysBundle;
 
   return defineConfig({
     entry: Object.fromEntries(
