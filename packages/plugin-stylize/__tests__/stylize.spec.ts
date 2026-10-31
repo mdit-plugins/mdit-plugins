@@ -199,6 +199,56 @@ describe(stylize, () => {
       expect(markdownItVoid.render("**TEST**")).toBe("<p><strong>TEST</strong></p>\n");
     });
 
+    it("should try later configs when an earlier replacer returns nothing", () => {
+      const noResultConfig: MarkdownItStylizeConfig = {
+        matcher: "TEST",
+        // matches the token but deliberately produces no result
+        replacer: (): null => null,
+      };
+
+      const markdownItFallback = new MarkdownIt().use(stylize, {
+        config: [
+          noResultConfig,
+          {
+            matcher: "TEST",
+            replacer: ({ tag, attrs, content }): MarkdownItStylizeResult => ({
+              tag,
+              attrs: { ...attrs, class: "fallback" },
+              content,
+            }),
+          },
+        ],
+      });
+
+      expect(markdownItFallback.render("**TEST**")).toBe(
+        '<p><strong class="fallback">TEST</strong></p>\n',
+      );
+    });
+
+    it("should pass env to the replacer", () => {
+      let receivedEnv: unknown;
+
+      const markdownItEnv = new MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "TEST",
+            replacer: ({ tag, attrs, content, env }): MarkdownItStylizeResult => {
+              receivedEnv = env;
+
+              return { tag, attrs: { ...attrs, class: "with-env" }, content };
+            },
+          },
+        ],
+      });
+
+      const env = { custom: "value" };
+
+      expect(markdownItEnv.render("**TEST**", env)).toBe(
+        '<p><strong class="with-env">TEST</strong></p>\n',
+      );
+      expect(receivedEnv).toBe(env);
+    });
+
     it("should handle non-empty attrs on the previous token", () => {
       const markdownItLink = new MarkdownIt().use(stylize, {
         config: [
@@ -361,6 +411,37 @@ describe(stylize, () => {
           ],
         }),
       ).toBe('<p><strong class="local">LOCAL</strong></p>\n');
+    });
+
+    it("should fall back to global config when a local replacer returns nothing", () => {
+      const markdownIt = new MarkdownIt().use(stylize, {
+        config: [
+          {
+            matcher: "SHOULD",
+            replacer: ({ tag, attrs, content }): MarkdownItStylizeResult => ({
+              tag,
+              attrs: { ...attrs, title: "should" },
+              content,
+            }),
+          },
+        ],
+        localConfigGetter: (env: unknown): MarkdownItStylizeConfig[] | null =>
+          // oxlint-disable-next-line vitest/no-conditional-in-test
+          (env as { stylize?: MarkdownItStylizeConfig[] }).stylize ?? null,
+      });
+
+      // The local config matches first but produces no result,
+      // so the global config must still get a chance.
+      expect(
+        markdownIt.render("**SHOULD**", {
+          stylize: [
+            {
+              matcher: "SHOULD",
+              replacer: (): null => null,
+            } as MarkdownItStylizeConfig,
+          ],
+        }),
+      ).toBe('<p><strong title="should">SHOULD</strong></p>\n');
     });
 
     it("should handle effectiveConfig being empty after localConfigGetter", () => {

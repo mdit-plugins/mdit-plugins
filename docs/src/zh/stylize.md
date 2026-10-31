@@ -27,7 +27,9 @@ mdIt.render("Check FAQ for more details._Recommended_");
 
 - `matcher`：应为 `string` 或 `RegExp`。
 
-- `replacer`: 自定义匹配标记的函数
+- `replacer`: 自定义匹配标记的函数。它会接收标记的 `tag`、`content`、`attrs` 以及 Markdown 的 `env` 对象。
+
+来自 `localConfigGetter` 的配置会优先尝试，然后才是全局的 `config` 配置；每个列表内部会按顺序尝试。只有 `replacer` 返回结果时配置才会生效：如果匹配器命中但 `replacer` 返回 `null` 或 `undefined`，则会继续尝试下一个匹配的配置。因此你可以为同一个标记配置多条规则。
 
 例如，你可以使用以下配置将 `*Recommended*` 转换为徽章 `<Badge type="tip">Recommended</Badge>`：
 
@@ -77,7 +79,7 @@ mdIt.use(stylize, {
 
 ```ts {2,7-17}
 mdIt.use(stylize, {
-  localConfigGetter: (env) => env.stylize || [],
+  localConfigGetter: (env) => env?.stylize ?? [],
 });
 
 mdIt.render("Check FAQ for more details._Recommended_", {
@@ -110,7 +112,7 @@ mdIt.render("Check FAQ for more details._Recommended_", {
 ## 选项
 
 ::: fields
-@`config` type=MarkdownItStylizeConfig[]
+@`config` type=`MarkdownItStylizeConfig<MarkdownEnv>[]`
 
 ```ts
 interface MarkdownItStylizeResult {
@@ -124,7 +126,7 @@ interface MarkdownItStylizeResult {
   content: string;
 }
 
-interface MarkdownItStylizeConfig {
+interface MarkdownItStylizeConfig<MarkdownEnv extends Record<string, any> = Record<string, any>> {
   /** 行内标记匹配器 */
   matcher: string | RegExp;
 
@@ -133,14 +135,16 @@ interface MarkdownItStylizeConfig {
     tag: string;
     content: string;
     attrs: Record<string, string | number>;
-    env?: any;
+    env: MarkdownEnv;
   }) => MarkdownItStylizeResult | null | undefined;
 }
 ```
 
-格式化配置数组。每个配置包含一个 `matcher`（字符串或正则表达式）和一个 `replacer` 函数。
+格式化配置数组。每个配置包含一个 `matcher`（字符串或正则表达式）和一个 `replacer` 函数。本地配置会优先尝试，然后才是全局配置；每个列表内部会按顺序尝试，直到某个 `replacer` 返回结果。
 
-@`localConfigGetter` type=`(env?: any) => MarkdownItStylizeConfig[] | null`
+`MarkdownEnv` 是插件选项的可选类型参数（默认为 `Record<string, any>`）；`env` 参数始终会传递给 `replacer`。
+
+@`localConfigGetter` type=`(env?: MarkdownEnv) => MarkdownItStylizeConfig<MarkdownEnv>[] | null`
 
 本地配置获取器。接收环境对象并返回本地格式化配置。
 
