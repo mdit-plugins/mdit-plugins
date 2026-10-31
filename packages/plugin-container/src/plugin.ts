@@ -49,8 +49,10 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     return self.renderToken(tokens, index, mdItOptions);
   };
 
-  const markerStart = marker[0];
   const markerLength = marker.length;
+  // Precompute the character codes once per installation so the hot loop
+  // compares numbers instead of allocating one-character strings.
+  const markerCodes = Array.from({ length: markerLength }, (_, index) => marker.charCodeAt(index));
 
   const containerRule: BlockRule = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
@@ -60,13 +62,13 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     // Check out the first character quickly,
     // this should filter out most of non-containers
     //
-    if (markerStart !== state.src[currentLineStart]) return false;
+    if (markerCodes[0] !== state.src.charCodeAt(currentLineStart)) return false;
 
     let pos = currentLineStart + 1;
 
     // Check out the rest of the marker string
     while (pos <= currentLineMax) {
-      if (marker[(pos - currentLineStart) % markerLength] !== state.src[pos]) break;
+      if (markerCodes[(pos - currentLineStart) % markerLength] !== state.src.charCodeAt(pos)) break;
 
       pos++;
     }
@@ -111,11 +113,13 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
         // closing fence should be indented same as opening one
         state.sCount[nextLine] === currentLineIndent &&
         // match start
-        markerStart === state.src[nextLineStart]
+        markerCodes[0] === state.src.charCodeAt(nextLineStart)
       ) {
         // check rest of marker
-        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++)
-          if (marker[(pos - nextLineStart) % markerLength] !== state.src[pos]) break;
+        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++) {
+          if (markerCodes[(pos - nextLineStart) % markerLength] !== state.src.charCodeAt(pos))
+            break;
+        }
 
         // closing code fence must be at least as long as the opening one
         if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {
