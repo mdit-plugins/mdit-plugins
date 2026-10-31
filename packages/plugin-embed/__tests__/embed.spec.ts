@@ -753,4 +753,10 @@ Here is some text with {% style-aware inline-item %} embedded.
       new MarkdownIt().use(embed, {});
     }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
   });
+
+  it("should throw if options is null", () => {
+    expect(() => {
+      new MarkdownIt().use(embed, null as never);
+    }).toThrow("[@mdit/plugin-embed]: config is required and must be an array.");
+  });
 });

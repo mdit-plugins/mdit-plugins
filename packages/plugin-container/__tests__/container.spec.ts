@@ -729,6 +729,12 @@ zzz</p>
     }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
   });
 
+  it("should throw if options is null", () => {
+    expect(() => {
+      new MarkdownIt({ linkify: true }).use(container, null as never);
+    }).toThrow("[@mdit/plugin-container]: 'name' option is required.");
+  });
+
   describe("validator", () => {
     it("should skip rule if return value is falsy", () => {
       const markdownItValidate = new MarkdownIt({ linkify: true }).use(container, {
