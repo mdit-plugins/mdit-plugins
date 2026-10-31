@@ -192,6 +192,119 @@ abc
     );
   });
 
+  it("should strip blockquote markers from content", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
+
+    // Regression test for the original bug: extracting the block by splitting the whole
+    // document leaked the `> ` container prefix into `token.content`.
+    expect(markdownIt.render("> @start\n> a -> b\n> @end\n")).toBe(`\
+<blockquote>
+<div class="uml" title="">a -&gt; b</div></blockquote>
+`);
+
+    expect(
+      new MarkdownIt()
+        .use(uml, {
+          name: "uml",
+          open: "start",
+          close: "end",
+          renderer: (tokens, index): string => tokens[index].content,
+        })
+        .render("> @start\n> a -> b\n> @end\n"),
+    ).toBe("<blockquote>\na -> b</blockquote>\n");
+  });
+
+  it.each([
+    {
+      title: "nested blockquote",
+      source: "> > @start\n> > a -> b\n> > c -> d\n> > @end\n",
+      expected: "<blockquote>\n<blockquote>\na -> b\nc -> d</blockquote>\n</blockquote>\n",
+    },
+    {
+      title: "blockquote inside list",
+      source: "- > @start\n  > a -> b\n  > c -> d\n  > @end\n",
+      expected: "<ul>\n<li>\n<blockquote>\na -> b\nc -> d</blockquote>\n</li>\n</ul>\n",
+    },
+    {
+      title: "list inside blockquote",
+      source: "> - @start\n>   a -> b\n>   c -> d\n>   @end\n",
+      expected: "<blockquote>\n<ul>\n<li>\na -> b\nc -> d</li>\n</ul>\n</blockquote>\n",
+    },
+    {
+      title: "unclosed block inside blockquote",
+      source: "> @start\n> a -> b\n> c -> d\n",
+      expected: "<blockquote>\na -> b\nc -> d</blockquote>\n",
+    },
+  ])("should strip container prefixes at any depth: $title", ({ source, expected }) => {
+    // Use the raw token content (instead of the default escaped HTML) so every line can be
+    // checked for leftover container prefixes.
+    const markdownIt = new MarkdownIt().use(uml, {
+      name: "uml",
+      open: "start",
+      close: "end",
+      renderer: (tokens, index): string => tokens[index].content,
+    });
+
+    expect(markdownIt.render(source)).toBe(expected);
+  });
+
+  it("should handle tab-indented list content", () => {
+    const markdownIt = new MarkdownIt().use(uml, {
+      name: "uml",
+      open: "start",
+      close: "end",
+      renderer: (tokens, index): string => tokens[index].content,
+    });
+
+    // A tab counts as a full indentation column, so it must be stripped like spaces.
+    expect(markdownIt.render("- @start\n\ta -> b\n\tc -> d\n")).toBe(
+      "<ul>\n<li>\na -> b\nc -> d</li>\n</ul>\n",
+    );
+  });
+
+  it("should dedent list-nested content (list parity guard)", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(uml);
+
+    // This guards retaining `dedent()` for list-nested blocks: `getLines()` keeps the list
+    // item's extra indentation, so removing it would change `token.content`.
+    // The original container-prefix bug is reproduced by the blockquote test above.
+    expect(
+      markdownIt.render(`
+- @start
+    abc
+
+    def
+
+ghi
+    `),
+    ).toBe(`\
+<ul>
+<li>
+<div class="uml" title="">abc
+
+def
+</div></li>
+</ul>
+<p>ghi</p>
+`);
+
+    expect(
+      new MarkdownIt().use(uml, {
+        name: "uml",
+        open: "start",
+        close: "end",
+        renderer: (tokens, index): string => tokens[index].content,
+      }).render(`
+- @start
+    abc
+
+    def
+
+ghi
+    `),
+    ).toBe("<ul>\n<li>\nabc\n\ndef\n</li>\n</ul>\n<p>ghi</p>\n");
+  });
+
   it("should render with options", () => {
     const markdownIt = new MarkdownIt({ linkify: true }).use(uml, {
       name: "test",

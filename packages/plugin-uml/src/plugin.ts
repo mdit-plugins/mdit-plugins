@@ -80,10 +80,9 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
       nextLine++;
     }
 
-    const contents = state.src
-      .split("\n")
-      .slice(startLine + 1, nextLine)
-      .join("\n");
+    // `getLines` strips the block indent (including blockquote prefixes) using the parser's
+    // line offsets instead of splitting the whole document, which was O(N²) for many blocks.
+    const contents = state.getLines(startLine + 1, nextLine, state.blkIndent, false);
 
     const umlToken = state.push(name, "uml", 0);
 
