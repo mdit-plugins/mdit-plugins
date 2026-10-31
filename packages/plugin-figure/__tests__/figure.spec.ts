@@ -5,20 +5,20 @@ import { describe, expect, it } from "vitest";
 import { figure } from "../src/index.js";
 
 /**
- * Test-only helper: add a non-native attribute to every image token before figure runs.
+ * Test-only helper: add non-native attributes to every image token before figure runs.
  *
  * 测试辅助：在 figure 运行前给每个图片 token 添加非原生属性。
  *
  * @param md - MarkdownIt instance / MarkdownIt 实例
- * @param attr - Attribute to set / 要设置的属性
+ * @param attrs - Attributes to set / 要设置的属性
  */
-const addImageAttr = (md: MarkdownItType, attr: [string, string]): void => {
-  md.core.ruler.before("figure", "test-image-attr", (state) => {
+const addImageAttrs = (md: MarkdownItType, attrs: [string, string][]): void => {
+  md.core.ruler.before("figure", "test-image-attrs", (state) => {
     for (const token of state.tokens) {
       if (token.type !== "inline" || !token.children) continue;
 
       for (const child of token.children)
-        if (child.type === "image") child.attrSet(attr[0], attr[1]);
+        if (child.type === "image") for (const [key, value] of attrs) child.attrSet(key, value);
     }
   });
 };
@@ -151,7 +151,7 @@ test ![image](/logo.svg)
     it("should copy non-native attrs to figure with true", () => {
       const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
 
-      addImageAttr(md, ["class", "main"]);
+      addImageAttrs(md, [["class", "main"]]);
 
       // class is a non-native attr — copied to figure (img keeps it)
       // title is a native img attr — stays as caption, never copied to figure
@@ -175,7 +175,7 @@ test ![image](/logo.svg)
     it("should move matching non-native attrs to figure with array", () => {
       const md = new MarkdownIt().use(figure, { moveAttrs: ["class"], focusable: false });
 
-      addImageAttr(md, ["class", "main"]);
+      addImageAttrs(md, [["class", "main"]]);
 
       // class is moved to figure (img loses it); title stays as caption
       expect(md.render('![image](/logo.svg "A title")')).toBe(
@@ -198,11 +198,40 @@ test ![image](/logo.svg)
     it("should support RegExp patterns in array", () => {
       const md = new MarkdownIt().use(figure, { moveAttrs: [/^data-/], focusable: false });
 
-      addImageAttr(md, ["data-x", "1"]);
+      addImageAttrs(md, [["data-x", "1"]]);
 
       // data-x matched by RegExp — moved to figure; title stays as caption
       expect(md.render('![image](/logo.svg "A title")')).toBe(
         '<figure data-x="1"><img src="/logo.svg" alt="image"><figcaption>A title</figcaption></figure>\n',
+      );
+    });
+
+    it("should keep moving attrs matched by a global RegExp across attrs and images", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: [/^data-/g], focusable: false });
+
+      addImageAttrs(md, [
+        ["data-a", "1"],
+        ["data-b", "2"],
+      ]);
+
+      // a global regex keeps lastIndex between tests, so without a reset every other attr is dropped
+      expect(md.render(`![one](/1.svg)\n\n![two](/2.svg)`)).toBe(
+        '<figure data-a="1" data-b="2"><img src="/1.svg" alt="one"><figcaption>one</figcaption></figure>\n' +
+          '<figure data-a="1" data-b="2"><img src="/2.svg" alt="two"><figcaption>two</figcaption></figure>\n',
+      );
+    });
+
+    it("should keep moving attrs matched by a sticky RegExp across attrs and images", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: [/^data-/y], focusable: false });
+
+      addImageAttrs(md, [
+        ["data-a", "1"],
+        ["data-b", "2"],
+      ]);
+
+      expect(md.render(`![one](/1.svg)\n\n![two](/2.svg)`)).toBe(
+        '<figure data-a="1" data-b="2"><img src="/1.svg" alt="one"><figcaption>one</figcaption></figure>\n' +
+          '<figure data-a="1" data-b="2"><img src="/2.svg" alt="two"><figcaption>two</figcaption></figure>\n',
       );
     });
 
@@ -218,7 +247,7 @@ test ![image](/logo.svg)
     it("should keep title as caption for linked images", () => {
       const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
 
-      addImageAttr(md, ["class", "main"]);
+      addImageAttrs(md, [["class", "main"]]);
 
       // title stays as caption for linked images too; class copied to figure
       expect(md.render('[![alt](/url "A title")](https://example.com)')).toBe(

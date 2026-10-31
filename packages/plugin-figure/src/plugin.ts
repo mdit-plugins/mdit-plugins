@@ -28,6 +28,13 @@ const removeAttribute = (token: Token, attribute: string): void => {
   token.attrs = token.attrs!.filter(([key]) => key !== attribute);
 };
 
+const testPattern = (pattern: RegExp, value: string): boolean => {
+  // a global / sticky regex keeps `lastIndex` between calls
+  if (pattern.global || pattern.sticky) pattern.lastIndex = 0;
+
+  return pattern.test(value);
+};
+
 const getCaption = (image: Token): string => {
   const title = image.attrs?.find(([attr]) => attr === "title")?.[1] ?? null;
 
@@ -114,7 +121,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
             if (
               !NATIVE_IMG_ATTRS.has(attr[0]) &&
               moveAttrs.some((pattern) =>
-                typeof pattern === "string" ? pattern === attr[0] : pattern.test(attr[0]),
+                typeof pattern === "string" ? pattern === attr[0] : testPattern(pattern, attr[0]),
               )
             )
               movedAttrs.push(attr);

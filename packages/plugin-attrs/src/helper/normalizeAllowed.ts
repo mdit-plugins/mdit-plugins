@@ -3,6 +3,13 @@ import type { AllowedAttrEntry, AllowedAttrs, AttrFilter } from "./types.js";
 const isEntryArray = (allowed: AllowedAttrs): allowed is AllowedAttrEntry[] =>
   allowed.length > 0 && typeof allowed[0] === "object" && "name" in allowed[0];
 
+const testRegExp = (pattern: RegExp, value: string): boolean => {
+  // a global / sticky regex keeps `lastIndex` between calls
+  if (pattern.global || pattern.sticky) pattern.lastIndex = 0;
+
+  return pattern.test(value);
+};
+
 const createValueFilter = (value: (string | RegExp)[] | undefined): ((val: string) => boolean) => {
   if (!value || value.length === 0) return (): boolean => true;
 
@@ -20,7 +27,7 @@ const createValueFilter = (value: (string | RegExp)[] | undefined): ((val: strin
   return (val): boolean => {
     if (stringSize > 0 && stringValues.has(val)) return true;
 
-    for (let i = 0; i < regexLength; i++) if (regexValues[i].test(val)) return true;
+    for (let i = 0; i < regexLength; i++) if (testRegExp(regexValues[i], val)) return true;
 
     return false;
   };
@@ -54,7 +61,7 @@ export const normalizeAllowed = (allowed: AllowedAttrs): AttrFilter | null => {
     return (_name): boolean => {
       if (stringNamesSize > 0 && stringNames.has(_name)) return true;
 
-      for (let i = 0; i < regexNamesLength; i++) if (regexNames[i].test(_name)) return true;
+      for (let i = 0; i < regexNamesLength; i++) if (testRegExp(regexNames[i], _name)) return true;
 
       return false;
     };
@@ -88,7 +95,7 @@ export const normalizeAllowed = (allowed: AllowedAttrs): AttrFilter | null => {
     for (let i = 0; i < regexEntriesLength; i++) {
       const [entryName, check] = regexEntries[i];
 
-      if (entryName.test(name)) return check(value);
+      if (testRegExp(entryName, name)) return check(value);
     }
 
     return false;
