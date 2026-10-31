@@ -104,6 +104,30 @@ describe(ruby, () => {
     expect(markdownIt.render("{ab:}")).toBe("<p>{ab:}</p>\n");
   });
 
+  it("should not render empty ruby text segments", () => {
+    // The whole construct is rejected and left as literal source when any
+    // `|`-separated ruby segment is empty, consistent with the `{ab:}`
+    // rejection above; otherwise the empty segments would render empty <rt>
+    // elements.
+    expect(markdownIt.render("{ab:|}")).toBe("<p>{ab:|}</p>\n");
+    expect(markdownIt.render("{ab:|b}")).toBe("<p>{ab:|b}</p>\n");
+    expect(markdownIt.render("{ab:b|}")).toBe("<p>{ab:b|}</p>\n");
+    expect(markdownIt.render("{ab:||}")).toBe("<p>{ab:||}</p>\n");
+  });
+
+  it("should treat markers after an escaped backslash as unescaped", () => {
+    // `\\` is an escaped backslash, so the marker after it is not escaped:
+    // `{a\\:b}` has two backslashes before the divider and renders ruby.
+    expect(markdownIt.render(String.raw`{a\\:b}`)).toBe("<p><ruby>a\\<rt>b</rt></ruby></p>\n");
+    // `{ab:c\\}` has two backslashes before the closing brace, so it closes.
+    expect(markdownIt.render(String.raw`{ab:c\\}`)).toBe("<p><ruby>ab<rt>c\\</rt></ruby></p>\n");
+  });
+
+  it("should keep markers escaped by a single backslash literal", () => {
+    expect(markdownIt.render(String.raw`{a\:b}`)).toBe("<p>{a:b}</p>\n");
+    expect(markdownIt.render(String.raw`{ab:c\}`)).toBe("<p>{ab:c}</p>\n");
+  });
+
   it("should not render unclosed ruby", () => {
     expect(markdownIt.render("{abc:def")).toBe("<p>{abc:def</p>\n");
   });
