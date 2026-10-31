@@ -212,6 +212,8 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     embedMap.set(item.name, item);
     // Inline embeds are only supported when allowInline is true
     if (item.allowInline) inlineEmbedMap.set(item.name, item);
+    // Drop any inline entry left by a previous installation of the same name
+    else inlineEmbedMap.delete(item.name);
   });
 
   // Only register rules if not already registered
@@ -238,9 +240,19 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
 
     md.renderer.rules.embed_inline = (tokens, index): string => {
       const token = tokens[index];
+      const config = inlineEmbedMap.get(token.info);
 
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      return inlineEmbedMap.get(token.info)!.setup(token.content, true);
+      // `config` can be missing when tokens were parsed before a later
+      // installation dropped the inline entry: render the source literally
+      // instead of crashing. Rendering a stale token stream is harmless as long
+      // as the text is escaped.
+      if (!config) {
+        return md.utils.escapeHtml(
+          `{% ${token.info}${token.content ? ` ${token.content}` : ""} %}`,
+        );
+      }
+
+      return config.setup(token.content, true);
     };
   }
 };
