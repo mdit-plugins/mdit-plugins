@@ -48,14 +48,17 @@ const abbrDefinition: BlockRule = (state: AbbrStateBlock, startLine, _endLine, s
 
   if (labelEnd < 0 || state.src.charCodeAt(labelEnd + 1) !== 58 /* : */) return false;
 
-  if (silent) return true;
-
   const label = state.src.slice(labelStart, labelEnd).replaceAll(ESCAPE_RE, "$<char>");
 
   // .trim() strips all JS whitespace (not just space/tab), matching markdown-it-abbr
   const title = state.src.slice(labelEnd + 2, max).trim();
 
   if (label.length === 0 || title.length === 0) return false;
+
+  // Only report "this line starts my block" in silent mode once the whole
+  // definition is known to parse, otherwise paragraph termination probing
+  // disagrees with the real parse and splits the paragraph.
+  if (silent) return true;
 
   // prepend ':' to avoid conflict with Object.prototype members
   (state.env.abbreviations ??= {})[`_${label}`] ??= title;
