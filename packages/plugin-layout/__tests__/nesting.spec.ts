@@ -663,6 +663,39 @@ Content
 </code></pre>
 `);
       });
+
+      it("should still honor indented directives that do not start a code block", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+  @flex
+    Some Content
+
+    @grids grid-cols-2
+    @grid
+    Nested content
+    @end
+
+  @flex
+    Another Content
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Some Content</p>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+<div>
+<p>Another Content</p>
+</div>
+</div>
+`);
+      });
     });
   });
 

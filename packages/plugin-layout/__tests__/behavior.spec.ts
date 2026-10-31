@@ -314,5 +314,79 @@ Content
 </div>
 `);
     });
+
+    it("should not treat an indented @end inside an item as a real end", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Text
+
+    @end
+
+more text
+@flex
+Second
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Text</p>
+<pre><code>@end
+</code></pre>
+<p>more text</p>
+</div>
+<div>
+<p>Second</p>
+</div>
+</div>
+`);
+    });
+
+    it("should not treat indented item directives as real item markers", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+@flex
+Text
+
+    @flex
+    code
+@flex
+Second
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Text</p>
+<pre><code>@flex
+code
+</code></pre>
+</div>
+<div>
+<p>Second</p>
+</div>
+</div>
+`);
+    });
+
+    it("should not treat an indented @end at the container start as a real end", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+    @end
+more text
+@end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<pre><code>@end
+</code></pre>
+<p>more text</p>
+</div>
+`);
+    });
   });
 });

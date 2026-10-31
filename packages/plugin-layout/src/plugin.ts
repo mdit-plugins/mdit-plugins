@@ -10,13 +10,45 @@ import { buildStyleString, resolveUtility } from "./utilities.js";
 // `scanFence` is provided by @mdit/helper (forked and modified from
 // markdown-it/lib/rules_block/fence.mjs).
 //
-// Known limitations: this scan runs at the container/item level, before
-// markdown-it's block rules re-tokenize nested content with a deeper
-// blkIndent. So lines inside a fence nested in a list item (indented 4+
-// spaces relative to the container), or inside indented code blocks /
-// lazy paragraph continuations, are not recognized as code here and their
-// `@`-directives are still honored (the same limitation exists in
-// @mdit/plugin-include's code block scan).
+// Directive scans run at the container/item level, before markdown-it's block rules
+// re-tokenize nested content with a deeper blkIndent. They therefore have to recognize
+// fenced and indented code blocks from the raw line array so that directives written as
+// code examples stay literal.
+
+/**
+ * Check whether a line belongs to an indented code block for directive scanning.
+ *
+ * Mirrors markdown-it's `code` block rule: a line indented at least 4 spaces beyond `blkIndent` is
+ * code, but an indented code block cannot interrupt a paragraph. The block therefore only starts at
+ * the beginning of the scanned range or after a blank line, and continues over consecutive indented
+ * lines.
+ *
+ * 判断某行是否属于缩进代码块：相对 `blkIndent` 缩进至少 4 个空格的行属于代码块，但代码块不能打断段落，只会在扫描范围起始处或空行之后开始。
+ *
+ * @param state - Parser state / 解析器状态
+ * @param line - Line to check / 要检查的行
+ * @param startLine - First line of the scanned range / 扫描范围的首行
+ * @param blkIndent - Indent of the scanned container / 扫描容器的缩进
+ * @returns Whether the line is indented code / 该行是否属于缩进代码块
+ */
+const isIndentedCodeLine = (
+  state: LayoutStateBlock,
+  line: number,
+  startLine: number,
+  blkIndent: number,
+): boolean => {
+  if (state.sCount[line] - blkIndent < 4) return false;
+
+  // Walk back over consecutive indented lines: a blank line means the block starts here,
+  // while a paragraph line means this line is a lazy continuation instead of code.
+  for (let prevLine = line - 1; prevLine >= startLine; prevLine--) {
+    if (state.isEmpty(prevLine)) return true;
+    if (state.sCount[prevLine] - blkIndent < 4) return false;
+  }
+
+  // The block starts at the beginning of the scanned range.
+  return true;
+};
 
 /**
  * Count matching container opens/ends to find the `@end` that closes the container opened at
@@ -56,6 +88,9 @@ const findMatchingEnd = (
 
     if (lineStart >= lineMax) continue;
     if (state.src.charCodeAt(lineStart) !== AT) continue;
+
+    // directives inside indented code blocks are literal text, skip them
+    if (isIndentedCodeLine(state, line, startLine, blkIndent)) continue;
 
     const dir = detectDirective(state.src, lineStart, lineMax, isSpace);
 
@@ -106,6 +141,9 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 
     // Blank lines never end the item, tokenize skips them as well
     if (nextLineStart >= nextLineMax) continue;
+
+    // directives inside indented code blocks are literal text, skip them
+    if (isIndentedCodeLine(state, nextLine, startLine + 1, indent)) continue;
 
     const nextDirective =
       state.src.charCodeAt(nextLineStart) === AT
