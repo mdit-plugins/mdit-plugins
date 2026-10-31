@@ -476,4 +476,35 @@ DEF
 `,
     );
   });
+
+  it("should extract the content of multiple blocks separately", () => {
+    const multiBlockMd = new MarkdownIt().use(demo);
+
+    expect(
+      multiBlockMd.render(`\
+::: demo
+first
+:::
+
+::: demo
+second
+:::
+`),
+    ).toBe(`\
+<details><summary>Demo</summary>
+<div class="demo-content">
+<p>first</p>
+</div>
+<pre><code class="language-md">first
+</code></pre>
+</details>
+<details><summary>Demo</summary>
+<div class="demo-content">
+<p>second</p>
+</div>
+<pre><code class="language-md">second
+</code></pre>
+</details>
+`);
+  });
 });

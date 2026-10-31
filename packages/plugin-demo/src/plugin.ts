@@ -5,6 +5,9 @@ import type { MarkdownItDemoOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
+// Hoisted to module scope so no RegExp object is allocated per content line of every demo block
+const INCLUDE_MARKER_RE = /^<!-- #include-env-(?:start: .*|end) -->$/;
+
 // oxlint-disable-next-line max-lines-per-function
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
@@ -137,13 +140,21 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
       const codeToken = state.push(codeRenderer ? `${name}_demo_code` : "fence", "code", 0);
 
       const indent = state.sCount[startLine];
+      // The content of the block is the source between the opening and closing markers.
+      // Split only that line range instead of the whole document: starting at the newline
+      // that terminates the (newline-terminated) opening marker line makes the first segment
+      // empty, so dropping it keeps the split result identical to splitting the full source.
+      // Do not switch to `eMarks[startLine] + 1`: that changes raw LFCR (`\n\r`) handling.
+      const contentStart = state.eMarks[startLine];
+      const contentEnd = state.eMarks[nextLine - 1];
 
       codeToken.content = state.src
+        .slice(contentStart, contentEnd)
         .split(/\n\r?/)
-        .slice(startLine + 1, nextLine)
+        .slice(1)
         .map((line) => line.slice(indent))
         // this is a workaround to work with include plugin
-        .filter((line) => !/^<!-- #include-env-(?:start: .*|end) -->$/.test(line))
+        .filter((line) => !INCLUDE_MARKER_RE.test(line))
         .join("\n")
         .replace(/^\n+/, "")
         .replace(/\n*$/, "\n");
