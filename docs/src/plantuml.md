@@ -25,7 +25,7 @@ Bob -> Alice : hello
 
 ## Options
 
-::: fields
+:::: fields
 @`type` type=`"uml" | "fence"` default=`"uml"`
 
 Plantuml parse type.
@@ -50,6 +50,12 @@ Closing marker. Only available with type "uml". Defaults to `"end" + name`.
 
 Plantuml server. Only available when using default srcGetter.
 
+::: warning External requests
+
+With the default `srcGetter`, the diagram source is sent to the configured PlantUML server (`https://www.plantuml.com/plantuml` by default), which is an external request that may leak diagram content. Self-host the server or provide a custom `renderer` when the diagram source is sensitive.
+
+:::
+
 @`format` type=string default=`"svg"`
 
 Image format. Only available when using default srcGetter.
@@ -64,7 +70,7 @@ Image src getter. Takes diagram content and returns image link.
 
 Diagram renderer.
 
-:::
+::::
 
 ## Demo
 

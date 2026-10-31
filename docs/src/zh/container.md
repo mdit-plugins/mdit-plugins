@@ -136,17 +136,25 @@ type Validator = (params: string, markup: string) => boolean;
 通过添加下列代码和一些样式:
 
 ```js
+import { escapeHtml } from "@mdit/helper";
+
 md.use(container, {
   name: "hint",
   openRenderer: (tokens, index, _options) => {
     const info = tokens[index].info.trim().slice(4).trim();
 
     return `<div class="custom-container hint">\n<p class="custom-container-title">${
-      info || "Hint"
+      escapeHtml(info) || "Hint"
     }</p>\n`;
   },
 });
 ```
+
+::: warning 不可信输入
+
+自定义容器标题来自文档内容，因此渲染为 HTML 时必须进行 HTML 转义；上面的示例使用 `escapeHtml` 进行转义。
+
+:::
 
 :::: preview 你可以这样写一个提示:
 

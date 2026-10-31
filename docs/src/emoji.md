@@ -32,12 +32,18 @@ Different presets are available:
 
 ## Options
 
-::: fields
+:::: fields
 @`definitions` type=`Record<string, string>` default="`{}` (preset dependent)"
 
 Rewrite available emoji definitions. The key is the emoji name, and the value is the emoji character.
 
 Example: `{ name1: 'char1', name2: 'char2', ... }`
+
+::: warning Untrusted input
+
+Definition values are emitted as raw HTML into the output, so `definitions` must never contain untrusted user input, or the values must be sanitized first.
+
+:::
 
 @`enabled` type=string[] default=`[]`
 
@@ -51,7 +57,7 @@ Empty or whitespace-only shortcuts are ignored.
 
 Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
 
-:::
+::::
 
 ## Demo
 
