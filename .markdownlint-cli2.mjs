@@ -28,5 +28,7 @@ export default {
     "**/CHANGELOG.md",
     "LICENSE",
     "**/*.snippet.md",
+    // local-only scratch folder (gitignored), never linted
+    "temp/**",
   ],
 };
