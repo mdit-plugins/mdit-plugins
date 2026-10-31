@@ -131,4 +131,34 @@ describe("sensitive file matching", () => {
     expect(isSensitiveFile("blocked.md", ["blocked.md"])).toBe(true);
     expect(isSensitiveFile(".env", [])).toBe(false);
   });
+
+  it("should keep matching correctly when the same glob is checked repeatedly", () => {
+    const patterns = ["blocked-*.md"];
+
+    for (let index = 0; index < 3; index++) {
+      expect(isSensitiveFile("blocked-a.md", patterns)).toBe(true);
+      expect(isSensitiveFile("allowed-a.md", patterns)).toBe(false);
+    }
+
+    // another glob of the same shape must use its own compiled RegExp
+    expect(isSensitiveFile("blocked-a.md", ["allowed-*.md"])).toBe(false);
+    expect(isSensitiveFile("allowed-a.md", ["allowed-*.md"])).toBe(true);
+  });
+
+  it("should keep matching correctly when default patterns are checked repeatedly", () => {
+    for (let index = 0; index < 3; index++) {
+      expect(isSensitiveFile("src/index.ts")).toBe(false);
+      expect(isSensitiveFile("nested/.env")).toBe(true);
+      expect(isSensitiveFile(".ssh/id_rsa")).toBe(true);
+    }
+  });
+
+  it("should not alter user-supplied RegExp patterns between repeated calls", () => {
+    const globalPattern = /secret/g;
+
+    for (let index = 0; index < 3; index++) {
+      expect(isSensitiveFile("dir/secret.txt", [globalPattern])).toBe(true);
+      expect(isSensitiveFile("dir/public.txt", [globalPattern])).toBe(false);
+    }
+  });
 });
