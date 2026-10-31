@@ -226,6 +226,87 @@ HTML is cool
 `);
   });
 
+  it("should not split a paragraph on an invalid definition", () => {
+    // The block rule must only report a block start in silent mode when the
+    // full parse succeeds, otherwise paragraph termination and real parsing
+    // disagree and the paragraph gets split in two.
+    expect(
+      markdownIt.render(`\
+foo
+*[foo]:
+bar
+`),
+    ).toBe(`\
+<p>foo
+*[foo]:
+bar</p>
+`);
+
+    expect(
+      markdownIt.render(`\
+foo
+*[]: test
+bar
+`),
+    ).toBe(`\
+<p>foo
+*[]: test
+bar</p>
+`);
+
+    expect(
+      markdownIt.render(`\
+foo
+*[HTML]: \u00A0
+bar
+`),
+    ).toBe(`\
+<p>foo
+*[HTML]: \u00A0
+bar</p>
+`);
+  });
+
+  it("should keep paragraphs intact around a valid definition", () => {
+    // A definition line right before the paragraph is consumed, and the
+    // following lines stay in one paragraph.
+    expect(
+      markdownIt.render(`\
+*[foo]: title
+foo
+bar
+`),
+    ).toBe(`\
+<p><abbr title="title">foo</abbr>
+bar</p>
+`);
+
+    // A definition line still terminates the paragraph above it.
+    expect(
+      markdownIt.render(`\
+foo
+*[foo]: title
+bar
+`),
+    ).toBe(`\
+<p><abbr title="title">foo</abbr></p>
+<p>bar</p>
+`);
+  });
+
+  it("should match markdown-it reference definitions", () => {
+    // An invalid abbreviation-looking line must not terminate a reference
+    // definition chain: the parsed result has to be identical to plain
+    // markdown-it, which turns the second line into the multi-line reference
+    // destination.
+    const markdownItWithoutPlugin = new MarkdownIt();
+    const source = `[bar]:
+*[foo]:
+`;
+
+    expect(markdownIt.render(source)).toBe(markdownItWithoutPlugin.render(source));
+  });
+
   it("should handle hasOwnProperty safely", () => {
     expect(
       markdownIt.render(`\
