@@ -264,6 +264,9 @@ importers:
       husky:
         specifier: 9.1.7
         version: 9.1.7
+      markdown-it:
+        specifier: 'catalog:'
+        version: 15.0.3
       markdownlint-cli2:
         specifier: 0.24.0
         version: 0.24.0(supports-color@8.1.1)
