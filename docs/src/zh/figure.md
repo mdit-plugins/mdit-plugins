@@ -21,7 +21,7 @@ const mdIt = new MarkdownIt().use(figure, {
 mdIt.render("![image](https://example.com/image.png)");
 ```
 
-## 格式
+## 语法
 
 有时，你可能希望为图像添加描述，并将其单独展示在上下文中，所以我们提供了此插件
 
@@ -32,7 +32,7 @@ mdIt.render("![image](https://example.com/image.png)");
 ::: fields
 @`focusable` type=boolean default=`true`
 
-图片是否可聚焦。
+图片是否可聚焦。启用时会为图片添加 `tabindex="0"`，除非图片已带有 `tabindex` 属性，此时会保留原有值。
 
 @`linkImage` type=boolean default=`true`
 

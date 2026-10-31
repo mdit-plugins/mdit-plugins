@@ -136,6 +136,33 @@ test ![image](/logo.svg)
     );
   });
 
+  it("should keep an existing tabindex on the image", () => {
+    const md = new MarkdownIt().use(figure);
+
+    addImageAttrs(md, [["tabindex", "1"]]);
+
+    const result = md.render("![image](/logo.svg)");
+
+    expect(result).toBe(
+      '<figure><img src="/logo.svg" alt="image" tabindex="1"><figcaption>image</figcaption></figure>\n',
+    );
+    expect(result.match(/tabindex=/g)).toHaveLength(1);
+  });
+
+  it("should keep an existing tabindex with a different case", () => {
+    const md = new MarkdownIt().use(figure);
+
+    // HTML attribute names are case-insensitive, and authored attrs keep their case
+    addImageAttrs(md, [["TABINDEX", "1"]]);
+
+    const result = md.render("![image](/logo.svg)");
+
+    expect(result).toBe(
+      '<figure><img src="/logo.svg" alt="image" TABINDEX="1"><figcaption>image</figcaption></figure>\n',
+    );
+    expect(result.match(/tabindex=/gi)).toHaveLength(1);
+  });
+
   it("should support linkImage option", () => {
     const md = new MarkdownIt().use(figure, { linkImage: false });
 

@@ -148,7 +148,10 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
         );
       }
 
-      if (focusable !== false) image.attrPush(["tabindex", "0"]);
+      // keep an author-provided tabindex instead of emitting a duplicate one
+      // HTML attribute names are case-insensitive, and authored attrs keep their case
+      if (focusable !== false && !image.attrs?.some(([key]) => key.toLowerCase() === "tabindex"))
+        image.attrPush(["tabindex", "0"]);
     }
   };
 
