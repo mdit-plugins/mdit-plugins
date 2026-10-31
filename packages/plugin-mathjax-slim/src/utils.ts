@@ -1,16 +1,15 @@
 import type { LiteElement } from "@mathjax/src/js/adaptors/lite/Element.js";
 import type { TeX } from "@mathjax/src/js/input/tex.js";
-import type { HandlerType } from "@mathjax/src/js/input/tex/HandlerTypes.js";
 
 interface TeXMacroMap {
   map: Map<string, unknown>;
 }
 
-const USER_MAPS: { handler: HandlerType; name: string }[] = [
-  { handler: "macro" as HandlerType.MACRO, name: "new-Command" },
-  { handler: "environment" as HandlerType.ENVIRONMENT, name: "new-Environment" },
-  { handler: "delimiter" as HandlerType.DELIMITER, name: "new-Delimiter" },
-];
+// MathJax keeps user-defined macros, environments and delimiters in the internal `new-*` maps of
+// the `newcommand` package. Their names are unique across handler types, so they can be looked up
+// by name, which avoids importing the `HandlerType` enum: a value import would add a runtime import
+// of the optional `@mathjax/src` peer to the `worker` and `async/index` entries.
+const USER_MAP_NAMES = ["new-Command", "new-Environment", "new-Delimiter"] as const;
 
 /**
  * Clear user-defined TeX state (macros/environments/delimiters) on a MathJax TeX input jax.
@@ -28,9 +27,8 @@ const USER_MAPS: { handler: HandlerType; name: string }[] = [
  * @param InputJax - MathJax TeX input jax / MathJax TeX 输入 jax
  */
 export const clearUserState = (InputJax: TeX<LiteElement, string, HTMLElement>): void => {
-  for (const { handler, name } of USER_MAPS) {
-    const handlerMap = InputJax.parseOptions.handlers.get(handler);
-    const userMap = handlerMap.retrieve(name) as unknown as TeXMacroMap | null;
+  for (const name of USER_MAP_NAMES) {
+    const userMap = InputJax.parseOptions.handlers.retrieve(name) as unknown as TeXMacroMap | null;
 
     userMap?.map.clear();
   }
