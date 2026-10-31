@@ -39,14 +39,18 @@ export const normalizeOption = ({
 
     const shortcut = shortcutsOption[key];
 
+    // Skip empty and whitespace-only shortcuts: an empty string would add a
+    // zero-length alternative that matches at every position, while a
+    // whitespace-only alias is meaningless and can still rewrite delimiting
+    // whitespace. Both would corrupt plain text.
     if (Array.isArray(shortcut)) {
       shortcut.forEach((alias) => {
-        acc[alias] = key;
+        if (alias.trim().length > 0) acc[alias] = key;
       });
       return acc;
     }
 
-    acc[shortcut] = key;
+    if (shortcut.trim().length > 0) acc[shortcut] = key;
     return acc;
   }, {});
 

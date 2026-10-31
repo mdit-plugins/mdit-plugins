@@ -25,7 +25,7 @@ mdIt.render("来自火星的问候 :satellite:");
 - `lightEmoji`: 包含常用表情的一个子集
 - `bareEmoji`: 不包含任何默认定义，仅包含你在选项中定义的内容
 
-## 格式
+## 语法
 
 - `:表情名称:`
 - 捷键短语，如 `:)`, `:D` 等 (如果启用)
@@ -44,6 +44,8 @@ mdIt.render("来自火星的问候 :satellite:");
 @`shortcuts` type=`Record<string, string | string[]>` default="`{}` (取决于预设)"
 
 重写默认快捷键。键是表情名称，值是表情的快捷键短语。
+
+空字符串或纯空白的快捷键会被忽略。
 
 :::
 
