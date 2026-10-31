@@ -65,4 +65,30 @@ describe(parseAttrs, () => {
     // a valid attrs section with all attrs filtered out yields [], not null
     expect(parseAttrs("foo {.bar}", { allowed: ["id"] })).toStrictEqual([]);
   });
+
+  it("should keep every attr matched by a global RegExp in allowed", () => {
+    // a global regex keeps lastIndex between tests, so without a reset only the first attr survives
+    expect(parseAttrs("foo {data-a=1 data-b=2}", { allowed: [/^data-/g] })).toStrictEqual([
+      ["data-a", "1"],
+      ["data-b", "2"],
+    ]);
+
+    expect(
+      parseAttrs("foo {data-a=1 data-b=2}", {
+        allowed: [{ name: /^data-/g, value: ["1", "2"] }],
+      }),
+    ).toStrictEqual([
+      ["data-a", "1"],
+      ["data-b", "2"],
+    ]);
+
+    expect(
+      parseAttrs("foo {.bg-red .bg-blue}", {
+        allowed: [{ name: "class", value: [/^bg-/g] }],
+      }),
+    ).toStrictEqual([
+      ["class", "bg-red"],
+      ["class", "bg-blue"],
+    ]);
+  });
 });

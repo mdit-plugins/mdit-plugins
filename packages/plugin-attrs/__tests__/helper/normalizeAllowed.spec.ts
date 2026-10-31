@@ -162,3 +162,39 @@ describe("normalizeAllowed - entry format (AllowedAttrEntry[])", () => {
     expect(filter!("class", "bar")).toBe(false);
   });
 });
+
+describe("normalizeAllowed - stateful regexps", () => {
+  it("should reset lastIndex of a global regexp name between calls", () => {
+    const filter = normalizeAllowed([/^data-/g]);
+
+    expect(filter).not.toBeNull();
+    // Without a reset, the second call starts at the previous lastIndex and fails
+    expect(filter!("data-a", "1")).toBe(true);
+    expect(filter!("data-b", "2")).toBe(true);
+    expect(filter!("data-c", "3")).toBe(true);
+  });
+
+  it("should reset lastIndex of a sticky regexp name between calls", () => {
+    const filter = normalizeAllowed([/^data-/y]);
+
+    expect(filter).not.toBeNull();
+    expect(filter!("data-a", "1")).toBe(true);
+    expect(filter!("data-b", "2")).toBe(true);
+  });
+
+  it("should reset lastIndex of a global regexp entry name between calls", () => {
+    const filter = normalizeAllowed([{ name: /^data-/g, value: ["1", "2"] }]);
+
+    expect(filter).not.toBeNull();
+    expect(filter!("data-a", "1")).toBe(true);
+    expect(filter!("data-b", "2")).toBe(true);
+  });
+
+  it("should reset lastIndex of a global regexp entry value between calls", () => {
+    const filter = normalizeAllowed([{ name: "class", value: [/^bg-/g] }]);
+
+    expect(filter).not.toBeNull();
+    expect(filter!("class", "bg-red")).toBe(true);
+    expect(filter!("class", "bg-blue")).toBe(true);
+  });
+});
