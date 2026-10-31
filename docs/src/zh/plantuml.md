@@ -25,7 +25,7 @@ Bob -> Alice : hello
 
 ## 选项
 
-::: fields
+:::: fields
 @`type` type=`"uml" | "fence"` default=`"uml"`
 
 Plantuml 解析类型。
@@ -50,6 +50,12 @@ Plantuml 解析类型。
 
 Plantuml 服务器。仅在使用默认地址获取器时可用。
 
+::: warning 外部请求
+
+使用默认 `srcGetter` 时，图表源码会被发送到配置的 PlantUML 服务器（默认为 `https://www.plantuml.com/plantuml`），这是一次可能泄露图表内容的外部请求。如果图表源码敏感，请自建服务器或提供自定义 `renderer`。
+
+:::
+
 @`format` type=string default=`"svg"`
 
 图片格式。仅在使用默认地址获取器时可用。
@@ -64,7 +70,7 @@ Plantuml 服务器。仅在使用默认地址获取器时可用。
 
 图表渲染器。
 
-:::
+::::
 
 ## 示例
 

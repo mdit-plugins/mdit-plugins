@@ -136,17 +136,25 @@ Closing tag render function.
 With the following code and some styles:
 
 ```js
+import { escapeHtml } from "@mdit/helper";
+
 md.use(container, {
   name: "hint",
   openRenderer: (tokens, index, _options) => {
     const info = tokens[index].info.trim().slice(4).trim();
 
     return `<div class="custom-container hint">\n<p class="custom-container-title">${
-      info || "Hint"
+      escapeHtml(info) || "Hint"
     }</p>\n`;
   },
 });
 ```
+
+::: warning Untrusted input
+
+Custom container titles come from document content, so they must be HTML-escaped when rendered as HTML; the example above uses `escapeHtml` for this.
+
+:::
 
 :::: preview You can write a hint like this:
 

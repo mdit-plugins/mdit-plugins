@@ -32,10 +32,16 @@ mdIt.render("来自火星的问候 :satellite:");
 
 ## 选项
 
-::: fields
+:::: fields
 @`definitions` type=`Record<string, string>` default="`{}` (取决于预设)"
 
 重写可用的表情定义。键是表情名称，值是表情字符。
+
+::: warning 不可信输入
+
+表情定义的值会作为原始 HTML 直接输出，因此 `definitions` 绝不能包含不可信的用户输入，否则必须先对值进行清理。
+
+:::
 
 @`enabled` type=string[] default=`[]`
 
@@ -47,7 +53,7 @@ mdIt.render("来自火星的问候 :satellite:");
 
 空字符串或纯空白的快捷键会被忽略。
 
-:::
+::::
 
 ## 示例
 
