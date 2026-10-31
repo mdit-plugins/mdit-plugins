@@ -109,7 +109,7 @@ const dlRule: BlockRule = (state, startLine, endLine, silent) => {
       const itemTokenIndex = state.tokens.length;
 
       const ddOpenToken = state.push("dd_open", "dd", 1);
-      const itemLines: [start: number, end: number] = [nextLine, 0];
+      const itemLines: [start: number, end: number] = [ddLine, 0];
 
       ddOpenToken.map = itemLines;
 
