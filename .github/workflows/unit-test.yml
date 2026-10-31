@@ -46,9 +46,12 @@ jobs:
           use_oidc: true
           files: ./coverage/test-report.junit.xml
           report_type: test_results
+          fail_ci_if_error: true
 
       - name: Upload coverage
         if: ${{ !cancelled() && matrix.node-version == '^24.22.1' }}
         uses: codecov/codecov-action@v7
         with:
           use_oidc: true
+          files: ./coverage/cobertura-coverage.xml
+          fail_ci_if_error: true
