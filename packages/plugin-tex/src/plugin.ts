@@ -305,7 +305,7 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
     end = state.eMarks[current];
 
     // non-empty line with negative indent should stop the list:
-    if (pos < end && state.tShift[current] < state.blkIndent) break;
+    if (pos < end && state.sCount[current] < state.blkIndent) break;
 
     // found end marker
     contentEnd = skipWhitespaceBack(state, end, pos);
@@ -334,7 +334,7 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   token.block = true;
   token.content =
     (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(startLine + 1, current, state.tShift[startLine], true) +
+    state.getLines(startLine + 1, current, state.sCount[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
   token.markup = "$$";
@@ -380,7 +380,7 @@ const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
     end = state.eMarks[current];
 
     // non-empty line with negative indent should stop the list:
-    if (pos < end && state.tShift[current] < state.blkIndent) break;
+    if (pos < end && state.sCount[current] < state.blkIndent) break;
 
     // found end marker
     contentEnd = skipWhitespaceBack(state, end, pos);
@@ -390,7 +390,7 @@ const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
       state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
       state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
     ) {
-      lastLine = state.src.slice(pos, contentEnd - 2).trimEnd();
+      lastLine = state.src.slice(pos, contentEnd - 2);
       found = true;
     }
   }
@@ -409,7 +409,7 @@ const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   token.block = true;
   token.content =
     (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(startLine + 1, current, state.tShift[startLine], true) +
+    state.getLines(startLine + 1, current, state.sCount[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
   token.markup = BLOCK_MARKER;
