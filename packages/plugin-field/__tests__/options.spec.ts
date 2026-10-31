@@ -30,6 +30,24 @@ Description
     expect(result).toContain('class="field-wrapper');
     expect(result).toContain('class="field-name"');
   });
+
+  it("should escape HTML characters in the class prefix", () => {
+    const classPrefix = `"><script>alert(1)</script>`;
+    const escapedPrefix = "&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;";
+    const customMd = new MarkdownIt().use(field, { classPrefix });
+    const result = customMd.render(`
+::: fields
+@\`prop\` type="string"
+:::
+`);
+
+    expect(result).not.toContain(classPrefix);
+    expect(result).not.toContain("<script>");
+    expect(result).toContain(`class="${escapedPrefix}wrapper fields-fields"`);
+    expect(result).toContain(`class="${escapedPrefix}name"`);
+    expect(result).toContain(`class="${escapedPrefix}attr ${escapedPrefix}attr-type"`);
+    expect(result).toContain(`class="${escapedPrefix}content"`);
+  });
 });
 
 describe("parseAttributes option", () => {
