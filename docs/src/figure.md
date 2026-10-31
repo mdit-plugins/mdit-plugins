@@ -32,7 +32,7 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 ::: fields
 @`focusable` type=boolean default=`true`
 
-Whether the figure is focusable.
+Whether the figure is focusable. When enabled, `tabindex="0"` is added to the image unless it already has a `tabindex` attribute, which is preserved.
 
 @`linkImage` type=boolean default=`true`
 

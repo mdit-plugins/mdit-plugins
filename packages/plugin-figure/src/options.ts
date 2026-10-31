@@ -28,9 +28,10 @@ export interface MarkdownItFigureOptions {
   moveAttrs?: boolean | (string | RegExp)[];
 
   /**
-   * Whether the figure is focusable
+   * Whether the figure is focusable. When enabled, `tabindex="0"` is added to the image only when
+   * it does not already have a `tabindex` attribute; an existing value is preserved.
    *
-   * 图片是否可聚焦
+   * 图片是否可聚焦。当启用时，仅当图片尚未带有 `tabindex` 属性时才添加 `tabindex="0"`，已有的值会保留。
    *
    * @default true
    */
