@@ -4,6 +4,8 @@
   "description": "MarkdownIt plugin collections written in typescript",
   "type": "module",
   "scripts": {
+    "bench:clean": "node --experimental-strip-types scripts/prepareBench.ts --clean",
+    "bench:prepare": "node --experimental-strip-types scripts/prepareBench.ts",
     "build": "cross-env NODE_ENV=production pnpm run --stream -r build",
     "bundle:analyze": "node --experimental-strip-types scripts/analyze.ts",
     "clean": "pnpm run --stream -r clean",
@@ -19,7 +21,7 @@
     "packages:update": "pnpm up -r",
     "prepare": "husky",
     "test": "vitest run",
-    "test:bench": "vitest bench",
+    "test:bench": "pnpm run bench:prepare && vitest bench",
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc --noEmit"
   },

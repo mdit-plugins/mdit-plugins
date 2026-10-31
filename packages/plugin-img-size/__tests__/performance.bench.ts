@@ -1,19 +1,16 @@
+// oxlint-disable vitest/require-hook
 import MarkdownIt from "markdown-it";
-import { describe, expect, test } from "vitest";
+import { describe } from "vitest";
 
-// oxlint-disable typescript/no-unsafe-argument
-// @ts-ignore: file may not exist
-import { obsidianImgSize as oldObsidianImgSize } from "../src-old/obsidian.js";
-// @ts-ignore: file may not exist
-import { imgSize as oldImgSize } from "../src-old/plugin.js";
-import { obsidianImgSize as newObsidianImgSize } from "../src/obsidian.js";
-import { imgSize as newImgSize } from "../src/plugin.js";
+import type { BenchPlugin } from "../../../scripts/bench.ts";
+import { defineBench, loadBaseline, loadCurrent } from "../../../scripts/bench.ts";
 
-const bench = (name: string, fn: () => void): void => {
-  test(name, async ({ bench: benchmark }) => {
-    await expect(benchmark(name, fn).run()).resolves.toBeDefined();
-  });
-};
+const baselineModule = await loadBaseline("plugin-img-size");
+const currentModule = await loadCurrent("plugin-img-size");
+const oldObsidianImgSize = baselineModule.obsidianImgSize as BenchPlugin;
+const oldImgSize = baselineModule.imgSize as BenchPlugin;
+const newObsidianImgSize = currentModule.obsidianImgSize as BenchPlugin;
+const newImgSize = currentModule.imgSize as BenchPlugin;
 
 const generateMarkdownWithImages = (count: number, format: "normal" | "obsidian"): string => {
   let markdown = "";
@@ -35,32 +32,32 @@ describe("imgSize plugin performance", () => {
   const mediumContent = generateMarkdownWithImages(50, "normal");
   const largeContent = generateMarkdownWithImages(200, "normal");
 
-  bench("old imgSize - Small content", () => {
+  defineBench("old imgSize - Small content", () => {
     const md = new MarkdownIt().use(oldImgSize);
     md.render(smallContent);
   });
 
-  bench("new imgSize - Small content", () => {
+  defineBench("new imgSize - Small content", () => {
     const md = new MarkdownIt().use(newImgSize);
     md.render(smallContent);
   });
 
-  bench("old imgSize - Medium content", () => {
+  defineBench("old imgSize - Medium content", () => {
     const md = new MarkdownIt().use(oldImgSize);
     md.render(mediumContent);
   });
 
-  bench("new imgSize - Medium content", () => {
+  defineBench("new imgSize - Medium content", () => {
     const md = new MarkdownIt().use(newImgSize);
     md.render(mediumContent);
   });
 
-  bench("old imgSize - Large content", () => {
+  defineBench("old imgSize - Large content", () => {
     const md = new MarkdownIt().use(oldImgSize);
     md.render(largeContent);
   });
 
-  bench("new imgSize - Large content", () => {
+  defineBench("new imgSize - Large content", () => {
     const md = new MarkdownIt().use(newImgSize);
     md.render(largeContent);
   });
@@ -71,32 +68,32 @@ describe("obsidianImgSize plugin performance", () => {
   const mediumContent = generateMarkdownWithImages(50, "obsidian");
   const largeContent = generateMarkdownWithImages(200, "obsidian");
 
-  bench("old obsidianImgSize - Small content", () => {
+  defineBench("old obsidianImgSize - Small content", () => {
     const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(smallContent);
   });
 
-  bench("new obsidianImgSize - Small content", () => {
+  defineBench("new obsidianImgSize - Small content", () => {
     const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(smallContent);
   });
 
-  bench("old obsidianImgSize - Medium content", () => {
+  defineBench("old obsidianImgSize - Medium content", () => {
     const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(mediumContent);
   });
 
-  bench("new obsidianImgSize - Medium content", () => {
+  defineBench("new obsidianImgSize - Medium content", () => {
     const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(mediumContent);
   });
 
-  bench("old obsidianImgSize - Large content", () => {
+  defineBench("old obsidianImgSize - Large content", () => {
     const md = new MarkdownIt().use(oldObsidianImgSize);
     md.render(largeContent);
   });
 
-  bench("new obsidianImgSize - Large content", () => {
+  defineBench("new obsidianImgSize - Large content", () => {
     const md = new MarkdownIt().use(newObsidianImgSize);
     md.render(largeContent);
   });

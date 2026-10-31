@@ -10,6 +10,7 @@ const config: ViteUserConfigExport = defineConfig({
     },
   },
   test: {
+    exclude: ["**/node_modules/**", "**/dist/**", "temp/**"],
     fsModuleCache: true,
     pool: "threads",
     coverage: {
@@ -25,6 +26,7 @@ const config: ViteUserConfigExport = defineConfig({
     },
     benchmark: {
       include: ["**/*.bench.ts"],
+      exclude: ["**/node_modules/**", "**/dist/**", "temp/**"],
     },
     ...(process.env.TEST_REPORT
       ? {
