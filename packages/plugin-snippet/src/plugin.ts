@@ -70,13 +70,22 @@ const createSnippetRule =
     resolvePath: Required<MarkdownItSnippetOptions>["resolvePath"],
     checkSecurity: SecurityChecker,
   ): BlockRule =>
-  (state, startLine, _endLine) => {
+  (state, startLine, _endLine, silent) => {
     const env = state.env as SnippetEnv;
     const pos = state.bMarks[startLine] + state.tShift[startLine];
     const max = state.eMarks[startLine];
 
     for (let index = 0; index < 3; ++index)
       if (state.src.charCodeAt(pos + index) !== 60 /* < */ || pos + index >= max) return false;
+
+    // markdown-it invokes block rules with `silent = true` to probe whether the
+    // line would start their block. Only report the match here: resolving the
+    // path (which may call user callbacks), running the security checker (which
+    // reads the filesystem and can throw) and emitting tokens all belong to the
+    // real, non-silent parse, which still runs them and surfaces errors as before.
+    // Recognition depends only on the `<<<` prefix checked above, so returning
+    // here keeps silent and non-silent reporting in agreement.
+    if (silent) return true;
 
     const start = pos + 3;
     const end = state.skipSpacesBack(max, pos);
@@ -87,13 +96,13 @@ const createSnippetRule =
      *
      * Captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
-    const currentFilePath = currentPath(env);
     const snippetContent = state.src.slice(start, end).trim();
     // the regexp supposes to match any possible snippet format
     // oxlint-disable-next-line typescript/no-non-null-assertion
     const [, snippetPath, snippetMeta] = SNIPPET_RE.exec(snippetContent)!;
     const [, region = "", lines = "", lang = ""] = SNIPPET_META_RE.exec(snippetMeta) ?? [];
 
+    const currentFilePath = currentPath(env);
     const cwd = currentFilePath ? dirname(currentFilePath) : ".";
     const requestedPath = snippetPath.trim();
     const resolvedPath = resolvePath(requestedPath, cwd);
