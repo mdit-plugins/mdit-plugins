@@ -47,6 +47,8 @@ If specified, only emojis in this list will be rendered. Otherwise, all emojis i
 
 Rewrite default shortcuts. The key is the emoji name, and the value is the shortcut(s) for the emoji.
 
+Empty or whitespace-only shortcuts are ignored.
+
 Example: `{ "smile": [ ":)", ":-)" ], "laughing": ":D" }`
 
 :::
