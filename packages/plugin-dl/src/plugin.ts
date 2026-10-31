@@ -95,11 +95,11 @@ const dlRule: BlockRule = (state, startLine, endLine, silent) => {
   OUTER: for (;;) {
     const dtOpenToken = state.push("dt_open", "dt", 1);
 
-    dtOpenToken.map = [dtLine, dtLine];
+    dtOpenToken.map = [dtLine, dtLine + 1];
 
     const inlineToken = state.push("inline", "", 0);
 
-    inlineToken.map = [dtLine, dtLine];
+    inlineToken.map = [dtLine, dtLine + 1];
     inlineToken.content = state.getLines(dtLine, dtLine + 1, state.blkIndent, false).trim();
     inlineToken.children = [];
 
