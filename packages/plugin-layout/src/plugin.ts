@@ -1,4 +1,4 @@
-import { escapeHtml, scanFence } from "@mdit/helper";
+import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN, layoutKey } from "./constant.js";
@@ -244,13 +244,18 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
 export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) => {
   const { inlineStyles = true } = options ?? {};
 
-  md.block.ruler.before("fence", "layout_container", getContainerRule(), {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  // Repeated installation of the same configuration must not register the rules twice.
+  if (!hasRule(md, "layout_container", "block")) {
+    md.block.ruler.before("fence", "layout_container", getContainerRule(), {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
 
-  md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  if (!hasRule(md, "layout_item", "block")) {
+    md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
 
   // Container open renderer
   md.renderer.rules.layout_container_open = (tokens, index): string => {

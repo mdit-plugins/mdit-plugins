@@ -26,6 +26,8 @@ Description 1
 `);
 ```
 
+Installing the plugin twice with the same `name` is a no-op: the first installation's rules and renderers stay in effect.
+
 ## Syntax
 
 ### Container
