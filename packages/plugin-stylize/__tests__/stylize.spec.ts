@@ -225,6 +225,45 @@ describe(stylize, () => {
       );
     });
 
+    it("should only skip the following tokens when a replacer applies", () => {
+      const noResultFoo: MarkdownItStylizeConfig = {
+        matcher: "foo",
+        // matches the token but deliberately produces no result
+        replacer: (): null => null,
+      };
+
+      const markdownItNoSkip = new MarkdownIt().use(stylize, {
+        config: [
+          noResultFoo,
+          {
+            matcher: "bar",
+            replacer: ({ tag, attrs, content }): MarkdownItStylizeResult => ({
+              tag,
+              attrs: { ...attrs, class: "fallback" },
+              content: `${content}!`,
+            }),
+          },
+        ],
+      });
+
+      // These tokens are structurally impossible for markdown-it itself: the "bar" text token
+      // reuses the previous pair's opening tag, so it can only be visited when the scanner does
+      // not skip the tokens after a non-applying matcher. The test pins the scanner invariant.
+      markdownItNoSkip.core.ruler.before("stylize_tag", "synthetic-tokens", (state) => {
+        const inlineToken = new state.Token("inline", "", 0);
+
+        inlineToken.children = [
+          new state.Token("strong_open", "B", 1),
+          Object.assign(new state.Token("text", "A", 1), { content: "foo" }),
+          Object.assign(new state.Token("text", "B", -1), { content: "bar" }),
+          new state.Token("strong_close", "A", -1),
+        ];
+        state.tokens.push(inlineToken);
+      });
+
+      expect(markdownItNoSkip.render("x")).toBe("<p>x</p>\n<B>foobar!</A>");
+    });
+
     it("should pass env to the replacer", () => {
       let receivedEnv: unknown;
 

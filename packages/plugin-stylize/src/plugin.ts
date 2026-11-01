@@ -41,8 +41,6 @@ const scanTokens = <
         if (!matcher.test(content)) continue;
       }
 
-      matched = true;
-
       const result = replacer({
         tag: tokenPrev.tag,
         content: token.content,
@@ -55,6 +53,7 @@ const scanTokens = <
         // Guard against user replacers omitting optional fields at runtime
         tokenPrev.attrs = Object.entries(result.attrs ?? {});
         token.content = result.content ?? token.content;
+        matched = true;
         break;
       }
     }
