@@ -39,14 +39,29 @@ const createDelimiterTests = (
       expect(getAttrs(src, range, null)).toStrictEqual(expected);
     });
 
-    it(replaceDelimiters("should skip escaped quotes in values", options), () => {
-      const src = replaceDelimiters(String.raw`{a="x\" y"}`, options);
-      const expected = [["a", String.raw`x\" y`]];
+    it(
+      replaceDelimiters("should unescape quotes and backslashes in quoted values", options),
+      () => {
+        const cases: [src: string, expected: [string, string][]][] = [
+          [String.raw`{a="x\" y"}`, [["a", 'x" y']]],
+          [String.raw`{title="a\"b"}`, [["title", 'a"b']]],
+          [String.raw`{data-a="x\\y"}`, [["data-a", String.raw`x\y`]]],
+          [String.raw`{data-a="\q"}`, [["data-a", String.raw`\q`]]],
+          [String.raw`{data-a="x\""}`, [["data-a", 'x"']]],
+          [String.raw`{data-a="x\\"}`, [["data-a", "x\\"]]],
+          // unquoted values keep backslashes literally, including escaped-looking pairs
+          [String.raw`{data-a=x\y}`, [["data-a", String.raw`x\y`]]],
+          [String.raw`{data-a=x\\y}`, [["data-a", String.raw`x\\y`]]],
+        ];
 
-      const range = createDelimiterChecker(options, "only")(src) as DelimiterRange;
+        for (const [src, expected] of cases) {
+          const content = replaceDelimiters(src, options);
+          const range = createDelimiterChecker(options, "only")(content) as DelimiterRange;
 
-      expect(getAttrs(src, range, null)).toStrictEqual(expected);
-    });
+          expect(getAttrs(content, range, null)).toStrictEqual(expected);
+        }
+      },
+    );
 
     it(
       replaceDelimiters(
