@@ -1,4 +1,4 @@
-import { hasRule } from "@mdit/helper";
+import { hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -98,6 +98,17 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
         // - :::
         //  test
         break;
+      }
+
+      // Markers inside fenced code blocks are literal text, skip them. Like plugin-tab and
+      // plugin-field this uses the container's indentation as the fence base; a fence opened
+      // inside a list item has a larger markdown-it `blkIndent`, so its closing fence may not be
+      // recognized here (a known limitation of this forward scan).
+      const fenceEnd = scanFence(state, nextLine, endLine, currentLineIndent);
+
+      if (fenceEnd != null && fenceEnd > nextLine) {
+        nextLine = fenceEnd - 1;
+        continue;
       }
 
       if (
@@ -206,10 +217,13 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     return true;
   };
 
-  // Repeated installation must not register the rule twice; a differing configuration keeps
-  // the first installation's parse rule (renderers are still refreshed).
-  if (!hasRule(md, "demo", "block")) {
-    md.block.ruler.before("fence", "demo", demoRule, {
+  const ruleName = `demo_${name}`;
+
+  // Repeated installation with the same name must not register the rule twice; a differing
+  // configuration for that name keeps the first installation's parse rule (renderers are still
+  // refreshed). Different names register their own rule so they can coexist.
+  if (!hasRule(md, ruleName, "block")) {
+    md.block.ruler.before("fence", ruleName, demoRule, {
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
   }
