@@ -39,10 +39,10 @@ export const isDirectiveBoundary = (code: number, isSpace: IsSpace): boolean =>
   code === DOT || code === HASH || isSpace(code);
 
 /**
- * Detect the type of layout directive at the given position. Supports both single `@` (depth 1) and
- * multiple `@@...` (depth = number of `@`) modes.
+ * Detect the type of layout directive at the given position. The reported `depth` is the number of
+ * leading `@` characters (`markerCount`) of the directive, e.g. `@flexs` → 1, `@@flexs` → 2.
  *
- * 检测给定位置的布局指令类型。 支持单 `@`（depth 1）和多 `@@...`（depth = `@` 数量）。
+ * 检测给定位置的布局指令类型。返回的 `depth` 是指令前导 `@` 的数量（`markerCount`），例如 `@flexs` → 1，`@@flexs` → 2。
  *
  * @param src - Source string / 源字符串
  * @param pos - Position (should point to '@') / 位置（应指向 '@'）
@@ -58,7 +58,7 @@ export const detectDirective = (
 ): { kind: "container" | "item" | "end"; type: number; nameEnd: number; depth: number } | null => {
   if (src.charCodeAt(pos) !== AT) return null;
 
-  // Count consecutive @ symbols for prefix-based nesting
+  // Count consecutive @ symbols: the marker count used for exact matching
   let atCount = 1;
   let afterAt = pos + 1;
 

@@ -38,6 +38,8 @@ The plugin uses directive-based syntax with a "plural-for-container, singular-fo
 | **CSS Grid**     | `@grids`   | `@grid`   | `@end` |
 | **Multi-column** | `@columns` | `@column` | `@end` |
 
+Any positive number of leading `@` characters can open a container outside another layout container, for example `@flexs`, `@@flexs` or `@@@flexs`. That number is the marker count of the container: its items and closing `@end` must use exactly the same count.
+
 ### Attribute Injection
 
 Directives support class and id selectors attached directly to the directive name:
@@ -52,54 +54,49 @@ Directives support class and id selectors attached directly to the directive nam
 
 ### Nesting
 
-Same or different containers can be nested inside items at the same indentation or partial indentation (less than code fence indentation) level.
+Containers are nested with **fewer** leading `@` characters than their parent. An outer `@@flexs` can contain an inner `@grids`, while both items and `@end` keep the marker count of their own container:
 
 ```md
-@flexs
-@flex
+@@flexs
+@@flex
 @grids grid-cols-2
 @grid
 Nested content
 @end
-@end
+@@end
 ```
 
-Though common tools like prettier is not happy with indention less than 4, the plugin is designed to be flexible with indentation as long as it is less than code fence indentation (4 spaces by default). This allows for more natural nesting without strict indentation requirements.
-
-A line indented less than its item marker ends that item. Its content is parsed by the parent container instead of being dropped.
+Three levels follow the same rule: `@@@flexs` wraps `@@flexs`, which wraps `@grids`:
 
 ```md
-<!-- prettier-ignore-start -->
-@flexs
-  @flex
-    Some Content
-
-    @grids grid-cols-2
-    @grid
-    Nested content
-    @end
-
-    More Content
-
-  @flex
-    Another Content
+@@@flexs
+@@@flex
+@@flexs
+@@flex
+@grids grid-cols-2
+@grid
+Deep content
 @end
-<!-- prettier-ignore-end -->
+@@end
+@@@end
 ```
 
-**Prefix mode** (multiple `@`) provides an explicit depth indicator — recommended for complex nesting:
+A nested container must have a smaller marker count than its parent. Inside `@flexs`, both `@grids` and `@@grids` are parsed as ordinary text:
 
 ```md
 @flexs
 @flex
-@@flexs
-@@flex
-Content (depth 2 via @@)
-@@end
+@grids
+@grid
+@@grids
+@@grid
+This is text, not a nested grid.
 @end
 ```
 
-In prefix mode, `@@` = depth 2, `@@@` = depth 3, etc. Items and `@end` must use the same number of `@` as their container, otherwise markers will be rendered as text. This explicit depth indication makes it easier to maintain clear structure and avoid mismatches in complex nesting.
+Directive lines may be indented by 0-3 spaces relative to the current block; the indentation is decorative. Lines indented 4+ spaces are indented code blocks or lazy paragraph continuations and never start directives, matching CommonMark.
+
+A container without a matching `@end` is auto-closed at the end of its parent block. Content that is outdented past the parent block (for example a top-level line after a list-indented container) is parsed by the parent normally. At the same block level (for example inside a nested container or list item; blockquote-prefixed lines are exempt), a same-type item marker or an `@end` whose `@` count matches an enclosing container is treated as a boundary; avoid writing such markers as literal text there.
 
 ## Supported Utilities
 
