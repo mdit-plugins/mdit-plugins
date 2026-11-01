@@ -27,6 +27,16 @@ describe(defaultRender, () => {
     expect(defaultRender('a"b')).toBe('<i icon="a&quot;b"></i>');
     expect(defaultRender("a&b<c>d")).toBe('<i icon="a&amp;b&lt;c&gt;d"></i>');
   });
+
+  it("should unescape quoted titles and escape them again", () => {
+    expect(defaultRender(String.raw`test title="I am \"God\"!"`)).toBe(
+      '<i icon="test" title="I am &quot;God&quot;!"></i>',
+    );
+
+    expect(defaultRender(String.raw`test title='I am \'God\'!'`)).toBe(
+      '<i icon="test" title="I am &#39;God&#39;!"></i>',
+    );
+  });
 });
 
 describe(iconifyRender, () => {

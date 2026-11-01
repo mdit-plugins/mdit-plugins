@@ -61,13 +61,15 @@ const iconRule: InlineRule = (state, silent) => {
     return false;
   }
 
-  // a nested token (e.g. a multi-line code span) can hide a line break from the loop above
-  const newlineIndex = state.src.indexOf("\n", start + 2);
+  // a nested token (e.g. a multi-line code span) can hide a line break from the loop above.
+  // Only the matched span needs to be checked, so the scan stays bounded instead of searching
+  // the rest of the document through `indexOf`.
+  for (let index = start + 2; index < state.pos; index++) {
+    if (state.src.charCodeAt(index) === NEWLINE) {
+      state.pos = start;
 
-  if (newlineIndex !== -1 && newlineIndex < state.pos) {
-    state.pos = start;
-
-    return false;
+      return false;
+    }
   }
 
   if (silent) {
