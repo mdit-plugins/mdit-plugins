@@ -136,6 +136,7 @@ const cases: AuditCase[] = [
     markdown: "::: demo\n# Heading\nText\n:::\n",
     expected: [
       ["demo_demo_open", [0, 3]],
+      ["demo_demo_content_open", [1, 3]],
       ["heading_open", [1, 2]],
       ["inline", [1, 2]],
       ["paragraph_open", [2, 3]],
@@ -147,9 +148,11 @@ const cases: AuditCase[] = [
     name: "demo (empty body)",
     md: new MarkdownIt().use(demo),
     markdown: "::: demo\n:::\n",
-    // An empty body has no content lines, so the synthetic code token keeps an empty range.
+    // An empty body has no content lines, so both the content container and the synthetic code
+    // token keep an empty range.
     expected: [
       ["demo_demo_open", [0, 1]],
+      ["demo_demo_content_open", [1, 1]],
       ["fence", [1, 1]],
     ],
   },
