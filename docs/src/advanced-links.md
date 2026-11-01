@@ -168,6 +168,10 @@ A block syntax cannot interrupt a setext heading underline, so a line starting w
 
 Name used by the syntax. It must not be empty or contain whitespace, `[`, `]`, `(`, `)`, `"` or `'`. Registering the same name again replaces the previous config.
 
+@`inline` type=boolean default=`false`
+
+Whether the syntax is also available inline.
+
 @`renderer` type=`(link: string, props: AdvancedLinkProps, env: unknown) => string` required
 
 ```ts
@@ -177,10 +181,6 @@ type AdvancedLinkRenderer = (link: string, props: AdvancedLinkProps, env: unknow
 ```
 
 Renderer to generate HTML. `env` is the MarkdownIt environment. The link is normalized with `md.normalizeLink` and validated with `md.validateLink`; the link and all prop values are not HTML-escaped and must be escaped before being interpolated into markup.
-
-@`inline` type=boolean
-
-Whether the syntax is also available inline.
 
 :::
 

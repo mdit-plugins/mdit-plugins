@@ -61,6 +61,7 @@ mdIt.render("$E=mc^2$");
 
 ::: fields
 <!-- @include: ./tex.md#options -->
+<!-- @include: ./tex.md#options-inline -->
 
 @`logger` type=KatexLogger
 

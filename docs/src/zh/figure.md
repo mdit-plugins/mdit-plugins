@@ -30,15 +30,7 @@ mdIt.render("![image](https://example.com/image.png)");
 ## 选项
 
 ::: fields
-@`focusable` type=boolean default=`true`
-
-图片是否可聚焦。启用时会为图片添加 `tabindex="0"`，除非图片已带有 `tabindex` 属性，此时会保留原有值。
-
-@`linkImage` type=boolean default=`true`
-
-是否将链接图片 (`[![image](url)](link)`) 转换为 figure。
-
-@`moveAttrs` type=`boolean | (string | RegExp)[]`
+@`moveAttrs` type=`boolean | (string | RegExp)[]` default=`false`
 
 将图片属性复制或移动到 `<figure>` 上。
 
@@ -54,6 +46,14 @@ moveAttrs: true;
 // 将 class 和 data-* 属性移动到 figure（img 失去）
 moveAttrs: ["class", /^data-/];
 ```
+
+@`focusable` type=boolean default=`true`
+
+图片是否可聚焦。启用时会为图片添加 `tabindex="0"`，除非图片已带有 `tabindex` 属性，此时会保留原有值。
+
+@`linkImage` type=boolean default=`true`
+
+是否将链接图片 (`[![image](url)](link)`) 转换为 figure。
 
 :::
 
