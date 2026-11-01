@@ -73,16 +73,16 @@ Where:
 
 ::: tip Escaping
 
-To escape the embed syntax, use a backslash before the opening/closing brace:
+To render the embed syntax literally, escape its opening marker with a backslash (`\{%`) or its closing brace with `%\}`; escaping the opening marker is enough for a whole embed:
 
 ```md
 \{% name params %}
 ```
 
-You can also escape these markers in contents:
+To write a marker inside embed content, escape only the inner markers and leave the outer embed unescaped:
 
 ```md
-\{% name params-containing-\{%value%\} %}
+{% name params-containing-\{%value%\} %}
 ```
 
 :::
