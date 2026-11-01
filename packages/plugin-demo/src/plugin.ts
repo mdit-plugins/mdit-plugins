@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -197,9 +198,14 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     return true;
   };
 
-  md.block.ruler.before("fence", "demo", demoRule, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  // Repeated installation must not register the rule twice; a differing configuration keeps
+  // the first installation's parse rule (renderers are still refreshed).
+  if (!hasRule(md, "demo", "block")) {
+    md.block.ruler.before("fence", "demo", demoRule, {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
+
   md.renderer.rules[`${name}_demo_open`] = openRenderer;
   md.renderer.rules[`${name}_demo_close`] = closeRenderer;
   if (codeRenderer) md.renderer.rules[`${name}_demo_code`] = codeRenderer;

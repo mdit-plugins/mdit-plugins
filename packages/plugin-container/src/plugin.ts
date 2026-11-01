@@ -3,6 +3,7 @@
  * https://github.com/markdown-it/markdown-it-container/blob/master/index.mjs
  */
 
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownItOptions, Renderer, RendererRule, Token } from "markdown-it";
 
@@ -18,6 +19,7 @@ const defaultCloseRenderer: RendererRule = (
   self: Renderer,
 ): string => self.renderToken(tokens, index, mdItOptions);
 
+// oxlint-disable-next-line max-lines-per-function
 export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
   if (typeof options !== "object" || options == null || !options.name)
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");
@@ -170,9 +172,16 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     return true;
   };
 
-  md.block.ruler.before("fence", `container_${name}`, containerRule, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
-  md.renderer.rules[`container_${name}_open`] = openRenderer ?? defaultOpenRenderer;
-  md.renderer.rules[`container_${name}_close`] = closeRenderer ?? defaultCloseRenderer;
+  const ruleName = `container_${name}`;
+
+  // Repeated installation must not register the rule twice; a differing configuration keeps
+  // the first installation's parse rule (renderers are still refreshed).
+  if (!hasRule(md, ruleName, "block")) {
+    md.block.ruler.before("fence", ruleName, containerRule, {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
+
+  md.renderer.rules[`${ruleName}_open`] = openRenderer ?? defaultOpenRenderer;
+  md.renderer.rules[`${ruleName}_close`] = closeRenderer ?? defaultCloseRenderer;
 };

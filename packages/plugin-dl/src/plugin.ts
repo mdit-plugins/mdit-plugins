@@ -1,5 +1,6 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-deflist/blob/master/index.mjs */
 
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginSimple } from "@mdit/helper";
 import type { StateBlock } from "markdown-it";
 
@@ -206,7 +207,11 @@ const dlRule: BlockRule = (state, startLine, endLine, silent) => {
 };
 
 export const dl: PluginSimple = (md) => {
-  md.block.ruler.before("paragraph", "dl", dlRule, {
-    alt: ["paragraph", "reference", "blockquote"],
-  });
+  // Repeated installation must not register the rule twice; a differing configuration keeps
+  // the first installation's parse rule (renderers are still refreshed).
+  if (!hasRule(md, "dl", "block")) {
+    md.block.ruler.before("paragraph", "dl", dlRule, {
+      alt: ["paragraph", "reference", "blockquote"],
+    });
+  }
 };

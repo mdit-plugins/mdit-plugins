@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItAlertOptions } from "./options.js";
@@ -349,9 +350,13 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 ) => {
   const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
 
-  md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  // Repeated installation must not register the rule twice; a differing configuration keeps
+  // the first installation's parse rule (renderers are still refreshed).
+  if (!hasRule(md, "alert", "block")) {
+    md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
 
   if (openRenderer) md.renderer.rules.alert_open = openRenderer;
 
