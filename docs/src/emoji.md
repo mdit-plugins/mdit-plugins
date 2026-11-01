@@ -25,6 +25,8 @@ Different presets are available:
 - `lightEmoji`: includes small subset of most useable emojis
 - `bareEmoji`: no defaults, only includes those you defined in options
 
+A markdown-it instance supports one preset: reinstalling on the same instance — with another variant or with different options — keeps the first installed rule and its definitions.
+
 ## Syntax
 
 - `:emoji_name:`

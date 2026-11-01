@@ -1,4 +1,4 @@
-import { UNESCAPE_RE } from "@mdit/helper";
+import { hasRule, UNESCAPE_RE } from "@mdit/helper";
 import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { Delimiter, StateInline } from "markdown-it";
 
@@ -276,36 +276,39 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
   const ruleName = `${token}_${marker}`;
   const isBefore = placement === "before-emphasis";
 
-  if (nested) {
-    const tokenize = createNestedTokenize(markerCode, double);
-    const postProcess = createNestedPostProcess({
-      markerCode,
-      tag,
-      token,
-      markup,
-      double,
-      attrs,
-    });
-    const ruler2Handler = createRuler2Handler(postProcess);
+  // Repeated installation of the same configuration must not register the rule twice.
+  if (!hasRule(md, ruleName, "inline")) {
+    if (nested) {
+      const tokenize = createNestedTokenize(markerCode, double);
+      const postProcess = createNestedPostProcess({
+        markerCode,
+        tag,
+        token,
+        markup,
+        double,
+        attrs,
+      });
+      const ruler2Handler = createRuler2Handler(postProcess);
 
-    if (isBefore) {
-      md.inline.ruler.before("emphasis", ruleName, tokenize);
-      md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
+      if (isBefore) {
+        md.inline.ruler.before("emphasis", ruleName, tokenize);
+        md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
+      } else {
+        md.inline.ruler.after("emphasis", ruleName, tokenize);
+        md.inline.ruler2.after("emphasis", ruleName, ruler2Handler);
+      }
     } else {
-      md.inline.ruler.after("emphasis", ruleName, tokenize);
-      md.inline.ruler2.after("emphasis", ruleName, ruler2Handler);
-    }
-  } else {
-    const rule = createLinearRule({
-      markerCode,
-      tag,
-      token,
-      markup,
-      allowSpace,
-      attrs,
-    });
+      const rule = createLinearRule({
+        markerCode,
+        tag,
+        token,
+        markup,
+        allowSpace,
+        attrs,
+      });
 
-    if (isBefore) md.inline.ruler.before("emphasis", ruleName, rule);
-    else md.inline.ruler.after("emphasis", ruleName, rule);
+      if (isBefore) md.inline.ruler.before("emphasis", ruleName, rule);
+      else md.inline.ruler.after("emphasis", ruleName, rule);
+    }
   }
 };

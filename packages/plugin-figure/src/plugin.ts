@@ -1,4 +1,5 @@
 /** Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures */
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -155,5 +156,6 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
     }
   };
 
-  md.core.ruler.before("linkify", "figure", figureRule);
+  // Repeated installation of the same configuration must not register the rule twice.
+  if (!hasRule(md, "figure", "core")) md.core.ruler.before("linkify", "figure", figureRule);
 };
