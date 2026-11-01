@@ -40,7 +40,7 @@ This repo contains the following plugins:
 - @mdit/plugin-inline-rule
 - @mdit/plugin-ins
 - @mdit/plugin-katex
-- @mdit/plugin-katex-slim (Workable in browser with bundlers, but no CDN scripts)
+- @mdit/plugin-katex-slim (Node.js only; install katex yourself, use @mdit/plugin-katex for browser)
 - @mdit/plugin-layout
 - @mdit/plugin-mark
 - @mdit/plugin-mathjax (Workable in browser with bundlers, but no CDN scripts)
