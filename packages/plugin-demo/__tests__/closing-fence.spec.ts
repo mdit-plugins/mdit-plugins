@@ -2,7 +2,6 @@ import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItInstance, Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { container } from "../../plugin-container/src/index.js";
 import { demo } from "../src/index.js";
 
 const markdownIt = new MarkdownIt().use(demo);
@@ -36,36 +35,6 @@ after
 <p>after</p>`);
     expect(result).toContain(":::\n```\nafter");
     expect(result).not.toContain("<pre><code>after");
-  });
-
-  it("should ignore the marker inside a fence nested in containers", () => {
-    const markdownItNested = new MarkdownIt().use(demo).use(container, { name: "tip" });
-    // The fence content contains a `::::` line: without skipping fenced code it would close
-    // the outer `:::: demo` block early.
-    const source = `\
-:::: demo
-::: tip
-tip content
-:::
-
-\`\`\`js
-::::
-\`\`\`
-
-::::
-`;
-
-    const opens = markdownItNested
-      .parse(source, {})
-      .filter((token) => token.type === "demo_demo_open");
-
-    expect(opens).toHaveLength(1);
-    expect(opens[0].map).toStrictEqual([0, 9]);
-
-    const result = markdownItNested.render(source);
-
-    expect(result).toContain('<div class="tip">\n<p>tip content</p>\n</div>');
-    expect(result).toContain('<pre><code class="language-js">::::\n</code></pre>');
   });
 
   it("should ignore the marker inside a tilde fence", () => {

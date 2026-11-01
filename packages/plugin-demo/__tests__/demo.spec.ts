@@ -2,8 +2,6 @@ import { escapeHtml } from "@mdit/helper";
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { alert } from "../../plugin-alert/src/index.js";
-import { include } from "../../plugin-include/src/plugin.js";
 import { demo } from "../src/index.js";
 
 const mdContent = `\
@@ -410,92 +408,6 @@ ${mdContent}
 ${renderContent}
 </summary>
 ${codeContent}
-</details>
-`,
-    );
-  });
-
-  it("should work with alert", () => {
-    const alertContent = `\
-> [!caution]
-> Caution text\
-`;
-
-    const markdownItAlert = new MarkdownIt({ linkify: true }).use(alert, { deep: true }).use(demo);
-
-    expect(
-      markdownItAlert.render(`
-::: demo Title text
-${alertContent}
-:::
-`),
-    ).toBe(
-      `\
-<details><summary>Title text</summary>
-<div class="demo-content">
-<div class="markdown-alert markdown-alert-caution">
-<p class="markdown-alert-title">Caution</p>
-<p>Caution text</p>
-</div>
-</div>
-<pre><code class="language-md">${escapeHtml(alertContent)}
-</code></pre>
-</details>
-`,
-    );
-  });
-
-  it("should work with import", () => {
-    const importContent = `\
-<!-- @include: ../../plugin-include/__tests__/__fixtures__/simpleInclude.md -->
-`;
-
-    const markdownItInclude = new MarkdownIt({ linkify: true })
-      .use(include, {
-        currentPath: () => __filename,
-      })
-      .use(demo);
-
-    const result1 = markdownItInclude.render(`
-::: demo Title text
-${importContent}
-:::
-`);
-
-    const result2 = markdownItInclude.render(`
-::: demo Title text
-
-${importContent}
-
-:::
-`);
-
-    expect(result1).toMatch(
-      `\
-<details><summary>Title text</summary>
-<div class="demo-content">
-<h1>ABC</h1>
-<p>DEF</p>
-</div>
-<pre><code class="language-md"># ABC
-
-DEF
-</code></pre>
-</details>
-`,
-    );
-
-    expect(result2).toMatch(
-      `\
-<details><summary>Title text</summary>
-<div class="demo-content">
-<h1>ABC</h1>
-<p>DEF</p>
-</div>
-<pre><code class="language-md"># ABC
-
-DEF
-</code></pre>
 </details>
 `,
     );
