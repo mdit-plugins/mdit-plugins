@@ -1,8 +1,8 @@
 import MarkdownIt from "markdown-it";
 import { describe, expect, it } from "vitest";
 
-import { footnote } from "../../plugin-footnote/src/index.js";
-import { tab } from "../src/index.js";
+import { footnote } from "../packages/plugin-footnote/src/index.js";
+import { tab } from "../packages/plugin-tab/src/index.js";
 
 const getFirstTabButtonContent = (html: string): string => {
   const match = /<button\b[^>]*data-tab="0"[^>]*>(?<content>[\s\S]*?)<\/button>/u.exec(html);
