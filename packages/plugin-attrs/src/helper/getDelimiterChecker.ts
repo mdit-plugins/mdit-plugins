@@ -75,6 +75,7 @@ export const createDelimiterChecker = (
   const right = options.right;
   const leftLength = left.length;
   const rightLength = right.length;
+  const rightLastCharCode = right.charCodeAt(rightLength - 1);
   const minContentLength = leftLength + 1 + rightLength;
 
   return (content) => {
@@ -92,10 +93,12 @@ export const createDelimiterChecker = (
 
       if (end === -1) return false;
 
-      // Check if next character is not part of right delimiter
+      // Check if the next character would extend the right delimiter, i.e. it equals
+      // the final character of the delimiter (`}}` rejects a trailing `}`, `]}` does not reject `]`)
       const nextCharPos = end + rightLength;
 
-      if (nextCharPos < content.length && right.includes(content.charAt(nextCharPos))) return false;
+      if (nextCharPos < content.length && content.charCodeAt(nextCharPos) === rightLastCharCode)
+        return false;
     } else if (where === "end") {
       // Check if content ends with right delimiter
       start = findLastLeftDelimiter(content, left);

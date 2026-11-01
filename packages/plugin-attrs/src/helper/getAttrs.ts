@@ -1,6 +1,7 @@
 import type { DelimiterRange } from "../rules/types.js";
 import {
   CLASS_MARKER,
+  ESCAPE_MARKER,
   ID_MARKER,
   KEY_SEPARATOR,
   PAIR_SEPARATOR,
@@ -23,6 +24,21 @@ const isAllowedKeyChar = (charCode: number): boolean =>
     charCode === 61 /* = */
   );
 
+/**
+ * Parse attrs from a delimited range.
+ *
+ * 从分隔符范围内解析属性。
+ *
+ * Inside quoted values, `\"` and `\\` are unescaped; any other backslash is kept as-is.
+ *
+ * 在带引号的值中，`\"` 与 `\\` 会被反转义，其他反斜杠原样保留。
+ *
+ * @param str - Content containing the attrs section / 包含属性部分的内容
+ * @param range - Start and end indexes of the attrs content / 属性内容的起止索引
+ * @param filter - Normalized attr filter, or `null` to keep all safe attrs / 规范化后的属性过滤器，`null`
+ *   表示保留所有安全属性
+ * @returns Parsed attrs / 解析出的属性
+ */
 export const getAttrs = (str: string, range: DelimiterRange, filter: AttrFilter | null): Attr[] => {
   let key = "";
   let value = "";
@@ -101,6 +117,17 @@ export const getAttrs = (str: string, range: DelimiterRange, filter: AttrFilter 
     if (parsingKey) {
       key += String.fromCharCode(charCode);
       continue;
+    }
+
+    // inside quoted values, `\"` and `\\` are unescaped while other backslashes stay literal
+    if (charCode === ESCAPE_MARKER && valueInsideQuotes) {
+      const nextCharCode = str.charCodeAt(index + 1);
+
+      if (nextCharCode === QUOTE_MARKER || nextCharCode === ESCAPE_MARKER) {
+        value += String.fromCharCode(nextCharCode);
+        index++;
+        continue;
+      }
     }
 
     value += String.fromCharCode(charCode);

@@ -68,6 +68,48 @@ describe(createDelimiterChecker, () => {
     expect(checker("text")).toBe(false);
   });
 
+  it("should only reject a trailing character matching the end of a multi-char right delimiter", () => {
+    const asymmetricOptions: Required<MarkdownItAttrsOptions> = {
+      ...options,
+      left: "{",
+      right: "]}",
+    };
+
+    const startChecker = createDelimiterChecker(asymmetricOptions, "start");
+    const endChecker = createDelimiterChecker(asymmetricOptions, "end");
+    const onlyChecker = createDelimiterChecker(asymmetricOptions, "only");
+
+    expect(startChecker("{.a]}")).toStrictEqual([1, 3]);
+    // `]` is part of the right delimiter but not its final character, so it must not reject
+    expect(startChecker("{.a]}]")).toStrictEqual([1, 3]);
+    expect(startChecker("{.a]} text")).toStrictEqual([1, 3]);
+    // a trailing final delimiter character is still rejected
+    expect(startChecker("{.a]}}")).toBe(false);
+
+    expect(endChecker("text {.a]}")).toStrictEqual([6, 8]);
+    expect(endChecker("text {.a]}]")).toBe(false);
+
+    expect(onlyChecker("{.a]}")).toStrictEqual([1, 3]);
+    expect(onlyChecker("{.a]}]")).toBe(false);
+  });
+
+  it("should keep the trailing check for a symmetric multi-char right delimiter", () => {
+    const symmetricOptions: Required<MarkdownItAttrsOptions> = {
+      ...options,
+      left: "{{",
+      right: "}}",
+    };
+
+    const startChecker = createDelimiterChecker(symmetricOptions, "start");
+    const endChecker = createDelimiterChecker(symmetricOptions, "end");
+
+    expect(startChecker("{{.a}}")).toStrictEqual([2, 4]);
+    expect(startChecker("{{.a}}}")).toBe(false);
+    expect(startChecker("{{.a}} text")).toStrictEqual([2, 4]);
+
+    expect(endChecker("text {{.a}}")).toStrictEqual([7, 9]);
+  });
+
   it("should work with custom delimiters", () => {
     const customOptions: Required<MarkdownItAttrsOptions> = {
       left: "[",

@@ -63,6 +63,8 @@ will be
 
 ### Heading \{#heading}
 
+When attributes are parsed from a raw string (for example `parseAttrs()` or a fence info string), inside quoted values `\"` and `\\` produce a literal `"` and `\`; other backslashes (including backslashes in unquoted values) are kept as-is. Inline attrs on headings/paragraphs are processed after markdown-it's inline escape rule, so escaped quotes there are not unescaped by this plugin.
+
 :::
 
 ::: warning Security

@@ -36,6 +36,15 @@ const createDualRuleTests = (
         expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
       });
 
+      it(replaceDelimiters("should unescape escaped characters in attr values", options), () => {
+        const src = String.raw`~~~js {title="a\"b"}
+code
+~~~`;
+        const expected = '<pre title="a&quot;b"><code class="language-js">code\n</code></pre>\n';
+
+        expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+      });
+
       it(replaceDelimiters("should keep the last value of repeated keys", options), () => {
         const src = "```js {#a #b}\ncode\n```";
         const expected = '<pre id="b"><code class="language-js">code\n</code></pre>\n';

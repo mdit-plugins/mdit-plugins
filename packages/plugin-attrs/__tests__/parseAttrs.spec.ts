@@ -26,6 +26,14 @@ describe(parseAttrs, () => {
     ]);
   });
 
+  it("should unescape quotes and backslashes in quoted values", () => {
+    expect(parseAttrs(String.raw`foo {title="a\"b" data-a="x\\y" data-b="\q"}`)).toStrictEqual([
+      ["title", 'a"b'],
+      ["data-a", String.raw`x\y`],
+      ["data-b", String.raw`\q`],
+    ]);
+  });
+
   it("should return an empty array when the attrs section contains no attrs", () => {
     expect(parseAttrs("foo { }")).toStrictEqual([]);
   });
