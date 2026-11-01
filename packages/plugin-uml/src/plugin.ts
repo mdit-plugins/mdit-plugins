@@ -1,4 +1,4 @@
-import { dedent } from "@mdit/helper";
+import { dedent, hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItUMLOptions } from "./options.js";
@@ -97,9 +97,12 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
     return true;
   };
 
-  md.block.ruler.before("fence", name, umlRule, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+  // A second installation with the same name must not register the block rule twice.
+  if (!hasRule(md, name, "block")) {
+    md.block.ruler.before("fence", name, umlRule, {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
+  }
 
   md.renderer.rules[name] = renderer;
 };

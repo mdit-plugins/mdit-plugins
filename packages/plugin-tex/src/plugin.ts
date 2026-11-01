@@ -1,5 +1,6 @@
 /** Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js */
 
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { StateBlock, StateInline } from "markdown-it";
 
@@ -449,17 +450,24 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
 
   // Register inline and block rules based on delimiters option
   if (delimiters === "dollars" || delimiters === "all") {
-    md.inline.ruler.after(
-      "escape",
-      "math_inline_dollar",
-      createDollarInlineTexRule(allowInlineWithSpace),
-    );
-    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
+    // A second installation must not register the same rules twice.
+    if (!hasRule(md, "math_inline_dollar", "inline")) {
+      md.inline.ruler.after(
+        "escape",
+        "math_inline_dollar",
+        createDollarInlineTexRule(allowInlineWithSpace),
+      );
+    }
+    if (!hasRule(md, "math_block_dollar", "block"))
+      md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
   }
 
   if (delimiters === "brackets" || delimiters === "all") {
-    md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
-    md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
+    // A second installation must not register the same rules twice.
+    if (!hasRule(md, "math_inline_bracket", "inline"))
+      md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
+    if (!hasRule(md, "math_block_bracket", "block"))
+      md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
   }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>

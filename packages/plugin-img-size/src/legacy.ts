@@ -1,7 +1,7 @@
 /** Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js */
 
 import type { InlineRule, PluginSimple } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
 import { normalizeSize } from "./utils.js";
@@ -255,10 +255,22 @@ const legacyImgSizeRule: InlineRule = (state, silent) => {
   return true;
 };
 
+// markdown-it already ships a rule named `image`, so `hasRule` cannot tell whether this
+// plugin has prepended its own one. Match the rule function instead.
+const hasLegacyImgSizeRule = (md: MarkdownIt): boolean => {
+  // oxlint-disable-next-line eslint/no-underscore-dangle
+  const rules = md.inline.ruler.__rules__;
+
+  return rules.some(({ fn, name }) => name === "image" && fn === legacyImgSizeRule);
+};
+
 /**
  * @deprecated Recommended to use `imgSize` instead.
  * @param md Markdown-it instance
  */
 export const legacyImgSize: PluginSimple = (md) => {
+  // A second installation would add another `image` rule in front of the upstream one.
+  if (hasLegacyImgSizeRule(md)) return;
+
   md.inline.ruler.before("emphasis", "image", legacyImgSizeRule);
 };
