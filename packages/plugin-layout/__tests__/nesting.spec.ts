@@ -8,61 +8,59 @@ const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("nesting", () => {
-    describe("simple nesting", () => {
-      it("should support nesting same type", () => {
-        const expected = `\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<p>Nested content</p>
-</div>
-</div>
-</div>
-</div>
-`;
-
+    describe("marker counts", () => {
+      it("should allow any marker count at the top level", () => {
         expect(
           markdownIt.render(`\
-@flexs
-@flex
-@flexs
-@flex
-Nested content
-@end
-@end
-`),
-        ).toBe(expected);
-
-        // nested style
-        expect(
-          markdownIt.render(`\
-@flexs
-  @flex
-    @flexs
-      @flex
-      Nested content
-    @end
-@end
-`),
-        ).toBe(expected);
-      });
-
-      it("should support nesting different types", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@grids
-@grid
-Nested content
-@end
-@end
+@@flexs
+@@flex
+Content A
+@@flex
+Content B
+@@end
 `),
         ).toBe(`\
 <div style="display:flex">
 <div>
+<p>Content A</p>
+</div>
+<div>
+<p>Content B</p>
+</div>
+</div>
+`);
+
+        expect(
+          markdownIt.render(`\
+@@@grids
+@@@grid
+Deep
+@@@end
+`),
+        ).toBe(`\
 <div style="display:grid">
+<div>
+<p>Deep</p>
+</div>
+</div>
+`);
+      });
+
+      it("should nest containers with fewer leading markers", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs gap-4
+@@flex
+@grids grid-cols-2
+@grid
+Nested content
+@end
+@@end
+`),
+        ).toBe(`\
+<div style="display:flex;gap:1rem">
+<div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
 <div>
 <p>Nested content</p>
 </div>
@@ -72,26 +70,26 @@ Nested content
 `);
       });
 
-      it("should handle multiple levels", () => {
+      it("should support three nesting levels", () => {
         expect(
           markdownIt.render(`\
-@flexs
-@flex
-@grids
+@@@flexs
+@@@flex
+@@flexs
+@@flex
+@grids grid-cols-2
 @grid
-@columns
-@column
 Deep content
 @end
-@end
-@end
+@@end
+@@@end
 `),
         ).toBe(`\
 <div style="display:flex">
 <div>
-<div style="display:grid">
+<div style="display:flex">
 <div>
-<div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
 <div>
 <p>Deep content</p>
 </div>
@@ -103,11 +101,35 @@ Deep content
 `);
       });
 
-      it("should handle content before nested", () => {
+      it("should support nesting the same container type", () => {
         expect(
           markdownIt.render(`\
+@@flexs
+@@flex
 @flexs
 @flex
+Nested content
+@end
+@@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<div style="display:flex">
+<div>
+<p>Nested content</p>
+</div>
+</div>
+</div>
+</div>
+`);
+      });
+
+      it("should handle content before and after a nested container", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs
+@@flex
 Some text before
 @grids grid-cols-2
 @grid
@@ -115,7 +137,8 @@ Item A
 @grid
 Item B
 @end
-@end
+After nested
+@@end
 `),
         ).toBe(`\
 <div style="display:flex">
@@ -129,49 +152,24 @@ Item B
 <p>Item B</p>
 </div>
 </div>
-</div>
-</div>
-`);
-      });
-
-      it("should handle content after nested", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@grids
-@grid
-Inner
-@end
-After nested
-@end
-`),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:grid">
-<div>
-<p>Inner</p>
-</div>
-</div>
 <p>After nested</p>
 </div>
 </div>
 `);
       });
 
-      it("should handle siblings after nested", () => {
+      it("should handle sibling items after a nested container", () => {
         expect(
           markdownIt.render(`\
-@flexs
-@flex
+@@flexs
+@@flex
 @grids
 @grid
 Inner
 @end
-@flex
+@@flex
 Outer sibling
-@end
+@@end
 `),
         ).toBe(`\
 <div style="display:flex">
@@ -189,55 +187,14 @@ Outer sibling
 `);
       });
 
-      it("should handle auto close", () => {
-        const expected = `\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<p>Nested content</p>
-</div>
-</div>
-</div>
-</div>
-`;
-
+      it("should auto-close nested containers at the end of the document", () => {
         expect(
           markdownIt.render(`\
-@flexs
-@flex
-@flexs
-@flex
-Nested content
-@end
-`),
-        ).toBe(expected);
-
-        // nested style
-        expect(
-          markdownIt.render(`\
-@flexs
-  @flex
-    @flexs
-      @flex
-      Nested content
-@end
-`),
-        ).toBe(expected);
-      });
-    });
-
-    describe("prefix-based nesting", () => {
-      it("should support basic @@ nesting", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
 @@flexs
 @@flex
+@flexs
+@flex
 Nested content
-@@end
-@end
 `),
         ).toBe(`\
 <div style="display:flex">
@@ -252,194 +209,181 @@ Nested content
 `);
       });
 
-      it("should support @@ nesting with utilities", () => {
+      it("should support attributes on nested containers", () => {
         expect(
           markdownIt.render(`\
-@flexs gap-4
-@flex
-@@grids grid-cols-2
-@@grid
-Item 1
-@@grid
-Item 2
-@@end
+@@flexs.inner#outer
+@@flex
+@grids grid-cols-2
+@grid
+Nested
 @end
+@@end
 `),
         ).toBe(`\
-<div style="display:flex;gap:1rem">
+<div style="display:flex" class="inner" id="outer">
 <div>
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
 <div>
-<p>Item 1</p>
-</div>
-<div>
-<p>Item 2</p>
+<p>Nested</p>
 </div>
 </div>
 </div>
 </div>
 `);
       });
+    });
 
-      it("should support @@@ deeper nesting", () => {
+    describe("exact marker matching", () => {
+      it("should reject a nested container with the same marker count", () => {
         expect(
           markdownIt.render(`\
 @flexs
 @flex
-@@flexs
-@@flex
-@@@grids
-@@@grid
-Deep content
-@@@end
+@grids
+@grid
+Text
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>@grids
+@grid
+Text</p>
+</div>
+</div>
+`);
+      });
+
+      it("should reject a nested container with more markers", () => {
+        expect(
+          markdownIt.render(`\
+@flexs
+@flex
+@@grids
+@@grid
+Text
 @@end
 @end
 `),
         ).toBe(`\
 <div style="display:flex">
 <div>
+<p>@@grids
+@@grid
+Text
+@@end</p>
+</div>
+</div>
+`);
+      });
+
+      it("should require item markers to match the container marker count", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs
+@flex
+Text
+@@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>@flex
+Text</p>
+</div>
+`);
+
+        expect(
+          markdownIt.render(`\
+@flexs
+@@flex
+Text
+@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<p>@@flex
+Text</p>
+</div>
+`);
+      });
+
+      it("should treat a top-level item without a container as text", () => {
+        expect(
+          markdownIt.render(`\
+@flex
+Text
+`),
+        ).toBe(`\
+<p>@flex
+Text</p>
+`);
+      });
+
+      it("should require @end to match the container marker count", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs
+@@flex
+Content
+@end
+More
+@@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<p>Content
+@end
+More</p>
+</div>
+</div>
+`);
+      });
+
+      it("should not close the outer container with an inner @end", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs
+@@flex
+@grids
+@grid
+Inner
+@end
+After nested
+@@end
+`),
+        ).toBe(`\
 <div style="display:flex">
 <div>
 <div style="display:grid">
 <div>
-<p>Deep content</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-`);
-      });
-
-      it("should reject @@ at top level", () => {
-        expect(
-          markdownIt.render(`\
-@@flexs
-@@flex
-Content
-@@end
-`),
-        ).toBe(`\
-<p>@@flexs
-@@flex
-Content
-@@end</p>
-`);
-      });
-
-      it("should reject depth mismatch (@@@ inside @, skipping @@)", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@@@flexs
-@@@end
-@end
-`),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<p>@@@flexs
-@@@end</p>
-</div>
-</div>
-`);
-      });
-
-      it("should not confuse @end depths", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@@flexs
-@@flex
-Inner
-@@end
-Outer content
-@end
-`),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
 <p>Inner</p>
 </div>
 </div>
-<p>Outer content</p>
+<p>After nested</p>
 </div>
 </div>
 `);
       });
 
-      it("should support @@ items with class and id selectors", () => {
+      it("should not treat an item from a deeper token level as a sibling", () => {
         expect(
           markdownIt.render(`\
 @flexs
 @flex
-@@flexs.inner#nested gap-4
-@@flex.item flex-1
-Content
-@@end
+> @flex
+> quoted
 @end
 `),
         ).toBe(`\
 <div style="display:flex">
 <div>
-<div style="display:flex;gap:1rem" class="inner" id="nested">
-<div style="flex:1 1 0%" class="item">
-<p>Content</p>
-</div>
-</div>
-</div>
-</div>
-`);
-      });
-
-      it("should auto-close prefix container at end of document", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@@flexs
-@@flex
-Content
-`),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<p>Content</p>
-</div>
-</div>
-</div>
-</div>
-`);
-      });
-
-      it("should reject depth-1 inside prefix-mode container", () => {
-        expect(
-          markdownIt.render(`\
-@flexs
-@flex
-@@flexs
-@@flex
-@grids
-@end
-@@end
-@end
-`),
-        ).toBe(`\
-<div style="display:flex">
-<div>
-<div style="display:flex">
-<div>
-<p>@grids
-@end</p>
-</div>
-</div>
+<blockquote>
+<p>@flex
+quoted</p>
+</blockquote>
 </div>
 </div>
 `);
@@ -539,17 +483,69 @@ Content
 `);
       });
 
+      it("should support decreasing marker counts inside list and blockquote", () => {
+        expect(
+          markdownIt.render(`\
+- @@flexs
+  @@flex
+  @grids
+  @grid
+  Nested
+  @end
+  @@end
+`),
+        ).toBe(`\
+<ul>
+<li>
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Nested</p>
+</div>
+</div>
+</div>
+</div>
+</li>
+</ul>
+`);
+
+        expect(
+          markdownIt.render(`\
+> @@flexs
+> @@flex
+> @grids
+> @grid
+> Nested
+> @end
+> @@end
+`),
+        ).toBe(`\
+<blockquote>
+<div style="display:flex">
+<div>
+<div style="display:grid">
+<div>
+<p>Nested</p>
+</div>
+</div>
+</div>
+</div>
+</blockquote>
+`);
+      });
+
       it("should work in nested content inside layout", () => {
         expect(
           markdownIt.render(`\
-@flexs
-@flex
+@@flexs
+@@flex
 - item 1
   @flexs
   @flex
   Nested item
   @end
-@end
+@@end
 `),
         ).toBe(`\
 <div style="display:flex">
@@ -567,14 +563,14 @@ Content
 `);
         expect(
           markdownIt.render(`\
-@flexs
-@flex
+@@flexs
+@@flex
 > item 1
 > @flexs
 > @flex
 > Nested item
 > @end
-@end
+@@end
 `),
         ).toBe(`\
 <div style="display:flex">
@@ -598,8 +594,8 @@ Content
         expect(
           mdItWithContainer.render(`\
 :::: test
-@flexs
-@flex
+@@flexs
+@@flex
 Content in container
 ::: test
 @flexs
@@ -607,7 +603,7 @@ Content in container
 content in nested container
 @end
 :::
-@end
+@@end
 ::::
 `),
         ).toBe(`\
@@ -628,21 +624,41 @@ content in nested container
 `);
       });
 
+      it("should stop the container scanning at an enclosing block boundary", () => {
+        expect(
+          markdownIt.render(`\
+> @flexs
+> @flex
+> Content
+lazy line
+`),
+        ).toBe(`\
+<blockquote>
+<div style="display:flex">
+<div>
+<p>Content
+lazy line</p>
+</div>
+</div>
+</blockquote>
+`);
+      });
+
       it("should NOT trigger inside fenced code block", () => {
         expect(
           markdownIt.render(`\
 \`\`\`markdown
-@flexs
-@flex
+@@flexs
+@@flex
 Content
-@end
+@@end
 \`\`\`
 `),
         ).toBe(`\
-<pre><code class="language-markdown">@flexs
-@flex
+<pre><code class="language-markdown">@@flexs
+@@flex
 Content
-@end
+@@end
 </code></pre>
 `);
       });
@@ -650,17 +666,44 @@ Content
       it("should NOT trigger inside indented code block", () => {
         expect(
           markdownIt.render(`\
-    @flexs
-    @flex
+    @@flexs
+    @@flex
     Content
-    @end
+    @@end
 `),
         ).toBe(`\
-<pre><code>@flexs
-@flex
+<pre><code>@@flexs
+@@flex
 Content
-@end
+@@end
 </code></pre>
+`);
+      });
+
+      it("should not treat item markers inside fenced code as siblings", () => {
+        expect(
+          markdownIt.render(`\
+@@flexs
+@@flex
+\`\`\`md
+@@flex
+\`\`\`
+A
+@@flex
+B
+@@end
+`),
+        ).toBe(`\
+<div style="display:flex">
+<div>
+<pre><code class="language-md">@@flex
+</code></pre>
+<p>A</p>
+</div>
+<div>
+<p>B</p>
+</div>
+</div>
 `);
       });
     });

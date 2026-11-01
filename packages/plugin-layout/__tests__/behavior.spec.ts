@@ -315,4 +315,390 @@ Content
 `);
     });
   });
+
+  describe("4-space indented directives", () => {
+    it("should not treat directives after the container start as directives", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+    @flex
+    @end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<pre><code>@flex
+@end
+</code></pre>
+</div>
+`);
+    });
+
+    it("should treat directives after a paragraph as lazy continuation", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+text
+    @flex
+    @end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<p>text
+@flex
+@end</p>
+</div>
+`);
+    });
+
+    it("should not treat directives after a blank line as directives", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+text
+
+    @flex
+    @end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<p>text</p>
+<pre><code>@flex
+@end
+</code></pre>
+</div>
+`);
+    });
+
+    it("should not treat directives after a heading as directives", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+# Heading
+    @flexs
+    @end
+`),
+      ).toBe(`\
+<div style="display:flex">
+<h1>Heading</h1>
+<pre><code>@flexs
+@end
+</code></pre>
+</div>
+`);
+    });
+
+    it("should not treat an indented container as a blockquote terminator", () => {
+      expect(
+        markdownIt.render(`\
+> quote
+    @flexs
+`),
+      ).toBe(`\
+<blockquote>
+<p>quote
+@flexs</p>
+</blockquote>
+`);
+    });
+
+    it("should not treat an indented item as a blockquote terminator", () => {
+      expect(
+        markdownIt.render(`\
+@flexs
+> quote
+    @flex
+`),
+      ).toBe(`\
+<div style="display:flex">
+<blockquote>
+<p>quote
+@flex</p>
+</blockquote>
+</div>
+`);
+    });
+  });
+
+  describe("outdented boundaries", () => {
+    it("should keep content after an outdented @end", () => {
+      expect(
+        markdownIt.render(`\
+- @flexs
+  @flex
+  A
+
+@end
+After
+`),
+      ).toBe(`\
+<ul>
+<li>
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+</div>
+</li>
+</ul>
+<p>@end
+After</p>
+`);
+    });
+
+    it("should keep outdented trailing content without @end", () => {
+      expect(
+        markdownIt.render(`\
+- @flexs
+  @flex
+  A
+
+outside
+`),
+      ).toBe(`\
+<ul>
+<li>
+<div style="display:flex">
+<div>
+<p>A</p>
+</div>
+</div>
+</li>
+</ul>
+<p>outside</p>
+`);
+    });
+
+    it("should keep blockquote lazy continuations and following content", () => {
+      expect(
+        markdownIt.render(`\
+> @flexs
+> Content
+lazy
+> @end
+> after
+`),
+      ).toBe(`\
+<blockquote>
+<div style="display:flex">
+<p>Content
+lazy</p>
+</div>
+<p>after</p>
+</blockquote>
+`);
+    });
+
+    it("should keep following content after an item boundary in a blockquote", () => {
+      expect(
+        markdownIt.render(`\
+> @flexs
+> @flex
+> A
+lazy
+> @end
+> after
+`),
+      ).toBe(`\
+<blockquote>
+<div style="display:flex">
+<div>
+<p>A
+lazy</p>
+</div>
+</div>
+<p>after</p>
+</blockquote>
+`);
+    });
+
+    it("should keep auto-closed container token maps in bounds", () => {
+      const source = `\
+@flexs
+content
+`;
+      const tokens = markdownIt.parse(source, {});
+      const open = tokens.find((token) => token.type === "layout_container_open");
+
+      expect(open).toBeDefined();
+      expect(open?.map).toStrictEqual([0, 2]);
+    });
+
+    it("should keep content after a lazy @end", () => {
+      const result = markdownIt.render(`\
+> @flexs
+> \`\`\`
+> code
+> \`\`\`
+@end
+> more
+`);
+
+      expect(result).toContain("<pre><code>code\n</code></pre>");
+      expect(result).toContain("<p>@end</p>");
+      expect(result).toContain("<p>more</p>");
+    });
+
+    it("should pin maps for explicit ends with trailing content", () => {
+      const tokens = markdownIt
+        .parse("@flexs\n@flex\nA\n@end\nAfter\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 4]],
+        ["layout_item_open", [1, 3]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should pin the map of an early-stopped container", () => {
+      const tokens = markdownIt
+        .parse("> @flexs\n> # H\nlazy\n> @end\n> after\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 2]],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should pin item maps for an early-stopped container", () => {
+      const tokens = markdownIt
+        .parse("> @flexs\n> @flex\n> # H\nlazy\n> @flex\n> B\n> @end\n> after\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 3]],
+        ["layout_item_open", [1, 3]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should keep a lazy item marker inside a blockquote item", () => {
+      const source = `\
+> @flexs
+> @flex
+> A
+@flex
+> B
+> @end
+> after
+`;
+      const result = markdownIt.render(source);
+      const tokens = markdownIt
+        .parse(source, {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(result).toContain("<p>A\n@flex\nB</p>");
+      expect(result).toContain("<p>after</p>");
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 6]],
+        ["layout_item_open", [1, 5]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should handle CRLF blockquote lazy lines", () => {
+      const source =
+        "> @flexs\r\n> @flex\r\n> # H\r\nlazy\r\n> @flex\r\n> B\r\n> @end\r\n> after\r\n";
+      const result = markdownIt.render(source);
+      const tokens = markdownIt
+        .parse(source, {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(result).toContain("<h1>H</h1>");
+      expect(result).toContain("<p>lazy</p>");
+      expect(result).toContain("@flex");
+      expect(result).toContain("after");
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 3]],
+        ["layout_item_open", [1, 3]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should keep content after a lazy @end inside an item", () => {
+      const result = markdownIt.render(`\
+> @flexs
+> @flex
+> A
+@end
+> more
+`);
+
+      expect(result).toContain("<p>A\n@end\nmore</p>");
+    });
+
+    it("should produce exact token maps for outdented and explicit ends", () => {
+      const outdented = markdownIt
+        .parse("- @flexs\n  @flex\n  A\n\noutside\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+      const explicit = markdownIt
+        .parse("@flexs\n@flex\nA\n@end\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(outdented.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 4]],
+        ["layout_item_open", [1, 4]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+      expect(explicit.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 4]],
+        ["layout_item_open", [1, 3]],
+        ["layout_item_close", null],
+        ["layout_container_close", null],
+      ]);
+    });
+
+    it("should keep lazy lines when a matching @end is found later", () => {
+      const result = markdownIt.render(`\
+> @flexs
+> # H
+lazy
+> @end
+> after
+`);
+
+      expect(result).toContain("<h1>H</h1>");
+      expect(result).toContain("<p>lazy</p>");
+      expect(result).toContain("@end");
+      expect(result).toContain("after");
+    });
+
+    it("should not lose a sibling item after a lazy line", () => {
+      const result = markdownIt.render(`\
+> @flexs
+> @flex
+> # H
+lazy
+> @flex
+> B
+> @end
+> after
+`);
+
+      expect(result).toContain("<h1>H</h1>");
+      expect(result).toContain("<p>lazy</p>");
+      expect(result).toContain("@flex");
+      expect(result).toContain("B");
+      expect(result).toContain("after");
+    });
+
+    it("should render an empty container without throwing", () => {
+      const result = markdownIt.render("@flexs\n");
+      const tokens = markdownIt
+        .parse("@flexs\n", {})
+        .filter((token) => token.type.startsWith("layout"));
+
+      expect(result).toBe('<div style="display:flex">\n</div>\n');
+      expect(tokens.map((token) => [token.type, token.map])).toStrictEqual([
+        ["layout_container_open", [0, 1]],
+        ["layout_container_close", null],
+      ]);
+    });
+  });
 });

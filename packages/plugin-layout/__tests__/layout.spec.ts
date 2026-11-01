@@ -7,14 +7,14 @@ const markdownIt = new MarkdownIt().use(layout);
 
 describe(layout, () => {
   describe("indent", () => {
-    it("should support a 1-3 spaces indent", () => {
+    it("should support 0-3 spaces of decorative indent", () => {
       expect(
         markdownIt.render(`\
 @flexs
   @flex
-    Content A
+  Content A
    @flex
-     Content B
+   Content B
 @end
 `),
       ).toBe(`\

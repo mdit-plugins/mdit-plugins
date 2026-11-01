@@ -13,6 +13,7 @@ export interface LayoutMeta extends TokenMeta {
 export interface LayoutContext {
   type: number;
   level: number;
+  /** Number of leading `@` characters of the current container / 当前容器的前导 `@` 数量 */
   depth: number;
 }
 

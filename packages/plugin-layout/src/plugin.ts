@@ -12,24 +12,25 @@ import { buildStyleString, resolveUtility } from "./utilities.js";
 //
 // Known limitations: this scan runs at the container/item level, before
 // markdown-it's block rules re-tokenize nested content with a deeper
-// blkIndent. So lines inside a fence nested in a list item (indented 4+
-// spaces relative to the container), or inside indented code blocks /
-// lazy paragraph continuations, are not recognized as code here and their
-// `@`-directives are still honored (the same limitation exists in
-// @mdit/plugin-include's code block scan).
+// blkIndent. Lines indented 4+ spaces relative to the current block context
+// are skipped (they become indented code blocks or lazy paragraph
+// continuations), so directives on such lines are not recognized here. The
+// same limitation exists in @mdit/plugin-include's code block scan.
 
 /**
- * Count matching container opens/ends to find the `@end` that closes the container opened at
- * startLine. Works at the same `@` depth.
+ * Find the first `@end` with exactly the same number of leading `@` as the container. Nested
+ * containers use fewer `@` characters, so their `@end` markers never match and no nesting counter
+ * is needed.
  *
- * 通过计数匹配的容器开/闭来找到关闭 startLine 处容器的 `@end`。
+ * 找到第一个与容器具有完全相同 `@` 数量的 `@end`。嵌套容器使用更少的 `@`，因此它们的 `@end` 不会被匹配，无需嵌套计数。
  *
  * @param state - Parser state / 解析器状态
  * @param startLine - First line after the container open / 容器开始后的第一行
  * @param endLine - Search boundary / 搜索边界
- * @param depth - `@` depth of the container / 容器的 `@` 深度
- * @param blkIndent - Indent of the container / 容器的缩进
- * @returns Line number of matching `@end`, or endLine if not found / 匹配 `@end` 的行号，未找到则返回 endLine
+ * @param depth - Number of leading `@` characters of the container / 容器的前导 `@` 数量
+ * @param blkIndent - Block indent of the enclosing context / 外层上下文的块级缩进
+ * @returns The matching `@end` line and whether it is explicit, or the boundary line and `false` /
+ *   匹配 `@end` 的行号及是否为显式闭合，或边界行及 `false`
  */
 const findMatchingEnd = (
   state: LayoutStateBlock,
@@ -37,14 +38,26 @@ const findMatchingEnd = (
   endLine: number,
   depth: number,
   blkIndent: number,
-): number => {
-  let nesting = 1;
-
+): { line: number; hasEnd: boolean } => {
   const isSpace = state.md.utils.isSpace;
 
   for (let line = startLine; line < endLine; line++) {
     const lineStart = state.bMarks[line] + state.tShift[line];
     const lineMax = state.eMarks[line];
+
+    if (lineStart >= lineMax) continue;
+
+    const lineIndent = state.sCount[line];
+
+    // Blockquote lazy continuation lines use `sCount === -1`; they are content, not outdents
+    if (lineIndent < 0) continue;
+
+    // Outdented past the enclosing block (e.g. list item): stop before this line, which still
+    // belongs to the parent parser (e.g. a top-level `@end` followed by a paragraph)
+    if (lineIndent < blkIndent) return { line, hasEnd: false };
+
+    // 4+ spaces relative to blkIndent is an indented code block or lazy continuation
+    if (lineIndent - blkIndent >= 4) continue;
 
     // directives inside fenced code blocks are literal text, skip them
     const fenceEnd = scanFence(state, line, endLine, blkIndent);
@@ -54,28 +67,21 @@ const findMatchingEnd = (
       continue;
     }
 
-    if (lineStart >= lineMax) continue;
     if (state.src.charCodeAt(lineStart) !== AT) continue;
 
     const dir = detectDirective(state.src, lineStart, lineMax, isSpace);
 
-    if (!dir || dir.depth !== depth) continue;
-
-    if (dir.kind === "container") {
-      nesting++;
-    } else if (dir.kind === "end") {
-      nesting--;
-      if (nesting === 0) return line;
-    }
+    if (dir && dir.kind === "end" && dir.depth === depth) return { line, hasEnd: true };
   }
 
-  return endLine;
+  return { line: endLine, hasEnd: false };
 };
 
 const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLine, silent) => {
   const ctx = state.env[layoutKey];
 
-  if (!ctx || state.level !== ctx.level) return false;
+  if (!ctx || state.level !== ctx.level || state.sCount[startLine] - state.blkIndent >= 4)
+    return false;
 
   const isSpace = state.md.utils.isSpace;
   const start = state.bMarks[startLine] + state.tShift[startLine];
@@ -93,13 +99,13 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 
   if (silent) return true;
 
-  const indent = state.sCount[startLine];
   const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max, isSpace);
+  const blkIndent = state.blkIndent;
 
+  // The item body ends at the next sibling item with the same `@` count and type.
+  // The container's `@end` line is already excluded from `endLine` by the container rule.
   let nextLine = startLine + 1;
-  let nesting = 0;
 
-  // Search for the next item marker or end of container, counting nested containers
   for (; nextLine < endLine; nextLine++) {
     const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
     const nextLineMax = state.eMarks[nextLine];
@@ -107,53 +113,44 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
     // Blank lines never end the item, tokenize skips them as well
     if (nextLineStart >= nextLineMax) continue;
 
-    const nextDirective =
-      state.src.charCodeAt(nextLineStart) === AT
-        ? detectDirective(state.src, nextLineStart, nextLineMax, isSpace)
-        : null;
+    const lineIndent = state.sCount[nextLine];
 
-    if (state.sCount[nextLine] < indent) {
-      // `state.blkIndent` is raised to `indent` for the item content, so tokenize
-      // stops before any outdented line. Such a line must end the item so that its
-      // content is parsed again by an upper container, unless it is an `@end` that
-      // closes a nested container (directive indentation is flexible).
-      const closesNestedContainer =
-        nextDirective != null &&
-        nextDirective.depth === ctx.depth &&
-        nextDirective.kind === "end" &&
-        nesting > 0;
+    // Blockquote lazy continuation lines use `sCount === -1`; they are content, not outdents
+    if (lineIndent < 0) continue;
 
-      if (!closesNestedContainer) break;
-    }
+    // 4+ spaces relative to blkIndent is an indented code block or lazy continuation
+    if (lineIndent - blkIndent >= 4) continue;
 
     // directives inside fenced code blocks are literal text, skip them
-    const fenceEnd = scanFence(state, nextLine, endLine, indent);
+    const fenceEnd = scanFence(state, nextLine, endLine, blkIndent);
 
     if (fenceEnd != null && fenceEnd > nextLine) {
       nextLine = fenceEnd - 1;
       continue;
     }
 
-    if (nextDirective == null || nextDirective.depth !== ctx.depth) continue;
+    if (state.src.charCodeAt(nextLineStart) !== AT) continue;
 
-    if (nextDirective.kind === "container") nesting++;
-    else if (nextDirective.kind === "end" && nesting > 0) nesting--;
-    else if (nextDirective.kind === "item" && nextDirective.type === ctx.type && nesting === 0)
+    const nextDirective = detectDirective(state.src, nextLineStart, nextLineMax, isSpace);
+
+    if (
+      nextDirective != null &&
+      nextDirective.kind === "item" &&
+      nextDirective.type === ctx.type &&
+      nextDirective.depth === ctx.depth
+    )
       break;
   }
 
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
-  const oldBlkIndent = state.blkIndent;
 
   state.parentType = "layout_item";
   state.lineMax = nextLine;
-  state.blkIndent = indent;
 
   const openToken = state.push("layout_item_open", "div", 1);
 
   openToken.block = true;
-  openToken.map = [startLine, nextLine];
   openToken.meta = {
     type: directive.type,
     classes: parsedAttrs.classes,
@@ -163,19 +160,25 @@ const getItemRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLin
 
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
+  // Leave lines the tokenizer did not consume (e.g. blockquote lazy lines) to the parent parser.
+  // An empty body leaves `state.line` at the opening line, so always advance at least one line.
+  const consumedLine = Math.min(Math.max(state.line, startLine + 1), nextLine);
+
   const closeToken = state.push("layout_item_close", "div", -1);
 
   closeToken.block = true;
 
   state.parentType = oldParent;
   state.lineMax = oldLineMax;
-  state.blkIndent = oldBlkIndent;
-  state.line = nextLine;
+  state.line = consumedLine;
+  openToken.map = [startLine, consumedLine];
 
   return true;
 };
 
 const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, endLine, silent) => {
+  if (state.sCount[startLine] - state.blkIndent >= 4) return false;
+
   const isSpace = state.md.utils.isSpace;
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
@@ -187,35 +190,26 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
   const depth = directive.depth;
   const ctx = state.env[layoutKey];
 
-  // Validate depth consistency
-  if (ctx) {
-    // Inside an existing container: prefix depth must be parent + 1, or 1 (same)
-    if (depth > 1 && depth !== ctx.depth + 1) return false;
-    if (depth === 1 && ctx.depth > 1) return false;
-  } else if (depth > 1) {
-    // Top level: only depth 1 allowed
-    return false;
-  }
+  // Golden rule: containers nest from more leading `@` to fewer leading `@`.
+  // e.g. `@@flexs` may contain `@grids`, but `@flexs` may not contain `@grids` or `@@grids`.
+  if (ctx && depth >= ctx.depth) return false;
 
   if (silent) return true;
 
-  const indent = state.sCount[startLine];
   const parsedAttrs = parseAttributes(state.src, directive.nameEnd, max, isSpace);
-  const nextLine = findMatchingEnd(state, startLine + 1, endLine, depth, indent);
+  const result = findMatchingEnd(state, startLine + 1, endLine, depth, state.blkIndent);
+  const { line: nextLine, hasEnd } = result;
 
   const oldParent = state.parentType;
   const oldLineMax = state.lineMax;
-  const oldBlkIndent = state.blkIndent;
   const oldLayout = state.env[layoutKey];
 
   state.parentType = "layout_container";
   state.lineMax = nextLine;
-  state.blkIndent = indent;
 
   const openToken = state.push("layout_container_open", "div", 1);
 
   openToken.block = true;
-  openToken.map = [startLine, nextLine < endLine ? nextLine + 1 : nextLine];
   openToken.meta = {
     type: directive.type,
     classes: parsedAttrs.classes,
@@ -227,6 +221,13 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
 
   state.md.block.tokenize(state, startLine + 1, nextLine);
 
+  // The tokenizer can stop before `nextLine` (e.g. on a blockquote lazy line). In that case the
+  // remaining lines belong to the parent parser, so do not advance past what was consumed — even
+  // when a matching `@end` was found later in the scanned range. An empty body leaves `state.line`
+  // at the opening line, so always advance at least one line.
+  const consumedLine = Math.min(Math.max(state.line, startLine + 1), nextLine);
+  const containerEndLine = hasEnd && consumedLine === nextLine ? nextLine + 1 : consumedLine;
+
   state.env[layoutKey] = oldLayout;
 
   const closeToken = state.push("layout_container_close", "div", -1);
@@ -235,8 +236,8 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
 
   state.parentType = oldParent;
   state.lineMax = oldLineMax;
-  state.blkIndent = oldBlkIndent;
-  state.line = nextLine < endLine ? nextLine + 1 : nextLine;
+  state.line = containerEndLine;
+  openToken.map = [startLine, containerEndLine];
 
   return true;
 };
