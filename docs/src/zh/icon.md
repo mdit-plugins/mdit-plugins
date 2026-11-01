@@ -97,7 +97,7 @@ const mdIt = new MarkdownIt().use(icon, {
 
 :::
 
-## 演示
+## 示例
 
 ::: preview 演示
 

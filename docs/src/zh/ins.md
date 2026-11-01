@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(ins);
 mdIt.render("VuePress Theme Hope ++十分++ 强大。");
 ```
 
-## 格式
+## 语法
 
 使用 `++ ++` 插入 `<ins>` 标签。
 

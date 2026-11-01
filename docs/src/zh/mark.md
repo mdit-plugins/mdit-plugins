@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(mark);
 mdIt.render("VuePress Theme Hope ==十分强大==。");
 ```
 
-## 格式
+## 语法
 
 使用 `== ==` 进行标记。
 

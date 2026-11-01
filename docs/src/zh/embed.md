@@ -87,7 +87,7 @@ const md = new MarkdownIt().use(embed, {
 
 :::
 
-## 配置选项
+## 选项
 
 ::: fields
 @`config` type=`EmbedConfig[]` required

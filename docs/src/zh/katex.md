@@ -27,7 +27,7 @@ mdIt.render("$E=mc^2$");
 
 我们也有一个 `@mdit/plugin-katex-slim` 包，其中 `katex` 是可选对等依赖。
 
-## 格式
+## 语法
 
 语法取决于 `delimiters` 选项：
 

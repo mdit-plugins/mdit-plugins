@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(sub);
 mdIt.render("H~2~O");
 ```
 
-## 格式
+## 语法
 
 使用 `~ ~` 进行下角标标注。
 

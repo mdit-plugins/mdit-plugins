@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(ruby);
 mdIt.render("{中国:zhōng|guó}");
 ```
 
-## 格式
+## 语法
 
 通过 `{ruby base:ruby text1|ruby text2|...}` 来添加 ruby 声明。
 

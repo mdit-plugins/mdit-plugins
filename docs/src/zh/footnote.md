@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(footnote);
 mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 ```
 
-## 格式
+## 语法
 
 - 在 Markdown 中使用 `[^锚点文字]` 来定义脚注。
 
@@ -50,7 +50,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 ::::
 
-## 例子
+## 示例
 
 ::: preview 示例
 

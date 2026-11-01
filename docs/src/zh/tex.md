@@ -31,7 +31,7 @@ mdIt.render("$E=mc^2$");
 
 这个插件为 $\TeX$ 注册 Markdown 规则。 它将用 `render` 函数的结果替换 $\TeX$ 标记。
 
-## 格式
+## 语法
 
 插件根据 `delimiters` 选项支持不同的分隔符语法：
 

@@ -21,7 +21,7 @@ mdIt.render("VuePress Theme Hope !!十分强大!!。");
 
 在使用默认选项的情况下，你可以导入 `@mdit/plugin-spoiler/style` 以应用相应样式。
 
-## 格式
+## 语法
 
 使用 `!! !!` 进行标记。
 
