@@ -97,12 +97,16 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
     return true;
   };
 
-  // A second installation with the same name must not register the block rule twice.
-  if (!hasRule(md, name, "block")) {
-    md.block.ruler.before("fence", name, umlRule, {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-  }
+  // The configurable `name` is also the token type and renderer key (kept for backward
+  // compatibility), so it may collide with a built-in or another plugin's rule name (`paragraph`,
+  // `fence`, `table`, ...). Namespace the parser rule to avoid silently skipping registration, and
+  // return early on a repeated installation: the second install must not register the rule again
+  // or replace the renderer, even when it passes different options.
+  if (hasRule(md, `uml_${name}`, "block")) return;
+
+  md.block.ruler.before("fence", `uml_${name}`, umlRule, {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
 
   md.renderer.rules[name] = renderer;
 };
