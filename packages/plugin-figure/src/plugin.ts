@@ -24,9 +24,89 @@ const NATIVE_IMG_ATTRS = new Set([
   "width",
 ]);
 
+/** Matches any whitespace run when splitting `class` values */
+const WHITESPACE_RE = /\s+/;
+
 const removeAttribute = (token: Token, attribute: string): void => {
   // oxlint-disable-next-line typescript/no-non-null-assertion
   token.attrs = token.attrs!.filter(([key]) => key !== attribute);
+};
+
+/**
+ * Merge a class value into an existing one, keeping the existing order and skipping duplicates.
+ *
+ * 将 class 值合并到已有的值中，保留原有顺序并跳过重复项。
+ *
+ * @param existing - Existing class value / 已有的 class 值
+ * @param value - Class value to merge / 要合并的 class 值
+ * @returns The merged class value / 合并后的 class 值
+ */
+const mergeClassValue = (existing: string, value: string): string => {
+  const classes = new Set(existing.split(WHITESPACE_RE).filter(Boolean));
+  let merged = existing;
+
+  for (const className of value.split(WHITESPACE_RE)) {
+    if (className && !classes.has(className)) {
+      classes.add(className);
+      merged = merged ? `${merged} ${className}` : className;
+    }
+  }
+
+  return merged;
+};
+
+/**
+ * Normalize a style value: trim each declaration and drop empty ones, so no empty declaration is
+ * kept.
+ *
+ * 规范化 style 值：去除每个声明的首尾空白并丢弃空声明，避免留下空声明。
+ *
+ * @param value - Style value to normalize / 要规范化的 style 值
+ * @returns The normalized style value / 规范化后的 style 值
+ */
+const normalizeStyleValue = (value: string): string => {
+  const declarations = value.split(";");
+  const normalized: string[] = [];
+
+  for (const declaration of declarations) {
+    const trimmed = declaration.trim();
+
+    if (trimmed) normalized.push(trimmed);
+  }
+
+  return normalized.join(";");
+};
+
+/**
+ * Merge an image attribute into the figure token.
+ *
+ * `class` values are merged and deduplicated, `style` values are merged as declarations, and any
+ * other existing key is kept (first value wins).
+ *
+ * 将图片属性合并到 figure token 中。
+ *
+ * `class` 值会合并并去重，`style` 值会作为声明合并，其他已有的属性会保留（第一个值优先）。
+ *
+ * @param token - Figure token to merge into / 要合并到的 figure token
+ * @param attr - Image attribute to merge / 要合并的图片属性
+ */
+const mergeFigureAttr = (token: Token, attr: [string, string | number]): void => {
+  const attrs = (token.attrs ??= []);
+  const attrKey = attr[0].toLowerCase();
+  const existing = attrs.find(([key]) => key.toLowerCase() === attrKey);
+
+  if (!existing) {
+    // Clone the tuple: figure and image tokens must never share mutable attr arrays, otherwise a
+    // later merge (or a downstream rule using `attrJoin`) would mutate both tokens.
+    attrs.push([attr[0], attr[1]]);
+  } else if (attrKey === "class") {
+    existing[1] = mergeClassValue(String(existing[1]), String(attr[1]));
+  } else if (attrKey === "style") {
+    const existingStyle = normalizeStyleValue(String(existing[1]));
+    const newStyle = normalizeStyleValue(String(attr[1]));
+
+    if (newStyle) existing[1] = existingStyle ? `${existingStyle};${newStyle}` : newStyle;
+  }
 };
 
 const testPattern = (pattern: RegExp, value: string): boolean => {
@@ -108,11 +188,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
           // Copy all non-native attrs to figure (img keeps them)
           const copiedAttrs = image.attrs.filter(([key]) => !NATIVE_IMG_ATTRS.has(key));
 
-          if (copiedAttrs.length > 0) {
-            (figureToken.attrs ??= []).push(
-              ...copiedAttrs.map(([key, value]) => [key, value] as [string, string]),
-            );
-          }
+          for (const attr of copiedAttrs) mergeFigureAttr(figureToken, attr);
         } else {
           // Move matching attrs from img to figure (img loses them)
           const movedAttrs: [string, string | number][] = [];
@@ -130,7 +206,7 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
           }
 
           if (movedAttrs.length > 0) {
-            (figureToken.attrs ??= []).push(...movedAttrs);
+            for (const attr of movedAttrs) mergeFigureAttr(figureToken, attr);
             image.attrs = keptAttrs;
           }
         }

@@ -39,6 +39,8 @@ Copy or move image attributes to `<figure>`.
 
 Native img attributes (src, alt, title, width, height, etc.) are never moved or copied to `<figure>`, and `title` is always used as the `<figcaption>` content.
 
+When the `<figure>` already has a `class` or `style` attribute, the image value is merged into it: `class` tokens are deduplicated, and `style` declarations are joined with `;` (empty declarations are dropped). When merging duplicate keys, attribute names are compared case-insensitively. Other duplicate keys are ignored, so the figure's existing value wins.
+
 ```ts
 // Copy all non-native attrs to figure (img keeps them)
 moveAttrs: true;

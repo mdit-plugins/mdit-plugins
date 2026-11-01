@@ -10,7 +10,7 @@ import { figure } from "../src/index.js";
  * 测试辅助：在 figure 运行前给每个图片 token 添加非原生属性。
  *
  * @param md - MarkdownIt instance / MarkdownIt 实例
- * @param attrs - Attributes to set / 要设置的属性
+ * @param attrs - Attributes to add / 要添加的属性
  */
 const addImageAttrs = (md: MarkdownItType, attrs: [string, string][]): void => {
   md.core.ruler.before("figure", "test-image-attrs", (state) => {
@@ -18,7 +18,26 @@ const addImageAttrs = (md: MarkdownItType, attrs: [string, string][]): void => {
       if (token.type !== "inline" || !token.children) continue;
 
       for (const child of token.children)
-        if (child.type === "image") for (const [key, value] of attrs) child.attrSet(key, value);
+        if (child.type === "image") for (const [key, value] of attrs) child.attrPush([key, value]);
+    }
+  });
+};
+
+/**
+ * Test-only helper: add attributes to every paragraph token before figure runs, so the figure token
+ * already has attributes when the plugin merges image attributes into it.
+ *
+ * 测试辅助：在 figure 运行前给段落 token 添加属性，使 figure token 预先带有属性。
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @param attrs - Attributes to add / 要添加的属性
+ */
+const addFigureAttrs = (md: MarkdownItType, attrs: [string, string][]): void => {
+  md.core.ruler.before("figure", "test-figure-attrs", (state) => {
+    for (const token of state.tokens) {
+      if (token.type !== "paragraph_open") continue;
+
+      for (const [key, value] of attrs) token.attrPush([key, value]);
     }
   });
 };
@@ -315,6 +334,193 @@ test ![image](/logo.svg)
       // src/alt are native img attrs — never moved to figure
       expect(md.render('![image](/logo.svg "A title")')).toBe(
         '<figure><img src="/logo.svg" alt="image"><figcaption>A title</figcaption></figure>\n',
+      );
+    });
+
+    it("should merge class into an existing figure class with true", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["class", "para"]]);
+      addImageAttrs(md, [["class", "main"]]);
+
+      // class is merged into the existing figure class; img keeps its own class
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure class="para main"><img src="/logo.svg" alt="image" class="main"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should merge style into an existing figure style with true", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["style", "color:red"]]);
+      addImageAttrs(md, [["style", "width:100%"]]);
+
+      // style declarations are merged; img keeps its own style
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="color:red;width:100%"><img src="/logo.svg" alt="image" style="width:100%"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should normalize trailing semicolons when merging style with array", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["style"], focusable: false });
+
+      addFigureAttrs(md, [["style", "color:red;"]]);
+      addImageAttrs(md, [["style", "width:100%;"]]);
+
+      // trailing semicolons are dropped so no empty declaration is left; img loses style
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="color:red;width:100%"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should replace an empty figure style with the image style", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["style", ";"]]);
+      addImageAttrs(md, [["style", "width:100%"]]);
+
+      // an empty existing style is replaced instead of producing a leading semicolon
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="width:100%"><img src="/logo.svg" alt="image" style="width:100%"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should skip an empty image style", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["style"], focusable: false });
+
+      addFigureAttrs(md, [["style", "color:red"]]);
+      addImageAttrs(md, [["style", " ; "]]);
+
+      // an empty image style adds no declaration; img loses the empty style
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="color:red"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should keep the first value of duplicate non-class/style attrs with true", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["data-x", "1"]]);
+      addImageAttrs(md, [["data-x", "2"]]);
+
+      // the figure value wins; img keeps its own data-x
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure data-x="1"><img src="/logo.svg" alt="image" data-x="2"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should keep the first value of duplicate non-class/style attrs with array", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["data-x"], focusable: false });
+
+      addFigureAttrs(md, [["data-x", "1"]]);
+      addImageAttrs(md, [["data-x", "2"]]);
+
+      // the figure value wins; the matching img attr is still moved away
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure data-x="1"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should merge class into an existing figure class with array", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["class"], focusable: false });
+
+      addFigureAttrs(md, [["class", "para"]]);
+      addImageAttrs(md, [["class", "main"]]);
+
+      // class is merged; img loses its class
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure class="para main"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should not duplicate identical class tokens", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["class"], focusable: false });
+
+      addFigureAttrs(md, [["class", "a"]]);
+      addImageAttrs(md, [["class", "a b"]]);
+
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure class="a b"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should handle empty class values", () => {
+      const mdWithoutFigureClass = new MarkdownIt().use(figure, {
+        moveAttrs: ["class"],
+        focusable: false,
+      });
+
+      addFigureAttrs(mdWithoutFigureClass, [["class", ""]]);
+      addImageAttrs(mdWithoutFigureClass, [["class", "main"]]);
+
+      // an empty figure class is replaced instead of producing a leading space
+      expect(mdWithoutFigureClass.render("![image](/logo.svg)")).toBe(
+        '<figure class="main"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+
+      const mdWithEmptyImageClass = new MarkdownIt().use(figure, {
+        moveAttrs: ["class"],
+        focusable: false,
+      });
+
+      addFigureAttrs(mdWithEmptyImageClass, [["class", "a"]]);
+      addImageAttrs(mdWithEmptyImageClass, [["class", ""]]);
+
+      // an empty image class adds no token
+      expect(mdWithEmptyImageClass.render("![image](/logo.svg)")).toBe(
+        '<figure class="a"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should not mutate image attrs when copying duplicate keys with true", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addImageAttrs(md, [
+        ["class", "a"],
+        ["class", "b"],
+        ["style", "color:red"],
+        ["style", "width:1px"],
+      ]);
+
+      // figure gets the merged values; the image token must keep its own tuples untouched
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure class="a b" style="color:red;width:1px"><img src="/logo.svg" alt="image" class="a" class="b" style="color:red" style="width:1px"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should drop empty declarations when merging styles", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["style", "; color:red"]]);
+      addImageAttrs(md, [["style", ";; width:1px;"]]);
+
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="color:red;width:1px"><img src="/logo.svg" alt="image" style=";; width:1px;"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should treat attr keys case-insensitively when merging", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: true, focusable: false });
+
+      addFigureAttrs(md, [["CLASS", "para"]]);
+      addImageAttrs(md, [["class", "main"]]);
+
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure CLASS="para main"><img src="/logo.svg" alt="image" class="main"><figcaption>image</figcaption></figure>\n',
+      );
+    });
+
+    it("should merge every attr with the same key", () => {
+      const md = new MarkdownIt().use(figure, { moveAttrs: ["style"], focusable: false });
+
+      addFigureAttrs(md, [["style", "color:red"]]);
+      addImageAttrs(md, [
+        ["style", "width:100%"],
+        ["style", "font-weight:bold"],
+      ]);
+
+      expect(md.render("![image](/logo.svg)")).toBe(
+        '<figure style="color:red;width:100%;font-weight:bold"><img src="/logo.svg" alt="image"><figcaption>image</figcaption></figure>\n',
       );
     });
   });

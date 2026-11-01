@@ -39,6 +39,8 @@ mdIt.render("![image](https://example.com/image.png)");
 
 原生 img 属性（src、alt、title、width、height 等）永远不会被移动或复制到 `<figure>` 上，且 `title` 始终作为 `<figcaption>` 内容显示。
 
+当 `<figure>` 已有 `class` 或 `style` 属性时，图片的值会合并进去：`class` 会去重，`style` 声明会用 `;` 连接（空声明会被丢弃）。合并重复的键时，属性名按不区分大小写比较。其他重复的属性会被忽略，保留 figure 原有的值。
+
 ```ts
 // 复制所有非原生属性到 figure（img 保留）
 moveAttrs: true;
