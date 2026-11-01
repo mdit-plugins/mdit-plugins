@@ -62,7 +62,9 @@ mdIt.use(include, {
 
 使用 `<!-- @include: filename -->` 导入文件。
 
-如果要部分导入文件，你可以指定导入的行数
+默认情况下，被包含文件的 YAML frontmatter 会被移除，只导入正文。
+
+如果要部分导入文件，你可以指定导入的行范围。行号是原始文件的行号（与编辑器显示一致，包含 frontmatter）：
 
 - `<!-- @include: filename{start-end} -->`
 - `<!-- @include: filename{start-} -->`

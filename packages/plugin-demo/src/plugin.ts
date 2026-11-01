@@ -6,8 +6,9 @@ import type { MarkdownItDemoOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
 
-// Hoisted to module scope so no RegExp object is allocated per content line of every demo block
-const INCLUDE_MARKER_RE = /^<!-- #include-env-(?:start: .*|end) -->$/;
+// Hoisted to module scope so no RegExp object is allocated per content line of every demo block.
+// Matches both the nonce-form include markers and the legacy literal ones.
+const INCLUDE_MARKER_RE = /^\s*<!-- #include-env-(?:start:(?:[^:]+: )?.*|end(?::[^:]+)?) -->$/;
 
 /**
  * Demo block plugin, rendering `::: demo` blocks with both the source code and the result
