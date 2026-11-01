@@ -244,18 +244,17 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
 export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) => {
   const { inlineStyles = true } = options ?? {};
 
-  // Repeated installation of the same configuration must not register the rules twice.
-  if (!hasRule(md, "layout_container", "block")) {
-    md.block.ruler.before("fence", "layout_container", getContainerRule(), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-  }
+  // Repeated installation is a full no-op: both block rules and the renderers are
+  // registered together, so the first installation's options always win.
+  if (hasRule(md, "layout_container", "block")) return;
 
-  if (!hasRule(md, "layout_item", "block")) {
-    md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-  }
+  md.block.ruler.before("fence", "layout_container", getContainerRule(), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
+
+  md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
 
   // Container open renderer
   md.renderer.rules.layout_container_open = (tokens, index): string => {

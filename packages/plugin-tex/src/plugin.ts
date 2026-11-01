@@ -433,6 +433,16 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
     render,
   } = options;
 
+  // Repeated installation is a full no-op: a second call must not stack the fence wrapper,
+  // merge another delimiter's rules or replace the first installation's renderers.
+  const installed =
+    hasRule(md, "math_inline_dollar", "inline") ||
+    hasRule(md, "math_block_dollar", "block") ||
+    hasRule(md, "math_inline_bracket", "inline") ||
+    hasRule(md, "math_block_bracket", "block");
+
+  if (installed) return;
+
   // Handle ```math blocks
   if (mathFence) {
     const fence = md.renderer.rules.fence;
@@ -450,24 +460,17 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
 
   // Register inline and block rules based on delimiters option
   if (delimiters === "dollars" || delimiters === "all") {
-    // A second installation must not register the same rules twice.
-    if (!hasRule(md, "math_inline_dollar", "inline")) {
-      md.inline.ruler.after(
-        "escape",
-        "math_inline_dollar",
-        createDollarInlineTexRule(allowInlineWithSpace),
-      );
-    }
-    if (!hasRule(md, "math_block_dollar", "block"))
-      md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
+    md.inline.ruler.after(
+      "escape",
+      "math_inline_dollar",
+      createDollarInlineTexRule(allowInlineWithSpace),
+    );
+    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
   }
 
   if (delimiters === "brackets" || delimiters === "all") {
-    // A second installation must not register the same rules twice.
-    if (!hasRule(md, "math_inline_bracket", "inline"))
-      md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
-    if (!hasRule(md, "math_block_bracket", "block"))
-      md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
+    md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
+    md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
   }
 
   md.renderer.rules.math_inline = (tokens, index, _options, env): string =>

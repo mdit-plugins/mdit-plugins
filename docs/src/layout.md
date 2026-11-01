@@ -6,6 +6,8 @@ icon: table-cells-large
 
 Plugin for creating Flexbox, CSS Grid, and Multi-column layouts using directives.
 
+Installing the plugin twice is a no-op: the first installation's options, parser rules and renderers stay in effect.
+
 <!-- more -->
 
 ## Usage

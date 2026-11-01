@@ -356,15 +356,15 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
     titleRenderer,
   } = {},
 ) => {
+  // Repeated installation is a full no-op: the first installation's parse options and
+  // renderers always win.
+  if (hasRule(md, "alert", "block")) return;
+
   const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
 
-  // Repeated installation must not register the rule twice; a differing configuration keeps
-  // the first installation's parse rule (renderers are still refreshed).
-  if (!hasRule(md, "alert", "block")) {
-    md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-  }
+  md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
 
   if (openRenderer) md.renderer.rules.alert_open = openRenderer;
 

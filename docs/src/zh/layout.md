@@ -6,6 +6,8 @@ icon: table-cells-large
 
 用于创建 Flexbox、CSS Grid 和多列布局的指令式插件。
 
+重复安装插件不会产生效果：首次安装的选项、解析规则与渲染器会继续生效。
+
 <!-- more -->
 
 ## 使用

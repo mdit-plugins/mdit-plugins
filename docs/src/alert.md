@@ -6,6 +6,8 @@ icon: bell
 
 Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/discussions/16925))
 
+Installing the plugin twice is a no-op: the first installation's options, parser rules and renderers stay in effect.
+
 <!-- more -->
 
 ## Usage

@@ -6,6 +6,8 @@ icon: square-root-variable
 
 提供 $\TeX$ 语法支持的插件。
 
+重复安装插件不会产生效果：首次安装的选项、解析规则与渲染器会继续生效。内部安装该插件的插件（KaTeX 与 MathJax）也遵循此行为。
+
 ::: note
 
 此插件面向开发者，如果你正在寻找一个开箱即用的方案，请尝试 [@mdit/plugin-katex](katex.md) 和 [@mdit/plugin-mathjax](mathjax.md) ，它们基于此插件构建。

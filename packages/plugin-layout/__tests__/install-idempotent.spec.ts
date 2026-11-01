@@ -13,6 +13,13 @@ Content
 @end
 `;
 
+const inlineSource = `\
+@flexs gap-4
+@flex flex-1
+Content
+@end
+`;
+
 describe(layout, () => {
   it("should not register the block rules twice", () => {
     const single = new MarkdownIt().use(layout);
@@ -24,5 +31,19 @@ describe(layout, () => {
     expect(blockRules.filter((name) => name === "layout_item")).toHaveLength(1);
     expect(result).toBe(single.render(source));
     expect(result).toContain('<div style="display:flex">');
+  });
+
+  it("should keep the first installation's inlineStyles option", () => {
+    const single = new MarkdownIt().use(layout, { inlineStyles: true });
+    const double = new MarkdownIt()
+      .use(layout, { inlineStyles: true })
+      .use(layout, { inlineStyles: false });
+    const result = double.render(inlineSource);
+
+    expect(result).toBe(single.render(inlineSource));
+    expect(result).toContain('<div style="display:flex;gap:1rem">');
+    expect(result).toContain('<div style="flex:1 1 0%">');
+    expect(result).not.toContain('class="gap-4"');
+    expect(result).not.toContain('class="flex-1"');
   });
 });
