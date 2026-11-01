@@ -9,12 +9,19 @@ export interface MarkdownItFigureOptions {
    * Native img attributes (src, alt, title, width, height, etc.) are never moved or copied to
    * `<figure>`.
    *
+   * When `<figure>` already has a `class` or `style` attribute, the image value is merged into it:
+   * `class` tokens are deduplicated and `style` declarations are joined with `;` (empty
+   * declarations are dropped). Attribute names are compared case-insensitively. Any other duplicate
+   * key is ignored, so the figure's existing value wins.
+   *
    * 将图片属性复制或移动到 `<figure>` 上。
    *
    * - `true`：**复制**除原生 img 属性外的所有属性到 `<figure>`，图片保留这些属性。
    * - `(string | RegExp)[]`：**移动**仅匹配的属性到 `<figure>`，图片失去这些属性。
    *
    * 原生 img 属性（src、alt、title、width、height 等）永远不会被移动或复制到 `<figure>` 上。
+   *
+   * 已有 `class` 或 `style` 时合并：`class` 去重，`style` 用 `;` 连接（空声明会被丢弃），合并重复的键时属性名不区分大小写；其余重复键保留原值。
    *
    * @example
    *   // Copy all non-native attrs to figure (img keeps them)
