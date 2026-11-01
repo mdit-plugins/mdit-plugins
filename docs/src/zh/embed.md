@@ -73,16 +73,16 @@ const md = new MarkdownIt().use(embed, {
 
 ::: tip 转义
 
-要转义嵌入语法，请在开始/结束括号前使用反斜杠：
+要按字面量显示嵌入语法，可以用反斜杠转义起始标记（`\{%`），或用 `%\}` 转义结束括号；整段嵌入只需转义起始标记即可：
 
 ```md
 \{% name params %}
 ```
 
-你也可以在内容中转义这些标记：
+如果要在嵌入内容中写入标记，只转义内容里的标记，外层嵌入保持不转义：
 
 ```md
-\{% name params-containing-\{%value%\} %}
+{% name params-containing-\{%value%\} %}
 ```
 
 :::
