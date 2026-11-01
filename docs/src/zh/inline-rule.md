@@ -42,21 +42,21 @@ mdIt.render("==高亮文本==");
 
 用于 markdown-it 令牌标识的令牌类型名称（例如 `"sup"`、`"mark"`）。
 
-@`nested` type=boolean default=`false`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
 
-为 `false` 时使用高性能线性扫描，内部不解析内联标签。为 `true` 时使用分隔符状态机，支持标记内嵌套粗体、斜体等。
-
-@`double` type=boolean default=`false`
-
-标记是否必须成对出现（例如 `++` 而不是 `+`）。设为 `true` 时使用双标记。
+渲染元素的自定义 HTML 属性。静态数组会为每个令牌克隆一份，因此令牌之间不会共享属性数组。工厂函数会为每个令牌调用一次，且必须返回新数组；这是提供动态属性的推荐方式，并免去逐令牌克隆。
 
 @`placement` type=`"before-emphasis" | "after-emphasis"` default=`"after-emphasis"`
 
 相对于核心 emphasis 规则的规则位置。使用 `"before-emphasis"` 可以覆盖相同标记字符的 emphasis 行为（例如使用 `_` 作为自定义标签）。
 
-@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
+@`double` type=boolean default=`false`
 
-渲染元素的自定义 HTML 属性。静态数组会为每个令牌克隆一份，因此令牌之间不会共享属性数组。工厂函数会为每个令牌调用一次，且必须返回新数组；这是提供动态属性的推荐方式，并免去逐令牌克隆。
+标记是否必须成对出现（例如 `++` 而不是 `+`）。设为 `true` 时使用双标记。
+
+@`nested` type=boolean default=`false`
+
+为 `false` 时使用高性能线性扫描，内部不解析内联标签。为 `true` 时使用分隔符状态机，支持标记内嵌套粗体、斜体等。
 
 @`allowSpace` type=boolean default=`false`
 

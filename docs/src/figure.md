@@ -30,15 +30,7 @@ If a image is standalone in a line, wrapped or not wrapped by link, it will be d
 ## Options
 
 ::: fields
-@`focusable` type=boolean default=`true`
-
-Whether the figure is focusable. When enabled, `tabindex="0"` is added to the image unless it already has a `tabindex` attribute, which is preserved.
-
-@`linkImage` type=boolean default=`true`
-
-Whether to convert linked images (`[![image](url)](link)`) to figures.
-
-@`moveAttrs` type=`boolean | (string | RegExp)[]`
+@`moveAttrs` type=`boolean | (string | RegExp)[]` default=`false`
 
 Copy or move image attributes to `<figure>`.
 
@@ -54,6 +46,14 @@ moveAttrs: true;
 // Move class and data-* attrs to figure (img loses them)
 moveAttrs: ["class", /^data-/];
 ```
+
+@`focusable` type=boolean default=`true`
+
+Whether the figure is focusable. When enabled, `tabindex="0"` is added to the image unless it already has a `tabindex` attribute, which is preserved.
+
+@`linkImage` type=boolean default=`true`
+
+Whether to convert linked images (`[![image](url)](link)`) to figures.
 
 :::
 

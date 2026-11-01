@@ -42,21 +42,21 @@ HTML tag name for the rendered element (e.g., `"sup"`, `"mark"`, `"span"`).
 
 Token type name used for markdown-it token identification (e.g., `"sup"`, `"mark"`).
 
-@`nested` type=boolean default=`false`
+@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
 
-When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine. Supports nested bold, italic, and other inline rules inside the markers (e.g., mark/spoiler/ins).
-
-@`double` type=boolean default=`false`
-
-Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-marker syntax.
+Custom HTML attributes for the rendered element. A static array is cloned for every token, so tokens never share attribute arrays. A factory function is called once per token and must return a new array; it is the recommended way to provide dynamic attributes and avoids the per-token clone.
 
 @`placement` type=`"before-emphasis" | "after-emphasis"` default=`"after-emphasis"`
 
 Ruler position relative to the core emphasis rule. Use `"before-emphasis"` to override emphasis behavior for the same marker character (e.g., using `_` as a custom tag).
 
-@`attrs` type=`[attr: string, value: string][] | (() => [attr: string, value: string][])`
+@`double` type=boolean default=`false`
 
-Custom HTML attributes for the rendered element. A static array is cloned for every token, so tokens never share attribute arrays. A factory function is called once per token and must return a new array; it is the recommended way to provide dynamic attributes and avoids the per-token clone.
+Whether markers must be doubled (e.g., `++` vs `+`). Set to `true` for double-marker syntax.
+
+@`nested` type=boolean default=`false`
+
+When `false`, uses a high-performance linear scan. No inline tags are parsed inside (e.g., sub/sup). When `true`, uses the delimiter state machine. Supports nested bold, italic, and other inline rules inside the markers (e.g., mark/spoiler/ins).
 
 @`allowSpace` type=boolean default=`false`
 

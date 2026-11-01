@@ -82,22 +82,6 @@ mdIt.render("$E=mc^2$");
 ## 选项
 
 ::: fields
-@`render` type=TexRender required
-
-```ts
-/**
- * Tex 渲染函数
- *
- * @param content 文本内容
- * @param displayMode 是否为显示模式
- * @param env MarkdownIt 环境
- * @returns 渲染结果
- */
-type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
-```
-
-Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
-
 <!-- #region options -->
 
 @`delimiters` type=`"brackets" | "dollars" | "all"` default=`"dollars"`
@@ -114,11 +98,31 @@ Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后�
 
 是否将解析的数学语言 fence 块转换为显示模式数学。
 
+<!-- #endregion options -->
+
+@`render` type=TexRender required
+
+```ts
+/**
+ * Tex 渲染函数
+ *
+ * @param content 文本内容
+ * @param displayMode 是否为显示模式
+ * @param env MarkdownIt 环境
+ * @returns 渲染结果
+ */
+type TexRender = (content: string, displayMode: boolean, env: MarkdownItEnv) => string;
+```
+
+Tex 渲染函数。接收内容、显示模式和环境变量，返回渲染后的字符串。
+
+<!-- #region options-inline -->
+
 @`allowInlineWithSpace` type=boolean default=`false`
 
 是否允许两端带空格的内联数学。不建议将此设置为 true，因为它很可能会破坏 `$` 的默认使用。注意：内容中带空格的字面 `$`（如 `$\text{a $ b}$`）此时会被当作闭合 `$`，从而提前结束表达式。
 
-<!-- #endregion options -->
+<!-- #endregion options-inline -->
 
 :::
 
