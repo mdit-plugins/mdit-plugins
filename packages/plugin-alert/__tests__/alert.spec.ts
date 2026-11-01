@@ -75,6 +75,16 @@ describe(alert, () => {
     });
   });
 
+  it("should support non-ASCII alert names", () => {
+    const markdownItUnicode = new MarkdownIt({ html: true }).use(alert, {
+      alertNames: ["重要"],
+    });
+
+    expect(markdownItUnicode.render("> [!重要]\n> 内容\n")).toBe(
+      '<div class="markdown-alert markdown-alert-重要">\n<p class="markdown-alert-title">重要</p>\n<p>内容</p>\n</div>\n',
+    );
+  });
+
   it("should ignore casing in alert names", () => {
     const testCases = [
       [

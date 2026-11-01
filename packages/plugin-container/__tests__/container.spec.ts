@@ -313,6 +313,17 @@ yyy</p>
     expect(tokens[4].markup).toBe("foofoofoo");
   });
 
+  it("astral marker", () => {
+    const markdownItMarker = new MarkdownIt({ linkify: true }).use(container, {
+      name: "astro",
+      marker: "😀",
+    });
+
+    expect(markdownItMarker.render("😀😀😀 astro\ncontent\n😀😀😀\n")).toBe(
+      '<div class="astro">\n<p>content</p>\n</div>\n',
+    );
+  });
+
   it("should not break code fence", () => {
     const testCases = [
       [
