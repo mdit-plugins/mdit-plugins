@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt } from "markdown-it";
 
@@ -216,15 +217,17 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
     else inlineEmbedMap.delete(item.name);
   });
 
-  // Only register rules if not already registered
-  // check embed_block rules here
-  if (!("embed_block" in md.renderer.rules)) {
+  // Repeated installation must not register the rules twice; a differing configuration keeps
+  // the first installation's parse rules (renderers are still refreshed).
+  if (!hasRule(md, "embed_block", "block")) {
     // Register the block rule
     md.block.ruler.before("paragraph", "embed_block", createBlockEmbedRule(embedMap), {
       alt: ["paragraph", "reference", "blockquote", "list"],
     });
+  }
 
-    // Register the renderers
+  if (!("embed_block" in md.renderer.rules)) {
+    // Register the block renderer
     md.renderer.rules.embed_block = (tokens, index): string => {
       const token = tokens[index];
 
@@ -234,25 +237,29 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
   }
 
   // only register embed_inline rules if inline embeds are allowed
-  if (inlineEmbedMap.size > 0 && !("embed_inline" in md.renderer.rules)) {
-    // Register the inline rule
-    md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
+  if (inlineEmbedMap.size > 0) {
+    if (!hasRule(md, "embed_inline", "inline")) {
+      // Register the inline rule
+      md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
+    }
 
-    md.renderer.rules.embed_inline = (tokens, index): string => {
-      const token = tokens[index];
-      const config = inlineEmbedMap.get(token.info);
+    if (!("embed_inline" in md.renderer.rules)) {
+      md.renderer.rules.embed_inline = (tokens, index): string => {
+        const token = tokens[index];
+        const config = inlineEmbedMap.get(token.info);
 
-      // `config` can be missing when tokens were parsed before a later
-      // installation dropped the inline entry: render the source literally
-      // instead of crashing. Rendering a stale token stream is harmless as long
-      // as the text is escaped.
-      if (!config) {
-        return md.utils.escapeHtml(
-          `{% ${token.info}${token.content ? ` ${token.content}` : ""} %}`,
-        );
-      }
+        // `config` can be missing when tokens were parsed before a later
+        // installation dropped the inline entry: render the source literally
+        // instead of crashing. Rendering a stale token stream is harmless as long
+        // as the text is escaped.
+        if (!config) {
+          return md.utils.escapeHtml(
+            `{% ${token.info}${token.content ? ` ${token.content}` : ""} %}`,
+          );
+        }
 
-      return config.setup(token.content, true);
-    };
+        return config.setup(token.content, true);
+      };
+    }
   }
 };

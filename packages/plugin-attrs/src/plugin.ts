@@ -1,5 +1,6 @@
 /** Forked and modified from https://github.com/arve0/markdown-it-attrs/ */
 
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { Renderer, RendererRule } from "markdown-it";
 
@@ -87,7 +88,9 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
     }
   };
 
-  md.core.ruler.before("linkify", "attrs", attrsRule);
+  // Repeated installation must not register the rule twice; a differing configuration keeps
+  // the first installation's parse rule (renderers are still refreshed).
+  if (!hasRule(md, "attrs", "core")) md.core.ruler.before("linkify", "attrs", attrsRule);
 
   // Place fence attributes on <pre> instead of <code>, but only when enabled,
   // the fence rule is active, and no custom fence renderer is already present.
