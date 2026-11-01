@@ -122,8 +122,13 @@ export const createMathjaxInstance = async (
   // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
 
+  // Always mix in the a11y document: `enableAssistiveMml` is a document option that only exists
+  // once the assistive-mml mixin is applied. The option itself decides whether assistive MathML is
+  // produced. Applying the mixin conditionally would leak the first registered handler's choice to
+  // later instances (MathJax uses the first global handler for an adaptor) and makes MathJax warn
+  // about an unknown `enableAssistiveMml` option when a11y is disabled.
   // oxlint-disable-next-line new-cap
-  if (options.a11y !== false) AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
+  AssistiveMmlHandler<LiteNode, LiteText, LiteDocument>(handler);
 
   const clearStyle = (): void => {
     // if there is no adaptor, output jax is not initialized yet, so nothing to clear

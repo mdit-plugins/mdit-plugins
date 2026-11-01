@@ -28,9 +28,10 @@ export interface MarkdownItMathjaxOptions extends Pick<
   output?: "chtml" | "svg";
 
   /**
-   * Enable A11y
+   * Whether to include assistive MathML for screen readers. When disabled, math is still rendered
+   * but the hidden `<mjx-assistive-mml>` output is omitted.
    *
-   * 是否启用无障碍
+   * 是否包含供屏幕阅读器使用的辅助 MathML。关闭后数学公式仍会渲染，但不再输出隐藏的 `<mjx-assistive-mml>`。
    *
    * @default true
    */
