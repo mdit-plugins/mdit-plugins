@@ -1,7 +1,7 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { readFileSync, statSync } from "node:fs";
 
-import { NEWLINE_RE, dedent } from "@mdit/helper";
+import { NEWLINE_RE, dedent, hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
 import { dirname, extname, resolve } from "upath";
 
@@ -140,6 +140,11 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
   if (typeof currentPath !== "function")
     throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
+
+  // A second installation must not register the block rule or wrap the fence renderer twice. As
+  // with the other guarded plugins, the first installation's options (including the security
+  // checker) stay in effect for repeated installations.
+  if (hasRule(md, "snippet", "block")) return;
 
   const checkSecurity = createSecurityChecker({
     allowOutsideRoot,

@@ -1,3 +1,4 @@
+import { hasRule } from "@mdit/helper";
 import type { InlineRule, PluginSimple } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
@@ -237,5 +238,8 @@ export const imgSizeRule: InlineRule = (state, silent) => {
 };
 
 export const imgSize: PluginSimple = (md) => {
+  // A second installation would register the inline rule twice.
+  if (hasRule(md, "img-size", "inline")) return;
+
   md.inline.ruler.before("image", "img-size", imgSizeRule);
 };
