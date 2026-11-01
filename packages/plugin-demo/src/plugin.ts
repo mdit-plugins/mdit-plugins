@@ -173,7 +173,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
     contentOpenToken.attrPush(["class", "demo-content"]);
     contentOpenToken.block = true;
-    openToken.map = [startLine, nextLine];
+    contentOpenToken.map = [startLine + 1, nextLine];
 
     state.md.block.tokenize(state, startLine + 1, nextLine);
 

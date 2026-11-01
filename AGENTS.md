@@ -26,6 +26,7 @@ mdit-plugins/
 ├── docs/                # VuePress 2 documentation site (en + zh)
 ├── packages/            # 38 plugin packages + @mdit/helper
 ├── scripts/             # build config, README sync, release sync, commit checks (+ tests)
+├── tests/               # Cross-package integration tests
 ├── AGENTS.md
 ├── package.json         # root scripts and tooling
 └── ...                  # oxlint/oxfmt/vitest/tsconfig/markdownlint configs
@@ -336,7 +337,11 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
 
 - Test files live in the package `__tests__` directory (`packages/<pkg>/__tests__/`,
   `scripts/__tests__/`), with nested folders mirroring `src/` when needed. `__tests__` may also hold
-  shared test helpers, `__fixtures__/` and `__snapshots__/`; do not put spec files elsewhere.
+  shared test helpers, `__fixtures__/` and `__snapshots__/`.
+- Cross-package integration tests that exercise multiple plugins together live in the root
+  `tests/*.spec.ts` directory, never inside a single plugin package. They import plugin packages
+  from source with relative paths (e.g. `../packages/plugin-dl/src/index.js`) and may rely on the
+  root `markdown-it` devDependency.
 - Use `vitest` for testing.
 - Import the package under test from source with the `.js` extension:
   `import { pluginName } from "../src/index.js";` (subpaths such as `../src/plugin.js` are fine).

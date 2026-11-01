@@ -10,6 +10,12 @@ const findCodeToken = (md: MarkdownItInstance, source: string): Token | undefine
   return tokens.find((token) => token.type === "fence" && token.info === "md");
 };
 
+const findContentOpenToken = (md: MarkdownItInstance, source: string): Token | undefined => {
+  const tokens = md.parse(source, {});
+
+  return tokens.find((token) => token.type === "demo_demo_content_open");
+};
+
 const testCases = [
   {
     title: "should set the map of a demo starting at the first line",
@@ -30,5 +36,15 @@ describe.each([false, true])("demo code token map (showCodeFirst: %s)", (showCod
 
     expect(codeToken).toBeDefined();
     expect(codeToken?.map).toStrictEqual(expected);
+  });
+});
+
+describe("demo content token map", () => {
+  it.each(testCases)("$title", ({ source, expected }) => {
+    const md = new MarkdownIt().use(demo);
+    const contentOpenToken = findContentOpenToken(md, source);
+
+    expect(contentOpenToken).toBeDefined();
+    expect(contentOpenToken?.map).toStrictEqual(expected);
   });
 });
