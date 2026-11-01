@@ -23,13 +23,40 @@ describe(alert, () => {
   });
 
   it("should keep the first installation's parse options", () => {
-    const markdownIt = new MarkdownIt()
-      .use(alert, { alertNames: ["tip"] })
-      .use(alert, { alertNames: ["note"] });
-    const first = new MarkdownIt().use(alert, { alertNames: ["tip"] });
+    const firstOptions = { alertNames: ["tip"], deep: true };
+    const secondOptions = { alertNames: ["note"], deep: false };
+    const double = new MarkdownIt().use(alert, firstOptions).use(alert, secondOptions);
+    const single = new MarkdownIt().use(alert, firstOptions);
+    const nestedContent = `\
+- > [!tip]
+  > content
+`;
     const noteContent = "> [!note]\n> content\n";
 
-    expect(markdownIt.render(noteContent)).toBe(first.render(noteContent));
-    expect(markdownIt.render(noteContent)).not.toContain("markdown-alert");
+    expect(double.render(nestedContent)).toBe(single.render(nestedContent));
+    expect(double.render(nestedContent)).toContain("markdown-alert");
+    expect(double.render(noteContent)).toBe(single.render(noteContent));
+    expect(double.render(noteContent)).not.toContain("markdown-alert");
+  });
+
+  it("should keep the first installation's renderers", () => {
+    const firstOptions = {
+      openRenderer: (): string => '<div class="first-open">\n',
+      closeRenderer: (): string => "</div>\n",
+      titleRenderer: (): string => '<p class="first-title">title</p>\n',
+    };
+    const secondOptions = {
+      openRenderer: (): string => '<div class="second-open">\n',
+      closeRenderer: (): string => '<div class="second-close">\n',
+      titleRenderer: (): string => '<p class="second-title">title</p>\n',
+    };
+    const double = new MarkdownIt().use(alert, firstOptions).use(alert, secondOptions);
+    const single = new MarkdownIt().use(alert, firstOptions);
+    const result = double.render(content);
+
+    expect(result).toBe(single.render(content));
+    expect(result).toContain('<div class="first-open">');
+    expect(result).toContain('<p class="first-title">title</p>');
+    expect(result).not.toContain("second-");
   });
 });

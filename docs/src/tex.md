@@ -6,6 +6,8 @@ icon: square-root-variable
 
 Plugins for $\TeX$ grammar support.
 
+Installing the plugin twice is a no-op: the first installation's options, parser rules and renderers stay in effect. Plugins that install it internally (KaTeX and MathJax) inherit this behavior.
+
 ::: note
 
 This plugin is facing developers.

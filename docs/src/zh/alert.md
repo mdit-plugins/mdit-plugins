@@ -6,6 +6,8 @@ icon: bell
 
 支持 GFM 风格的警告语法。([参考](https://github.com/orgs/community/discussions/16925))
 
+重复安装插件不会产生效果：首次安装的选项、解析规则与渲染器会继续生效。
+
 <!-- more -->
 
 ## 使用
