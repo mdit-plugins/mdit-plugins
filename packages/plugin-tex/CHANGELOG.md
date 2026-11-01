@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.1.3...%40mdit%2Fplugin-tex%401.2.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 3) ([#869](https://github.com/mdit-plugins/mdit-plugins/issues/869)) ([f586786](https://github.com/mdit-plugins/mdit-plugins/commit/f5867863ddb48bca8e300802fc0bb9be1d3912e9))
+- make repeated installation a full no-op ([#873](https://github.com/mdit-plugins/mdit-plugins/issues/873)) ([b463792](https://github.com/mdit-plugins/mdit-plugins/commit/b463792d36f262ade426f8ac166c080b06dc69bd)), references [#1](https://github.com/mdit-plugins/mdit-plugins/issues/1) [#2](https://github.com/mdit-plugins/mdit-plugins/issues/2)
+- **plugin-tex:** align block math indentation and content handling ([#849](https://github.com/mdit-plugins/mdit-plugins/issues/849)) ([21175df](https://github.com/mdit-plugins/mdit-plugins/commit/21175df6802ca16aba0f6c82ab88f3da4dbea801))
+- **plugin-tex:** render content after unclosed $$ ([#798](https://github.com/mdit-plugins/mdit-plugins/issues/798)) ([ff3104a](https://github.com/mdit-plugins/mdit-plugins/commit/ff3104aa359d00b61dbf44a05ae7ca233c25e2c6))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.1.2...%40mdit%2Fplugin-tex%401.1.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-abbr%401.1.3...%40mdit%2Fplugin-abbr%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+- **plugin-abbr:** validate definition before silent return ([#838](https://github.com/mdit-plugins/mdit-plugins/issues/838)) ([eaaedfd](https://github.com/mdit-plugins/mdit-plugins/commit/eaaedfd393dc1b9123086cfc86d1bd606c93545a))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-abbr%401.1.2...%40mdit%2Fplugin-abbr%401.1.3) (2026-10-21)
 
 ### Build System

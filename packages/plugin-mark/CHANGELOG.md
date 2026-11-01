@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.1.3...%40mdit%2Fplugin-mark%402.1.4) (2026-11-01)
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Tests
+
+- **plugin-attrs:** move mark interop tests ([#857](https://github.com/mdit-plugins/mdit-plugins/issues/857)) ([c4fbb64](https://github.com/mdit-plugins/mdit-plugins/commit/c4fbb6440914d29955bcdff5c794b6fa2817a80b))
+
 ## [2.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mark%402.1.2...%40mdit%2Fplugin-mark%402.1.3) (2026-10-21)
 
 ### Tests

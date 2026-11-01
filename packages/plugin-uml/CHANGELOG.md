@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.3...%40mdit%2Fplugin-uml%402.0.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 3) ([#869](https://github.com/mdit-plugins/mdit-plugins/issues/869)) ([f586786](https://github.com/mdit-plugins/mdit-plugins/commit/f5867863ddb48bca8e300802fc0bb9be1d3912e9))
+- **plugin-uml:** extract block content from parser state ([#846](https://github.com/mdit-plugins/mdit-plugins/issues/846)) ([b4178b9](https://github.com/mdit-plugins/mdit-plugins/commit/b4178b92298c398f02eff478cbdbae11620f0ab4))
+- **plugin-uml:** namespace rule and full no-op ([#872](https://github.com/mdit-plugins/mdit-plugins/issues/872)) ([41aee9e](https://github.com/mdit-plugins/mdit-plugins/commit/41aee9e51dc6e163f753460652eae231583a63ac))
+
+### Tests
+
+- add new tests ([4e0b22f](https://github.com/mdit-plugins/mdit-plugins/commit/4e0b22fb07a3d895402c56bb62cbbc89077ae553))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.2...%40mdit%2Fplugin-uml%402.0.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

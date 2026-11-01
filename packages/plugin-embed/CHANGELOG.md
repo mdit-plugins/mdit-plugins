@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.3...%40mdit%2Fplugin-embed%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 1) ([#868](https://github.com/mdit-plugins/mdit-plugins/issues/868)) ([7d299b0](https://github.com/mdit-plugins/mdit-plugins/commit/7d299b062a57faae211a290cba74c0f45bf05114))
+- **plugin-embed:** drop stale inline config on reinstall ([#850](https://github.com/mdit-plugins/mdit-plugins/issues/850)) ([115c298](https://github.com/mdit-plugins/mdit-plugins/commit/115c298be3145db2892784015e7eb9b49f1ff1f2))
+- reject null options with descriptive error ([#840](https://github.com/mdit-plugins/mdit-plugins/issues/840)) ([a3732f5](https://github.com/mdit-plugins/mdit-plugins/commit/a3732f503af57241990d60c09556974aa6012c44))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.2...%40mdit%2Fplugin-embed%401.1.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

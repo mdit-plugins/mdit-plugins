@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.0.3...%40mdit%2Fplugin-tab%402.1.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- align uml and tab option contracts ([#792](https://github.com/mdit-plugins/mdit-plugins/issues/792)) ([94245ec](https://github.com/mdit-plugins/mdit-plugins/commit/94245ec3631d89806d0b7ec58369c6e06b50a5a1))
+- **plugin-tab:** make reuse idempotent ([#807](https://github.com/mdit-plugins/mdit-plugins/issues/807)) ([c615e32](https://github.com/mdit-plugins/mdit-plugins/commit/c615e3221193f09ba0e7f723303052400087cab2))
+- **plugin-tab:** pass env to tab title renderer ([#801](https://github.com/mdit-plugins/mdit-plugins/issues/801)) ([5cee44d](https://github.com/mdit-plugins/mdit-plugins/commit/5cee44d037bfeb8f0aca9fd9004c6871182589be))
+- **plugin-tab:** scope tab queries to own wrapper ([#802](https://github.com/mdit-plugins/mdit-plugins/issues/802)) ([6688f14](https://github.com/mdit-plugins/mdit-plugins/commit/6688f1497ee333f566f1556a03f01165b179e145))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
+### Tests
+
+- move cross-package cases to root tests ([#881](https://github.com/mdit-plugins/mdit-plugins/issues/881)) ([1b36f55](https://github.com/mdit-plugins/mdit-plugins/commit/1b36f55475a087dabad67c98be6fc9dc0573f3e7))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.0.2...%40mdit%2Fplugin-tab%402.0.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

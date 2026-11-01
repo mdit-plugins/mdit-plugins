@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%402.0.3...%40mdit%2Fplugin-stylize%402.0.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+- **plugin-stylize:** mark pair handled only when applied ([#871](https://github.com/mdit-plugins/mdit-plugins/issues/871)) ([cead8cb](https://github.com/mdit-plugins/mdit-plugins/commit/cead8cbcc418e865442ffd31e4f39de4606d3866))
+- **plugin-stylize:** try later configs and pass env to replacer ([#841](https://github.com/mdit-plugins/mdit-plugins/issues/841)) ([37a2641](https://github.com/mdit-plugins/mdit-plugins/commit/37a2641561db6f8c3a9195ca2bde4e21611499f3))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%402.0.2...%40mdit%2Fplugin-stylize%402.0.3) (2026-10-21)
 
 ### Build System

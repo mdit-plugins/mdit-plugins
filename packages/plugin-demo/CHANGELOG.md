@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-demo%402.0.3...%40mdit%2Fplugin-demo%402.1.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 1) ([#868](https://github.com/mdit-plugins/mdit-plugins/issues/868)) ([7d299b0](https://github.com/mdit-plugins/mdit-plugins/commit/7d299b062a57faae211a290cba74c0f45bf05114))
+- **plugin-demo:** map demo content container source range ([#864](https://github.com/mdit-plugins/mdit-plugins/issues/864)) ([ca25352](https://github.com/mdit-plugins/mdit-plugins/commit/ca25352d51ccd966c0b17261c20a703069bdd50b))
+- **plugin-demo:** skip fenced code in closing scan ([#874](https://github.com/mdit-plugins/mdit-plugins/issues/874)) ([dc8f475](https://github.com/mdit-plugins/mdit-plugins/commit/dc8f475f80851c37492ac1cf5e1660923e3d5720))
+- **plugin-include:** use raw line ranges and nonce markers ([#878](https://github.com/mdit-plugins/mdit-plugins/issues/878)) ([9f18daa](https://github.com/mdit-plugins/mdit-plugins/commit/9f18daa490cea304e212ba513a1021d48227c4af))
+
+### 🚀 Performance Improvements
+
+- **plugin-demo:** hoist include regexp and slice block range ([#860](https://github.com/mdit-plugins/mdit-plugins/issues/860)) ([0c06057](https://github.com/mdit-plugins/mdit-plugins/commit/0c060578ff7f8f47fa95a464275b34416a5c084c))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+
+### Miscellaneous Chores
+
+- add missing package licenses ([#788](https://github.com/mdit-plugins/mdit-plugins/issues/788)) ([63de984](https://github.com/mdit-plugins/mdit-plugins/commit/63de9841b911673bec604511afc1992fd053f15e))
+
+### Tests
+
+- move cross-package cases to root tests ([#881](https://github.com/mdit-plugins/mdit-plugins/issues/881)) ([1b36f55](https://github.com/mdit-plugins/mdit-plugins/commit/1b36f55475a087dabad67c98be6fc9dc0573f3e7))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-demo%402.0.2...%40mdit%2Fplugin-demo%402.0.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

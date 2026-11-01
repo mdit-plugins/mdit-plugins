@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%403.0.1...%40mdit%2Fplugin-field%403.0.2) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+- **plugin-field:** close field items in blocks ([#804](https://github.com/mdit-plugins/mdit-plugins/issues/804)) ([f055bf0](https://github.com/mdit-plugins/mdit-plugins/commit/f055bf0e03ff957d359e56313fa576f9ebb93df4))
+- **plugin-field:** escape class prefix in default renderers ([#854](https://github.com/mdit-plugins/mdit-plugins/issues/854)) ([f3ddf3f](https://github.com/mdit-plugins/mdit-plugins/commit/f3ddf3fe3fc71cffdb50e4ae8c3fae9a50ac8bc3))
+- **plugin-field:** skip fences in container closing scan ([#803](https://github.com/mdit-plugins/mdit-plugins/issues/803)) ([7f4f430](https://github.com/mdit-plugins/mdit-plugins/commit/7f4f43019fa78fb7666c00bfef6397132c6e5c76))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Miscellaneous Chores
+
+- add missing package licenses ([#788](https://github.com/mdit-plugins/mdit-plugins/issues/788)) ([63de984](https://github.com/mdit-plugins/mdit-plugins/commit/63de9841b911673bec604511afc1992fd053f15e))
+
 ## [3.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%403.0.0...%40mdit%2Fplugin-field%403.0.1) (2026-10-21)
 
 ### 🐛 Bug Fixes

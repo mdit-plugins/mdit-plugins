@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-emoji%401.2.3...%40mdit%2Fplugin-emoji%401.2.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+- **plugin-emoji:** add attribution and docs link ([#821](https://github.com/mdit-plugins/mdit-plugins/issues/821)) ([470f6d9](https://github.com/mdit-plugins/mdit-plugins/commit/470f6d9cace4a841abe625706d642fe11ca62c85))
+- **plugin-emoji:** ignore empty shortcut strings ([#848](https://github.com/mdit-plugins/mdit-plugins/issues/848)) ([a9cfeb1](https://github.com/mdit-plugins/mdit-plugins/commit/a9cfeb1aa472949e7ce1bc346d6f68797ff2a978))
+- **plugin-emoji:** name code-point-only emoji ([#856](https://github.com/mdit-plugins/mdit-plugins/issues/856)) ([07baedd](https://github.com/mdit-plugins/mdit-plugins/commit/07baedd41eb5297f453ebe7cd8e53cb547710e8e))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Miscellaneous Chores
+
+- align package metadata with repository conventions ([#855](https://github.com/mdit-plugins/mdit-plugins/issues/855)) ([aa841e8](https://github.com/mdit-plugins/mdit-plugins/commit/aa841e82b750b7c22df455426e6db79a737b1021))
+
 ## [1.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-emoji%401.2.2...%40mdit%2Fplugin-emoji%401.2.3) (2026-10-21)
 
 ### Build System

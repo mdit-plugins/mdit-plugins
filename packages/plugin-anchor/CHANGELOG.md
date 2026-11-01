@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.3...%40mdit%2Fplugin-anchor%402.3.0) (2026-11-01)
+
+### ✨ Features
+
+- **plugin-anchor:** add UMD/CDN build ([#814](https://github.com/mdit-plugins/mdit-plugins/issues/814)) ([51b3dd0](https://github.com/mdit-plugins/mdit-plugins/commit/51b3dd0c7e08994fe4e09b59a5a73c533d112364))
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [2.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.2...%40mdit%2Fplugin-anchor%402.2.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

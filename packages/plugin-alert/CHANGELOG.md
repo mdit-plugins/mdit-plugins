@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-alert%402.0.3...%40mdit%2Fplugin-alert%402.1.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 1) ([#868](https://github.com/mdit-plugins/mdit-plugins/issues/868)) ([7d299b0](https://github.com/mdit-plugins/mdit-plugins/commit/7d299b062a57faae211a290cba74c0f45bf05114))
+- make repeated installation a full no-op ([#873](https://github.com/mdit-plugins/mdit-plugins/issues/873)) ([b463792](https://github.com/mdit-plugins/mdit-plugins/commit/b463792d36f262ade426f8ac166c080b06dc69bd)), references [#1](https://github.com/mdit-plugins/mdit-plugins/issues/1) [#2](https://github.com/mdit-plugins/mdit-plugins/issues/2)
+
+### 🚀 Performance Improvements
+
+- avoid per-char allocations in container/alert ([#861](https://github.com/mdit-plugins/mdit-plugins/issues/861)) ([a1196cf](https://github.com/mdit-plugins/mdit-plugins/commit/a1196cf64c210e0c7350a5310d375950a9f41262))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-alert%402.0.2...%40mdit%2Fplugin-alert%402.0.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

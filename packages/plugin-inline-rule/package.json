@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-inline-rule",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "inline-rule plugin for MarkdownIt",
   "keywords": [
     "inline-rule",

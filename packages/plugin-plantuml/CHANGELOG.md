@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%402.0.3...%40mdit%2Fplugin-plantuml%402.0.4) (2026-11-01)
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+
+### Miscellaneous Chores
+
+- add missing package licenses ([#788](https://github.com/mdit-plugins/mdit-plugins/issues/788)) ([63de984](https://github.com/mdit-plugins/mdit-plugins/commit/63de9841b911673bec604511afc1992fd053f15e))
+- **deps:** update dependency pako to v3.0.3 ([#826](https://github.com/mdit-plugins/mdit-plugins/issues/826)) ([f15b7af](https://github.com/mdit-plugins/mdit-plugins/commit/f15b7affff52bdc082c978f85429af23f3dfb893))
+
 ## [2.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-plantuml%402.0.2...%40mdit%2Fplugin-plantuml%402.0.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

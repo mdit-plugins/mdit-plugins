@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.1.3...%40mdit%2Fhelper%401.2.0) (2026-11-01)
+
+### ✨ Features
+
+- **helper:** add sensitive file matcher ([#816](https://github.com/mdit-plugins/mdit-plugins/issues/816)) ([823d3fb](https://github.com/mdit-plugins/mdit-plugins/commit/823d3fb9ff4378f1822db78e14e2b5eb7f52a466))
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+
+### 🚀 Performance Improvements
+
+- **helper:** cache compiled sensitive file glob patterns ([#853](https://github.com/mdit-plugins/mdit-plugins/issues/853)) ([f3fb108](https://github.com/mdit-plugins/mdit-plugins/commit/f3fb1086c6ec0e048dc74d66ac42efc666da196e))
+
+### Documentation
+
+- **helper:** fix JSDoc examples and notes ([#823](https://github.com/mdit-plugins/mdit-plugins/issues/823)) ([31ffca7](https://github.com/mdit-plugins/mdit-plugins/commit/31ffca720adba0b3ce8a7720210c013fd4d3c9d2))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.1.2...%40mdit%2Fhelper%401.1.3) (2026-10-21)
 
 **Note:** Version bump only for package @mdit/helper

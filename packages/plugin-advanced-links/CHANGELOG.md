@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.2...%40mdit%2Fplugin-advanced-links%400.2.3) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- **plugin-advanced-links:** normalize and validate links ([#794](https://github.com/mdit-plugins/mdit-plugins/issues/794)) ([389b02c](https://github.com/mdit-plugins/mdit-plugins/commit/389b02ca90166e6f3c833d6d81f6be95430f83e3))
+
 ## [0.2.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.1...%40mdit%2Fplugin-advanced-links%400.2.2) (2026-10-21)
 
 ### Build System

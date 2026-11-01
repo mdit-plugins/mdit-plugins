@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-dl%401.1.3...%40mdit%2Fplugin-dl%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 1) ([#868](https://github.com/mdit-plugins/mdit-plugins/issues/868)) ([7d299b0](https://github.com/mdit-plugins/mdit-plugins/commit/7d299b062a57faae211a290cba74c0f45bf05114))
+- **plugin-dl:** map complete term source lines ([#851](https://github.com/mdit-plugins/mdit-plugins/issues/851)) ([06411f2](https://github.com/mdit-plugins/mdit-plugins/commit/06411f2796c76da76ff1d824298fc5521ff98d99))
+- **plugin-dl:** start definition source maps at marker line ([#852](https://github.com/mdit-plugins/mdit-plugins/issues/852)) ([db1c99d](https://github.com/mdit-plugins/mdit-plugins/commit/db1c99d257acc83965779b42695346eeec399217))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-dl%401.1.2...%40mdit%2Fplugin-dl%401.1.3) (2026-10-21)
 
 ### Build System

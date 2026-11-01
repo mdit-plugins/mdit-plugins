@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-ruby%401.1.3...%40mdit%2Fplugin-ruby%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 3) ([#869](https://github.com/mdit-plugins/mdit-plugins/issues/869)) ([f586786](https://github.com/mdit-plugins/mdit-plugins/commit/f5867863ddb48bca8e300802fc0bb9be1d3912e9))
+- **plugin-ruby:** handle escaped backslashes and empty ruby text ([#839](https://github.com/mdit-plugins/mdit-plugins/issues/839)) ([798db24](https://github.com/mdit-plugins/mdit-plugins/commit/798db24f3210af33cfda318ea30633b7dc3e8838))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Tests
+
+- add new tests ([4e0b22f](https://github.com/mdit-plugins/mdit-plugins/commit/4e0b22fb07a3d895402c56bb62cbbc89077ae553))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-ruby%401.1.2...%40mdit%2Fplugin-ruby%401.1.3) (2026-10-21)
 
 ### Build System

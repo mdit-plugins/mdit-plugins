@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.1.4...%40mdit%2Fplugin-include%402.0.0) (2026-11-01)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-include:** restrict file reads ([#817](https://github.com/mdit-plugins/mdit-plugins/issues/817))
+
+### ✨ Features
+
+- **plugin-include:** restrict file reads ([#817](https://github.com/mdit-plugins/mdit-plugins/issues/817)) ([5572c43](https://github.com/mdit-plugins/mdit-plugins/commit/5572c43e495fafeeaa680da8f93b0d708fe35f7f))
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+- **plugin-include:** use raw line ranges and nonce markers ([#878](https://github.com/mdit-plugins/mdit-plugins/issues/878)) ([9f18daa](https://github.com/mdit-plugins/mdit-plugins/commit/9f18daa490cea304e212ba513a1021d48227c4af))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.1.3...%40mdit%2Fplugin-include%401.1.4) (2026-10-21)
 
 ### 🐛 Bug Fixes

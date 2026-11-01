@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.1.4...%40mdit%2Fplugin-layout%402.0.0) (2026-11-01)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-layout:** replace the implicit single-@ nesting model, blkIndent raising and outdent-based item truncation with the context-free fence model used by code fences and @mdit/plugin-container/tab:
+
+  - Any positive count of leading `@` opens a container (`@flexs`, `@@flexs`, `@@@flexs`); items and `@end` must match the container's count exactly.
+  - Nested containers must use fewer leading `@` than their parent (`depth < ctx.depth`); otherwise they stay literal text.
+  - Directives never change `state.blkIndent`; 0-3 spaces of indentation are decorative, 4+ indented lines are never directives. Item bodies span until the next same-count/type item, the matching `@end`, or the parent block boundary.
+  - `findMatchingEnd` is a single forward scan (blank/outdent/4-space/fence handling, no nesting counter) that only consumes a real `@end`; early boundaries are left to the parent parser, and lines the tokenizer did not consume (e.g. blockquote lazy lines) are never skipped.
+
+  Tests rewritten for the new syntax (marker-count nesting, exact mismatches, indented/fenced/lazy code, boundaries and token maps, list/blockquote/container interop); docs EN/ZH updated and prettier-ignore directives removed.
+
+### ✨ Features
+
+- **plugin-layout:** use marker-count fencing ([#879](https://github.com/mdit-plugins/mdit-plugins/issues/879)) ([f178652](https://github.com/mdit-plugins/mdit-plugins/commit/f17865204eb197b8b1e33ddefe02c65bed08bbe7))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+- make repeated installation a full no-op ([#873](https://github.com/mdit-plugins/mdit-plugins/issues/873)) ([b463792](https://github.com/mdit-plugins/mdit-plugins/commit/b463792d36f262ade426f8ac166c080b06dc69bd)), references [#1](https://github.com/mdit-plugins/mdit-plugins/issues/1) [#2](https://github.com/mdit-plugins/mdit-plugins/issues/2)
+- **plugin-layout:** guard utility lookup and tabs ([#799](https://github.com/mdit-plugins/mdit-plugins/issues/799)) ([eba09f0](https://github.com/mdit-plugins/mdit-plugins/commit/eba09f0537ded99673ec6cb155d3dba2ade5ce23))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.1.3...%40mdit%2Fplugin-layout%401.1.4) (2026-10-21)
 
 ### 🐛 Bug Fixes

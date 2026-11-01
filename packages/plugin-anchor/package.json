@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-anchor",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "anchor plugin for MarkdownIt",
   "keywords": [
     "anchor",

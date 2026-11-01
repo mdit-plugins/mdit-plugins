@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.3...%40mdit%2Fplugin-inline-rule%402.2.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Miscellaneous Chores
+
+- add missing package licenses ([#788](https://github.com/mdit-plugins/mdit-plugins/issues/788)) ([63de984](https://github.com/mdit-plugins/mdit-plugins/commit/63de9841b911673bec604511afc1992fd053f15e))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
 ## [2.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.2...%40mdit%2Fplugin-inline-rule%402.2.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

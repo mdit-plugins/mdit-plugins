@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.4...%40mdit%2Fplugin-attrs%401.4.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 1) ([#868](https://github.com/mdit-plugins/mdit-plugins/issues/868)) ([7d299b0](https://github.com/mdit-plugins/mdit-plugins/commit/7d299b062a57faae211a290cba74c0f45bf05114))
+- **plugin-attrs:** unescape values and fix delimiter boundary ([#876](https://github.com/mdit-plugins/mdit-plugins/issues/876)) ([001b98e](https://github.com/mdit-plugins/mdit-plugins/commit/001b98ed0ef8e4ae40d7b1b0504ba79509e9b2df))
+- **plugin-tasklist:** make reuse idempotent ([#808](https://github.com/mdit-plugins/mdit-plugins/issues/808)) ([aa319ef](https://github.com/mdit-plugins/mdit-plugins/commit/aa319ef798f00126db1c55b46e2e71d24eaf7cee))
+- reset lastIndex of user regexps ([#837](https://github.com/mdit-plugins/mdit-plugins/issues/837)) ([c872fc6](https://github.com/mdit-plugins/mdit-plugins/commit/c872fc604da2ea948c0064cb1ad6dae3ed60497c))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Tests
+
+- **plugin-attrs:** move mark interop tests ([#857](https://github.com/mdit-plugins/mdit-plugins/issues/857)) ([c4fbb64](https://github.com/mdit-plugins/mdit-plugins/commit/c4fbb6440914d29955bcdff5c794b6fa2817a80b))
+
 ## [1.3.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.3...%40mdit%2Fplugin-attrs%401.3.4) (2026-10-21)
 
 ### 🐛 Bug Fixes

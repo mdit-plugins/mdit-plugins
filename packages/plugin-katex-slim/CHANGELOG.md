@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.4...%40mdit%2Fplugin-katex-slim%401.1.5) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- **plugin-katex-slim:** report mhchem load errors ([#820](https://github.com/mdit-plugins/mdit-plugins/issues/820)) ([f617b58](https://github.com/mdit-plugins/mdit-plugins/commit/f617b589faa4beb74e6e22cec2d486a1db8bda35))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.3...%40mdit%2Fplugin-katex-slim%401.1.4) (2026-10-21)
 
 ### 🐛 Bug Fixes

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.1.4...%40mdit%2Fplugin-tasklist%401.2.0) (2026-11-01)
+
+### ✨ Features
+
+- add baseline benchmark harness ([#832](https://github.com/mdit-plugins/mdit-plugins/issues/832)) ([bc34577](https://github.com/mdit-plugins/mdit-plugins/commit/bc345778db28ee0e77814a4e6b5e1837d9e4681a))
+
+### 🐛 Bug Fixes
+
+- **plugin-tasklist:** make reuse idempotent ([#808](https://github.com/mdit-plugins/mdit-plugins/issues/808)) ([aa319ef](https://github.com/mdit-plugins/mdit-plugins/commit/aa319ef798f00126db1c55b46e2e71d24eaf7cee))
+- **plugin-tasklist:** strip reference link marker ([#800](https://github.com/mdit-plugins/mdit-plugins/issues/800)) ([440ebaf](https://github.com/mdit-plugins/mdit-plugins/commit/440ebafd1355a517d8223aaeec2d4f19deffb17d))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Tests
+
+- add new tests ([4e0b22f](https://github.com/mdit-plugins/mdit-plugins/commit/4e0b22fb07a3d895402c56bb62cbbc89077ae553))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.1.3...%40mdit%2Fplugin-tasklist%401.1.4) (2026-10-21)
 
 ### Build System

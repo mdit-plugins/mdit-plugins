@@ -2,6 +2,93 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.3...%40mdit%2Fplugin-mathjax-slim%402.0.0) (2026-11-01)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-mathjax:** `mathjax` now accepts options as its second argument
+  instead of a MathJax instance, `createMathjaxInstance` is only exported
+  from `@mdit/plugin-mathjax/async`, and `@mdit/plugin-mathjax/sync` has
+  been removed. The synchronous main entry requires Node.js; use the
+  `/async` entry in browsers or runtimes without `worker_threads`.
+
+  - fix(plugin-mathjax): keep deprecated instance API
+  * keep `createMathjaxInstance` and `mathjax(md, instance)` available
+    from the main entry as deprecated compatibility exports, so
+    consumers such as `@vuepress/plugin-markdown-math` keep working
+    during the v2 transition.
+  * the main entry lazily imports the async implementation, so MathJax
+    is still not bundled into the main-thread entry.
+  * expose a synchronous `render()` on the async instance and use it in
+    the legacy plugin, avoiding MathJax imports in the compat shim.
+  * apply the same compat layer to `@mdit/plugin-mathjax-slim` and
+    update the v2 docs accordingly.
+  - perf(plugin-mathjax): reuse MathJax document across renders
+
+  Reuse a single MathJax `MathDocument` per worker session instead of
+  creating one per formula or per render pass. MathJax's document API
+  supports repeated conversions, and this removes the handler/factory
+  setup cost from every document.
+
+  Measured on the built packages (Node 24, SVG, warm):
+  - 256 formulas in one render: 61.9 ms -> 42.9 ms (-31%)
+  - 64 formulas: 15.9 ms -> 12.3 ms
+  - 100 pages x 16 formulas: 401 ms -> 353 ms (-12%)
+  - single-formula documents: 0.28 ms -> 0.22 ms per render (-23%)
+
+  Also apply the same change to `@mdit/plugin-mathjax-slim` and add a
+  regression test that rendering still works after `outputStyle()` and
+  `clearStyle()`.
+
+  - feat(plugin-mathjax): add warmup and renderStrategy options
+  * `getMathjax(md).warmup()` initializes the worker and the MathJax
+    session synchronously, moving the one-time ~110ms initialization cost
+    away from the first document. `warmup({ preloadFonts: true })` also
+    loads all dynamic font files so `outputStyle()` and rare glyphs are
+    ready immediately.
+  * `renderStrategy: "batch" | "immediate"` (default `"batch"`). The new
+    `"immediate"` strategy converts every formula as soon as it is
+    encountered, so nested `md.render()` / `md.renderInline()` calls
+    return final HTML instead of internal placeholders. It costs one
+    worker round-trip per formula: measured +2–4% for large documents and
+    ~0.1ms for a single formula, within the agreed 5% budget.
+  * Move the per-document TeX reset from the worker render request to the
+    plugin's outermost render end so both strategies share state semantics,
+    and skip the reset round-trip entirely for documents without math.
+  * mirror the changes in `@mdit/plugin-mathjax-slim`, add tests and docs.
+  - docs: correct AGENTS.md
+
+  - feat(plugin-mathjax)!: drop legacy main-entry API
+  * The main entry now only exposes the synchronous v2 API. `createMathjaxInstance`
+    and `mathjax(md, instance)` remain available from the `/async` subpath.
+  * Patch `@vuepress/plugin-markdown-math` with pnpm patch so the docs keep
+    building on the new API (`mathjax(md, options)` + `getMathjax(md)`) instead of
+    keeping deprecated compatibility exports in this package.
+  * Update docs and remove the legacy tests.
+
+### ✨ Features
+
+- **plugin-mathjax:** rework sync API for v2 ([#782](https://github.com/mdit-plugins/mdit-plugins/issues/782)) ([a3600fd](https://github.com/mdit-plugins/mdit-plugins/commit/a3600fdaa949c63f25eadedc10f7cb3d53757862))
+
+### 🐛 Bug Fixes
+
+- **plugin-mathjax-slim:** avoid runtime mathjax peer import ([#833](https://github.com/mdit-plugins/mdit-plugins/issues/833)) ([3ac2202](https://github.com/mdit-plugins/mdit-plugins/commit/3ac22028577f43a6b425a6a9dba2e1ee77768abf))
+- **plugin-mathjax:** drop font-extension packages ([#795](https://github.com/mdit-plugins/mdit-plugins/issues/795)) ([56f9006](https://github.com/mdit-plugins/mdit-plugins/commit/56f9006dea9b4a423218d91335810b559de1e8d2))
+- **plugin-mathjax:** gate html packages by html option ([#790](https://github.com/mdit-plugins/mdit-plugins/issues/790)) ([05684b3](https://github.com/mdit-plugins/mdit-plugins/commit/05684b327c6167075fe3c8f393a9788975a8364f))
+
+### Documentation
+
+- **plugin-mathjax-slim:** clarify runtime support ([#822](https://github.com/mdit-plugins/mdit-plugins/issues/822)) ([582aa05](https://github.com/mdit-plugins/mdit-plugins/commit/582aa05de893246f50375c6a79ffa4f2ef785ab0))
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
+### Tests
+
+- simplify test runbook and worker check ([#796](https://github.com/mdit-plugins/mdit-plugins/issues/796)) ([6781fab](https://github.com/mdit-plugins/mdit-plugins/commit/6781fab12872f5264a672d423920370ba960cd99))
+
 ## [1.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.2...%40mdit%2Fplugin-mathjax-slim%401.2.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

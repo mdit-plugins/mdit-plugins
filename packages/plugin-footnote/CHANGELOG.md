@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-footnote%401.1.3...%40mdit%2Fplugin-footnote%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- guard plugins against duplicate use ([#810](https://github.com/mdit-plugins/mdit-plugins/issues/810)) ([0d1ce8d](https://github.com/mdit-plugins/mdit-plugins/commit/0d1ce8d3cf2a0368f00f8f201b35c42ab540de25))
+- **plugin-footnote:** escape docId in ids ([#819](https://github.com/mdit-plugins/mdit-plugins/issues/819)) ([0fe3785](https://github.com/mdit-plugins/mdit-plugins/commit/0fe3785acc22e035d959146a60d5955473243104))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-footnote%401.1.2...%40mdit%2Fplugin-footnote%401.1.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

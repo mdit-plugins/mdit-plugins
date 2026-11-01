@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%401.1.3...%40mdit%2Fplugin-snippet%402.0.0) (2026-11-01)
+
+### ⚠ BREAKING CHANGES
+
+- **plugin-snippet:** restrict file reads ([#818](https://github.com/mdit-plugins/mdit-plugins/issues/818))
+
+### ✨ Features
+
+- **plugin-snippet:** restrict file reads ([#818](https://github.com/mdit-plugins/mdit-plugins/issues/818)) ([18c83c7](https://github.com/mdit-plugins/mdit-plugins/commit/18c83c787e23c5470d5b3e55a8104559fab00742))
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 3) ([#869](https://github.com/mdit-plugins/mdit-plugins/issues/869)) ([f586786](https://github.com/mdit-plugins/mdit-plugins/commit/f5867863ddb48bca8e300802fc0bb9be1d3912e9))
+- **plugin-snippet:** honor silent mode in block rule ([#842](https://github.com/mdit-plugins/mdit-plugins/issues/842)) ([dc07a7e](https://github.com/mdit-plugins/mdit-plugins/commit/dc07a7e47876a8e3d69a44637441c81633a64d54))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%401.1.2...%40mdit%2Fplugin-snippet%401.1.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

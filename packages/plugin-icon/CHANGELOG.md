@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.1.3...%40mdit%2Fplugin-icon%401.1.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+- **plugin-icon:** filter unsafe renderer attributes ([#791](https://github.com/mdit-plugins/mdit-plugins/issues/791)) ([dba4a65](https://github.com/mdit-plugins/mdit-plugins/commit/dba4a65ff134dadb5a64af6d8f189f24ba858e75))
+
+### 🚀 Performance Improvements
+
+- **plugin-icon:** hoist pattern and bound newline scan ([#858](https://github.com/mdit-plugins/mdit-plugins/issues/858)) ([b4de7f1](https://github.com/mdit-plugins/mdit-plugins/commit/b4de7f15ee97ca015ee6d0509205214fd0efa147))
+
+### Documentation
+
+- make public JSDoc bilingual ([#866](https://github.com/mdit-plugins/mdit-plugins/issues/866)) ([72e6db9](https://github.com/mdit-plugins/mdit-plugins/commit/72e6db9026ed15b4038a1d3a66ee4030ec2b7bbf))
+
+### Miscellaneous Chores
+
+- align package metadata with repository conventions ([#855](https://github.com/mdit-plugins/mdit-plugins/issues/855)) ([aa841e8](https://github.com/mdit-plugins/mdit-plugins/commit/aa841e82b750b7c22df455426e6db79a737b1021))
+
+### Code Refactoring
+
+- correct jsdoc and docs ([f373e31](https://github.com/mdit-plugins/mdit-plugins/commit/f373e31c3739d8ac6b0fd230637876d2adfc4890))
+
+### Tests
+
+- add new tests ([4e0b22f](https://github.com/mdit-plugins/mdit-plugins/commit/4e0b22fb07a3d895402c56bb62cbbc89077ae553))
+
 ## [1.1.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.1.2...%40mdit%2Fplugin-icon%401.1.3) (2026-10-21)
 
 ### 🐛 Bug Fixes

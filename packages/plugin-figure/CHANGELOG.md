@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-figure%401.2.3...%40mdit%2Fplugin-figure%401.2.4) (2026-11-01)
+
+### 🐛 Bug Fixes
+
+- add hasRule guards to parser rules (part 2) ([#870](https://github.com/mdit-plugins/mdit-plugins/issues/870)) ([a5fa532](https://github.com/mdit-plugins/mdit-plugins/commit/a5fa53226517dd95d39f0f92a26313066d57a27b))
+- **plugin-figure:** avoid duplicate tabindex attribute ([#847](https://github.com/mdit-plugins/mdit-plugins/issues/847)) ([0f9858a](https://github.com/mdit-plugins/mdit-plugins/commit/0f9858a10a78106b9268c14270f91754c96acf17))
+- **plugin-figure:** merge moveAttrs duplicates like class and style ([#877](https://github.com/mdit-plugins/mdit-plugins/issues/877)) ([50f84bd](https://github.com/mdit-plugins/mdit-plugins/commit/50f84bde6dbdac666759144ac0bb8e5fe685f5d2))
+- reset lastIndex of user regexps ([#837](https://github.com/mdit-plugins/mdit-plugins/issues/837)) ([c872fc6](https://github.com/mdit-plugins/mdit-plugins/commit/c872fc604da2ea948c0064cb1ad6dae3ed60497c))
+
+### Documentation
+
+- unify package readmes and docs ([#789](https://github.com/mdit-plugins/mdit-plugins/issues/789)) ([acd2788](https://github.com/mdit-plugins/mdit-plugins/commit/acd27888cd8e22ea9f68bb873e65c7c622ea1e8b))
+
 ## [1.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-figure%401.2.2...%40mdit%2Fplugin-figure%401.2.3) (2026-10-21)
 
 ### Build System
