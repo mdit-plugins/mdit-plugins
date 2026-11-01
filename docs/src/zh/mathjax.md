@@ -151,7 +151,7 @@ const style = getMathjax(md).outputStyle();
 
 @`a11y` type=boolean default=`true`
 
-是否启用无障碍。
+是否包含供屏幕阅读器使用的辅助 MathML。关闭后数学公式仍会渲染，但不再输出隐藏的 `<mjx-assistive-mml>`。
 
 @`tex` type=MathJaxTexInputOptions
 

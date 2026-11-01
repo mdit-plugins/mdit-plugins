@@ -151,7 +151,7 @@ Whether parsed fence block with math language to display mode math.
 
 @`a11y` type=boolean default=`true`
 
-Enable A11y.
+Whether to include assistive MathML for screen readers. When disabled, math is still rendered but the hidden `<mjx-assistive-mml>` output is omitted.
 
 @`tex` type=MathJaxTexInputOptions
 
