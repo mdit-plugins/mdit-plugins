@@ -784,7 +784,7 @@ foo
       });
     });
 
-    it("should ignore frontmatter", () => {
+    it("should ignore frontmatter by default and use raw lines for explicit ranges", () => {
       const cases = [
         [
           `\
@@ -803,7 +803,61 @@ foo
 [B](./b.md)
 `,
           `\
+<hr>
+<h2>test: 1</h2>
 <p>Content 1</p>
+<p><a href="./b.md">B</a></p>
+`,
+        ],
+        [
+          `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{1-3} -->
+[B](./b.md)
+`,
+          `\
+<hr>
+<h2>test: 1</h2>
+<p><a href="./b.md">B</a></p>
+`,
+        ],
+        [
+          `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{4-} -->
+[B](./b.md)
+`,
+          `\
+<p>Content 1</p>
+<p>Content 2</p>
+<p><a href="./b.md">B</a></p>
+`,
+        ],
+        [
+          `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{0-3} -->
+[B](./b.md)
+`,
+          `\
+<hr>
+<h2>test: 1</h2>
+<p><a href="./b.md">B</a></p>
+`,
+        ],
+        [
+          `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{5-5} -->
+[B](./b.md)
+`,
+          `\
+<p>Content 1</p>
+<p><a href="./b.md">B</a></p>
+`,
+        ],
+        [
+          `\
+<!-- @include: ${mdFixtureFrontmatterPathRelative}{100-} -->
+[B](./b.md)
+`,
+          `\
 <p><a href="./b.md">B</a></p>
 `,
         ],
@@ -819,6 +873,25 @@ foo
         expect(rendered).toStrictEqual(expected);
         expect(env.includedFiles).toStrictEqual([mdFixtureFrontmatterPath]);
       });
+    });
+
+    it("should strip a UTF-8 BOM before detecting frontmatter", () => {
+      const dir = mkdtempSync(join(tmpdir(), "include-bom-"));
+
+      writeFileSync(join(dir, "bom.md"), "\uFEFF---\ntest: 1\n---\n\nContent\n");
+
+      try {
+        const bomMd = new MarkdownIt({ html: true }).use(include, {
+          currentPath: (env: IncludeEnv) => env.filePath as string,
+          projectRoot: dir,
+        });
+        const env: IncludeEnv = { filePath: join(dir, "index.md") };
+        const rendered = bomMd.render("<!-- @include: bom.md -->", env);
+
+        expect(rendered).toBe("<p>Content</p>\n");
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
     });
   });
 });
@@ -877,27 +950,36 @@ describe("currentPath", () => {
     expect(env.includedFiles).toStrictEqual([]);
   });
 
-  it("should handle include-env-start edge cases", () => {
+  it("should handle include-env marker edge cases", () => {
     const md = new MarkdownIt().use(include, {
       currentPath: () => "/path/to/current.md",
     });
 
-    // this matches startsWith but not the regex
+    // these match startsWith but not the regex
     expect(md.render("<!-- #include-env-start: foo")).toBe(
       "<p>&lt;!-- #include-env-start: foo</p>\n",
     );
+    expect(md.render("<!-- #include-env-end:")).toBe("<p>&lt;!-- #include-env-end:</p>\n");
   });
 
   it("should ignore external links when resolving related links", () => {
-    const md = new MarkdownIt().use(include, {
-      currentPath: () => "/path/to/current.md",
-    });
+    const dir = mkdtempSync(join(tmpdir(), "include-external-"));
 
-    const rendered = md.render(
-      `<!-- #include-env-start: /path/to/included.md -->\n![](https://example.com/img.png)\n<!-- #include-env-end -->`,
-    );
+    writeFileSync(join(dir, "included.md"), "![](https://example.com/img.png)\n");
 
-    expect(rendered).toContain('src="https://example.com/img.png"');
+    try {
+      const md = new MarkdownIt().use(include, {
+        currentPath: (env: IncludeEnv) => env.filePath as string,
+        projectRoot: dir,
+      });
+      const env: IncludeEnv = { filePath: join(dir, "current.md") };
+      const rendered = md.render("<!-- @include: included.md -->", env);
+
+      expect(rendered).toContain('src="https://example.com/img.png"');
+      expect(env[includePathsKey]).toStrictEqual([]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it("should deep include with relative path and no cwd", () => {
@@ -912,15 +994,39 @@ describe("currentPath", () => {
     expect(rendered).toContain("Error when resolving path");
   });
 
-  it("should support includePushRule in silent mode", () => {
+  it("should support include markers in silent mode", () => {
     const md = new MarkdownIt().use(include, {
       currentPath: (env: IncludeEnv) => env.filePath as string,
     });
 
-    const state = new md.block.State("<!-- #include-env-start: /foo -->", md, {}, []);
+    const state = new md.block.State("<!-- #include-env-start:mdit-include: /foo -->", md, {}, []);
     const result = md.block.ruler.getRules("")[0](state, 0, 1, true);
 
     expect(result).toBe(true);
+
+    const endState = new md.block.State("<!-- #include-env-end:mdit-include -->", md, {}, []);
+    const endResult = md.block.ruler.getRules("")[1](endState, 0, 1, true);
+
+    expect(endResult).toBe(true);
+
+    // direct block-rule use without an env object must not throw
+    const stateWithoutEnv = new md.block.State(
+      "<!-- #include-env-start:mdit-include: /foo -->",
+      md,
+      undefined as unknown as IncludeEnv,
+      [],
+    );
+
+    expect(md.block.ruler.getRules("")[0](stateWithoutEnv, 0, 1, true)).toBe(true);
+
+    const endStateWithoutEnv = new md.block.State(
+      "<!-- #include-env-end:mdit-include -->",
+      md,
+      undefined as unknown as IncludeEnv,
+      [],
+    );
+
+    expect(md.block.ruler.getRules("")[1](endStateWithoutEnv, 0, 1, true)).toBe(true);
   });
 
   it("should resolveRelatedLink correctly with different paths", () => {
@@ -1318,6 +1424,9 @@ describe("should not expand directives inside code blocks", () => {
       );
 
       expect(result).toContain("# A");
+      // direct calls without a nonce fall back to the deterministic marker nonce
+      expect(result).toContain("<!-- #include-env-start:mdit-include: ");
+      expect(result).toContain("<!-- #include-env-end:mdit-include -->");
       expect(includedFiles).toStrictEqual([join(dir, "a.md")]);
     } finally {
       rmSync(dir, { recursive: true, force: true });

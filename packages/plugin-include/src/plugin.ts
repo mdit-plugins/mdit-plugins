@@ -1,4 +1,6 @@
 // oxlint-disable-next-line import/no-nodejs-modules
+import { randomBytes } from "node:crypto";
+// oxlint-disable-next-line import/no-nodejs-modules
 import { existsSync, readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, defaultSensitiveFiles, dedent, hasRule, scanFence } from "@mdit/helper";
@@ -6,11 +8,14 @@ import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, StateBlock, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
-import { includePathsKey } from "./constant.js";
+import { includeNonceKey, includePathsKey } from "./constant.js";
 import type { MarkdownItIncludeOptions } from "./options.js";
 import { createSecurityChecker } from "./security.js";
 import type { SecurityChecker } from "./security.js";
 import type { IncludeEnv } from "./types.js";
+
+// fallback nonce for direct helper calls that don't go through the plugin
+const DEFAULT_INCLUDE_NONCE = "mdit-include";
 
 interface ImportFileInfoBase {
   filePath: string;
@@ -32,10 +37,13 @@ type ImportFileInfo = ImportFileLineInfo | ImportFileRegionInfo;
 interface IncludeInfo {
   cwd: string | null;
   includedFiles: string[];
+  nonce?: string;
   resolvedPath?: boolean;
   checkSecurity?: SecurityChecker;
   stack?: string[];
 }
+
+const BOM_RE = /^\uFEFF/;
 
 const REGIONS_RE = [
   /^\/\/ ?#?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // javascript, typescript, java
@@ -91,9 +99,18 @@ const findRegion = (
   return null;
 };
 
+/**
+ * Include a file and return the included content
+ *
+ * 包含文件并返回包含的内容
+ *
+ * @param info - File info to include / 要包含的文件信息
+ * @param includeInfo - Include context / 包含上下文
+ * @returns Included Markdown content / 包含的 Markdown 内容
+ */
 export const handleInclude = (
   info: ImportFileInfo,
-  { cwd, includedFiles, resolvedPath, checkSecurity }: IncludeInfo,
+  { cwd, includedFiles, resolvedPath, checkSecurity, nonce = DEFAULT_INCLUDE_NONCE }: IncludeInfo,
 ): string => {
   const { filePath } = info;
   let realPath = filePath;
@@ -136,7 +153,7 @@ export const handleInclude = (
     return "\nFailed to read file\n";
   }
 
-  const lines = fileContent.replace(NEWLINE_RE, "\n").split("\n");
+  const lines = fileContent.replace(BOM_RE, "").replace(NEWLINE_RE, "\n").split("\n");
   let results: string[] = [];
 
   // is region
@@ -149,22 +166,26 @@ export const handleInclude = (
   else {
     const { lineStart, lineEnd } = info;
 
-    if (typeof lineStart === "number" && lineStart > 0) {
-      results = lines.slice(lineStart - 1, lineEnd);
+    if (lineStart != null || lineEnd != null) {
+      // explicit ranges always use the raw file lines, so line numbers match
+      // what an editor shows (frontmatter included); line 0 is clamped to line 1
+      const startLine = Math.max(lineStart ?? 1, 1);
+
+      results = lines.slice(startLine - 1, lineEnd ?? lines.length);
     } else if (lines[0] === "---") {
       const endLineIndex = lines.findIndex((line, index) => index !== 0 && line === "---");
 
-      results = lines.slice(Math.max(endLineIndex + 1, 1), lineEnd);
+      results = lines.slice(Math.max(endLineIndex + 1, 1));
     } else {
-      results = lines.slice(0, lineEnd);
+      results = lines.slice(0);
     }
   }
 
   if (resolvedPath && realPath.endsWith(".md")) {
     const dirName = dirname(realPath);
 
-    results.unshift(`<!-- #include-env-start: ${dirName} -->`);
-    results.push("<!-- #include-env-end -->");
+    results.unshift(`<!-- #include-env-start:${nonce}: ${dirName} -->`);
+    results.push(`<!-- #include-env-end:${nonce} -->`);
   }
 
   return dedent(results.join("\n").replace(/\n?$/, "\n"));
@@ -228,11 +249,23 @@ const scanCodeRanges = (content: string, md: MarkdownIt): [number, number][] => 
   return ranges;
 };
 
+/**
+ * Expand include directives in the given content
+ *
+ * 展开给定内容中的 include 指令
+ *
+ * @param content - Markdown content to expand / 要展开的 Markdown 内容
+ * @param options - Include options / 包含选项
+ * @param includeInfo - Include context / 包含上下文
+ * @param codeRanges - Line ranges of code blocks / 代码块的行范围
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @returns Expanded Markdown content / 展开后的 Markdown 内容
+ */
 // oxlint-disable-next-line max-lines-per-function
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
-  { cwd, includedFiles, checkSecurity, stack = [] }: IncludeInfo,
+  { cwd, includedFiles, checkSecurity, nonce = DEFAULT_INCLUDE_NONCE, stack = [] }: IncludeInfo,
   codeRanges: [number, number][],
   md: MarkdownIt,
 ): string => {
@@ -280,7 +313,7 @@ export const resolveInclude = (
               lineEnd: lineEnd ? Number(lineEnd) : undefined,
             },
       ),
-      { cwd, includedFiles, resolvedPath, checkSecurity: security },
+      { cwd, includedFiles, resolvedPath, checkSecurity: security, nonce },
     );
 
     let included = fileContent;
@@ -300,6 +333,7 @@ export const resolveInclude = (
                 : null,
             includedFiles,
             checkSecurity: security,
+            nonce,
             stack,
           },
           scanCodeRanges(fileContent, md),
@@ -367,7 +401,10 @@ export const resolveInclude = (
   return result + content.slice(lastCopied);
 };
 
-const SYNTAX_PUSH_RE = /^<!-- #include-env-start: (?<includePath>[^)]*?) -->$/;
+const INCLUDE_START_PREFIX = "<!-- #include-env-start:";
+const INCLUDE_END_PREFIX = "<!-- #include-env-end:";
+const SYNTAX_PUSH_RE = /^<!-- #include-env-start:(?<nonce>[^:]+): (?<includePath>.*) -->$/;
+const SYNTAX_POP_RE = /^<!-- #include-env-end:(?<nonce>[^:]+) -->$/;
 
 const includePushRule: BlockRule = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
@@ -375,14 +412,22 @@ const includePushRule: BlockRule = (state, startLine, _, silent): boolean => {
 
   const content = state.src.slice(start, max);
 
-  if (content.startsWith("<!-- #include-env-start: ")) {
-    // check if it’s matched the syntax
+  if (content.startsWith(INCLUDE_START_PREFIX)) {
+    // check if it matches the marker syntax
     const match = SYNTAX_PUSH_RE.exec(content);
 
     if (match) {
-      if (silent) return true;
+      const { nonce: markerNonce, includePath } = match.groups as {
+        nonce: string;
+        includePath: string;
+      };
+      const expectedNonce =
+        (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
 
-      const [, includePath] = match;
+      // a marker with another nonce is user content, not an include boundary
+      if (markerNonce !== expectedNonce) return false;
+
+      if (silent) return true;
 
       state.line = startLine + 1;
       const token = state.push("include_start", "", 0);
@@ -402,17 +447,30 @@ const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean 
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
-  if (state.src.slice(start, max) === "<!-- #include-env-end -->") {
-    if (silent) return true;
+  const content = state.src.slice(start, max);
 
-    state.line = startLine + 1;
+  if (content.startsWith(INCLUDE_END_PREFIX)) {
+    const match = SYNTAX_POP_RE.exec(content);
 
-    const token = state.push("include_end", "", 0);
+    if (match) {
+      const { nonce: markerNonce } = match.groups as { nonce: string };
+      const expectedNonce =
+        (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
 
-    token.map = [startLine, state.line];
-    token.markup = "include_end";
+      // only the marker carrying the current render nonce closes an include
+      if (markerNonce === expectedNonce) {
+        if (silent) return true;
 
-    return true;
+        state.line = startLine + 1;
+
+        const token = state.push("include_end", "", 0);
+
+        token.map = [startLine, state.line];
+        token.markup = "include_end";
+
+        return true;
+      }
+    }
   }
 
   return false;
@@ -504,6 +562,9 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
 
   const includeRule: CoreRule = (state): void => {
     const env = state.env as IncludeEnv;
+    // A fresh nonce per render prevents markers leaked by an earlier render (e.g. a marker
+    // swallowed by an unclosed fence) from being replayed when the env object is reused.
+    const nonce = (env[includeNonceKey] = randomBytes(8).toString("hex"));
     const includedFiles = (env.includedFiles ??= []);
     const filePath = currentPath(env);
 
@@ -531,6 +592,7 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
         cwd: filePath ? dirname(filePath) : null,
         includedFiles,
         checkSecurity,
+        nonce,
       },
       codeRanges,
       md,

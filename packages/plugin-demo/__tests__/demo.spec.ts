@@ -37,6 +37,30 @@ const codeContent = `\
 const markdownIt = new MarkdownIt({ linkify: true }).use(demo);
 
 describe(demo, () => {
+  it("should strip include markers from indented code samples", () => {
+    const source = `\
+::: demo
+  <!-- #include-env-start:abc123: /some/dir -->
+  included code
+  <!-- #include-env-end:abc123 -->
+
+  <!-- #include-env-start: /legacy/dir -->
+  legacy code
+  <!-- #include-env-end -->
+:::
+`;
+    const rendered = markdownIt.render(source);
+    const codeSample = rendered.slice(
+      rendered.indexOf('<pre><code class="language-md">'),
+      rendered.indexOf("</code></pre>"),
+    );
+
+    // markers generated for included files must not leak into the displayed source
+    expect(codeSample).not.toContain("include-env");
+    expect(codeSample).toContain("included code");
+    expect(codeSample).toContain("legacy code");
+  });
+
   it("should render", () => {
     expect(
       markdownIt.render(`

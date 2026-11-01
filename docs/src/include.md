@@ -62,7 +62,9 @@ Moreover, the plugin support `deep` function, which will handle nested `@include
 
 Use `<!-- @include: filename -->` to include a file.
 
-To partially import the file, you can specify the range of lines to be included:
+By default, the YAML frontmatter of the included file is stripped, so only the body is included.
+
+To partially import the file, you can specify the range of lines to be included. Line numbers refer to the original file lines as shown by an editor, including the frontmatter:
 
 - `<!-- @include: filename{start-end} -->`
 - `<!-- @include: filename{start-} -->`
