@@ -5,8 +5,10 @@ const SIZE_REGEXP = /(?<=\s|^)=(?<size>.+?)(?:\s|$)/;
 /**
  * Extract size from content
  *
- * @param data Input data with content string
- * @returns Data with size property and cleaned content string
+ * 从内容中提取尺寸
+ *
+ * @param data - Input data with content string / 包含内容字符串的输入数据
+ * @returns Data with size property and cleaned content string / 包含尺寸属性与清理后内容字符串的数据
  */
 export const extractSize = <Data extends { content: string }>(
   data: Data & { size?: string },
@@ -31,8 +33,10 @@ const COLOR_REGEXP = /(?<=\s|^)\/(?<color>.+?)(?:\s|$)/;
 /**
  * Extract color from content
  *
- * @param data Input data with content string
- * @returns Data with color property and cleaned content string
+ * 从内容中提取颜色
+ *
+ * @param data - Input data with content string / 包含内容字符串的输入数据
+ * @returns Data with color property and cleaned content string / 包含颜色属性与清理后内容字符串的数据
  */
 export const extractColor = <Data extends { content: string }>(
   data: Data & { color?: string },
@@ -267,6 +271,15 @@ export const extractAttrs = <Data extends { content: string }>(
   return Object.assign({}, data, { attrs, content });
 };
 
+/**
+ * Extract attrs, size and color from content
+ *
+ * 从内容中提取属性、尺寸与颜色
+ *
+ * @param data - Input data with content string / 包含内容字符串的输入数据
+ * @returns Data with attrs object, size and color, and cleaned content string /
+ *   包含属性对象、尺寸与颜色，以及清理后内容字符串的数据
+ */
 export const extractInfo = <Data extends { content: string }>(
   data: Data & { attrs?: AttrsInfo; size?: string; color?: string },
 ): Data & { attrs: AttrsInfo; size?: string; color?: string } =>
@@ -275,9 +288,11 @@ export const extractInfo = <Data extends { content: string }>(
 /**
  * Append styles to attrs object
  *
- * @param attrs Attrs object
- * @param styleDefinition New style definition
- * @returns Updated attrs object
+ * 向属性对象中追加样式
+ *
+ * @param attrs - Attrs object / 属性对象
+ * @param styleDefinition - New style definition / 新的样式定义
+ * @returns Updated attrs object / 更新后的属性对象
  */
 export const appendStyle = (
   attrs: Record<string, string>,

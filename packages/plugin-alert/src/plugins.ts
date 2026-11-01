@@ -337,6 +337,14 @@ const getAlertRule =
       return true;
     };
 
+/**
+ * Alert plugin, rendering `> [!tip]` style blockquotes as alerts
+ *
+ * 提示框插件，将 `> [!tip]` 形式的引用块渲染为提示框
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @param options - Alert options / 提示框选项
+ */
 export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
   md,
   {

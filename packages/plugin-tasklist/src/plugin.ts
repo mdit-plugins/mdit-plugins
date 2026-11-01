@@ -50,6 +50,14 @@ const removeTodoMarker = (children: Token[]): void => {
   children.splice(0, 3);
 };
 
+/**
+ * Task list plugin, rendering `[ ]` and `[x]` list items as checkboxes
+ *
+ * 任务列表插件，将 `[ ]` 与 `[x]` 列表项渲染为 checkbox
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @param options - Task list options / 任务列表选项
+ */
 export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, options = {}) => {
   // Registering the core rule twice would wrap the same inline token again, producing nested
   // labels and duplicated checkboxes.
