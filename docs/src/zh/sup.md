@@ -19,7 +19,7 @@ const mdIt = new MarkdownIt().use(sup);
 mdIt.render("19^th^");
 ```
 
-## 格式
+## 语法
 
 使用 `^ ^` 进行上角标标注。
 

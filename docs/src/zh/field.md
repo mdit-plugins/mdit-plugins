@@ -280,7 +280,7 @@ type MarkdownItFieldOpenRenderer = (
 
 :::
 
-## 演示
+## 示例
 
 :::: preview 基础字段
 

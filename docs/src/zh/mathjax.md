@@ -100,7 +100,7 @@ const style = getMathjax(md).outputStyle();
 
 `@mdit/plugin-mathjax-slim` 包也同步发生了变化：主入口使用新的同步 API（`@mathjax/src` 与 `@mathjax/mathjax-newcm-font` 仍为可选对等依赖），`./async` 保留实例 API，`./sync` 被移除；除此之外用法与 `@mdit/plugin-mathjax` 相同。本仓库通过 pnpm patch 让 VuePress 的 `@vuepress/plugin-markdown-math` 暂时使用 v2 API，待上游发布后移除补丁。
 
-## 格式
+## 语法
 
 语法取决于 `delimiters` 选项：
 
