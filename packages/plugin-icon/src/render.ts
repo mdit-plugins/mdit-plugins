@@ -5,8 +5,10 @@ import { appendStyle, extractInfo, stringifyAttrs } from "./utils.js";
 /**
  * Default render for icons
  *
- * @param icon Icon string
- * @returns Rendered icon content
+ * 图标的默认渲染器
+ *
+ * @param icon - Icon string / 图标字符串
+ * @returns Rendered icon content / 渲染后的图标内容
  */
 export const defaultRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -23,8 +25,10 @@ export const defaultRender = (icon: string): string => {
 /**
  * Render for [iconify-icon](https://iconify.design/docs/iconify-icon/)
  *
- * @param icon Icon string
- * @returns Rendered icon content
+ * 为 [iconify-icon](https://iconify.design/docs/iconify-icon/) 提供的渲染器
+ *
+ * @param icon - Icon string / 图标字符串
+ * @returns Rendered icon content / 渲染后的图标内容
  */
 export const iconifyRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -36,7 +40,11 @@ export const iconifyRender = (icon: string): string => {
   return `<iconify-icon icon="${escapeHtml(content)}"${stringifyAttrs(attrs)}></iconify-icon>`;
 };
 
-/** Fontawesome families short aliases */
+/**
+ * Fontawesome families short aliases
+ *
+ * Fontawesome 字体族的简写别名
+ */
 export const FONTAWESOME_FAMILY_SHORT_ALIAS: string[] = [
   // free
   "fas",
@@ -52,7 +60,11 @@ export const FONTAWESOME_FAMILY_SHORT_ALIAS: string[] = [
   "fasr",
 ];
 
-/** Fontawesome styles short aliases */
+/**
+ * Fontawesome styles short aliases
+ *
+ * Fontawesome 样式的简写别名
+ */
 export const FONTAWESOME_STYLES_SHORT_ALIAS: string[] = [
   // pro only
   "fad",
@@ -60,13 +72,21 @@ export const FONTAWESOME_STYLES_SHORT_ALIAS: string[] = [
   "fasr",
 ];
 
-/** Fontawesome short aliases */
+/**
+ * Fontawesome short aliases
+ *
+ * Fontawesome 的简写别名
+ */
 export const FONTAWESOME_SHORT_ALIAS: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
 ];
 
-/** Fontawesome families classes */
+/**
+ * Fontawesome families classes
+ *
+ * Fontawesome 字体族的 class
+ */
 export const FONTAWESOME_FAMILIES: string[] = [
   ...FONTAWESOME_FAMILY_SHORT_ALIAS,
   // free
@@ -81,7 +101,11 @@ export const FONTAWESOME_FAMILIES: string[] = [
   "fa-thin",
 ];
 
-/** Fontawesome styles classes */
+/**
+ * Fontawesome styles classes
+ *
+ * Fontawesome 样式的 class
+ */
 export const FONTAWESOME_STYLES: string[] = [
   ...FONTAWESOME_STYLES_SHORT_ALIAS,
   "fa-duotone",
@@ -89,7 +113,11 @@ export const FONTAWESOME_STYLES: string[] = [
   "fa-sharp-duotone",
 ];
 
-/** All fontawesome families and styles classes */
+/**
+ * All fontawesome families and styles classes
+ *
+ * 所有 Fontawesome 字体族与样式的 class
+ */
 export const FONTAWESOME_FAMILIES_AND_STYLES: string[] = [
   ...FONTAWESOME_FAMILIES,
   ...FONTAWESOME_STYLES,
@@ -98,8 +126,10 @@ export const FONTAWESOME_FAMILIES_AND_STYLES: string[] = [
 /**
  * Check if a class is a valid fontawesome short alias
  *
- * @param cls Class string
- * @returns Whether the class is a fontawesome short alias
+ * 检查 class 是否是有效的 Fontawesome 简写别名
+ *
+ * @param cls - Class string / class 字符串
+ * @returns Whether the class is a fontawesome short alias / 该 class 是否是 Fontawesome 简写别名
  */
 export const isFontawesomeShortAlias = (cls: string): boolean =>
   FONTAWESOME_SHORT_ALIAS.includes(cls);
@@ -107,16 +137,20 @@ export const isFontawesomeShortAlias = (cls: string): boolean =>
 /**
  * Check if a class is a valid fontawesome family
  *
- * @param cls Class string
- * @returns Whether the class is a fontawesome family
+ * 检查 class 是否是有效的 Fontawesome 字体族
+ *
+ * @param cls - Class string / class 字符串
+ * @returns Whether the class is a fontawesome family / 该 class 是否是 Fontawesome 字体族
  */
 export const isFontawesomeFamily = (cls: string): boolean => FONTAWESOME_FAMILIES.includes(cls);
 
 /**
  * Ensure every class is prefixed with `fa-` or a valid short alias
  *
- * @param icon Icon class string
- * @returns Prefixed icon class string
+ * 确保每个 class 都带有 `fa-` 前缀，或者本身就是有效的简写别名
+ *
+ * @param icon - Icon class string / 图标 class 字符串
+ * @returns Prefixed icon class string / 添加前缀后的图标 class 字符串
  */
 export const appendFontawesomePrefix = (icon: string): string =>
   icon.startsWith("fa-") || isFontawesomeShortAlias(icon) ? icon : `fa-${icon}`;
@@ -124,8 +158,10 @@ export const appendFontawesomePrefix = (icon: string): string =>
 /**
  * Render for [fontawesome](https://fontawesome.com/) icons
  *
- * @param icon Icon string
- * @returns Rendered icon content
+ * 为 [fontawesome](https://fontawesome.com/) 图标提供的渲染器
+ *
+ * @param icon - Icon string / 图标字符串
+ * @returns Rendered icon content / 渲染后的图标内容
  */
 export const fontawesomeRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });
@@ -167,8 +203,10 @@ export const fontawesomeRender = (icon: string): string => {
 /**
  * Render for [iconfont](https://www.iconfont.cn/) icons
  *
- * @param icon Icon string
- * @returns Rendered icon content
+ * 为 [iconfont](https://www.iconfont.cn/) 图标提供的渲染器
+ *
+ * @param icon - Icon string / 图标字符串
+ * @returns Rendered icon content / 渲染后的图标内容
  */
 export const iconfontRender = (icon: string): string => {
   const { attrs, content, size, color } = extractInfo({ content: icon });

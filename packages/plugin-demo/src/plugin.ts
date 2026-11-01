@@ -8,6 +8,14 @@ const MIN_MARKER_NUM = 3;
 // Hoisted to module scope so no RegExp object is allocated per content line of every demo block
 const INCLUDE_MARKER_RE = /^<!-- #include-env-(?:start: .*|end) -->$/;
 
+/**
+ * Demo block plugin, rendering `::: demo` blocks with both the source code and the result
+ *
+ * 示例块插件，渲染 `::: demo` 块，同时展示源码与渲染结果
+ *
+ * @param md - MarkdownIt instance / MarkdownIt 实例
+ * @param options - Demo options / 示例选项
+ */
 // oxlint-disable-next-line max-lines-per-function
 export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   md,
