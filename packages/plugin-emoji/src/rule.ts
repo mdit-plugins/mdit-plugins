@@ -21,7 +21,6 @@ export const emojiRule = (
   scanRE: RegExp,
   replaceRE: RegExp,
 ): CoreRule => {
-  const arrayReplaceAt = md.utils.arrayReplaceAt;
   // oxlint-disable-next-line id-length
   const { Z, P, Cc } = (md.utils.lib as { ucmicro: UCMicro }).ucmicro;
   const REG_ZPCc = new RegExp([Z.source, P.source, Cc.source].join("|"));
@@ -79,38 +78,54 @@ export const emojiRule = (
   return (state) => {
     const allTokens = state.tokens;
     const allTokensLength = allTokens.length;
-    let autolinkLevel = 0;
+    const TokenConstructor = state.Token;
 
     for (let i = 0; i < allTokensLength; i++) {
-      if (allTokens[i].type !== "inline") continue;
+      const blockToken = allTokens[i];
+
+      if (blockToken.type !== "inline") continue;
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      let tokens = allTokens[i].children!;
+      const tokens = blockToken.children!;
+      const tokensLength = tokens.length;
 
-      // We scan from the end, to keep position when new tags added.
-      // Use reversed logic in links start/end match
-      for (let j = tokens.length - 1; j >= 0; j--) {
+      // Rebuild the children list in one pass instead of calling `arrayReplaceAt` per matching
+      // text token, which copies the whole list every time and makes the pass quadratic.
+      // `newTokens` stays `null` until the first replacement, so inline blocks without emoji
+      // do not allocate a second list.
+      let newTokens: Token[] | null = null;
+      let autolinkLevel = 0;
+
+      for (let j = 0; j < tokensLength; j++) {
         const childTokens: Token = tokens[j];
 
         if (
           (childTokens.type === "link_open" || childTokens.type === "link_close") &&
           childTokens.info === "auto"
         )
-          autolinkLevel -= childTokens.nesting;
+          autolinkLevel += childTokens.nesting;
 
         if (
           childTokens.type === "text" &&
           autolinkLevel === 0 &&
           scanRE.test(childTokens.content)
         ) {
-          // replace current node
-          allTokens[i].children = tokens = arrayReplaceAt(
-            tokens,
-            j,
-            splitTextToken(childTokens.content, childTokens.level, state.Token),
+          newTokens ??= tokens.slice(0, j);
+
+          const replacements = splitTextToken(
+            childTokens.content,
+            childTokens.level,
+            TokenConstructor,
           );
+          const replacementsLength = replacements.length;
+
+          for (let k = 0; k < replacementsLength; k++) newTokens.push(replacements[k]);
+        } else if (newTokens != null) {
+          newTokens.push(childTokens);
         }
       }
+
+      if (newTokens != null) blockToken.children = newTokens;
     }
   };
 };
