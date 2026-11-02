@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import MarkdownIt from "markdown-it";
 import type { Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
@@ -7,130 +5,160 @@ import { describe, expect, it } from "vitest";
 import { cjkBreaks } from "../src/index.js";
 import { processInlines } from "../src/plugin.js";
 
-const md = new MarkdownIt().use(cjkBreaks);
-
-/** A parsed `cjk_breaks.txt` fixture */
-interface FixtureCase {
-  /** Fixture header / 测试用例标题 */
-  readonly name: string;
-  /** Markdown input / Markdown 输入 */
-  readonly input: string;
-  /** Expected HTML output without the trailing newline / 期望的 HTML 输出（不含末尾换行） */
-  readonly expected: string;
-}
+const markdownIt = new MarkdownIt({ linkify: true }).use(cjkBreaks);
 
 /**
- * Parse the upstream `markdown-it-testgen` fixture format
- *
- * @param source Fixture file content
- * @returns Parsed fixtures
- */
-const parseFixtures = (source: string): FixtureCase[] => {
-  const fixtures: FixtureCase[] = [];
-  let name = "";
-  let input: string[] = [];
-  let expected: string[] = [];
-  let state = 0;
-
-  for (const line of source.split(/\r?\n/)) {
-    if (line === ".") {
-      if (state === 0) {
-        state = 1;
-      } else if (state === 1) {
-        state = 2;
-      } else {
-        fixtures.push({ name, input: input.join("\n"), expected: expected.join("\n") });
-        name = "";
-        input = [];
-        expected = [];
-        state = 0;
-      }
-
-      continue;
-    }
-
-    if (state === 0) name = name === "" ? line : `${name}\n${line}`;
-    else if (state === 1) input.push(line);
-    else expected.push(line);
-  }
-
-  return fixtures;
-};
-
-/**
- * Create a minimal token for token-level tests
+ * Create a token for token-level tests
  *
  * @param type Token type
  * @param content Token content
  * @returns Token
  */
-const createToken = (type: string, content: string): Token =>
-  ({ type, content }) as unknown as Token;
+const createToken = (type: string, content: string): Token => {
+  const token = new MarkdownIt.Token(type, "", 0);
 
-const fixtures = parseFixtures(
-  readFileSync(new URL("__fixtures__/cjk_breaks.txt", import.meta.url), "utf-8"),
-);
+  token.content = content;
+
+  return token;
+};
 
 describe(cjkBreaks, () => {
-  describe("upstream fixtures", () => {
-    it("should match every upstream fixture", () => {
-      const mismatches = fixtures
-        .filter((fixture) => md.render(fixture.input) !== `${fixture.expected}\n`)
-        .map((fixture) => fixture.name);
+  describe("cjk line breaks", () => {
+    it("should remove soft breaks between East Asian characters", () => {
+      const testCases = [
+        ["あおえ\nいう", "<p>あおえいう</p>\n"],
+        ["あ\nい", "<p>あい</p>\n"],
+        ["漢字\nかな", "<p>漢字かな</p>\n"],
+        ["！＂＃\n＄％", "<p>！＂＃＄％</p>\n"],
+        ["ｱｵｴ\nｲｳ", "<p>ｱｵｴｲｳ</p>\n"],
+        ["！\n＄", "<p>！＄</p>\n"],
+        ["ｱ\nｲ", "<p>ｱｲ</p>\n"],
+        ["𩸽\n🈀", "<p>𩸽🈀</p>\n"],
+      ];
 
-      expect(mismatches).toStrictEqual([]);
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
+    });
+
+    it("should remove soft breaks adjacent to zero-width spaces", () => {
+      const testCases = [
+        ["foo\u200B\nbar", "<p>foo\u200Bbar</p>\n"],
+        ["foo\n\u200Bbar", "<p>foo\u200Bbar</p>\n"],
+        ["foo\u200B\nbar\n\u200Bbaz", "<p>foo\u200Bbar\u200Bbaz</p>\n"],
+        ["\u200B\n\u200B", "<p>\u200B\u200B</p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
     });
   });
 
-  describe("rendered output", () => {
-    it("should remove soft breaks between CJK characters", () => {
-      expect(md.render("あ\nい")).toBe("<p>あい</p>\n");
-    });
+  describe("non-CJK line breaks", () => {
+    it("should keep soft breaks in other cases", () => {
+      const testCases = [
+        ["a\nb", "<p>a\nb</p>\n"],
+        ["Hello\nWorld", "<p>Hello\nWorld</p>\n"],
+        ["foo\nbar\nbaz", "<p>foo\nbar\nbaz</p>\n"],
+        ["あ\na", "<p>あ\na</p>\n"],
+        ["a\nあ", "<p>a\nあ</p>\n"],
+        ["あおえ\naoe\nあおえ", "<p>あおえ\naoe\nあおえ</p>\n"],
+        ["a\n\nb", "<p>a</p>\n<p>b</p>\n"],
+      ];
 
-    it("should keep soft breaks between Latin characters", () => {
-      expect(md.render("a\nb")).toBe("<p>a\nb</p>\n");
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
     });
+  });
 
-    it("should keep soft breaks between CJK and Latin characters", () => {
-      expect(md.render("あ\na")).toBe("<p>あ\na</p>\n");
-      expect(md.render("a\nあ")).toBe("<p>a\nあ</p>\n");
-    });
-
-    it("should remove soft breaks adjacent to a zero-width space", () => {
-      expect(md.render("foo\u200B\nbar")).toBe("<p>foo\u200Bbar</p>\n");
-      expect(md.render("foo\n\u200Bbar")).toBe("<p>foo\u200Bbar</p>\n");
-    });
-
-    it("should handle halfwidth and fullwidth characters", () => {
-      expect(md.render("ｱ\nｲ")).toBe("<p>ｱｲ</p>\n");
-      expect(md.render("！\n＄")).toBe("<p>！＄</p>\n");
-    });
-
+  describe("hangul", () => {
     it("should keep soft breaks adjacent to Hangul", () => {
-      expect(md.render("ㅏ\nㅏ")).toBe("<p>ㅏ\nㅏ</p>\n");
-      expect(md.render("あ\nㅏ")).toBe("<p>あ\nㅏ</p>\n");
-      expect(md.render("ㅏ\nあ")).toBe("<p>ㅏ\nあ</p>\n");
-    });
+      const testCases = [
+        ["ㅏㅗㅔ\nㅣㅜ", "<p>ㅏㅗㅔ\nㅣㅜ</p>\n"],
+        ["가나\n다라", "<p>가나\n다라</p>\n"],
+        ["한국어\n테스트", "<p>한국어\n테스트</p>\n"],
+        ["あ\nㅏ", "<p>あ\nㅏ</p>\n"],
+        ["ㅏ\nあ", "<p>ㅏ\nあ</p>\n"],
+      ];
 
-    it("should handle non-BMP characters", () => {
-      expect(md.render("🈀\n🈀")).toBe("<p>🈀🈀</p>\n");
-      expect(md.render("foo🈀\n🈀foo")).toBe("<p>foo🈀🈀foo</p>\n");
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
     });
+  });
 
-    it("should handle stray surrogates", () => {
-      expect(md.render("a\uD800\uD800\nあ")).toBe("<p>a\uD800\uD800\nあ</p>\n");
-      expect(md.render("a\uDC00\uDC00\nあ")).toBe("<p>a\uDC00\uDC00\nあ</p>\n");
+  describe("hard breaks", () => {
+    it("should keep hard breaks", () => {
+      const testCases = [
+        ["あ  \nい", "<p>あ<br>\nい</p>\n"],
+        ["あ\\\nい", "<p>あ<br>\nい</p>\n"],
+        ["a  \nb", "<p>a<br>\nb</p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
     });
+  });
 
-    it("should not touch hard breaks, spaces and empty input", () => {
-      expect(md.render("あ  \nい")).toBe("<p>あ<br>\nい</p>\n");
-      expect(md.render("あ い")).toBe("<p>あ い</p>\n");
-      expect(md.render("")).toBe("");
-    });
-
+  describe("nested blocks", () => {
     it("should process nested block contents", () => {
-      expect(md.render("> あ\n> い")).toBe("<blockquote>\n<p>あい</p>\n</blockquote>\n");
-      expect(md.render("- あ\n- い")).toBe("<ul>\n<li>あ</li>\n<li>い</li>\n</ul>\n");
+      const testCases = [
+        ["> あ\n> い", "<blockquote>\n<p>あい</p>\n</blockquote>\n"],
+        ["- あ\n- い", "<ul>\n<li>あ</li>\n<li>い</li>\n</ul>\n"],
+        ["1. あ\n2. い", "<ol>\n<li>あ</li>\n<li>い</li>\n</ol>\n"],
+        ["## あ\n## い", "<h2>あ</h2>\n<h2>い</h2>\n"],
+        ["> a\n> b", "<blockquote>\n<p>a\nb</p>\n</blockquote>\n"],
+        ["> あ\n>\n> い", "<blockquote>\n<p>あ</p>\n<p>い</p>\n</blockquote>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
+    });
+  });
+
+  describe("inline markup", () => {
+    it("should handle inline markup between soft breaks", () => {
+      const testCases = [
+        ["*あおえ*\n*いう*", "<p><em>あおえ</em><em>いう</em></p>\n"],
+        ["**あ**\n**い**", "<p><strong>あ</strong>\n<strong>い</strong></p>\n"],
+        ["あ\n**a**", "<p>あ\n<strong>a</strong></p>\n"],
+        ["**foo**\nbar", "<p><strong>foo</strong>\nbar</p>\n"],
+        ["![img](image.png)\ntext", '<p><img src="image.png" alt="img">\ntext</p>\n'],
+        ["`あ`\n`い`", "<p><code>あ</code>\n<code>い</code></p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
+    });
+  });
+
+  describe("non-BMP characters and surrogates", () => {
+    it("should handle non-BMP characters and stray surrogates", () => {
+      const testCases = [
+        ["a\uD800\uD800\nあ", "<p>a\uD800\uD800\nあ</p>\n"],
+        ["a\uDC00\uDC00\nあ", "<p>a\uDC00\uDC00\nあ</p>\n"],
+        ["🈀\n🈀", "<p>🈀🈀</p>\n"],
+        ["foo🈀\n🈀foo", "<p>foo🈀🈀foo</p>\n"],
+      ];
+
+      testCases.forEach(([input, expected]) => {
+        expect(markdownIt.render(input)).toBe(expected);
+      });
+    });
+  });
+
+  describe("edge cases", () => {
+    it("should handle documents without soft breaks", () => {
+      expect(markdownIt.render("")).toBe("");
+      expect(markdownIt.render("あ い")).toBe("<p>あ い</p>\n");
+      expect(markdownIt.render("a")).toBe("<p>a</p>\n");
+      expect(markdownIt.render("あ")).toBe("<p>あ</p>\n");
+      expect(markdownIt.render("あ\nい\nう")).toBe("<p>あいう</p>\n");
     });
   });
 
@@ -148,38 +176,11 @@ describe(cjkBreaks, () => {
 
       expect(tokens[2].type).toBe("softbreak");
     });
-
-    it("should skip non-text tokens while looking for adjacent characters", () => {
-      const tokens = [
-        createToken("text", "あ"),
-        createToken("em_open", ""),
-        createToken("text", "い"),
-        createToken("em_close", ""),
-        createToken("softbreak", ""),
-        createToken("text", "う"),
-      ];
-
-      processInlines(tokens);
-
-      expect(tokens[4].type).toBe("text");
-      expect(tokens[4].content).toBe("");
-    });
-
-    it("should ignore token streams without soft breaks", () => {
-      const tokens = [createToken("text", "あ"), createToken("text", "い")];
-
-      processInlines(tokens);
-
-      expect(tokens).toStrictEqual([
-        { type: "text", content: "あ" },
-        { type: "text", content: "い" },
-      ]);
-    });
   });
 
   describe("plugin installation", () => {
     it("should be safe to install twice", () => {
-      const instance = new MarkdownIt().use(cjkBreaks).use(cjkBreaks);
+      const instance = new MarkdownIt({ linkify: true }).use(cjkBreaks).use(cjkBreaks);
 
       expect(instance.render("あ\nい")).toBe("<p>あい</p>\n");
       expect(instance.render("a\nb")).toBe("<p>a\nb</p>\n");
