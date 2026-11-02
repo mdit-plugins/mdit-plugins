@@ -1,13 +1,28 @@
 import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { StateBlock } from "markdown-it";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
+const hasTerminatingRule = (
+  rules: readonly BlockRule[],
+  state: StateBlock,
+  line: number,
+  endLine: number,
+): boolean => {
+  for (let i = 0; i < rules.length; i++) if (rules[i](state, line, endLine, true)) return true;
+
+  return false;
+};
+
 const getAlertRule =
   // oxlint-disable-next-line max-lines-per-function
-  (types: Set<string>, deep: boolean): BlockRule =>
+  (types: Set<string>, deep: boolean): BlockRule => {
+    // The alert class only depends on the validated type, so it is only built once per type.
+    const alertClasses = new Map<string, string>();
+
     // oxlint-disable-next-line max-lines-per-function
-    (state, startLine, endLine, silent) => {
+    return (state, startLine, endLine, silent) => {
       // Save the state before any modification, so it can always be restored,
       // including in silent mode.
       const oldLineMax = state.lineMax;
@@ -102,10 +117,8 @@ const getAlertRule =
       const oldBSCount: number[] = [];
       const oldSCount: number[] = [];
       const oldTShift: number[] = [];
-      const terminatorRules = [
-        state.md.block.ruler.getRules("blockquote"),
-        state.md.block.ruler.getRules("alert"),
-      ].flat();
+      const blockquoteTerminatorRules = state.md.block.ruler.getRules("blockquote");
+      const alertTerminatorRules = state.md.block.ruler.getRules("alert");
 
       state.parentType = "alert";
 
@@ -220,18 +233,10 @@ const getAlertRule =
         if (lastLineEmpty) break;
 
         // Case 3: another tag found.
-        let terminate = false;
+        let terminate = hasTerminatingRule(blockquoteTerminatorRules, state, currentLine, endLine);
 
-        const terminateRuleLength = terminatorRules.length;
-
-        for (let i = 0; i < terminateRuleLength; i++) {
-          const terminatorRule = terminatorRules[i];
-
-          if (terminatorRule(state, currentLine, endLine, true)) {
-            terminate = true;
-            break;
-          }
-        }
+        if (!terminate)
+          terminate = hasTerminatingRule(alertTerminatorRules, state, currentLine, endLine);
 
         if (terminate) {
           // Quirk to enforce "hard termination mode" for paragraphs;
@@ -312,15 +317,22 @@ const getAlertRule =
       const titleLines: [number, number] = [startLine, startLine + 1];
       const contentLines: [number, number] = [startLine + 1, 0];
 
+      let alertClass = alertClasses.get(type);
+
+      if (!alertClass) {
+        alertClass = `markdown-alert markdown-alert-${type}`;
+        alertClasses.set(type, alertClass);
+      }
+
       const openToken = state.push("alert_open", "div", 1);
 
       openToken.markup = type;
-      openToken.attrJoin("class", `markdown-alert markdown-alert-${type}`);
+      openToken.attrs = [["class", alertClass]];
       openToken.map = contentLines;
 
       const titleToken = state.push("alert_title", "", 0);
 
-      titleToken.attrJoin("class", `markdown-alert-title`);
+      titleToken.attrs = [["class", "markdown-alert-title"]];
       titleToken.markup = type;
       titleToken.content = typeName;
       titleToken.map = titleLines;
@@ -337,6 +349,7 @@ const getAlertRule =
 
       return true;
     };
+  };
 
 /**
  * Alert plugin, rendering `> [!tip]` style blockquotes as alerts
@@ -370,15 +383,23 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 
   if (closeRenderer) md.renderer.rules.alert_close = closeRenderer;
 
+  // Title content is a validated alert name, so only its casing variants can occur.
+  // The rendered inline HTML can therefore be reused for the same title content.
+  const titleCache = new Map<string, string>();
+
   md.renderer.rules.alert_title =
     titleRenderer ??
     ((tokens, index): string => {
-      const token = tokens[index];
+      const { content } = tokens[index];
+      let title = titleCache.get(content);
 
-      // capitalize the first letter and render the title as inline markdown,
-      // which escapes HTML unless the `html` option is enabled
-      return `<p class="markdown-alert-title">${md.renderInline(
-        token.content[0].toUpperCase() + token.content.slice(1),
-      )}</p>\n`;
+      if (!title) {
+        // capitalize the first letter and render the title as inline markdown,
+        // which escapes HTML unless the `html` option is enabled
+        title = md.renderInline(content[0].toUpperCase() + content.slice(1));
+        titleCache.set(content, title);
+      }
+
+      return `<p class="markdown-alert-title">${title}</p>\n`;
     });
 };
