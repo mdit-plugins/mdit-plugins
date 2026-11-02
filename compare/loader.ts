@@ -3,7 +3,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import MarkdownIt from "markdown-it";
-import type { MarkdownItOptions } from "markdown-it";
+import type { MarkdownIt as MarkdownItInstance, MarkdownItOptions } from "markdown-it";
 
 import type { CompareRenderer, PluginFunction, PluginModule } from "./types.ts";
 
@@ -166,16 +166,36 @@ export const resolvePlugin = (module: PluginModule, exportName = "default"): Plu
  * @param mdOptions - Markdown-it constructor options
  * @returns A renderer that turns markdown into HTML
  */
+export const createMarkdownIt = (
+  module: PluginModule,
+  exportName = "default",
+  options?: unknown,
+  mdOptions?: MarkdownItOptions,
+): MarkdownItInstance => {
+  const plugin = resolvePlugin(module, exportName);
+  const md = new MarkdownIt(mdOptions ?? {});
+
+  md.use(plugin, options);
+
+  return md;
+};
+
+/**
+ * Create a renderer for one side of a comparison
+ *
+ * @param module - Loaded plugin module
+ * @param exportName - Export name of the plugin, defaults to `"default"`
+ * @param options - Options passed to the plugin
+ * @param mdOptions - Markdown-it options
+ * @returns A renderer that turns markdown into HTML
+ */
 export const createRenderer = (
   module: PluginModule,
   exportName = "default",
   options?: unknown,
   mdOptions?: MarkdownItOptions,
 ): CompareRenderer => {
-  const plugin = resolvePlugin(module, exportName);
-  const md = new MarkdownIt(mdOptions ?? {});
-
-  md.use(plugin, options);
+  const md = createMarkdownIt(module, exportName, options, mdOptions);
 
   return (markdown) => md.render(markdown);
 };

@@ -3,7 +3,7 @@
   "reference": "markdown-it-github-alerts",
   "referenceVersion": "1.0.1",
   "generatedAt": "2026-11-02T06:01:40.401Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -17,33 +17,87 @@
       "correctness": {
         "total": 25,
         "exact": 4,
-        "normalized": 12,
-        "diff": 9,
+        "normalized": 0,
+        "diff": 21,
         "error": 0,
         "cases": [
           {
             "name": "note",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "tip",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "important",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "warning",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "caution",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "mixed-case",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "uppercase",
@@ -61,11 +115,29 @@
           },
           {
             "name": "multiline-body",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "inline-markup",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "list-body",
@@ -99,11 +171,29 @@
           },
           {
             "name": "inside-list",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[2].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[2].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[2].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "multiple-alerts",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "empty-body",
@@ -137,7 +227,16 @@
           },
           {
             "name": "trailing-spaces",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "escaped-bracket",
@@ -169,7 +268,16 @@
           },
           {
             "name": "indented-marker",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "no-alert-syntax",

@@ -254,14 +254,14 @@ export interface DocsComparisonData {
 /** Measurement method notes rendered on the comparison page */
 const METHOD_NOTES: Readonly<Record<ReportLocale, readonly string[]>> = {
   en: [
-    "Correctness renders the same markdown with both implementations and compares the output byte for byte after a minimal normalization (attribute order; wrapper markup and generated ids only where both sides emit them by design). Every remaining difference is documented with a reason.",
+    "Correctness renders the same markdown with both implementations and compares the output byte for byte after a minimal normalization (attribute order; wrapper markup and generated ids only where both sides emit them by design). For variants without a custom renderer, the parsed token streams are compared as well — token metadata such as source maps is part of the public contract for plugins that build on top of these tokens. Every remaining difference is documented with a reason.",
     "Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run in the same process under the same load. Corpora are committed markdown files: `normal` is a realistic document with sparse syntax, `heavy` is dense plugin syntax; each is measured at three sizes.",
     "Scaling exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic. The series are built to expose the known superlinear paths of the reference implementations.",
     "Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.",
     "Entry gzip is the gzipped size of the ESM entry: the resolved `exports` entry for the current package and the `module` / `exports.import` / `main` entry for the reference.",
   ],
   zh: [
-    "正确性对比会用两个实现渲染同一段 Markdown，并在最小化归一化（属性顺序；仅当双方都按设计输出包裹标记和生成 id 时才归一化这些内容）后逐字节比较输出。其余每一处差异都会附带原因说明。",
+    "正确性对比会用两个实现渲染同一段 Markdown，并在最小化归一化（属性顺序；仅当双方都按设计输出包裹标记和生成 id 时才归一化这些内容）后逐字节比较输出；对于未使用自定义渲染器的变体，还会比较解析后的 token 流——源码映射等 token 元数据对基于这些 token 的下游插件属于公共契约。其余每一处差异都会附带原因说明。",
     "基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧在同一进程、相同负载下运行。语料为仓库提交的 markdown 文件：`normal` 是语法较稀疏的真实文档，`heavy` 是语法密集的文档；每种语料在三个规模下测量。",
     "拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。各缩放系列针对参考实现已知的超线性路径设计。",
     "包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。",

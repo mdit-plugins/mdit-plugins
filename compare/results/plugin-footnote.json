@@ -3,7 +3,7 @@
   "reference": "markdown-it-footnote",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-02T06:04:46.074Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -17,21 +17,48 @@
       "correctness": {
         "total": 22,
         "exact": 6,
-        "normalized": 16,
-        "diff": 0,
+        "normalized": 3,
+        "diff": 13,
         "error": 0,
         "cases": [
           {
             "name": "single-reference",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "multiple-references",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "duplicate-reference",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "inline-footnote",
@@ -47,19 +74,55 @@
           },
           {
             "name": "multi-paragraph-definition",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "definition-with-markup",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "definition-with-list",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "nested-footnotes",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "escaped-reference",
@@ -75,27 +138,81 @@
           },
           {
             "name": "reference-order",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "reference-in-list",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[9].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[9].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[9].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "reference-in-blockquote",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[7].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[7].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[7].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "reference-in-emphasis",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "label-with-punctuation",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "unicode-label",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
+            },
+            "tokenDifference": {
+              "path": "[5].level",
+              "current": "2",
+              "reference": "1"
+            }
           },
           {
             "name": "code-fence",

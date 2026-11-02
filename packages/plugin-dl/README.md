@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-dl
 
 Compared against the upstream [`markdown-it-deflist`](https://www.npmjs.com/package/markdown-it-deflist) package `4.0.0`.
 
-- Correctness: **22/22** cases match the reference exactly.
+- Correctness: **3/22** cases match the reference exactly (19 documented differences).
 - Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **30.5 kB** unpacked and **978 B** gzip entry, versus **26.7 kB** and **1.9 kB** for the reference.
 

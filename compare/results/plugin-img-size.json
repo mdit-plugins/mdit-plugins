@@ -3,7 +3,7 @@
   "reference": "markdown-it-imsize",
   "referenceVersion": "2.0.1",
   "generatedAt": "2026-11-02T06:05:01.497Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -16,34 +16,88 @@
       "id": "legacy",
       "correctness": {
         "total": 25,
-        "exact": 19,
+        "exact": 6,
         "normalized": 0,
-        "diff": 6,
+        "diff": 19,
         "error": 0,
         "cases": [
           {
             "name": "width-and-height",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "width-only",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "height-only",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "title-and-size",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "percent-width",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "percent-height",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "zero-width",
@@ -107,7 +161,16 @@
           },
           {
             "name": "no-size",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "malformed-size",
@@ -119,19 +182,55 @@
           },
           {
             "name": "no-space-before-size",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "reference-image",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "inline-image",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[1].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[1].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[1].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "multiple-images",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"a\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"a\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"a\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "size-before-title",
@@ -143,7 +242,16 @@
           },
           {
             "name": "leading-space-in-destination",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[0].content`: current `\"Alt\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[0].content` 处不同：当前包为 `\"Alt\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[0].content",
+              "current": "\"Alt\"",
+              "reference": "\"\""
+            }
           },
           {
             "name": "escaped-image",
@@ -155,7 +263,16 @@
           },
           {
             "name": "no-size-syntax",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[4].children[5].content`: current `\"image\"`, reference `\"\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[4].children[5].content` 处不同：当前包为 `\"image\"`，参考包为 `\"\"`。"
+            },
+            "tokenDifference": {
+              "path": "[4].children[5].content",
+              "current": "\"image\"",
+              "reference": "\"\""
+            }
           }
         ]
       },

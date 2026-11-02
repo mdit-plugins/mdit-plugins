@@ -3,7 +3,7 @@
   "reference": "markdown-it-katex",
   "referenceVersion": "2.0.3",
   "generatedAt": "2026-11-02T06:05:39.267Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -17,8 +17,8 @@
       "correctness": {
         "total": 25,
         "exact": 11,
-        "normalized": 8,
-        "diff": 6,
+        "normalized": 6,
+        "diff": 8,
         "error": 0,
         "cases": [
           {
@@ -59,7 +59,16 @@
           },
           {
             "name": "block-edge-space",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].content`: current `\" a \\n\"`, reference `\"a \\n\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].content` 处不同：当前包为 `\" a \\n\"`，参考包为 `\"a \\n\"`。"
+            },
+            "tokenDifference": {
+              "path": "[0].content",
+              "current": "\" a \\n\"",
+              "reference": "\"a \\n\""
+            }
           },
           {
             "name": "block-fraction",
@@ -67,7 +76,16 @@
           },
           {
             "name": "block-aligned",
-            "status": "normalized"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].content`: current `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"`, reference `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].content` 处不同：当前包为 `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"`，参考包为 `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\"`。"
+            },
+            "tokenDifference": {
+              "path": "[0].content",
+              "current": "\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"",
+              "reference": "\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\""
+            }
           },
           {
             "name": "block-in-document",

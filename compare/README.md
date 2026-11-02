@@ -43,6 +43,9 @@ pnpm exec node --experimental-strip-types compare/run.ts plugin-attrs
 # Skip writing results while iterating
 pnpm exec node --experimental-strip-types compare/run.ts plugin-attrs --no-write
 
+# Refresh correctness data only, keep the existing benchmark measurements
+pnpm exec node --experimental-strip-types compare/run.ts plugin-attrs --correctness-only --merge
+
 # Refresh package sizes, then the generated reports
 pnpm run compare:sizes
 pnpm run compare:docs
@@ -105,21 +108,29 @@ export default defineComparison({
 2. **Normalize deliberately.** `normalize` is applied to both sides. Only normalize differences
    that are not behavior differences (attribute order, wrapper markup that both sides emit by
    design, generated ids). Never normalize away a real output difference.
-3. **Document real differences.** A case that still differs after normalization must have a `note`
+3. **Correctness compares HTML and tokens.** Besides the rendered HTML, the parsed token streams are
+   compared for variants without a custom renderer (token metadata such as source maps is part of the
+   public contract of a markdown-it plugin). A difference in either output counts as a documented
+   difference and needs a `note`; token-only differences get a generated note pointing at the first
+   diverging field. Use `compareTokens: false` on a variant only when the token stream is not
+   comparable there.
+4. **Document real differences.** A case that still differs after normalization must have a `note`
    explaining why. Do not remove the case to make the numbers look better.
-4. **Notes and case notes are bilingual.** Every note is `{ en, zh }`; the English page renders `en`
+5. **Notes and case notes are bilingual.** Every note is `{ en, zh }`; the English page renders `en`
    and the Chinese page renders `zh`.
-5. **Benchmarks are committed markdown files.** Every spec has six benchmark cases:
+6. **Benchmarks are committed markdown files.** Every spec has six benchmark cases:
    `normal/{small,medium,large}` (sparse, realistic document) and `heavy/{small,medium,large}`
    (dense plugin syntax), stored under `corpora/<plugin>/` and referenced through `file`. Do not
    generate corpora inline in the spec: the files are committed and reviewed as markdown.
-6. **Scaling cases target superlinear behavior.** Every spec has at least two scaling series, and
+7. **Scaling cases target superlinear behavior.** Every spec has at least two scaling series, and
    each series measures at least four sizes. Series are built to expose the complexity of the
    reference implementation (for example many delimiters on one line, many unmatched openers,
    deeply nested blocks). The fitted exponent is reported: `~1` is linear, `~2` is quadratic.
    Research the upstream implementation and its issue tracker before choosing the series.
-7. **Do not write results while iterating.** Use `--no-write`. The final result files are generated
+8. **Do not write results while iterating.** Use `--no-write`. The final result files are generated
    in one controlled, sequential run so that measurements from different packages are comparable.
+   When only correctness changes, run `--correctness-only --merge` to refresh the correctness data
+   without re-measuring benchmarks.
 
 ## Presentation
 

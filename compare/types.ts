@@ -33,6 +33,13 @@ export interface ComparisonVariant {
   readonly createOurRenderer?: (module: PluginModule) => CompareRenderer;
   /** Build a custom renderer for the reference plugin */
   readonly createReferenceRenderer?: (module: PluginModule) => CompareRenderer;
+  /**
+   * Compare the parsed token streams in addition to the rendered HTML
+   *
+   * Defaults to `true` when no custom renderer is used; a custom renderer already defines what is
+   * compared (HTML, a token dump, ...), so token comparison is skipped for those variants.
+   */
+  readonly compareTokens?: boolean;
 }
 
 /** A markdown case used by the correctness comparison */
@@ -152,6 +159,16 @@ export interface ScalingResult {
 /** Comparison status of one correctness case */
 export type CorrectnessStatus = "exact" | "normalized" | "diff" | "error";
 
+/** First difference between the token streams of a correctness case */
+export interface TokenDifference {
+  /** JSON path of the first difference, e.g. `[1].map` */
+  readonly path: string;
+  /** Current value, serialized */
+  readonly current: string;
+  /** Reference value, serialized */
+  readonly reference: string;
+}
+
 /** Correctness result of one case */
 export interface CorrectnessCaseResult {
   /** Case name */
@@ -160,6 +177,8 @@ export interface CorrectnessCaseResult {
   readonly status: CorrectnessStatus;
   /** Explanation for an expected difference */
   readonly note?: ComparisonNote;
+  /** First token stream difference when the rendered HTML matches */
+  readonly tokenDifference?: TokenDifference;
   /** Output of the current package */
   readonly ourHtml?: string;
   /** Output of the reference package */

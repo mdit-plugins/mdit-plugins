@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-emoji
 
 Compared against the upstream [`markdown-it-emoji`](https://www.npmjs.com/package/markdown-it-emoji) package `3.1.0`.
 
-- Correctness: **73/75** cases match the reference exactly (2 documented differences).
+- Correctness: **67/75** cases match the reference exactly (8 documented differences).
 - Throughput: **1.02×** the reference (geometric mean across 18 benchmark cases; above 1× means faster).
 - Package size: **291.9 kB** unpacked and **17.8 kB** gzip entry, versus **344.3 kB** and **91 B** for the reference.
 

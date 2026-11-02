@@ -1,8 +1,11 @@
+import type { Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import {
+  canonicalizeTokens,
   collapseWhitespace,
   composeNormalizers,
+  findTokenDifference,
   normalizeHtml,
   removeMatches,
   replaceMatches,
@@ -71,5 +74,69 @@ describe("normalizer composition", () => {
     expect(composeNormalizers(collapseWhitespace, normalizeHtml)('  <p b="1" a="2">x</p> ')).toBe(
       '<p a="2" b="1">x</p>',
     );
+  });
+});
+
+describe("token comparison", () => {
+  const createToken = (overrides: Partial<Token>): Token =>
+    ({
+      type: "paragraph_open",
+      tag: "p",
+      nesting: 1,
+      level: 0,
+      map: [0, 1],
+      markup: "",
+      info: "",
+      content: "",
+      attrs: null,
+      block: true,
+      hidden: false,
+      meta: null,
+      children: null,
+      ...overrides,
+    }) as Token;
+
+  it("sorts attributes and keeps the token contract fields", () => {
+    const [token] = canonicalizeTokens([
+      createToken({
+        attrs: [
+          ["b", "2"],
+          ["a", "1"],
+        ] as Token["attrs"],
+      }),
+    ]);
+
+    expect(token?.attrs).toStrictEqual([
+      ["a", "1"],
+      ["b", "2"],
+    ]);
+    expect(token).toMatchObject({ type: "paragraph_open", tag: "p", map: [0, 1] });
+  });
+
+  it("returns no difference for equal streams", () => {
+    const tokens = [createToken({})];
+
+    expect(findTokenDifference(canonicalizeTokens(tokens), canonicalizeTokens(tokens))).toBe(
+      void 0,
+    );
+  });
+
+  it("reports the first differing path", () => {
+    const difference = findTokenDifference(
+      canonicalizeTokens([createToken({ map: [0, 1] })]),
+      canonicalizeTokens([createToken({ map: [0, 0] })]),
+    );
+
+    expect(difference).toStrictEqual({ path: "[0].map[1]", current: "1", reference: "0" });
+  });
+
+  it("reports missing and extra tokens", () => {
+    const difference = findTokenDifference(
+      canonicalizeTokens([createToken({})]),
+      canonicalizeTokens([createToken({}), createToken({ type: "paragraph_close", nesting: -1 })]),
+    );
+
+    expect(difference?.path).toBe("[1]");
+    expect(difference?.current).toBe("undefined");
   });
 });

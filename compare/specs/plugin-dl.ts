@@ -19,8 +19,8 @@ const spec: ComparisonSpec = defineComparison({
       zh: "两个包都不接受选项，均以默认配置安装。",
     },
     {
-      en: "The current package and the reference only differ in source-map / token metadata that is not rendered, so every correctness case compares equal.",
-      zh: "当前包与参考包仅在不会渲染的源码映射 / token 元数据上不同，因此每个正确性用例的输出都一致。",
+      en: "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[0, 0]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases are documented differences at token level even though the rendered HTML is identical.",
+      zh: "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[0, 0]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例在 token 层被记为已记录差异。",
     },
     {
       en: "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",

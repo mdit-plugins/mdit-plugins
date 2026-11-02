@@ -3,7 +3,7 @@
   "reference": "markdown-it-deflist",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-02T06:03:26.239Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -16,66 +16,192 @@
       "id": "default",
       "correctness": {
         "total": 22,
-        "exact": 22,
+        "exact": 3,
         "normalized": 0,
-        "diff": 0,
+        "diff": 19,
         "error": 0,
         "cases": [
           {
             "name": "basic",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "blank-line-after-term",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "multiple-definitions",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "tilde-marker",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "lazy-continuation",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "multi-paragraph-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "code-block-in-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "list-in-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "heading-in-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "blockquote-in-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "inline-markup-term",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "nested-deflist",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "empty-definition",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "empty-definition-next-line",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "no-space-after-marker",
@@ -87,23 +213,68 @@
           },
           {
             "name": "definition-after-paragraph",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[4].map[1]`: current `3`, reference `2`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[4].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
+            },
+            "tokenDifference": {
+              "path": "[4].map[1]",
+              "current": "3",
+              "reference": "2"
+            }
           },
           {
             "name": "deflist-in-list",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[6].map[1]`: current `3`, reference `2`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[6].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
+            },
+            "tokenDifference": {
+              "path": "[6].map[1]",
+              "current": "3",
+              "reference": "2"
+            }
           },
           {
             "name": "deflist-in-blockquote",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[2].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[2].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[2].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "term-followed-by-unindented-line",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "consecutive-deflists",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
           },
           {
             "name": "no-deflist-syntax",
@@ -432,8 +603,8 @@
       "zh": "两个包都不接受选项，均以默认配置安装。"
     },
     {
-      "en": "The current package and the reference only differ in source-map / token metadata that is not rendered, so every correctness case compares equal.",
-      "zh": "当前包与参考包仅在不会渲染的源码映射 / token 元数据上不同，因此每个正确性用例的输出都一致。"
+      "en": "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[0, 0]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases are documented differences at token level even though the rendered HTML is identical.",
+      "zh": "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[0, 0]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例在 token 层被记为已记录差异。"
     },
     {
       "en": "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",

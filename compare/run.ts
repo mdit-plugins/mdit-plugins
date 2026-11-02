@@ -5,17 +5,27 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
+import type { Token } from "markdown-it";
+
 import { fitExponent, measurePair, measureScaling } from "./bench.ts";
-import { createRenderer, getReferenceVersion, loadCurrent, loadReference } from "./loader.ts";
-import { normalizeHtml } from "./normalize.ts";
+import {
+  createMarkdownIt,
+  createRenderer,
+  getReferenceVersion,
+  loadCurrent,
+  loadReference,
+} from "./loader.ts";
+import { canonicalizeTokens, findTokenDifference, normalizeHtml } from "./normalize.ts";
 import type {
   BenchResult,
   ComparisonResult,
   ComparisonSpec,
+  ComparisonNote,
   CorrectnessCaseResult,
   CorrectnessSummary,
   MachineInfo,
   ScalingResult,
+  TokenDifference,
   VariantResult,
 } from "./types.ts";
 
@@ -31,6 +41,8 @@ interface RunFlags {
   readonly bench: boolean;
   /** Whether result files are written */
   readonly write: boolean;
+  /** Whether to keep the measured sections of an existing result file */
+  readonly merge: boolean;
 }
 
 /**
@@ -88,17 +100,33 @@ const getMachine = (): MachineInfo => ({
 });
 
 /**
+ * Create the bilingual note that explains a token stream difference
+ *
+ * @param difference - First difference between both token streams
+ * @returns The bilingual note
+ */
+const createTokenNote = (difference: TokenDifference): ComparisonNote => ({
+  en: `The rendered HTML matches, but the token stream differs at \`${difference.path}\`: current \`${difference.current}\`, reference \`${difference.reference}\`.`,
+  zh: `渲染后的 HTML 一致，但 token 流在 \`${difference.path}\` 处不同：当前包为 \`${difference.current}\`，参考包为 \`${difference.reference}\`。`,
+});
+
+/**
  * Compare the correctness cases of one variant
  *
  * @param spec - Comparison spec
  * @param ourRenderer - Renderer of the current package
  * @param referenceRenderer - Renderer of the reference package
+ * @param ourTokenize - Parse the markdown with the current package, when token streams are compared
+ * @param referenceTokenize - Parse the markdown with the reference package, when token streams are
+ *   compared
  * @returns Correctness summary
  */
 const compareCorrectness = async (
   spec: ComparisonSpec,
   ourRenderer: (markdown: string) => string | Promise<string>,
   referenceRenderer: (markdown: string) => string | Promise<string>,
+  ourTokenize?: (markdown: string) => readonly Token[],
+  referenceTokenize?: (markdown: string) => readonly Token[],
 ): Promise<CorrectnessSummary> => {
   const normalize = spec.normalize ?? normalizeHtml;
   const cases: CorrectnessCaseResult[] = [];
@@ -107,18 +135,28 @@ const compareCorrectness = async (
     try {
       const ourHtml = await ourRenderer(testCase.markdown);
       const referenceHtml = await referenceRenderer(testCase.markdown);
-      const status =
+      const htmlStatus =
         ourHtml === referenceHtml
           ? "exact"
           : normalize(ourHtml) === normalize(referenceHtml)
             ? "normalized"
             : "diff";
+      const tokenDifference =
+        htmlStatus === "diff" || ourTokenize == null || referenceTokenize == null
+          ? void 0
+          : findTokenDifference(
+              canonicalizeTokens(ourTokenize(testCase.markdown)),
+              canonicalizeTokens(referenceTokenize(testCase.markdown)),
+            );
+      const status = tokenDifference ? "diff" : htmlStatus;
+      const note = testCase.note ?? (tokenDifference ? createTokenNote(tokenDifference) : void 0);
 
       cases.push({
         name: testCase.name,
         status,
-        ...(testCase.note ? { note: testCase.note } : {}),
-        ...(status === "diff" ? { ourHtml, referenceHtml } : {}),
+        ...(note ? { note } : {}),
+        ...(tokenDifference ? { tokenDifference } : {}),
+        ...(status === "diff" && htmlStatus === "diff" ? { ourHtml, referenceHtml } : {}),
       });
     } catch (err) {
       cases.push({
@@ -239,8 +277,30 @@ const runSpec = async (plugin: string, flags: RunFlags): Promise<ComparisonResul
       variant.createReferenceRenderer?.(referenceModule) ??
       createRenderer(referenceModule, variant.referenceExport, variant.referenceOptions);
 
+    const compareTokens =
+      variant.compareTokens ??
+      (variant.createOurRenderer == null && variant.createReferenceRenderer == null);
+    const ourTokenize = compareTokens
+      ? (markdown: string): Token[] =>
+          createMarkdownIt(currentModule, variant.ourExport, variant.ourOptions).parse(markdown, {})
+      : void 0;
+    const referenceTokenize = compareTokens
+      ? (markdown: string): Token[] =>
+          createMarkdownIt(
+            referenceModule,
+            variant.referenceExport,
+            variant.referenceOptions,
+          ).parse(markdown, {})
+      : void 0;
+
     const correctness = flags.correctness
-      ? await compareCorrectness(spec, ourRenderer, referenceRenderer)
+      ? await compareCorrectness(
+          spec,
+          ourRenderer,
+          referenceRenderer,
+          ourTokenize,
+          referenceTokenize,
+        )
       : { total: 0, exact: 0, normalized: 0, diff: 0, error: 0, cases: [] };
     const bench = flags.bench ? await compareBench(spec, ourRenderer, referenceRenderer) : [];
     const scaling = flags.bench ? await compareScaling(spec, ourRenderer, referenceRenderer) : [];
@@ -254,6 +314,12 @@ const runSpec = async (plugin: string, flags: RunFlags): Promise<ComparisonResul
     for (const testCase of correctness.cases) {
       if (testCase.status === "diff" || testCase.status === "error")
         console.log(`  ${testCase.status.padEnd(6)} ${testCase.name}`);
+
+      if (testCase.tokenDifference) {
+        console.log(
+          `  token  ${testCase.name}: ${testCase.tokenDifference.path} ${testCase.tokenDifference.current} vs ${testCase.tokenDifference.reference}`,
+        );
+      }
     }
 
     for (const benchResult of bench) {
@@ -285,13 +351,35 @@ const runSpec = async (plugin: string, flags: RunFlags): Promise<ComparisonResul
  * Write the result file of a comparison
  *
  * @param result - Comparison result
+ * @param merge - Whether to keep the measured sections of an existing result file
  */
-const writeResult = (result: ComparisonResult): void => {
-  mkdirSync(RESULTS_DIR, { recursive: true });
-
+const writeResult = (result: ComparisonResult, merge: boolean): void => {
   const file = path.join(RESULTS_DIR, `${result.plugin}.json`);
+  let finalResult = result;
 
-  writeFileSync(file, `${JSON.stringify(result, null, 2)}\n`);
+  if (merge && existsSync(file)) {
+    const existing = JSON.parse(readFileSync(file, "utf8")) as ComparisonResult;
+
+    finalResult = {
+      ...result,
+      generatedAt: existing.generatedAt,
+      variants: result.variants.map((variant) => {
+        const previous = existing.variants.find((candidate) => candidate.id === variant.id);
+
+        if (!previous) return variant;
+
+        return {
+          ...variant,
+          correctness: variant.correctness.total > 0 ? variant.correctness : previous.correctness,
+          bench: variant.bench.length > 0 ? variant.bench : previous.bench,
+          scaling: variant.scaling.length > 0 ? variant.scaling : previous.scaling,
+        };
+      }),
+    };
+  }
+
+  mkdirSync(RESULTS_DIR, { recursive: true });
+  writeFileSync(file, `${JSON.stringify(finalResult, null, 2)}\n`);
   console.log(`[compare] wrote ${path.relative(ROOT, file)}`);
 };
 
@@ -302,6 +390,7 @@ const main = async (): Promise<void> => {
     correctness: !args.includes("--bench-only"),
     bench: !args.includes("--correctness-only"),
     write: !args.includes("--no-write"),
+    merge: args.includes("--merge"),
   };
   const targets = args.filter((argument) => !argument.startsWith("--"));
   const specs = targets.length > 0 ? targets : listSpecs();
@@ -329,7 +418,7 @@ const main = async (): Promise<void> => {
   for (const spec of specs) {
     const result = await runSpec(spec, flags);
 
-    if (flags.write) writeResult(result);
+    if (flags.write) writeResult(result, flags.merge);
   }
 };
 

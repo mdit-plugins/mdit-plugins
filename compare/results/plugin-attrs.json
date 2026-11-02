@@ -3,7 +3,7 @@
   "reference": "markdown-it-attrs",
   "referenceVersion": "5.0.1",
   "generatedAt": "2026-11-02T06:02:55.589Z",
-  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "commit": "f49b889881baae43e1c778edcea87a40059b2a74",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -16,9 +16,9 @@
       "id": "default",
       "correctness": {
         "total": 20,
-        "exact": 20,
+        "exact": 19,
         "normalized": 0,
-        "diff": 0,
+        "diff": 1,
         "error": 0,
         "cases": [
           {
@@ -63,7 +63,16 @@
           },
           {
             "name": "table",
-            "status": "exact"
+            "status": "diff",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].meta`: current `\"{\\\"columnCount\\\":2}\"`, reference `\"{\\\"colsnum\\\":2}\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].meta` 处不同：当前包为 `\"{\\\"columnCount\\\":2}\"`，参考包为 `\"{\\\"colsnum\\\":2}\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].meta",
+              "current": "\"{\\\"columnCount\\\":2}\"",
+              "reference": "\"{\\\"colsnum\\\":2}\""
+            }
           },
           {
             "name": "fence",

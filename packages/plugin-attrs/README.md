@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-attrs
 
 Compared against the upstream [`markdown-it-attrs`](https://www.npmjs.com/package/markdown-it-attrs) package `5.0.1`.
 
-- Correctness: **20/20** cases match the reference exactly.
+- Correctness: **19/20** cases match the reference exactly (1 documented differences).
 - Throughput: **1.04×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **240.6 kB** unpacked and **4.6 kB** gzip entry, versus **423.4 kB** and **2.6 kB** for the reference.
 
