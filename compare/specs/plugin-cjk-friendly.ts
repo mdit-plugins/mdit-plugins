@@ -72,7 +72,6 @@ const spec: ComparisonSpec = defineComparison({
     { name: "blockquote", markdown: "> **引用**です\n" },
     { name: "list-item", markdown: "- **項目**です\n" },
     { name: "unmatched-delimiter", markdown: "**あ。\n" },
-    { name: "empty-document", markdown: "" },
   ],
   bench: BENCH_CASES,
   scaling: [

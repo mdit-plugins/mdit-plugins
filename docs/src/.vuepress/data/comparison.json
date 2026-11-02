@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T09:52:18.912Z",
+  "generatedAt": "2026-11-02T09:59:58.410Z",
   "date": "2026-11-02",
   "machine": {
     "platform": "darwin",
@@ -29,8 +29,8 @@
   "totals": {
     "packages": 26,
     "variants": 31,
-    "cases": 722,
-    "exact": 497,
+    "cases": 720,
+    "exact": 495,
     "normalized": 47,
     "diff": 178,
     "error": 0,
@@ -2224,8 +2224,8 @@
         {
           "id": "default",
           "correctness": {
-            "total": 23,
-            "exact": 23,
+            "total": 22,
+            "exact": 22,
             "normalized": 0,
             "diff": 0,
             "error": 0,
@@ -2317,10 +2317,6 @@
               {
                 "name": "code-block-kept",
                 "status": "exact"
-              },
-              {
-                "name": "empty-document",
-                "status": "exact"
               }
             ]
           },
@@ -2329,49 +2325,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 13231.453008750881,
-              "reference": 13270.253735737368,
-              "ratio": 0.9970761126532197
+              "current": 13051.703146980713,
+              "reference": 13070.993029613817,
+              "ratio": 0.9985242221008457
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 3728.1740215422356,
-              "reference": 3640.58450409583,
-              "ratio": 1.024059190865605
+              "current": 3722.973526656038,
+              "reference": 3666.9720587866827,
+              "ratio": 1.015271855626815
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 939.2103468060557,
-              "reference": 940.1754602452685,
-              "ratio": 0.9989734751862582
+              "current": 940.6068073105686,
+              "reference": 938.9040885860768,
+              "ratio": 1.0018135172113862
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5347.470982035951,
-              "reference": 5127.302485038774,
-              "ratio": 1.0429404150895365
+              "current": 5257.890371321882,
+              "reference": 5086.570046143294,
+              "ratio": 1.0336809133904459
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1369.4255230076199,
-              "reference": 1329.5948524700827,
-              "ratio": 1.029956998151385
+              "current": 1368.065921233606,
+              "reference": 1319.7737873241956,
+              "ratio": 1.0365912206873888
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 346.18505190687705,
-              "reference": 330.2740853640566,
-              "ratio": 1.04817503778803
+              "current": 345.55205396140894,
+              "reference": 330.2120838704309,
+              "ratio": 1.046454902289394
             }
           ],
           "scaling": [
@@ -2383,8 +2379,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9843019121929972,
-              "referenceExponent": 0.9938767778853312
+              "currentExponent": 0.995688780235264,
+              "referenceExponent": 0.991842230805835
             },
             {
               "case": "long-line",
@@ -2394,8 +2390,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.753391743616138,
-              "referenceExponent": 0.7543271252874961
+              "currentExponent": 0.7551865337164334,
+              "referenceExponent": 0.7583300499465992
             },
             {
               "case": "mixed-inline-tokens",
@@ -2405,8 +2401,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.994302953698601,
-              "referenceExponent": 0.9847460246755876
+              "currentExponent": 0.9884509421786962,
+              "referenceExponent": 0.9919689032100862
             }
           ]
         }
@@ -2453,8 +2449,8 @@
         {
           "id": "default",
           "correctness": {
-            "total": 23,
-            "exact": 23,
+            "total": 22,
+            "exact": 22,
             "normalized": 0,
             "diff": 0,
             "error": 0,
@@ -2546,10 +2542,6 @@
               {
                 "name": "unmatched-delimiter",
                 "status": "exact"
-              },
-              {
-                "name": "empty-document",
-                "status": "exact"
               }
             ]
           },
@@ -2558,49 +2550,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 7739.2687270515235,
-              "reference": 7739.859754299648,
-              "ratio": 0.9999236385067836
+              "current": 7828.408705442016,
+              "reference": 7784.929815380508,
+              "ratio": 1.0055850073273118
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2150.814905261071,
-              "reference": 2152.60734989251,
-              "ratio": 0.9991673146375124
+              "current": 2180.4454922696123,
+              "reference": 2166.6646210996173,
+              "ratio": 1.0063604080833706
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 547.5078615373959,
-              "reference": 553.2954665293274,
-              "ratio": 0.9895397570700595
+              "current": 550.8355447567029,
+              "reference": 553.1186444686293,
+              "ratio": 0.9958723146746938
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 2471.9713048197345,
-              "reference": 2467.0915916065237,
-              "ratio": 1.001977921383143
+              "current": 2477.500356800136,
+              "reference": 2478.6599437191635,
+              "ratio": 0.9995321718406893
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 642.7199710137364,
-              "reference": 649.8953689420421,
-              "ratio": 0.9889591490088837
+              "current": 647.1970158874688,
+              "reference": 647.8022962523796,
+              "ratio": 0.9990656402911622
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 156.54254443895775,
-              "reference": 160.74443964890068,
-              "ratio": 0.9738597787947083
+              "current": 159.42266781359817,
+              "reference": 161.00668168946825,
+              "ratio": 0.9901618127940481
             }
           ],
           "scaling": [
@@ -2612,8 +2604,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.98454009230148,
-              "referenceExponent": 0.989961524843574
+              "currentExponent": 0.9900224997194629,
+              "referenceExponent": 0.989253173569433
             },
             {
               "case": "punctuation-dense",
@@ -2623,8 +2615,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9908464458336305,
-              "referenceExponent": 0.9905365566029214
+              "currentExponent": 0.9861583411414921,
+              "referenceExponent": 0.9895844631208689
             },
             {
               "case": "long-text",
@@ -2634,8 +2626,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.8585619737357625,
-              "referenceExponent": 0.8714243839413506
+              "currentExponent": 0.8697732853355374,
+              "referenceExponent": 0.8750911554454607
             }
           ]
         }

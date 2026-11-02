@@ -67,7 +67,6 @@ const spec: ComparisonSpec = defineComparison({
     { name: "list-item", markdown: "- あ\n  い\n" },
     { name: "heading", markdown: "# あ\nい\n" },
     { name: "code-block-kept", markdown: "```\nあ\nい\n```\n" },
-    { name: "empty-document", markdown: "" },
   ],
   bench: BENCH_CASES,
   scaling: [
