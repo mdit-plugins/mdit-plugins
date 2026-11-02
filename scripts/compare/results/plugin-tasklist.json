@@ -1,0 +1,436 @@
+{
+  "plugin": "plugin-tasklist",
+  "reference": "markdown-it-task-checkbox",
+  "referenceVersion": "1.0.6",
+  "generatedAt": "2026-11-02T01:17:18.705Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 7,
+        "normalized": 13,
+        "diff": 1,
+        "error": 0,
+        "cases": [
+          {
+            "name": "unchecked-item",
+            "status": "normalized"
+          },
+          {
+            "name": "checked-item-lowercase",
+            "status": "normalized"
+          },
+          {
+            "name": "checked-item-uppercase",
+            "status": "normalized"
+          },
+          {
+            "name": "mixed-items",
+            "status": "normalized"
+          },
+          {
+            "name": "ordered-list",
+            "status": "normalized"
+          },
+          {
+            "name": "nested-list",
+            "status": "normalized"
+          },
+          {
+            "name": "non-task-list",
+            "status": "exact"
+          },
+          {
+            "name": "marker-in-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "missing-space-after-marker",
+            "status": "exact"
+          },
+          {
+            "name": "empty-item",
+            "status": "exact"
+          },
+          {
+            "name": "non-breaking-space",
+            "status": "normalized"
+          },
+          {
+            "name": "code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-list",
+            "status": "normalized"
+          },
+          {
+            "name": "inline-markup",
+            "status": "normalized"
+          },
+          {
+            "name": "plus-bullet",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-lists",
+            "status": "normalized"
+          },
+          {
+            "name": "link-inside-item",
+            "status": "normalized"
+          },
+          {
+            "name": "loose-item",
+            "status": "normalized"
+          },
+          {
+            "name": "marker-as-link-reference",
+            "status": "diff",
+            "note": "The marker also resolves as a link reference: the current package removes the three parsed marker tokens, while the reference only strips the first text token, leaving the link markup inside the item.",
+            "ourHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-item-label\"><input type=\"checkbox\" class=\"\" checked=\"checked\" disabled=\"disabled\"> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n",
+            "referenceHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"cbx_0\" checked=\"true\" disabled=\"true\"><label for=\"cbx_0\"><a href=\"https://example.com\">x</a> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-list-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 14530.489709215668,
+            "meanMs": 0.06882080508035254,
+            "samples": [
+              0.06987214878175219,
+              0.06858508294453083,
+              0.06882080508035254,
+              0.0727164981855884,
+              0.06875591861067912
+            ]
+          },
+          "reference": {
+            "opsPerSec": 14466.383263254134,
+            "meanMs": 0.06912577814387695,
+            "samples": [
+              0.06948615650741351,
+              0.06986179791323446,
+              0.06912577814387695,
+              0.06874791762767707,
+              0.06845357440966501
+            ]
+          },
+          "ratio": 1.0044314079611294
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2052.413247611554,
+            "meanMs": 0.48723131229235905,
+            "samples": [
+              0.48723131229235905,
+              0.48885631229235926,
+              0.48661780066445137,
+              0.4846818936877082,
+              0.5007603820598
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2040.5632306337784,
+            "meanMs": 0.49006077586206925,
+            "samples": [
+              0.49006077586206925,
+              0.4907941103448272,
+              0.48779023103448427,
+              0.4948107758620687,
+              0.48746939655172417
+            ]
+          },
+          "ratio": 1.0058072285141075
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 515.5635754333963,
+            "meanMs": 1.9396249999999977,
+            "samples": [
+              1.9444446428571414,
+              1.9396249999999977,
+              1.9404124999999957,
+              1.9265422571428579,
+              1.9384547571428552
+            ]
+          },
+          "reference": {
+            "opsPerSec": 512.2523777197861,
+            "meanMs": 1.9521627297297257,
+            "samples": [
+              1.9581661081081043,
+              1.9532077702702686,
+              1.9521627297297257,
+              1.9489847972973018,
+              1.9436216216216151
+            ]
+          },
+          "ratio": 1.0064639967672762
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 6601.551676364617,
+            "meanMs": 0.15147953830010555,
+            "samples": [
+              0.1530324417628544,
+              0.15059548793284358,
+              0.15147953830010555,
+              0.14958245855194174,
+              0.1598218782791181
+            ]
+          },
+          "reference": {
+            "opsPerSec": 6502.359107764813,
+            "meanMs": 0.15379033723404276,
+            "samples": [
+              0.15515363404255308,
+              0.15244791702127666,
+              0.15379033723404276,
+              0.15232845744680878,
+              0.1540982712765952
+            ]
+          },
+          "ratio": 1.0152548585760748
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1072.2825679022935,
+            "meanMs": 0.9325900000000001,
+            "samples": [
+              0.9356313866666702,
+              0.9325900000000001,
+              0.9328336066666695,
+              0.9261094466666631,
+              0.9293313866666661
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1060.768144106774,
+            "meanMs": 0.9427130759493686,
+            "samples": [
+              0.9427130759493686,
+              0.9409920886075983,
+              0.9434427784810131,
+              0.9376764240506315,
+              0.9442341772151918
+            ]
+          },
+          "ratio": 1.010854797874059
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 165.00465725645114,
+            "meanMs": 6.060434999999997,
+            "samples": [
+              6.126450000000005,
+              6.060434999999997,
+              6.053553319999992,
+              6.104596640000018,
+              6.052066679999989
+            ]
+          },
+          "reference": {
+            "opsPerSec": 160.8485651842196,
+            "meanMs": 6.217027791666662,
+            "samples": [
+              6.222671875000022,
+              6.217027791666662,
+              6.215963541666649,
+              6.156934041666697,
+              6.245208333333342
+            ]
+          },
+          "ratio": 1.025838539917789
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-task-items",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 2.011212500000056
+            },
+            {
+              "size": 1024,
+              "ms": 5.5176727142859034
+            },
+            {
+              "size": 2048,
+              "ms": 15.856499999999869
+            },
+            {
+              "size": 4096,
+              "ms": 58.73820900000101
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 2.0536041499999556
+            },
+            {
+              "size": 1024,
+              "ms": 5.685932249999951
+            },
+            {
+              "size": 2048,
+              "ms": 17.162521000000197
+            },
+            {
+              "size": 4096,
+              "ms": 61.85554199999933
+            }
+          ],
+          "currentExponent": 1.612742812161232,
+          "referenceExponent": 1.6331811188340108
+        },
+        {
+          "case": "long-task-items",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.26572613268608414
+            },
+            {
+              "size": 128,
+              "ms": 0.5465211038961026
+            },
+            {
+              "size": 256,
+              "ms": 1.1429125633802752
+            },
+            {
+              "size": 512,
+              "ms": 2.7115389677419444
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.27171573359073137
+            },
+            {
+              "size": 128,
+              "ms": 0.5434466666666655
+            },
+            {
+              "size": 256,
+              "ms": 1.1658118823529282
+            },
+            {
+              "size": 512,
+              "ms": 2.750040322580683
+            }
+          ],
+          "currentExponent": 1.1117665573010416,
+          "referenceExponent": 1.1118972930460516
+        },
+        {
+          "case": "many-lists",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.17553719239373336
+            },
+            {
+              "size": 128,
+              "ms": 0.36223742452830265
+            },
+            {
+              "size": 256,
+              "ms": 0.8006992187500069
+            },
+            {
+              "size": 512,
+              "ms": 2.015430189189214
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.17737945434298363
+            },
+            {
+              "size": 128,
+              "ms": 0.36649962100456673
+            },
+            {
+              "size": 256,
+              "ms": 0.823777061855675
+            },
+            {
+              "size": 512,
+              "ms": 2.037029923076914
+            }
+          ],
+          "currentExponent": 1.1708042299621801,
+          "referenceExponent": 1.1733111311179214
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "`ulClass` / `liClass` are mapped to `containerClass` / `itemClass` with the reference defaults (`task-list` / `task-list-item`); `divWrap` stays `false` and `disabled` stays `true` on the reference side.",
+    "Both packages label the item text, but the structure differs by design: the current package nests the checkbox inside `<label class=\"task-list-item-label\">` and emits no ids, while the reference emits `<input id=\"cbx_N\"><label for=\"cbx_N\">`. Normalization unwraps the label tags and removes the generated `cbx_*` ids, so the compared part is the list structure, container/item classes, checkbox state and item text.",
+    "`checkboxClass` is set to an empty string because the reference emits no class on the checkbox; the resulting empty `class` attribute is normalized away. The current package's extra `labelClass` is not observable after the label tags are normalized.",
+    "`checked=\"checked\"` / `disabled=\"disabled\"` and the reference `checked=\"true\"` / `disabled=\"true\"` are equivalent boolean attributes; the normalizer canonicalizes them to the bare attribute.",
+    "Scaling: both packages locate the parent list token with a backward scan through the token stream for every task item, which is quadratic in the number of items in one list; `many-task-items` exposes this for both sides (exponent ~1.6).",
+    "Attribute order is normalized."
+  ]
+}

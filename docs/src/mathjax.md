@@ -311,3 +311,130 @@ $$
 ## Cookbook
 
 - [$\TeX$ Cookbook](tex.md#tex-tutorial)
+
+<!-- comparison:start -->
+
+## Comparison
+
+The tables below compare each package with its upstream reference implementation.
+
+### @mdit/plugin-mathjax
+
+Compared against the upstream [`markdown-it-mathjax3`](https://www.npmjs.com/package/markdown-it-mathjax3) package `5.2.0`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
+
+#### Correctness
+
+| Cases | Exact | Normalized | Documented diffs |
+| ----: | ----: | ---------: | ---------------: |
+|    25 |     8 |         11 |                6 |
+
+The following cases are documented differences:
+
+- `tag-numbered` — `\tag{1}` is laid out identically, but MathJax 4 splits the tag into `<mtext>(</mtext><mtext>1</mtext><mtext>)</mtext>` while MathJax 3 emits a single `<mtext>(1)</mtext>` in the assistive MathML.
+- `inline-adjacent-word` — The reference delimiter check has no word-boundary rule, so it parses `a$x$b` as inline math; the current package requires a word boundary around `$` so that currency amounts stay literal (see `plain-dollar-currency`).
+- `block-unclosed` — An unclosed `$$` block is still emitted as display math by the reference: its `math_block` rule scans to the end of the document and then pushes the token anyway. The current package only starts a block when the closing `$$` exists and otherwise falls back to a paragraph.
+- `block-trailing-inline` — The reference parses `$$a=1$$ and $b=2$` as one display-math block that swallows the trailing inline expression; the current package keeps the line as a paragraph and renders `$b=2$` as inline math.
+- `escaped-backslash-dollar` — `$a\\$b`: the reference counts the preceding backslash run differently and closes the math after the escaped backslash (`\\` then `$`), while the current package treats a `$` preceded by an even number of backslashes as escaped and keeps the line literal.
+- `text-with-dollar` — The reference stops scanning at the whitespace-surrounded `$` inside `\text{…}` and leaves the whole line literal; the current package treats that `$` as literal TeX content, keeps scanning to the final `$` and renders an error node.
+
+#### Benchmarks
+
+| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
+| ------------- | --------------: | ----------------: | ----: |
+| normal/small  |           1,329 |             1,536 | 0.87× |
+| normal/medium |             734 |               635 | 1.16× |
+| normal/large  |             303 |               263 | 1.15× |
+| heavy/small   |             754 |               647 | 1.17× |
+| heavy/medium  |             298 |               238 | 1.25× |
+| heavy/large   |             108 |                96 | 1.12× |
+
+Geometric mean throughput ratio: 1.11× across 6 cases; above 1× means the current package is faster.
+
+#### Scaling
+
+| Series            | Sizes                     | Current exponent | Reference exponent |
+| ----------------- | ------------------------- | ---------------: | -----------------: |
+| block-fences      | 32 / 64 / 128 / 256       |            ~0.97 |              ~0.99 |
+| inline-formulas   | 32 / 64 / 128 / 256       |            ~0.95 |              ~0.74 |
+| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~1.00 |              ~1.60 |
+| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~0.95 |              ~0.94 |
+
+Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
+
+#### Package size
+
+| Package                                | Unpacked size | Entry gzip |
+| -------------------------------------- | ------------: | ---------: |
+| @mdit/plugin-mathjax (current)         |      116.7 kB |     1.7 kB |
+| markdown-it-mathjax3@5.2.0 (reference) |       14.6 kB |     1.7 kB |
+
+### @mdit/plugin-mathjax-slim
+
+Compared against the upstream [`markdown-it-mathjax3`](https://www.npmjs.com/package/markdown-it-mathjax3) package `5.2.0`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
+
+#### Correctness
+
+| Cases | Exact | Normalized | Documented diffs |
+| ----: | ----: | ---------: | ---------------: |
+|    25 |     8 |         11 |                6 |
+
+The following cases are documented differences:
+
+- `tag-numbered` — `\tag{1}` is laid out identically, but MathJax 4 splits the tag into `<mtext>(</mtext><mtext>1</mtext><mtext>)</mtext>` while MathJax 3 emits a single `<mtext>(1)</mtext>` in the assistive MathML.
+- `inline-adjacent-word` — The reference delimiter check has no word-boundary rule, so it parses `a$x$b` as inline math; the current package requires a word boundary around `$` so that currency amounts stay literal (see `plain-dollar-currency`).
+- `block-unclosed` — An unclosed `$$` block is still emitted as display math by the reference: its `math_block` rule scans to the end of the document and then pushes the token anyway. The current package only starts a block when the closing `$$` exists and otherwise falls back to a paragraph.
+- `block-trailing-inline` — The reference parses `$$a=1$$ and $b=2$` as one display-math block that swallows the trailing inline expression; the current package keeps the line as a paragraph and renders `$b=2$` as inline math.
+- `escaped-backslash-dollar` — `$a\\$b`: the reference counts the preceding backslash run differently and closes the math after the escaped backslash (`\\` then `$`), while the current package treats a `$` preceded by an even number of backslashes as escaped and keeps the line literal.
+- `text-with-dollar` — The reference stops scanning at the whitespace-surrounded `$` inside `\text{…}` and leaves the whole line literal; the current package treats that `$` as literal TeX content, keeps scanning to the final `$` and renders an error node.
+
+#### Benchmarks
+
+| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
+| ------------- | --------------: | ----------------: | ----: |
+| normal/small  |           1,777 |             1,792 | 0.99× |
+| normal/medium |             769 |               681 | 1.13× |
+| normal/large  |             309 |               269 | 1.15× |
+| heavy/small   |             741 |               652 | 1.14× |
+| heavy/medium  |             319 |               270 | 1.18× |
+| heavy/large   |             133 |               112 | 1.18× |
+
+Geometric mean throughput ratio: 1.13× across 6 cases; above 1× means the current package is faster.
+
+#### Scaling
+
+| Series            | Sizes                     | Current exponent | Reference exponent |
+| ----------------- | ------------------------- | ---------------: | -----------------: |
+| block-fences      | 32 / 64 / 128 / 256       |            ~1.00 |              ~0.99 |
+| inline-formulas   | 32 / 64 / 128 / 256       |            ~0.98 |              ~0.98 |
+| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~0.99 |              ~1.36 |
+| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~0.98 |              ~0.99 |
+
+Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
+
+#### Package size
+
+| Package                                | Unpacked size | Entry gzip |
+| -------------------------------------- | ------------: | ---------: |
+| @mdit/plugin-mathjax-slim (current)    |      125.1 kB |     1.7 kB |
+| markdown-it-mathjax3@5.2.0 (reference) |       14.6 kB |     1.7 kB |
+
+### Notes
+
+- **@mdit/plugin-mathjax**: The synchronous entry is compared (`installSyncMathjax`, also exported as `mathjax`): the reference renders synchronously and the async entry of the current package exposes a different API (it takes a MathJax instance instead of plugin options). The sync entry renders MathJax in a worker thread and blocks on one IPC round-trip per document (plus one reset round-trip); the reference typesets in-process through `deasync`.
+- **@mdit/plugin-mathjax**: Equivalent options: `{ output: "svg" }` (the current default) matches the reference, which only produces SVG. Both sides use `$` / `$$` delimiters only (`delimiters: "dollars"`, `mathFence: false`, `allowInlineWithSpace: false`) and render assistive MathML by default (`a11y: true`). The default `renderStrategy: "batch"` converts every formula of a document (one worker batch), the same number of MathJax conversions as the reference performs per formula.
+- **@mdit/plugin-mathjax**: Normalization: the reference wraps every formula in `<span id="mjx-<hash>"><style>…full MathJax stylesheet…</style> formula </span>`. The id and the inlined CSS are generated per formula (the current package returns the stylesheet once through `getMathjax(md).outputStyle()`), so the wrapper and its template whitespace are normalized away.
+- **@mdit/plugin-mathjax**: Normalization: formulas are compared by their assistive MathML instead of the SVG, because the current package renders with MathJax 4 (`@mathjax/src` + the newcm font) while the reference bundles MathJax 3 (`mathxyjax3`'s `tex-svg-full`). SVG paths, widths and `viewBox` values therefore differ by font version by design. Generated `data-*` metadata attributes and presentational `<mstyle>` wrappers are dropped; the MathML tree, its text and MathJax error content stay visible.
+- **@mdit/plugin-mathjax**: The reference duplicates its whole stylesheet inside every formula (about 4 KiB per formula), which is why its raw output is much larger per formula; that is a known output-size difference of the reference wrapper, not a rendering difference.
+- **@mdit/plugin-mathjax**: Scaling series: `inline-formulas`, `unmatched-dollars` and `block-fences` check the delimiter scans of the reference (its `math_inline` rescan of `$` candidates and the block loop over `$$` fences); all three fit an exponent near 1 on both sides. `unclosed-block` targets the reference's `math_block` rule: without a closing `$$` it still pushes a display-math token that swallows the rest of the document, so MathJax lays out the whole remaining file as one formula and the measured cost grows superlinearly (fitted exponent ~1.4-1.5), while the current package falls back to a paragraph and stays linear.
+- **@mdit/plugin-mathjax-slim**: The synchronous entry is compared (`installSyncMathjax`, also exported as `mathjax`): the reference renders synchronously and the async entry of the current package exposes a different API (it takes a MathJax instance instead of plugin options). The sync entry renders MathJax in a worker thread and blocks on one IPC round-trip per document (plus one reset round-trip); the reference typesets in-process through `deasync`.
+- **@mdit/plugin-mathjax-slim**: `@mdit/plugin-mathjax-slim` keeps `@mathjax/src` and `@mathjax/mathjax-newcm-font` as optional peer dependencies and imports them dynamically inside the worker; the session code, options and rendered output are identical to `@mdit/plugin-mathjax`, so the same cases, options and normalization are used for both packages.
+- **@mdit/plugin-mathjax-slim**: Equivalent options: `{ output: "svg" }` (the current default) matches the reference, which only produces SVG. Both sides use `$` / `$$` delimiters only (`delimiters: "dollars"`, `mathFence: false`, `allowInlineWithSpace: false`) and render assistive MathML by default (`a11y: true`). The default `renderStrategy: "batch"` converts every formula of a document (one worker batch), the same number of MathJax conversions as the reference performs per formula.
+- **@mdit/plugin-mathjax-slim**: Normalization: the reference wraps every formula in `<span id="mjx-<hash>"><style>…full MathJax stylesheet…</style> formula </span>`. The id and the inlined CSS are generated per formula (the current package returns the stylesheet once through `getMathjax(md).outputStyle()`), so the wrapper and its template whitespace are normalized away.
+- **@mdit/plugin-mathjax-slim**: Normalization: formulas are compared by their assistive MathML instead of the SVG, because the current package renders with MathJax 4 (`@mathjax/src` + the newcm font) while the reference bundles MathJax 3 (`mathxyjax3`'s `tex-svg-full`). SVG paths, widths and `viewBox` values therefore differ by font version by design. Generated `data-*` metadata attributes and presentational `<mstyle>` wrappers are dropped; the MathML tree, its text and MathJax error content stay visible.
+- **@mdit/plugin-mathjax-slim**: The reference duplicates its whole stylesheet inside every formula (about 4 KiB per formula), which is why its raw output is much larger per formula; that is a known output-size difference of the reference wrapper, not a rendering difference.
+- **@mdit/plugin-mathjax-slim**: Scaling series: `inline-formulas`, `unmatched-dollars` and `block-fences` check the delimiter scans of the reference (its `math_inline` rescan of `$` candidates and the block loop over `$$` fences); all three fit an exponent near 1 on both sides. `unclosed-block` targets the reference's `math_block` rule: without a closing `$$` it still pushes a display-math token that swallows the rest of the document, so MathJax lays out the whole remaining file as one formula and the measured cost grows superlinearly (fitted exponent ~1.4-1.5), while the current package falls back to a paragraph and stays linear.
+- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
+- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
+- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+
+<!-- comparison:end -->

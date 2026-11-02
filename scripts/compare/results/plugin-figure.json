@@ -1,0 +1,443 @@
+{
+  "plugin": "plugin-figure",
+  "reference": "markdown-it-image-figures",
+  "referenceVersion": "2.1.1",
+  "generatedAt": "2026-11-02T01:15:15.491Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 18,
+        "normalized": 0,
+        "diff": 3,
+        "error": 0,
+        "cases": [
+          {
+            "name": "figure-title",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-markup",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-html",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-quotes",
+            "status": "exact"
+          },
+          {
+            "name": "figure-alt-only",
+            "status": "diff",
+            "note": "The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: \"title\"`.",
+            "ourHtml": "<figure><img src=\"image.png\" alt=\"Alt text\"><figcaption>Alt text</figcaption></figure>\n",
+            "referenceHtml": "<figure><img src=\"image.png\" alt=\"Alt text\"></figure>\n"
+          },
+          {
+            "name": "figure-empty-alt",
+            "status": "exact"
+          },
+          {
+            "name": "linked-image",
+            "status": "exact"
+          },
+          {
+            "name": "linked-image-alt-only",
+            "status": "diff",
+            "note": "The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: \"title\"`.",
+            "ourHtml": "<figure><a href=\"https://example.com\"><img src=\"image.png\" alt=\"Alt text\"></a><figcaption>Alt text</figcaption></figure>\n",
+            "referenceHtml": "<figure><a href=\"https://example.com\"><img src=\"image.png\" alt=\"Alt text\"></a></figure>\n"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "tight-list-image",
+            "status": "diff",
+            "note": "The current package skips images inside hidden (tight list) paragraphs, so the paragraph is untouched; the reference converts it and emits a `<figcaption>` without a `<figure>` wrapper.",
+            "ourHtml": "<ul>\n<li><img src=\"image.png\" alt=\"Alt\" title=\"Caption\"></li>\n</ul>\n",
+            "referenceHtml": "<ul>\n<li><img src=\"image.png\" alt=\"Alt\"><figcaption>Caption</figcaption></li>\n</ul>\n"
+          },
+          {
+            "name": "loose-list-image",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-image",
+            "status": "exact"
+          },
+          {
+            "name": "table-image",
+            "status": "exact"
+          },
+          {
+            "name": "heading-image",
+            "status": "exact"
+          },
+          {
+            "name": "reference-image",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-figures",
+            "status": "exact"
+          },
+          {
+            "name": "two-images-inline",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-image",
+            "status": "exact"
+          },
+          {
+            "name": "code-fence-image",
+            "status": "exact"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-figure-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 14214.811301547747,
+            "meanMs": 0.07034915756434398,
+            "samples": [
+              0.07441023226616446,
+              0.07062298556183301,
+              0.06920142812303831,
+              0.06992134839924666,
+              0.07034915756434398
+            ]
+          },
+          "reference": {
+            "opsPerSec": 14198.671536123928,
+            "meanMs": 0.07042912412304372,
+            "samples": [
+              0.0719201521856449,
+              0.07042912412304372,
+              0.06943562223421475,
+              0.06836479168915269,
+              0.07159772423097684
+            ]
+          },
+          "ratio": 1.001136709542351
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2447.424637817095,
+            "meanMs": 0.4085927650429797,
+            "samples": [
+              0.43414290830945573,
+              0.4085927650429797,
+              0.446382280802292,
+              0.4044966590257884,
+              0.40464911461318076
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2438.2081087528886,
+            "meanMs": 0.4101372628571426,
+            "samples": [
+              0.41450857142857134,
+              0.4092108342857143,
+              0.4062011914285709,
+              0.4101372628571426,
+              0.4476339285714286
+            ]
+          },
+          "ratio": 1.0037800420034368
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 561.6945224643193,
+            "meanMs": 1.7803271351351362,
+            "samples": [
+              3.136444256756753,
+              1.7803271351351362,
+              1.7648147567567591,
+              1.7811869459459484,
+              1.74715371621622
+            ]
+          },
+          "reference": {
+            "opsPerSec": 569.9643393042426,
+            "meanMs": 1.7544957307692328,
+            "samples": [
+              2.5646244615384615,
+              2.3450149615384643,
+              1.743632487179487,
+              1.7544957307692328,
+              1.7457654999999972
+            ]
+          },
+          "ratio": 0.9854906416601111
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 9526.652984650043,
+            "meanMs": 0.1049686602011498,
+            "samples": [
+              0.10658468031609225,
+              0.10612323419540211,
+              0.1049686602011498,
+              0.10427780818965543,
+              0.10407366522988482
+            ]
+          },
+          "reference": {
+            "opsPerSec": 9587.920561060933,
+            "meanMs": 0.10429790209790255,
+            "samples": [
+              0.10691762797202811,
+              0.10531287832167868,
+              0.10417508741258732,
+              0.10429790209790255,
+              0.10408199300699272
+            ]
+          },
+          "ratio": 0.9936099203137212
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1644.026137601574,
+            "meanMs": 0.6082628354430383,
+            "samples": [
+              0.6038618143459908,
+              0.6082628354430383,
+              0.6031575232067522,
+              0.7608136455696176,
+              0.6656807299578041
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1597.2863623435087,
+            "meanMs": 0.6260618155737702,
+            "samples": [
+              0.6068898565573758,
+              0.605636270491802,
+              0.6260618155737702,
+              0.9546540286885226,
+              0.6375210040983601
+            ]
+          },
+          "ratio": 1.0292619885575742
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 376.57112043677967,
+            "meanMs": 2.655540867924534,
+            "samples": [
+              2.6545629056603812,
+              2.977477207547191,
+              2.913443396226422,
+              2.655540867924534,
+              2.6486556603773557
+            ]
+          },
+          "reference": {
+            "opsPerSec": 361.3138793822284,
+            "meanMs": 2.7676766851851693,
+            "samples": [
+              2.6811064814814927,
+              3.0245725185185184,
+              2.7676766851851693,
+              2.9246288518518297,
+              2.609640444444435
+            ]
+          },
+          "ratio": 1.0422271103469316
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-figures",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.20479399238578722
+            },
+            {
+              "size": 128,
+              "ms": 0.4151013437499955
+            },
+            {
+              "size": 256,
+              "ms": 0.8274483977272873
+            },
+            {
+              "size": 512,
+              "ms": 2.1097847291666767
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.20585667007672664
+            },
+            {
+              "size": 128,
+              "ms": 0.4109983349999948
+            },
+            {
+              "size": 256,
+              "ms": 0.8335467032967034
+            },
+            {
+              "size": 512,
+              "ms": 1.6685760869565416
+            }
+          ],
+          "currentExponent": 1.108975724766959,
+          "referenceExponent": 1.007684660987898
+        },
+        {
+          "case": "long-captions",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.2591817953795393
+            },
+            {
+              "size": 128,
+              "ms": 0.5135341458333313
+            },
+            {
+              "size": 256,
+              "ms": 1.0236977866666712
+            },
+            {
+              "size": 512,
+              "ms": 2.0913215641025884
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.258526043750004
+            },
+            {
+              "size": 128,
+              "ms": 0.514491776315792
+            },
+            {
+              "size": 256,
+              "ms": 1.0267461066666632
+            },
+            {
+              "size": 512,
+              "ms": 2.082856846153869
+            }
+          ],
+          "currentExponent": 1.0032393604656382,
+          "referenceExponent": 1.0027406027976458
+        },
+        {
+          "case": "linked-figures",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.3223940158730199
+            },
+            {
+              "size": 128,
+              "ms": 0.6512363360655653
+            },
+            {
+              "size": 256,
+              "ms": 1.272186793103456
+            },
+            {
+              "size": 512,
+              "ms": 2.6162565312499737
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.31722880088496036
+            },
+            {
+              "size": 128,
+              "ms": 0.6408463279999996
+            },
+            {
+              "size": 256,
+              "ms": 1.280251406779656
+            },
+            {
+              "size": 512,
+              "ms": 2.616929586206895
+            }
+          ],
+          "currentExponent": 1.0027878824196885,
+          "referenceExponent": 1.0131215122578432
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "`focusable` is disabled because the current package adds `tabindex=\"0\"` to the image, while the reference `tabindex` option numbers figures from `1`; the reference option is therefore not used.",
+    "The current package derives `<figcaption>` from the image `title` and falls back to the `alt` text; `markdown-it-image-figures` has no fallback mode, so `figcaption: \"title\"` is compared and alt-only images are documented as a difference.",
+    "The current package skips hidden paragraphs (tight list items) so that a `<figcaption>` is never emitted without its `<figure>` wrapper; the reference converts images in tight list items without a `<figure>` wrapper. Documented in `tight-list-image`.",
+    "`moveAttrs` is not compared: for `true` the current package copies non-native image attributes to `<figure>` and keeps them on the image, for a pattern list it moves them (the image loses them), and it merges `class`/`style` values. The reference `copyAttrs` copies every matching attribute to `<figure>` and keeps the original order on the image, which is not equivalent.",
+    "Reference-only options (`dataType`, `link`, `tabindex`, `lazy`, `async`, `classes`, `removeSrc`) have no equivalent and are not compared.",
+    "Scaling: the reference core rule walks the token stream once and calls `md.parseInline` once per caption, so the work is linear in the document size and caption length; all three series measure ~1 (no superlinear behavior was found in the upstream implementation).",
+    "Attribute order is normalized."
+  ]
+}

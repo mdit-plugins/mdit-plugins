@@ -1,0 +1,448 @@
+{
+  "plugin": "plugin-container",
+  "reference": "markdown-it-container",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-02T01:08:31.957Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 23,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 3,
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "params-title",
+            "status": "exact"
+          },
+          {
+            "name": "blank-lines",
+            "status": "exact"
+          },
+          {
+            "name": "empty-container",
+            "status": "exact"
+          },
+          {
+            "name": "four-colons",
+            "status": "exact"
+          },
+          {
+            "name": "longer-closing-marker",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed-container",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-marker",
+            "status": "exact"
+          },
+          {
+            "name": "non-matching-name",
+            "status": "exact"
+          },
+          {
+            "name": "custom-marker",
+            "status": "exact"
+          },
+          {
+            "name": "nested-different-markers",
+            "status": "exact"
+          },
+          {
+            "name": "nested-same-name",
+            "status": "exact"
+          },
+          {
+            "name": "inside-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "inside-list",
+            "status": "exact"
+          },
+          {
+            "name": "with-code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "with-heading-and-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "with-table",
+            "status": "exact"
+          },
+          {
+            "name": "marker-only",
+            "status": "exact"
+          },
+          {
+            "name": "no-container-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "indented-opening",
+            "status": "diff",
+            "note": "The current package requires the closing marker to be indented exactly like the opening marker (both are 2 columns here, then 0), so the container stays unclosed; the reference accepts the unindented closing marker and closes it.",
+            "ourHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n<p>:::</p>\n",
+            "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
+          },
+          {
+            "name": "indented-closing",
+            "status": "diff",
+            "note": "The reference accepts a closing marker indented by less than four columns; the current package requires the closing marker to be indented exactly like the opening marker, so it keeps the `:::` line as container content.",
+            "ourHtml": "<div class=\"warning\">\n<p>content\n:::</p>\n</div>\n",
+            "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
+          },
+          {
+            "name": "indented-closing-after-blank",
+            "status": "diff",
+            "note": "Same closing-marker rule as `indented-closing`: the reference closes the empty container, while the current package renders the indented marker as a paragraph inside it.",
+            "ourHtml": "<div class=\"warning\">\n<p>:::</p>\n</div>\n",
+            "referenceHtml": "<div class=\"warning\"></div>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 12009.597896608573,
+            "meanMs": 0.08326673454091191,
+            "samples": [
+              0.08759889631480325,
+              0.08326673454091191,
+              0.08344396752029981,
+              0.08280860899437839,
+              0.08294016739537786
+            ]
+          },
+          "reference": {
+            "opsPerSec": 11932.915257082026,
+            "meanMs": 0.08380181862152364,
+            "samples": [
+              0.09202645102781139,
+              0.08419347037484884,
+              0.08336834945586458,
+              0.08298208887545347,
+              0.08380181862152364
+            ]
+          },
+          "ratio": 1.0064261446490235
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2334.519428886141,
+            "meanMs": 0.42835368497109727,
+            "samples": [
+              0.4301799132947981,
+              0.43189077456647434,
+              0.4257702312138726,
+              0.4251614884393056,
+              0.42835368497109727
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2333.391414830293,
+            "meanMs": 0.4285607608069175,
+            "samples": [
+              0.4384972391930839,
+              0.42974639769452405,
+              0.4272682507204613,
+              0.42734882420749304,
+              0.4285607608069175
+            ]
+          },
+          "ratio": 1.0004834225619752
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 575.9045893763835,
+            "meanMs": 1.7363987341772131,
+            "samples": [
+              1.7293212025316407,
+              1.731029531645566,
+              1.739149784810131,
+              1.7363987341772131,
+              1.7515031645569574
+            ]
+          },
+          "reference": {
+            "opsPerSec": 575.6787252170311,
+            "meanMs": 1.7370799999999993,
+            "samples": [
+              1.720070546666672,
+              1.718484439999999,
+              1.7370799999999993,
+              1.7805927733333313,
+              1.7468577733333344
+            ]
+          },
+          "ratio": 1.0003923441139277
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7278.398435747643,
+            "meanMs": 0.1373928631178707,
+            "samples": [
+              0.1391006017110263,
+              0.13870663022813726,
+              0.1373928631178707,
+              0.1363199467680615,
+              0.1370459448669209
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7283.162360173832,
+            "meanMs": 0.1373029942965781,
+            "samples": [
+              0.13697948288973358,
+              0.1384735028517106,
+              0.13687305893536142,
+              0.13836478136882077,
+              0.1373029942965781
+            ]
+          },
+          "ratio": 0.9993458989116817
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1374.6205504667355,
+            "meanMs": 0.7274734832535875,
+            "samples": [
+              0.726540272727272,
+              0.7279284258373203,
+              0.7260370813397092,
+              0.7274734832535875,
+              0.7282577751196199
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1371.5911385407596,
+            "meanMs": 0.7290802425742582,
+            "samples": [
+              0.727936673267327,
+              0.7267023514851455,
+              0.731474420792082,
+              0.7290802425742582,
+              0.7302167920792055
+            ]
+          },
+          "ratio": 1.0022086843818478
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 344.9519596795672,
+            "meanMs": 2.8989543962264195,
+            "samples": [
+              2.8954520377358524,
+              2.8989543962264195,
+              2.899676094339637,
+              2.901575471698105,
+              2.8850416792452998
+            ]
+          },
+          "reference": {
+            "opsPerSec": 345.1821386603999,
+            "meanMs": 2.8970212765957415,
+            "samples": [
+              2.9139840425531998,
+              2.891231382978731,
+              2.8963102978723327,
+              2.912165765957438,
+              2.8970212765957415
+            ]
+          },
+          "ratio": 0.9993331665951025
+        }
+      ],
+      "scaling": [
+        {
+          "case": "sibling-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.22856011977715565
+            },
+            {
+              "size": 256,
+              "ms": 0.45078799371068906
+            },
+            {
+              "size": 512,
+              "ms": 0.9054959390243933
+            },
+            {
+              "size": 1024,
+              "ms": 1.8190307380952315
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.2288250482954533
+            },
+            {
+              "size": 256,
+              "ms": 0.45349186206896835
+            },
+            {
+              "size": 512,
+              "ms": 0.9068170574712779
+            },
+            {
+              "size": 1024,
+              "ms": 1.819443073170721
+            }
+          ],
+          "currentExponent": 0.9983832037906151,
+          "referenceExponent": 0.9973274934627291
+        },
+        {
+          "case": "deeply-nested-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.3232318975409815
+            },
+            {
+              "size": 256,
+              "ms": 0.8732925888888834
+            },
+            {
+              "size": 512,
+              "ms": 2.694424999999986
+            },
+            {
+              "size": 1024,
+              "ms": 9.166722222222234
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.3450660480349306
+            },
+            {
+              "size": 256,
+              "ms": 0.9790769230769281
+            },
+            {
+              "size": 512,
+              "ms": 3.1173653846154386
+            },
+            {
+              "size": 1024,
+              "ms": 10.857333285714308
+            }
+          ],
+          "currentExponent": 1.610273385685344,
+          "referenceExponent": 1.65977935248196
+        },
+        {
+          "case": "non-matching-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.25864848993288686
+            },
+            {
+              "size": 256,
+              "ms": 0.5143402777777687
+            },
+            {
+              "size": 512,
+              "ms": 1.0329898461538436
+            },
+            {
+              "size": 1024,
+              "ms": 2.0553386923076733
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.2581385782747607
+            },
+            {
+              "size": 256,
+              "ms": 0.5085910769230861
+            },
+            {
+              "size": 512,
+              "ms": 1.0266497974683526
+            },
+            {
+              "size": 1024,
+              "ms": 2.052364864864865
+            }
+          ],
+          "currentExponent": 0.9976965462720845,
+          "referenceExponent": 0.9986574776596784
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "The current package takes a required `name` option object, while the reference takes the container name as a positional argument; both sides are installed through custom renderers so that two equivalent containers are registered (`warning` with the default `:` marker and `spoiler` with the `%` marker).",
+    "The current package does not need `openRenderer` / `closeRenderer` to be compared: both are user render functions with no reference counterpart. The default renderer output (the container class on the opening `<div>`) is compared.",
+    "`indented-opening`, `indented-closing` and `indented-closing-after-blank` are expected differences: the current package only accepts a closing marker indented exactly like the opening marker, while the reference accepts any closing marker indented less than four columns relative to the enclosing block, so the reference closes those blocks and the current package keeps the marker as content.",
+    "Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the quadratic closing-marker scan of the `deeply-nested-containers` series. The benchmark corpora are shallow, so throughput is unaffected."
+  ]
+}

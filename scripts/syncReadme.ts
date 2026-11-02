@@ -1,6 +1,9 @@
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
+import { loadReportData, renderReadmeComparison } from "./compare/render.ts";
+import type { ReportData } from "./compare/render.ts";
+
 const packagesDir = path.resolve(import.meta.dirname, "..", "packages");
 const DOCS_HOMEPAGE_PATTERN = /^https:\/\/mdit-plugins\.github\.io\/(?<slug>[a-z0-9-]+)\.html$/u;
 const HELPER_DIR = "helper";
@@ -134,10 +137,17 @@ export const formatReadmeDescription = (description: string): string =>
 /**
  * Render the README of a package
  *
+ * Packages that have comparison results also get a comparison section rendered from the committed
+ * comparison data.
+ *
  * @param pkg Package metadata
+ * @param comparisonData Comparison data, defaults to the committed data
  * @returns README content
  */
-export const renderReadme = (pkg: PackageInfo): string => {
+export const renderReadme = (
+  pkg: PackageInfo,
+  comparisonData: ReportData | null = loadReportData(),
+): string => {
   const docsSlug = getDocsSlug(pkg);
   const extras = README_EXTRAS[pkg.dirName];
   const installTargets = [pkg.name, ...(extras?.installPackages ?? [])].join(" ");
@@ -169,6 +179,23 @@ export const renderReadme = (pkg: PackageInfo): string => {
       "```",
     ].join("\n"),
   );
+
+  const comparisonResult = comparisonData?.results.find((result) => result.plugin === pkg.dirName);
+
+  if (comparisonResult) {
+    const slug = docsSlug ?? comparisonResult.plugin.replace(/^plugin-/u, "");
+
+    blocks.push(
+      renderReadmeComparison(
+        comparisonResult,
+        comparisonData?.sizes?.packages[pkg.dirName] ?? null,
+        {
+          docsUrl: `https://mdit-plugins.github.io/${slug}.html`,
+          zhDocsUrl: `https://mdit-plugins.github.io/zh/${slug}.html`,
+        },
+      ),
+    );
+  }
 
   if (extras?.acknowledgements)
     blocks.push(["## Acknowledgements / 鸣谢", "", extras.acknowledgements].join("\n"));
@@ -262,11 +289,12 @@ export const syncAllReadmes = ({
   directory = packagesDir,
 }: SyncReadmeOptions = {}): SyncReadmeResult => {
   const packages = discoverPackages(directory);
+  const comparisonData = loadReportData();
   const outdated: string[] = [];
 
   for (const pkg of packages) {
     const readmePath = path.join(directory, pkg.dirName, "README.md");
-    const expected = renderReadme(pkg);
+    const expected = renderReadme(pkg, comparisonData);
     const actual = existsSync(readmePath) ? readFileSync(readmePath, "utf8") : "";
 
     if (actual === expected) continue;

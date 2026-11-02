@@ -1,0 +1,469 @@
+{
+  "plugin": "plugin-katex",
+  "reference": "markdown-it-katex",
+  "referenceVersion": "2.0.3",
+  "generatedAt": "2026-11-02T01:15:56.590Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 11,
+        "normalized": 8,
+        "diff": 6,
+        "error": 0,
+        "cases": [
+          {
+            "name": "inline-basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-fraction",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-text",
+            "status": "exact"
+          },
+          {
+            "name": "inline-escaped-dollar",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-link",
+            "status": "exact"
+          },
+          {
+            "name": "block-single-line",
+            "status": "normalized"
+          },
+          {
+            "name": "block-multiline",
+            "status": "normalized"
+          },
+          {
+            "name": "block-empty-lines",
+            "status": "normalized"
+          },
+          {
+            "name": "block-edge-space",
+            "status": "normalized"
+          },
+          {
+            "name": "block-fraction",
+            "status": "normalized"
+          },
+          {
+            "name": "block-aligned",
+            "status": "normalized"
+          },
+          {
+            "name": "block-in-document",
+            "status": "normalized"
+          },
+          {
+            "name": "invalid-inline",
+            "status": "exact"
+          },
+          {
+            "name": "invalid-display",
+            "status": "normalized"
+          },
+          {
+            "name": "markdown-structure",
+            "status": "exact"
+          },
+          {
+            "name": "code-not-math",
+            "status": "exact"
+          },
+          {
+            "name": "no-math-baseline",
+            "status": "exact"
+          },
+          {
+            "name": "empty-document",
+            "status": "exact"
+          },
+          {
+            "name": "word-boundary-close",
+            "status": "diff",
+            "note": "The current fork requires a non-word character after the closing `$`, so `$a$b` stays literal text and nothing is rendered; the reference parses and renders `a`.",
+            "ourHtml": "<p>$a$b</p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>a</mi></mrow><annotation encoding=\"application/x-tex\">a</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">a</span></span></span></span>b</p>\n"
+          },
+          {
+            "name": "word-boundary-open",
+            "status": "diff",
+            "note": "The current fork requires a non-word character before the opening `$`, so `a$x$` stays literal text; the reference parses and renders `x`.",
+            "ourHtml": "<p>a$x$</p>\n",
+            "referenceHtml": "<p>a<span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi></mrow><annotation encoding=\"application/x-tex\">x</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">x</span></span></span></span></p>\n"
+          },
+          {
+            "name": "adjacent-dollar-inline",
+            "status": "diff",
+            "note": "The current fork never closes a formula when the closing `$` is immediately followed by another `$`, so the line stays literal; the reference renders `$a$` and `$b$` as two formulas.",
+            "ourHtml": "<p>$a$$b$</p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>a</mi></mrow><annotation encoding=\"application/x-tex\">a</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">a</span></span></span></span><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>b</mi></mrow><annotation encoding=\"application/x-tex\">b</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.6944em;\"></span><span class=\"mord mathnormal\">b</span></span></span></span></p>\n"
+          },
+          {
+            "name": "literal-gap-inline",
+            "status": "diff",
+            "note": "The current fork treats a space-surrounded `$` inside a formula as literal content and keeps scanning for the closing delimiter, then renders the formula; the reference gives up at the first `$` that cannot close and emits literal text.",
+            "ourHtml": "<p><span class=\"katex-error\" title=\"ParseError: KaTeX parse error: Expected &#x27;$&#x27;, got &#x27;EOF&#x27; at position 12: \\text{a $ b}̲\" style=\"color:#cc0000\">\\text{a $ b}</span></p>\n",
+            "referenceHtml": "<p>$\\text{a $ b}$</p>\n"
+          },
+          {
+            "name": "block-trailing-content",
+            "status": "diff",
+            "note": "A single-line `$$...$$` followed by non-whitespace content is deliberately not treated as a block by the current fork (the line stays a paragraph); the reference renders the whole line as one display formula and KaTeX reports an error for the trailing text.",
+            "ourHtml": "<p>$$a$$ tail</p>\n",
+            "referenceHtml": "<p><span class=\"katex-error\" title=\"ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2: a$̲$ tail\n\" style=\"color:#cc0000\">a$$ tail\n</span></p>\n"
+          },
+          {
+            "name": "macro-scope",
+            "status": "diff",
+            "note": "Macros defined with the `gdef` command are shared between the formulas of one document by the current package, so the second formula renders `x`; the reference creates fresh KaTeX settings per formula, so the macro is undefined there and renders as a KaTeX error.",
+            "ourHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow></mrow><annotation encoding=\"application/x-tex\">\\gdef\\foo{x}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"></span></span> <span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi></mrow><annotation encoding=\"application/x-tex\">\\foo</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">x</span></span></span></span></p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow></mrow><annotation encoding=\"application/x-tex\">\\gdef\\foo{x}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"></span></span> <span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle mathcolor=\"#cc0000\"><mtext>\\foo</mtext></mstyle></mrow><annotation encoding=\"application/x-tex\">\\foo</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:1em;vertical-align:-0.25em;\"></span><span class=\"mord text\" style=\"color:#cc0000;\"><span class=\"mord\" style=\"color:#cc0000;\">\\foo</span></span></span></span></span></p>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17454.77462915986,
+            "meanMs": 0.057290914448669246,
+            "samples": [
+              0.06378370532319393,
+              0.05883994771863114,
+              0.057290914448669246,
+              0.05529875570342209,
+              0.0558173716730038
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17944.775157448148,
+            "meanMs": 0.05572652714932126,
+            "samples": [
+              0.05951407767722475,
+              0.05825110030165915,
+              0.054782396681749626,
+              0.054147404223227724,
+              0.05572652714932126
+            ]
+          },
+          "ratio": 0.9726939722571609
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 4617.805596005177,
+            "meanMs": 0.21655307466063345,
+            "samples": [
+              0.21334464479638024,
+              0.21655307466063345,
+              0.2381998506787329,
+              0.2146645,
+              0.21991110407239836
+            ]
+          },
+          "reference": {
+            "opsPerSec": 4752.81615454279,
+            "meanMs": 0.2104015740318905,
+            "samples": [
+              0.2137925216400911,
+              0.2104015740318905,
+              0.2101598314350798,
+              0.21075218223234657,
+              0.2099803530751711
+            ]
+          },
+          "ratio": 0.9715935659727615
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 1568.188391472716,
+            "meanMs": 0.637678486486487,
+            "samples": [
+              0.6397713986486491,
+              0.637678486486487,
+              0.6288488175675682,
+              0.6372043918918925,
+              0.6410830472973
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1602.8081198259317,
+            "meanMs": 0.6239050000000013,
+            "samples": [
+              0.6239050000000013,
+              0.6241769466666665,
+              0.6163650000000022,
+              0.6163052799999998,
+              0.6255513866666661
+            ]
+          },
+          "ratio": 0.9784005783817868
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7506.0397948225245,
+            "meanMs": 0.13322604560260587,
+            "samples": [
+              0.13758374104234505,
+              0.13269625407166125,
+              0.13305503420195455,
+              0.13355998859934806,
+              0.13322604560260587
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7702.304796818035,
+            "meanMs": 0.1298312682215742,
+            "samples": [
+              0.13249125364431505,
+              0.13051305830903795,
+              0.1298312682215742,
+              0.12931092128279892,
+              0.12974167930029187
+            ]
+          },
+          "ratio": 0.9745186658834131
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3802.041702365958,
+            "meanMs": 0.2630165785340318,
+            "samples": [
+              0.263639942408377,
+              0.2630165785340318,
+              0.26523156806282744,
+              0.2629273560209428,
+              0.2610719895287944
+            ]
+          },
+          "reference": {
+            "opsPerSec": 3917.363438555519,
+            "meanMs": 0.25527373594131925,
+            "samples": [
+              0.2680909755501226,
+              0.2581809290953545,
+              0.25527373594131925,
+              0.25443418826405895,
+              0.25393143765281073
+            ]
+          },
+          "ratio": 0.9705613895676515
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 1861.6624791381014,
+            "meanMs": 0.537154296875002,
+            "samples": [
+              0.5303802083333314,
+              0.537154296875002,
+              0.5283548177083333,
+              0.5675750885416685,
+              0.6999694010416656
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1884.5309788087832,
+            "meanMs": 0.5306360103626965,
+            "samples": [
+              0.5253875233160583,
+              0.5115526787564794,
+              0.6135073367875643,
+              0.5306360103626965,
+              0.5599969740932621
+            ]
+          },
+          "ratio": 0.9878651505717688
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-formulas",
+          "sizes": [
+            32,
+            64,
+            128,
+            256
+          ],
+          "current": [
+            {
+              "size": 32,
+              "ms": 0.258239076612903
+            },
+            {
+              "size": 64,
+              "ms": 0.5128358290598293
+            },
+            {
+              "size": 128,
+              "ms": 1.0300062739726032
+            },
+            {
+              "size": 256,
+              "ms": 2.1286875000000123
+            }
+          ],
+          "reference": [
+            {
+              "size": 32,
+              "ms": 0.2511692822299665
+            },
+            {
+              "size": 64,
+              "ms": 0.488581973856205
+            },
+            {
+              "size": 128,
+              "ms": 1.004623417721517
+            },
+            {
+              "size": 256,
+              "ms": 2.01344443589742
+            }
+          ],
+          "currentExponent": 1.0135638986184339,
+          "referenceExponent": 1.0048783426656858
+        },
+        {
+          "case": "long-formula",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.2198187380952385
+            },
+            {
+              "size": 128,
+              "ms": 0.41684707853403147
+            },
+            {
+              "size": 256,
+              "ms": 0.8297345978260874
+            },
+            {
+              "size": 512,
+              "ms": 1.6908394390244301
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.21550914634146248
+            },
+            {
+              "size": 128,
+              "ms": 0.398927847368424
+            },
+            {
+              "size": 256,
+              "ms": 0.8324305517241462
+            },
+            {
+              "size": 512,
+              "ms": 1.6323586060606239
+            }
+          ],
+          "currentExponent": 0.9823191896058645,
+          "referenceExponent": 0.9824613162147644
+        },
+        {
+          "case": "display-formulas",
+          "sizes": [
+            16,
+            32,
+            64,
+            128
+          ],
+          "current": [
+            {
+              "size": 16,
+              "ms": 0.12642782725831805
+            },
+            {
+              "size": 32,
+              "ms": 0.2513809695121947
+            },
+            {
+              "size": 64,
+              "ms": 0.5182163793103521
+            },
+            {
+              "size": 128,
+              "ms": 1.012781867647043
+            }
+          ],
+          "reference": [
+            {
+              "size": 16,
+              "ms": 0.12382615701219549
+            },
+            {
+              "size": 32,
+              "ms": 0.2488384662756609
+            },
+            {
+              "size": 64,
+              "ms": 0.48688395930232514
+            },
+            {
+              "size": 128,
+              "ms": 1.0123721506849368
+            }
+          ],
+          "currentExponent": 1.004949178242769,
+          "referenceExponent": 1.006242361036809
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "This comparison renders real KaTeX on both sides and compares the resulting HTML. The reference declares `katex: ^0.6.0`, but the committed workspace override (`pnpm-workspace.yaml`: `overrides.katex: ^0.19.0`, kept for the docs toolchain) makes the installed reference use the same KaTeX 0.19.1 as this package, so the rendered math HTML is directly comparable. If that override is ever removed the reference would fall back to KaTeX 0.6 and this spec would have to switch to a token-level comparison.",
+    "Two intentional markup differences are normalized instead of compared: the current package wraps display math in `<p class='katex-block'>` (the reference emits a plain `<p>`), and it keeps the edge whitespace/newline of the block formula while the reference trims it (the MathML `annotation` echoes the input formula, so its edge whitespace differs). The visible KaTeX HTML is unchanged by either normalization, and both are documented here rather than hidden.",
+    "`throwOnError: false` is set on both sides so that invalid LaTeX is handled the same way. This is already the default of the current package; with the reference's defaults the reference instead emits the raw LaTeX from its own `catch` block, which is a documented default difference and not compared.",
+    "Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), and a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`).",
+    "One difference is a feature, not a regression: macros defined with `\\gdef` are shared between the formulas of one document by the current package (`macros` is a single object per render), while the reference creates fresh KaTeX settings for every formula, so a later formula cannot use an earlier `\\gdef`. The case documents this.",
+    "Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\\(...\\)` / `\\[...\\]`), `mathFence` (```` ```math ````), `allowInlineWithSpace`, `transformer`, and the `logger` callback.",
+    "Benchmarks render real KaTeX on both sides (display and inline) with small corpora: 24 inline formulas for `normal/large`, and 24 inline plus 8 display formulas for `heavy/large`. Per-case `targetMs` is 100 ms.",
+    "Scaling series measure real rendering: many inline formulas, one very long formula, and many display formulas. KaTeX 0.19 rendering and the reference parser were both measured as linear (~1) on every pattern probed, so these series are a regression baseline rather than an exposure of superlinear behavior."
+  ]
+}

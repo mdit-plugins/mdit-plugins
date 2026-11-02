@@ -479,3 +479,71 @@ $$
 ### Text
 
 To insert text in TeX, you should use `\text{}` to wrap them.
+
+<!-- comparison:start -->
+
+## Comparison
+
+Compared against the upstream [`markdown-it-katex`](https://www.npmjs.com/package/markdown-it-katex) package `2.0.3`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
+
+### Correctness
+
+| Cases | Exact | Normalized | Documented diffs |
+| ----: | ----: | ---------: | ---------------: |
+|    25 |    18 |          0 |                7 |
+
+The following cases are documented differences:
+
+- `word-boundary-close` — The current fork requires a non-word character after the closing `$`, so `$a$b` stays literal text; the reference closes the formula before `b`.
+- `word-boundary-open` — The current fork requires a non-word character before the opening `$`, so `a$x$` stays literal text; the reference parses the formula.
+- `adjacent-dollar-inline` — The current fork never closes a formula when the closing `$` is immediately followed by another `$`, so the whole line stays literal; the reference parses `$a$` and `$b$` as two formulas.
+- `literal-gap-inline` — The current fork treats a space-surrounded `$` inside a formula as literal content and keeps scanning for the closing delimiter; the reference gives up at the first `$` that cannot close and emits literal text.
+- `block-trailing-content` — A single-line `$$...$$` followed by non-whitespace content is deliberately not treated as a block by the current fork (the trailing content stays a paragraph); the reference swallows the entire line into one display formula.
+- `block-trailing-inline-math` — Same as `block-trailing-content`: the current fork falls back to a paragraph and parses `$b$` as inline math, while the reference emits one display formula containing the whole line.
+- `empty-block-fence` — The current fork only emits a math block when a closing `$$` exists; the reference emits an empty `math_block` token for a lone `$$`.
+
+### Benchmarks
+
+| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
+| ------------- | --------------: | ----------------: | ----: |
+| normal/small  |          67,235 |            67,559 | 1.00× |
+| normal/medium |          17,355 |            17,273 | 1.00× |
+| normal/large  |           5,794 |             5,811 | 1.00× |
+| heavy/small   |         123,580 |           123,114 | 1.00× |
+| heavy/medium  |          63,630 |            63,471 | 1.00× |
+| heavy/large   |          32,742 |            32,045 | 1.02× |
+
+Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the current package is faster.
+
+### Scaling
+
+| Series                 | Sizes                  | Current exponent | Reference exponent |
+| ---------------------- | ---------------------- | ---------------: | -----------------: |
+| inline-formulas        | 64 / 128 / 256 / 512   |            ~0.97 |              ~0.96 |
+| multiline-block-fences | 64 / 128 / 256 / 512   |            ~1.00 |              ~1.00 |
+| unmatched-block-fence  | 128 / 256 / 512 / 1024 |            ~1.72 |              ~0.97 |
+
+Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
+
+### Package size
+
+| Package                             | Unpacked size | Entry gzip |
+| ----------------------------------- | ------------: | ---------: |
+| @mdit/plugin-tex (current)          |       61.8 kB |     1.5 kB |
+| markdown-it-katex@2.0.3 (reference) |       29.9 kB |     2.0 kB |
+
+### Notes
+
+- `@mdit/plugin-tex` is a fork of `markdown-it-katex` with a pluggable renderer and a required `render` option, so rendered output is not comparable: the reference always renders KaTeX HTML while this package delegates rendering. Both sides are compared on the parsed token stream instead (token type, markup, content, and text tokens, so differences in literal `$` handling are visible).
+- The required `render` option of the current package is set to a deterministic stub (`\(...\)` / `\[...\]`). It is never invoked because the comparison reads the parsed tokens instead of rendering them, so no real KaTeX work happens on either side.
+- Math token content is compared after trimming edge whitespace. The reference trims the first line of a block formula and drops the trailing newline, while the current package preserves both; both implementations pass the same formula payload to their renderer, so the edge formatting is not a behavioral difference and the case `block-edge-space` is reported as an exact match.
+- Edge formatting aside, the token streams match on inline math, `$$` fences, escaping, unmatched delimiters, an effectively empty document, and markdown constructs that must not be parsed as math (code spans, fences). Labels are not implemented by either plugin, so no `math_block_label` tokens are compared.
+- Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`), and `$$` alone is not a math block.
+- Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\(...\)` / `\[...\]`), `mathFence` (` ```math `), `allowInlineWithSpace`, and the `render` callback itself.
+- Benchmarks measure parsing only on both sides (the stub renderer is never called and the reference renderer is not invoked), so the two sides do the same work. The corpora stay small on purpose: 24 inline formulas for `normal/large` and 24 inline plus 8 display formulas for `heavy/large`.
+- Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the current `math_block` rule scans ahead even in silent mode and the paragraph terminator calls it once per line, so the fitted exponent is well above 1 and approaches 2 asymptotically; the reference short-circuits in silent mode and then consumes the rest of the document as a single block, staying linear), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).
+- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
+- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
+- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+
+<!-- comparison:end -->

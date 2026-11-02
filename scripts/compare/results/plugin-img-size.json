@@ -1,0 +1,468 @@
+{
+  "plugin": "plugin-img-size",
+  "reference": "markdown-it-imsize",
+  "referenceVersion": "2.0.1",
+  "generatedAt": "2026-11-02T01:15:45.076Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "legacy",
+      "correctness": {
+        "total": 25,
+        "exact": 19,
+        "normalized": 0,
+        "diff": 6,
+        "error": 0,
+        "cases": [
+          {
+            "name": "width-and-height",
+            "status": "exact"
+          },
+          {
+            "name": "width-only",
+            "status": "exact"
+          },
+          {
+            "name": "height-only",
+            "status": "exact"
+          },
+          {
+            "name": "title-and-size",
+            "status": "exact"
+          },
+          {
+            "name": "percent-width",
+            "status": "exact"
+          },
+          {
+            "name": "percent-height",
+            "status": "exact"
+          },
+          {
+            "name": "zero-width",
+            "status": "diff",
+            "note": "The current package drops a `0` width (treated as unspecified), the reference emits `width=\"0\"`.",
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" height=\"200\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0\" height=\"200\"></p>\n"
+          },
+          {
+            "name": "zero-height",
+            "status": "diff",
+            "note": "The current package drops a `0` height (treated as unspecified), the reference emits `height=\"0\"`.",
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\" height=\"0\"></p>\n"
+          },
+          {
+            "name": "zero-both",
+            "status": "diff",
+            "note": "The current package rejects an all-zero size and leaves the markdown unparsed as an image, the reference renders the image with `width=\"0\" height=\"0\"`.",
+            "ourHtml": "<p>![Alt](image.png =0x0)</p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0\" height=\"0\"></p>\n"
+          },
+          {
+            "name": "zero-percent-width",
+            "status": "diff",
+            "note": "The current package treats `0%` as an unspecified width, the reference emits `width=\"0%\"`.",
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" height=\"200\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0%\" height=\"200\"></p>\n"
+          },
+          {
+            "name": "percent-in-middle",
+            "status": "diff",
+            "note": "The reference number scanner accepts `%` anywhere in a dimension, while the current package only accepts one trailing `%`.",
+            "ourHtml": "<p>![Alt](image.png =5%0x3%0)</p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"5%0\" height=\"3%0\"></p>\n"
+          },
+          {
+            "name": "tab-before-size",
+            "status": "diff",
+            "note": "The current package accepts a tab before the size, the reference only accepts a literal space.",
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\" height=\"200\"></p>\n",
+            "referenceHtml": "<p>![Alt](image.png\t=100x200)</p>\n"
+          },
+          {
+            "name": "no-size",
+            "status": "exact"
+          },
+          {
+            "name": "malformed-size",
+            "status": "exact"
+          },
+          {
+            "name": "malformed-trailing-x",
+            "status": "exact"
+          },
+          {
+            "name": "no-space-before-size",
+            "status": "exact"
+          },
+          {
+            "name": "reference-image",
+            "status": "exact"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-images",
+            "status": "exact"
+          },
+          {
+            "name": "size-before-title",
+            "status": "exact"
+          },
+          {
+            "name": "newline-before-size",
+            "status": "exact"
+          },
+          {
+            "name": "leading-space-in-destination",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-image",
+            "status": "exact"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-size-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 18138.819617385067,
+            "meanMs": 0.055130378993435425,
+            "samples": [
+              0.05743285951859956,
+              0.05585382932166304,
+              0.055130378993435425,
+              0.054931783369803075,
+              0.0545888039387309
+            ]
+          },
+          "reference": {
+            "opsPerSec": 18221.460831646145,
+            "meanMs": 0.05488034188034193,
+            "samples": [
+              0.05547781847781848,
+              0.055323853479853476,
+              0.05452553927553932,
+              0.05448709483109481,
+              0.05488034188034193
+            ]
+          },
+          "ratio": 0.9954646219079454
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2168.7997952926667,
+            "meanMs": 0.46108451419558344,
+            "samples": [
+              0.4631305205047318,
+              0.45997318611987387,
+              0.4617146435331232,
+              0.46047831230283953,
+              0.46108451419558344
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2188.8450292524244,
+            "meanMs": 0.4568619462025317,
+            "samples": [
+              0.45773615506329085,
+              0.4568619462025317,
+              0.4663835727848094,
+              0.4556099683544301,
+              0.4561998955696196
+            ]
+          },
+          "ratio": 0.9908420954010599
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 568.4962771854089,
+            "meanMs": 1.759026470588234,
+            "samples": [
+              1.759026470588234,
+              1.7672857882352968,
+              1.7433975529411756,
+              1.76798921176471,
+              1.7588602941176386
+            ]
+          },
+          "reference": {
+            "opsPerSec": 572.604217296643,
+            "meanMs": 1.7464069767441837,
+            "samples": [
+              1.853991755813954,
+              1.7464069767441837,
+              1.7182572674418606,
+              1.7156424418604665,
+              1.7511879767441927
+            ]
+          },
+          "ratio": 0.9928258647296934
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 15608.492025527417,
+            "meanMs": 0.06406768817670006,
+            "samples": [
+              0.06406768817670006,
+              0.06416558423559972,
+              0.06332616933737541,
+              0.06341852533564298,
+              0.06567888349935029
+            ]
+          },
+          "reference": {
+            "opsPerSec": 16314.394546055135,
+            "meanMs": 0.061295563079403564,
+            "samples": [
+              0.061400997581620216,
+              0.06740402055622728,
+              0.060648428053204355,
+              0.0608063446191052,
+              0.061295563079403564
+            ]
+          },
+          "ratio": 0.9567313075250833
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2014.013902039504,
+            "meanMs": 0.4965209023569021,
+            "samples": [
+              0.4965209023569021,
+              0.4980956801346815,
+              0.4941108316498296,
+              0.4951944444444453,
+              0.5222669764309764
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2102.415620011883,
+            "meanMs": 0.47564334591195045,
+            "samples": [
+              0.47564334591195045,
+              0.4787769937106932,
+              0.4672670345911964,
+              0.4749969874213825,
+              0.4779018584905665
+            ]
+          },
+          "ratio": 0.9579523110792529
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 552.3564282950801,
+            "meanMs": 1.8104252051281993,
+            "samples": [
+              1.8091271410256433,
+              1.810849897435895,
+              1.8104252051281993,
+              1.7901949743589705,
+              1.8178071666666606
+            ]
+          },
+          "reference": {
+            "opsPerSec": 574.918277550083,
+            "meanMs": 1.739377645569612,
+            "samples": [
+              1.7427594936708846,
+              1.739377645569612,
+              1.720370772151898,
+              1.7179087468354473,
+              1.741575430379743
+            ]
+          },
+          "ratio": 0.9607564237631367
+        }
+      ],
+      "scaling": [
+        {
+          "case": "sized-images",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.09490218447694045
+            },
+            {
+              "size": 128,
+              "ms": 0.18468884248210166
+            },
+            {
+              "size": 256,
+              "ms": 0.38146433953488035
+            },
+            {
+              "size": 512,
+              "ms": 0.7624756944444386
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.09079779236812535
+            },
+            {
+              "size": 128,
+              "ms": 0.1781843511111098
+            },
+            {
+              "size": 256,
+              "ms": 0.36663092888888466
+            },
+            {
+              "size": 512,
+              "ms": 0.7350694504504547
+            }
+          ],
+          "currentExponent": 1.0064985928579842,
+          "referenceExponent": 1.0092412173158904
+        },
+        {
+          "case": "malformed-sizes",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.07298103171641837
+            },
+            {
+              "size": 128,
+              "ms": 0.14337353923205387
+            },
+            {
+              "size": 256,
+              "ms": 0.29908917424241926
+            },
+            {
+              "size": 512,
+              "ms": 0.6013805970149324
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.07224732219365937
+            },
+            {
+              "size": 128,
+              "ms": 0.1412203034111303
+            },
+            {
+              "size": 256,
+              "ms": 0.2954730856031152
+            },
+            {
+              "size": 512,
+              "ms": 0.591831039370079
+            }
+          ],
+          "currentExponent": 1.0188851515268316,
+          "referenceExponent": 1.0167587225642987
+        },
+        {
+          "case": "unmatched-labels",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.4938054687499971
+            },
+            {
+              "size": 128,
+              "ms": 1.2838678281249827
+            },
+            {
+              "size": 256,
+              "ms": 2.731998551724183
+            },
+            {
+              "size": 512,
+              "ms": 5.981977538461461
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.4928325644171761
+            },
+            {
+              "size": 128,
+              "ms": 1.2853790983606546
+            },
+            {
+              "size": 256,
+              "ms": 2.7348046206896406
+            },
+            {
+              "size": 512,
+              "ms": 6.01318592307703
+            }
+          ],
+          "currentExponent": 1.1885283354277605,
+          "referenceExponent": 1.191612407326478
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Only the deprecated `legacyImgSize` variant is compared: `imgSize` (`![alt =100x200](url)`) and `obsidianImgSize` (`![alt|100x200](url)`) are extensions of this package with no equivalent in `markdown-it-imsize`.",
+    "The current package treats a dimension whose numeric value is `0` as unspecified and rejects a size whose width and height are both `0`; the reference emits the literal `0`. `zero-width`, `zero-height`, `zero-both` and `zero-percent-width` document this.",
+    "The current package accepts a single trailing `%` per dimension (the documented syntax); the reference's number scanner accepts `%` anywhere, so `=5%0x3%0` is parsed by the reference only. Documented in `percent-in-middle`.",
+    "The current package accepts any whitespace before the size specification, while the reference requires a literal space (its check is `charCodeAt(pos - 1) === 0x20`); `tab-before-size` is therefore parsed by the current package only.",
+    "The reference `autofill` option is not compared: it reads image files from disk (`image-size`) and its output depends on the filesystem.",
+    "Scaling: the reference image rule re-attempts `parseLinkLabel` for every `![` opener and parses every label again; malformed sizes fall back to the core image rule. markdown-it caches `skipToken` positions, so all series stay ~linear (no superlinear behavior was found in the upstream implementation).",
+    "Attribute order is normalized."
+  ]
+}

@@ -1,0 +1,1733 @@
+{
+  "plugin": "plugin-anchor",
+  "reference": "markdown-it-anchor",
+  "referenceVersion": "10.0.0",
+  "generatedAt": "2026-11-02T01:08:01.946Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 16,
+        "normalized": 0,
+        "diff": 6,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact",
+            "note": "Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match."
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "note": "No text tokens, so both slugify produce an empty slug. The reference keeps `id=\"\"`; the current package falls back to `heading` via `defaultPlaceHolder`.",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "note": "Empty headings: the reference emits `id=\"\"` and `id=\"-1\"`; the current package emits the `heading` placeholder and `heading-1`.",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"></h1>\n<h2 id=\"-1\" tabindex=\"-1\"></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "diff",
+            "note": "Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them.",
+            "ourHtml": "<h2 id=\"hello-world-how-are-you\" tabindex=\"-1\">Hello, World! How are you?</h2>\n",
+            "referenceHtml": "<h2 id=\"hello%2C-world!-how-are-you%3F\" tabindex=\"-1\">Hello, World! How are you?</h2>\n"
+          },
+          {
+            "name": "heading-cjk",
+            "status": "diff",
+            "note": "Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them.",
+            "ourHtml": "<h2 id=\"你好-世界\" tabindex=\"-1\">你好 世界</h2>\n",
+            "referenceHtml": "<h2 id=\"%E4%BD%A0%E5%A5%BD-%E4%B8%96%E7%95%8C\" tabindex=\"-1\">你好 世界</h2>\n"
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "diff",
+            "note": "The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched).",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\">!!!</h2>\n",
+            "referenceHtml": "<h2 id=\"!!!\" tabindex=\"-1\">!!!</h2>\n"
+          },
+          {
+            "name": "heading-html",
+            "status": "diff",
+            "note": "With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them.",
+            "ourHtml": "<h2 id=\"heading-with-emraw-htmlem\" tabindex=\"-1\">Heading with &lt;em&gt;raw html&lt;/em&gt;</h2>\n",
+            "referenceHtml": "<h2 id=\"heading-with-%3Cem%3Eraw-html%3C%2Fem%3E\" tabindex=\"-1\">Heading with &lt;em&gt;raw html&lt;/em&gt;</h2>\n"
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17454.93410871671,
+            "meanMs": 0.057290391001855255,
+            "samples": [
+              0.06062067068645641,
+              0.057290391001855255,
+              0.05692917022263455,
+              0.05684262894248611,
+              0.057384488868274526
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17379.789880102355,
+            "meanMs": 0.057538094930875576,
+            "samples": [
+              0.05936299907834101,
+              0.057800979262672796,
+              0.057538094930875576,
+              0.05722615207373272,
+              0.057382238709677416
+            ]
+          },
+          "ratio": 1.00432365575952
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2351.527392223885,
+            "meanMs": 0.4252555183098593,
+            "samples": [
+              0.42684659718309853,
+              0.4207712450704222,
+              0.4252555183098593,
+              0.41994671267605643,
+              0.43750809859154965
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2349.383053301074,
+            "meanMs": 0.4256436593406591,
+            "samples": [
+              0.44834569780219796,
+              0.42522550549450594,
+              0.42391540934065963,
+              0.4284040741758235,
+              0.4256436593406591
+            ]
+          },
+          "ratio": 1.0009127242659717
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 493.3696023390245,
+            "meanMs": 2.026878014492751,
+            "samples": [
+              2.0289094202898528,
+              2.0194861159420263,
+              2.026878014492751,
+              2.0202723478260864,
+              2.039140101449263
+            ]
+          },
+          "reference": {
+            "opsPerSec": 504.2781612153102,
+            "meanMs": 1.983032534246576,
+            "samples": [
+              1.984252849315067,
+              1.9884149589041056,
+              1.9742848082191813,
+              1.9692117534246567,
+              1.983032534246576
+            ]
+          },
+          "ratio": 0.9783679728465812
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7580.148936758558,
+            "meanMs": 0.13192352925292553,
+            "samples": [
+              0.1323370468046802,
+              0.13278532853285285,
+              0.131873199819982,
+              0.13184495949595,
+              0.13192352925292553
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7658.998032467496,
+            "meanMs": 0.13056538149779762,
+            "samples": [
+              0.13194629162995616,
+              0.13056538149779762,
+              0.12939776035242329,
+              0.13074034537444937,
+              0.12932415594713698
+            ]
+          },
+          "ratio": 0.9897050377380061
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 868.6766699539153,
+            "meanMs": 1.1511763059701507,
+            "samples": [
+              1.1457114402985045,
+              1.1511763059701507,
+              1.1568289850746243,
+              1.1603936567164137,
+              1.1495037313432803
+            ]
+          },
+          "reference": {
+            "opsPerSec": 896.3429208827977,
+            "meanMs": 1.115644444444445,
+            "samples": [
+              1.1047901259259258,
+              1.1097740740740711,
+              1.115644444444445,
+              1.120890740740739,
+              1.1174663555555526
+            ]
+          },
+          "ratio": 0.9691343008525863
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 95.20393192238792,
+            "meanMs": 10.50376785714291,
+            "samples": [
+              10.59396721428571,
+              10.47349107142853,
+              10.619324428571417,
+              10.50376785714291,
+              10.425235071428558
+            ]
+          },
+          "reference": {
+            "opsPerSec": 99.42982497162375,
+            "meanMs": 10.057344466666715,
+            "samples": [
+              10.058813866666666,
+              9.946338866666641,
+              10.024138866666666,
+              10.057344466666715,
+              10.09241106666656
+            ]
+          },
+          "ratio": 0.9574987379245428
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.4939198903225793
+            },
+            {
+              "size": 256,
+              "ms": 1.656116660000007
+            },
+            {
+              "size": 512,
+              "ms": 6.334895833333273
+            },
+            {
+              "size": 1024,
+              "ms": 25.923638666666495
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.46683308383234506
+            },
+            {
+              "size": 256,
+              "ms": 1.5334876481481303
+            },
+            {
+              "size": 512,
+              "ms": 5.862175642857177
+            },
+            {
+              "size": 1024,
+              "ms": 24.003180666666594
+            }
+          ],
+          "currentExponent": 1.907705865194891,
+          "referenceExponent": 1.8987144569430385
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "current": [
+            {
+              "size": 1024,
+              "ms": 1.7002254102563967
+            },
+            {
+              "size": 2048,
+              "ms": 3.446081249999952
+            },
+            {
+              "size": 4096,
+              "ms": 7.038314777777689
+            },
+            {
+              "size": 8192,
+              "ms": 15.570999999999913
+            }
+          ],
+          "reference": [
+            {
+              "size": 1024,
+              "ms": 1.8395734285714276
+            },
+            {
+              "size": 2048,
+              "ms": 4.0803284117647465
+            },
+            {
+              "size": 4096,
+              "ms": 10.206770750000032
+            },
+            {
+              "size": 8192,
+              "ms": 29.206541666666453
+            }
+          ],
+          "currentExponent": 1.0615464325311028,
+          "referenceExponent": 1.3289314424751386
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 1.3885227272727207
+            },
+            {
+              "size": 512,
+              "ms": 2.7887961071428435
+            },
+            {
+              "size": 1024,
+              "ms": 5.820890181818124
+            },
+            {
+              "size": 2048,
+              "ms": 12.045944499999981
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 1.3342802419354836
+            },
+            {
+              "size": 512,
+              "ms": 2.7192959655172233
+            },
+            {
+              "size": 1024,
+              "ms": 5.723982142857104
+            },
+            {
+              "size": 2048,
+              "ms": 12.25525000000016
+            }
+          ],
+          "currentExponent": 1.041237180073781,
+          "referenceExponent": 1.067158488578861
+        }
+      ]
+    },
+    {
+      "id": "legacy-slugify",
+      "correctness": {
+        "total": 22,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 2,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact",
+            "note": "Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match."
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "note": "No text tokens, so both slugify produce an empty slug. The reference keeps `id=\"\"`; the current package falls back to `heading` via `defaultPlaceHolder`.",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "note": "Empty headings: the reference emits `id=\"\"` and `id=\"-1\"`; the current package emits the `heading` placeholder and `heading-1`.",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"></h1>\n<h2 id=\"-1\" tabindex=\"-1\"></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them."
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them."
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact",
+            "note": "The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched)."
+          },
+          {
+            "name": "heading-html",
+            "status": "exact",
+            "note": "With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them."
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17429.223869920388,
+            "meanMs": 0.0573749013417525,
+            "samples": [
+              0.058269320441988584,
+              0.057149072612470306,
+              0.05754082833464872,
+              0.0573749013417525,
+              0.05735105880031508
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17438.074437841464,
+            "meanMs": 0.05734578112764284,
+            "samples": [
+              0.05706559945184034,
+              0.05734578112764284,
+              0.05680442443226297,
+              0.057475185982772056,
+              0.05782669342208226
+            ]
+          },
+          "ratio": 0.9994924572691427
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2352.26982209085,
+            "meanMs": 0.42512129799426457,
+            "samples": [
+              0.42364648997134535,
+              0.42512129799426457,
+              0.42682438108882303,
+              0.4261261948424081,
+              0.423890999999997
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2364.089425056903,
+            "meanMs": 0.4229958433048404,
+            "samples": [
+              0.4230992393162384,
+              0.4233622962962968,
+              0.42294859829059384,
+              0.420247270655271,
+              0.4229958433048404
+            ]
+          },
+          "ratio": 0.995000357075846
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 482.5532154765258,
+            "meanMs": 2.0723103026315774,
+            "samples": [
+              2.0801326710526205,
+              2.072718197368407,
+              2.066302631578956,
+              2.057096486842104,
+              2.0723103026315774
+            ]
+          },
+          "reference": {
+            "opsPerSec": 496.1349617657842,
+            "meanMs": 2.0155805921052603,
+            "samples": [
+              2.0559435263157866,
+              2.011611842105259,
+              2.020033447368405,
+              1.998344289473703,
+              2.0155805921052603
+            ]
+          },
+          "ratio": 0.972624895772473
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7520.80016226129,
+            "meanMs": 0.13296457536764658,
+            "samples": [
+              0.13638388419117492,
+              0.1321793428308825,
+              0.1334157481617641,
+              0.13296457536764658,
+              0.13235734466911708
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7608.233275091096,
+            "meanMs": 0.1314365587703443,
+            "samples": [
+              0.13203654249547758,
+              0.1314365587703443,
+              0.1311986518987337,
+              0.13057711663652963,
+              0.1322206148282105
+            ]
+          },
+          "ratio": 0.9885080925270711
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 840.2817632808702,
+            "meanMs": 1.1900769999999903,
+            "samples": [
+              1.19250467200001,
+              1.2019646639999992,
+              1.1900769999999903,
+              1.1888220000000147,
+              1.1888819999999833
+            ]
+          },
+          "reference": {
+            "opsPerSec": 875.842134376685,
+            "meanMs": 1.1417582698412598,
+            "samples": [
+              1.149579031746018,
+              1.1405942460317577,
+              1.144467920634934,
+              1.139612436507926,
+              1.1417582698412598
+            ]
+          },
+          "ratio": 0.9593986522227295
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 87.27032115063702,
+            "meanMs": 11.458649249999931,
+            "samples": [
+              11.446260416666822,
+              11.469326416666567,
+              11.458649249999931,
+              11.487454833333382,
+              11.418750000000122
+            ]
+          },
+          "reference": {
+            "opsPerSec": 92.88141324430963,
+            "meanMs": 10.766416714285567,
+            "samples": [
+              10.790687499999747,
+              10.77024407142848,
+              10.735940499999872,
+              10.766416714285567,
+              10.703845214285527
+            ]
+          },
+          "ratio": 0.9395886442972876
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.5220685328947519
+            },
+            {
+              "size": 256,
+              "ms": 1.7651766304347605
+            },
+            {
+              "size": 512,
+              "ms": 6.963912909090802
+            },
+            {
+              "size": 1024,
+              "ms": 27.63854166666594
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.48168657324842257
+            },
+            {
+              "size": 256,
+              "ms": 1.6124199411765314
+            },
+            {
+              "size": 512,
+              "ms": 6.320611083333158
+            },
+            {
+              "size": 1024,
+              "ms": 25.183625000000273
+            }
+          ],
+          "currentExponent": 1.915898104831809,
+          "referenceExponent": 1.9095578845196832
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "current": [
+            {
+              "size": 1024,
+              "ms": 1.6452601777777696
+            },
+            {
+              "size": 2048,
+              "ms": 3.334871500000039
+            },
+            {
+              "size": 4096,
+              "ms": 7.029104166666609
+            },
+            {
+              "size": 8192,
+              "ms": 15.369050000000424
+            }
+          ],
+          "reference": [
+            {
+              "size": 1024,
+              "ms": 1.8492439024390124
+            },
+            {
+              "size": 2048,
+              "ms": 4.135284294117703
+            },
+            {
+              "size": 4096,
+              "ms": 10.419659666666726
+            },
+            {
+              "size": 8192,
+              "ms": 29.285479000000123
+            }
+          ],
+          "currentExponent": 1.0746630680972573,
+          "referenceExponent": 1.3288783938784239
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 1.3271325081967336
+            },
+            {
+              "size": 512,
+              "ms": 2.6924086129031144
+            },
+            {
+              "size": 1024,
+              "ms": 5.598130533333218
+            },
+            {
+              "size": 2048,
+              "ms": 11.405881833332993
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 1.3468984727272817
+            },
+            {
+              "size": 512,
+              "ms": 2.7377873448275407
+            },
+            {
+              "size": 1024,
+              "ms": 5.720166642857033
+            },
+            {
+              "size": 2048,
+              "ms": 12.396895833332868
+            }
+          ],
+          "currentExponent": 1.0366228735406147,
+          "referenceExponent": 1.0669844501442853
+        }
+      ]
+    },
+    {
+      "id": "link-inside-header",
+      "correctness": {
+        "total": 22,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 2,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact",
+            "note": "Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match."
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "note": "No text tokens, so both slugify produce an empty slug. The reference keeps `id=\"\"`; the current package falls back to `heading` via `defaultPlaceHolder`.",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"> <a class=\"anchor-link\" href=\"#heading\">¶</a></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"> <a class=\"anchor-link\" href=\"#\">¶</a></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "note": "Empty headings: the reference emits `id=\"\"` and `id=\"-1\"`; the current package emits the `heading` placeholder and `heading-1`.",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#heading\">¶</a></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#heading-1\">¶</a></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#\">¶</a></h1>\n<h2 id=\"-1\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#-1\">¶</a></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them."
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them."
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact",
+            "note": "The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched)."
+          },
+          {
+            "name": "heading-html",
+            "status": "exact",
+            "note": "With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them."
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 15315.689427057478,
+            "meanMs": 0.06529252272727266,
+            "samples": [
+              0.06529252272727266,
+              0.06583482692307707,
+              0.0655794545454549,
+              0.06519396459790168,
+              0.06491005594405616
+            ]
+          },
+          "reference": {
+            "opsPerSec": 15327.478908708528,
+            "meanMs": 0.06524230148715687,
+            "samples": [
+              0.06587599504281123,
+              0.06524230148715687,
+              0.06535135917079726,
+              0.06517318251464761,
+              0.06510935872014385
+            ]
+          },
+          "ratio": 0.9992308270837449
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2078.9385909725584,
+            "meanMs": 0.48101468910257,
+            "samples": [
+              0.4804603365384584,
+              0.48101468910257,
+              0.48216252564102785,
+              0.4861428974358998,
+              0.4794157307692214
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2091.3948414276306,
+            "meanMs": 0.4781497879746986,
+            "samples": [
+              0.4788573322784711,
+              0.47726595569619795,
+              0.4775449620253162,
+              0.47985891455695473,
+              0.4781497879746986
+            ]
+          },
+          "ratio": 0.9940440464859475
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 433.53649431504635,
+            "meanMs": 2.3066108923077433,
+            "samples": [
+              2.3066108923077433,
+              2.2973980769230717,
+              2.305457692307671,
+              2.3092673076923416,
+              2.3105788461538257
+            ]
+          },
+          "reference": {
+            "opsPerSec": 454.0951878727261,
+            "meanMs": 2.2021814516129163,
+            "samples": [
+              2.218673387096773,
+              2.2123104838710494,
+              2.2021814516129163,
+              2.1841384354838445,
+              2.1991169354838465
+            ]
+          },
+          "ratio": 0.9547260263778836
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5393.55187066922,
+            "meanMs": 0.18540657881462486,
+            "samples": [
+              0.18540657881462486,
+              0.18652711223203622,
+              0.18396295712484032,
+              0.18431094955864313,
+              0.18548954476670712
+            ]
+          },
+          "reference": {
+            "opsPerSec": 5415.539933497097,
+            "meanMs": 0.18465379487179734,
+            "samples": [
+              0.18465379487179734,
+              0.18554889010989156,
+              0.18421794871795524,
+              0.1845367326007366,
+              0.18487978144077985
+            ]
+          },
+          "ratio": 0.995939820756953
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 664.1932985053319,
+            "meanMs": 1.5055858019801631,
+            "samples": [
+              1.5150214554455983,
+              1.5055858019801631,
+              1.5004517326732558,
+              1.5025548712870695,
+              1.5084806138613995
+            ]
+          },
+          "reference": {
+            "opsPerSec": 695.5438340260285,
+            "meanMs": 1.4377239090909375,
+            "samples": [
+              1.4324941111110754,
+              1.456439393939394,
+              1.4396258484848659,
+              1.4377239090909375,
+              1.4343632222222331
+            ]
+          },
+          "ratio": 0.9549265855190897
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 78.94990053134862,
+            "meanMs": 12.666260416666773,
+            "samples": [
+              12.547902749999897,
+              12.695868083333457,
+              12.701374999999947,
+              12.666260416666773,
+              12.597045166666552
+            ]
+          },
+          "reference": {
+            "opsPerSec": 87.23531940128322,
+            "meanMs": 11.463246846154037,
+            "samples": [
+              11.462044846154011,
+              11.421528846154196,
+              11.463246846154037,
+              11.472080153846317,
+              11.483227538461506
+            ]
+          },
+          "ratio": 0.9050221982701571
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.635922952380959
+            },
+            {
+              "size": 256,
+              "ms": 1.964173949999895
+            },
+            {
+              "size": 512,
+              "ms": 7.057522727272457
+            },
+            {
+              "size": 1024,
+              "ms": 27.03845833333374
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.6032610454545427
+            },
+            {
+              "size": 256,
+              "ms": 1.812071022727237
+            },
+            {
+              "size": 512,
+              "ms": 6.3715381666661415
+            },
+            {
+              "size": 1024,
+              "ms": 24.50140300000203
+            }
+          ],
+          "currentExponent": 1.8075290478595012,
+          "referenceExponent": 1.7845816578388451
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "current": [
+            {
+              "size": 1024,
+              "ms": 2.8093571428572823
+            },
+            {
+              "size": 2048,
+              "ms": 6.083047642856919
+            },
+            {
+              "size": 4096,
+              "ms": 15.669166799999948
+            },
+            {
+              "size": 8192,
+              "ms": 39.65570850000222
+            }
+          ],
+          "reference": [
+            {
+              "size": 1024,
+              "ms": 2.879770821428662
+            },
+            {
+              "size": 2048,
+              "ms": 6.152788461538596
+            },
+            {
+              "size": 4096,
+              "ms": 15.662614500000927
+            },
+            {
+              "size": 8192,
+              "ms": 41.266271000000415
+            }
+          ],
+          "currentExponent": 1.282271209907838,
+          "referenceExponent": 1.2870824261610356
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 1.60544824242419
+            },
+            {
+              "size": 512,
+              "ms": 3.2485156250001332
+            },
+            {
+              "size": 1024,
+              "ms": 6.796586833332792
+            },
+            {
+              "size": 2048,
+              "ms": 14.636475000000791
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 1.6045716976744209
+            },
+            {
+              "size": 512,
+              "ms": 3.267128458333294
+            },
+            {
+              "size": 1024,
+              "ms": 6.900652833333273
+            },
+            {
+              "size": 2048,
+              "ms": 14.827191799999856
+            }
+          ],
+          "currentExponent": 1.0630590023005566,
+          "referenceExponent": 1.0702665343701536
+        }
+      ]
+    },
+    {
+      "id": "header-link",
+      "correctness": {
+        "total": 22,
+        "exact": 19,
+        "normalized": 0,
+        "diff": 3,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "diff",
+            "note": "Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match.",
+            "ourHtml": "<h2 id=\"heading-with-link\" tabindex=\"-1\">Heading with <a href=\"https://example.com\">link</a></h2>\n",
+            "referenceHtml": "<h2 id=\"heading-with-link\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading-with-link\">Heading with <a href=\"https://example.com\">link</a></a></h2>\n"
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "note": "No text tokens, so both slugify produce an empty slug. The reference keeps `id=\"\"`; the current package falls back to `heading` via `defaultPlaceHolder`.",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading\"><img src=\"image.png\" alt=\"alt\"></a></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#\"><img src=\"image.png\" alt=\"alt\"></a></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "note": "Empty headings: the reference emits `id=\"\"` and `id=\"-1\"`; the current package emits the `heading` placeholder and `heading-1`.",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading\"></a></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading-1\"></a></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#\"></a></h1>\n<h2 id=\"-1\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#-1\"></a></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them."
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact",
+            "note": "Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them."
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact",
+            "note": "The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched)."
+          },
+          {
+            "name": "heading-html",
+            "status": "exact",
+            "note": "With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them."
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 15566.57680125207,
+            "meanMs": 0.06424019954853316,
+            "samples": [
+              0.06509230654627496,
+              0.06426160632053947,
+              0.06406730609480751,
+              0.06424019954853316,
+              0.06410718555304994
+            ]
+          },
+          "reference": {
+            "opsPerSec": 15831.95491578513,
+            "meanMs": 0.06316339361243112,
+            "samples": [
+              0.0637026689684943,
+              0.0632419438929636,
+              0.0628293409581378,
+              0.063076499784203,
+              0.06316339361243112
+            ]
+          },
+          "ratio": 0.9832378176956235
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2090.9863909961146,
+            "meanMs": 0.4782431891025436,
+            "samples": [
+              0.47601629166666287,
+              0.4782431891025436,
+              0.4748059551282215,
+              0.47897742948717703,
+              0.4794918525640941
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2152.32492141356,
+            "meanMs": 0.46461386477987743,
+            "samples": [
+              0.4595106132075453,
+              0.46492518553457773,
+              0.4687921886792503,
+              0.46461386477987743,
+              0.46045269811320566
+            ]
+          },
+          "ratio": 0.9715012683228327
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 435.84594543483917,
+            "meanMs": 2.2943886721311815,
+            "samples": [
+              2.2943886721311815,
+              2.281385245901622,
+              2.284780737704914,
+              2.309746573770516,
+              2.298295770491856
+            ]
+          },
+          "reference": {
+            "opsPerSec": 463.65731821625485,
+            "meanMs": 2.1567652676056523,
+            "samples": [
+              2.1567652676056523,
+              2.1476584507042173,
+              2.145201295774621,
+              2.208492366197186,
+              2.159896718309848
+            ]
+          },
+          "ratio": 0.9400173971406094
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5584.386448717377,
+            "meanMs": 0.1790707017114978,
+            "samples": [
+              0.17895991320293503,
+              0.1782817848410813,
+              0.17970599022004655,
+              0.1790707017114978,
+              0.19131642176038804
+            ]
+          },
+          "reference": {
+            "opsPerSec": 5907.487466857275,
+            "meanMs": 0.16927670276243348,
+            "samples": [
+              0.16848890386740176,
+              0.16871662099447096,
+              0.16927670276243348,
+              0.17048825966850314,
+              0.17019663977900454
+            ]
+          },
+          "ratio": 0.9453065249900929
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 673.6926183248137,
+            "meanMs": 1.4843564747474502,
+            "samples": [
+              1.484550929292957,
+              1.4786633030303302,
+              1.4843564747474502,
+              1.4945197777777488,
+              1.4760256767677316
+            ]
+          },
+          "reference": {
+            "opsPerSec": 734.2932210129726,
+            "meanMs": 1.3618537818182217,
+            "samples": [
+              1.3537549272727285,
+              1.3696185636363887,
+              1.3519223454545268,
+              1.3618537818182217,
+              1.3638575818181298
+            ]
+          },
+          "ratio": 0.9174708400486673
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 79.67153180211415,
+            "meanMs": 12.551534750000428,
+            "samples": [
+              12.551534750000428,
+              12.433486083333264,
+              12.490743083333655,
+              12.752392333333168,
+              12.561878499999997
+            ]
+          },
+          "reference": {
+            "opsPerSec": 89.5290494459097,
+            "meanMs": 11.169558999999936,
+            "samples": [
+              11.113111083333328,
+              11.17022916666671,
+              11.169558999999936,
+              11.133378500000012,
+              11.17161458333309
+            ]
+          },
+          "ratio": 0.8898958750840852
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.6218723571428055
+            },
+            {
+              "size": 256,
+              "ms": 1.9324722307691655
+            },
+            {
+              "size": 512,
+              "ms": 7.006173583333293
+            },
+            {
+              "size": 1024,
+              "ms": 27.080944333334628
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.5689906015037756
+            },
+            {
+              "size": 256,
+              "ms": 1.7509637608695219
+            },
+            {
+              "size": 512,
+              "ms": 6.268362153846493
+            },
+            {
+              "size": 1024,
+              "ms": 24.353416666667425
+            }
+          ],
+          "currentExponent": 1.8191726293735797,
+          "referenceExponent": 1.809866597936503
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "current": [
+            {
+              "size": 1024,
+              "ms": 2.6887549999999463
+            },
+            {
+              "size": 2048,
+              "ms": 5.923491071428414
+            },
+            {
+              "size": 4096,
+              "ms": 15.761808400000154
+            },
+            {
+              "size": 8192,
+              "ms": 40.86547900000005
+            }
+          ],
+          "reference": [
+            {
+              "size": 1024,
+              "ms": 2.5492788461538463
+            },
+            {
+              "size": 2048,
+              "ms": 5.4691221999998865
+            },
+            {
+              "size": 4096,
+              "ms": 13.71452500000014
+            },
+            {
+              "size": 8192,
+              "ms": 39.53435449999961
+            }
+          ],
+          "currentExponent": 1.318953078223023,
+          "referenceExponent": 1.3191160782877085
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 1.3519447115384258
+            },
+            {
+              "size": 512,
+              "ms": 2.7860833571430703
+            },
+            {
+              "size": 1024,
+              "ms": 5.798235142857136
+            },
+            {
+              "size": 2048,
+              "ms": 12.310090333333696
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 1.528991127659615
+            },
+            {
+              "size": 512,
+              "ms": 3.17482692307693
+            },
+            {
+              "size": 1024,
+              "ms": 6.524129666666138
+            },
+            {
+              "size": 2048,
+              "ms": 14.419316599999728
+            }
+          ],
+          "currentExponent": 1.061757529035129,
+          "referenceExponent": 1.075116006016867
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "The `default` variant uses the defaults of both packages. The current package intentionally ships a different default slugify than the reference legacy percent-encoding slugify: it lowercases ASCII, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash and strips other ASCII punctuation. Headings with punctuation, CJK or raw HTML text therefore produce different ids; those cases carry a `note`. Generated ids are compared byte for byte and are never normalized.",
+    "The `legacy-slugify` variant configures the current package with its exported `legacySlugify`, which is byte-identical to the reference default slugify, so every heading id matches.",
+    "`link-inside-header` compares the `linkInsideHeader` permalink presets with the same `class` and `symbol` options and a matching slugify. Markup is identical except for the empty-slug placeholder difference.",
+    "`header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case carries a `note`.",
+    "Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=\"\"`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases carry a `note`.",
+    "Manual heading ids (e.g. set by plugin-attrs) are not compared: both packages reuse a preset id and both throw on duplicate explicit ids (reference default `failOnNonUnique: true`; the current package has no option to disable the failure).",
+    "Scaling: `duplicate-headings` is quadratic in both packages, because the unique-slug loop rescans the used-slug map for every duplicate. `unique-headings` exposes the leftover `state.tokens.indexOf(token)` call the reference executes for every heading after the permalink step (the O(n²) loop from markdown-it-anchor#80); without a permalink renderer the current package does not rescan tokens, with one it does. `heading-inline-content` is the linear baseline.",
+    "Benchmarks render fixed corpora (`normal` = sparse headings, `heavy` = heading-dense) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.",
+    "Only attribute order is normalized (the harness default); no other normalization is applied."
+  ]
+}

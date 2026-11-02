@@ -263,3 +263,57 @@ const a = 1;
   border: 1px solid red;
 }
 </style>
+
+<!-- comparison:start -->
+
+## 对比
+
+与上游 [`markdown-it-attrs`](https://www.npmjs.com/package/markdown-it-attrs) `5.0.1` 包对比。基准测试运行于 Node.js v26.13.0, Apple M4 (darwin arm64)，测量日期为 2026-11-02。下表由仓库提交的对比数据生成。
+
+### 正确性
+
+| 用例数 | 完全一致 | 规范化后一致 | 已记录差异 |
+| -----: | -------: | -----------: | ---------: |
+|     20 |       20 |            0 |          0 |
+
+20 个用例的输出与参考包完全一致。
+
+### 基准性能
+
+| 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
+| ------------- | -----------: | -----------: | ----: |
+| normal/small  |       20,124 |       19,264 | 1.04× |
+| normal/medium |        5,183 |        4,989 | 1.04× |
+| normal/large  |        1,786 |        1,712 | 1.04× |
+| heavy/small   |        9,049 |        8,845 | 1.02× |
+| heavy/medium  |        2,335 |        2,292 | 1.02× |
+| heavy/large   |          776 |          755 | 1.03× |
+
+几何平均吞吐量比值：1.03×（共 6 个用例）；大于 1× 表示当前包更快。
+
+### 复杂度缩放
+
+| 系列             | 输入规模             | 当前拟合指数 | 参考拟合指数 |
+| ---------------- | -------------------- | -----------: | -----------: |
+| heading-attrs    | 64 / 128 / 256 / 512 |        ~1.00 |        ~1.01 |
+| inline-attrs     | 64 / 128 / 256 / 512 |        ~0.89 |        ~0.94 |
+| unmatched-braces | 64 / 128 / 256 / 512 |        ~0.73 |        ~0.74 |
+
+拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
+
+### 包体积
+
+| 包                              | 解压体积 | 入口 gzip |
+| ------------------------------- | -------: | --------: |
+| @mdit/plugin-attrs（当前）      | 240.6 kB |    4.6 kB |
+| markdown-it-attrs@5.0.1（参考） | 423.4 kB |    2.6 kB |
+
+### 说明
+
+- `fenceAttrsOnPre` is set to `false` on the current package so that fence attrs are placed on `<code>`, matching the reference default.
+- Table extension rules (`rowspan` / `colspan` cells) are not compared because the reference does not implement them.
+- 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。
+- 入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `dist/index.js`，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。
+- 基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧运行在相同负载下。
+
+<!-- comparison:end -->

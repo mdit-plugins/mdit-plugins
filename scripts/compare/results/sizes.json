@@ -1,0 +1,324 @@
+{
+  "packages": {
+    "plugin-abbr": {
+      "plugin": "plugin-abbr",
+      "reference": "markdown-it-abbr",
+      "current": {
+        "name": "@mdit/plugin-abbr",
+        "version": "1.1.4",
+        "unpackedBytes": 27736,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 954
+      },
+      "upstream": {
+        "name": "markdown-it-abbr",
+        "version": "2.0.0",
+        "unpackedBytes": 21208,
+        "fileCount": 7,
+        "entry": "index.mjs",
+        "entryGzipBytes": 1586
+      }
+    },
+    "plugin-anchor": {
+      "plugin": "plugin-anchor",
+      "reference": "markdown-it-anchor",
+      "current": {
+        "name": "@mdit/plugin-anchor",
+        "version": "2.3.0",
+        "unpackedBytes": 76899,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 2153
+      },
+      "upstream": {
+        "name": "markdown-it-anchor",
+        "version": "10.0.0",
+        "unpackedBytes": 138673,
+        "fileCount": 14,
+        "entry": "dist/markdownItAnchor.mjs",
+        "entryGzipBytes": 2165
+      }
+    },
+    "plugin-attrs": {
+      "plugin": "plugin-attrs",
+      "reference": "markdown-it-attrs",
+      "current": {
+        "name": "@mdit/plugin-attrs",
+        "version": "1.4.0",
+        "unpackedBytes": 240628,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 4648
+      },
+      "upstream": {
+        "name": "markdown-it-attrs",
+        "version": "5.0.1",
+        "unpackedBytes": 423422,
+        "fileCount": 10,
+        "entry": "index.js",
+        "entryGzipBytes": 2646
+      }
+    },
+    "plugin-container": {
+      "plugin": "plugin-container",
+      "reference": "markdown-it-container",
+      "current": {
+        "name": "@mdit/plugin-container",
+        "version": "2.1.0",
+        "unpackedBytes": 29223,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 910
+      },
+      "upstream": {
+        "name": "markdown-it-container",
+        "version": "4.0.0",
+        "unpackedBytes": 20069,
+        "fileCount": 7,
+        "entry": "index.mjs",
+        "entryGzipBytes": 1436
+      }
+    },
+    "plugin-dl": {
+      "plugin": "plugin-dl",
+      "reference": "markdown-it-deflist",
+      "current": {
+        "name": "@mdit/plugin-dl",
+        "version": "1.1.4",
+        "unpackedBytes": 29926,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 978
+      },
+      "upstream": {
+        "name": "markdown-it-deflist",
+        "version": "4.0.0",
+        "unpackedBytes": 26663,
+        "fileCount": 7,
+        "entry": "index.mjs",
+        "entryGzipBytes": 1929
+      }
+    },
+    "plugin-emoji": {
+      "plugin": "plugin-emoji",
+      "reference": "markdown-it-emoji",
+      "current": {
+        "name": "@mdit/plugin-emoji",
+        "version": "1.2.4",
+        "unpackedBytes": 289470,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 17772
+      },
+      "upstream": {
+        "name": "markdown-it-emoji",
+        "version": "3.1.0",
+        "unpackedBytes": 344311,
+        "fileCount": 23,
+        "entry": "index.mjs",
+        "entryGzipBytes": 91
+      }
+    },
+    "plugin-figure": {
+      "plugin": "plugin-figure",
+      "reference": "markdown-it-image-figures",
+      "current": {
+        "name": "@mdit/plugin-figure",
+        "version": "1.2.4",
+        "unpackedBytes": 37751,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1080
+      },
+      "upstream": {
+        "name": "markdown-it-image-figures",
+        "version": "2.1.1",
+        "unpackedBytes": 22675,
+        "fileCount": 8,
+        "entry": "dist/markdown-it-images-figures.module.js",
+        "entryGzipBytes": 972
+      }
+    },
+    "plugin-footnote": {
+      "plugin": "plugin-footnote",
+      "reference": "markdown-it-footnote",
+      "current": {
+        "name": "@mdit/plugin-footnote",
+        "version": "1.1.4",
+        "unpackedBytes": 57909,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1739
+      },
+      "upstream": {
+        "name": "markdown-it-footnote",
+        "version": "4.0.0",
+        "unpackedBytes": 46798,
+        "fileCount": 7,
+        "entry": "index.mjs",
+        "entryGzipBytes": 2691
+      }
+    },
+    "plugin-img-size": {
+      "plugin": "plugin-img-size",
+      "reference": "markdown-it-imsize",
+      "current": {
+        "name": "@mdit/plugin-img-size",
+        "version": "1.2.0",
+        "unpackedBytes": 87163,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1795
+      },
+      "upstream": {
+        "name": "markdown-it-imsize",
+        "version": "2.0.1",
+        "unpackedBytes": 638092,
+        "fileCount": 42,
+        "entry": "lib/index.js",
+        "entryGzipBytes": 1647
+      }
+    },
+    "plugin-katex": {
+      "plugin": "plugin-katex",
+      "reference": "markdown-it-katex",
+      "current": {
+        "name": "@mdit/plugin-katex",
+        "version": "1.1.5",
+        "unpackedBytes": 35342,
+        "fileCount": 10,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 612
+      },
+      "upstream": {
+        "name": "markdown-it-katex",
+        "version": "2.0.3",
+        "unpackedBytes": 29916,
+        "fileCount": 11,
+        "entry": "index.js",
+        "entryGzipBytes": 1955
+      }
+    },
+    "plugin-katex-slim": {
+      "plugin": "plugin-katex-slim",
+      "reference": "markdown-it-katex",
+      "current": {
+        "name": "@mdit/plugin-katex-slim",
+        "version": "1.1.5",
+        "unpackedBytes": 12887,
+        "fileCount": 9,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 681
+      },
+      "upstream": {
+        "name": "markdown-it-katex",
+        "version": "2.0.3",
+        "unpackedBytes": 29916,
+        "fileCount": 11,
+        "entry": "index.js",
+        "entryGzipBytes": 1955
+      }
+    },
+    "plugin-mathjax": {
+      "plugin": "plugin-mathjax",
+      "reference": "markdown-it-mathjax3",
+      "current": {
+        "name": "@mdit/plugin-mathjax",
+        "version": "2.0.0",
+        "unpackedBytes": 116679,
+        "fileCount": 12,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1669
+      },
+      "upstream": {
+        "name": "markdown-it-mathjax3",
+        "version": "5.2.0",
+        "unpackedBytes": 14640,
+        "fileCount": 7,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1672
+      }
+    },
+    "plugin-mathjax-slim": {
+      "plugin": "plugin-mathjax-slim",
+      "reference": "markdown-it-mathjax3",
+      "current": {
+        "name": "@mdit/plugin-mathjax-slim",
+        "version": "2.0.0",
+        "unpackedBytes": 125064,
+        "fileCount": 12,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1675
+      },
+      "upstream": {
+        "name": "markdown-it-mathjax3",
+        "version": "5.2.0",
+        "unpackedBytes": 14640,
+        "fileCount": 7,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1672
+      }
+    },
+    "plugin-ruby": {
+      "plugin": "plugin-ruby",
+      "reference": "markdown-it-ruby",
+      "current": {
+        "name": "@mdit/plugin-ruby",
+        "version": "1.1.4",
+        "unpackedBytes": 20104,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 575
+      },
+      "upstream": {
+        "name": "markdown-it-ruby",
+        "version": "1.1.2",
+        "unpackedBytes": 21335,
+        "fileCount": 11,
+        "entry": "index.mjs",
+        "entryGzipBytes": 1893
+      }
+    },
+    "plugin-tasklist": {
+      "plugin": "plugin-tasklist",
+      "reference": "markdown-it-task-checkbox",
+      "current": {
+        "name": "@mdit/plugin-tasklist",
+        "version": "1.2.0",
+        "unpackedBytes": 26931,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 784
+      },
+      "upstream": {
+        "name": "markdown-it-task-checkbox",
+        "version": "1.0.6",
+        "unpackedBytes": 76885,
+        "fileCount": 10,
+        "entry": "index.js",
+        "entryGzipBytes": 1383
+      }
+    },
+    "plugin-tex": {
+      "plugin": "plugin-tex",
+      "reference": "markdown-it-katex",
+      "current": {
+        "name": "@mdit/plugin-tex",
+        "version": "1.2.0",
+        "unpackedBytes": 61778,
+        "fileCount": 8,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1526
+      },
+      "upstream": {
+        "name": "markdown-it-katex",
+        "version": "2.0.3",
+        "unpackedBytes": 29916,
+        "fileCount": 11,
+        "entry": "index.js",
+        "entryGzipBytes": 1955
+      }
+    }
+  }
+}

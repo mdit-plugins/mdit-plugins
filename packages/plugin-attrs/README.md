@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-attrs
 # yarn
 yarn add -D @mdit/plugin-attrs
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-attrs`](https://www.npmjs.com/package/markdown-it-attrs) package `5.0.1`.
+
+- Correctness: **20/20** cases match the reference exactly.
+- Throughput: **1.03×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Package size: **240.6 kB** unpacked and **4.6 kB** gzip entry, versus **423.4 kB** and **2.6 kB** for the reference.
+
+See the comparison tables in the [English docs](https://mdit-plugins.github.io/attrs.html) or [中文文档](https://mdit-plugins.github.io/zh/attrs.html) for details and methodology.

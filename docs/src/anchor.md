@@ -263,3 +263,108 @@ mdIt.use(anchor, { permalink: customPermalink });
 Where `state` is a markdown-it `StateCore` instance, and `idx` is the
 index of the `heading_open` token. The `heading_open` token is followed
 by an `inline` token containing the heading text, then `heading_close`.
+
+<!-- comparison:start -->
+
+## Comparison
+
+Compared against the upstream [`markdown-it-anchor`](https://www.npmjs.com/package/markdown-it-anchor) package `10.0.0`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
+
+### Correctness
+
+| Variant            | Cases | Exact | Normalized | Documented diffs |
+| ------------------ | ----: | ----: | ---------: | ---------------: |
+| default            |    22 |    16 |          0 |                6 |
+| legacy-slugify     |    22 |    20 |          0 |                2 |
+| link-inside-header |    22 |    20 |          0 |                2 |
+| header-link        |    22 |    19 |          0 |                3 |
+
+The following cases are documented differences:
+
+- `default/heading-image-only` — No text tokens, so both slugify produce an empty slug. The reference keeps `id=""`; the current package falls back to `heading` via `defaultPlaceHolder`.
+- `default/heading-empty` — Empty headings: the reference emits `id=""` and `id="-1"`; the current package emits the `heading` placeholder and `heading-1`.
+- `default/heading-punctuation` — Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them.
+- `default/heading-cjk` — Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them.
+- `default/heading-only-punctuation` — The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched).
+- `default/heading-html` — With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them.
+- `legacy-slugify/heading-image-only` — No text tokens, so both slugify produce an empty slug. The reference keeps `id=""`; the current package falls back to `heading` via `defaultPlaceHolder`.
+- `legacy-slugify/heading-empty` — Empty headings: the reference emits `id=""` and `id="-1"`; the current package emits the `heading` placeholder and `heading-1`.
+- `link-inside-header/heading-image-only` — No text tokens, so both slugify produce an empty slug. The reference keeps `id=""`; the current package falls back to `heading` via `defaultPlaceHolder`.
+- `link-inside-header/heading-empty` — Empty headings: the reference emits `id=""` and `id="-1"`; the current package emits the `heading` placeholder and `heading-1`.
+- `header-link/heading-with-link` — Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match.
+- `header-link/heading-image-only` — No text tokens, so both slugify produce an empty slug. The reference keeps `id=""`; the current package falls back to `heading` via `defaultPlaceHolder`.
+- `header-link/heading-empty` — Empty headings: the reference emits `id=""` and `id="-1"`; the current package emits the `heading` placeholder and `heading-1`.
+
+### Benchmarks
+
+| Variant            | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
+| ------------------ | ------------- | --------------: | ----------------: | ----: |
+| default            | normal/small  |          17,455 |            17,380 | 1.00× |
+| default            | normal/medium |           2,352 |             2,349 | 1.00× |
+| default            | normal/large  |             493 |               504 | 0.98× |
+| default            | heavy/small   |           7,580 |             7,659 | 0.99× |
+| default            | heavy/medium  |             869 |               896 | 0.97× |
+| default            | heavy/large   |              95 |                99 | 0.96× |
+| legacy-slugify     | normal/small  |          17,429 |            17,438 | 1.00× |
+| legacy-slugify     | normal/medium |           2,352 |             2,364 | 1.00× |
+| legacy-slugify     | normal/large  |             483 |               496 | 0.97× |
+| legacy-slugify     | heavy/small   |           7,521 |             7,608 | 0.99× |
+| legacy-slugify     | heavy/medium  |             840 |               876 | 0.96× |
+| legacy-slugify     | heavy/large   |              87 |                93 | 0.94× |
+| link-inside-header | normal/small  |          15,316 |            15,327 | 1.00× |
+| link-inside-header | normal/medium |           2,079 |             2,091 | 0.99× |
+| link-inside-header | normal/large  |             434 |               454 | 0.95× |
+| link-inside-header | heavy/small   |           5,394 |             5,416 | 1.00× |
+| link-inside-header | heavy/medium  |             664 |               696 | 0.95× |
+| link-inside-header | heavy/large   |              79 |                87 | 0.91× |
+| header-link        | normal/small  |          15,567 |            15,832 | 0.98× |
+| header-link        | normal/medium |           2,091 |             2,152 | 0.97× |
+| header-link        | normal/large  |             436 |               464 | 0.94× |
+| header-link        | heavy/small   |           5,584 |             5,907 | 0.95× |
+| header-link        | heavy/medium  |             674 |               734 | 0.92× |
+| header-link        | heavy/large   |              80 |                90 | 0.89× |
+
+Geometric mean throughput ratio: 0.97× across 24 cases; above 1× means the current package is faster.
+
+### Scaling
+
+| Variant            | Series                 | Sizes                     | Current exponent | Reference exponent |
+| ------------------ | ---------------------- | ------------------------- | ---------------: | -----------------: |
+| default            | duplicate-headings     | 128 / 256 / 512 / 1024    |            ~1.91 |              ~1.90 |
+| default            | heading-inline-content | 256 / 512 / 1024 / 2048   |            ~1.04 |              ~1.07 |
+| default            | unique-headings        | 1024 / 2048 / 4096 / 8192 |            ~1.06 |              ~1.33 |
+| legacy-slugify     | duplicate-headings     | 128 / 256 / 512 / 1024    |            ~1.92 |              ~1.91 |
+| legacy-slugify     | heading-inline-content | 256 / 512 / 1024 / 2048   |            ~1.04 |              ~1.07 |
+| legacy-slugify     | unique-headings        | 1024 / 2048 / 4096 / 8192 |            ~1.07 |              ~1.33 |
+| link-inside-header | duplicate-headings     | 128 / 256 / 512 / 1024    |            ~1.81 |              ~1.78 |
+| link-inside-header | heading-inline-content | 256 / 512 / 1024 / 2048   |            ~1.06 |              ~1.07 |
+| link-inside-header | unique-headings        | 1024 / 2048 / 4096 / 8192 |            ~1.28 |              ~1.29 |
+| header-link        | duplicate-headings     | 128 / 256 / 512 / 1024    |            ~1.82 |              ~1.81 |
+| header-link        | heading-inline-content | 256 / 512 / 1024 / 2048   |            ~1.06 |              ~1.08 |
+| header-link        | unique-headings        | 1024 / 2048 / 4096 / 8192 |            ~1.32 |              ~1.32 |
+
+Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
+
+### Package size
+
+| Package                               | Unpacked size | Entry gzip |
+| ------------------------------------- | ------------: | ---------: |
+| @mdit/plugin-anchor (current)         |       76.9 kB |     2.2 kB |
+| markdown-it-anchor@10.0.0 (reference) |      138.7 kB |     2.2 kB |
+
+### Notes
+
+- The `default` variant uses the defaults of both packages. The current package intentionally ships a different default slugify than the reference legacy percent-encoding slugify: it lowercases ASCII, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash and strips other ASCII punctuation. Headings with punctuation, CJK or raw HTML text therefore produce different ids; those cases carry a `note`. Generated ids are compared byte for byte and are never normalized.
+- The `legacy-slugify` variant configures the current package with its exported `legacySlugify`, which is byte-identical to the reference default slugify, so every heading id matches.
+- `link-inside-header` compares the `linkInsideHeader` permalink presets with the same `class` and `symbol` options and a matching slugify. Markup is identical except for the empty-slug placeholder difference.
+- `header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case carries a `note`.
+- Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=""`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases carry a `note`.
+- Manual heading ids (e.g. set by plugin-attrs) are not compared: both packages reuse a preset id and both throw on duplicate explicit ids (reference default `failOnNonUnique: true`; the current package has no option to disable the failure).
+- Scaling: `duplicate-headings` is quadratic in both packages, because the unique-slug loop rescans the used-slug map for every duplicate. `unique-headings` exposes the leftover `state.tokens.indexOf(token)` call the reference executes for every heading after the permalink step (the O(n²) loop from markdown-it-anchor#80); without a permalink renderer the current package does not rescan tokens, with one it does. `heading-inline-content` is the linear baseline.
+- Benchmarks render fixed corpora (`normal` = sparse headings, `heavy` = heading-dense) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.
+- Only attribute order is normalized (the harness default); no other normalization is applied.
+- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
+- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
+- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+
+<!-- comparison:end -->

@@ -72,3 +72,66 @@ Whether to convert linked images (`[![image](url)](link)`) to figures.
 [![Logo](/favicon.ico "Markdown")](https://commonmark.org/)
 
 :::
+
+<!-- comparison:start -->
+
+## Comparison
+
+Compared against the upstream [`markdown-it-image-figures`](https://www.npmjs.com/package/markdown-it-image-figures) package `2.1.1`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
+
+### Correctness
+
+| Cases | Exact | Normalized | Documented diffs |
+| ----: | ----: | ---------: | ---------------: |
+|    21 |    18 |          0 |                3 |
+
+The following cases are documented differences:
+
+- `figure-alt-only` — The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: "title"`.
+- `linked-image-alt-only` — The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: "title"`.
+- `tight-list-image` — The current package skips images inside hidden (tight list) paragraphs, so the paragraph is untouched; the reference converts it and emits a `<figcaption>` without a `<figure>` wrapper.
+
+### Benchmarks
+
+| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
+| ------------- | --------------: | ----------------: | ----: |
+| normal/small  |          14,215 |            14,199 | 1.00× |
+| normal/medium |           2,447 |             2,438 | 1.00× |
+| normal/large  |             562 |               570 | 0.99× |
+| heavy/small   |           9,527 |             9,588 | 0.99× |
+| heavy/medium  |           1,644 |             1,597 | 1.03× |
+| heavy/large   |             377 |               361 | 1.04× |
+
+Geometric mean throughput ratio: 1.01× across 6 cases; above 1× means the current package is faster.
+
+### Scaling
+
+| Series         | Sizes                | Current exponent | Reference exponent |
+| -------------- | -------------------- | ---------------: | -----------------: |
+| linked-figures | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.01 |
+| long-captions  | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.00 |
+| many-figures   | 64 / 128 / 256 / 512 |            ~1.11 |              ~1.01 |
+
+Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
+
+### Package size
+
+| Package                                     | Unpacked size | Entry gzip |
+| ------------------------------------------- | ------------: | ---------: |
+| @mdit/plugin-figure (current)               |       37.8 kB |     1.1 kB |
+| markdown-it-image-figures@2.1.1 (reference) |       22.7 kB |      972 B |
+
+### Notes
+
+- `focusable` is disabled because the current package adds `tabindex="0"` to the image, while the reference `tabindex` option numbers figures from `1`; the reference option is therefore not used.
+- The current package derives `<figcaption>` from the image `title` and falls back to the `alt` text; `markdown-it-image-figures` has no fallback mode, so `figcaption: "title"` is compared and alt-only images are documented as a difference.
+- The current package skips hidden paragraphs (tight list items) so that a `<figcaption>` is never emitted without its `<figure>` wrapper; the reference converts images in tight list items without a `<figure>` wrapper. Documented in `tight-list-image`.
+- `moveAttrs` is not compared: for `true` the current package copies non-native image attributes to `<figure>` and keeps them on the image, for a pattern list it moves them (the image loses them), and it merges `class`/`style` values. The reference `copyAttrs` copies every matching attribute to `<figure>` and keeps the original order on the image, which is not equivalent.
+- Reference-only options (`dataType`, `link`, `tabindex`, `lazy`, `async`, `classes`, `removeSrc`) have no equivalent and are not compared.
+- Scaling: the reference core rule walks the token stream once and calls `md.parseInline` once per caption, so the work is linear in the document size and caption length; all three series measure ~1 (no superlinear behavior was found in the upstream implementation).
+- Attribute order is normalized.
+- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
+- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
+- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+
+<!-- comparison:end -->

@@ -1,0 +1,465 @@
+{
+  "plugin": "plugin-ruby",
+  "reference": "markdown-it-ruby",
+  "referenceVersion": "1.1.2",
+  "generatedAt": "2026-11-02T01:17:04.219Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 10,
+        "normalized": 0,
+        "diff": 11,
+        "error": 0,
+        "cases": [
+          {
+            "name": "documented-syntax",
+            "status": "diff",
+            "note": "The reference splits on `|`, not on `:`: it renders `中国:zhōng` as the base text with `guó` as ruby text, while this package splits the base per character and pairs `中`/`zhōng` and `国`/`guó`.",
+            "ourHtml": "<p><ruby>中<rt>zhōng</rt>国<rt>guó</rt></ruby></p>\n",
+            "referenceHtml": "<p><ruby>中国:zhōng<rt>guó</rt></ruby></p>\n"
+          },
+          {
+            "name": "upstream-syntax",
+            "status": "diff",
+            "note": "This package does not recognize the upstream `|` divider, so it leaves the construct as plain text; the reference renders it as ruby.",
+            "ourHtml": "<p>{漢字|かんじ}</p>\n",
+            "referenceHtml": "<p><ruby>漢字<rt>かんじ</rt></ruby></p>\n"
+          },
+          {
+            "name": "simple-ruby",
+            "status": "diff",
+            "note": "Same divider difference: this package renders ruby, the reference leaves the text untouched.",
+            "ourHtml": "<p><ruby>ruby base<rt>ruby text</rt></ruby></p>\n",
+            "referenceHtml": "<p>{ruby base:ruby text}</p>\n"
+          },
+          {
+            "name": "equal-length-pairs",
+            "status": "diff",
+            "note": "Divider difference: this package splits per character into two `<rt>` pairs, while the reference does not recognize `:` as the divider.",
+            "ourHtml": "<p><ruby>鬼<rt>き</rt>門<rt>もん</rt></ruby></p>\n",
+            "referenceHtml": "<p><ruby>鬼門:き<rt>もん</rt></ruby></p>\n"
+          },
+          {
+            "name": "wrapped-in-strong",
+            "status": "diff",
+            "note": "Divider difference inside emphasis; both sides keep the surrounding `**` markup.",
+            "ourHtml": "<p><strong><ruby>ruby base<rt>ruby text</rt></ruby></strong></p>\n",
+            "referenceHtml": "<p><strong>{ruby base:ruby text}</strong></p>\n"
+          },
+          {
+            "name": "inline-markup-inside-ruby",
+            "status": "diff",
+            "note": "Divider difference: this package parses inline markup inside the base text, the reference leaves the whole construct as text with the emphasis parsed normally.",
+            "ourHtml": "<p><ruby><strong>ruby base</strong><rt>ruby text</rt></ruby></p>\n",
+            "referenceHtml": "<p>{<strong>ruby base</strong>:ruby text}</p>\n"
+          },
+          {
+            "name": "inline-markup-in-ruby-text",
+            "status": "diff",
+            "note": "Divider difference: this package parses inline markup inside the ruby text, the reference leaves the construct as text.",
+            "ourHtml": "<p><ruby>ruby base<rt><strong>ruby text</strong></rt></ruby></p>\n",
+            "referenceHtml": "<p>{ruby base:<strong>ruby text</strong>}</p>\n"
+          },
+          {
+            "name": "empty-ruby-segment",
+            "status": "diff",
+            "note": "This package rejects empty `|`-separated segments and leaves the source as text; the reference sees no `:` divider, treats `ab:` as base text and renders an empty `<rt></rt>`.",
+            "ourHtml": "<p>{ab:|b}</p>\n",
+            "referenceHtml": "<p><ruby>ab:<rt>b</rt></ruby></p>\n"
+          },
+          {
+            "name": "extra-colon",
+            "status": "diff",
+            "note": "This package keeps everything after the first `:` as ruby text; the reference does not recognize `:` and leaves the source as text.",
+            "ourHtml": "<p><ruby>a<rt>b:c</rt></ruby></p>\n",
+            "referenceHtml": "<p>{a:b:c}</p>\n"
+          },
+          {
+            "name": "escaped-backslash",
+            "status": "diff",
+            "note": "This package treats `\\\\` as an escaped backslash and the following `:` as the divider; the reference does not parse `:` at all.",
+            "ourHtml": "<p><ruby>a\\<rt>b</rt></ruby></p>\n",
+            "referenceHtml": "<p>{a\\:b}</p>\n"
+          },
+          {
+            "name": "in-table-cell",
+            "status": "diff",
+            "note": "Divider difference: this package renders ruby inside the table cell, the reference keeps the source text.",
+            "ourHtml": "<table>\n<thead>\n<tr>\n<th>a</th>\n<th>b</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><ruby>中<rt>zhōng</rt></ruby></td>\n<td>x</td>\n</tr>\n</tbody>\n</table>\n",
+            "referenceHtml": "<table>\n<thead>\n<tr>\n<th>a</th>\n<th>b</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>{中:zhōng}</td>\n<td>x</td>\n</tr>\n</tbody>\n</table>\n"
+          },
+          {
+            "name": "no-ruby-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-opening",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-divider",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-closing",
+            "status": "exact"
+          },
+          {
+            "name": "empty-ruby-text",
+            "status": "exact"
+          },
+          {
+            "name": "empty-braces",
+            "status": "exact"
+          },
+          {
+            "name": "colon-only",
+            "status": "exact"
+          },
+          {
+            "name": "empty-base",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed",
+            "status": "exact"
+          },
+          {
+            "name": "plain-colons",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7132.170315685856,
+            "meanMs": 0.1402097756696429,
+            "samples": [
+              0.1551822455357143,
+              0.14120628683035719,
+              0.1402097756696429,
+              0.13929799107142848,
+              0.13989997209821428
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7642.99435012158,
+            "meanMs": 0.13083877263157895,
+            "samples": [
+              0.1340228505263158,
+              0.13112543789473682,
+              0.13083877263157895,
+              0.130118947368421,
+              0.1291092989473684
+            ]
+          },
+          "ratio": 0.9331644103037183
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1394.16496146001,
+            "meanMs": 0.7172752347417847,
+            "samples": [
+              0.7194256619718309,
+              0.7172752347417847,
+              0.7194872863849757,
+              0.7138341126760551,
+              0.70853481690141
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1494.1768040990937,
+            "meanMs": 0.6692648401826482,
+            "samples": [
+              0.677864917808219,
+              0.6692648401826482,
+              0.6673331415525097,
+              0.6657370639269408,
+              0.672511415525113
+            ]
+          },
+          "ratio": 0.9330655901197815
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 347.1129700219128,
+            "meanMs": 2.8809064666666626,
+            "samples": [
+              2.9129259333333315,
+              2.8956879777777833,
+              2.8809064666666626,
+              2.866429622222222,
+              2.878133333333345
+            ]
+          },
+          "reference": {
+            "opsPerSec": 369.42444382084307,
+            "meanMs": 2.7069134615384636,
+            "samples": [
+              2.7219871730769247,
+              2.709132211538461,
+              2.7069134615384636,
+              2.6932764423076887,
+              2.6595144230769234
+            ]
+          },
+          "ratio": 0.939604771226913
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3288.866235225798,
+            "meanMs": 0.3040561483739836,
+            "samples": [
+              0.3063621260162589,
+              0.305501778455285,
+              0.3040561483739836,
+              0.3036465955284549,
+              0.301870766260162
+            ]
+          },
+          "reference": {
+            "opsPerSec": 3308.003965816104,
+            "meanMs": 0.30229709829059837,
+            "samples": [
+              0.30229709829059837,
+              0.3240113076923084,
+              0.30363800000000046,
+              0.3021266923076926,
+              0.30143669871794815
+            ]
+          },
+          "ratio": 0.9942147195746832
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 621.863915725734,
+            "meanMs": 1.6080688631578979,
+            "samples": [
+              1.6142442947368372,
+              1.6080688631578979,
+              1.6092070105263128,
+              1.5820701789473643,
+              1.5927140315789456
+            ]
+          },
+          "reference": {
+            "opsPerSec": 624.2624330871254,
+            "meanMs": 1.6018904021739118,
+            "samples": [
+              1.606822010869564,
+              1.6095738152173948,
+              1.6018904021739118,
+              1.5953727391304255,
+              1.5792536304347777
+            ]
+          },
+          "ratio": 0.9961578380593398
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 151.578611460141,
+            "meanMs": 6.597236842105255,
+            "samples": [
+              6.771221526315792,
+              6.579984631578937,
+              6.610556999999972,
+              6.58204826315791,
+              6.597236842105255
+            ]
+          },
+          "reference": {
+            "opsPerSec": 150.48547240420308,
+            "meanMs": 6.645159722222262,
+            "samples": [
+              6.675340277777802,
+              7.570069444444471,
+              6.645159722222262,
+              6.643011555555556,
+              6.6127245000000885
+            ]
+          },
+          "ratio": 1.0072640836253066
+        }
+      ],
+      "scaling": [
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 0.20704785945946316
+            },
+            {
+              "size": 512,
+              "ms": 0.762360029126214
+            },
+            {
+              "size": 1024,
+              "ms": 2.9295246666666506
+            },
+            {
+              "size": 2048,
+              "ms": 11.49771428571434
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 0.21903021978022189
+            },
+            {
+              "size": 512,
+              "ms": 0.8123824257425728
+            },
+            {
+              "size": 1024,
+              "ms": 3.1146923076923065
+            },
+            {
+              "size": 2048,
+              "ms": 12.09581557142857
+            }
+          ],
+          "currentExponent": 1.932783917618697,
+          "referenceExponent": 1.930056162699498
+        },
+        {
+          "case": "dense-documented-syntax",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.2733548716216221
+            },
+            {
+              "size": 256,
+              "ms": 0.5405689655172519
+            },
+            {
+              "size": 512,
+              "ms": 1.0910434571428727
+            },
+            {
+              "size": 1024,
+              "ms": 2.209434675675692
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.34237873931624174
+            },
+            {
+              "size": 256,
+              "ms": 1.2312602615384654
+            },
+            {
+              "size": 512,
+              "ms": 4.660328470588223
+            },
+            {
+              "size": 1024,
+              "ms": 18.734020750000127
+            }
+          ],
+          "currentExponent": 1.0057648828007117,
+          "referenceExponent": 1.9242066816015644
+        },
+        {
+          "case": "upstream-syntax",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.3045670452674928
+            },
+            {
+              "size": 256,
+              "ms": 1.1226364782608511
+            },
+            {
+              "size": 512,
+              "ms": 4.380274157894746
+            },
+            {
+              "size": 1024,
+              "ms": 17.074958400000106
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.2692992147651007
+            },
+            {
+              "size": 256,
+              "ms": 0.5326835033112537
+            },
+            {
+              "size": 512,
+              "ms": 1.06942036708861
+            },
+            {
+              "size": 1024,
+              "ms": 2.156220076923115
+            }
+          ],
+          "currentExponent": 1.9391065543088324,
+          "referenceExponent": 1.0009146072998998
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "The current package and the installed reference use different dividers: this package implements `{ruby base:ruby text}` (the upstream syntax that the fork was based on), while the installed `markdown-it-ruby@1.1.2` implements DenDenMarkdown's `{ruby base|ruby text}`. This is a real behavioral difference, not a normalization, so every case that renders ruby on one side renders plain text on the other and carries a `note`.",
+    "The reference has an `rp` option (`[open, close]`). This package does not implement it, so the reference is left at its default `rp: []`, which renders no `<rp>` elements and matches the current package's output shape.",
+    "The reference renders empty rubies such as `{ab:|}` (base `ab:`, empty `<rt></rt>`) because it only splits on `|`; this package rejects empty `|`-separated segments and empty ruby text, which is covered by `empty-ruby-segment`.",
+    "Because the syntax differs, every benchmark corpus mixes both divider styles: each side parses its own syntax and only scans over the other side's lines. Throughput ratios therefore compare equivalent mixtures, not identical parse work.",
+    "Both implementations scan forward to the end of the line when an opening `{` has no valid divider/close in that line; `unmatched-openers` exposes that quadratic path for both, `dense-documented-syntax` is linear for this package but quadratic for the reference, and `upstream-syntax` is the mirror image."
+  ]
+}

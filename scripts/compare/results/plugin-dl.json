@@ -1,0 +1,435 @@
+{
+  "plugin": "plugin-dl",
+  "reference": "markdown-it-deflist",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-02T01:08:47.299Z",
+  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 22,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "blank-line-after-term",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-definitions",
+            "status": "exact"
+          },
+          {
+            "name": "tilde-marker",
+            "status": "exact"
+          },
+          {
+            "name": "lazy-continuation",
+            "status": "exact"
+          },
+          {
+            "name": "multi-paragraph-definition",
+            "status": "exact"
+          },
+          {
+            "name": "code-block-in-definition",
+            "status": "exact"
+          },
+          {
+            "name": "list-in-definition",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-definition",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-in-definition",
+            "status": "exact"
+          },
+          {
+            "name": "inline-markup-term",
+            "status": "exact"
+          },
+          {
+            "name": "nested-deflist",
+            "status": "exact"
+          },
+          {
+            "name": "empty-definition",
+            "status": "exact"
+          },
+          {
+            "name": "empty-definition-next-line",
+            "status": "exact"
+          },
+          {
+            "name": "no-space-after-marker",
+            "status": "exact"
+          },
+          {
+            "name": "double-marker",
+            "status": "exact"
+          },
+          {
+            "name": "definition-after-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "deflist-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "deflist-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "term-followed-by-unindented-line",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-deflists",
+            "status": "exact"
+          },
+          {
+            "name": "no-deflist-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 12034.39778419452,
+            "meanMs": 0.08309514260143193,
+            "samples": [
+              0.08599348627684965,
+              0.08337139498806682,
+              0.08221949582338899,
+              0.08309514260143193,
+              0.08297297673031029
+            ]
+          },
+          "reference": {
+            "opsPerSec": 12072.39778954105,
+            "meanMs": 0.0828335859564164,
+            "samples": [
+              0.08431820036319612,
+              0.08371867433414046,
+              0.08253258656174335,
+              0.08251760472154969,
+              0.0828335859564164
+            ]
+          },
+          "ratio": 0.9968523232907839
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2298.4430904314686,
+            "meanMs": 0.4350771198830413,
+            "samples": [
+              0.43536756725146203,
+              0.4350771198830413,
+              0.4363149356725135,
+              0.4304859883040937,
+              0.43140082748538044
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2312.707831726672,
+            "meanMs": 0.43239357184750754,
+            "samples": [
+              0.4339871700879763,
+              0.43239357184750754,
+              0.4321634897360714,
+              0.43111497947214117,
+              0.4327930117302055
+            ]
+          },
+          "ratio": 0.9938320175598864
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 582.4914479542953,
+            "meanMs": 1.716763402298851,
+            "samples": [
+              1.716763402298851,
+              1.717465034482757,
+              1.7276968390804635,
+              1.7119089999999955,
+              1.7066652298850573
+            ]
+          },
+          "reference": {
+            "opsPerSec": 581.9177448431954,
+            "meanMs": 1.718455931034483,
+            "samples": [
+              1.7431225977011517,
+              1.7308505747126417,
+              1.7086762413793057,
+              1.7178941609195448,
+              1.718455931034483
+            ]
+          },
+          "ratio": 1.0009858835139225
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 6306.744903101284,
+            "meanMs": 0.1585604008667386,
+            "samples": [
+              0.16004166630552577,
+              0.1585604008667386,
+              0.15908283640303367,
+              0.1576361505958827,
+              0.15724674972914418
+            ]
+          },
+          "reference": {
+            "opsPerSec": 6328.407816899031,
+            "meanMs": 0.15801762922573592,
+            "samples": [
+              0.15974672846237756,
+              0.1597827153762265,
+              0.15801762922573592,
+              0.15739785605234463,
+              0.15668906761177723
+            ]
+          },
+          "ratio": 0.9965768777195585
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1371.134663137143,
+            "meanMs": 0.729322966507177,
+            "samples": [
+              0.7262697368421076,
+              0.7284673062200959,
+              0.729322966507177,
+              0.7762529904306245,
+              0.7317631578947378
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1373.263555916309,
+            "meanMs": 0.7281923383838368,
+            "samples": [
+              0.7279861111111094,
+              0.7281923383838368,
+              0.7303840505050534,
+              0.7274928484848485,
+              0.7326936010101024
+            ]
+          },
+          "ratio": 0.9984497565889706
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 338.0882868256518,
+            "meanMs": 2.9578072916666542,
+            "samples": [
+              2.9810859374999836,
+              2.9590147499999753,
+              2.942373270833324,
+              2.9578072916666542,
+              2.950254333333343
+            ]
+          },
+          "reference": {
+            "opsPerSec": 335.82946595522634,
+            "meanMs": 2.977701784313717,
+            "samples": [
+              2.977701784313717,
+              2.9641454313725406,
+              2.952873372549006,
+              2.9904616078431134,
+              2.9812263137254753
+            ]
+          },
+          "ratio": 1.0067260949363108
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-terms",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.3395681818181815
+            },
+            {
+              "size": 256,
+              "ms": 0.6713972250000098
+            },
+            {
+              "size": 512,
+              "ms": 1.3361946896551484
+            },
+            {
+              "size": 1024,
+              "ms": 2.7030488620689694
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.3394407777777815
+            },
+            {
+              "size": 256,
+              "ms": 0.673476193277298
+            },
+            {
+              "size": 512,
+              "ms": 1.3451090333333318
+            },
+            {
+              "size": 1024,
+              "ms": 2.6956722333333043
+            }
+          ],
+          "currentExponent": 0.9971334963485046,
+          "referenceExponent": 0.9966264153382334
+        },
+        {
+          "case": "many-definitions-per-term",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.22030291711229544
+            },
+            {
+              "size": 256,
+              "ms": 0.43808487830688014
+            },
+            {
+              "size": 512,
+              "ms": 0.872834236559141
+            },
+            {
+              "size": 1024,
+              "ms": 1.7577796222222484
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.22082672950819457
+            },
+            {
+              "size": 256,
+              "ms": 0.43863843169399175
+            },
+            {
+              "size": 512,
+              "ms": 0.878242387096766
+            },
+            {
+              "size": 1024,
+              "ms": 1.7740157333333628
+            }
+          ],
+          "currentExponent": 0.9983078385550131,
+          "referenceExponent": 1.0019683211670478
+        },
+        {
+          "case": "nested-definitions",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.40198411386139166
+            },
+            {
+              "size": 256,
+              "ms": 0.9473220588235349
+            },
+            {
+              "size": 512,
+              "ms": 2.9446744074074456
+            },
+            {
+              "size": 1024,
+              "ms": 10.646520875000078
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.40524609374999915
+            },
+            {
+              "size": 256,
+              "ms": 0.9474051204819349
+            },
+            {
+              "size": 512,
+              "ms": 2.963865384615369
+            },
+            {
+              "size": 1024,
+              "ms": 10.804161499999964
+            }
+          ],
+          "currentExponent": 1.5817480513448312,
+          "referenceExponent": 1.5855361611646994
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Neither package takes options; both are installed with their defaults.",
+    "The current package and the reference only differ in source-map / token metadata that is not rendered, so every correctness case compares equal.",
+    "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",
+    "`nested-definitions` grows its indentation by four spaces per level, so the generated input itself is quadratic in the series size; the fitted exponent is a lower bound for the parser's work per input byte, not a quadratic parser."
+  ]
+}
