@@ -557,7 +557,7 @@ watch([query, onlyDifferences, variantFilter], () => {
       <article class="cr-card">
         <p class="cr-card-label">{{ text.correctness }}</p>
         <p class="cr-card-value">
-          {{ report.totals.cases }}<span class="cr-card-unit">{{ text.casesUnit }}</span>
+          {{ report.totals.cases }}{{ " " }}<span class="cr-card-unit">{{ text.casesUnit }}</span>
         </p>
         <p class="cr-chips">
           <span class="cr-chip is-exact">{{ report.totals.exact }} {{ text.exact }}</span>

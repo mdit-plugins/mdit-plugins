@@ -52,6 +52,14 @@ const README_EXTRAS: Readonly<Record<string, ReadmeExtras>> = {
     acknowledgements:
       "This plugin is inspired by and based on [markdown-it-anchor](https://github.com/valeriangalliat/markdown-it-anchor), whose authors are [Val](https://val.codejam.info/) and [Nagao, Fabio Zendhi](https://github.com/nagaozen/)",
   },
+  "plugin-cjk-breaks": {
+    acknowledgements:
+      "Rewritten from [markdown-it-cjk-breaks](https://github.com/markdown-it/markdown-it-cjk-breaks).",
+  },
+  "plugin-cjk-friendly": {
+    acknowledgements:
+      "Rewritten from [markdown-it-cjk-friendly](https://github.com/tats-u/markdown-cjk-friendly) by [Tatsunori Uchino](https://github.com/tats-u). It also derives from the `StateInline#scanDelims` implementation of [markdown-it](https://github.com/markdown-it/markdown-it) by [Vitaly Puzrin](https://github.com/puzrin) and [Alex Kocharin](https://github.com/rlidwka).",
+  },
   "plugin-include": {
     notes: ["This package can only run in Node.js environment."],
   },

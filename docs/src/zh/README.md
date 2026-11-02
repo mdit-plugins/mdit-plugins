@@ -35,6 +35,16 @@ features:
     details: 向 Markdown 内容添加属性
     link: ./attrs.html
 
+  - title: cjk-breaks
+    icon: text-width
+    details: 移除东亚字符之间的换行
+    link: ./cjk-breaks.html
+
+  - title: cjk-friendly
+    icon: bold
+    details: 对 CJK 友好的强调语法
+    link: ./cjk-friendly.html
+
   - title: container
     icon: box-open
     details: 创建块级自定义容器

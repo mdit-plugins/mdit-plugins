@@ -35,6 +35,16 @@ features:
     details: Add attrs to Markdown content
     link: ./attrs.html
 
+  - title: cjk-breaks
+    icon: text-width
+    details: Remove line breaks between East Asian characters
+    link: ./cjk-breaks.html
+
+  - title: cjk-friendly
+    icon: bold
+    details: CJK-friendly emphasis syntax
+    link: ./cjk-friendly.html
+
   - title: container
     icon: box-open
     details: Creating block-level custom containers
