@@ -1,0 +1,62 @@
+{
+  "name": "@mdit/plugin-cjk-friendly",
+  "version": "0.0.0",
+  "description": "CJK-friendly emphasis plugin for MarkdownIt",
+  "keywords": [
+    "cjk",
+    "emphasis",
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
+  "homepage": "https://mdit-plugins.github.io/cjk-friendly.html",
+  "bugs": {
+    "url": "https://github.com/mdit-plugins/mdit-plugins/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mr.Hope",
+    "email": "mister-hope@outlook.com",
+    "url": "https://mister-hope.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdit-plugins/mdit-plugins.git",
+    "directory": "packages/plugin-cjk-friendly"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "unpkg": "./dist/cdn.umd.js",
+  "jsdelivr": "./dist/cdn.umd.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@mdit/helper": "workspace:^",
+    "get-east-asian-width": "catalog:"
+  },
+  "peerDependencies": {
+    "markdown-it": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
