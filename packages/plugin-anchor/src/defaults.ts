@@ -3,11 +3,17 @@ import type { Token } from "markdown-it";
 import type { PermalinkOptions } from "./permalink/types.js";
 import { renderAttrs, renderHref } from "./utils.js";
 
-export const defaultGetTokensText = (tokens: Token[]): string =>
-  tokens
-    .filter((token): boolean => token.type === "text" || token.type === "code_inline")
-    .map((token) => token.content)
-    .join("");
+export const defaultGetTokensText = (tokens: Token[]): string => {
+  let result = "";
+
+  for (let index = 0; index < tokens.length; index++) {
+    const token = tokens[index];
+
+    if (token.type === "text" || token.type === "code_inline") result += token.content;
+  }
+
+  return result;
+};
 
 /**
  * Default slugify function: lowercase, keep ASCII alphanumeric / underscore / non-ASCII (CJK etc.),

@@ -19,22 +19,23 @@ export const headerLink =
     renderAttrs: renderAttrsFn = renderAttrs,
   }: HeaderLinkPermalinkOptions = {}): PermalinkGenerator =>
   (slug, _anchorOpts, state: StateCore, idx: number) => {
-    const originalInlineToken = state.tokens[idx + 1];
+    const inlineToken = state.tokens[idx + 1];
     // oxlint-disable-next-line typescript/no-non-null-assertion
-    const originalChildren = originalInlineToken.children!;
+    const originalChildren = inlineToken.children!;
 
     // Wrapping a heading that already contains a link would produce invalid
     // nested `<a><a>…</a></a>` markup, so leave such headings untouched. This
     // covers both markdown links (`link_open`) and raw `<a>` tags under
     // `html: true` (`html_inline`).
-    if (
-      originalChildren.some(
-        (token) =>
-          token.type === "link_open" ||
-          (token.type === "html_inline" && isRawAnchorTag(token.content)),
+    for (let index = 0; index < originalChildren.length; index++) {
+      const token = originalChildren[index];
+
+      if (
+        token.type === "link_open" ||
+        (token.type === "html_inline" && isRawAnchorTag(token.content))
       )
-    )
-      return;
+        return;
+    }
 
     const href = renderHrefFn(slug, state);
     const extraAttrs = Object.entries(renderAttrsFn(slug, state));
@@ -60,8 +61,7 @@ export const headerLink =
 
     linkTokens.push(new state.Token("link_close", "a", -1));
 
-    // Preserve original token properties (level, map, block, etc.)
-    state.tokens[idx + 1] = Object.assign(new state.Token("inline", "", 0), originalInlineToken, {
-      children: linkTokens,
-    });
+    // Replacing the children on the existing inline token keeps its other
+    // properties (level, map, block, etc.) without rebuilding the token.
+    inlineToken.children = linkTokens;
   };
