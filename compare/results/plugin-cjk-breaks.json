@@ -1,0 +1,447 @@
+{
+  "plugin": "plugin-cjk-breaks",
+  "reference": "markdown-it-cjk-breaks",
+  "referenceVersion": "2.0.1",
+  "generatedAt": "2026-11-02T09:52:03.768Z",
+  "commit": "ce94318f340f5fa3e71beb26c20c17f7a39c92af",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 23,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "cjk-japanese",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-han-kana",
+            "status": "exact"
+          },
+          {
+            "name": "fullwidth-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "halfwidth-kana",
+            "status": "exact"
+          },
+          {
+            "name": "astral-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-before-break",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-after-break",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-both-sides",
+            "status": "exact"
+          },
+          {
+            "name": "latin-kept",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-latin-kept",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-emoji-kept",
+            "status": "exact"
+          },
+          {
+            "name": "inline-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "inline-link",
+            "status": "exact"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "hardbreak-kept",
+            "status": "exact"
+          },
+          {
+            "name": "trailing-space",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-paragraphs",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "code-block-kept",
+            "status": "exact"
+          },
+          {
+            "name": "empty-document",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 13231.453008750881,
+            "meanMs": 0.07557748943661972,
+            "samples": [
+              0.07591996772300472,
+              0.07543214495305166,
+              0.0750705205399061,
+              0.0757263791079812,
+              0.07557748943661972
+            ]
+          },
+          "reference": {
+            "opsPerSec": 13270.253735737368,
+            "meanMs": 0.07535650937155457,
+            "samples": [
+              0.07535650937155457,
+              0.07532720066152152,
+              0.07498240518191844,
+              0.082160855016538,
+              0.07606716317530324
+            ]
+          },
+          "ratio": 0.9970761126532197
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3728.1740215422356,
+            "meanMs": 0.26822782258064487,
+            "samples": [
+              0.26854793906810054,
+              0.2672981630824371,
+              0.2674135304659499,
+              0.2696782419354837,
+              0.26822782258064487
+            ]
+          },
+          "reference": {
+            "opsPerSec": 3640.58450409583,
+            "meanMs": 0.2746811669595782,
+            "samples": [
+              0.2746811669595782,
+              0.27510427592267145,
+              0.273739894551845,
+              0.27239894551845323,
+              0.2760303163444635
+            ]
+          },
+          "ratio": 1.024059190865605
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 939.2103468060557,
+            "meanMs": 1.0647242158273382,
+            "samples": [
+              1.0695569568345313,
+              1.0539328561151105,
+              1.0534253597122298,
+              1.1319403525179845,
+              1.0647242158273382
+            ]
+          },
+          "reference": {
+            "opsPerSec": 940.1754602452685,
+            "meanMs": 1.0636312499999998,
+            "samples": [
+              1.0650473214285707,
+              1.0559211357142853,
+              1.062501785714286,
+              1.0636312499999998,
+              1.0771770785714254
+            ]
+          },
+          "ratio": 0.9989734751862582
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5347.470982035951,
+            "meanMs": 0.18700428732747762,
+            "samples": [
+              0.18700428732747762,
+              0.18745545796737773,
+              0.18703131493099087,
+              0.18661956336260915,
+              0.18642717440401488
+            ]
+          },
+          "reference": {
+            "opsPerSec": 5127.302485038774,
+            "meanMs": 0.1950343290488425,
+            "samples": [
+              0.1950343290488425,
+              0.19459383033419053,
+              0.19784104498714655,
+              0.1982153496143959,
+              0.19299116323907392
+            ]
+          },
+          "ratio": 1.0429404150895365
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1369.4255230076199,
+            "meanMs": 0.7302332132701427,
+            "samples": [
+              0.7302332132701427,
+              0.7231494881516569,
+              0.7260258720379131,
+              0.7411467251184848,
+              0.7366927345971571
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1329.5948524700827,
+            "meanMs": 0.7521088082901562,
+            "samples": [
+              0.7516090259067366,
+              0.7521088082901562,
+              0.7510390777202098,
+              0.7550317357512955,
+              0.7569702072538876
+            ]
+          },
+          "ratio": 1.029956998151385
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 346.18505190687705,
+            "meanMs": 2.888628479166679,
+            "samples": [
+              2.9751145833333417,
+              2.887710062499991,
+              2.876684895833364,
+              2.888628479166679,
+              3.122304687499991
+            ]
+          },
+          "reference": {
+            "opsPerSec": 330.2740853640566,
+            "meanMs": 3.0277882653061132,
+            "samples": [
+              3.07145067346939,
+              3.1469166734694003,
+              3.0148375918367436,
+              3.0277882653061132,
+              3.003683673469396
+            ]
+          },
+          "ratio": 1.04817503778803
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-softbreaks",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.0854911880977679
+            },
+            {
+              "size": 128,
+              "ms": 0.16986529487179428
+            },
+            {
+              "size": 256,
+              "ms": 0.331443363636361
+            },
+            {
+              "size": 512,
+              "ms": 0.665019628099175
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.08706803956043827
+            },
+            {
+              "size": 128,
+              "ms": 0.17629249667405467
+            },
+            {
+              "size": 256,
+              "ms": 0.3454287280701784
+            },
+            {
+              "size": 512,
+              "ms": 0.6914693982300892
+            }
+          ],
+          "currentExponent": 0.9843019121929972,
+          "referenceExponent": 0.9938767778853312
+        },
+        {
+          "case": "long-line",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "current": [
+            {
+              "size": 256,
+              "ms": 0.003982338280766845
+            },
+            {
+              "size": 512,
+              "ms": 0.006200860670731722
+            },
+            {
+              "size": 1024,
+              "ms": 0.010520803159973767
+            },
+            {
+              "size": 2048,
+              "ms": 0.01903637357298971
+            }
+          ],
+          "reference": [
+            {
+              "size": 256,
+              "ms": 0.003980017592592633
+            },
+            {
+              "size": 512,
+              "ms": 0.0061846538373425625
+            },
+            {
+              "size": 1024,
+              "ms": 0.01046648099606809
+            },
+            {
+              "size": 2048,
+              "ms": 0.0190827165048543
+            }
+          ],
+          "currentExponent": 0.753391743616138,
+          "referenceExponent": 0.7543271252874961
+        },
+        {
+          "case": "mixed-inline-tokens",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.13958171669477126
+            },
+            {
+              "size": 128,
+              "ms": 0.2730750567375866
+            },
+            {
+              "size": 256,
+              "ms": 0.5532034482758623
+            },
+            {
+              "size": 512,
+              "ms": 1.0973478055555512
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.14393435875216595
+            },
+            {
+              "size": 128,
+              "ms": 0.2757416958041946
+            },
+            {
+              "size": 256,
+              "ms": 0.5533767482517435
+            },
+            {
+              "size": 512,
+              "ms": 1.110329710144931
+            }
+          ],
+          "currentExponent": 0.994302953698601,
+          "referenceExponent": 0.9847460246755876
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package is a rewrite of the reference implementation. Both are installed with their defaults and no options are involved, so the comparison is a direct behavior check of the soft-break handling.",
+      "zh": "当前包是参考实现的重写版本。两者都使用默认配置安装，不涉及选项，因此对比直接检验软换行的处理行为。"
+    },
+    {
+      "en": "The reference only rewrites `softbreak` tokens into text; the current package also runs as a core rule and keeps the same token stream, which is why the token comparison also reports equal output.",
+      "zh": "参考包只把 `softbreak` token 改写为文本；当前包同样作为 core 规则运行并保持相同的 token 流，因此 token 对比结果也一致。"
+    },
+    {
+      "en": "Benchmarks measure the complete core-rule pass; the `many-softbreaks` series is linear in the number of soft breaks, and `long-line` exercises the per-character East Asian width lookup on a single line.",
+      "zh": "基准测试测量完整的 core 规则处理；`many-softbreaks` 系列随软换行数量线性增长，`long-line` 系列检验单行上逐字符的东亚宽度查询。"
+    }
+  ]
+}

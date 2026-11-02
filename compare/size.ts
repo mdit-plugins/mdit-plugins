@@ -465,7 +465,10 @@ export const listComparedPackages = (resultsDir: string = RESULTS_DIR): Compared
   if (!existsSync(resultsDir)) return [];
 
   return readdirSync(resultsDir)
-    .filter((fileName) => fileName.endsWith(".json") && fileName !== "sizes.json")
+    .filter(
+      (fileName) =>
+        fileName.endsWith(".json") && fileName !== "sizes.json" && fileName !== "test-suites.json",
+    )
     .sort()
     .map((fileName) => readJsonObject(path.join(resultsDir, fileName)))
     .map((result) => {

@@ -575,8 +575,7 @@ watch([query, onlyDifferences, variantFilter], () => {
         <p class="cr-card-label">{{ text.ourTestSuites }}</p>
         <p class="cr-card-value cr-card-value--tests">
           <span class="cr-card-ratio">
-            {{ formatInteger(report.totals.testPassed) }} /
-            {{ formatInteger(report.totals.testCases) }}
+            {{ report.totals.testPassed }} / {{ report.totals.testCases }}
           </span>
           <span class="cr-card-unit">{{ text.passed }}</span>
         </p>
@@ -591,7 +590,7 @@ watch([query, onlyDifferences, variantFilter], () => {
       <article class="cr-card">
         <p class="cr-card-label">{{ text.benchmarks }}</p>
         <p class="cr-card-value">
-          {{ report.totals.benchCases
+          {{ report.totals.benchCases }}{{ " "
           }}<span class="cr-card-unit">{{ text.benchmarkCasesUnit }}</span>
         </p>
         <p class="cr-card-meta">{{ text.benchmarkMeta }}</p>
@@ -1120,6 +1119,10 @@ watch([query, onlyDifferences, variantFilter], () => {
   white-space: nowrap;
 }
 
+.cr-card-value--tests {
+  font-size: 1.35rem;
+}
+
 .cr-card-ratio {
   white-space: nowrap;
 }
@@ -1193,6 +1196,12 @@ watch([query, onlyDifferences, variantFilter], () => {
 .cr-chip.is-skipped {
   color: var(--cr-text-mute);
   background: var(--cr-bg-soft);
+}
+
+.cr-card .cr-chip {
+  box-sizing: border-box;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .cr-toolbar {

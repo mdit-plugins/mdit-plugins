@@ -48,6 +48,8 @@
     "markdown-it-abbr": "^2.0.0",
     "markdown-it-anchor": "^10.0.0",
     "markdown-it-attrs": "^5.0.1",
+    "markdown-it-cjk-breaks": "^2.0.1",
+    "markdown-it-cjk-friendly": "^3.0.0",
     "markdown-it-container": "^4.0.0",
     "markdown-it-deflist": "^4.0.0",
     "markdown-it-emoji": "^3.1.0",

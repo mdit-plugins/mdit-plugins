@@ -17,6 +17,16 @@ npm i -D @mdit/plugin-cjk-friendly
 yarn add -D @mdit/plugin-cjk-friendly
 ```
 
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-cjk-friendly`](https://www.npmjs.com/package/markdown-it-cjk-friendly) package `3.0.0`.
+
+- Correctness: **23/23** cases match the reference exactly.
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Package size: **49.4 kB** unpacked and **797 B** gzip entry, versus **25.2 kB** and **1.2 kB** for the reference.
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).
+
 ## Acknowledgements / 鸣谢
 
 Rewritten from [markdown-it-cjk-friendly](https://github.com/tats-u/markdown-cjk-friendly) by [Tatsunori Uchino](https://github.com/tats-u). It also derives from the `StateInline#scanDelims` implementation of [markdown-it](https://github.com/markdown-it/markdown-it) by [Vitaly Puzrin](https://github.com/puzrin) and [Alex Kocharin](https://github.com/rlidwka).

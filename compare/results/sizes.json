@@ -6,7 +6,7 @@
       "current": {
         "name": "@mdit/plugin-abbr",
         "version": "1.1.4",
-        "unpackedBytes": 30725,
+        "unpackedBytes": 30691,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 979
@@ -26,7 +26,7 @@
       "current": {
         "name": "@mdit/plugin-alert",
         "version": "2.1.0",
-        "unpackedBytes": 57371,
+        "unpackedBytes": 57420,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1410
@@ -46,7 +46,7 @@
       "current": {
         "name": "@mdit/plugin-anchor",
         "version": "2.3.0",
-        "unpackedBytes": 80539,
+        "unpackedBytes": 80501,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 2232
@@ -66,7 +66,7 @@
       "current": {
         "name": "@mdit/plugin-attrs",
         "version": "1.4.0",
-        "unpackedBytes": 240628,
+        "unpackedBytes": 240619,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 4648
@@ -80,13 +80,53 @@
         "entryGzipBytes": 2646
       }
     },
+    "plugin-cjk-breaks": {
+      "plugin": "plugin-cjk-breaks",
+      "reference": "markdown-it-cjk-breaks",
+      "current": {
+        "name": "@mdit/plugin-cjk-breaks",
+        "version": "0.0.0",
+        "unpackedBytes": 41689,
+        "fileCount": 8,
+        "entry": "./dist/index.js",
+        "entryGzipBytes": 673
+      },
+      "upstream": {
+        "name": "markdown-it-cjk-breaks",
+        "version": "2.0.1",
+        "unpackedBytes": 33138,
+        "fileCount": 7,
+        "entry": "index.mjs",
+        "entryGzipBytes": 921
+      }
+    },
+    "plugin-cjk-friendly": {
+      "plugin": "plugin-cjk-friendly",
+      "reference": "markdown-it-cjk-friendly",
+      "current": {
+        "name": "@mdit/plugin-cjk-friendly",
+        "version": "0.0.0",
+        "unpackedBytes": 49391,
+        "fileCount": 8,
+        "entry": "./dist/index.js",
+        "entryGzipBytes": 797
+      },
+      "upstream": {
+        "name": "markdown-it-cjk-friendly",
+        "version": "3.0.0",
+        "unpackedBytes": 25205,
+        "fileCount": 5,
+        "entry": "dist/index.js",
+        "entryGzipBytes": 1175
+      }
+    },
     "plugin-container": {
       "plugin": "plugin-container",
       "reference": "markdown-it-container",
       "current": {
         "name": "@mdit/plugin-container",
         "version": "2.1.0",
-        "unpackedBytes": 37034,
+        "unpackedBytes": 36991,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1077
@@ -106,7 +146,7 @@
       "current": {
         "name": "@mdit/plugin-dl",
         "version": "1.1.4",
-        "unpackedBytes": 30535,
+        "unpackedBytes": 30532,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 978
@@ -126,7 +166,7 @@
       "current": {
         "name": "@mdit/plugin-emoji",
         "version": "1.2.4",
-        "unpackedBytes": 291891,
+        "unpackedBytes": 291855,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 17794
@@ -146,7 +186,7 @@
       "current": {
         "name": "@mdit/plugin-figure",
         "version": "1.2.4",
-        "unpackedBytes": 38407,
+        "unpackedBytes": 38369,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1080
@@ -166,7 +206,7 @@
       "current": {
         "name": "@mdit/plugin-footnote",
         "version": "1.1.4",
-        "unpackedBytes": 58566,
+        "unpackedBytes": 58550,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1739
@@ -186,7 +226,7 @@
       "current": {
         "name": "@mdit/plugin-img-size",
         "version": "1.2.0",
-        "unpackedBytes": 88025,
+        "unpackedBytes": 87983,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1838
@@ -206,7 +246,7 @@
       "current": {
         "name": "@mdit/plugin-ins",
         "version": "2.1.4",
-        "unpackedBytes": 18603,
+        "unpackedBytes": 18687,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 187
@@ -226,7 +266,7 @@
       "current": {
         "name": "@mdit/plugin-katex",
         "version": "1.1.5",
-        "unpackedBytes": 37213,
+        "unpackedBytes": 37177,
         "fileCount": 10,
         "entry": "./dist/index.js",
         "entryGzipBytes": 605
@@ -246,7 +286,7 @@
       "current": {
         "name": "@mdit/plugin-katex-slim",
         "version": "1.1.5",
-        "unpackedBytes": 13902,
+        "unpackedBytes": 13866,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryGzipBytes": 673
@@ -266,7 +306,7 @@
       "current": {
         "name": "@mdit/plugin-mark",
         "version": "2.1.4",
-        "unpackedBytes": 18561,
+        "unpackedBytes": 18643,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 185
@@ -286,7 +326,7 @@
       "current": {
         "name": "@mdit/plugin-mathjax",
         "version": "2.0.0",
-        "unpackedBytes": 117361,
+        "unpackedBytes": 117321,
         "fileCount": 12,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1669
@@ -306,7 +346,7 @@
       "current": {
         "name": "@mdit/plugin-mathjax-slim",
         "version": "2.0.0",
-        "unpackedBytes": 125746,
+        "unpackedBytes": 125706,
         "fileCount": 12,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1675
@@ -326,7 +366,7 @@
       "current": {
         "name": "@mdit/plugin-plantuml",
         "version": "2.0.4",
-        "unpackedBytes": 390918,
+        "unpackedBytes": 390993,
         "fileCount": 11,
         "entry": "./dist/node.js",
         "entryGzipBytes": 749
@@ -346,7 +386,7 @@
       "current": {
         "name": "@mdit/plugin-ruby",
         "version": "1.1.4",
-        "unpackedBytes": 23043,
+        "unpackedBytes": 23009,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 614
@@ -366,7 +406,7 @@
       "current": {
         "name": "@mdit/plugin-spoiler",
         "version": "2.1.4",
-        "unpackedBytes": 21298,
+        "unpackedBytes": 21373,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryGzipBytes": 235
@@ -386,7 +426,7 @@
       "current": {
         "name": "@mdit/plugin-sub",
         "version": "1.1.4",
-        "unpackedBytes": 18315,
+        "unpackedBytes": 18397,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 156
@@ -406,7 +446,7 @@
       "current": {
         "name": "@mdit/plugin-sup",
         "version": "1.1.4",
-        "unpackedBytes": 18321,
+        "unpackedBytes": 18403,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 155
@@ -426,7 +466,7 @@
       "current": {
         "name": "@mdit/plugin-tasklist",
         "version": "1.2.0",
-        "unpackedBytes": 27383,
+        "unpackedBytes": 27309,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 731
@@ -446,7 +486,7 @@
       "current": {
         "name": "@mdit/plugin-tex",
         "version": "1.2.0",
-        "unpackedBytes": 68089,
+        "unpackedBytes": 68057,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 1713
@@ -466,7 +506,7 @@
       "current": {
         "name": "@mdit/plugin-uml",
         "version": "2.0.4",
-        "unpackedBytes": 24267,
+        "unpackedBytes": 24351,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryGzipBytes": 665

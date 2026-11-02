@@ -279,6 +279,12 @@ importers:
       markdown-it-attrs:
         specifier: ^5.0.1
         version: 5.0.1(markdown-it@15.0.3)
+      markdown-it-cjk-breaks:
+        specifier: ^2.0.1
+        version: 2.0.1
+      markdown-it-cjk-friendly:
+        specifier: ^3.0.0
+        version: 3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.3)
       markdown-it-container:
         specifier: ^4.0.0
         version: 4.0.0
@@ -3692,6 +3698,9 @@ packages:
     engines: {node: '>=6'}
     peerDependencies:
       markdown-it: '>= 9.0.0'
+
+  markdown-it-cjk-breaks@2.0.1:
+    resolution: {integrity: sha512-RDlQm+XvarIPZQxjyhiQ3VzdO4SfTXGEWmSNAQftfLkYCuqD+Bna0EBKUhpj6u/7iDEwa6QQv40XbWMLBDrBqg==}
 
   markdown-it-cjk-friendly@3.0.0:
     resolution: {integrity: sha512-y4OkqwenFXmb1i3w7qfh9E60qNX6U4KzECke8N/7io9SARFSvbR/wde0q/l6/Az9doieLOIw7ZsbDSgl27DR4g==}
@@ -8134,6 +8143,10 @@ snapshots:
   markdown-it-attrs@5.0.1(markdown-it@15.0.3):
     dependencies:
       markdown-it: 15.0.3
+
+  markdown-it-cjk-breaks@2.0.1:
+    dependencies:
+      get-east-asian-width: 1.7.0
 
   markdown-it-cjk-friendly@3.0.0(@types/markdown-it@14.2.0)(markdown-it@15.0.3):
     dependencies:

@@ -81,3 +81,9 @@ Output
 ```html
 <p>あおえ aoe あおえ</p>
 ```
+
+<!-- comparison:start -->
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

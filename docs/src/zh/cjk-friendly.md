@@ -67,3 +67,9 @@ CommonMark 规定，`**` 的后面是标点符号时不能开启强调，除非�
 ```html
 <p><strong>这些星号不会被识别为强调标记，而是就这么原样显示出来。</strong>都是因为这个句子。</p>
 ```
+
+<!-- comparison:start -->
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->
