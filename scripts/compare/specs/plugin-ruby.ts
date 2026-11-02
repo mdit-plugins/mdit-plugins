@@ -64,7 +64,7 @@ const spec: ComparisonSpec = defineComparison({
     "The reference has an `rp` option (`[open, close]`). This package does not implement it, so the reference is left at its default `rp: []`, which renders no `<rp>` elements and matches the current package's output shape.",
     "The reference renders empty rubies such as `{ab:|}` (base `ab:`, empty `<rt></rt>`) because it only splits on `|`; this package rejects empty `|`-separated segments and empty ruby text, which is covered by `empty-ruby-segment`.",
     "Because the syntax differs, every benchmark corpus mixes both divider styles: each side parses its own syntax and only scans over the other side's lines. Throughput ratios therefore compare equivalent mixtures, not identical parse work.",
-    "Both implementations scan forward to the end of the line when an opening `{` has no valid divider/close in that line; `unmatched-openers` exposes that quadratic path for both, `dense-documented-syntax` is linear for this package but quadratic for the reference, and `upstream-syntax` is the mirror image.",
+    "`unmatched-openers` (an opening `{` with no divider and no closing brace at all) stays quadratic on both sides, because both scan forward to the end of the inline content. `dense-documented-syntax` is linear for this package but quadratic for the reference, and `upstream-syntax` is linear for this package because the fork now stops at the first closing brace before the divider.",
   ],
   variants: [
     {

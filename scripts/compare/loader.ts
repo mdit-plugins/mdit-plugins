@@ -9,6 +9,92 @@ import type { CompareRenderer, PluginFunction, PluginModule } from "./types.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 
+/** The fields of a package manifest that are used to resolve the package entry */
+interface PackageManifestLike {
+  /** Export map of the package */
+  readonly exports?: unknown;
+  /** Legacy main field of the package */
+  readonly main?: unknown;
+}
+
+/**
+ * Pick the runtime entry from a package export target
+ *
+ * Conditions are resolved in the same order Node uses for an ESM import: `node`, `import`, then
+ * `default`. Type-only conditions and non-`dist` targets are ignored.
+ *
+ * @param value - Export target or condition map
+ * @returns The relative entry path, or an empty string when the target has no runtime entry
+ */
+const pickExportTarget = (value: unknown): string => {
+  if (typeof value === "string") {
+    if (value.startsWith("./dist/")) return value;
+
+    return "";
+  }
+
+  if (value == null || typeof value !== "object") return "";
+
+  const record = value as Record<string, unknown>;
+
+  for (const condition of ["node", "import", "default"]) {
+    const target = pickExportTarget(record[condition]);
+
+    if (target) return target;
+  }
+
+  for (const [condition, target] of Object.entries(record)) {
+    if (condition === "types") continue;
+
+    const picked = pickExportTarget(target);
+
+    if (picked) return picked;
+  }
+
+  return "";
+};
+
+/**
+ * Resolve the built entry of a package
+ *
+ * Most packages build `dist/index.js`, but platform-specific packages (e.g. `plugin-plantuml`,
+ * `plugin-include`, `plugin-snippet`) build `dist/node.js` / `dist/browser.js` and declare them in
+ * the `exports` map, so the entry is resolved from the manifest first and only then from the
+ * conventional file names.
+ *
+ * @param plugin - Package directory under `packages/`, e.g. `plugin-attrs`
+ * @returns The absolute path of the built entry
+ */
+const resolveCurrentEntry = (plugin: string): string => {
+  const packageDir = path.join(ROOT, "packages", plugin);
+  const manifestPath = path.join(packageDir, "package.json");
+
+  if (!existsSync(manifestPath)) throw new Error(`[compare] ${manifestPath} is missing.`);
+
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as PackageManifestLike;
+  const exportEntry =
+    manifest.exports != null && typeof manifest.exports === "object"
+      ? (manifest.exports as Record<string, unknown>)["."]
+      : null;
+  const target = pickExportTarget(exportEntry);
+
+  if (target) {
+    const entry = path.join(packageDir, target);
+
+    if (existsSync(entry)) return entry;
+  }
+
+  for (const fallback of ["dist/index.js", "dist/node.js"]) {
+    const entry = path.join(packageDir, fallback);
+
+    if (existsSync(entry)) return entry;
+  }
+
+  throw new Error(
+    `[compare] cannot resolve the entry of ${plugin}. Run \`pnpm run build\` before running the comparison.`,
+  );
+};
+
 /**
  * Load a built plugin package from the current working tree
  *
@@ -18,13 +104,7 @@ const ROOT = path.resolve(import.meta.dirname, "..", "..");
  * @returns The module namespace of the built package
  */
 export const loadCurrent = async (plugin: string): Promise<PluginModule> => {
-  const entry = path.join(ROOT, "packages", plugin, "dist", "index.js");
-
-  if (!existsSync(entry)) {
-    throw new Error(
-      `[compare] ${entry} is missing. Run \`pnpm run build\` before running the comparison.`,
-    );
-  }
+  const entry = resolveCurrentEntry(plugin);
 
   return (await import(/* @vite-ignore */ pathToFileURL(entry).href)) as PluginModule;
 };

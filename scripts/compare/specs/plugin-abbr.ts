@@ -68,7 +68,7 @@ const spec: ComparisonSpec = defineComparison({
   reference: "markdown-it-abbr",
   notes: [
     "Neither package takes options; both are installed with their defaults.",
-    "The replacement pass rewrites the inline token list with `md.utils.arrayReplaceAt`, which copies the whole token array for every text token that contains an abbreviation. A paragraph with inline markup between abbreviations therefore grows quadratically; both implementations fork the same algorithm and show the same exponent.",
+    "The reference rewrites the inline token list with `md.utils.arrayReplaceAt` for every text token that contains an abbreviation, copying the whole token array each time, so a paragraph with inline markup between abbreviations grows quadratically on the reference side. The current package rebuilds the children list in a single pass and stays linear; `interleaved-abbreviations` exposes the difference.",
     "Abbreviations are matched case-sensitively and only at word boundaries, so `HTML` is not replaced inside `HTML5` or `html`.",
   ],
   variants: [
