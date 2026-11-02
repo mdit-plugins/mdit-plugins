@@ -56,6 +56,39 @@ describe("unclosed block math", () => {
     );
   });
 
+  it("should keep many unmatched $$ fences in a single paragraph", () => {
+    // The paragraph terminator probes the block rule once per line: a repeated
+    // look-ahead would make this quadratic, and the cached miss must still keep
+    // every fence line in the same paragraph.
+    const tokens = createMd("dollars").parse("$$ a\n".repeat(64), {});
+
+    expect(tokens.filter(({ type }) => type === "math_block")).toHaveLength(0);
+    expect(tokens.filter(({ type }) => type === "paragraph_open")).toHaveLength(1);
+  });
+
+  it("should keep many unmatched bracket fences in a single paragraph", () => {
+    const tokens = createMd("brackets").parse("\\[ a\n".repeat(64), {});
+
+    expect(tokens.filter(({ type }) => type === "math_block")).toHaveLength(0);
+    expect(tokens.filter(({ type }) => type === "paragraph_open")).toHaveLength(1);
+  });
+
+  it("should keep mixed unmatched fences in a single paragraph", () => {
+    // The cached look-ahead is keyed by the closing marker, so probes from the
+    // two block rules must not reuse each other's result.
+    const tokens = createMd("all").parse("\\[ a\n$$ b\n\\[ c\n$$ d\n", {});
+
+    expect(tokens.filter(({ type }) => type === "math_block")).toHaveLength(0);
+    expect(tokens.filter(({ type }) => type === "paragraph_open")).toHaveLength(1);
+  });
+
+  it("should keep unmatched fences in a blockquote in a single paragraph", () => {
+    const tokens = createMd("dollars").parse("> $$ a\n> b\n", {});
+
+    expect(tokens.filter(({ type }) => type === "math_block")).toHaveLength(0);
+    expect(tokens.filter(({ type }) => type === "paragraph_open")).toHaveLength(1);
+  });
+
   it(String.raw`should match the existing \[ behavior for unclosed blocks`, () => {
     expect(createMd("brackets").render("\\[\na = 1\n\nplain paragraph")).toBe(
       "<p>[\na = 1</p>\n<p>plain paragraph</p>\n",
