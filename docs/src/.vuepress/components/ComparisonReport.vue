@@ -1085,7 +1085,9 @@ watch([query, onlyDifferences, variantFilter], () => {
 
 .cr-table-wrap {
   overflow-x: auto;
+  border: 1px solid var(--cr-border);
   border-radius: 0.5rem;
+  background: var(--cr-bg);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1110,9 +1112,16 @@ watch([query, onlyDifferences, variantFilter], () => {
 .cr-table th,
 .cr-table td {
   padding: 0.5rem 0.65rem;
+  /* The docs theme gives every th/td a grid border; the table only needs row separators. */
+  border: 0;
   border-block-end: 1px solid var(--cr-divider);
   text-align: start;
   vertical-align: top;
+}
+
+/* Neutralize the docs theme zebra striping so row states stay under the component's control. */
+.cr-table tbody tr:nth-child(odd) {
+  background: transparent;
 }
 
 .cr-table thead th {
