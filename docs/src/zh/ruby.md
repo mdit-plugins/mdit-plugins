@@ -71,22 +71,22 @@ mdIt.render("{中国:zhōng|guó}");
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |        7,132 |        7,643 | 0.93× |
-| normal/medium |        1,394 |        1,494 | 0.93× |
-| normal/large  |          347 |          369 | 0.94× |
-| heavy/small   |        3,289 |        3,308 | 0.99× |
-| heavy/medium  |          622 |          624 | 1.00× |
-| heavy/large   |          152 |          150 | 1.01× |
+| normal/small  |        7,069 |        7,435 | 0.95× |
+| normal/medium |        1,402 |        1,473 | 0.95× |
+| normal/large  |          348 |          364 | 0.95× |
+| heavy/small   |        3,569 |        3,259 | 1.10× |
+| heavy/medium  |          679 |          623 | 1.09× |
+| heavy/large   |          166 |          149 | 1.12× |
 
-几何平均吞吐量比值：0.97×（共 6 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：1.02×（共 6 个用例）；大于 1× 表示当前包更快。
 
 ### 复杂度缩放
 
 | 系列                    | 输入规模                | 当前拟合指数 | 参考拟合指数 |
 | ----------------------- | ----------------------- | -----------: | -----------: |
-| dense-documented-syntax | 128 / 256 / 512 / 1024  |        ~1.01 |        ~1.92 |
-| unmatched-openers       | 256 / 512 / 1024 / 2048 |        ~1.93 |        ~1.93 |
-| upstream-syntax         | 128 / 256 / 512 / 1024  |        ~1.94 |        ~1.00 |
+| dense-documented-syntax | 128 / 256 / 512 / 1024  |        ~1.00 |        ~1.93 |
+| unmatched-openers       | 256 / 512 / 1024 / 2048 |        ~1.91 |        ~1.92 |
+| upstream-syntax         | 128 / 256 / 512 / 1024  |        ~0.98 |        ~1.01 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -94,7 +94,7 @@ mdIt.render("{中国:zhōng|guó}");
 
 | 包                             | 解压体积 | 入口 gzip |
 | ------------------------------ | -------: | --------: |
-| @mdit/plugin-ruby（当前）      |  20.1 kB |     575 B |
+| @mdit/plugin-ruby（当前）      |  23.0 kB |     614 B |
 | markdown-it-ruby@1.1.2（参考） |  21.3 kB |    1.9 kB |
 
 ### 说明
@@ -103,7 +103,7 @@ mdIt.render("{中国:zhōng|guó}");
 - The reference has an `rp` option (`[open, close]`). This package does not implement it, so the reference is left at its default `rp: []`, which renders no `<rp>` elements and matches the current package's output shape.
 - The reference renders empty rubies such as `{ab:|}` (base `ab:`, empty `<rt></rt>`) because it only splits on `|`; this package rejects empty `|`-separated segments and empty ruby text, which is covered by `empty-ruby-segment`.
 - Because the syntax differs, every benchmark corpus mixes both divider styles: each side parses its own syntax and only scans over the other side's lines. Throughput ratios therefore compare equivalent mixtures, not identical parse work.
-- Both implementations scan forward to the end of the line when an opening `{` has no valid divider/close in that line; `unmatched-openers` exposes that quadratic path for both, `dense-documented-syntax` is linear for this package but quadratic for the reference, and `upstream-syntax` is the mirror image.
+- `unmatched-openers` (an opening `{` with no divider and no closing brace at all) stays quadratic on both sides, because both scan forward to the end of the inline content. `dense-documented-syntax` is linear for this package but quadratic for the reference, and `upstream-syntax` is linear for this package because the fork now stops at the first closing brace before the divider.
 - 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。
 - 入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `dist/index.js`，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。
 - 基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧运行在相同负载下。

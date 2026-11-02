@@ -23,6 +23,6 @@ Compared against the upstream [`markdown-it-deflist`](https://www.npmjs.com/pack
 
 - Correctness: **22/22** cases match the reference exactly.
 - Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Package size: **29.9 kB** unpacked and **978 B** gzip entry, versus **26.7 kB** and **1.9 kB** for the reference.
+- Package size: **30.5 kB** unpacked and **978 B** gzip entry, versus **26.7 kB** and **1.9 kB** for the reference.
 
 See the comparison tables in the [English docs](https://mdit-plugins.github.io/dl.html) or [中文文档](https://mdit-plugins.github.io/zh/dl.html) for details and methodology.

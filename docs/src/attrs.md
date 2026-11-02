@@ -284,21 +284,21 @@ All 20 cases match the reference output exactly.
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          20,124 |            19,264 | 1.04× |
-| normal/medium |           5,183 |             4,989 | 1.04× |
-| normal/large  |           1,786 |             1,712 | 1.04× |
-| heavy/small   |           9,049 |             8,845 | 1.02× |
-| heavy/medium  |           2,335 |             2,292 | 1.02× |
-| heavy/large   |             776 |               755 | 1.03× |
+| normal/small  |          19,682 |            18,961 | 1.04× |
+| normal/medium |           5,147 |             4,863 | 1.06× |
+| normal/large  |           1,757 |             1,676 | 1.05× |
+| heavy/small   |           8,870 |             8,658 | 1.02× |
+| heavy/medium  |           2,289 |             2,228 | 1.03× |
+| heavy/large   |             759 |               739 | 1.03× |
 
-Geometric mean throughput ratio: 1.03× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.04× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series           | Sizes                | Current exponent | Reference exponent |
 | ---------------- | -------------------- | ---------------: | -----------------: |
-| heading-attrs    | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.01 |
-| inline-attrs     | 64 / 128 / 256 / 512 |            ~0.89 |              ~0.94 |
+| heading-attrs    | 64 / 128 / 256 / 512 |            ~1.07 |              ~1.09 |
+| inline-attrs     | 64 / 128 / 256 / 512 |            ~0.91 |              ~0.94 |
 | unmatched-braces | 64 / 128 / 256 / 512 |            ~0.73 |              ~0.74 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.

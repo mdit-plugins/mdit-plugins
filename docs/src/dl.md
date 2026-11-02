@@ -87,12 +87,12 @@ All 22 cases match the reference output exactly.
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          12,034 |            12,072 | 1.00× |
-| normal/medium |           2,298 |             2,313 | 0.99× |
-| normal/large  |             582 |               582 | 1.00× |
-| heavy/small   |           6,307 |             6,328 | 1.00× |
-| heavy/medium  |           1,371 |             1,373 | 1.00× |
-| heavy/large   |             338 |               336 | 1.01× |
+| normal/small  |          11,491 |            11,871 | 0.97× |
+| normal/medium |           2,208 |             2,194 | 1.01× |
+| normal/large  |             547 |               548 | 1.00× |
+| heavy/small   |           5,884 |             5,822 | 1.01× |
+| heavy/medium  |           1,279 |             1,282 | 1.00× |
+| heavy/large   |             318 |               313 | 1.02× |
 
 Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the current package is faster.
 
@@ -101,8 +101,8 @@ Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the curr
 | Series                    | Sizes                  | Current exponent | Reference exponent |
 | ------------------------- | ---------------------- | ---------------: | -----------------: |
 | many-definitions-per-term | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
-| many-terms                | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
-| nested-definitions        | 128 / 256 / 512 / 1024 |            ~1.58 |              ~1.59 |
+| many-terms                | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.01 |
+| nested-definitions        | 128 / 256 / 512 / 1024 |            ~1.59 |              ~1.59 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -110,7 +110,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                               | Unpacked size | Entry gzip |
 | ------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-dl (current)             |       29.9 kB |      978 B |
+| @mdit/plugin-dl (current)             |       30.5 kB |      978 B |
 | markdown-it-deflist@4.0.0 (reference) |       26.7 kB |     1.9 kB |
 
 ### Notes

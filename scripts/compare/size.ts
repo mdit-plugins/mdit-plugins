@@ -14,8 +14,8 @@ export const RESULTS_DIR: string = path.join(import.meta.dirname, "results");
 /** Committed size data used by the report generators */
 export const SIZES_FILE: string = path.join(RESULTS_DIR, "sizes.json");
 
-/** Entry of a current package; every compared package publishes an ESM `dist/index.js` */
-const CURRENT_ENTRY = "dist/index.js";
+/** Entry fallbacks of a current package, in resolution order */
+const CURRENT_ENTRY_FALLBACKS = ["dist/index.js", "dist/node.js"] as const;
 
 /** Files npm always publishes, in addition to the `files` field of the package manifest */
 const NPM_ALWAYS_INCLUDED = /^(?:package\.json|README(?:\.[^/]*)?|LICEN[CS]E(?:\.[^/]*)?)$/iu;
@@ -268,79 +268,6 @@ const getGzipSize = (filePath: string): number =>
   gzipSync(readFileSync(filePath), { level: 9 }).length;
 
 /**
- * Compute the size of the current package
- *
- * @param directory - Package directory
- * @param plugin - Package directory name used in error messages
- * @returns Size of the current package
- */
-const getCurrentSize = (directory: string, plugin: string): PackageSizeSide => {
-  const manifestPath = path.join(directory, "package.json");
-
-  if (!existsSync(manifestPath))
-    throw new Error(`[compare] packages/${plugin}/package.json does not exist.`);
-
-  const manifest = readManifest(manifestPath);
-  const entryPath = path.join(directory, CURRENT_ENTRY);
-
-  if (!existsSync(entryPath)) {
-    throw new Error(
-      `[compare] packages/${plugin}/${CURRENT_ENTRY} is missing. Run \`pnpm run build\` before calculating sizes.`,
-    );
-  }
-
-  const files = resolvePublishedFiles(directory, manifest.files ?? ["dist"]);
-
-  return {
-    name: manifest.name,
-    version: manifest.version,
-    unpackedBytes: sumFileSizes(directory, files),
-    fileCount: files.length,
-    entry: CURRENT_ENTRY,
-    entryGzipBytes: getGzipSize(entryPath),
-  };
-};
-
-/**
- * Resolve the installed directory of a reference package
- *
- * @param packageName - Npm package name, subpath exports are allowed
- * @returns Absolute package directory
- */
-const resolveInstalledPackageDirectory = (packageName: string): string => {
-  const rootName = getRootPackageName(packageName);
-  let entryPath: string;
-
-  try {
-    entryPath = fileURLToPath(import.meta.resolve(packageName));
-  } catch (err) {
-    throw new Error(
-      `[compare] cannot resolve the installed "${packageName}" package: ${err instanceof Error ? err.message : String(err)}`,
-      { cause: err },
-    );
-  }
-
-  let directory = path.dirname(entryPath);
-
-  while (true) {
-    const manifestPath = path.join(directory, "package.json");
-
-    if (existsSync(manifestPath)) {
-      const manifest = readManifest(manifestPath);
-
-      if (manifest.name === rootName) return directory;
-    }
-
-    const parent = path.dirname(directory);
-    if (parent === directory) break;
-
-    directory = parent;
-  }
-
-  throw new Error(`[compare] cannot find the installed directory of "${packageName}".`);
-};
-
-/**
  * Resolve the first existing entry of an `exports` target
  *
  * @param target - `exports` target, either a string, an array or a conditions object
@@ -390,6 +317,86 @@ const resolveExportsImport = (exportsField: unknown): string | null => {
   }
 
   return null;
+};
+
+/**
+ * Compute the size of the current package
+ *
+ * @param directory - Package directory
+ * @param plugin - Package directory name used in error messages
+ * @returns Size of the current package
+ */
+const getCurrentSize = (directory: string, plugin: string): PackageSizeSide => {
+  const manifestPath = path.join(directory, "package.json");
+
+  if (!existsSync(manifestPath))
+    throw new Error(`[compare] packages/${plugin}/package.json does not exist.`);
+
+  const manifest = readManifest(manifestPath);
+  // Platform-specific packages build `dist/node.js` and declare it in the `exports` map instead of
+  // the conventional `dist/index.js`, so the manifest entry is tried first.
+  const candidates = [resolveExportsImport(manifest.exports), ...CURRENT_ENTRY_FALLBACKS].filter(
+    (candidate): candidate is string => typeof candidate === "string",
+  );
+  const entry = candidates.find((candidate) => existsSync(path.join(directory, candidate)));
+
+  if (!entry) {
+    throw new Error(
+      `[compare] packages/${plugin} has no built ESM entry. Run \`pnpm run build\` before calculating sizes.`,
+    );
+  }
+
+  const entryPath = path.join(directory, entry);
+
+  const files = resolvePublishedFiles(directory, manifest.files ?? ["dist"]);
+
+  return {
+    name: manifest.name,
+    version: manifest.version,
+    unpackedBytes: sumFileSizes(directory, files),
+    fileCount: files.length,
+    entry,
+    entryGzipBytes: getGzipSize(entryPath),
+  };
+};
+
+/**
+ * Resolve the installed directory of a reference package
+ *
+ * @param packageName - Npm package name, subpath exports are allowed
+ * @returns Absolute package directory
+ */
+const resolveInstalledPackageDirectory = (packageName: string): string => {
+  const rootName = getRootPackageName(packageName);
+  let entryPath: string;
+
+  try {
+    entryPath = fileURLToPath(import.meta.resolve(packageName));
+  } catch (err) {
+    throw new Error(
+      `[compare] cannot resolve the installed "${packageName}" package: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
+    );
+  }
+
+  let directory = path.dirname(entryPath);
+
+  while (true) {
+    const manifestPath = path.join(directory, "package.json");
+
+    if (existsSync(manifestPath)) {
+      const manifest = readManifest(manifestPath);
+
+      if (manifest.name === rootName) return directory;
+    }
+
+    const parent = path.dirname(directory);
+    if (parent === directory) break;
+
+    directory = parent;
+  }
+
+  throw new Error(`[compare] cannot find the installed directory of "${packageName}".`);
 };
 
 /**

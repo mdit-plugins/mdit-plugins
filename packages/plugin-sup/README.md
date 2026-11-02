@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-sup
 # yarn
 yarn add -D @mdit/plugin-sup
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-sup`](https://www.npmjs.com/package/markdown-it-sup) package `2.0.0`.
+
+- Correctness: **24/24** cases match the reference exactly.
+- Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Package size: **18.3 kB** unpacked and **155 B** gzip entry, versus **9.6 kB** and **674 B** for the reference.
+
+See the comparison tables in the [English docs](https://mdit-plugins.github.io/sup.html) or [中文文档](https://mdit-plugins.github.io/zh/sup.html) for details and methodology.

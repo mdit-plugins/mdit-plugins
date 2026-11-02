@@ -26,7 +26,7 @@ yarn add -D @mdit/plugin-katex-slim katex
 Compared against the upstream [`markdown-it-katex`](https://www.npmjs.com/package/markdown-it-katex) package `2.0.3`.
 
 - Correctness: **11/25** cases match the reference exactly (8 matching after normalization, 6 documented differences).
-- Throughput: **0.96×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Package size: **12.9 kB** unpacked and **681 B** gzip entry, versus **29.9 kB** and **2.0 kB** for the reference.
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Package size: **13.9 kB** unpacked and **673 B** gzip entry, versus **29.9 kB** and **2.0 kB** for the reference.
 
 See the comparison tables in the [English docs](https://mdit-plugins.github.io/katex.html) or [中文文档](https://mdit-plugins.github.io/zh/katex.html) for details and methodology.

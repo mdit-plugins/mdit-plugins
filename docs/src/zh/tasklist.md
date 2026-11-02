@@ -87,22 +87,22 @@ tasklist item checkbox 的 class。
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       14,530 |       14,466 | 1.00× |
-| normal/medium |        2,052 |        2,041 | 1.01× |
-| normal/large  |          516 |          512 | 1.01× |
-| heavy/small   |        6,602 |        6,502 | 1.02× |
-| heavy/medium  |        1,072 |        1,061 | 1.01× |
-| heavy/large   |          165 |          161 | 1.03× |
+| normal/small  |       14,640 |       14,664 | 1.00× |
+| normal/medium |        2,058 |        2,042 | 1.01× |
+| normal/large  |          516 |          510 | 1.01× |
+| heavy/small   |        6,656 |        6,428 | 1.04× |
+| heavy/medium  |        1,178 |        1,067 | 1.10× |
+| heavy/large   |          261 |          161 | 1.62× |
 
-几何平均吞吐量比值：1.01×（共 6 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：1.11×（共 6 个用例）；大于 1× 表示当前包更快。
 
 ### 复杂度缩放
 
 | 系列            | 输入规模                 | 当前拟合指数 | 参考拟合指数 |
 | --------------- | ------------------------ | -----------: | -----------: |
-| long-task-items | 64 / 128 / 256 / 512     |        ~1.11 |        ~1.11 |
-| many-lists      | 64 / 128 / 256 / 512     |        ~1.17 |        ~1.17 |
-| many-task-items | 512 / 1024 / 2048 / 4096 |        ~1.61 |        ~1.63 |
+| long-task-items | 64 / 128 / 256 / 512     |        ~1.00 |        ~1.11 |
+| many-lists      | 64 / 128 / 256 / 512     |        ~1.00 |        ~1.18 |
+| many-task-items | 512 / 1024 / 2048 / 4096 |        ~1.02 |        ~1.62 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -110,7 +110,7 @@ tasklist item checkbox 的 class。
 
 | 包                                      | 解压体积 | 入口 gzip |
 | --------------------------------------- | -------: | --------: |
-| @mdit/plugin-tasklist（当前）           |  26.9 kB |     784 B |
+| @mdit/plugin-tasklist（当前）           |  27.4 kB |     731 B |
 | markdown-it-task-checkbox@1.0.6（参考） |  76.9 kB |    1.4 kB |
 
 ### 说明
@@ -119,7 +119,7 @@ tasklist item checkbox 的 class。
 - Both packages label the item text, but the structure differs by design: the current package nests the checkbox inside `<label class="task-list-item-label">` and emits no ids, while the reference emits `<input id="cbx_N"><label for="cbx_N">`. Normalization unwraps the label tags and removes the generated `cbx_*` ids, so the compared part is the list structure, container/item classes, checkbox state and item text.
 - `checkboxClass` is set to an empty string because the reference emits no class on the checkbox; the resulting empty `class` attribute is normalized away. The current package's extra `labelClass` is not observable after the label tags are normalized.
 - `checked="checked"` / `disabled="disabled"` and the reference `checked="true"` / `disabled="true"` are equivalent boolean attributes; the normalizer canonicalizes them to the bare attribute.
-- Scaling: both packages locate the parent list token with a backward scan through the token stream for every task item, which is quadratic in the number of items in one list; `many-task-items` exposes this for both sides (exponent ~1.6).
+- Scaling: the reference locates the parent list token with a backward scan through the token stream for every task item, which is quadratic in the number of items in one list; the current package records the last token index per nesting level in one forward pass and stays linear. `many-task-items` exposes the difference.
 - Attribute order is normalized.
 - 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。
 - 入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `dist/index.js`，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。

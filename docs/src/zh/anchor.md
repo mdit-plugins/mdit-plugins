@@ -290,49 +290,49 @@ mdIt.use(anchor, { permalink: customPermalink });
 
 | 变体               | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------------ | ------------- | -----------: | -----------: | ----: |
-| default            | normal/small  |       17,455 |       17,380 | 1.00× |
-| default            | normal/medium |        2,352 |        2,349 | 1.00× |
-| default            | normal/large  |          493 |          504 | 0.98× |
-| default            | heavy/small   |        7,580 |        7,659 | 0.99× |
-| default            | heavy/medium  |          869 |          896 | 0.97× |
-| default            | heavy/large   |           95 |           99 | 0.96× |
-| legacy-slugify     | normal/small  |       17,429 |       17,438 | 1.00× |
-| legacy-slugify     | normal/medium |        2,352 |        2,364 | 1.00× |
-| legacy-slugify     | normal/large  |          483 |          496 | 0.97× |
-| legacy-slugify     | heavy/small   |        7,521 |        7,608 | 0.99× |
-| legacy-slugify     | heavy/medium  |          840 |          876 | 0.96× |
-| legacy-slugify     | heavy/large   |           87 |           93 | 0.94× |
-| link-inside-header | normal/small  |       15,316 |       15,327 | 1.00× |
-| link-inside-header | normal/medium |        2,079 |        2,091 | 0.99× |
-| link-inside-header | normal/large  |          434 |          454 | 0.95× |
-| link-inside-header | heavy/small   |        5,394 |        5,416 | 1.00× |
-| link-inside-header | heavy/medium  |          664 |          696 | 0.95× |
-| link-inside-header | heavy/large   |           79 |           87 | 0.91× |
-| header-link        | normal/small  |       15,567 |       15,832 | 0.98× |
-| header-link        | normal/medium |        2,091 |        2,152 | 0.97× |
-| header-link        | normal/large  |          436 |          464 | 0.94× |
-| header-link        | heavy/small   |        5,584 |        5,907 | 0.95× |
-| header-link        | heavy/medium  |          674 |          734 | 0.92× |
-| header-link        | heavy/large   |           80 |           90 | 0.89× |
+| default            | normal/small  |       17,248 |       17,044 | 1.01× |
+| default            | normal/medium |        2,484 |        2,324 | 1.07× |
+| default            | normal/large  |          620 |          497 | 1.25× |
+| default            | heavy/small   |        8,319 |        7,655 | 1.09× |
+| default            | heavy/medium  |        1,453 |          885 | 1.64× |
+| default            | heavy/large   |          383 |           97 | 3.93× |
+| legacy-slugify     | normal/small  |       17,307 |       17,214 | 1.01× |
+| legacy-slugify     | normal/medium |        2,376 |        2,284 | 1.04× |
+| legacy-slugify     | normal/large  |          629 |          494 | 1.27× |
+| legacy-slugify     | heavy/small   |        8,224 |        7,521 | 1.09× |
+| legacy-slugify     | heavy/medium  |        1,440 |          877 | 1.64× |
+| legacy-slugify     | heavy/large   |          381 |           98 | 3.90× |
+| link-inside-header | normal/small  |       15,135 |       15,005 | 1.01× |
+| link-inside-header | normal/medium |        2,170 |        2,046 | 1.06× |
+| link-inside-header | normal/large  |          553 |          445 | 1.24× |
+| link-inside-header | heavy/small   |        5,719 |        5,283 | 1.08× |
+| link-inside-header | heavy/medium  |          997 |          678 | 1.47× |
+| link-inside-header | heavy/large   |          260 |           88 | 2.96× |
+| header-link        | normal/small  |       15,863 |       15,505 | 1.02× |
+| header-link        | normal/medium |        2,271 |        2,105 | 1.08× |
+| header-link        | normal/large  |          575 |          456 | 1.26× |
+| header-link        | heavy/small   |        6,523 |        5,879 | 1.11× |
+| header-link        | heavy/medium  |        1,148 |          736 | 1.56× |
+| header-link        | heavy/large   |          303 |           89 | 3.39× |
 
-几何平均吞吐量比值：0.97×（共 24 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：1.42×（共 24 个用例）；大于 1× 表示当前包更快。
 
 ### 复杂度缩放
 
 | 变体               | 系列                   | 输入规模                  | 当前拟合指数 | 参考拟合指数 |
 | ------------------ | ---------------------- | ------------------------- | -----------: | -----------: |
-| default            | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.91 |        ~1.90 |
-| default            | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.04 |        ~1.07 |
-| default            | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.06 |        ~1.33 |
-| legacy-slugify     | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.92 |        ~1.91 |
-| legacy-slugify     | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.04 |        ~1.07 |
-| legacy-slugify     | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.07 |        ~1.33 |
-| link-inside-header | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.81 |        ~1.78 |
+| default            | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.01 |        ~1.90 |
+| default            | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.04 |        ~1.06 |
+| default            | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.07 |        ~1.35 |
+| legacy-slugify     | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.00 |        ~1.90 |
+| legacy-slugify     | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.03 |        ~1.06 |
+| legacy-slugify     | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.11 |        ~1.35 |
+| link-inside-header | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.00 |        ~1.81 |
 | link-inside-header | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.06 |        ~1.07 |
-| link-inside-header | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.28 |        ~1.29 |
-| header-link        | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.82 |        ~1.81 |
-| header-link        | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.06 |        ~1.08 |
-| header-link        | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.32 |        ~1.32 |
+| link-inside-header | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.15 |        ~1.29 |
+| header-link        | duplicate-headings     | 128 / 256 / 512 / 1024    |        ~1.01 |        ~1.83 |
+| header-link        | heading-inline-content | 256 / 512 / 1024 / 2048   |        ~1.06 |        ~1.05 |
+| header-link        | unique-headings        | 1024 / 2048 / 4096 / 8192 |        ~1.11 |        ~1.32 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -340,7 +340,7 @@ mdIt.use(anchor, { permalink: customPermalink });
 
 | 包                                | 解压体积 | 入口 gzip |
 | --------------------------------- | -------: | --------: |
-| @mdit/plugin-anchor（当前）       |  76.9 kB |    2.2 kB |
+| @mdit/plugin-anchor（当前）       |  80.5 kB |    2.2 kB |
 | markdown-it-anchor@10.0.0（参考） | 138.7 kB |    2.2 kB |
 
 ### 说明
@@ -351,7 +351,7 @@ mdIt.use(anchor, { permalink: customPermalink });
 - `header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case carries a `note`.
 - Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=""`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases carry a `note`.
 - Manual heading ids (e.g. set by plugin-attrs) are not compared: both packages reuse a preset id and both throw on duplicate explicit ids (reference default `failOnNonUnique: true`; the current package has no option to disable the failure).
-- Scaling: `duplicate-headings` is quadratic in both packages, because the unique-slug loop rescans the used-slug map for every duplicate. `unique-headings` exposes the leftover `state.tokens.indexOf(token)` call the reference executes for every heading after the permalink step (the O(n²) loop from markdown-it-anchor#80); without a permalink renderer the current package does not rescan tokens, with one it does. `heading-inline-content` is the linear baseline.
+- Scaling: `duplicate-headings` is quadratic in the reference, because its unique-slug loop rescans the used-slug map for every duplicate; the current package resumes from the last used candidate and stays linear. `unique-headings` exposes the leftover `state.tokens.indexOf(token)` call the reference executes for every heading after the permalink step (the O(n²) loop from markdown-it-anchor#80); the current package only rescans when a permalink actually moves the heading token. `heading-inline-content` is the linear baseline.
 - Benchmarks render fixed corpora (`normal` = sparse headings, `heavy` = heading-dense) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.
 - Only attribute order is normalized (the harness default); no other normalization is applied.
 - 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。

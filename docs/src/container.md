@@ -196,20 +196,20 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          12,010 |            11,933 | 1.01× |
-| normal/medium |           2,335 |             2,333 | 1.00× |
-| normal/large  |             576 |               576 | 1.00× |
-| heavy/small   |           7,278 |             7,283 | 1.00× |
-| heavy/medium  |           1,375 |             1,372 | 1.00× |
-| heavy/large   |             345 |               345 | 1.00× |
+| normal/small  |          11,219 |            11,117 | 1.01× |
+| normal/medium |           2,173 |             2,151 | 1.01× |
+| normal/large  |             556 |               562 | 0.99× |
+| heavy/small   |           6,945 |             7,044 | 0.99× |
+| heavy/medium  |           1,012 |               838 | 1.21× |
+| heavy/large   |             293 |               293 | 1.00× |
 
-Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.03× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series                   | Sizes                  | Current exponent | Reference exponent |
 | ------------------------ | ---------------------- | ---------------: | -----------------: |
-| deeply-nested-containers | 128 / 256 / 512 / 1024 |            ~1.61 |              ~1.66 |
+| deeply-nested-containers | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.65 |
 | non-matching-containers  | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
 | sibling-containers       | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
 
@@ -219,7 +219,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                                 | Unpacked size | Entry gzip |
 | --------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-container (current)        |       29.2 kB |      910 B |
+| @mdit/plugin-container (current)        |       37.0 kB |     1.1 kB |
 | markdown-it-container@4.0.0 (reference) |       20.1 kB |     1.4 kB |
 
 ### Notes
@@ -227,7 +227,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 - The current package takes a required `name` option object, while the reference takes the container name as a positional argument; both sides are installed through custom renderers so that two equivalent containers are registered (`warning` with the default `:` marker and `spoiler` with the `%` marker).
 - The current package does not need `openRenderer` / `closeRenderer` to be compared: both are user render functions with no reference counterpart. The default renderer output (the container class on the opening `<div>`) is compared.
 - `indented-opening`, `indented-closing` and `indented-closing-after-blank` are expected differences: the current package only accepts a closing marker indented exactly like the opening marker, while the reference accepts any closing marker indented less than four columns relative to the enclosing block, so the reference closes those blocks and the current package keeps the marker as content.
-- Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the quadratic closing-marker scan of the `deeply-nested-containers` series. The benchmark corpora are shallow, so throughput is unaffected.
+- Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the closing-marker scan of the `deeply-nested-containers` series. The reference rescans the remaining lines for every nesting level and grows quadratically; the current package reuses the enclosing scan and stays linear. The benchmark corpora are shallow, so throughput is unaffected.
 - Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
 - Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
 - Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.

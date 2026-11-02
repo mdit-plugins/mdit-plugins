@@ -84,22 +84,22 @@ All 23 cases match the reference output exactly.
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          10,455 |            10,268 | 1.02× |
-| normal/medium |           2,386 |             2,378 | 1.00× |
-| normal/large  |             595 |               597 | 1.00× |
-| heavy/small   |           5,572 |             5,473 | 1.02× |
-| heavy/medium  |           1,048 |             1,055 | 0.99× |
-| heavy/large   |             259 |               258 | 1.00× |
+| normal/small  |          10,569 |            10,094 | 1.05× |
+| normal/medium |           2,420 |             2,369 | 1.02× |
+| normal/large  |             599 |               590 | 1.02× |
+| heavy/small   |           5,585 |             5,471 | 1.02× |
+| heavy/medium  |           1,045 |             1,043 | 1.00× |
+| heavy/large   |             261 |               253 | 1.03× |
 
-Geometric mean throughput ratio: 1.01× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.02× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series                    | Sizes                    | Current exponent | Reference exponent |
 | ------------------------- | ------------------------ | ---------------: | -----------------: |
-| dense-occurrences         | 128 / 256 / 512 / 1024   |            ~0.97 |              ~0.97 |
-| interleaved-abbreviations | 512 / 1024 / 2048 / 4096 |            ~1.83 |              ~1.81 |
-| many-definitions          | 128 / 256 / 512 / 1024   |            ~0.96 |              ~0.96 |
+| dense-occurrences         | 128 / 256 / 512 / 1024   |            ~0.99 |              ~0.98 |
+| interleaved-abbreviations | 512 / 1024 / 2048 / 4096 |            ~1.05 |              ~1.94 |
+| many-definitions          | 128 / 256 / 512 / 1024   |            ~0.95 |              ~0.95 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -107,13 +107,13 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                            | Unpacked size | Entry gzip |
 | ---------------------------------- | ------------: | ---------: |
-| @mdit/plugin-abbr (current)        |       27.7 kB |      954 B |
+| @mdit/plugin-abbr (current)        |       30.7 kB |      979 B |
 | markdown-it-abbr@2.0.0 (reference) |       21.2 kB |     1.6 kB |
 
 ### Notes
 
 - Neither package takes options; both are installed with their defaults.
-- The replacement pass rewrites the inline token list with `md.utils.arrayReplaceAt`, which copies the whole token array for every text token that contains an abbreviation. A paragraph with inline markup between abbreviations therefore grows quadratically; both implementations fork the same algorithm and show the same exponent.
+- The reference rewrites the inline token list with `md.utils.arrayReplaceAt` for every text token that contains an abbreviation, copying the whole token array each time, so a paragraph with inline markup between abbreviations grows quadratically on the reference side. The current package rebuilds the children list in a single pass and stays linear; `interleaved-abbreviations` exposes the difference.
 - Abbreviations are matched case-sensitively and only at word boundaries, so `HTML` is not replaced inside `HTML5` or `html`.
 - Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
 - Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.

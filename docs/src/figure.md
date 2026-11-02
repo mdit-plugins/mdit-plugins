@@ -95,22 +95,22 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          14,215 |            14,199 | 1.00× |
-| normal/medium |           2,447 |             2,438 | 1.00× |
-| normal/large  |             562 |               570 | 0.99× |
-| heavy/small   |           9,527 |             9,588 | 0.99× |
-| heavy/medium  |           1,644 |             1,597 | 1.03× |
-| heavy/large   |             377 |               361 | 1.04× |
+| normal/small  |          12,516 |            12,592 | 0.99× |
+| normal/medium |           2,058 |             2,067 | 1.00× |
+| normal/large  |             490 |               494 | 0.99× |
+| heavy/small   |           8,195 |             8,216 | 1.00× |
+| heavy/medium  |           1,424 |             1,414 | 1.01× |
+| heavy/large   |             325 |               318 | 1.02× |
 
-Geometric mean throughput ratio: 1.01× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series         | Sizes                | Current exponent | Reference exponent |
 | -------------- | -------------------- | ---------------: | -----------------: |
-| linked-figures | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.01 |
-| long-captions  | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.00 |
-| many-figures   | 64 / 128 / 256 / 512 |            ~1.11 |              ~1.01 |
+| linked-figures | 64 / 128 / 256 / 512 |            ~1.00 |              ~0.97 |
+| long-captions  | 64 / 128 / 256 / 512 |            ~1.08 |              ~1.08 |
+| many-figures   | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.01 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -118,7 +118,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                                     | Unpacked size | Entry gzip |
 | ------------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-figure (current)               |       37.8 kB |     1.1 kB |
+| @mdit/plugin-figure (current)               |       38.4 kB |     1.1 kB |
 | markdown-it-image-figures@2.1.1 (reference) |       22.7 kB |      972 B |
 
 ### Notes

@@ -1,0 +1,484 @@
+{
+  "plugin": "plugin-uml",
+  "reference": "markdown-it-plantuml",
+  "referenceVersion": "1.4.1",
+  "generatedAt": "2026-11-02T06:14:34.349Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 15,
+        "normalized": 0,
+        "diff": 10,
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "multiline",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-blocks",
+            "status": "exact"
+          },
+          {
+            "name": "empty-block",
+            "status": "exact"
+          },
+          {
+            "name": "body-with-blank-lines",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed-block",
+            "status": "exact"
+          },
+          {
+            "name": "markers-in-fence",
+            "status": "exact"
+          },
+          {
+            "name": "markers-in-indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "diff",
+            "note": "The current package strips the list indentation from the diagram source (`getLines` with `blkIndent` plus `dedent`), while the reference slices `state.src` and keeps the two leading spaces. The list structure and the token map are identical.",
+            "ourHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</li>\n</ul>\n",
+            "referenceHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n</li>\n</ul>\n"
+          },
+          {
+            "name": "list-item-unclosed",
+            "status": "diff",
+            "note": "Both sides auto-close the unclosed block at the end of the list item and produce the same map; the current package strips the item indentation from the source while the reference keeps it.",
+            "ourHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</li>\n<li>second item</li>\n</ul>\n",
+            "referenceHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n</li>\n<li>second item</li>\n</ul>\n"
+          },
+          {
+            "name": "blockquote",
+            "status": "diff",
+            "note": "The reference slices `state.src` without removing blockquote markers, so the `>` prefix leaks into the diagram source; the current package strips it through `getLines`. The blockquote structure is identical.",
+            "ourHtml": "blocks=1\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</blockquote>\n",
+            "referenceHtml": "blocks=1\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"> Bob -> Alice : hello\"\n</blockquote>\n"
+          },
+          {
+            "name": "nested-blockquote",
+            "status": "diff",
+            "note": "Same cause as `blockquote`: the reference keeps both `> >` prefixes in the diagram source, the current package strips both quote levels. The nested blockquote structure is identical.",
+            "ourHtml": "blocks=1\n<blockquote>\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</blockquote>\n</blockquote>\n",
+            "referenceHtml": "blocks=1\n<blockquote>\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"> > Bob -> Alice : hello\"\n</blockquote>\n</blockquote>\n"
+          },
+          {
+            "name": "indented-marker",
+            "status": "diff",
+            "note": "Both sides accept the two-space indented marker, but `dedent` removes the indentation of the content line in the current package while the reference keeps the line as written.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n"
+          },
+          {
+            "name": "indented-content",
+            "status": "diff",
+            "note": "The current package removes the common indentation of the diagram body, the reference keeps every line as written. `dedent` preserves the relative indentation, so the drawing itself is unchanged.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..4 content=\"Alice -> Bob\\n  note right\\nBob -> Carol\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..4 content=\"  Alice -> Bob\\n    note right\\n  Bob -> Carol\"\n"
+          },
+          {
+            "name": "title",
+            "status": "diff",
+            "note": "The current base keeps the raw marker suffix (including the separating space) as `info`; the reference removes that space and inline-parses the suffix for its alt text, which is the title compared here.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" My title\" title=\" My title\" map=0..2 content=\"Bob -> Alice : hello\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" My title\" title=\"My title\" map=0..2 content=\"Bob -> Alice : hello\"\n"
+          },
+          {
+            "name": "title-inline-markup",
+            "status": "diff",
+            "note": "Besides the separating space, the reference inline-parses the title, so `**Flow**` disappears from its alt text; the current base keeps the raw markers in `info`.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" **Flow** chart\" title=\" **Flow** chart\" map=0..2 content=\"Bob -> Alice : hello\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" **Flow** chart\" title=\"Flow chart\" map=0..2 content=\"Bob -> Alice : hello\"\n"
+          },
+          {
+            "name": "title-only-space",
+            "status": "diff",
+            "note": "The marker is followed by a single space, so the suffix is `\" \"`: the current base keeps it, while the reference unconditionally drops the first suffix character and ends up with an empty alt text.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" \" title=\" \" map=0..2 content=\"A -> B\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" \" title=\"\" map=0..2 content=\"A -> B\"\n"
+          },
+          {
+            "name": "odd-marker-suffix",
+            "status": "diff",
+            "note": "`@startumlExtra` still matches the opening marker as a prefix on both sides and both report the suffix `Extra` in `info`, but the reference unconditionally drops the first suffix character for its alt text (`xtra`), while the current base keeps the raw suffix as the title.",
+            "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"Extra\" title=\"Extra\" map=0..2 content=\"A -> B\"\n",
+            "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"Extra\" title=\"xtra\" map=0..2 content=\"A -> B\"\n"
+          },
+          {
+            "name": "escaped-marker",
+            "status": "exact"
+          },
+          {
+            "name": "closing-marker-indented",
+            "status": "exact",
+            "note": "Both sides reject a closing marker indented deeper than the opening one, keep the line as diagram content and auto-close the block at the end of the document."
+          },
+          {
+            "name": "closing-marker-trailing-text",
+            "status": "exact",
+            "note": "Both sides require the closing marker line to contain only spaces after the marker, so the line stays in the diagram source and the block is auto-closed at the end of the document."
+          },
+          {
+            "name": "marker-not-at-line-start",
+            "status": "exact"
+          },
+          {
+            "name": "content-escaping",
+            "status": "exact"
+          },
+          {
+            "name": "adjacent-blocks",
+            "status": "exact"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 36352.878749929274,
+            "meanMs": 0.027508137852822606,
+            "samples": [
+              0.029362955897177415,
+              0.030371146169354834,
+              0.026805118195564515,
+              0.027508137852822606,
+              0.02713236113911287
+            ]
+          },
+          "reference": {
+            "opsPerSec": 32755.773627212282,
+            "meanMs": 0.030528969072164947,
+            "samples": [
+              0.030528969072164947,
+              0.03442834206185566,
+              0.02957691567010309,
+              0.030647293814432985,
+              0.029509871134020624
+            ]
+          },
+          "ratio": 1.109815911040753
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 9045.92663474367,
+            "meanMs": 0.11054699428571439,
+            "samples": [
+              0.11054699428571439,
+              0.1089811014285715,
+              0.1112041371428573,
+              0.10806410714285708,
+              0.11427526785714301
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7273.942811355648,
+            "meanMs": 0.13747702256317706,
+            "samples": [
+              0.1368476227436823,
+              0.13747702256317706,
+              0.1382181489169674,
+              0.13850402346570395,
+              0.1354499846570397
+            ]
+          },
+          "ratio": 1.2436070600695
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 3028.7419756217996,
+            "meanMs": 0.3301700864745008,
+            "samples": [
+              0.32499695121951216,
+              0.3309589800443465,
+              0.3301700864745008,
+              0.33028399778270406,
+              0.3264577804878045
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1854.2769282262666,
+            "meanMs": 0.5392937725631756,
+            "samples": [
+              0.5477870036101086,
+              0.534783693140793,
+              0.5392937725631756,
+              0.567748494584836,
+              0.5362154043321307
+            ]
+          },
+          "ratio": 1.6333816861535257
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 93180.49363929994,
+            "meanMs": 0.010731859866196701,
+            "samples": [
+              0.010524782389756154,
+              0.010479207179339626,
+              0.010731859866196701,
+              0.010845011150276989,
+              0.011141365729084222
+            ]
+          },
+          "reference": {
+            "opsPerSec": 38357.932639230916,
+            "meanMs": 0.026070226709174655,
+            "samples": [
+              0.025674526213248346,
+              0.025720074566064555,
+              0.026070226709174655,
+              0.026532434466879074,
+              0.02726440559688269
+            ]
+          },
+          "ratio": 2.429236594049356
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 22503.274300986686,
+            "meanMs": 0.044437977630488804,
+            "samples": [
+              0.043071308754487725,
+              0.044437977630488804,
+              0.0493195365921016,
+              0.04839259403479709,
+              0.0434066556199943
+            ]
+          },
+          "reference": {
+            "opsPerSec": 3931.812126264919,
+            "meanMs": 0.2543356518282994,
+            "samples": [
+              0.24026656120826814,
+              0.254407988871225,
+              0.2543356518282994,
+              0.26507856438791827,
+              0.24373708267090632
+            ]
+          },
+          "ratio": 5.723384937612468
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 7041.264456710137,
+            "meanMs": 0.14201994629629722,
+            "samples": [
+              0.1349475314814821,
+              0.16043557129629604,
+              0.16098271574074144,
+              0.14201994629629722,
+              0.13479043240740793
+            ]
+          },
+          "reference": {
+            "opsPerSec": 477.0328567534222,
+            "meanMs": 2.0962916617647136,
+            "samples": [
+              2.1202101764705836,
+              2.370079661764695,
+              2.034412367647078,
+              2.0962916617647136,
+              1.9066415441176532
+            ]
+          },
+          "ratio": 14.760543968881706
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-blocks",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.08968698102016637
+            },
+            {
+              "size": 256,
+              "ms": 0.17786202985074645
+            },
+            {
+              "size": 512,
+              "ms": 0.35016704524886794
+            },
+            {
+              "size": 1024,
+              "ms": 0.6863822568807378
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.9994834383561619
+            },
+            {
+              "size": 256,
+              "ms": 3.7536883913043035
+            },
+            {
+              "size": 512,
+              "ms": 14.197616600000037
+            },
+            {
+              "size": 1024,
+              "ms": 53.169041999999536
+            }
+          ],
+          "currentExponent": 0.9785410087740033,
+          "referenceExponent": 1.911904796537364
+        },
+        {
+          "case": "long-block-body",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.02135600729926983
+            },
+            {
+              "size": 256,
+              "ms": 0.042113619428571836
+            },
+            {
+              "size": 512,
+              "ms": 0.08249373491592447
+            },
+            {
+              "size": 1024,
+              "ms": 0.17626081237524735
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.020612050424242623
+            },
+            {
+              "size": 256,
+              "ms": 0.03866023069105641
+            },
+            {
+              "size": 512,
+              "ms": 0.07416404784240209
+            },
+            {
+              "size": 1024,
+              "ms": 0.1529734513888867
+            }
+          ],
+          "currentExponent": 1.010499140561242,
+          "referenceExponent": 0.9615033828107619
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.15477180589680306
+            },
+            {
+              "size": 256,
+              "ms": 0.28447466216216155
+            },
+            {
+              "size": 512,
+              "ms": 0.5809445511811101
+            },
+            {
+              "size": 1024,
+              "ms": 1.2558016478873162
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.8104718235294165
+            },
+            {
+              "size": 256,
+              "ms": 2.6498454193548358
+            },
+            {
+              "size": 512,
+              "ms": 10.288630250000097
+            },
+            {
+              "size": 1024,
+              "ms": 41.31525000000056
+            }
+          ],
+          "currentExponent": 1.0091282370173933,
+          "referenceExponent": 1.8972376489333151
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "`@mdit/plugin-uml` is the generalized base implementation of `markdown-it-plantuml`: it contains the same `@`-marker block rule, line scanning and auto-close rules, with the marker names, the token name and the renderer turned into options. This spec compares only that base block parser; the PlantUML image and encoder layer is out of scope and is disabled on both sides. The marker options are mapped 1:1 — the current side is configured with `{ name: \"uml\", open: \"startuml\", close: \"enduml\", renderer }` and the reference with `{ openMarker: \"@startuml\", closeMarker: \"@enduml\", generateSource, render }` — and each plugin registers its rule before `fence` with the same `alt` list, so the two parsers see the same block boundaries.",
+    "Rendering is replaced by a deterministic dump on both sides: `blocks=N` followed by the document HTML of the shared markdown-it renderer, with every plugin block token serialized as `block markup=… params=… title=… map=… content=…` (strings JSON-quoted). The output is compared byte for byte (`normalize` is the identity function), because the only real differences are inside that record and the surrounding HTML comes from the same markdown-it core. No encoder, server URL or network access is involved on either side: the current `renderer` option and the reference `render` option return the record, and the reference `generateSource` returns the diagram source unchanged instead of the deflate + base64 server URL.",
+    "The reference never stores the diagram source on its token: the block rule passes it to `generateSource` and keeps the result in the `src` attribute, while `token.content` stays empty. The current base stores it in `token.content`. The identity `generateSource` is therefore both the replacement for the encoder and the way the reference's extracted source is read back for the record; the `src`/`alt` attributes and the `<img>` tag are not compared (the current base pushes a placeholder `<uml>` token without attributes, and the image markup is the layer this spec excludes).",
+    "The reference hard-codes the token type `uml_diagram`, which is also its renderer key. In the current package both are the `name` option (`uml` here, which is also the name `@mdit/plugin-plantuml` passes). The record prints a canonical `block` marker instead of the literal token type so that this naming difference does not mask the field-by-field comparison; the serializer of each side is installed as the renderer rule for its own token type, so a token of an unexpected type would not be rendered at all.",
+    "Titles are handled differently by the two implementations. The reference derives an `alt` inside the block rule: it drops the first character of the marker suffix (`params.slice(1)`, assuming a separating space) and inline-parses the rest into `token.children`, falling back to the fixed `uml diagram` when the suffix is empty. The current base derives nothing: it exposes the raw suffix as `token.info` and leaves titles to the renderer (`@mdit/plugin-plantuml` uses that raw suffix as the image alt text). The compared `title` field is therefore the raw `info` on the current side and the inline-rendered alt text on the reference side; the fixed `uml diagram` fallback is not compared because it is an arbitrary label of the disabled image layer (the `plugin-plantuml` comparison covers it). `title`, `title-inline-markup`, `title-only-space` and `odd-marker-suffix` document the remaining differences.",
+    "The body is extracted differently: the current package calls `state.getLines(startLine + 1, nextLine, state.blkIndent, false)` and `dedent`, while the reference slices the raw document with `state.src.split('\\n').slice(startLine + 1, nextLine).join('\\n')`. Both agree on the line range, the auto-close rules, the block count, the `markup` and the token `map` in every case; they disagree on the text. The reference keeps the indentation of list items and of indented blocks and even the `>` prefixes of blockquotes, while the current package strips the container prefixes and the common indentation. `list-item`, `list-item-unclosed`, `blockquote`, `nested-blockquote`, `indented-marker` and `indented-content` document this; the block structure around the diagrams is identical in all of them.",
+    "Both sides reject a closing marker that is indented deeper than the opening one or followed by non-space text, keep that line as diagram content and auto-close the block at the end of the parent; `closing-marker-indented` and `closing-marker-trailing-text` pin this down. Markers inside fences and indented code blocks are not parsed by either side (both rules sit between `code` and `fence`), and an escaped (`\\@startuml`) or mid-line marker stays paragraph text on both sides.",
+    "Benchmarks use the same deterministic dump, so they measure block parsing and the shared markdown-it rendering only; the deflate + base64 encoder and the network are excluded on both sides. The `heavy` corpora contain four diagrams per section rather than one, so their ratios also include the reference's per-block whole-document split described below.",
+    "Scaling: the reference extracts every block with `state.src.split('\\n')`, so each block costs O(document) and many blocks cost O(blocks × document) — quadratic. `many-blocks` and `unmatched-openers` (every list item opens a block that is auto-closed by the next item) target that; `long-block-body` is linear on both sides and serves as the baseline. The current package slices only the block lines with `state.getLines` and stays linear in the number of blocks; no superlinear path was found in it."
+  ]
+}

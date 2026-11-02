@@ -89,22 +89,22 @@ All 22 cases match the reference output after normalization.
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          18,421 |            18,224 | 1.01× |
-| normal/medium |           2,618 |             2,610 | 1.00× |
-| normal/large  |             630 |               633 | 0.99× |
-| heavy/small   |           9,856 |             9,687 | 1.02× |
-| heavy/medium  |           1,686 |             1,619 | 1.04× |
-| heavy/large   |             419 |               350 | 1.20× |
+| normal/small  |          17,185 |            17,241 | 1.00× |
+| normal/medium |           2,459 |             2,447 | 1.01× |
+| normal/large  |             592 |               585 | 1.01× |
+| heavy/small   |           9,230 |             9,095 | 1.01× |
+| heavy/medium  |           1,592 |             1,516 | 1.05× |
+| heavy/large   |             395 |               327 | 1.21× |
 
-Geometric mean throughput ratio: 1.04× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.05× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series               | Sizes                    | Current exponent | Reference exponent |
 | -------------------- | ------------------------ | ---------------: | -----------------: |
-| duplicate-references | 128 / 256 / 512 / 1024   |            ~0.99 |              ~0.99 |
-| many-definitions     | 128 / 256 / 512 / 1024   |            ~1.01 |              ~1.01 |
-| many-footnotes       | 512 / 1024 / 2048 / 4096 |            ~1.05 |              ~1.62 |
+| duplicate-references | 128 / 256 / 512 / 1024   |            ~0.98 |              ~0.97 |
+| many-definitions     | 128 / 256 / 512 / 1024   |            ~1.00 |              ~1.00 |
+| many-footnotes       | 512 / 1024 / 2048 / 4096 |            ~1.03 |              ~1.61 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -112,7 +112,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                                | Unpacked size | Entry gzip |
 | -------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-footnote (current)        |       57.9 kB |     1.7 kB |
+| @mdit/plugin-footnote (current)        |       58.6 kB |     1.7 kB |
 | markdown-it-footnote@4.0.0 (reference) |       46.8 kB |     2.7 kB |
 
 ### Notes

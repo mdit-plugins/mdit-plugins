@@ -341,23 +341,23 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |           1,329 |             1,536 | 0.87× |
-| normal/medium |             734 |               635 | 1.16× |
-| normal/large  |             303 |               263 | 1.15× |
-| heavy/small   |             754 |               647 | 1.17× |
-| heavy/medium  |             298 |               238 | 1.25× |
-| heavy/large   |             108 |                96 | 1.12× |
+| normal/small  |           1,650 |             1,785 | 0.92× |
+| normal/medium |             626 |               608 | 1.03× |
+| normal/large  |             308 |               263 | 1.17× |
+| heavy/small   |             699 |               609 | 1.15× |
+| heavy/medium  |             255 |               239 | 1.07× |
+| heavy/large   |             122 |               109 | 1.13× |
 
-Geometric mean throughput ratio: 1.11× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.07× across 6 cases; above 1× means the current package is faster.
 
 #### Scaling
 
 | Series            | Sizes                     | Current exponent | Reference exponent |
 | ----------------- | ------------------------- | ---------------: | -----------------: |
-| block-fences      | 32 / 64 / 128 / 256       |            ~0.97 |              ~0.99 |
-| inline-formulas   | 32 / 64 / 128 / 256       |            ~0.95 |              ~0.74 |
-| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~1.00 |              ~1.60 |
-| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~0.95 |              ~0.94 |
+| block-fences      | 32 / 64 / 128 / 256       |            ~0.99 |              ~1.01 |
+| inline-formulas   | 32 / 64 / 128 / 256       |            ~1.01 |              ~1.00 |
+| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~0.99 |              ~1.46 |
+| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~0.97 |              ~0.99 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -365,7 +365,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                                | Unpacked size | Entry gzip |
 | -------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-mathjax (current)         |      116.7 kB |     1.7 kB |
+| @mdit/plugin-mathjax (current)         |      117.4 kB |     1.7 kB |
 | markdown-it-mathjax3@5.2.0 (reference) |       14.6 kB |     1.7 kB |
 
 ### @mdit/plugin-mathjax-slim
@@ -391,23 +391,23 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |           1,777 |             1,792 | 0.99× |
-| normal/medium |             769 |               681 | 1.13× |
-| normal/large  |             309 |               269 | 1.15× |
-| heavy/small   |             741 |               652 | 1.14× |
-| heavy/medium  |             319 |               270 | 1.18× |
-| heavy/large   |             133 |               112 | 1.18× |
+| normal/small  |           1,723 |             1,731 | 1.00× |
+| normal/medium |             742 |               684 | 1.08× |
+| normal/large  |             295 |               257 | 1.15× |
+| heavy/small   |             703 |               630 | 1.12× |
+| heavy/medium  |             304 |               258 | 1.18× |
+| heavy/large   |             134 |               110 | 1.22× |
 
-Geometric mean throughput ratio: 1.13× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 1.12× across 6 cases; above 1× means the current package is faster.
 
 #### Scaling
 
 | Series            | Sizes                     | Current exponent | Reference exponent |
 | ----------------- | ------------------------- | ---------------: | -----------------: |
-| block-fences      | 32 / 64 / 128 / 256       |            ~1.00 |              ~0.99 |
-| inline-formulas   | 32 / 64 / 128 / 256       |            ~0.98 |              ~0.98 |
-| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~0.99 |              ~1.36 |
-| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~0.98 |              ~0.99 |
+| block-fences      | 32 / 64 / 128 / 256       |            ~0.90 |              ~0.91 |
+| inline-formulas   | 32 / 64 / 128 / 256       |            ~1.02 |              ~0.99 |
+| unclosed-block    | 256 / 512 / 1024 / 2048   |            ~0.99 |              ~1.75 |
+| unmatched-dollars | 1024 / 2048 / 4096 / 8192 |            ~1.04 |              ~1.05 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -415,7 +415,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                                | Unpacked size | Entry gzip |
 | -------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-mathjax-slim (current)    |      125.1 kB |     1.7 kB |
+| @mdit/plugin-mathjax-slim (current)    |      125.7 kB |     1.7 kB |
 | markdown-it-mathjax3@5.2.0 (reference) |       14.6 kB |     1.7 kB |
 
 ### Notes

@@ -148,12 +148,12 @@ import "@mdit/plugin-katex/mhchem";
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       17,455 |       17,945 | 0.97× |
-| normal/medium |        4,618 |        4,753 | 0.97× |
-| normal/large  |        1,568 |        1,603 | 0.98× |
-| heavy/small   |        7,506 |        7,702 | 0.97× |
-| heavy/medium  |        3,802 |        3,917 | 0.97× |
-| heavy/large   |        1,862 |        1,885 | 0.99× |
+| normal/small  |       16,112 |       16,238 | 0.99× |
+| normal/medium |        4,540 |        4,563 | 1.00× |
+| normal/large  |        1,514 |        1,545 | 0.98× |
+| heavy/small   |        7,369 |        7,458 | 0.99× |
+| heavy/medium  |        3,671 |        3,789 | 0.97× |
+| heavy/large   |        1,845 |        1,898 | 0.97× |
 
 几何平均吞吐量比值：0.98×（共 6 个用例）；大于 1× 表示当前包更快。
 
@@ -162,8 +162,8 @@ import "@mdit/plugin-katex/mhchem";
 | 系列             | 输入规模             | 当前拟合指数 | 参考拟合指数 |
 | ---------------- | -------------------- | -----------: | -----------: |
 | display-formulas | 16 / 32 / 64 / 128   |        ~1.00 |        ~1.01 |
-| inline-formulas  | 32 / 64 / 128 / 256  |        ~1.01 |        ~1.00 |
-| long-formula     | 64 / 128 / 256 / 512 |        ~0.98 |        ~0.98 |
+| inline-formulas  | 32 / 64 / 128 / 256  |        ~1.01 |        ~1.01 |
+| long-formula     | 64 / 128 / 256 / 512 |        ~0.99 |        ~0.95 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -171,7 +171,7 @@ import "@mdit/plugin-katex/mhchem";
 
 | 包                              | 解压体积 | 入口 gzip |
 | ------------------------------- | -------: | --------: |
-| @mdit/plugin-katex（当前）      |  35.3 kB |     612 B |
+| @mdit/plugin-katex（当前）      |  37.2 kB |     605 B |
 | markdown-it-katex@2.0.3（参考） |  29.9 kB |    2.0 kB |
 
 ### @mdit/plugin-katex-slim
@@ -197,22 +197,22 @@ import "@mdit/plugin-katex/mhchem";
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       15,060 |       16,655 | 0.90× |
-| normal/medium |        4,530 |        4,582 | 0.99× |
-| normal/large  |        1,433 |        1,483 | 0.97× |
-| heavy/small   |        7,019 |        7,205 | 0.97× |
-| heavy/medium  |        3,461 |        3,622 | 0.96× |
-| heavy/large   |        1,809 |        1,850 | 0.98× |
+| normal/small  |       17,180 |       17,580 | 0.98× |
+| normal/medium |        4,532 |        4,687 | 0.97× |
+| normal/large  |        1,469 |        1,542 | 0.95× |
+| heavy/small   |        6,804 |        7,095 | 0.96× |
+| heavy/medium  |        3,448 |        3,595 | 0.96× |
+| heavy/large   |        1,643 |        1,487 | 1.10× |
 
-几何平均吞吐量比值：0.96×（共 6 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：0.99×（共 6 个用例）；大于 1× 表示当前包更快。
 
 #### 复杂度缩放
 
 | 系列             | 输入规模             | 当前拟合指数 | 参考拟合指数 |
 | ---------------- | -------------------- | -----------: | -----------: |
-| display-formulas | 16 / 32 / 64 / 128   |        ~0.98 |        ~1.00 |
-| inline-formulas  | 32 / 64 / 128 / 256  |        ~1.10 |        ~1.16 |
-| long-formula     | 64 / 128 / 256 / 512 |        ~0.97 |        ~0.90 |
+| display-formulas | 16 / 32 / 64 / 128   |        ~1.00 |        ~1.00 |
+| inline-formulas  | 32 / 64 / 128 / 256  |        ~0.94 |        ~0.95 |
+| long-formula     | 64 / 128 / 256 / 512 |        ~0.96 |        ~0.95 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -220,12 +220,13 @@ import "@mdit/plugin-katex/mhchem";
 
 | 包                              | 解压体积 | 入口 gzip |
 | ------------------------------- | -------: | --------: |
-| @mdit/plugin-katex-slim（当前） |  12.9 kB |     681 B |
+| @mdit/plugin-katex-slim（当前） |  13.9 kB |     673 B |
 | markdown-it-katex@2.0.3（参考） |  29.9 kB |    2.0 kB |
 
 ### 说明
 
 - **@mdit/plugin-katex**: This comparison renders real KaTeX on both sides and compares the resulting HTML. The reference declares `katex: ^0.6.0`, but the committed workspace override (`pnpm-workspace.yaml`: `overrides.katex: ^0.19.0`, kept for the docs toolchain) makes the installed reference use the same KaTeX 0.19.1 as this package, so the rendered math HTML is directly comparable. If that override is ever removed the reference would fall back to KaTeX 0.6 and this spec would have to switch to a token-level comparison.
+- **@mdit/plugin-katex**: The benchmark still shows a small gap that is not plugin overhead: this ESM package resolves `katex` through the `import` condition (`dist/katex.mjs`) while the CJS reference resolves `dist/katex.js`. The identical KaTeX 0.19.1 code runs about 4.5% faster as CJS on Node, so with both sides forced onto the same KaTeX build the packages measure at parity; neither package allocates KaTeX options per formula any more.
 - **@mdit/plugin-katex**: Two intentional markup differences are normalized instead of compared: the current package wraps display math in `<p class='katex-block'>` (the reference emits a plain `<p>`), and it keeps the edge whitespace/newline of the block formula while the reference trims it (the MathML `annotation` echoes the input formula, so its edge whitespace differs). The visible KaTeX HTML is unchanged by either normalization, and both are documented here rather than hidden.
 - **@mdit/plugin-katex**: `throwOnError: false` is set on both sides so that invalid LaTeX is handled the same way. This is already the default of the current package; with the reference's defaults the reference instead emits the raw LaTeX from its own `catch` block, which is a documented default difference and not compared.
 - **@mdit/plugin-katex**: Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), and a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`).
@@ -234,6 +235,7 @@ import "@mdit/plugin-katex/mhchem";
 - **@mdit/plugin-katex**: Benchmarks render real KaTeX on both sides (display and inline) with small corpora: 24 inline formulas for `normal/large`, and 24 inline plus 8 display formulas for `heavy/large`. Per-case `targetMs` is 100 ms.
 - **@mdit/plugin-katex**: Scaling series measure real rendering: many inline formulas, one very long formula, and many display formulas. KaTeX 0.19 rendering and the reference parser were both measured as linear (~1) on every pattern probed, so these series are a regression baseline rather than an exposure of superlinear behavior.
 - **@mdit/plugin-katex-slim**: This comparison renders real KaTeX on both sides and compares the resulting HTML. The reference declares `katex: ^0.6.0`, but the committed workspace override (`pnpm-workspace.yaml`: `overrides.katex: ^0.19.0`, kept for the docs toolchain) makes the installed reference use the same KaTeX 0.19.1 as this package, so the rendered math HTML is directly comparable. If that override is ever removed the reference would fall back to KaTeX 0.6 and this spec would have to switch to a token-level comparison.
+- **@mdit/plugin-katex-slim**: The benchmark still shows a small gap that is not plugin overhead: this ESM package resolves `katex` through the `import` condition (`dist/katex.mjs`) while the CJS reference resolves `dist/katex.js`. The identical KaTeX 0.19.1 code runs about 4.5% faster as CJS on Node, so with both sides forced onto the same KaTeX build the packages measure at parity; neither package allocates KaTeX options per formula any more.
 - **@mdit/plugin-katex-slim**: `@mdit/plugin-katex-slim` is the same tex + KaTeX composition as `@mdit/plugin-katex`; the only difference is that it loads KaTeX with a dynamic `import("katex")` at module initialization and throws when KaTeX is not installed. The comparison therefore uses the same cases and the results should match `plugin-katex`.
 - **@mdit/plugin-katex-slim**: Two intentional markup differences are normalized instead of compared: the current package wraps display math in `<p class='katex-block'>` (the reference emits a plain `<p>`), and it keeps the edge whitespace/newline of the block formula while the reference trims it (the MathML `annotation` echoes the input formula, so its edge whitespace differs). The visible KaTeX HTML is unchanged by either normalization, and both are documented here rather than hidden.
 - **@mdit/plugin-katex-slim**: `throwOnError: false` is set on both sides so that invalid LaTeX is handled the same way. This is already the default of the current package; with the reference's defaults the reference instead emits the raw LaTeX from its own `catch` block, which is a documented default difference and not compared.

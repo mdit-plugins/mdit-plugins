@@ -88,22 +88,22 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       18,421 |       18,224 | 1.01× |
-| normal/medium |        2,618 |        2,610 | 1.00× |
-| normal/large  |          630 |          633 | 0.99× |
-| heavy/small   |        9,856 |        9,687 | 1.02× |
-| heavy/medium  |        1,686 |        1,619 | 1.04× |
-| heavy/large   |          419 |          350 | 1.20× |
+| normal/small  |       17,185 |       17,241 | 1.00× |
+| normal/medium |        2,459 |        2,447 | 1.01× |
+| normal/large  |          592 |          585 | 1.01× |
+| heavy/small   |        9,230 |        9,095 | 1.01× |
+| heavy/medium  |        1,592 |        1,516 | 1.05× |
+| heavy/large   |          395 |          327 | 1.21× |
 
-几何平均吞吐量比值：1.04×（共 6 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：1.05×（共 6 个用例）；大于 1× 表示当前包更快。
 
 ### 复杂度缩放
 
 | 系列                 | 输入规模                 | 当前拟合指数 | 参考拟合指数 |
 | -------------------- | ------------------------ | -----------: | -----------: |
-| duplicate-references | 128 / 256 / 512 / 1024   |        ~0.99 |        ~0.99 |
-| many-definitions     | 128 / 256 / 512 / 1024   |        ~1.01 |        ~1.01 |
-| many-footnotes       | 512 / 1024 / 2048 / 4096 |        ~1.05 |        ~1.62 |
+| duplicate-references | 128 / 256 / 512 / 1024   |        ~0.98 |        ~0.97 |
+| many-definitions     | 128 / 256 / 512 / 1024   |        ~1.00 |        ~1.00 |
+| many-footnotes       | 512 / 1024 / 2048 / 4096 |        ~1.03 |        ~1.61 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -111,7 +111,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 | 包                                 | 解压体积 | 入口 gzip |
 | ---------------------------------- | -------: | --------: |
-| @mdit/plugin-footnote（当前）      |  57.9 kB |    1.7 kB |
+| @mdit/plugin-footnote（当前）      |  58.6 kB |    1.7 kB |
 | markdown-it-footnote@4.0.0（参考） |  46.8 kB |    2.7 kB |
 
 ### 说明

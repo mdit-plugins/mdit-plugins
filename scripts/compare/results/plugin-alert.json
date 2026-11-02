@@ -1,0 +1,479 @@
+{
+  "plugin": "plugin-alert",
+  "reference": "markdown-it-github-alerts",
+  "referenceVersion": "1.0.1",
+  "generatedAt": "2026-11-02T06:01:40.401Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 4,
+        "normalized": 12,
+        "diff": 9,
+        "error": 0,
+        "cases": [
+          {
+            "name": "note",
+            "status": "normalized"
+          },
+          {
+            "name": "tip",
+            "status": "normalized"
+          },
+          {
+            "name": "important",
+            "status": "normalized"
+          },
+          {
+            "name": "warning",
+            "status": "normalized"
+          },
+          {
+            "name": "caution",
+            "status": "normalized"
+          },
+          {
+            "name": "mixed-case",
+            "status": "normalized"
+          },
+          {
+            "name": "uppercase",
+            "status": "diff",
+            "note": "The reference lowercases the alert name before capitalizing the default title, so `[!TIP]` renders `Tip`; the current package preserves the written casing and renders `TIP`.",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-tip\">\n<p class=\"markdown-alert-title\">TIP</p>\n<p>body</p>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-tip\"><p class=\"markdown-alert-title\">Tip</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "unknown-type",
+            "status": "exact"
+          },
+          {
+            "name": "multiline-body",
+            "status": "normalized"
+          },
+          {
+            "name": "inline-markup",
+            "status": "normalized"
+          },
+          {
+            "name": "list-body",
+            "status": "diff",
+            "note": "The reference keeps the marker line's empty paragraph and emits `<p></p>` before the list; the current package consumes the marker line and starts the body with the list.",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<ul>\n<li>a</li>\n<li>b</li>\n</ul>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<ul>\n<li>a</li>\n<li>b</li>\n</ul>\n</div>\n"
+          },
+          {
+            "name": "nested-blockquote",
+            "status": "diff",
+            "note": "The reference keeps an empty `<p></p>` for the marker line and closes the hoisted alert `<div>` before the nested `</blockquote>`; the current package keeps the nested blockquote inside the alert with balanced tags.",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<blockquote>\n<p>nested quote</p>\n</blockquote>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<blockquote>\n<p>nested quote</p>\n</div>\n</blockquote>\n"
+          },
+          {
+            "name": "nested-alert",
+            "status": "diff",
+            "note": "The reference transforms the outermost blockquote because its first inline token starts with the marker, leaving the inner blockquote inside the alert; the current package (`deep: true`) transforms the inner blockquote and keeps the outer quote.",
+            "ourHtml": "<blockquote>\n<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>nested alert</p>\n</div>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><blockquote>\n<p>nested alert</p>\n</div>\n</blockquote>\n"
+          },
+          {
+            "name": "inside-list",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-alerts",
+            "status": "normalized"
+          },
+          {
+            "name": "empty-body",
+            "status": "diff",
+            "note": "The reference accepts a marker with no body and renders an empty alert; the current package requires at least one body line, so the marker stays a literal blockquote.",
+            "ourHtml": "<blockquote>\n<p>[!note]</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n</div>\n"
+          },
+          {
+            "name": "empty-quoted-body",
+            "status": "diff",
+            "note": "The reference keeps an empty paragraph for the empty quoted line before the body; the current package consumes the marker line and emits only the body paragraph.",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>body</p>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<p>body</p>\n</div>\n"
+          },
+          {
+            "name": "custom-title",
+            "status": "diff",
+            "note": "The reference treats trailing text after the marker as a custom title; the current package rejects the marker when anything but spaces follows `]`, so it stays a literal blockquote.",
+            "ourHtml": "<blockquote>\n<p>[!note] Custom title\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Custom title</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "trailing-spaces",
+            "status": "normalized"
+          },
+          {
+            "name": "escaped-bracket",
+            "status": "diff",
+            "note": "The reference's regex accepts an optional backslash before `[`, so `\\[!note]` is still parsed as an alert; the current package treats the escaped bracket as literal text, as documented.",
+            "ourHtml": "<blockquote>\n<p>[!note]\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "escaped-bang",
+            "status": "exact"
+          },
+          {
+            "name": "unterminated-marker",
+            "status": "exact"
+          },
+          {
+            "name": "hr-before-marker",
+            "status": "diff",
+            "note": "The reference searches the first inline token of the blockquote and therefore finds the marker after an `<hr>`; the current package only accepts the marker on the first line of the blockquote.",
+            "ourHtml": "<blockquote>\n<hr>\n<p>[!note]\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><hr>\n<p>body</p>\n</div>\n"
+          },
+          {
+            "name": "indented-marker",
+            "status": "normalized"
+          },
+          {
+            "name": "no-alert-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17242.826061042888,
+            "meanMs": 0.057995133539003964,
+            "samples": [
+              0.06127010797708241,
+              0.057995133539003964,
+              0.05748885323931249,
+              0.058614000440722805,
+              0.05792166152490085
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17098.152021305603,
+            "meanMs": 0.05848585266723115,
+            "samples": [
+              0.05933423285351397,
+              0.05848585266723115,
+              0.05760942379339546,
+              0.05739391066892466,
+              0.059463166807790006
+            ]
+          },
+          "ratio": 1.008461384572848
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2481.1807187907316,
+            "meanMs": 0.40303392349726797,
+            "samples": [
+              0.4081379781420766,
+              0.40051081420765056,
+              0.40381307103825126,
+              0.4006915983606565,
+              0.40303392349726797
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2500.5734571078788,
+            "meanMs": 0.3999082679045083,
+            "samples": [
+              0.4061879973474801,
+              0.398797082228117,
+              0.41379454111405894,
+              0.3999082679045083,
+              0.39776912201591524
+            ]
+          },
+          "ratio": 0.9922446836096643
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 787.0292409190108,
+            "meanMs": 1.2706008214285711,
+            "samples": [
+              1.2766480714285697,
+              1.2605915178571447,
+              1.2706008214285711,
+              1.274235866071434,
+              1.2564460625000038
+            ]
+          },
+          "reference": {
+            "opsPerSec": 795.5812055987553,
+            "meanMs": 1.2569427142857137,
+            "samples": [
+              1.2547615357142863,
+              1.2569427142857137,
+              1.2671785714285713,
+              1.265777901785713,
+              1.2547514821428567
+            ]
+          },
+          "ratio": 0.9892506703029664
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 8224.455942620152,
+            "meanMs": 0.1215885898078529,
+            "samples": [
+              0.12295648872180466,
+              0.1209907401837934,
+              0.124691207184628,
+              0.1215885898078529,
+              0.12057557059314959
+            ]
+          },
+          "reference": {
+            "opsPerSec": 8178.686149601106,
+            "meanMs": 0.12226902728731953,
+            "samples": [
+              0.12389663643659696,
+              0.12697816372391635,
+              0.12226902728731953,
+              0.12215148475120383,
+              0.12116479373996823
+            ]
+          },
+          "ratio": 1.0055962280715807
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1646.1786572267924,
+            "meanMs": 0.6074674796747963,
+            "samples": [
+              0.5999185325203239,
+              0.6074674796747963,
+              0.6091333008130092,
+              0.6141844512195141,
+              0.6036995243902444
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1658.1184997759292,
+            "meanMs": 0.603093204819279,
+            "samples": [
+              0.6032602088353416,
+              0.6007588674698806,
+              0.5979310562248998,
+              0.603093204819279,
+              0.6060615783132551
+            ]
+          },
+          "ratio": 0.9927991620920035
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 428.652048737623,
+            "meanMs": 2.3328944838709913,
+            "samples": [
+              2.3255060483870986,
+              2.3239348064516157,
+              2.3668669354838716,
+              2.3432547096774154,
+              2.3328944838709913
+            ]
+          },
+          "reference": {
+            "opsPerSec": 434.91527920508804,
+            "meanMs": 2.299298387096769,
+            "samples": [
+              2.299298387096769,
+              2.3181055161290245,
+              2.295202290322572,
+              2.309687499999992,
+              2.280809822580669
+            ]
+          },
+          "ratio": 0.9855989642881422
+        }
+      ],
+      "scaling": [
+        {
+          "case": "alert-rows",
+          "sizes": [
+            250,
+            500,
+            1000,
+            2000
+          ],
+          "current": [
+            {
+              "size": 250,
+              "ms": 0.47083541249999145
+            },
+            {
+              "size": 500,
+              "ms": 0.9664096363636394
+            },
+            {
+              "size": 1000,
+              "ms": 1.9859890526315787
+            },
+            {
+              "size": 2000,
+              "ms": 3.9212187500000253
+            }
+          ],
+          "reference": [
+            {
+              "size": 250,
+              "ms": 0.4750655094339662
+            },
+            {
+              "size": 500,
+              "ms": 0.9590522048192834
+            },
+            {
+              "size": 1000,
+              "ms": 1.9187350512820558
+            },
+            {
+              "size": 2000,
+              "ms": 3.8990442499999745
+            }
+          ],
+          "currentExponent": 1.021317309186558,
+          "referenceExponent": 1.0111240719800114
+        },
+        {
+          "case": "long-alert-body",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "current": [
+            {
+              "size": 500,
+              "ms": 0.28289671126760724
+            },
+            {
+              "size": 1000,
+              "ms": 0.5750410305343477
+            },
+            {
+              "size": 2000,
+              "ms": 1.1429851142857193
+            },
+            {
+              "size": 4000,
+              "ms": 2.252646428571409
+            }
+          ],
+          "reference": [
+            {
+              "size": 500,
+              "ms": 0.28156336805555937
+            },
+            {
+              "size": 1000,
+              "ms": 0.5662112676056341
+            },
+            {
+              "size": 2000,
+              "ms": 1.1247189014084398
+            },
+            {
+              "size": 4000,
+              "ms": 2.2196414473683994
+            }
+          ],
+          "currentExponent": 0.997089054456939,
+          "referenceExponent": 0.9926537394370498
+        },
+        {
+          "case": "nested-alerts",
+          "sizes": [
+            250,
+            500,
+            1000,
+            2000
+          ],
+          "current": [
+            {
+              "size": 250,
+              "ms": 0.5993290441176401
+            },
+            {
+              "size": 500,
+              "ms": 1.2168912372881249
+            },
+            {
+              "size": 1000,
+              "ms": 2.446951000000006
+            },
+            {
+              "size": 2000,
+              "ms": 5.047341666666762
+            }
+          ],
+          "reference": [
+            {
+              "size": 250,
+              "ms": 0.6054388253968292
+            },
+            {
+              "size": 500,
+              "ms": 1.2195443174603295
+            },
+            {
+              "size": 1000,
+              "ms": 2.4451796875000014
+            },
+            {
+              "size": 2000,
+              "ms": 4.960997375000034
+            }
+          ],
+          "currentExponent": 1.0230095645108945,
+          "referenceExponent": 1.0107329583587994
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "`deep: true` is enabled on the current package because the reference transforms every outermost blockquote after block parsing and therefore recognizes alerts at any nesting depth; the comparison covers nested blockquotes and alerts inside list items.",
+    "The reference's default GitHub SVG icons are disabled with `icons: {}` because the current package has no icon option. This is a documented default-markup difference, not a normalization: with default options the reference title contains an inline `<svg>`, while the current title contains only text.",
+    "`deep: true` and `icons: {}` were measured to be irrelevant for the throughput gap: enabling `deep` costs about 1.6% only on the heavy corpus (one nested alert per unit) and 0% on the normal corpus, and disabling the reference icons changes the reference throughput by about 0.2%. The benchmark difference therefore follows the implementations, not the option mapping.",
+    "Whitespace between block-level tags is normalized because the reference renders its opening `<div>` and title `<p>` without newlines while the current package uses markdown-it's default block renderer; attribute order is normalized by the shared normalizer as well. Text content and code whitespace are preserved.",
+    "The reference removes the marker from the first inline token and keeps the surrounding blockquote content. An alert whose first content line is empty therefore leaves an empty `<p></p>`, and a nested blockquote is hoisted into the alert. The current package consumes the marker line before parsing the body, so those structural differences remain visible in the `list-body`, `nested-blockquote`, `empty-quoted-body` and `nested-alert` cases.",
+    "Parse-level differences are documented rather than normalized: the reference supports a custom title from trailing text (`> [!note] Title`), accepts a marker without any body, treats `\\[!note]` as an alert, and finds a marker in the first inline token even after another block such as `<hr>`. The current package requires the marker line to contain only the marker, requires body content, and honors the escaped bracket. See the matching diff cases.",
+    "Default title casing differs: the reference lowercases the marker before capitalizing it (`[!TIP]` → `Tip`), while the current package capitalizes the written name and preserves its casing (`[!TIP]` → `TIP`).",
+    "Both sides use the same five case-insensitive alert names and the default `markdown-alert` class prefix. The reference's `classPrefix` / `titles` options and the current package's `openRenderer` / `closeRenderer` / `titleRenderer` hooks have no counterpart on the other side and are left at their defaults.",
+    "Scaling: the reference scans a blockquote's token range once per outermost blockquote and the current package scans each alert body once, so `alert-rows`, `long-alert-body` and `nested-alerts` all grow linearly; no superlinear path was found."
+  ]
+}

@@ -500,12 +500,12 @@ $$
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       67,235 |       67,559 | 1.00× |
-| normal/medium |       17,355 |       17,273 | 1.00× |
-| normal/large  |        5,794 |        5,811 | 1.00× |
-| heavy/small   |      123,580 |      123,114 | 1.00× |
-| heavy/medium  |       63,630 |       63,471 | 1.00× |
-| heavy/large   |       32,742 |       32,045 | 1.02× |
+| normal/small  |       66,951 |       67,555 | 0.99× |
+| normal/medium |       17,307 |       17,164 | 1.01× |
+| normal/large  |        5,784 |        5,804 | 1.00× |
+| heavy/small   |      123,371 |      121,819 | 1.01× |
+| heavy/medium  |       63,875 |       63,314 | 1.01× |
+| heavy/large   |       32,525 |       32,242 | 1.01× |
 
 几何平均吞吐量比值：1.00×（共 6 个用例）；大于 1× 表示当前包更快。
 
@@ -513,9 +513,9 @@ $$
 
 | 系列                   | 输入规模               | 当前拟合指数 | 参考拟合指数 |
 | ---------------------- | ---------------------- | -----------: | -----------: |
-| inline-formulas        | 64 / 128 / 256 / 512   |        ~0.97 |        ~0.96 |
-| multiline-block-fences | 64 / 128 / 256 / 512   |        ~1.00 |        ~1.00 |
-| unmatched-block-fence  | 128 / 256 / 512 / 1024 |        ~1.72 |        ~0.97 |
+| inline-formulas        | 64 / 128 / 256 / 512   |        ~0.98 |        ~0.97 |
+| multiline-block-fences | 64 / 128 / 256 / 512   |        ~1.01 |        ~1.00 |
+| unmatched-block-fence  | 128 / 256 / 512 / 1024 |        ~0.99 |        ~0.98 |
 
 拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。
 
@@ -523,7 +523,7 @@ $$
 
 | 包                              | 解压体积 | 入口 gzip |
 | ------------------------------- | -------: | --------: |
-| @mdit/plugin-tex（当前）        |  61.8 kB |    1.5 kB |
+| @mdit/plugin-tex（当前）        |  68.1 kB |    1.7 kB |
 | markdown-it-katex@2.0.3（参考） |  29.9 kB |    2.0 kB |
 
 ### 说明
@@ -535,7 +535,7 @@ $$
 - Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`), and `$$` alone is not a math block.
 - Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\(...\)` / `\[...\]`), `mathFence` (` ```math `), `allowInlineWithSpace`, and the `render` callback itself.
 - Benchmarks measure parsing only on both sides (the stub renderer is never called and the reference renderer is not invoked), so the two sides do the same work. The corpora stay small on purpose: 24 inline formulas for `normal/large` and 24 inline plus 8 display formulas for `heavy/large`.
-- Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the current `math_block` rule scans ahead even in silent mode and the paragraph terminator calls it once per line, so the fitted exponent is well above 1 and approaches 2 asymptotically; the reference short-circuits in silent mode and then consumes the rest of the document as a single block, staying linear), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).
+- Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the paragraph terminator probes the block rule once per line; the current package memoizes unsuccessful closing-marker look-aheads and stays linear, while the reference short-circuits in silent mode and then consumes the rest of the document as a single block), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).
 - 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。
 - 入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `dist/index.js`，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。
 - 基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧运行在相同负载下。

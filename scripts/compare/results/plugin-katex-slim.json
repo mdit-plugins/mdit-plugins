@@ -2,8 +2,8 @@
   "plugin": "plugin-katex-slim",
   "reference": "markdown-it-katex",
   "referenceVersion": "2.0.3",
-  "generatedAt": "2026-11-02T01:16:07.557Z",
-  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "generatedAt": "2026-11-02T06:05:39.267Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -147,168 +147,168 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 15060.035485975783,
-            "meanMs": 0.06640090595611284,
+            "opsPerSec": 17179.57596191994,
+            "meanMs": 0.05820865440547479,
             "samples": [
-              0.07191322675026124,
-              0.06675513688610238,
-              0.06640090595611284,
-              0.05943569278996864,
-              0.060545890282131754
+              0.06383679041916167,
+              0.0591278870829769,
+              0.05683814542343881,
+              0.05820865440547479,
+              0.055273239520958084
             ]
           },
           "reference": {
-            "opsPerSec": 16654.566711609365,
-            "meanMs": 0.060043591485507225,
+            "opsPerSec": 17579.693654686296,
+            "meanMs": 0.05688381263307314,
             "samples": [
-              0.06667972554347826,
-              0.06409586322463764,
-              0.060043591485507225,
-              0.058819557971014465,
-              0.05985318478260876
+              0.05874929027679205,
+              0.058368760823278916,
+              0.05688381263307314,
+              0.05518970333569908,
+              0.05470511000709719
             ]
           },
-          "ratio": 0.904258618477172
+          "ratio": 0.9772397801335012
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 4529.932946738397,
-            "meanMs": 0.2207538194842401,
+            "opsPerSec": 4531.86209986655,
+            "meanMs": 0.22065984753363238,
             "samples": [
-              0.2310022693409741,
-              0.2207538194842401,
-              0.23041404011461344,
-              0.2195565902578798,
-              0.21507067908309452
+              0.22065984753363238,
+              0.22181829147982043,
+              0.21850429820627768,
+              0.2168662174887891,
+              0.22309893497757893
             ]
           },
           "reference": {
-            "opsPerSec": 4582.455200138892,
-            "meanMs": 0.21822362823529415,
+            "opsPerSec": 4686.804884370784,
+            "meanMs": 0.21336497350993366,
             "samples": [
-              0.22763264705882352,
-              0.2198330399999997,
-              0.21822362823529415,
-              0.2141741176470591,
-              0.21182235294117643
+              0.21558342384105947,
+              0.21318772847682085,
+              0.21336497350993366,
+              0.21809823399558523,
+              0.2117787902869757
             ]
           },
-          "ratio": 0.9885384032998504
+          "ratio": 0.9669406368886988
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 1432.7171556528615,
-            "meanMs": 0.697974471830987,
+            "opsPerSec": 1469.234186498431,
+            "meanMs": 0.68062668918919,
             "samples": [
-              0.6752749436619704,
-              0.6936587464788734,
-              0.6993799859154913,
-              0.7037030492957731,
-              0.697974471830987
+              0.6562167837837847,
+              0.6811289459459462,
+              0.6743051756756776,
+              0.68062668918919,
+              0.6936711756756747
             ]
           },
           "reference": {
-            "opsPerSec": 1483.1682114224498,
-            "meanMs": 0.6742323576642317,
+            "opsPerSec": 1541.709481223716,
+            "meanMs": 0.6486306351351361,
             "samples": [
-              0.6626478102189787,
-              0.6555559635036501,
-              0.6743172189781035,
-              0.6745620437956201,
-              0.6742323576642317
+              0.6282032635135124,
+              0.6351765202702695,
+              0.6486306351351361,
+              0.6522519662162175,
+              0.6659577702702693
             ]
           },
-          "ratio": 0.9659842657218208
+          "ratio": 0.9529903035507322
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 7019.160147460981,
-            "meanMs": 0.1424671868131869,
+            "opsPerSec": 6803.755678502381,
+            "meanMs": 0.14697764694280094,
             "samples": [
-              0.15097306227106266,
-              0.1424671868131869,
-              0.16324213919413927,
-              0.14140293040293064,
-              0.14066178205128185
+              0.14697764694280094,
+              0.1658560986193295,
+              0.1540739644970412,
+              0.14170521104536543,
+              0.141102976331361
             ]
           },
           "reference": {
-            "opsPerSec": 7204.969855083413,
-            "meanMs": 0.13879308589951386,
+            "opsPerSec": 7095.274234156064,
+            "meanMs": 0.1409388794567069,
             "samples": [
-              0.14370921069692077,
-              0.13879308589951386,
-              0.1412668152350084,
-              0.1385147893030792,
-              0.13369529983792508
+              0.1831312258064512,
+              0.17369284210526328,
+              0.1409388794567069,
+              0.1375050933786076,
+              0.1384393039049238
             ]
           },
-          "ratio": 0.9742108972889962
+          "ratio": 0.9589137014253322
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 3461.2319253102496,
-            "meanMs": 0.28891447368421125,
+            "opsPerSec": 3447.9761594355587,
+            "meanMs": 0.2900252071823206,
             "samples": [
-              0.27118605817174596,
-              0.29033887257617813,
-              0.28891447368421125,
-              0.2842542714681429,
-              0.29017036011080416
+              0.2900252071823206,
+              0.2937871795580107,
+              0.29351611325966853,
+              0.287214546961327,
+              0.27883943370165754
             ]
           },
           "reference": {
-            "opsPerSec": 3621.539349982617,
-            "meanMs": 0.2761256756756764,
+            "opsPerSec": 3594.713058812561,
+            "meanMs": 0.2781863207547167,
             "samples": [
-              0.26262623783783745,
-              0.263952475675676,
-              0.2773341216216215,
-              0.2761256756756764,
-              0.2810656513513513
+              0.27268351482479747,
+              0.2781863207547167,
+              0.3076260107816698,
+              0.30656682479784503,
+              0.27243429919137435
             ]
           },
-          "ratio": 0.955735004046515
+          "ratio": 0.9591798018433566
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 1808.822779150143,
-            "meanMs": 0.5528457577639749,
+            "opsPerSec": 1643.235347818147,
+            "meanMs": 0.6085555555555562,
             "samples": [
-              0.5731221552795043,
-              0.5654635093167667,
-              0.5528457577639749,
-              0.5396545031055878,
-              0.5301322484472067
+              0.5783991228070176,
+              0.576252678362574,
+              0.6175674912280679,
+              0.6085555555555562,
+              0.6362899590643292
             ]
           },
           "reference": {
-            "opsPerSec": 1850.4066068834443,
-            "meanMs": 0.5404217625899286,
+            "opsPerSec": 1487.3824865578088,
+            "meanMs": 0.6723220214285708,
             "samples": [
-              0.5404217625899286,
-              0.545769489208632,
-              0.5471855539568332,
-              0.5167158273381325,
-              0.5234382446043134
+              0.6723220214285708,
+              0.6755104142857102,
+              0.6843252928571408,
+              0.5989118999999976,
+              0.6043488071428523
             ]
           },
-          "ratio": 0.9775271945211335
+          "ratio": 1.1047833107279772
         }
       ],
       "scaling": [
@@ -323,41 +323,41 @@
           "current": [
             {
               "size": 32,
-              "ms": 0.24004611650485447
+              "ms": 0.27772306034483035
             },
             {
               "size": 64,
-              "ms": 0.4731225000000025
+              "ms": 0.5286366459627315
             },
             {
               "size": 128,
-              "ms": 1.1124017857142852
+              "ms": 1.0194595285714318
             },
             {
               "size": 256,
-              "ms": 2.2664593749999993
+              "ms": 1.9751583599999867
             }
           ],
           "reference": [
             {
               "size": 32,
-              "ms": 0.23057212658227688
+              "ms": 0.27677138741721785
             },
             {
               "size": 64,
-              "ms": 0.4648394807692314
+              "ms": 0.5088961052631595
             },
             {
               "size": 128,
-              "ms": 1.72069329166666
+              "ms": 1.067863845070425
             },
             {
               "size": 256,
-              "ms": 2.1986902666666537
+              "ms": 1.920666655172399
             }
           ],
-          "currentExponent": 1.0950562691043655,
-          "referenceExponent": 1.1648248529608807
+          "currentExponent": 0.9438204502997213,
+          "referenceExponent": 0.9453805979758894
         },
         {
           "case": "long-formula",
@@ -370,41 +370,41 @@
           "current": [
             {
               "size": 64,
-              "ms": 0.21284206529209357
+              "ms": 0.2191630051679579
             },
             {
               "size": 128,
-              "ms": 0.40230569948186284
+              "ms": 0.4584975384615392
             },
             {
               "size": 256,
-              "ms": 0.7825429687500028
+              "ms": 0.8514560760869522
             },
             {
               "size": 512,
-              "ms": 1.5881337894737186
+              "ms": 1.6483506944444142
             }
           ],
           "reference": [
             {
               "size": 64,
-              "ms": 0.2404969331103691
+              "ms": 0.21889339152119675
             },
             {
               "size": 128,
-              "ms": 0.3943734518518559
+              "ms": 0.4344107142857129
             },
             {
               "size": 256,
-              "ms": 0.7692338367346844
+              "ms": 0.8224218247422747
             },
             {
               "size": 512,
-              "ms": 1.537880333333352
+              "ms": 1.588582189189175
             }
           ],
-          "currentExponent": 0.9658309520467234,
-          "referenceExponent": 0.8994418326316888
+          "currentExponent": 0.9625859176734297,
+          "referenceExponent": 0.9499137149706508
         },
         {
           "case": "display-formulas",
@@ -417,47 +417,48 @@
           "current": [
             {
               "size": 16,
-              "ms": 0.12435840881458872
+              "ms": 0.12576027666666656
             },
             {
               "size": 32,
-              "ms": 0.2419720897435885
+              "ms": 0.25013087540983625
             },
             {
               "size": 64,
-              "ms": 0.476947852760738
+              "ms": 0.49944343708609223
             },
             {
               "size": 128,
-              "ms": 0.9648606874999928
+              "ms": 1.0023885135135209
             }
           ],
           "reference": [
             {
               "size": 16,
-              "ms": 0.11919217384843757
+              "ms": 0.12362965849923387
             },
             {
               "size": 32,
-              "ms": 0.23199565773809572
+              "ms": 0.24130037908496865
             },
             {
               "size": 64,
-              "ms": 0.46217162500000175
+              "ms": 0.4914112068965488
             },
             {
               "size": 128,
-              "ms": 0.9449363611111039
+              "ms": 0.9876660714285858
             }
           ],
-          "currentExponent": 0.9846440657423372,
-          "referenceExponent": 0.9955113863837244
+          "currentExponent": 0.9981718907352022,
+          "referenceExponent": 1.002009597749883
         }
       ]
     }
   ],
   "notes": [
     "This comparison renders real KaTeX on both sides and compares the resulting HTML. The reference declares `katex: ^0.6.0`, but the committed workspace override (`pnpm-workspace.yaml`: `overrides.katex: ^0.19.0`, kept for the docs toolchain) makes the installed reference use the same KaTeX 0.19.1 as this package, so the rendered math HTML is directly comparable. If that override is ever removed the reference would fall back to KaTeX 0.6 and this spec would have to switch to a token-level comparison.",
+    "The benchmark still shows a small gap that is not plugin overhead: this ESM package resolves `katex` through the `import` condition (`dist/katex.mjs`) while the CJS reference resolves `dist/katex.js`. The identical KaTeX 0.19.1 code runs about 4.5% faster as CJS on Node, so with both sides forced onto the same KaTeX build the packages measure at parity; neither package allocates KaTeX options per formula any more.",
     "`@mdit/plugin-katex-slim` is the same tex + KaTeX composition as `@mdit/plugin-katex`; the only difference is that it loads KaTeX with a dynamic `import(\"katex\")` at module initialization and throws when KaTeX is not installed. The comparison therefore uses the same cases and the results should match `plugin-katex`.",
     "Two intentional markup differences are normalized instead of compared: the current package wraps display math in `<p class='katex-block'>` (the reference emits a plain `<p>`), and it keeps the edge whitespace/newline of the block formula while the reference trims it (the MathML `annotation` echoes the input formula, so its edge whitespace differs). The visible KaTeX HTML is unchanged by either normalization, and both are documented here rather than hidden.",
     "`throwOnError: false` is set on both sides so that invalid LaTeX is handled the same way. This is already the default of the current package; with the reference's defaults the reference instead emits the raw LaTeX from its own `catch` block, which is a documented default difference and not compared.",

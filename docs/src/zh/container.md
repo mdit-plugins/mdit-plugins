@@ -197,20 +197,20 @@ md.use(container, {
 
 | 用例          | 当前 (ops/s) | 参考 (ops/s) |  比值 |
 | ------------- | -----------: | -----------: | ----: |
-| normal/small  |       12,010 |       11,933 | 1.01× |
-| normal/medium |        2,335 |        2,333 | 1.00× |
-| normal/large  |          576 |          576 | 1.00× |
-| heavy/small   |        7,278 |        7,283 | 1.00× |
-| heavy/medium  |        1,375 |        1,372 | 1.00× |
-| heavy/large   |          345 |          345 | 1.00× |
+| normal/small  |       11,219 |       11,117 | 1.01× |
+| normal/medium |        2,173 |        2,151 | 1.01× |
+| normal/large  |          556 |          562 | 0.99× |
+| heavy/small   |        6,945 |        7,044 | 0.99× |
+| heavy/medium  |        1,012 |          838 | 1.21× |
+| heavy/large   |          293 |          293 | 1.00× |
 
-几何平均吞吐量比值：1.00×（共 6 个用例）；大于 1× 表示当前包更快。
+几何平均吞吐量比值：1.03×（共 6 个用例）；大于 1× 表示当前包更快。
 
 ### 复杂度缩放
 
 | 系列                     | 输入规模               | 当前拟合指数 | 参考拟合指数 |
 | ------------------------ | ---------------------- | -----------: | -----------: |
-| deeply-nested-containers | 128 / 256 / 512 / 1024 |        ~1.61 |        ~1.66 |
+| deeply-nested-containers | 128 / 256 / 512 / 1024 |        ~1.00 |        ~1.65 |
 | non-matching-containers  | 128 / 256 / 512 / 1024 |        ~1.00 |        ~1.00 |
 | sibling-containers       | 128 / 256 / 512 / 1024 |        ~1.00 |        ~1.00 |
 
@@ -220,7 +220,7 @@ md.use(container, {
 
 | 包                                  | 解压体积 | 入口 gzip |
 | ----------------------------------- | -------: | --------: |
-| @mdit/plugin-container（当前）      |  29.2 kB |     910 B |
+| @mdit/plugin-container（当前）      |  37.0 kB |    1.1 kB |
 | markdown-it-container@4.0.0（参考） |  20.1 kB |    1.4 kB |
 
 ### 说明
@@ -228,7 +228,7 @@ md.use(container, {
 - The current package takes a required `name` option object, while the reference takes the container name as a positional argument; both sides are installed through custom renderers so that two equivalent containers are registered (`warning` with the default `:` marker and `spoiler` with the `%` marker).
 - The current package does not need `openRenderer` / `closeRenderer` to be compared: both are user render functions with no reference counterpart. The default renderer output (the container class on the opening `<div>`) is compared.
 - `indented-opening`, `indented-closing` and `indented-closing-after-blank` are expected differences: the current package only accepts a closing marker indented exactly like the opening marker, while the reference accepts any closing marker indented less than four columns relative to the enclosing block, so the reference closes those blocks and the current package keeps the marker as content.
-- Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the quadratic closing-marker scan of the `deeply-nested-containers` series. The benchmark corpora are shallow, so throughput is unaffected.
+- Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the closing-marker scan of the `deeply-nested-containers` series. The reference rescans the remaining lines for every nesting level and grows quadratically; the current package reuses the enclosing scan and stays linear. The benchmark corpora are shallow, so throughput is unaffected.
 - 包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。
 - 入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `dist/index.js`，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。
 - 基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧运行在相同负载下。

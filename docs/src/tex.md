@@ -506,12 +506,12 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          67,235 |            67,559 | 1.00× |
-| normal/medium |          17,355 |            17,273 | 1.00× |
-| normal/large  |           5,794 |             5,811 | 1.00× |
-| heavy/small   |         123,580 |           123,114 | 1.00× |
-| heavy/medium  |          63,630 |            63,471 | 1.00× |
-| heavy/large   |          32,742 |            32,045 | 1.02× |
+| normal/small  |          66,951 |            67,555 | 0.99× |
+| normal/medium |          17,307 |            17,164 | 1.01× |
+| normal/large  |           5,784 |             5,804 | 1.00× |
+| heavy/small   |         123,371 |           121,819 | 1.01× |
+| heavy/medium  |          63,875 |            63,314 | 1.01× |
+| heavy/large   |          32,525 |            32,242 | 1.01× |
 
 Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the current package is faster.
 
@@ -519,9 +519,9 @@ Geometric mean throughput ratio: 1.00× across 6 cases; above 1× means the curr
 
 | Series                 | Sizes                  | Current exponent | Reference exponent |
 | ---------------------- | ---------------------- | ---------------: | -----------------: |
-| inline-formulas        | 64 / 128 / 256 / 512   |            ~0.97 |              ~0.96 |
-| multiline-block-fences | 64 / 128 / 256 / 512   |            ~1.00 |              ~1.00 |
-| unmatched-block-fence  | 128 / 256 / 512 / 1024 |            ~1.72 |              ~0.97 |
+| inline-formulas        | 64 / 128 / 256 / 512   |            ~0.98 |              ~0.97 |
+| multiline-block-fences | 64 / 128 / 256 / 512   |            ~1.01 |              ~1.00 |
+| unmatched-block-fence  | 128 / 256 / 512 / 1024 |            ~0.99 |              ~0.98 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -529,7 +529,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                             | Unpacked size | Entry gzip |
 | ----------------------------------- | ------------: | ---------: |
-| @mdit/plugin-tex (current)          |       61.8 kB |     1.5 kB |
+| @mdit/plugin-tex (current)          |       68.1 kB |     1.7 kB |
 | markdown-it-katex@2.0.3 (reference) |       29.9 kB |     2.0 kB |
 
 ### Notes
@@ -541,7 +541,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 - Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`), and `$$` alone is not a math block.
 - Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\(...\)` / `\[...\]`), `mathFence` (` ```math `), `allowInlineWithSpace`, and the `render` callback itself.
 - Benchmarks measure parsing only on both sides (the stub renderer is never called and the reference renderer is not invoked), so the two sides do the same work. The corpora stay small on purpose: 24 inline formulas for `normal/large` and 24 inline plus 8 display formulas for `heavy/large`.
-- Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the current `math_block` rule scans ahead even in silent mode and the paragraph terminator calls it once per line, so the fitted exponent is well above 1 and approaches 2 asymptotically; the reference short-circuits in silent mode and then consumes the rest of the document as a single block, staying linear), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).
+- Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the paragraph terminator probes the block rule once per line; the current package memoizes unsuccessful closing-marker look-aheads and stays linear, while the reference short-circuits in silent mode and then consumes the rest of the document as a single block), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).
 - Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
 - Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
 - Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.

@@ -154,22 +154,22 @@ The following cases are documented differences:
 
 | Case          | Current (ops/s) | Reference (ops/s) | Ratio |
 | ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          18,139 |            18,221 | 1.00× |
-| normal/medium |           2,169 |             2,189 | 0.99× |
-| normal/large  |             568 |               573 | 0.99× |
-| heavy/small   |          15,608 |            16,314 | 0.96× |
-| heavy/medium  |           2,014 |             2,102 | 0.96× |
-| heavy/large   |             552 |               575 | 0.96× |
+| normal/small  |          17,508 |            17,590 | 1.00× |
+| normal/medium |           2,069 |             2,066 | 1.00× |
+| normal/large  |             546 |               548 | 1.00× |
+| heavy/small   |          15,180 |            15,514 | 0.98× |
+| heavy/medium  |           1,951 |             2,003 | 0.97× |
+| heavy/large   |             534 |               542 | 0.99× |
 
-Geometric mean throughput ratio: 0.98× across 6 cases; above 1× means the current package is faster.
+Geometric mean throughput ratio: 0.99× across 6 cases; above 1× means the current package is faster.
 
 ### Scaling
 
 | Series           | Sizes                | Current exponent | Reference exponent |
 | ---------------- | -------------------- | ---------------: | -----------------: |
-| malformed-sizes  | 64 / 128 / 256 / 512 |            ~1.02 |              ~1.02 |
-| sized-images     | 64 / 128 / 256 / 512 |            ~1.01 |              ~1.01 |
-| unmatched-labels | 64 / 128 / 256 / 512 |            ~1.19 |              ~1.19 |
+| malformed-sizes  | 64 / 128 / 256 / 512 |            ~1.03 |              ~1.02 |
+| sized-images     | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.00 |
+| unmatched-labels | 64 / 128 / 256 / 512 |            ~1.19 |              ~1.20 |
 
 Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
@@ -177,7 +177,7 @@ Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
 
 | Package                              | Unpacked size | Entry gzip |
 | ------------------------------------ | ------------: | ---------: |
-| @mdit/plugin-img-size (current)      |       87.2 kB |     1.8 kB |
+| @mdit/plugin-img-size (current)      |       88.0 kB |     1.8 kB |
 | markdown-it-imsize@2.0.1 (reference) |      638.1 kB |     1.6 kB |
 
 ### Notes

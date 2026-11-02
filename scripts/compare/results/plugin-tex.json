@@ -2,8 +2,8 @@
   "plugin": "plugin-tex",
   "reference": "markdown-it-katex",
   "referenceVersion": "2.0.3",
-  "generatedAt": "2026-11-02T01:17:30.973Z",
-  "commit": "029d49379dcbe3d49e9c7fe44b9404846e12ba4e",
+  "generatedAt": "2026-11-02T06:08:20.595Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -150,168 +150,168 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 67235.19534486545,
-            "meanMs": 0.01487316270698345,
+            "opsPerSec": 66950.67360587008,
+            "meanMs": 0.01493636951118476,
             "samples": [
-              0.015653355291576677,
-              0.014892181065514765,
-              0.014751184845212383,
-              0.014692584593232553,
-              0.01487316270698345
+              0.015649078293289147,
+              0.014664526304888157,
+              0.01632546251035625,
+              0.014613314623032315,
+              0.01493636951118476
             ]
           },
           "reference": {
-            "opsPerSec": 67558.64911224003,
-            "meanMs": 0.014801953756337376,
+            "opsPerSec": 67554.62361805893,
+            "meanMs": 0.01480283578595317,
             "samples": [
-              0.015174009064372404,
-              0.014857473037332923,
-              0.014801953756337376,
-              0.014787345675218937,
-              0.014679162083269331
+              0.015175007023411367,
+              0.015107169732441469,
+              0.014532831605351173,
+              0.014661162207357848,
+              0.01480283578595317
             ]
           },
-          "ratio": 0.9952122522930084
+          "ratio": 0.991059827146644
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 17354.733154666916,
-            "meanMs": 0.057621168305378806,
+            "opsPerSec": 17306.707109850937,
+            "meanMs": 0.05778106682297769,
             "samples": [
-              0.057621168305378806,
-              0.05767069115095438,
-              0.05742122151532685,
-              0.05738900173510701,
-              0.058356226720647844
+              0.058067848769050356,
+              0.05778106682297769,
+              0.05839263364595546,
+              0.05762145896834698,
+              0.05752559554513485
             ]
           },
           "reference": {
-            "opsPerSec": 17272.846035561062,
-            "meanMs": 0.057894338775510173,
+            "opsPerSec": 17164.27420810282,
+            "meanMs": 0.05826054675402035,
             "samples": [
-              0.058101214577259495,
-              0.057894338775510173,
-              0.05799130204081636,
-              0.057623153352769754,
-              0.057872181924198275
+              0.05813013698630138,
+              0.05826054675402035,
+              0.05834358248957715,
+              0.05819969743895178,
+              0.060418304347826066
             ]
           },
-          "ratio": 1.0047408006148648
+          "ratio": 1.008298218731607
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 5793.691640320555,
-            "meanMs": 0.17260152284263988,
+            "opsPerSec": 5784.351515243127,
+            "meanMs": 0.17288022648083623,
             "samples": [
-              0.1724335160744498,
-              0.17292569204737784,
-              0.17260152284263988,
-              0.17032036040609147,
-              0.17295762944162446
+              0.17288022648083623,
+              0.17315374564459918,
+              0.17268220034843232,
+              0.1723996811846691,
+              0.17310990243902444
             ]
           },
           "reference": {
-            "opsPerSec": 5810.56880537267,
-            "meanMs": 0.17210019078947356,
+            "opsPerSec": 5804.440478265838,
+            "meanMs": 0.1722818941368083,
             "samples": [
-              0.17233991282894728,
-              0.17294524506578948,
-              0.17210019078947356,
-              0.17130105592105258,
-              0.1699246151315784
+              0.17590967752442965,
+              0.1722818941368083,
+              0.17220948697068406,
+              0.17269659283387678,
+              0.170569828990228
             ]
           },
-          "ratio": 0.9970954366745456
+          "ratio": 0.9965390353992032
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 123580.06063517553,
-            "meanMs": 0.008091920289245776,
+            "opsPerSec": 123370.95287133398,
+            "meanMs": 0.008105635700511447,
             "samples": [
-              0.008054531320945076,
-              0.008108884133523927,
-              0.008067129824266382,
-              0.008091920289245776,
-              0.00815710922391325
+              0.008190233671501639,
+              0.008105635700511447,
+              0.008147449065146315,
+              0.008067382074285232,
+              0.00809046700762974
             ]
           },
           "reference": {
-            "opsPerSec": 123113.67903932715,
-            "meanMs": 0.008122574256598751,
+            "opsPerSec": 121819.3302555835,
+            "meanMs": 0.00820887783492116,
             "samples": [
-              0.008122574256598751,
-              0.008126165887069834,
-              0.00809060725025057,
-              0.008099450801871034,
-              0.008124777313732056
+              0.008280692268780069,
+              0.008227580642441602,
+              0.008166775566984235,
+              0.008045249810302673,
+              0.00820887783492116
             ]
           },
-          "ratio": 1.0037882191441894
+          "ratio": 1.0127370804985965
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 63629.55835718801,
-            "meanMs": 0.01571596638132305,
+            "opsPerSec": 63874.86642633754,
+            "meanMs": 0.01565561003799876,
             "samples": [
-              0.016920233463034964,
-              0.015705648404669235,
-              0.015710272373540887,
-              0.01571596638132305,
-              0.01580494817120624
+              0.015755059848005123,
+              0.015631478309056406,
+              0.016773340246991734,
+              0.01565561003799876,
+              0.015551938252058303
             ]
           },
           "reference": {
-            "opsPerSec": 63471.19816215946,
-            "meanMs": 0.015755177607410985,
+            "opsPerSec": 63313.65575828765,
+            "meanMs": 0.01579438097553073,
             "samples": [
-              0.015755177607410985,
-              0.01573511962945219,
-              0.01576387557898096,
-              0.015827636639514538,
-              0.015709903849225357
+              0.01594447156052494,
+              0.015572158807324595,
+              0.015672723221520007,
+              0.015833164641063036,
+              0.01579438097553073
             ]
           },
-          "ratio": 1.002494992998619
+          "ratio": 1.008863975098712
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 32742.273420661782,
-            "meanMs": 0.030541556694989817,
+            "opsPerSec": 32525.352053097147,
+            "meanMs": 0.03074524753390878,
             "samples": [
-              0.03055899033108701,
-              0.030470468209786224,
-              0.030524025783767943,
-              0.030541556694989817,
-              0.03062728274245523
+              0.030451269112207073,
+              0.03074524753390878,
+              0.030863247533908605,
+              0.030970727805178882,
+              0.03065482429099891
             ]
           },
           "reference": {
-            "opsPerSec": 32045.16806219235,
-            "meanMs": 0.031205952737062524,
+            "opsPerSec": 32241.64478085204,
+            "meanMs": 0.031015787401574783,
             "samples": [
-              0.031205952737062524,
-              0.03125014956625761,
-              0.03127990068800472,
-              0.030719924618606162,
-              0.030831314388274203
+              0.030691364724409614,
+              0.031015787401574783,
+              0.030921823937007833,
+              0.031133753385826902,
+              0.031293648503937094
             ]
           },
-          "ratio": 1.0217538368691501
+          "ratio": 1.008799404440235
         }
       ],
       "scaling": [
@@ -326,41 +326,41 @@
           "current": [
             {
               "size": 128,
-              "ms": 0.17358286859688327
+              "ms": 0.0885020996640535
             },
             {
               "size": 256,
-              "ms": 0.5173799019607852
+              "ms": 0.17651436637931026
             },
             {
               "size": 512,
-              "ms": 1.72428370212765
+              "ms": 0.34959188646287925
             },
             {
               "size": 1024,
-              "ms": 6.179256461538478
+              "ms": 0.6996720517241353
             }
           ],
           "reference": [
             {
               "size": 128,
-              "ms": 0.007152076813529157
+              "ms": 0.00716189825087459
             },
             {
               "size": 256,
-              "ms": 0.014040135850991111
+              "ms": 0.013816003951211209
             },
             {
               "size": 512,
-              "ms": 0.02659931619290962
+              "ms": 0.026452947787328766
             },
             {
               "size": 1024,
-              "ms": 0.05421792984778319
+              "ms": 0.055068726971504826
             }
           ],
-          "currentExponent": 1.719791157473357,
-          "referenceExponent": 0.9688839941310349
+          "currentExponent": 0.9934571924313456,
+          "referenceExponent": 0.976554608889969
         },
         {
           "case": "inline-formulas",
@@ -373,41 +373,41 @@
           "current": [
             {
               "size": 64,
-              "ms": 0.034299046819787946
+              "ms": 0.03454653324348632
             },
             {
               "size": 128,
-              "ms": 0.06611470413223167
+              "ms": 0.06730888713692929
             },
             {
               "size": 256,
-              "ms": 0.12950357968749984
+              "ms": 0.13446319047619018
             },
             {
               "size": 512,
-              "ms": 0.25718446601941536
+              "ms": 0.2630666089965363
             }
           ],
           "reference": [
             {
               "size": 64,
-              "ms": 0.03497770859167373
+              "ms": 0.03453978233305158
             },
             {
               "size": 128,
-              "ms": 0.06676641011743342
+              "ms": 0.06789564923571927
             },
             {
               "size": 256,
-              "ms": 0.13109871895424957
+              "ms": 0.13177109836065667
             },
             {
               "size": 512,
-              "ms": 0.2579063178807893
+              "ms": 0.2607002467105268
             }
           ],
-          "currentExponent": 0.9689638255527452,
-          "referenceExponent": 0.9620477498970047
+          "currentExponent": 0.9784788250778584,
+          "referenceExponent": 0.9704826096890722
         },
         {
           "case": "multiline-block-fences",
@@ -420,41 +420,41 @@
           "current": [
             {
               "size": 64,
-              "ms": 0.023940759326112834
+              "ms": 0.02449820305480658
             },
             {
               "size": 128,
-              "ms": 0.0469864380022962
+              "ms": 0.04786413565650241
             },
             {
               "size": 256,
-              "ms": 0.09516099163679868
+              "ms": 0.09679166744186067
             },
             {
               "size": 512,
-              "ms": 0.19135215136476172
+              "ms": 0.198161355000002
             }
           ],
           "reference": [
             {
               "size": 64,
-              "ms": 0.02626759767516998
+              "ms": 0.02608460664451798
             },
             {
               "size": 128,
-              "ms": 0.0512885506287223
+              "ms": 0.05148002246469811
             },
             {
               "size": 256,
-              "ms": 0.10418025477706896
+              "ms": 0.10453627784891151
             },
             {
               "size": 512,
-              "ms": 0.21052043902439124
+              "ms": 0.2099166666666671
             }
           ],
-          "currentExponent": 1.0014193819176067,
-          "referenceExponent": 1.0030185582197313
+          "currentExponent": 1.0063721204531837,
+          "referenceExponent": 1.00475575082958
         }
       ]
     }
@@ -467,6 +467,6 @@
     "Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`), and `$$` alone is not a math block.",
     "Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\\(...\\)` / `\\[...\\]`), `mathFence` (```` ```math ````), `allowInlineWithSpace`, and the `render` callback itself.",
     "Benchmarks measure parsing only on both sides (the stub renderer is never called and the reference renderer is not invoked), so the two sides do the same work. The corpora stay small on purpose: 24 inline formulas for `normal/large` and 24 inline plus 8 display formulas for `heavy/large`.",
-    "Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the current `math_block` rule scans ahead even in silent mode and the paragraph terminator calls it once per line, so the fitted exponent is well above 1 and approaches 2 asymptotically; the reference short-circuits in silent mode and then consumes the rest of the document as a single block, staying linear), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line)."
+    "Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the paragraph terminator probes the block rule once per line; the current package memoizes unsuccessful closing-marker look-aheads and stays linear, while the reference short-circuits in silent mode and then consumes the rest of the document as a single block), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line)."
   ]
 }

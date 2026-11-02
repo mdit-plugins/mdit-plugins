@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-img-size
 Compared against the upstream [`markdown-it-imsize`](https://www.npmjs.com/package/markdown-it-imsize) package `2.0.1`.
 
 - Correctness: **19/25** cases match the reference exactly (6 documented differences).
-- Throughput: **0.98×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Package size: **87.2 kB** unpacked and **1.8 kB** gzip entry, versus **638.1 kB** and **1.6 kB** for the reference.
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Package size: **88.0 kB** unpacked and **1.8 kB** gzip entry, versus **638.1 kB** and **1.6 kB** for the reference.
 
 See the comparison tables in the [English docs](https://mdit-plugins.github.io/img-size.html) or [中文文档](https://mdit-plugins.github.io/zh/img-size.html) for details and methodology.

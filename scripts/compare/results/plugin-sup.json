@@ -1,0 +1,442 @@
+{
+  "plugin": "plugin-sup",
+  "reference": "markdown-it-sup",
+  "referenceVersion": "2.0.0",
+  "generatedAt": "2026-11-02T06:07:54.593Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 24,
+        "exact": 24,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "empty-markers",
+            "status": "exact"
+          },
+          {
+            "name": "empty-with-space",
+            "status": "exact"
+          },
+          {
+            "name": "whitespace-inside",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-space",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-closing",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-opening",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-backslashes",
+            "status": "exact"
+          },
+          {
+            "name": "other-markers",
+            "status": "exact"
+          },
+          {
+            "name": "nested-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "nested-markers",
+            "status": "exact"
+          },
+          {
+            "name": "inside-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inside-strong",
+            "status": "exact"
+          },
+          {
+            "name": "inside-inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "code-inside",
+            "status": "exact"
+          },
+          {
+            "name": "inside-link",
+            "status": "exact"
+          },
+          {
+            "name": "link-inside",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed",
+            "status": "exact"
+          },
+          {
+            "name": "adjacent",
+            "status": "exact"
+          },
+          {
+            "name": "punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "multiline",
+            "status": "exact"
+          },
+          {
+            "name": "inside-code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10913.401911034596,
+            "meanMs": 0.0916304565846599,
+            "samples": [
+              0.09646713675832126,
+              0.09179100361794497,
+              0.0916304565846599,
+              0.08972811143270619,
+              0.09024882416787258
+            ]
+          },
+          "reference": {
+            "opsPerSec": 10884.519926541234,
+            "meanMs": 0.09187359725085911,
+            "samples": [
+              0.0940131443298969,
+              0.09187359725085911,
+              0.091189375257732,
+              0.08968562405498272,
+              0.0955685567010309
+            ]
+          },
+          "ratio": 1.0026534918111487
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2367.452202912265,
+            "meanMs": 0.42239501129943563,
+            "samples": [
+              0.43127577683615803,
+              0.42239501129943563,
+              0.42006061581920906,
+              0.42218585310734535,
+              0.4233479293785309
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2354.0012202237945,
+            "meanMs": 0.42480861581920937,
+            "samples": [
+              0.4253941864406778,
+              0.42389689265536745,
+              0.4254174915254225,
+              0.42480861581920937,
+              0.42297928531073364
+            ]
+          },
+          "ratio": 1.0057140933372972
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 644.7218067819624,
+            "meanMs": 1.5510565789473731,
+            "samples": [
+              1.5520557052631567,
+              1.5510565789473731,
+              1.5297842105263186,
+              1.5365223684210496,
+              1.5585021894736775
+            ]
+          },
+          "reference": {
+            "opsPerSec": 648.4660879187887,
+            "meanMs": 1.5421006875000007,
+            "samples": [
+              1.5495091145833346,
+              1.5421006875000007,
+              1.5213064270833314,
+              1.5277261354166665,
+              1.5918962604166609
+            ]
+          },
+          "ratio": 0.9942259414847069
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3941.7331765224303,
+            "meanMs": 0.2536955078431371,
+            "samples": [
+              0.28210539215686226,
+              0.2574309647058815,
+              0.2536955078431371,
+              0.25359133921568655,
+              0.25342908431372657
+            ]
+          },
+          "reference": {
+            "opsPerSec": 3941.6109675888374,
+            "meanMs": 0.2537033736263729,
+            "samples": [
+              0.25686538461538405,
+              0.25804670329670354,
+              0.2537033736263729,
+              0.25353380586080515,
+              0.2526494194139193
+            ]
+          },
+          "ratio": 1.0000310048187397
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 755.2980631090118,
+            "meanMs": 1.323980622807013,
+            "samples": [
+              1.3330062192982488,
+              1.332948464912278,
+              1.3201703245614034,
+              1.323980622807013,
+              1.321016078947371
+            ]
+          },
+          "reference": {
+            "opsPerSec": 755.7445767117098,
+            "meanMs": 1.3231983805309728,
+            "samples": [
+              1.410776548672571,
+              1.3290081150442477,
+              1.3092971946902638,
+              1.3138149026548716,
+              1.3231983805309728
+            ]
+          },
+          "ratio": 0.999409173924025
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 205.88878696576907,
+            "meanMs": 4.856991071428573,
+            "samples": [
+              4.8579910714285495,
+              4.862273821428549,
+              4.820598214285708,
+              4.7751234999999985,
+              4.856991071428573
+            ]
+          },
+          "reference": {
+            "opsPerSec": 206.57369840322653,
+            "meanMs": 4.8408873333333355,
+            "samples": [
+              4.971145037037045,
+              4.8408873333333355,
+              4.824777777777786,
+              4.825160481481497,
+              4.864787037037011
+            ]
+          },
+          "ratio": 0.9966844208979571
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-superscripts",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "current": [
+            {
+              "size": 500,
+              "ms": 0.48941612337663387
+            },
+            {
+              "size": 1000,
+              "ms": 0.960906113924063
+            },
+            {
+              "size": 2000,
+              "ms": 1.941564710526348
+            },
+            {
+              "size": 4000,
+              "ms": 3.9246249999999234
+            }
+          ],
+          "reference": [
+            {
+              "size": 500,
+              "ms": 0.48310574683545143
+            },
+            {
+              "size": 1000,
+              "ms": 0.9558897058823383
+            },
+            {
+              "size": 2000,
+              "ms": 1.9006137567567576
+            },
+            {
+              "size": 4000,
+              "ms": 3.8670198095237756
+            }
+          ],
+          "currentExponent": 1.0025016232462403,
+          "referenceExponent": 0.9993983013092904
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "current": [
+            {
+              "size": 500,
+              "ms": 0.08865880224719026
+            },
+            {
+              "size": 1000,
+              "ms": 0.17716568522484027
+            },
+            {
+              "size": 2000,
+              "ms": 0.35518449549549136
+            },
+            {
+              "size": 4000,
+              "ms": 0.6944053738317842
+            }
+          ],
+          "reference": [
+            {
+              "size": 500,
+              "ms": 0.09731521065675451
+            },
+            {
+              "size": 1000,
+              "ms": 0.19466597142857478
+            },
+            {
+              "size": 2000,
+              "ms": 0.39758292118226946
+            },
+            {
+              "size": 4000,
+              "ms": 0.7812620192307804
+            }
+          ],
+          "currentExponent": 0.9911796412891114,
+          "referenceExponent": 1.0045462832633647
+        },
+        {
+          "case": "long-inline-run",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.015623443067846448
+            },
+            {
+              "size": 1024,
+              "ms": 0.028854075492341324
+            },
+            {
+              "size": 2048,
+              "ms": 0.055705678767123436
+            },
+            {
+              "size": 4096,
+              "ms": 0.10873252688171912
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.015089854655564176
+            },
+            {
+              "size": 1024,
+              "ms": 0.02793934695290876
+            },
+            {
+              "size": 2048,
+              "ms": 0.05338012566137579
+            },
+            {
+              "size": 4096,
+              "ms": 0.10457282646691536
+            }
+          ],
+          "currentExponent": 0.934604704657542,
+          "referenceExponent": 0.9312575992609773
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Both packages are option-less and neither side receives options; both renderers use markdown-it's default options.",
+    "The package uses the shared linear inline rule; like the reference it scans to the next marker, rejects unescaped whitespace in the content and unescapes backslash escapes. Every correctness case renders identical HTML, so no case is a documented difference.",
+    "Scaling: the scanner stops at the next marker character, so repeated unmatched openers do not rescan the remaining line, and `long-inline-run` scans its content once. `inline-superscripts`, `unmatched-openers` and `long-inline-run` all fit a near-linear exponent on both sides; no superlinear path was found."
+  ]
+}
