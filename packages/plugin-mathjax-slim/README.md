@@ -29,4 +29,4 @@ Compared against the upstream [`markdown-it-mathjax3`](https://www.npmjs.com/pac
 - Throughput: **1.12×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **125.7 kB** unpacked and **1.7 kB** gzip entry, versus **14.6 kB** and **1.7 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/mathjax.html) or [中文文档](https://mdit-plugins.github.io/zh/mathjax.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

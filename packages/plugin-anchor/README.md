@@ -25,7 +25,7 @@ Compared against the upstream [`markdown-it-anchor`](https://www.npmjs.com/packa
 - Throughput: **1.42×** the reference (geometric mean across 24 benchmark cases; above 1× means faster).
 - Package size: **80.5 kB** unpacked and **2.2 kB** gzip entry, versus **138.7 kB** and **2.2 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/anchor.html) or [中文文档](https://mdit-plugins.github.io/zh/anchor.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).
 
 ## Acknowledgements / 鸣谢
 

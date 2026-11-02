@@ -1,0 +1,447 @@
+{
+  "plugin": "plugin-abbr",
+  "reference": "markdown-it-abbr",
+  "referenceVersion": "2.0.0",
+  "generatedAt": "2026-11-02T06:01:25.471Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 23,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "definition-and-usage",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-definitions",
+            "status": "exact"
+          },
+          {
+            "name": "abbreviation-at-start",
+            "status": "exact"
+          },
+          {
+            "name": "abbreviation-at-end",
+            "status": "exact"
+          },
+          {
+            "name": "boundary-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word-abbreviation",
+            "status": "exact"
+          },
+          {
+            "name": "overlapping-labels",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-definition",
+            "status": "exact"
+          },
+          {
+            "name": "case-sensitivity",
+            "status": "exact"
+          },
+          {
+            "name": "inside-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inside-link",
+            "status": "exact"
+          },
+          {
+            "name": "inside-code-ignored",
+            "status": "exact"
+          },
+          {
+            "name": "definition-in-text-block",
+            "status": "exact"
+          },
+          {
+            "name": "definition-after-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-definition",
+            "status": "exact"
+          },
+          {
+            "name": "empty-label",
+            "status": "exact"
+          },
+          {
+            "name": "empty-title",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-label-brackets",
+            "status": "exact"
+          },
+          {
+            "name": "unicode-label",
+            "status": "exact"
+          },
+          {
+            "name": "title-html-escaping",
+            "status": "exact"
+          },
+          {
+            "name": "headings-lists-blockquotes",
+            "status": "exact"
+          },
+          {
+            "name": "no-abbreviations",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed-bracket",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10568.89668757842,
+            "meanMs": 0.09461725566636447,
+            "samples": [
+              0.10246864641885767,
+              0.09448039437896648,
+              0.09435837805983675,
+              0.09461725566636447,
+              0.09479695466908446
+            ]
+          },
+          "reference": {
+            "opsPerSec": 10094.49121257602,
+            "meanMs": 0.09906393288590613,
+            "samples": [
+              0.10230816526845636,
+              0.10145249580536914,
+              0.09895455788590607,
+              0.09906393288590613,
+              0.09807424496644285
+            ]
+          },
+          "ratio": 1.0469964721363443
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2419.628433672631,
+            "meanMs": 0.41328659643916926,
+            "samples": [
+              0.41328659643916926,
+              0.4130306646884276,
+              0.4134773738872399,
+              0.4191651810089026,
+              0.4127708961424329
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2369.0186509454097,
+            "meanMs": 0.4221157142857139,
+            "samples": [
+              0.4221157142857139,
+              0.421581071428572,
+              0.4226517857142861,
+              0.4231744028571432,
+              0.42192368857142876
+            ]
+          },
+          "ratio": 1.0213631845857458
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 599.4062145809685,
+            "meanMs": 1.668317704545452,
+            "samples": [
+              1.668317704545452,
+              1.6355208295454522,
+              1.6537646704545481,
+              1.7004687500000015,
+              1.669778409090911
+            ]
+          },
+          "reference": {
+            "opsPerSec": 590.1981703856734,
+            "meanMs": 1.6943461538461493,
+            "samples": [
+              1.7866981923076917,
+              1.6806858974358967,
+              1.6930416666666646,
+              1.6943461538461493,
+              1.7054700897435908
+            ]
+          },
+          "ratio": 1.0156016142667437
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5585.105047187108,
+            "meanMs": 0.17904766187050355,
+            "samples": [
+              0.17895448681055176,
+              0.1791889988009591,
+              0.17904766187050355,
+              0.17595023980815383,
+              0.1813176462829738
+            ]
+          },
+          "reference": {
+            "opsPerSec": 5471.435549652702,
+            "meanMs": 0.18276739092055552,
+            "samples": [
+              0.18438246153846136,
+              0.18276739092055552,
+              0.1820453972257252,
+              0.18248859899117226,
+              0.18487867843631778
+            ]
+          },
+          "ratio": 1.0207750774916138
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1045.022202535016,
+            "meanMs": 0.9569174679487181,
+            "samples": [
+              0.9584719551282072,
+              0.9569174679487181,
+              0.9720739871794859,
+              0.9414874487179485,
+              0.9342048589743603
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1042.6780327371214,
+            "meanMs": 0.9590688291139232,
+            "samples": [
+              0.9725023734177175,
+              0.9723525886075964,
+              0.9507819113924091,
+              0.9590688291139232,
+              0.9542167721518967
+            ]
+          },
+          "ratio": 1.0022482201833112
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 260.9972276369324,
+            "meanMs": 3.831458322580646,
+            "samples": [
+              3.831458322580646,
+              3.8951384193548413,
+              3.8668790322580824,
+              3.8192123870967993,
+              3.818762096774193
+            ]
+          },
+          "reference": {
+            "opsPerSec": 252.92944802838608,
+            "meanMs": 3.953671696969705,
+            "samples": [
+              3.8895757575757504,
+              3.9126755151515185,
+              3.953671696969705,
+              3.962262636363641,
+              4.32962248484849
+            ]
+          },
+          "ratio": 1.0318973518956989
+        }
+      ],
+      "scaling": [
+        {
+          "case": "interleaved-abbreviations",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.002949439999987
+            },
+            {
+              "size": 1024,
+              "ms": 2.0090184999999616
+            },
+            {
+              "size": 2048,
+              "ms": 4.117520849999982
+            },
+            {
+              "size": 4096,
+              "ms": 8.900125000000116
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 1.9957916756756695
+            },
+            {
+              "size": 1024,
+              "ms": 6.14667630769229
+            },
+            {
+              "size": 2048,
+              "ms": 19.799593749999985
+            },
+            {
+              "size": 4096,
+              "ms": 118.93279200000143
+            }
+          ],
+          "currentExponent": 1.0484015262862427,
+          "referenceExponent": 1.9378717212360825
+        },
+        {
+          "case": "many-definitions",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.0639514395782654
+            },
+            {
+              "size": 256,
+              "ms": 0.12000442307692327
+            },
+            {
+              "size": 512,
+              "ms": 0.23225336311239117
+            },
+            {
+              "size": 1024,
+              "ms": 0.45746540350877196
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.07944358727097553
+            },
+            {
+              "size": 256,
+              "ms": 0.14940778488372142
+            },
+            {
+              "size": 512,
+              "ms": 0.28894001677852293
+            },
+            {
+              "size": 1024,
+              "ms": 0.5693556985294141
+            }
+          ],
+          "currentExponent": 0.9468453610105424,
+          "referenceExponent": 0.9475497404285917
+        },
+        {
+          "case": "dense-occurrences",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.1104570883152168
+            },
+            {
+              "size": 256,
+              "ms": 0.21481765322580754
+            },
+            {
+              "size": 512,
+              "ms": 0.4765333971631114
+            },
+            {
+              "size": 1024,
+              "ms": 0.8421254719101199
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.11221318493150635
+            },
+            {
+              "size": 256,
+              "ms": 0.21816811497326385
+            },
+            {
+              "size": 512,
+              "ms": 0.4447733972602654
+            },
+            {
+              "size": 1024,
+              "ms": 0.8424129200000061
+            }
+          ],
+          "currentExponent": 0.9941112369985066,
+          "referenceExponent": 0.9752486317335716
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Neither package takes options; both are installed with their defaults.",
+      "zh": "两个包都不接受选项，均以默认配置安装。"
+    },
+    {
+      "en": "The reference rewrites the inline token list with `md.utils.arrayReplaceAt` for every text token that contains an abbreviation, copying the whole token array each time, so a paragraph with inline markup between abbreviations grows quadratically on the reference side. The current package rebuilds the children list in a single pass and stays linear; `interleaved-abbreviations` exposes the difference.",
+      "zh": "参考包对每个包含缩写的文本 token 调用 `md.utils.arrayReplaceAt` 重写内联 token 列表，每次都会复制整个 token 数组，因此当缩写之间夹有内联标记时，该段落会在参考包一侧呈二次增长。当前包单次遍历重建子节点列表，保持线性；`interleaved-abbreviations` 展示了这一差异。"
+    },
+    {
+      "en": "Abbreviations are matched case-sensitively and only at word boundaries, so `HTML` is not replaced inside `HTML5` or `html`.",
+      "zh": "缩写按大小写敏感匹配，并且只在词边界处匹配，因此 `HTML` 不会在 `HTML5` 或 `html` 中被替换。"
+    }
+  ]
+}

@@ -12,7 +12,7 @@ export default {
       siblings_only: true,
     },
     MD033: {
-      allowed_elements: ["style", "script", "ColorModeSwitch", "Badge"],
+      allowed_elements: ["style", "script", "ColorModeSwitch", "Badge", "ComparisonReport"],
     },
     MD035: {
       style: "---",
@@ -28,5 +28,6 @@ export default {
     "**/CHANGELOG.md",
     "LICENSE",
     "**/*.snippet.md",
+    "compare/corpora/**",
   ],
 };

@@ -1,8 +1,8 @@
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
-import { loadReportData, renderReadmeComparison } from "./compare/render.ts";
-import type { ReportData } from "./compare/render.ts";
+import { loadReportData, renderReadmeComparison } from "../compare/render.ts";
+import type { ReportData } from "../compare/render.ts";
 
 const packagesDir = path.resolve(import.meta.dirname, "..", "packages");
 const DOCS_HOMEPAGE_PATTERN = /^https:\/\/mdit-plugins\.github\.io\/(?<slug>[a-z0-9-]+)\.html$/u;
@@ -183,15 +183,13 @@ export const renderReadme = (
   const comparisonResult = comparisonData?.results.find((result) => result.plugin === pkg.dirName);
 
   if (comparisonResult) {
-    const slug = docsSlug ?? comparisonResult.plugin.replace(/^plugin-/u, "");
-
     blocks.push(
       renderReadmeComparison(
         comparisonResult,
         comparisonData?.sizes?.packages[pkg.dirName] ?? null,
         {
-          docsUrl: `https://mdit-plugins.github.io/${slug}.html`,
-          zhDocsUrl: `https://mdit-plugins.github.io/zh/${slug}.html`,
+          compareUrl: "https://mdit-plugins.github.io/compare.html",
+          zhCompareUrl: "https://mdit-plugins.github.io/zh/compare.html",
         },
       ),
     );

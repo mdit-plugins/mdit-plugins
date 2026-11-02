@@ -25,4 +25,4 @@ Compared against the upstream [`markdown-it-plantuml`](https://www.npmjs.com/pac
 - Throughput: **2.78×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **24.3 kB** unpacked and **665 B** gzip entry, versus **64.1 kB** and **1.5 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/uml.html) or [中文文档](https://mdit-plugins.github.io/zh/uml.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

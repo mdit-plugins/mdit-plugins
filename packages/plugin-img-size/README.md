@@ -25,4 +25,4 @@ Compared against the upstream [`markdown-it-imsize`](https://www.npmjs.com/packa
 - Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **88.0 kB** unpacked and **1.8 kB** gzip entry, versus **638.1 kB** and **1.6 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/img-size.html) or [中文文档](https://mdit-plugins.github.io/zh/img-size.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

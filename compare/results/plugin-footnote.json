@@ -1,0 +1,455 @@
+{
+  "plugin": "plugin-footnote",
+  "reference": "markdown-it-footnote",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-02T06:04:46.074Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 6,
+        "normalized": 16,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "single-reference",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-references",
+            "status": "normalized"
+          },
+          {
+            "name": "duplicate-reference",
+            "status": "normalized"
+          },
+          {
+            "name": "inline-footnote",
+            "status": "normalized"
+          },
+          {
+            "name": "inline-footnote-markup",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-inline-footnotes",
+            "status": "normalized"
+          },
+          {
+            "name": "multi-paragraph-definition",
+            "status": "normalized"
+          },
+          {
+            "name": "definition-with-markup",
+            "status": "normalized"
+          },
+          {
+            "name": "definition-with-list",
+            "status": "normalized"
+          },
+          {
+            "name": "nested-footnotes",
+            "status": "normalized"
+          },
+          {
+            "name": "escaped-reference",
+            "status": "exact"
+          },
+          {
+            "name": "undefined-reference",
+            "status": "exact"
+          },
+          {
+            "name": "definitions-without-references",
+            "status": "exact"
+          },
+          {
+            "name": "reference-order",
+            "status": "normalized"
+          },
+          {
+            "name": "reference-in-list",
+            "status": "normalized"
+          },
+          {
+            "name": "reference-in-blockquote",
+            "status": "normalized"
+          },
+          {
+            "name": "reference-in-emphasis",
+            "status": "normalized"
+          },
+          {
+            "name": "label-with-punctuation",
+            "status": "normalized"
+          },
+          {
+            "name": "unicode-label",
+            "status": "normalized"
+          },
+          {
+            "name": "code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-footnote-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17185.419050782577,
+            "meanMs": 0.05818886330586526,
+            "samples": [
+              0.06255225012118275,
+              0.05818886330586526,
+              0.05894845661657782,
+              0.057579152205525945,
+              0.0573875016965585
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17241.27536164497,
+            "meanMs": 0.05800034968553458,
+            "samples": [
+              0.05912311320754718,
+              0.059061495178197046,
+              0.05800034968553458,
+              0.05786008050314472,
+              0.057958210901467494
+            ]
+          },
+          "ratio": 0.9967603144378373
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2458.798339794571,
+            "meanMs": 0.4067027310924362,
+            "samples": [
+              0.41321766946778665,
+              0.40562103081232515,
+              0.40707983193277275,
+              0.4067027310924362,
+              0.40499369747899167
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2446.5030438261724,
+            "meanMs": 0.4087466813186812,
+            "samples": [
+              0.4096233983516482,
+              0.4087466813186812,
+              0.408429142857143,
+              0.4335391483516485,
+              0.4070658186813197
+            ]
+          },
+          "ratio": 1.0050256614229138
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 591.6587494382094,
+            "meanMs": 1.6901634615384595,
+            "samples": [
+              1.7460778351648345,
+              1.6901634615384595,
+              1.6984116263736293,
+              1.6826121758241732,
+              1.6869825934065854
+            ]
+          },
+          "reference": {
+            "opsPerSec": 585.3197795177549,
+            "meanMs": 1.7084678068181811,
+            "samples": [
+              1.7084678068181811,
+              1.7157457386363666,
+              1.7005506704545454,
+              1.7200672386363645,
+              1.681031250000005
+            ]
+          },
+          "ratio": 1.0108299260374853
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 9229.91199462459,
+            "meanMs": 0.10834339488636405,
+            "samples": [
+              0.10947721377840867,
+              0.11369560795454574,
+              0.10789382102272717,
+              0.10834339488636405,
+              0.10703299573863619
+            ]
+          },
+          "reference": {
+            "opsPerSec": 9094.97664787612,
+            "meanMs": 0.1099508045722715,
+            "samples": [
+              0.11022907448377575,
+              0.1099508045722715,
+              0.11079519985250713,
+              0.10935634808259567,
+              0.1098532448377583
+            ]
+          },
+          "ratio": 1.0148362499402328
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1591.678657204274,
+            "meanMs": 0.6282675183673467,
+            "samples": [
+              0.6306585061224519,
+              0.6282163265306104,
+              0.6332602040816339,
+              0.6282675183673467,
+              0.6257061224489787
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1515.7098458564778,
+            "meanMs": 0.659756880733946,
+            "samples": [
+              0.6648255000000021,
+              0.6610862018348614,
+              0.6572767568807341,
+              0.659756880733946,
+              0.6575904082568815
+            ]
+          },
+          "ratio": 1.0501209460078875
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 395.3442515964255,
+            "meanMs": 2.5294411034482875,
+            "samples": [
+              2.5872751379310386,
+              2.5294411034482875,
+              2.5385057413793124,
+              2.525788793103449,
+              2.5111321896551844
+            ]
+          },
+          "reference": {
+            "opsPerSec": 326.57807330916285,
+            "meanMs": 3.0620549318181762,
+            "samples": [
+              3.083917613636376,
+              3.0620549318181762,
+              3.088861727272739,
+              3.042693181818198,
+              3.054106999999972
+            ]
+          },
+          "ratio": 1.2105658153668006
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-footnotes",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.704713541666706
+            },
+            {
+              "size": 1024,
+              "ms": 3.4046125000000758
+            },
+            {
+              "size": 2048,
+              "ms": 6.98700000000008
+            },
+            {
+              "size": 4096,
+              "ms": 14.46691649999957
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 2.54780130769219
+            },
+            {
+              "size": 1024,
+              "ms": 7.014741800000047
+            },
+            {
+              "size": 2048,
+              "ms": 19.622165999999197
+            },
+            {
+              "size": 4096,
+              "ms": 74.04408299999886
+            }
+          ],
+          "currentExponent": 1.0292651197012606,
+          "referenceExponent": 1.6067201718762854
+        },
+        {
+          "case": "duplicate-references",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.12037494005847968
+            },
+            {
+              "size": 256,
+              "ms": 0.23106280712166233
+            },
+            {
+              "size": 512,
+              "ms": 0.4554141381215523
+            },
+            {
+              "size": 1024,
+              "ms": 0.9170146351351267
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.12212027993527395
+            },
+            {
+              "size": 256,
+              "ms": 0.23470307692307799
+            },
+            {
+              "size": 512,
+              "ms": 0.4635521396648068
+            },
+            {
+              "size": 1024,
+              "ms": 0.9179588000000068
+            }
+          ],
+          "currentExponent": 0.9767123061239144,
+          "referenceExponent": 0.9712274670821117
+        },
+        {
+          "case": "many-definitions",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.21565372207084274
+            },
+            {
+              "size": 256,
+              "ms": 0.42641167708332733
+            },
+            {
+              "size": 512,
+              "ms": 0.8544046333333325
+            },
+            {
+              "size": 1024,
+              "ms": 1.7137870444444465
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.22468279944289843
+            },
+            {
+              "size": 256,
+              "ms": 0.4356524725274709
+            },
+            {
+              "size": 512,
+              "ms": 0.8787555555555526
+            },
+            {
+              "size": 1024,
+              "ms": 1.7799786976744187
+            }
+          ],
+          "currentExponent": 0.9973870512703344,
+          "referenceExponent": 0.9969979334696577
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package emits an extra empty `<a class=\"footnote-anchor\">` inside `<sup class=\"footnote-ref\">` so that consumers can set a CSS scroll offset, while the reference keeps the back-reference id on the link itself. Normalization removes that element and unifies the generated `footnote*` / `fn*` ids and `href`s before comparing.",
+      "zh": "当前包会在 `<sup class=\"footnote-ref\">` 内额外输出一个空的 `<a class=\"footnote-anchor\">`，以便使用者设置 CSS 滚动偏移，而参考包将反向引用 id 保留在链接本身。归一化会在对比前移除该元素，并统一生成的 `footnote*` / `fn*` id 与 `href`。"
+    },
+    {
+      "en": "Generated footnote ids, reference ids and `href` targets are normalized; footnote numbering, captions (`[1]`, `[1:1]`) and the rendered footnote list are compared.",
+      "zh": "生成的脚注 id、引用 id 和 `href` 目标会被归一化；脚注编号、caption（`[1]`、`[1:1]`）以及渲染出的脚注列表仍会对比。"
+    },
+    {
+      "en": "Neither plugin takes options, so `ourOptions` and `referenceOptions` are omitted.",
+      "zh": "两个插件都不接受选项，因此省略 `ourOptions` 和 `referenceOptions`。"
+    },
+    {
+      "en": "The current package escapes a caller-provided `env.docId` before interpolating it into generated ids (the reference does not). The harness renders without `env`, so the `docId` path is not exercised by the cases.",
+      "zh": "当前包会先转义调用方提供的 `env.docId`，再将其插入生成的 id（参考包不会）。对比工具渲染时不传 `env`，因此这些用例不会覆盖 `docId` 路径。"
+    },
+    {
+      "en": "Scaling: the reference `footnote_tail` rebuilds the token array for every footnote definition (`state.tokens = state.tokens.concat(tokens)`), which is quadratic in the number of footnotes; the current package pushes into the existing array instead. `many-footnotes` exposes this (reference exponent ~1.6, current ~1.0).",
+      "zh": "扩展性：参考包的 `footnote_tail` 会为每个脚注定义重建 token 数组（`state.tokens = state.tokens.concat(tokens)`），其开销随脚注数量呈二次增长；当前包则直接向已有数组推入。`many-footnotes` 暴露了这一点（参考包拟合指数约 1.6，当前包约 1.0）。"
+    },
+    {
+      "en": "Attribute order is normalized.",
+      "zh": "属性顺序已归一化。"
+    }
+  ]
+}

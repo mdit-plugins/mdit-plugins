@@ -1,0 +1,1345 @@
+{
+  "plugin": "plugin-emoji",
+  "reference": "markdown-it-emoji",
+  "referenceVersion": "3.1.0",
+  "generatedAt": "2026-11-02T06:04:16.264Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "bare",
+      "correctness": {
+        "total": 25,
+        "exact": 25,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "exact"
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "exact",
+            "note": {
+              "en": "This Unicode 15.1 name exists only in the current `full` data; the reference renders it as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "这个 Unicode 15.1 名称只存在于当前包的 `full` 数据中；参考包将其渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            }
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "exact",
+            "note": {
+              "en": "`u6e80` (🈵) only exists in the reference data; the current `full` data names the same character `no_vacancy` and renders `:u6e80:` as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "`u6e80`（🈵）只存在于参考包数据中；当前包的 `full` 数据将同一字符命名为 `no_vacancy`，并把 `:u6e80:` 渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            }
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 9660.9013775166,
+            "meanMs": 0.1035100101867572,
+            "samples": [
+              0.1035100101867572,
+              0.10135957894736848,
+              0.1038443336162988,
+              0.1105554609507639,
+              0.09863331154499157
+            ]
+          },
+          "reference": {
+            "opsPerSec": 9891.042719190511,
+            "meanMs": 0.10110157527272721,
+            "samples": [
+              0.10376884872727274,
+              0.10258012145454541,
+              0.10110157527272721,
+              0.09663712145454537,
+              0.09578900000000001
+            ]
+          },
+          "ratio": 0.9767323478213887
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1924.752077280354,
+            "meanMs": 0.5195474325259517,
+            "samples": [
+              0.5195474325259517,
+              0.519568771626297,
+              0.5520258062283732,
+              0.5066513840830452,
+              0.5096412906574395
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1930.3680873315677,
+            "meanMs": 0.5180359158249159,
+            "samples": [
+              0.5180359158249159,
+              0.5147769360269355,
+              0.5258076599326598,
+              0.5268100437710438,
+              0.5155813670033665
+            ]
+          },
+          "ratio": 0.9970907050898375
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 527.8018805447375,
+            "meanMs": 1.894650316455699,
+            "samples": [
+              1.8296134050632922,
+              2.0531751139240475,
+              1.820219405063291,
+              1.8967510506329088,
+              1.894650316455699
+            ]
+          },
+          "reference": {
+            "opsPerSec": 534.2169326480943,
+            "meanMs": 1.8718987341772109,
+            "samples": [
+              1.8646888101265797,
+              1.8543291139240472,
+              1.8718987341772109,
+              1.9204683544303753,
+              1.8888665696202547
+            ]
+          },
+          "ratio": 0.9879916720880456
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 11924.87535198536,
+            "meanMs": 0.08385831889081433,
+            "samples": [
+              0.08428341016753335,
+              0.08350594569612917,
+              0.08385831889081433,
+              0.08349330849220112,
+              0.08403998209127711
+            ]
+          },
+          "reference": {
+            "opsPerSec": 11616.391617692774,
+            "meanMs": 0.08608525202240196,
+            "samples": [
+              0.08632521779713742,
+              0.08608525202240196,
+              0.08578225451151256,
+              0.0868352781580588,
+              0.08581279775980065
+            ]
+          },
+          "ratio": 1.0265559000113889
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2270.839814966103,
+            "meanMs": 0.4403657155425237,
+            "samples": [
+              0.44509066568915207,
+              0.43978910263929644,
+              0.4389808181818178,
+              0.44162585337243376,
+              0.4403657155425237
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2206.341070756594,
+            "meanMs": 0.45323908132530116,
+            "samples": [
+              0.4513345903614461,
+              0.45221009036144566,
+              0.45785441867469834,
+              0.45323908132530116,
+              0.46213240361445573
+            ]
+          },
+          "ratio": 1.0292333515721535
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 624.2552634706751,
+            "meanMs": 1.6019088000000112,
+            "samples": [
+              1.5821763888888907,
+              1.5927638888888902,
+              1.6324865777777833,
+              1.6019088000000112,
+              1.6050879555555488
+            ]
+          },
+          "reference": {
+            "opsPerSec": 603.331149390154,
+            "meanMs": 1.6574645632183886,
+            "samples": [
+              1.6339932988505788,
+              1.6574645632183886,
+              1.6882595747126403,
+              1.6910407126436637,
+              1.6341666666666734
+            ]
+          },
+          "ratio": 1.0346809776052026
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.7675833333333281
+            },
+            {
+              "size": 1024,
+              "ms": 1.5060243584905622
+            },
+            {
+              "size": 2048,
+              "ms": 2.9832259615384547
+            },
+            {
+              "size": 4096,
+              "ms": 6.066679461538465
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.7500089285714141
+            },
+            {
+              "size": 1024,
+              "ms": 1.495686740740725
+            },
+            {
+              "size": 2048,
+              "ms": 2.9758846153846
+            },
+            {
+              "size": 4096,
+              "ms": 6.0381826923076005
+            }
+          ],
+          "currentExponent": 0.9933663540313127,
+          "referenceExponent": 1.001991474047926
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.9558635833333418
+            },
+            {
+              "size": 1024,
+              "ms": 1.940272435897406
+            },
+            {
+              "size": 2048,
+              "ms": 3.907631578947315
+            },
+            {
+              "size": 4096,
+              "ms": 8.066325727272753
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 1.8029583409090926
+            },
+            {
+              "size": 1024,
+              "ms": 5.314850000000054
+            },
+            {
+              "size": 2048,
+              "ms": 16.719866600000024
+            },
+            {
+              "size": 4096,
+              "ms": 75.28145900000163
+            }
+          ],
+          "currentExponent": 1.02411402808132,
+          "referenceExponent": 1.7805032320023053
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.056303674351584676
+            },
+            {
+              "size": 1024,
+              "ms": 0.11207230392156976
+            },
+            {
+              "size": 2048,
+              "ms": 0.22256123482849588
+            },
+            {
+              "size": 4096,
+              "ms": 0.4542705026738052
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.05661520979020978
+            },
+            {
+              "size": 1024,
+              "ms": 0.11094102475928351
+            },
+            {
+              "size": 2048,
+              "ms": 0.219362152815011
+            },
+            {
+              "size": 4096,
+              "ms": 0.4413934943820167
+            }
+          ],
+          "currentExponent": 1.002652448375065,
+          "referenceExponent": 0.9871932997053513
+        }
+      ]
+    },
+    {
+      "id": "light",
+      "correctness": {
+        "total": 25,
+        "exact": 25,
+        "normalized": 0,
+        "diff": 0,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "exact"
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "exact",
+            "note": {
+              "en": "This Unicode 15.1 name exists only in the current `full` data; the reference renders it as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "这个 Unicode 15.1 名称只存在于当前包的 `full` 数据中；参考包将其渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            }
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "exact",
+            "note": {
+              "en": "`u6e80` (🈵) only exists in the reference data; the current `full` data names the same character `no_vacancy` and renders `:u6e80:` as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "`u6e80`（🈵）只存在于参考包数据中；当前包的 `full` 数据将同一字符命名为 `no_vacancy`，并把 `:u6e80:` 渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            }
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 8903.077939610146,
+            "meanMs": 0.11232070602807602,
+            "samples": [
+              0.10833099421965209,
+              0.11232070602807602,
+              0.11147402312138767,
+              0.11385053674649016,
+              0.11631344591246943
+            ]
+          },
+          "reference": {
+            "opsPerSec": 8472.504943744594,
+            "meanMs": 0.11802884821428382,
+            "samples": [
+              0.11135058198051824,
+              0.11310477597402638,
+              0.11867505357142877,
+              0.12518418587662483,
+              0.11802884821428382
+            ]
+          },
+          "ratio": 1.0508200347741847
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1566.321073024186,
+            "meanMs": 0.638438706611565,
+            "samples": [
+              0.6367613636363583,
+              0.638438706611565,
+              0.6342005867768609,
+              0.6464645330578462,
+              0.6667339876033164
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1549.8494036637821,
+            "meanMs": 0.6452239795918493,
+            "samples": [
+              0.6437639469387751,
+              0.6566120734693998,
+              0.6481692163265228,
+              0.6435234693877461,
+              0.6452239795918493
+            ]
+          },
+          "ratio": 1.010627916055241
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 430.71902803032583,
+            "meanMs": 2.3216991470587933,
+            "samples": [
+              2.27654963235294,
+              2.3036047794117516,
+              2.34239951470585,
+              2.3422034264705656,
+              2.3216991470587933
+            ]
+          },
+          "reference": {
+            "opsPerSec": 415.9142195275272,
+            "meanMs": 2.404341936507932,
+            "samples": [
+              2.3318763333333505,
+              2.363796301587302,
+              2.404341936507932,
+              2.4936130952380715,
+              2.422023809523775
+            ]
+          },
+          "ratio": 1.035595821945248
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 6675.981753492535,
+            "meanMs": 0.1497907029893919,
+            "samples": [
+              0.15853411282546076,
+              0.1497907029893919,
+              0.16083040019286532,
+              0.14454210800385828,
+              0.1463425342333646
+            ]
+          },
+          "reference": {
+            "opsPerSec": 6546.21348436836,
+            "meanMs": 0.15276006540084439,
+            "samples": [
+              0.15276006540084439,
+              0.15517484177215063,
+              0.15172925421940917,
+              0.14514675632911075,
+              0.15811585864978756
+            ]
+          },
+          "ratio": 1.0198234092783633
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1289.5156805275628,
+            "meanMs": 0.7754849476439736,
+            "samples": [
+              0.7754849476439736,
+              0.781790575916231,
+              0.7756714659685832,
+              0.76013263350786,
+              0.7576317643978993
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1286.993659016088,
+            "meanMs": 0.7770046052631714,
+            "samples": [
+              0.7888344263157802,
+              0.7909217105263164,
+              0.771291447368429,
+              0.7770046052631714,
+              0.7654587736842108
+            ]
+          },
+          "ratio": 1.0019596223289886
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 369.8643543107628,
+            "meanMs": 2.703693903846145,
+            "samples": [
+              2.7094118653845864,
+              2.676963134615387,
+              2.7124430961538772,
+              2.700139423076927,
+              2.703693903846145
+            ]
+          },
+          "reference": {
+            "opsPerSec": 361.6611958201214,
+            "meanMs": 2.7650187843137246,
+            "samples": [
+              2.7838717254901484,
+              2.7650187843137246,
+              2.75121976470587,
+              2.7885334901960355,
+              2.7436356274509524
+            ]
+          },
+          "ratio": 1.022681887317326
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.8864415760869594
+            },
+            {
+              "size": 1024,
+              "ms": 1.749730895833333
+            },
+            {
+              "size": 2048,
+              "ms": 3.603490095238071
+            },
+            {
+              "size": 4096,
+              "ms": 7.206805555555345
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.8783803763440656
+            },
+            {
+              "size": 1024,
+              "ms": 1.7749802000000272
+            },
+            {
+              "size": 2048,
+              "ms": 3.656539772727146
+            },
+            {
+              "size": 4096,
+              "ms": 7.135567749999609
+            }
+          ],
+          "currentExponent": 1.0112049225460211,
+          "referenceExponent": 1.010900760835702
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.107393183098601
+            },
+            {
+              "size": 1024,
+              "ms": 2.1588026315789888
+            },
+            {
+              "size": 2048,
+              "ms": 4.463595588235501
+            },
+            {
+              "size": 4096,
+              "ms": 8.986865666666644
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 2.1969189189189207
+            },
+            {
+              "size": 1024,
+              "ms": 6.424298076923151
+            },
+            {
+              "size": 2048,
+              "ms": 20.15951049999967
+            },
+            {
+              "size": 4096,
+              "ms": 90.3961249999993
+            }
+          ],
+          "currentExponent": 1.010992644421186,
+          "referenceExponent": 1.7737972068738608
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.06886262175732143
+            },
+            {
+              "size": 1024,
+              "ms": 0.13578529440789416
+            },
+            {
+              "size": 2048,
+              "ms": 0.26841878095238203
+            },
+            {
+              "size": 4096,
+              "ms": 0.5353139617834543
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.06939306599832933
+            },
+            {
+              "size": 1024,
+              "ms": 0.13588015798045533
+            },
+            {
+              "size": 2048,
+              "ms": 0.26796414935064866
+            },
+            {
+              "size": 4096,
+              "ms": 0.5399365732484083
+            }
+          ],
+          "currentExponent": 0.985893517611758,
+          "referenceExponent": 0.985948477681708
+        }
+      ]
+    },
+    {
+      "id": "full",
+      "correctness": {
+        "total": 25,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 2,
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "exact"
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "diff",
+            "note": {
+              "en": "This Unicode 15.1 name exists only in the current `full` data; the reference renders it as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "这个 Unicode 15.1 名称只存在于当前包的 `full` 数据中；参考包将其渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            },
+            "ourHtml": "<p>🙂‍↔️</p>\n",
+            "referenceHtml": "<p>:head_shaking_horizontally:</p>\n"
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "diff",
+            "note": {
+              "en": "`u6e80` (🈵) only exists in the reference data; the current `full` data names the same character `no_vacancy` and renders `:u6e80:` as literal text. `light` and `bare` render it literally on both sides.",
+              "zh": "`u6e80`（🈵）只存在于参考包数据中；当前包的 `full` 数据将同一字符命名为 `no_vacancy`，并把 `:u6e80:` 渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。"
+            },
+            "ourHtml": "<p>:u6e80:</p>\n",
+            "referenceHtml": "<p>🈵</p>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7812.108075567723,
+            "meanMs": 0.12800642161204712,
+            "samples": [
+              0.12645730026572283,
+              0.12800642161204712,
+              0.12611407617360526,
+              0.12985064216120315,
+              0.13336455535872474
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7654.07518185466,
+            "meanMs": 0.13064935687732426,
+            "samples": [
+              0.13016426579925627,
+              0.12924752137546436,
+              0.13064935687732426,
+              0.13080022490706456,
+              0.13075724163568964
+            ]
+          },
+          "ratio": 1.0206468959290742
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1455.451259504916,
+            "meanMs": 0.6870721320754901,
+            "samples": [
+              0.6885131698113325,
+              0.6848814858490615,
+              0.686355938679247,
+              0.6870721320754901,
+              0.6954716981131842
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1423.9632187613684,
+            "meanMs": 0.7022653301886885,
+            "samples": [
+              0.7066617547169579,
+              0.7022653301886885,
+              0.6959174528301961,
+              0.7017798726415009,
+              0.7100581745283152
+            ]
+          },
+          "ratio": 1.0221129593297622
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 400.6854060955893,
+            "meanMs": 2.4957235396824897,
+            "samples": [
+              2.5087394126984734,
+              2.529185190476248,
+              2.4957235396824897,
+              2.478107809523834,
+              2.4861223650793636
+            ]
+          },
+          "reference": {
+            "opsPerSec": 392.95212299401834,
+            "meanMs": 2.5448392857142608,
+            "samples": [
+              2.558604178571451,
+              2.5220498571427794,
+              2.555505196428515,
+              2.5387261964285375,
+              2.5448392857142608
+            ]
+          },
+          "ratio": 1.019679962644428
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5946.763101448727,
+            "meanMs": 0.16815870801316837,
+            "samples": [
+              0.16677195389681784,
+              0.16915710757409178,
+              0.16719955104280776,
+              0.16815870801316837,
+              0.1721368002195384
+            ]
+          },
+          "reference": {
+            "opsPerSec": 5816.882952524084,
+            "meanMs": 0.17191337837837636,
+            "samples": [
+              0.17124544972973102,
+              0.173267027027024,
+              0.17337765729729704,
+              0.16945283783783796,
+              0.17191337837837636
+            ]
+          },
+          "ratio": 1.022328135185922
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1119.2491990069918,
+            "meanMs": 0.8934560783132203,
+            "samples": [
+              0.8902607891566249,
+              0.8934560783132203,
+              0.9252311746987913,
+              0.8950557228915376,
+              0.8805025120481694
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1106.904834544331,
+            "meanMs": 0.9034200310559314,
+            "samples": [
+              0.9040411490682995,
+              0.9322409440993956,
+              0.8869694596273435,
+              0.9034200310559314,
+              0.8940031055900809
+            ]
+          },
+          "ratio": 1.011152146126223
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 316.8053705480108,
+            "meanMs": 3.156512145833252,
+            "samples": [
+              3.1782117916667025,
+              3.1397161458333662,
+              3.115709208333404,
+              3.173436625000098,
+              3.156512145833252
+            ]
+          },
+          "reference": {
+            "opsPerSec": 308.73850572171045,
+            "meanMs": 3.2389869791666874,
+            "samples": [
+              3.2553541666666206,
+              3.2377925208332576,
+              3.2399947916666556,
+              3.2389869791666874,
+              3.2321371458333488
+            ]
+          },
+          "ratio": 1.0261284701350846
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.098330850746294
+            },
+            {
+              "size": 1024,
+              "ms": 2.1842626060606563
+            },
+            {
+              "size": 2048,
+              "ms": 4.364483350000228
+            },
+            {
+              "size": 4096,
+              "ms": 8.849812500000553
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 1.0864340277778157
+            },
+            {
+              "size": 1024,
+              "ms": 2.1504513888889454
+            },
+            {
+              "size": 2048,
+              "ms": 4.313186294117579
+            },
+            {
+              "size": 4096,
+              "ms": 8.735463625000193
+            }
+          ],
+          "currentExponent": 1.0029667124021906,
+          "referenceExponent": 1.002596561987339
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.0931563896103234
+            },
+            {
+              "size": 1024,
+              "ms": 2.2120866052632904
+            },
+            {
+              "size": 2048,
+              "ms": 4.549480352941079
+            },
+            {
+              "size": 4096,
+              "ms": 9.110606444444986
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 2.0566115294117053
+            },
+            {
+              "size": 1024,
+              "ms": 6.543746999999712
+            },
+            {
+              "size": 2048,
+              "ms": 20.596239750000677
+            },
+            {
+              "size": 4096,
+              "ms": 92.77458299999853
+            }
+          ],
+          "currentExponent": 1.0217435734330782,
+          "referenceExponent": 1.8140357279391779
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 0.07357046127659293
+            },
+            {
+              "size": 1024,
+              "ms": 0.1453810679611724
+            },
+            {
+              "size": 2048,
+              "ms": 0.2889405983935513
+            },
+            {
+              "size": 4096,
+              "ms": 0.5762278531468698
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 0.0736471791666645
+            },
+            {
+              "size": 1024,
+              "ms": 0.14739081569342177
+            },
+            {
+              "size": 2048,
+              "ms": 0.28901996527777857
+            },
+            {
+              "size": 4096,
+              "ms": 0.5806276041666933
+            }
+          ],
+          "currentExponent": 0.9899256086730492,
+          "referenceExponent": 0.990825549364202
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The `bare` preset ships no built-in data, so both sides receive the same custom definitions (the reference option is `defs`, the current one `definitions`), shortcuts and `enabled` whitelist (`enabled: [\"smile\", \"rocket\"]`).",
+      "zh": "`bare` 预设不内置任何数据，因此两侧接收相同的自定义定义数据（参考包的选项名为 `defs`，当前包为 `definitions`）、快捷键和 `enabled` 白名单（`enabled: [\"smile\", \"rocket\"]`）。"
+    },
+    {
+      "en": "`light` data (150 names) and the shortcut table (25 names) are identical on both sides, so every `light` case matches.",
+      "zh": "两侧的 `light` 数据（150 个名称）和快捷键表（25 个名称）完全一致，因此所有 `light` 用例的输出都相同。"
+    },
+    {
+      "en": "`full` data differs: the current package ships 1957 names, markdown-it-emoji 3.1.0 ships 1903. 55 newer names (Unicode 15.1/16.0 additions such as `head_shaking_horizontally`, `phoenix` or `leafless_tree`) exist only in the current data, and the reference-only generated name `u6e80` (🈵, exposed as `no_vacancy` in the current data) is missing from the current data. The two `full` cases covering these names are reported as documented diffs; the `light` and `bare` variants render them as literal text on both sides.",
+      "zh": "`full` 数据存在差异：当前包包含 1957 个名称，markdown-it-emoji 3.1.0 包含 1903 个。55 个较新的名称（Unicode 15.1/16.0 新增，例如 `head_shaking_horizontally`、`phoenix` 或 `leafless_tree`）只存在于当前数据中，而仅由参考包生成的名称 `u6e80`（🈵，在当前数据中名为 `no_vacancy`）在当前数据中缺失。覆盖这些名称的两个 `full` 用例被记录为已记录差异；`light` 和 `bare` 变体在两侧都将它们渲染为字面文本。"
+    },
+    {
+      "en": "The current package ignores empty or whitespace-only shortcut aliases, while the reference compiles a zero-length alternative that duplicates emojis next to whitespace or punctuation (e.g. `a :smile: b` with an empty `smile` alias becomes `a 😄😄 b`). This is documented behavior of the current package and is not covered by a case, because such an alias changes every shortcut-bearing text token.",
+      "zh": "当前包会忽略空或仅含空白的快捷键别名，而参考包会编译一个零长度分支，在空白或标点旁重复输出表情（例如 `smile` 别名为空时，`a :smile: b` 会变成 `a 😄😄 b`）。这是当前包的已记录行为，且没有对应用例，因为这种别名会改变每一个包含快捷键的文本 token。"
+    },
+    {
+      "en": "Scaling: `dense-emoji-text` and `unmatched-colon-words` are linear baselines. `inline-token-replacements` exposes the replacement loop from markdown-it-emoji#22: the reference rewrites every matching text token with `arrayReplaceAt`, which copies the whole inline children array, so an inline token with m matching children costs O(m²); the current package rebuilds the children list in one pass and stays linear.",
+      "zh": "扩展性：`dense-emoji-text` 和 `unmatched-colon-words` 是线性基线。`inline-token-replacements` 暴露 markdown-it-emoji#22 中的替换循环：参考包用 `arrayReplaceAt` 重写每个匹配的文本 token，该函数会复制整个 inline children 数组，因此包含 m 个匹配子节点的 inline token 开销为 O(m²)；当前包一次性重建子节点列表，保持线性。"
+    },
+    {
+      "en": "Benchmarks render fixed corpora (`normal` = sparse emoji, `heavy` = dense emoji) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.",
+      "zh": "基准测试渲染固定语料（`normal` = 稀疏表情，`heavy` = 密集表情），并以交错方式对比两侧；结果文件中的比值和拟合指数来自受控的顺序对比运行，而非临时运行。"
+    }
+  ]
+}

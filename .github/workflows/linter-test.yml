@@ -25,6 +25,9 @@ jobs:
       - name: Check package READMEs
         run: pnpm run packages:check-readme
 
+      - name: Check comparison reports
+        run: pnpm run compare:check
+
       - name: Build project
         run: pnpm run build
 

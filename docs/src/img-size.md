@@ -131,66 +131,6 @@ Renders as ↓
 
 <!-- comparison:start -->
 
-## Comparison
-
-Compared against the upstream [`markdown-it-imsize`](https://www.npmjs.com/package/markdown-it-imsize) package `2.0.1`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
-
-### Correctness
-
-| Cases | Exact | Normalized | Documented diffs |
-| ----: | ----: | ---------: | ---------------: |
-|    25 |    19 |          0 |                6 |
-
-The following cases are documented differences:
-
-- `zero-width` — The current package drops a `0` width (treated as unspecified), the reference emits `width="0"`.
-- `zero-height` — The current package drops a `0` height (treated as unspecified), the reference emits `height="0"`.
-- `zero-both` — The current package rejects an all-zero size and leaves the markdown unparsed as an image, the reference renders the image with `width="0" height="0"`.
-- `zero-percent-width` — The current package treats `0%` as an unspecified width, the reference emits `width="0%"`.
-- `percent-in-middle` — The reference number scanner accepts `%` anywhere in a dimension, while the current package only accepts one trailing `%`.
-- `tab-before-size` — The current package accepts a tab before the size, the reference only accepts a literal space.
-
-### Benchmarks
-
-| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
-| ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          17,508 |            17,590 | 1.00× |
-| normal/medium |           2,069 |             2,066 | 1.00× |
-| normal/large  |             546 |               548 | 1.00× |
-| heavy/small   |          15,180 |            15,514 | 0.98× |
-| heavy/medium  |           1,951 |             2,003 | 0.97× |
-| heavy/large   |             534 |               542 | 0.99× |
-
-Geometric mean throughput ratio: 0.99× across 6 cases; above 1× means the current package is faster.
-
-### Scaling
-
-| Series           | Sizes                | Current exponent | Reference exponent |
-| ---------------- | -------------------- | ---------------: | -----------------: |
-| malformed-sizes  | 64 / 128 / 256 / 512 |            ~1.03 |              ~1.02 |
-| sized-images     | 64 / 128 / 256 / 512 |            ~1.00 |              ~1.00 |
-| unmatched-labels | 64 / 128 / 256 / 512 |            ~1.19 |              ~1.20 |
-
-Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
-
-### Package size
-
-| Package                              | Unpacked size | Entry gzip |
-| ------------------------------------ | ------------: | ---------: |
-| @mdit/plugin-img-size (current)      |       88.0 kB |     1.8 kB |
-| markdown-it-imsize@2.0.1 (reference) |      638.1 kB |     1.6 kB |
-
-### Notes
-
-- Only the deprecated `legacyImgSize` variant is compared: `imgSize` (`![alt =100x200](url)`) and `obsidianImgSize` (`![alt|100x200](url)`) are extensions of this package with no equivalent in `markdown-it-imsize`.
-- The current package treats a dimension whose numeric value is `0` as unspecified and rejects a size whose width and height are both `0`; the reference emits the literal `0`. `zero-width`, `zero-height`, `zero-both` and `zero-percent-width` document this.
-- The current package accepts a single trailing `%` per dimension (the documented syntax); the reference's number scanner accepts `%` anywhere, so `=5%0x3%0` is parsed by the reference only. Documented in `percent-in-middle`.
-- The current package accepts any whitespace before the size specification, while the reference requires a literal space (its check is `charCodeAt(pos - 1) === 0x20`); `tab-before-size` is therefore parsed by the current package only.
-- The reference `autofill` option is not compared: it reads image files from disk (`image-size`) and its output depends on the filesystem.
-- Scaling: the reference image rule re-attempts `parseLinkLabel` for every `![` opener and parses every label again; malformed sizes fall back to the core image rule. markdown-it caches `skipToken` positions, so all series stay ~linear (no superlinear behavior was found in the upstream implementation).
-- Attribute order is normalized.
-- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
-- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
-- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+> See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

@@ -176,60 +176,6 @@ Here is a **hint** for you!
 
 <!-- comparison:start -->
 
-## Comparison
-
-Compared against the upstream [`markdown-it-container`](https://www.npmjs.com/package/markdown-it-container) package `4.0.0`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
-
-### Correctness
-
-| Cases | Exact | Normalized | Documented diffs |
-| ----: | ----: | ---------: | ---------------: |
-|    23 |    20 |          0 |                3 |
-
-The following cases are documented differences:
-
-- `indented-opening` — The current package requires the closing marker to be indented exactly like the opening marker (both are 2 columns here, then 0), so the container stays unclosed; the reference accepts the unindented closing marker and closes it.
-- `indented-closing` — The reference accepts a closing marker indented by less than four columns; the current package requires the closing marker to be indented exactly like the opening marker, so it keeps the `:::` line as container content.
-- `indented-closing-after-blank` — Same closing-marker rule as `indented-closing`: the reference closes the empty container, while the current package renders the indented marker as a paragraph inside it.
-
-### Benchmarks
-
-| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
-| ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          11,219 |            11,117 | 1.01× |
-| normal/medium |           2,173 |             2,151 | 1.01× |
-| normal/large  |             556 |               562 | 0.99× |
-| heavy/small   |           6,945 |             7,044 | 0.99× |
-| heavy/medium  |           1,012 |               838 | 1.21× |
-| heavy/large   |             293 |               293 | 1.00× |
-
-Geometric mean throughput ratio: 1.03× across 6 cases; above 1× means the current package is faster.
-
-### Scaling
-
-| Series                   | Sizes                  | Current exponent | Reference exponent |
-| ------------------------ | ---------------------- | ---------------: | -----------------: |
-| deeply-nested-containers | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.65 |
-| non-matching-containers  | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
-| sibling-containers       | 128 / 256 / 512 / 1024 |            ~1.00 |              ~1.00 |
-
-Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
-
-### Package size
-
-| Package                                 | Unpacked size | Entry gzip |
-| --------------------------------------- | ------------: | ---------: |
-| @mdit/plugin-container (current)        |       37.0 kB |     1.1 kB |
-| markdown-it-container@4.0.0 (reference) |       20.1 kB |     1.4 kB |
-
-### Notes
-
-- The current package takes a required `name` option object, while the reference takes the container name as a positional argument; both sides are installed through custom renderers so that two equivalent containers are registered (`warning` with the default `:` marker and `spoiler` with the `%` marker).
-- The current package does not need `openRenderer` / `closeRenderer` to be compared: both are user render functions with no reference counterpart. The default renderer output (the container class on the opening `<div>`) is compared.
-- `indented-opening`, `indented-closing` and `indented-closing-after-blank` are expected differences: the current package only accepts a closing marker indented exactly like the opening marker, while the reference accepts any closing marker indented less than four columns relative to the enclosing block, so the reference closes those blocks and the current package keeps the marker as content.
-- Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the closing-marker scan of the `deeply-nested-containers` series. The reference rescans the remaining lines for every nesting level and grows quadratically; the current package reuses the enclosing scan and stays linear. The benchmark corpora are shallow, so throughput is unaffected.
-- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
-- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
-- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+> See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

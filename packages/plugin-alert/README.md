@@ -25,4 +25,4 @@ Compared against the upstream [`markdown-it-github-alerts`](https://www.npmjs.co
 - Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **57.4 kB** unpacked and **1.4 kB** gzip entry, versus **15.0 kB** and **1.9 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/alert.html) or [中文文档](https://mdit-plugins.github.io/zh/alert.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

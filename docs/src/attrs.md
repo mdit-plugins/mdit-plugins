@@ -268,54 +268,6 @@ A line with break
 
 <!-- comparison:start -->
 
-## Comparison
-
-Compared against the upstream [`markdown-it-attrs`](https://www.npmjs.com/package/markdown-it-attrs) package `5.0.1`. Benchmarks were measured with Node.js v26.13.0, Apple M4 (darwin arm64) on 2026-11-02. Every table below is generated from the committed comparison data.
-
-### Correctness
-
-| Cases | Exact | Normalized | Documented diffs |
-| ----: | ----: | ---------: | ---------------: |
-|    20 |    20 |          0 |                0 |
-
-All 20 cases match the reference output exactly.
-
-### Benchmarks
-
-| Case          | Current (ops/s) | Reference (ops/s) | Ratio |
-| ------------- | --------------: | ----------------: | ----: |
-| normal/small  |          19,682 |            18,961 | 1.04× |
-| normal/medium |           5,147 |             4,863 | 1.06× |
-| normal/large  |           1,757 |             1,676 | 1.05× |
-| heavy/small   |           8,870 |             8,658 | 1.02× |
-| heavy/medium  |           2,289 |             2,228 | 1.03× |
-| heavy/large   |             759 |               739 | 1.03× |
-
-Geometric mean throughput ratio: 1.04× across 6 cases; above 1× means the current package is faster.
-
-### Scaling
-
-| Series           | Sizes                | Current exponent | Reference exponent |
-| ---------------- | -------------------- | ---------------: | -----------------: |
-| heading-attrs    | 64 / 128 / 256 / 512 |            ~1.07 |              ~1.09 |
-| inline-attrs     | 64 / 128 / 256 / 512 |            ~0.91 |              ~0.94 |
-| unmatched-braces | 64 / 128 / 256 / 512 |            ~0.73 |              ~0.74 |
-
-Exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic.
-
-### Package size
-
-| Package                             | Unpacked size | Entry gzip |
-| ----------------------------------- | ------------: | ---------: |
-| @mdit/plugin-attrs (current)        |      240.6 kB |     4.6 kB |
-| markdown-it-attrs@5.0.1 (reference) |      423.4 kB |     2.6 kB |
-
-### Notes
-
-- `fenceAttrsOnPre` is set to `false` on the current package so that fence attrs are placed on `<code>`, matching the reference default.
-- Table extension rules (`rowspan` / `colspan` cells) are not compared because the reference does not implement them.
-- Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.
-- Entry gzip is the gzipped size of the ESM entry: `dist/index.js` for the current package and the `module` / `exports.import` / `main` entry for the reference.
-- Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run under the same load.
+> See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

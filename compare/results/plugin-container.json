@@ -1,0 +1,469 @@
+{
+  "plugin": "plugin-container",
+  "reference": "markdown-it-container",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-02T06:03:10.963Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 23,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 3,
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "params-title",
+            "status": "exact"
+          },
+          {
+            "name": "blank-lines",
+            "status": "exact"
+          },
+          {
+            "name": "empty-container",
+            "status": "exact"
+          },
+          {
+            "name": "four-colons",
+            "status": "exact"
+          },
+          {
+            "name": "longer-closing-marker",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed-container",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-marker",
+            "status": "exact"
+          },
+          {
+            "name": "non-matching-name",
+            "status": "exact"
+          },
+          {
+            "name": "custom-marker",
+            "status": "exact"
+          },
+          {
+            "name": "nested-different-markers",
+            "status": "exact"
+          },
+          {
+            "name": "nested-same-name",
+            "status": "exact"
+          },
+          {
+            "name": "inside-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "inside-list",
+            "status": "exact"
+          },
+          {
+            "name": "with-code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "with-heading-and-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "with-table",
+            "status": "exact"
+          },
+          {
+            "name": "marker-only",
+            "status": "exact"
+          },
+          {
+            "name": "no-container-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "indented-opening",
+            "status": "diff",
+            "note": {
+              "en": "The current package requires the closing marker to be indented exactly like the opening marker (both are 2 columns here, then 0), so the container stays unclosed; the reference accepts the unindented closing marker and closes it.",
+              "zh": "当前包要求结束标记与起始标记缩进完全一致（此处起始为 2 列、结束为 0 列），因此容器保持未闭合；参考包接受未缩进的结束标记并将其闭合。"
+            },
+            "ourHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n<p>:::</p>\n",
+            "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
+          },
+          {
+            "name": "indented-closing",
+            "status": "diff",
+            "note": {
+              "en": "The reference accepts a closing marker indented by less than four columns; the current package requires the closing marker to be indented exactly like the opening marker, so it keeps the `:::` line as container content.",
+              "zh": "参考包接受缩进小于四列的结束标记；当前包要求结束标记与起始标记缩进完全一致，因此将 `:::` 行保留为容器内容。"
+            },
+            "ourHtml": "<div class=\"warning\">\n<p>content\n:::</p>\n</div>\n",
+            "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
+          },
+          {
+            "name": "indented-closing-after-blank",
+            "status": "diff",
+            "note": {
+              "en": "Same closing-marker rule as `indented-closing`: the reference closes the empty container, while the current package renders the indented marker as a paragraph inside it.",
+              "zh": "与 `indented-closing` 相同的结束标记规则：参考包闭合空容器，当前包则把缩进的标记渲染为容器内的段落。"
+            },
+            "ourHtml": "<div class=\"warning\">\n<p>:::</p>\n</div>\n",
+            "referenceHtml": "<div class=\"warning\"></div>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 11219.3881327649,
+            "meanMs": 0.0891314203739523,
+            "samples": [
+              0.09048877047066407,
+              0.08538733075435202,
+              0.09058975370728559,
+              0.0891314203739523,
+              0.08820282591876204
+            ]
+          },
+          "reference": {
+            "opsPerSec": 11117.167389682696,
+            "meanMs": 0.0899509708676377,
+            "samples": [
+              0.08775395820139328,
+              0.09023342811906267,
+              0.0899509708676377,
+              0.08934483850538318,
+              0.09046997023432551
+            ]
+          },
+          "ratio": 1.0091948550830556
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2172.9858883294255,
+            "meanMs": 0.4601962697368422,
+            "samples": [
+              0.46591269078947417,
+              0.4601962697368422,
+              0.4617575394736841,
+              0.4421766710526311,
+              0.4428662269736851
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2151.43494837073,
+            "meanMs": 0.46480605921052576,
+            "samples": [
+              0.46480605921052576,
+              0.465578125,
+              0.515858003289473,
+              0.45208086513157975,
+              0.4397415000000012
+            ]
+          },
+          "ratio": 1.0100170074744839
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 556.26115369835,
+            "meanMs": 1.7977167619047534,
+            "samples": [
+              1.8419489047619046,
+              1.7879112142857139,
+              1.878289690476192,
+              1.7710133928571417,
+              1.7977167619047534
+            ]
+          },
+          "reference": {
+            "opsPerSec": 562.212811965043,
+            "meanMs": 1.778685897435894,
+            "samples": [
+              1.778685897435894,
+              1.7776346153846134,
+              1.808570512820511,
+              1.771465282051284,
+              1.8043317307692281
+            ]
+          },
+          "ratio": 0.9894138693746753
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 6945.094462456196,
+            "meanMs": 0.1439865224880384,
+            "samples": [
+              0.14297623636363638,
+              0.14097647559808604,
+              0.14433142009569322,
+              0.1439865224880384,
+              0.169986363636364
+            ]
+          },
+          "reference": {
+            "opsPerSec": 7044.034488166135,
+            "meanMs": 0.14196409766022355,
+            "samples": [
+              0.1479314598168869,
+              0.14223851373346946,
+              0.14184698168870846,
+              0.1407871739572735,
+              0.14196409766022355
+            ]
+          },
+          "ratio": 0.9859540685276093
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1011.8014659139392,
+            "meanMs": 0.9883361842105267,
+            "samples": [
+              0.7648458368421033,
+              0.7709690789473681,
+              0.9883361842105267,
+              1.2343278473684223,
+              1.3292541631578914
+            ]
+          },
+          "reference": {
+            "opsPerSec": 838.2121427444876,
+            "meanMs": 1.1930154062500027,
+            "samples": [
+              0.7491050364583316,
+              0.7539006093749995,
+              1.1930154062500027,
+              1.247637802083337,
+              1.230453776041666
+            ]
+          },
+          "ratio": 1.2070947369016662
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 292.99309286741243,
+            "meanMs": 3.4130497419354793,
+            "samples": [
+              3.691231193548388,
+              3.5067029354838946,
+              3.288418000000034,
+              3.3756451612903366,
+              3.4130497419354793
+            ]
+          },
+          "reference": {
+            "opsPerSec": 292.93054376296124,
+            "meanMs": 3.4137785263157734,
+            "samples": [
+              3.597887052631569,
+              3.4137785263157734,
+              3.3086425526315857,
+              3.5426019736842136,
+              3.3788782894736964
+            ]
+          },
+          "ratio": 1.0002135287896157
+        }
+      ],
+      "scaling": [
+        {
+          "case": "sibling-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.25947212758620825
+            },
+            {
+              "size": 256,
+              "ms": 0.5206403061224498
+            },
+            {
+              "size": 512,
+              "ms": 1.0785648714285863
+            },
+            {
+              "size": 1024,
+              "ms": 2.0530916857142856
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.2572610193548415
+            },
+            {
+              "size": 256,
+              "ms": 0.5111584936708892
+            },
+            {
+              "size": 512,
+              "ms": 1.0671078125000122
+            },
+            {
+              "size": 1024,
+              "ms": 2.033552631578938
+            }
+          ],
+          "currentExponent": 1.0003193775144126,
+          "referenceExponent": 1.0009955998404982
+        },
+        {
+          "case": "deeply-nested-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.22435697752809083
+            },
+            {
+              "size": 256,
+              "ms": 0.44553645652173224
+            },
+            {
+              "size": 512,
+              "ms": 0.9022238915662544
+            },
+            {
+              "size": 1024,
+              "ms": 1.7779864130434757
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.3875323838862568
+            },
+            {
+              "size": 256,
+              "ms": 1.0744615063291187
+            },
+            {
+              "size": 512,
+              "ms": 3.426358695652158
+            },
+            {
+              "size": 1024,
+              "ms": 12.027952428571423
+            }
+          ],
+          "currentExponent": 0.9977071028479724,
+          "referenceExponent": 1.6540853543955207
+        },
+        {
+          "case": "non-matching-containers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "current": [
+            {
+              "size": 128,
+              "ms": 0.285638743055554
+            },
+            {
+              "size": 256,
+              "ms": 0.5573755845070478
+            },
+            {
+              "size": 512,
+              "ms": 1.0975906031746114
+            },
+            {
+              "size": 1024,
+              "ms": 2.30355592105264
+            }
+          ],
+          "reference": [
+            {
+              "size": 128,
+              "ms": 0.28527017314487824
+            },
+            {
+              "size": 256,
+              "ms": 0.5507141666666697
+            },
+            {
+              "size": 512,
+              "ms": 1.1089277733333438
+            },
+            {
+              "size": 1024,
+              "ms": 2.270188605263157
+            }
+          ],
+          "currentExponent": 1.0012415446472023,
+          "referenceExponent": 0.9987023807469713
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package takes a required `name` option object, while the reference takes the container name as a positional argument; both sides are installed through custom renderers so that two equivalent containers are registered (`warning` with the default `:` marker and `spoiler` with the `%` marker).",
+      "zh": "当前包接受一个必填的 `name` 选项对象，参考包则将容器名称作为位置参数；双方都通过自定义渲染器安装，从而注册两个等价的容器（使用默认 `:` 标记的 `warning` 和使用 `%` 标记的 `spoiler`）。"
+    },
+    {
+      "en": "The current package does not need `openRenderer` / `closeRenderer` to be compared: both are user render functions with no reference counterpart. The default renderer output (the container class on the opening `<div>`) is compared.",
+      "zh": "当前包的 `openRenderer` / `closeRenderer` 无需比较：二者都是用户渲染函数，参考包没有对应项。比较的是默认渲染器输出（起始 `<div>` 上的容器类）。"
+    },
+    {
+      "en": "`indented-opening`, `indented-closing` and `indented-closing-after-blank` are expected differences: the current package only accepts a closing marker indented exactly like the opening marker, while the reference accepts any closing marker indented less than four columns relative to the enclosing block, so the reference closes those blocks and the current package keeps the marker as content.",
+      "zh": "`indented-opening`、`indented-closing` 和 `indented-closing-after-blank` 是预期差异：当前包只接受与起始标记缩进完全一致的结束标记，参考包则接受相对于外层块缩进小于四列的任何结束标记，因此参考包会关闭这些块，而当前包将标记保留为内容。"
+    },
+    {
+      "en": "Both custom renderers raise markdown-it's `maxNesting` to 10,000; the default cap of 100 limits how deeply containers can nest and would hide the closing-marker scan of the `deeply-nested-containers` series. The reference rescans the remaining lines for every nesting level and grows quadratically; the current package reuses the enclosing scan and stays linear. The benchmark corpora are shallow, so throughput is unaffected.",
+      "zh": "两个自定义渲染器都把 markdown-it 的 `maxNesting` 提高到 10,000；默认上限 100 会限制容器嵌套深度，并掩盖 `deeply-nested-containers` 系列的结束标记扫描。参考包对每个嵌套层级重新扫描剩余行，呈二次增长；当前包复用外层扫描，保持线性。基准测试语料较浅，因此吞吐量不受影响。"
+    }
+  ]
+}

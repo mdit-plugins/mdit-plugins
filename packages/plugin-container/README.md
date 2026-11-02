@@ -25,4 +25,4 @@ Compared against the upstream [`markdown-it-container`](https://www.npmjs.com/pa
 - Throughput: **1.03×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **37.0 kB** unpacked and **1.1 kB** gzip entry, versus **20.1 kB** and **1.4 kB** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/container.html) or [中文文档](https://mdit-plugins.github.io/zh/container.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

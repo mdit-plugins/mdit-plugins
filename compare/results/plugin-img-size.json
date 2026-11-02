@@ -1,0 +1,507 @@
+{
+  "plugin": "plugin-img-size",
+  "reference": "markdown-it-imsize",
+  "referenceVersion": "2.0.1",
+  "generatedAt": "2026-11-02T06:05:01.497Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "legacy",
+      "correctness": {
+        "total": 25,
+        "exact": 19,
+        "normalized": 0,
+        "diff": 6,
+        "error": 0,
+        "cases": [
+          {
+            "name": "width-and-height",
+            "status": "exact"
+          },
+          {
+            "name": "width-only",
+            "status": "exact"
+          },
+          {
+            "name": "height-only",
+            "status": "exact"
+          },
+          {
+            "name": "title-and-size",
+            "status": "exact"
+          },
+          {
+            "name": "percent-width",
+            "status": "exact"
+          },
+          {
+            "name": "percent-height",
+            "status": "exact"
+          },
+          {
+            "name": "zero-width",
+            "status": "diff",
+            "note": {
+              "en": "The current package drops a `0` width (treated as unspecified), the reference emits `width=\"0\"`.",
+              "zh": "当前包会丢弃 `0` 宽度（视为未指定），参考包输出 `width=\"0\"`。"
+            },
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" height=\"200\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0\" height=\"200\"></p>\n"
+          },
+          {
+            "name": "zero-height",
+            "status": "diff",
+            "note": {
+              "en": "The current package drops a `0` height (treated as unspecified), the reference emits `height=\"0\"`.",
+              "zh": "当前包会丢弃 `0` 高度（视为未指定），参考包输出 `height=\"0\"`。"
+            },
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\" height=\"0\"></p>\n"
+          },
+          {
+            "name": "zero-both",
+            "status": "diff",
+            "note": {
+              "en": "The current package rejects an all-zero size and leaves the markdown unparsed as an image, the reference renders the image with `width=\"0\" height=\"0\"`.",
+              "zh": "当前包拒绝全零尺寸，并把该 Markdown 保留为未解析的图片语法；参考包会渲染图片并输出 `width=\"0\" height=\"0\"`。"
+            },
+            "ourHtml": "<p>![Alt](image.png =0x0)</p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0\" height=\"0\"></p>\n"
+          },
+          {
+            "name": "zero-percent-width",
+            "status": "diff",
+            "note": {
+              "en": "The current package treats `0%` as an unspecified width, the reference emits `width=\"0%\"`.",
+              "zh": "当前包将 `0%` 视为未指定宽度，参考包输出 `width=\"0%\"`。"
+            },
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" height=\"200\"></p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"0%\" height=\"200\"></p>\n"
+          },
+          {
+            "name": "percent-in-middle",
+            "status": "diff",
+            "note": {
+              "en": "The reference number scanner accepts `%` anywhere in a dimension, while the current package only accepts one trailing `%`.",
+              "zh": "参考包的数字扫描器接受尺寸中任意位置的 `%`，而当前包只接受一个末尾 `%`。"
+            },
+            "ourHtml": "<p>![Alt](image.png =5%0x3%0)</p>\n",
+            "referenceHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"5%0\" height=\"3%0\"></p>\n"
+          },
+          {
+            "name": "tab-before-size",
+            "status": "diff",
+            "note": {
+              "en": "The current package accepts a tab before the size, the reference only accepts a literal space.",
+              "zh": "当前包接受尺寸前的制表符，参考包只接受字面空格。"
+            },
+            "ourHtml": "<p><img src=\"image.png\" alt=\"Alt\" width=\"100\" height=\"200\"></p>\n",
+            "referenceHtml": "<p>![Alt](image.png\t=100x200)</p>\n"
+          },
+          {
+            "name": "no-size",
+            "status": "exact"
+          },
+          {
+            "name": "malformed-size",
+            "status": "exact"
+          },
+          {
+            "name": "malformed-trailing-x",
+            "status": "exact"
+          },
+          {
+            "name": "no-space-before-size",
+            "status": "exact"
+          },
+          {
+            "name": "reference-image",
+            "status": "exact"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-images",
+            "status": "exact"
+          },
+          {
+            "name": "size-before-title",
+            "status": "exact"
+          },
+          {
+            "name": "newline-before-size",
+            "status": "exact"
+          },
+          {
+            "name": "leading-space-in-destination",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-image",
+            "status": "exact"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-size-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17507.623591153053,
+            "meanMs": 0.05711797462365593,
+            "samples": [
+              0.05830928301075268,
+              0.05645064516129032,
+              0.05562333333333334,
+              0.05711797462365593,
+              0.0588656632258064
+            ]
+          },
+          "reference": {
+            "opsPerSec": 17589.54148169341,
+            "meanMs": 0.05685196518856195,
+            "samples": [
+              0.05702614338997099,
+              0.05685196518856195,
+              0.056241728968089495,
+              0.055799886033982594,
+              0.05752792167426441
+            ]
+          },
+          "ratio": 0.9953428069386792
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2069.160526272015,
+            "meanMs": 0.48328778135048306,
+            "samples": [
+              0.4890616270096463,
+              0.4809539131832799,
+              0.4813251607717043,
+              0.48328778135048306,
+              0.49050937620578805
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2065.5956531553115,
+            "meanMs": 0.48412185534591184,
+            "samples": [
+              0.4795193899371066,
+              0.4845348522012579,
+              0.4886711194968547,
+              0.48412185534591184,
+              0.47942793396226413
+            ]
+          },
+          "ratio": 1.0017258329873313
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 545.6166479813779,
+            "meanMs": 1.8327886506024105,
+            "samples": [
+              1.8384563253012003,
+              1.8206019156626492,
+              1.8327886506024105,
+              1.8152590361445815,
+              1.8354126506024095
+            ]
+          },
+          "reference": {
+            "opsPerSec": 548.1190476004939,
+            "meanMs": 1.8244211807228918,
+            "samples": [
+              1.8074804216867488,
+              1.8292203734939718,
+              1.8244211807228918,
+              1.8204312289156581,
+              1.9257901686747048
+            ]
+          },
+          "ratio": 0.9954345691322519
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 15180.419762632526,
+            "meanMs": 0.0658743312527864,
+            "samples": [
+              0.06477257021845755,
+              0.0658743312527864,
+              0.06538224476148041,
+              0.06680318368256812,
+              0.06622126259473891
+            ]
+          },
+          "reference": {
+            "opsPerSec": 15513.56380890574,
+            "meanMs": 0.06445972133275647,
+            "samples": [
+              0.06339221852012115,
+              0.06366127563825205,
+              0.0655377905668541,
+              0.06615959887494603,
+              0.06445972133275647
+            ]
+          },
+          "ratio": 0.9785256276135618
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1951.466136508362,
+            "meanMs": 0.5124352307692299,
+            "samples": [
+              0.5099065160256416,
+              0.5105353878205116,
+              0.5124352307692299,
+              0.5145828012820496,
+              0.5138779391025642
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2003.2383539628868,
+            "meanMs": 0.49919172025723235,
+            "samples": [
+              0.521118971061091,
+              0.5020606913183281,
+              0.49919172025723235,
+              0.4990096463022508,
+              0.4956235273311904
+            ]
+          },
+          "ratio": 0.9741557377073443
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 534.1288924009176,
+            "meanMs": 1.8722072784810135,
+            "samples": [
+              1.8721329113924081,
+              1.9011065443037871,
+              1.8722072784810135,
+              1.8785527468354315,
+              1.850731544303811
+            ]
+          },
+          "reference": {
+            "opsPerSec": 542.2082951001211,
+            "meanMs": 1.8443096666666559,
+            "samples": [
+              1.8443096666666559,
+              1.845289604938275,
+              1.83909928395062,
+              1.8550972222222266,
+              1.8238261234567705
+            ]
+          },
+          "ratio": 0.9850990795009664
+        }
+      ],
+      "scaling": [
+        {
+          "case": "sized-images",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.09653285202312069
+            },
+            {
+              "size": 128,
+              "ms": 0.18946636238532172
+            },
+            {
+              "size": 256,
+              "ms": 0.3852480236966835
+            },
+            {
+              "size": 512,
+              "ms": 0.7730510093458017
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.09605163221153991
+            },
+            {
+              "size": 128,
+              "ms": 0.1889380451306429
+            },
+            {
+              "size": 256,
+              "ms": 0.38750952380952575
+            },
+            {
+              "size": 512,
+              "ms": 0.7690841584158574
+            }
+          ],
+          "currentExponent": 1.0028260931651933,
+          "referenceExponent": 1.0040096855424505
+        },
+        {
+          "case": "malformed-sizes",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.07597427117031477
+            },
+            {
+              "size": 128,
+              "ms": 0.14721663244353103
+            },
+            {
+              "size": 256,
+              "ms": 0.3095349550561748
+            },
+            {
+              "size": 512,
+              "ms": 0.6351408294573584
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.07548441828254883
+            },
+            {
+              "size": 128,
+              "ms": 0.14575272743362946
+            },
+            {
+              "size": 256,
+              "ms": 0.30755395785440515
+            },
+            {
+              "size": 512,
+              "ms": 0.627383471544714
+            }
+          ],
+          "currentExponent": 1.0262642704644276,
+          "referenceExponent": 1.02426069020703
+        },
+        {
+          "case": "unmatched-labels",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.5118845541401358
+            },
+            {
+              "size": 128,
+              "ms": 1.3363107868852417
+            },
+            {
+              "size": 256,
+              "ms": 2.853094827586229
+            },
+            {
+              "size": 512,
+              "ms": 6.257010416666617
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.5157412236842207
+            },
+            {
+              "size": 128,
+              "ms": 1.3306775901639083
+            },
+            {
+              "size": 256,
+              "ms": 2.854607758620691
+            },
+            {
+              "size": 512,
+              "ms": 6.333442307692307
+            }
+          ],
+          "currentExponent": 1.1929021501625556,
+          "referenceExponent": 1.1955943155534305
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Only the deprecated `legacyImgSize` variant is compared: `imgSize` (`![alt =100x200](url)`) and `obsidianImgSize` (`![alt|100x200](url)`) are extensions of this package with no equivalent in `markdown-it-imsize`.",
+      "zh": "只对比已废弃的 `legacyImgSize` 变体：`imgSize`（`![alt =100x200](url)`）和 `obsidianImgSize`（`![alt|100x200](url)`）是本包的扩展，`markdown-it-imsize` 没有对应实现。"
+    },
+    {
+      "en": "The current package treats a dimension whose numeric value is `0` as unspecified and rejects a size whose width and height are both `0`; the reference emits the literal `0`. `zero-width`, `zero-height`, `zero-both` and `zero-percent-width` document this.",
+      "zh": "当前包将数值为 `0` 的维度视为未指定，并拒绝宽高均为 `0` 的尺寸；参考包会原样输出 `0`。`zero-width`、`zero-height`、`zero-both` 和 `zero-percent-width` 记录了这一点。"
+    },
+    {
+      "en": "The current package accepts a single trailing `%` per dimension (the documented syntax); the reference's number scanner accepts `%` anywhere, so `=5%0x3%0` is parsed by the reference only. Documented in `percent-in-middle`.",
+      "zh": "当前包对每个维度只接受一个末尾 `%`（文档中的语法）；参考包的数字扫描器接受任意位置的 `%`，因此 `=5%0x3%0` 只有参考包会解析。已在 `percent-in-middle` 中记录。"
+    },
+    {
+      "en": "The current package accepts any whitespace before the size specification, while the reference requires a literal space (its check is `charCodeAt(pos - 1) === 0x20`); `tab-before-size` is therefore parsed by the current package only.",
+      "zh": "当前包接受尺寸规格前的任意空白，而参考包要求一个字面空格（其检查为 `charCodeAt(pos - 1) === 0x20`）；因此 `tab-before-size` 只有当前包会解析。"
+    },
+    {
+      "en": "The reference `autofill` option is not compared: it reads image files from disk (`image-size`) and its output depends on the filesystem.",
+      "zh": "不对比参考包的 `autofill` 选项：它会从磁盘读取图片文件（`image-size`），输出依赖文件系统。"
+    },
+    {
+      "en": "Scaling: the reference image rule re-attempts `parseLinkLabel` for every `![` opener and parses every label again; malformed sizes fall back to the core image rule. markdown-it caches `skipToken` positions, so all series stay ~linear (no superlinear behavior was found in the upstream implementation).",
+      "zh": "扩展性：参考包的图片规则会为每个 `![` 起始符重新尝试 `parseLinkLabel`，并再次解析每个 label；格式错误的尺寸会回退到核心 image 规则。markdown-it 会缓存 `skipToken` 位置，因此所有序列都保持近似线性（上游实现中未发现超线性行为）。"
+    },
+    {
+      "en": "Attribute order is normalized.",
+      "zh": "属性顺序已归一化。"
+    }
+  ]
+}

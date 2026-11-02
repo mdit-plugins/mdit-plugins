@@ -1,0 +1,457 @@
+{
+  "plugin": "plugin-tasklist",
+  "reference": "markdown-it-task-checkbox",
+  "referenceVersion": "1.0.6",
+  "generatedAt": "2026-11-02T06:08:08.509Z",
+  "commit": "bdfbd90301f13fc8171a7d663517ef6d023f4fda",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 7,
+        "normalized": 13,
+        "diff": 1,
+        "error": 0,
+        "cases": [
+          {
+            "name": "unchecked-item",
+            "status": "normalized"
+          },
+          {
+            "name": "checked-item-lowercase",
+            "status": "normalized"
+          },
+          {
+            "name": "checked-item-uppercase",
+            "status": "normalized"
+          },
+          {
+            "name": "mixed-items",
+            "status": "normalized"
+          },
+          {
+            "name": "ordered-list",
+            "status": "normalized"
+          },
+          {
+            "name": "nested-list",
+            "status": "normalized"
+          },
+          {
+            "name": "non-task-list",
+            "status": "exact"
+          },
+          {
+            "name": "marker-in-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "missing-space-after-marker",
+            "status": "exact"
+          },
+          {
+            "name": "empty-item",
+            "status": "exact"
+          },
+          {
+            "name": "non-breaking-space",
+            "status": "normalized"
+          },
+          {
+            "name": "code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-list",
+            "status": "normalized"
+          },
+          {
+            "name": "inline-markup",
+            "status": "normalized"
+          },
+          {
+            "name": "plus-bullet",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-lists",
+            "status": "normalized"
+          },
+          {
+            "name": "link-inside-item",
+            "status": "normalized"
+          },
+          {
+            "name": "loose-item",
+            "status": "normalized"
+          },
+          {
+            "name": "marker-as-link-reference",
+            "status": "diff",
+            "note": {
+              "en": "The marker also resolves as a link reference: the current package removes the three parsed marker tokens, while the reference only strips the first text token, leaving the link markup inside the item.",
+              "zh": "该标记同时会解析为链接引用：当前包移除解析出的三个标记 token，而参考包只剥离第一个文本 token，链接标记仍留在条目内。"
+            },
+            "ourHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-item-label\"><input type=\"checkbox\" class=\"\" checked=\"checked\" disabled=\"disabled\"> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n",
+            "referenceHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"cbx_0\" checked=\"true\" disabled=\"true\"><label for=\"cbx_0\"><a href=\"https://example.com\">x</a> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-list-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 14640.446091838374,
+            "meanMs": 0.06830392965672481,
+            "samples": [
+              0.07101191164884638,
+              0.06859878503095103,
+              0.06830392965672481,
+              0.06705446933033196,
+              0.06822854530106921
+            ]
+          },
+          "reference": {
+            "opsPerSec": 14664.273497236736,
+            "meanMs": 0.06819294526854229,
+            "samples": [
+              0.06969987212276214,
+              0.06913691355498722,
+              0.06786214833759593,
+              0.0677628092071611,
+              0.06819294526854229
+            ]
+          },
+          "ratio": 0.9983751390477781
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2057.9678012265913,
+            "meanMs": 0.4859162516556281,
+            "samples": [
+              0.4855836092715232,
+              0.489083059602649,
+              0.4870888509933774,
+              0.4820502218543042,
+              0.4859162516556281
+            ]
+          },
+          "reference": {
+            "opsPerSec": 2041.8354542036311,
+            "meanMs": 0.4897554295774661,
+            "samples": [
+              0.49224266197183103,
+              0.48849867957746423,
+              0.491533450704225,
+              0.48947594014084544,
+              0.4897554295774661
+            ]
+          },
+          "ratio": 1.0079009045463225
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 515.7866722215499,
+            "meanMs": 1.9387860405405397,
+            "samples": [
+              1.9387860405405397,
+              1.951813067567566,
+              1.9572511216216189,
+              1.9348879594594588,
+              1.931929621621625
+            ]
+          },
+          "reference": {
+            "opsPerSec": 510.14955650679667,
+            "meanMs": 1.9602094861111128,
+            "samples": [
+              1.9616169027777726,
+              1.9724045138888882,
+              1.9602094861111128,
+              1.9306192222222256,
+              1.9502239583333296
+            ]
+          },
+          "ratio": 1.0110499276983653
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 6655.940088868892,
+            "meanMs": 0.15024173695198323,
+            "samples": [
+              0.1521895876826724,
+              0.14998142797494798,
+              0.15024173695198323,
+              0.14938139352818425,
+              0.1508832202505227
+            ]
+          },
+          "reference": {
+            "opsPerSec": 6427.8307958788655,
+            "meanMs": 0.15557347910295635,
+            "samples": [
+              0.16319384913353685,
+              0.15557347910295635,
+              0.15554056167176383,
+              0.15628041182466865,
+              0.1543340978593272
+            ]
+          },
+          "ratio": 1.0354877563261742
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1178.0871993153262,
+            "meanMs": 0.8488336012658266,
+            "samples": [
+              0.8626956772151878,
+              0.8487022658227827,
+              0.8505988924050627,
+              0.8442022658227812,
+              0.8488336012658266
+            ]
+          },
+          "reference": {
+            "opsPerSec": 1066.883435211694,
+            "meanMs": 0.9373095194805205,
+            "samples": [
+              0.9403049220779228,
+              0.9461875000000011,
+              0.9346972402597392,
+              0.9364396623376671,
+              0.9373095194805205
+            ]
+          },
+          "ratio": 1.1042323466964008
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 261.23737466299974,
+            "meanMs": 3.827936187500029,
+            "samples": [
+              4.154876312499994,
+              3.849667968750026,
+              3.8232369687499954,
+              3.808023437499969,
+              3.827936187500029
+            ]
+          },
+          "reference": {
+            "opsPerSec": 160.76726175673386,
+            "meanMs": 6.2201718750000055,
+            "samples": [
+              6.227760416666645,
+              6.2201718750000055,
+              6.2298854166666615,
+              6.188357625000019,
+              6.186946166666606
+            ]
+          },
+          "ratio": 1.62494137057763
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-task-items",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "current": [
+            {
+              "size": 512,
+              "ms": 1.3629678181817904
+            },
+            {
+              "size": 1024,
+              "ms": 2.7285583333333006
+            },
+            {
+              "size": 2048,
+              "ms": 5.552267857143046
+            },
+            {
+              "size": 4096,
+              "ms": 11.466069333333508
+            }
+          ],
+          "reference": [
+            {
+              "size": 512,
+              "ms": 2.0683180000000183
+            },
+            {
+              "size": 1024,
+              "ms": 5.5446249999999315
+            },
+            {
+              "size": 2048,
+              "ms": 16.109729000000698
+            },
+            {
+              "size": 4096,
+              "ms": 60.89708299999984
+            }
+          ],
+          "currentExponent": 1.0242580795793128,
+          "referenceExponent": 1.617830004370526
+        },
+        {
+          "case": "long-task-items",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.25807955663430454
+            },
+            {
+              "size": 128,
+              "ms": 0.5136437908496708
+            },
+            {
+              "size": 256,
+              "ms": 1.0185142739726074
+            },
+            {
+              "size": 512,
+              "ms": 2.049716675000036
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.2647415338645394
+            },
+            {
+              "size": 128,
+              "ms": 0.5413447481481449
+            },
+            {
+              "size": 256,
+              "ms": 1.1614143239436652
+            },
+            {
+              "size": 512,
+              "ms": 2.695983333333364
+            }
+          ],
+          "currentExponent": 0.9956236292958517,
+          "referenceExponent": 1.114572854978975
+        },
+        {
+          "case": "many-lists",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "current": [
+            {
+              "size": 64,
+              "ms": 0.16670314522821456
+            },
+            {
+              "size": 128,
+              "ms": 0.32998847035573114
+            },
+            {
+              "size": 256,
+              "ms": 0.6641429122807032
+            },
+            {
+              "size": 512,
+              "ms": 1.3297329344262179
+            }
+          ],
+          "reference": [
+            {
+              "size": 64,
+              "ms": 0.17556104288939237
+            },
+            {
+              "size": 128,
+              "ms": 0.36492990047393276
+            },
+            {
+              "size": 256,
+              "ms": 0.8171987500000069
+            },
+            {
+              "size": 512,
+              "ms": 2.0374745277777544
+            }
+          ],
+          "currentExponent": 0.9996427977401339,
+          "referenceExponent": 1.1773279752230006
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`ulClass` / `liClass` are mapped to `containerClass` / `itemClass` with the reference defaults (`task-list` / `task-list-item`); `divWrap` stays `false` and `disabled` stays `true` on the reference side.",
+      "zh": "`ulClass` / `liClass` 映射为 `containerClass` / `itemClass`，取参考包默认值（`task-list` / `task-list-item`）；参考包侧的 `divWrap` 保持 `false`，`disabled` 保持 `true`。"
+    },
+    {
+      "en": "Both packages label the item text, but the structure differs by design: the current package nests the checkbox inside `<label class=\"task-list-item-label\">` and emits no ids, while the reference emits `<input id=\"cbx_N\"><label for=\"cbx_N\">`. Normalization unwraps the label tags and removes the generated `cbx_*` ids, so the compared part is the list structure, container/item classes, checkbox state and item text.",
+      "zh": "两个包都会为条目文本加标签，但结构在设计上不同：当前包把复选框嵌套在 `<label class=\"task-list-item-label\">` 内且不生成 id，参考包则输出 `<input id=\"cbx_N\"><label for=\"cbx_N\">`。归一化会去掉 `label` 标签并移除生成的 `cbx_*` id，因此参与比较的部分是列表结构、容器/条目 class、复选框状态和条目文本。"
+    },
+    {
+      "en": "`checkboxClass` is set to an empty string because the reference emits no class on the checkbox; the resulting empty `class` attribute is normalized away. The current package's extra `labelClass` is not observable after the label tags are normalized.",
+      "zh": "`checkboxClass` 设为空字符串，因为参考包不会在复选框上输出 class；由此产生的空 `class` 属性会被归一化去掉。`label` 标签归一化后，当前包额外的 `labelClass` 已不可观测。"
+    },
+    {
+      "en": "`checked=\"checked\"` / `disabled=\"disabled\"` and the reference `checked=\"true\"` / `disabled=\"true\"` are equivalent boolean attributes; the normalizer canonicalizes them to the bare attribute.",
+      "zh": "`checked=\"checked\"` / `disabled=\"disabled\"` 与参考包的 `checked=\"true\"` / `disabled=\"true\"` 是等价的布尔属性；归一化器会将它们统一为不带值的属性。"
+    },
+    {
+      "en": "Scaling: the reference locates the parent list token with a backward scan through the token stream for every task item, which is quadratic in the number of items in one list; the current package records the last token index per nesting level in one forward pass and stays linear. `many-task-items` exposes the difference.",
+      "zh": "扩展性：参考包为每个任务条目回溯扫描 token 流以定位父列表 token，在单个列表的条目数上呈二次增长；当前包在一次前向遍历中记录每个嵌套层级的最后一个 token 下标，保持线性。`many-task-items` 体现了这一差异。"
+    },
+    {
+      "en": "Attribute order is normalized.",
+      "zh": "归一化了属性顺序。"
+    }
+  ]
+}

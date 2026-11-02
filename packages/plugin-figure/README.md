@@ -25,4 +25,4 @@ Compared against the upstream [`markdown-it-image-figures`](https://www.npmjs.co
 - Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **38.4 kB** unpacked and **1.1 kB** gzip entry, versus **22.7 kB** and **972 B** for the reference.
 
-See the comparison tables in the [English docs](https://mdit-plugins.github.io/figure.html) or [中文文档](https://mdit-plugins.github.io/zh/figure.html) for details and methodology.
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

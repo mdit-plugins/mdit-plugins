@@ -22,6 +22,17 @@ const oxlintConfig: OxlintConfig = defineHopeConfig(
   },
   // some rules are disabled due to performance consideration
   {
+    files: ["compare/**/*.ts"],
+    plugins: ["node"],
+    rules: {
+      "import/no-nodejs-modules": "off",
+      "no-console": "off",
+      "node/no-process-env": "off",
+      "node/no-sync": "off",
+      "node/no-top-level-await": "off",
+    },
+  },
+  {
     files: ["packages/*/src/**"],
     rules: {
       "prefer-destructuring": "off",

@@ -24,6 +24,7 @@
 mdit-plugins/
 ├── .github/workflows/   # CI: unit tests, linters, docs, CodeQL, publish
 ├── docs/                # VuePress 2 documentation site (en + zh)
+├── compare/             # upstream comparison harness, specs, corpora and committed data
 ├── packages/            # 38 plugin packages + @mdit/helper
 ├── scripts/             # build config, README sync, release sync, commit checks (+ tests)
 ├── tests/               # Cross-package integration tests
@@ -35,6 +36,11 @@ mdit-plugins/
 Generated and local-only folders must not be committed: `packages/*/dist`, `packages/*/coverage`,
 `coverage/`, `docs/src/.vuepress/dist`, `docs/src/.vuepress/.cache`, `docs/src/.vuepress/.temp` and
 `temp/`.
+
+Exception: the comparison data is generated but committed, so the docs build and the CI checks are
+reproducible — `compare/results/*.json`, `compare/results/sizes.json` and
+`docs/src/.vuepress/data/comparison.json`. Refresh them with the `compare` scripts instead of editing
+by hand.
 
 ## Toolchain
 
@@ -72,6 +78,12 @@ source of truth.
 | `pnpm run packages:sync-readme`  | Regenerate package READMEs                                     |
 | `pnpm run packages:check-update` | Check dependency updates                                       |
 | `pnpm run packages:update`       | Update workspace dependencies                                  |
+| `pnpm run compare`               | Run the upstream comparison and write `compare/results/*.json` |
+| `pnpm run compare:test`          | Run the correctness comparison only                            |
+| `pnpm run compare:bench`         | Run the benchmark comparison only                              |
+| `pnpm run compare:sizes`         | Measure package sizes into `compare/results/sizes.json`        |
+| `pnpm run compare:docs`          | Regenerate the comparison page data and plugin page links      |
+| `pnpm run compare:check`         | Verify the generated comparison data and links are up to date  |
 
 There is no root `release` script. Releases run through the publish workflow — see
 [Release Workflow](#release-workflow).
@@ -85,7 +97,7 @@ their `runtime:` input.
 | Workflow          | Triggers                                | What it runs                                                                                                                           |
 | ----------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job |
-| `linter-test.yml` | push, pull request                      | `packages:check-readme`, build, `type-check`, `bundle:analyze`, `lint:check`, `lint:md`                                                |
+| `linter-test.yml` | push, pull request                      | `packages:check-readme`, `compare:check`, build, `type-check`, `bundle:analyze`, `lint:check`, `lint:md`                               |
 | `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                         |
 | `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                 |
 | `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                               |
@@ -417,6 +429,12 @@ Configuration lives in `lerna.json` (`@lerna-lite/cli`):
 | `scripts/bench.ts`        | Benchmark harness that loads the built package entries for `*.bench.ts` files                   |
 | `scripts/prepareBench.ts` | Build the current tree and the `origin/main` baseline worktree for benchmarks (`bench:prepare`) |
 | `scripts/__tests__/`      | vitest tests for the scripts above                                                              |
+| `compare/run.ts`          | Run the comparison specs and write `compare/results/*.json` (`compare`)                         |
+| `compare/size.ts`         | Measure published package sizes (`compare:sizes`)                                               |
+| `compare/render.ts`       | Build the docs comparison data and the generated README sections                                |
+| `compare/syncDocs.ts`     | Generate the comparison page data and the per-plugin link blocks (`compare:docs`)               |
+| `compare/specs/`          | One spec per compared package; `compare/corpora/` holds the benchmark markdown                  |
+| `compare/__tests__/`      | vitest tests for the comparison harness                                                         |
 
 ## TypeScript Configuration
 
@@ -503,6 +521,10 @@ For `packages/*/src/**`, certain oxlint rules are disabled due to performance co
   `icon`.
 - The sidebar is generated from the folder structure (`sidebar: "structure"`), so page order follows
   file names.
+- The upstream comparison report is a dedicated page pair — `docs/src/compare.md` and
+  `docs/src/zh/compare.md` — rendered by the `ComparisonReport` component from the generated
+  `docs/src/.vuepress/data/comparison.json`. Plugin pages only carry a generated one-line link to it;
+  never inline the full comparison tables into plugin pages.
 - Shared fragments use the `*.snippet.md` suffix (e.g. `docs/src/render-rule.snippet.md`) and are
   excluded from pages by `pagePatterns`. Include them with `<!-- @include: ./x.snippet.md -->` from
   English pages and `../` from Chinese pages.
