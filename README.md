@@ -24,6 +24,7 @@ This repo contains the following plugins:
 - @mdit/plugin-align
 - @mdit/plugin-anchor
 - @mdit/plugin-attrs
+- @mdit/plugin-cjk-breaks
 - @mdit/plugin-cjk-friendly
 - @mdit/plugin-container
 - @mdit/plugin-demo
