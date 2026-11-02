@@ -5,13 +5,7 @@ import type { CoreRule, PluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
-import {
-  getParentTokenIndex,
-  isInlineToken,
-  isListItemToken,
-  isParagraphToken,
-  setTokenAttr,
-} from "./utils.js";
+import { isInlineToken, isListItemToken, isParagraphToken, setTokenAttr } from "./utils.js";
 
 // The leading whitespace in a list item (token.content) is already trimmed off by markdown-it.
 // The regex below checks for '[ ] ' or '[x] ' or '[X] ' at the start of the string token.content,
@@ -74,12 +68,19 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, optio
 
   const taskListRule: CoreRule = (state) => {
     const tokens = state.tokens;
+    // Index of the nearest preceding token for every nesting level. The parent list token of a list
+    // item is the nearest preceding token one level up, so tracking it while walking forward once
+    // keeps the parent lookup O(1) instead of rescanning the token list for every task item.
+    const lastIndexByLevel: number[] = [];
 
-    for (let index = 2; index < tokens.length; index++) {
+    for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index];
+
+      lastIndexByLevel[token.level] = index;
 
       // check if the token is an inline token inside a list item and starts with todo markdown
       if (
+        index < 2 ||
         !isInlineToken(token) ||
         !isParagraphToken(tokens[index - 1]) ||
         !isListItemToken(tokens[index - 2])
@@ -123,7 +124,7 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, optio
       }
 
       setTokenAttr(tokens[index - 2], "class", itemClass);
-      setTokenAttr(tokens[getParentTokenIndex(tokens, index - 2)], "class", containerClass);
+      setTokenAttr(tokens[lastIndexByLevel[tokens[index - 2].level - 1]], "class", containerClass);
     }
   };
 

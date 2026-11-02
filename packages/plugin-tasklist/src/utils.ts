@@ -9,15 +9,6 @@ export const setTokenAttr = (token: Token, name: string, value: string): void =>
   else token.attrs![index] = attr;
 };
 
-export const getParentTokenIndex = (tokens: Token[], index: number): number => {
-  const targetLevel = tokens[index].level - 1;
-
-  for (let i = index - 1; i >= 0; i--) if (tokens[i].level === targetLevel) return i;
-
-  /* istanbul ignore next -- @preserve */
-  return -1;
-};
-
 export const isInlineToken = (token: Token): boolean => token.type === "inline";
 
 export const isParagraphToken = (token: Token): boolean => token.type === "paragraph_open";
