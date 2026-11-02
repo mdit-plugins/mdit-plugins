@@ -3,21 +3,38 @@ export const uniqueSlug = (
   slugs: Record<string, boolean>,
   failOnNonUnique: boolean,
   startIndex: number,
+  nextIndices: Map<string, number>,
 ): string => {
-  let uniq = slug;
-  let index = startIndex;
+  if (failOnNonUnique) {
+    if (Object.hasOwn(slugs, slug)) {
+      throw new Error(
+        `User defined "id" attribute "${slug}" is not unique. Please fix it in your Markdown to continue.`,
+      );
+    }
 
-  if (failOnNonUnique && Object.hasOwn(slugs, uniq)) {
-    throw new Error(
-      `User defined "id" attribute "${slug}" is not unique. Please fix it in your Markdown to continue.`,
-    );
+    slugs[slug] = true;
+
+    return slug;
   }
+
+  if (!Object.hasOwn(slugs, slug)) {
+    slugs[slug] = true;
+
+    return slug;
+  }
+
+  // Used slugs are append-only, so every candidate below the index found by a
+  // previous duplicate is permanently taken. Resuming the scan from there keeps
+  // a long duplicate chain linear instead of rescanning it per heading.
+  let index = nextIndices.get(slug) ?? startIndex;
+  let uniq = `${slug}-${index}`;
 
   while (Object.hasOwn(slugs, uniq)) {
-    uniq = `${slug}-${index}`;
     index += 1;
+    uniq = `${slug}-${index}`;
   }
 
+  nextIndices.set(slug, index + 1);
   slugs[uniq] = true;
 
   return uniq;

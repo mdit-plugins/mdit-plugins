@@ -120,6 +120,18 @@ foobar
 `);
   });
 
+  it("should not match the middle of the string after a replaced word", () => {
+    expect(
+      markdownIt.render(`\
+*[ab]: title
+
+ab *xab*
+`),
+    ).toBe(`\
+<p><abbr title="title">ab</abbr> <em>xab</em></p>
+`);
+  });
+
   it("prefer earlier abbr definitions", () => {
     expect(
       markdownIt.render(`\

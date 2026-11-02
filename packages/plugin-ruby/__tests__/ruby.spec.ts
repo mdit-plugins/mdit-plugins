@@ -132,6 +132,13 @@ describe(ruby, () => {
     expect(markdownIt.render("{abc:def")).toBe("<p>{abc:def</p>\n");
   });
 
+  it("should stop at a closing brace before the divider", () => {
+    // The divider has to be inside the braces, so the opener is literal text
+    // instead of swallowing the brace and matching a later divider.
+    expect(markdownIt.render("{a}b:c}")).toBe("<p>{a}b:c}</p>\n");
+    expect(markdownIt.render("{a|b}|{a:b}")).toBe("<p>{a|b}|<ruby>a<rt>b</rt></ruby></p>\n");
+  });
+
   it("should keep extra colons in ruby text", () => {
     expect(markdownIt.render("{a:b:c}")).toBe("<p><ruby>a<rt>b:c</rt></ruby></p>\n");
   });

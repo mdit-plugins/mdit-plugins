@@ -2,7 +2,7 @@
 
 import { hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginSimple } from "@mdit/helper";
-import type { Env, StateBlock, StateCore } from "markdown-it";
+import type { Env, StateBlock, StateCore, Token } from "markdown-it";
 
 interface AbbrEnv extends Env {
   abbreviations?: Record<string, string>;
@@ -72,7 +72,7 @@ export const abbr: PluginSimple = (md) => {
   // A second installation would wrap the abbreviation text twice.
   if (hasRule(md, "abbr_replace", "core")) return;
 
-  const { arrayReplaceAt, escapeRE, lib } = md.utils;
+  const { escapeRE, lib } = md.utils;
 
   // ASCII characters in Cc, Sc, Sm, Sk categories we should terminate on;
   // you can check character classes here:
@@ -111,13 +111,21 @@ export const abbr: PluginSimple = (md) => {
       if (token.type !== "inline") continue;
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      let children = token.children!;
+      const children = token.children!;
 
-      // We scan from the end, to keep position when new tags added.
-      for (let index = children.length - 1; index >= 0; index--) {
+      // Rebuild the children list in one pass instead of calling `arrayReplaceAt` for every
+      // matching text token, which copies the whole list each time and makes the pass quadratic.
+      // `newChildren` stays `null` until the first replacement, so inline blocks without
+      // abbreviations do not allocate a second list.
+      let newChildren: Token[] | null = null;
+
+      for (let index = 0; index < children.length; index++) {
         const currentToken = children[index];
 
-        if (currentToken.type !== "text") continue;
+        if (currentToken.type !== "text") {
+          if (newChildren != null) newChildren.push(currentToken);
+          continue;
+        }
 
         const text = currentToken.content;
 
@@ -125,9 +133,12 @@ export const abbr: PluginSimple = (md) => {
 
         // fast regexp run to determine whether there are any abbreviated words
         // in the current token
-        if (!regexpSimple.test(text)) continue;
+        if (!regexpSimple.test(text)) {
+          if (newChildren != null) newChildren.push(currentToken);
+          continue;
+        }
 
-        const nodes = [];
+        const nodes: Token[] = [];
         let match: RegExpExecArray | null;
         let pos = 0;
 
@@ -159,7 +170,11 @@ export const abbr: PluginSimple = (md) => {
           pos = regExp.lastIndex;
         }
 
-        if (nodes.length === 0) continue;
+        // the text contains an abbreviation, but no word boundary, so it stays untouched
+        if (nodes.length === 0) {
+          if (newChildren != null) newChildren.push(currentToken);
+          continue;
+        }
 
         if (pos < text.length) {
           const textToken = new state.Token("text", "", 0);
@@ -168,9 +183,15 @@ export const abbr: PluginSimple = (md) => {
           nodes.push(textToken);
         }
 
-        // replace current node
-        token.children = children = arrayReplaceAt(children, index, nodes);
+        newChildren ??= children.slice(0, index);
+
+        const nodesLength = nodes.length;
+
+        for (let nodeIndex = 0; nodeIndex < nodesLength; nodeIndex++)
+          newChildren.push(nodes[nodeIndex]);
       }
+
+      if (newChildren != null) token.children = newChildren;
     }
   };
 

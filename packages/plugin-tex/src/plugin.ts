@@ -236,6 +236,108 @@ const skipWhitespaceBack = (state: StateBlock, max: number, min: number): number
 };
 
 /*
+ * Cached result of an unsuccessful closing-marker look-ahead
+ *
+ * The paragraph terminator probes a block rule once per line with `silent` set, so a rule that scans
+ * the body for its closing marker repeats the same look-ahead for every line of a paragraph made of
+ * fence lines, which is quadratic. A scan started from a later line only revisits a suffix of the
+ * previous one, so the line that stopped the last unsuccessful scan answers every probe starting
+ * before it without scanning again.
+ *
+ * Only unsuccessful scans are cached: a closing marker ends the parsing of the scanned lines, so a
+ * successful scan is never asked again.
+ */
+interface BlockScanMiss {
+  /** End of the tokenize range the scan was performed in */
+  endLine: number;
+  /** Block indent the scan was performed with */
+  blkIndent: number;
+  /** Character codes of the closing marker */
+  close1: number;
+  close2: number;
+  /** Line the scan started from */
+  from: number;
+  /** Line that stopped the scan: the end of the range or a line indented below `blkIndent` */
+  stop: number;
+}
+
+/*
+ * Test if a line whose content starts at `pos` ends with the closing marker
+ *
+ * `contentEnd` is the position after the last non-whitespace character of the line, so trailing
+ * whitespace is ignored and the marker must be fully inside the line.
+ */
+const endsWithMarker = (
+  src: string,
+  pos: number,
+  contentEnd: number,
+  close1: number,
+  close2: number,
+): boolean =>
+  contentEnd - pos >= 2 &&
+  src.charCodeAt(contentEnd - 1) === close2 &&
+  src.charCodeAt(contentEnd - 2) === close1;
+
+const blockScanMisses = new WeakMap<StateBlock, BlockScanMiss>();
+
+/*
+ * Find the line that closes a block starting at `startLine`, or -1 when there is none.
+ *
+ * markdown-it only mutates the leading part of a line (list markers and blockquote markers are
+ * stripped) and its indent while tokenizing nested content, so whether a line *ends* with a closing
+ * marker never changes: a cached miss stays valid for the same range, block indent and marker.
+ */
+const findBlockClose = (
+  state: StateBlock,
+  startLine: number,
+  endLine: number,
+  close1: number,
+  close2: number,
+): number => {
+  const miss = blockScanMisses.get(state);
+
+  if (
+    miss &&
+    miss.endLine === endLine &&
+    miss.blkIndent === state.blkIndent &&
+    miss.close1 === close1 &&
+    miss.close2 === close2 &&
+    startLine >= miss.from &&
+    startLine < miss.stop
+  )
+    return -1;
+
+  const { src } = state;
+  let stop = endLine;
+
+  for (let current = startLine + 1; current < endLine; current++) {
+    const pos = state.bMarks[current] + state.tShift[current];
+    const end = state.eMarks[current];
+
+    // non-empty line with negative indent should stop the list:
+    if (pos < end && state.sCount[current] < state.blkIndent) {
+      stop = current;
+      break;
+    }
+
+    const contentEnd = skipWhitespaceBack(state, end, pos);
+
+    if (endsWithMarker(src, pos, contentEnd, close1, close2)) return current;
+  }
+
+  blockScanMisses.set(state, {
+    blkIndent: state.blkIndent,
+    close1,
+    close2,
+    endLine,
+    from: startLine,
+    stop,
+  });
+
+  return -1;
+};
+
+/*
  * Test if the rest of the line contains a single-line $$...$$ pair followed by
  * non-whitespace content, e.g. `$$a=1$$ and $b=2$`.
  *
@@ -267,10 +369,11 @@ const hasDollarPairWithTrailingContent = (state: StateBlock, pos: number, end: n
  * Parse block math with dollar signs: $$...$$
  */
 const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
+  const { src } = state;
   const start = state.bMarks[startLine] + state.tShift[startLine];
-  let end = state.eMarks[startLine];
+  const end = state.eMarks[startLine];
 
-  if (state.src.charCodeAt(start) !== 36 /* $ */ || state.src.charCodeAt(start + 1) !== 36 /* $ */)
+  if (src.charCodeAt(start) !== 36 /* $ */ || src.charCodeAt(start + 1) !== 36 /* $ */)
     return false;
 
   // A single-line $$...$$ pair followed by non-whitespace content must not be
@@ -278,64 +381,40 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
   // parsed by the inline rules instead of being swallowed into the block.
   if (hasDollarPairWithTrailingContent(state, start + 2, end)) return false;
 
-  let contentEnd = skipWhitespaceBack(state, end, start);
-  let pos = start + 2;
-  let firstLine: string;
-  let found = false;
+  const contentEnd = skipWhitespaceBack(state, end, start);
+  const pos = start + 2;
 
-  if (
-    contentEnd - pos >= 2 &&
-    state.src.charCodeAt(contentEnd - 1) === 36 /* $ */ &&
-    state.src.charCodeAt(contentEnd - 2) === 36 /* $ */
-  ) {
-    // Single line expression
-    firstLine = state.src.slice(pos, contentEnd - 2);
-    found = true;
-  } else {
-    firstLine = state.src.slice(pos, end);
-  }
+  // Single line expression
+  const singleLine = endsWithMarker(src, pos, contentEnd, 36 /* $ */, 36 /* $ */);
+  const closingLine = singleLine ? startLine : findBlockClose(state, startLine, endLine, 36, 36);
 
-  let current = startLine;
-  let lastLine = "";
-
-  while (!found) {
-    current++;
-    if (current >= endLine) break;
-
-    pos = state.bMarks[current] + state.tShift[current];
-    end = state.eMarks[current];
-
-    // non-empty line with negative indent should stop the list:
-    if (pos < end && state.sCount[current] < state.blkIndent) break;
-
-    // found end marker
-    contentEnd = skipWhitespaceBack(state, end, pos);
-
-    if (
-      contentEnd - pos >= 2 &&
-      state.src.charCodeAt(contentEnd - 1) === 36 /* $ */ &&
-      state.src.charCodeAt(contentEnd - 2) === 36 /* $ */
-    ) {
-      lastLine = state.src.slice(pos, contentEnd - 2);
-      found = true;
-    }
-  }
-
-  if (!found) return false;
+  if (closingLine === -1) return false;
 
   // In silent mode markdown-it only probes whether the line starts a block.
   // Report a match only when the closing `$$` is actually found, otherwise the
   // paragraph would be split and the rest of the document would be swallowed.
   if (silent) return true;
 
-  state.line = current + 1;
+  const firstLine = src.slice(pos, singleLine ? contentEnd - 2 : end);
+  let lastLine = "";
+
+  if (!singleLine) {
+    const lastStart = state.bMarks[closingLine] + state.tShift[closingLine];
+
+    lastLine = src.slice(
+      lastStart,
+      skipWhitespaceBack(state, state.eMarks[closingLine], lastStart) - 2,
+    );
+  }
+
+  state.line = closingLine + 1;
 
   const token = state.push("math_block", "math", 0);
 
   token.block = true;
   token.content =
     (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(startLine + 1, current, state.sCount[startLine], true) +
+    state.getLines(startLine + 1, closingLine, state.sCount[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
   token.markup = "$$";
@@ -347,70 +426,49 @@ const dollarBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
  * Parse block math with bracket syntax: \[...\]
  */
 const bracketBlockTexRule: BlockRule = (state, startLine, endLine, silent) => {
+  const { src } = state;
   const start = state.bMarks[startLine] + state.tShift[startLine];
-  let end = state.eMarks[startLine];
+  const end = state.eMarks[startLine];
 
-  if (state.src.charCodeAt(start) !== 92 /* \ */ || state.src.charCodeAt(start + 1) !== 91 /* [ */)
+  if (src.charCodeAt(start) !== 92 /* \ */ || src.charCodeAt(start + 1) !== 91 /* [ */)
     return false;
 
-  let contentEnd = skipWhitespaceBack(state, end, start);
-  let pos = start + 2;
-  let firstLine: string;
-  let found = false;
+  const contentEnd = skipWhitespaceBack(state, end, start);
+  const pos = start + 2;
 
-  if (
-    contentEnd - pos >= 2 &&
-    state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
-    state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
-  ) {
-    // Single line expression
-    firstLine = state.src.slice(pos, contentEnd - 2);
-    found = true;
-  } else {
-    firstLine = state.src.slice(pos, end);
-  }
+  // Single line expression
+  const singleLine = endsWithMarker(src, pos, contentEnd, 92 /* \ */, 93 /* ] */);
+  const closingLine = singleLine
+    ? startLine
+    : findBlockClose(state, startLine, endLine, 92 /* \ */, 93 /* ] */);
 
-  let current = startLine;
-  let lastLine = "";
-
-  while (!found) {
-    current++;
-    if (current >= endLine) break;
-
-    pos = state.bMarks[current] + state.tShift[current];
-    end = state.eMarks[current];
-
-    // non-empty line with negative indent should stop the list:
-    if (pos < end && state.sCount[current] < state.blkIndent) break;
-
-    // found end marker
-    contentEnd = skipWhitespaceBack(state, end, pos);
-
-    if (
-      contentEnd - pos >= 2 &&
-      state.src.charCodeAt(contentEnd - 1) === 93 /* ] */ &&
-      state.src.charCodeAt(contentEnd - 2) === 92 /* \ */
-    ) {
-      lastLine = state.src.slice(pos, contentEnd - 2);
-      found = true;
-    }
-  }
-
-  if (!found) return false;
+  if (closingLine === -1) return false;
 
   // In silent mode markdown-it only probes whether the line starts a block.
   // Report a match only when the closing `\]` is actually found, otherwise the
   // paragraph would be split even though the content is not a math block.
   if (silent) return true;
 
-  state.line = current + 1;
+  const firstLine = src.slice(pos, singleLine ? contentEnd - 2 : end);
+  let lastLine = "";
+
+  if (!singleLine) {
+    const lastStart = state.bMarks[closingLine] + state.tShift[closingLine];
+
+    lastLine = src.slice(
+      lastStart,
+      skipWhitespaceBack(state, state.eMarks[closingLine], lastStart) - 2,
+    );
+  }
+
+  state.line = closingLine + 1;
 
   const token = state.push("math_block", "math", 0);
 
   token.block = true;
   token.content =
     (firstLine ? `${firstLine}\n` : "") +
-    state.getLines(startLine + 1, current, state.sCount[startLine], true) +
+    state.getLines(startLine + 1, closingLine, state.sCount[startLine], true) +
     (lastLine ? `${lastLine}\n` : "");
   token.map = [startLine, state.line];
   token.markup = BLOCK_MARKER;
