@@ -234,6 +234,32 @@ describe("uniqueSlugStartIndex option", () => {
   });
 });
 
+describe("duplicate slug resolution", () => {
+  it("should skip candidate indices occupied by another heading", () => {
+    expect(md().render("# A\n\n# A 1\n\n# A")).toBe(
+      '<h1 id="a" tabindex="-1">A</h1>\n<h1 id="a-1" tabindex="-1">A 1</h1>\n<h1 id="a-2" tabindex="-1">A</h1>\n',
+    );
+  });
+
+  it("should resume after the last candidate index of a duplicate chain", () => {
+    expect(md().render("# A\n\n# A\n\n# A 2\n\n# A")).toBe(
+      '<h1 id="a" tabindex="-1">A</h1>\n<h1 id="a-1" tabindex="-1">A</h1>\n<h1 id="a-2" tabindex="-1">A 2</h1>\n<h1 id="a-3" tabindex="-1">A</h1>\n',
+    );
+  });
+
+  it("should track duplicate chains of different headings independently", () => {
+    expect(md().render("# A\n\n# B\n\n# A\n\n# B\n\n# A")).toBe(
+      '<h1 id="a" tabindex="-1">A</h1>\n<h1 id="b" tabindex="-1">B</h1>\n<h1 id="a-1" tabindex="-1">A</h1>\n<h1 id="b-1" tabindex="-1">B</h1>\n<h1 id="a-2" tabindex="-1">A</h1>\n',
+    );
+  });
+
+  it("should skip candidate indices registered by explicit ids", () => {
+    expect(mdWithAttrs().render("# A {id=a-1}\n\n# A\n\n# A")).toBe(
+      '<h1 id="a-1" tabindex="-1">A</h1>\n<h1 id="a" tabindex="-1">A</h1>\n<h1 id="a-2" tabindex="-1">A</h1>\n',
+    );
+  });
+});
+
 describe("getTokensText option", () => {
   it("should support custom token text extraction", () => {
     expect(
@@ -364,7 +390,7 @@ describe("legacy options", () => {
 });
 
 describe("performance", () => {
-  it("should not scan the tokens array without a permalink", () => {
+  it("should only scan the tokens array when a permalink moves the heading token", () => {
     const src = "# H1\n\n## H2\n\n### H3\n\npara text here";
 
     const countIndexOf = (instance: MarkdownItType): number => {
@@ -382,10 +408,24 @@ describe("performance", () => {
     const plainCount = countIndexOf(new MarkdownIt({ html: true }));
     const noPermalinkCount = countIndexOf(md());
     const withPermalinkCount = countIndexOf(md({ permalink: (): void => {} }));
+    const movingPermalinkCount = countIndexOf(
+      md({
+        permalink: (_slug, _options, state, index): void => {
+          state.tokens.splice(
+            index,
+            0,
+            Object.assign(new state.Token("html_block", "", 0), { content: "" }),
+          );
+        },
+      }),
+    );
 
-    // The anchor rule itself must not scan the tokens array without a permalink,
-    // and should do exactly one scan per selected heading when a permalink is set.
+    // The anchor rule itself must not scan the tokens array unless a permalink
+    // moves the current heading token: a permalink that only rewrites token
+    // children (like the bundled presets) must stay scan-free, while one that
+    // shifts the heading must rescan once per selected heading.
     expect(noPermalinkCount).toBe(plainCount);
-    expect(withPermalinkCount).toBe(plainCount + 3);
+    expect(withPermalinkCount).toBe(plainCount);
+    expect(movingPermalinkCount).toBe(plainCount + 3);
   });
 });
