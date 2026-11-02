@@ -35,6 +35,11 @@ features:
     details: Add attrs to Markdown content
     link: ./attrs.html
 
+  - title: cjk-friendly
+    icon: bold
+    details: CJK-friendly emphasis syntax
+    link: ./cjk-friendly.html
+
   - title: container
     icon: box-open
     details: Creating block-level custom containers
