@@ -105,6 +105,63 @@ xxx
     );
   });
 
+  it("support deeply nested containers", () => {
+    const depth = 200;
+    const markdownItDeep = new MarkdownIt({ maxNesting: 10_000 }).use(container, {
+      name: "test",
+    });
+    const content = `${"::: test\n".repeat(depth)}content\n${":::\n".repeat(depth)}`;
+    const opening = '<div class="test">\n'.repeat(depth);
+    // Every nested container is auto closed by the closing marker of the outermost one, which is
+    // the first line that can close a container at this indent; the remaining markers are content.
+    const closing = "</div>\n".repeat(depth);
+    const remaining = `<p>${Array.from({ length: depth - 1 }, () => ":::").join("\n")}</p>\n`;
+
+    expect(markdownItDeep.render(content)).toBe(`${opening}<p>content</p>\n${closing}${remaining}`);
+  });
+
+  it("close nested containers with their own marker length", () => {
+    const testCases = [
+      [
+        `\
+::: test
+:::: test
+content
+::::
+:::
+`,
+        `\
+<div class="test">
+<div class="test">
+<p>content</p>
+</div>
+</div>
+<p>:::</p>
+`,
+      ],
+      [
+        `\
+:::: test
+::: test
+content
+:::
+::::
+`,
+        `\
+<div class="test">
+<div class="test">
+<p>content</p>
+</div>
+</div>
+`,
+      ],
+    ];
+
+    testCases.forEach(([content, expected]) => {
+      expect(markdownIt.render(content)).toBe(expected);
+    });
+  });
+
   it("wrong syntax", () => {
     const content = `\
 :::: test
