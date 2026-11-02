@@ -1,6 +1,6 @@
 import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
-import type { KatexOptions, KatexOptions as OriginalKatexOptions } from "katex";
+import type { KatexOptions, KatexOptions as OriginalKatexOptions, StrictFunction } from "katex";
 import { ParseError, renderToString } from "katex";
 import type { Env, MarkdownIt } from "markdown-it";
 
@@ -68,6 +68,16 @@ export const katex = <MarkdownItEnv extends Env = Env>(
     ...userOptions
   }: MarkdownItKatexOptions<MarkdownItEnv> = {},
 ): void => {
+  // Env of the formula that is currently being rendered. KaTeX only calls `strict`
+  // synchronously while rendering a formula, so one shared callback reading this
+  // variable behaves like a per-formula closure without allocating one per formula.
+  let currentEnv: MarkdownItEnv;
+
+  const strict: StrictFunction = (errorCode, errorMsg, token) =>
+    logger(errorCode, errorMsg, token, currentEnv) ?? "ignore";
+
+  // A single options object is reused for every formula: KaTeX reads it
+  // synchronously, so there is no need to allocate a new object per formula.
   const commonKatexOptions: KatexOptions = Object.assign(
     {
       // see https://github.com/vuepress/ecosystem/issues/261
@@ -76,10 +86,12 @@ export const katex = <MarkdownItEnv extends Env = Env>(
       throwOnError: false,
     },
     userOptions,
+    // the plugin owns `strict` and forwards it to `logger` with the formula env
+    { strict },
   );
 
-  // TEMP: plan C — reset macros after every render so `\gdef` does not leak
-  // across documents while remaining usable within a single render.
+  // Reset macros after every render so `\gdef` does not leak across documents
+  // while remaining usable anywhere within a single render.
   const originalRender = md.render.bind(md);
   const originalRenderInline = md.renderInline.bind(md);
 
@@ -110,20 +122,12 @@ export const katex = <MarkdownItEnv extends Env = Env>(
     delimiters,
     mathFence,
     render: (content, displayMode, env) => {
-      const katexOptions = Object.assign<KatexOptions, KatexOptions, KatexOptions>(
-        {},
-        commonKatexOptions,
-        {
-          macros: commonKatexOptions.macros,
-          strict: (errorCode, errorMsg, token) =>
-            logger(errorCode, errorMsg, token, env as MarkdownItEnv) ?? "ignore",
-          displayMode,
-        },
-      );
+      currentEnv = env as MarkdownItEnv;
+      commonKatexOptions.displayMode = displayMode;
 
       return displayMode
-        ? katexBlock(content, katexOptions, transformer)
-        : katexInline(content, katexOptions, transformer);
+        ? katexBlock(content, commonKatexOptions, transformer)
+        : katexInline(content, commonKatexOptions, transformer);
     },
   });
 };
