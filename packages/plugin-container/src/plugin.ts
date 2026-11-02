@@ -5,11 +5,51 @@
 
 import { hasRule } from "@mdit/helper";
 import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { MarkdownItOptions, Renderer, RendererRule, Token } from "markdown-it";
+import type { MarkdownItOptions, Renderer, RendererRule, StateBlock, Token } from "markdown-it";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
 const MIN_MARKER_NUM = 3;
+
+/**
+ * Result of the closing-marker scan of one container level
+ *
+ * A container nested inside the scanned one reuses it instead of scanning the same lines again.
+ */
+interface CloseScan {
+  /** Line the scan stopped at, i.e. the closing marker line or the line that stopped the scan */
+  closeLine: number;
+
+  /** Marker count the scan looked for */
+  markerCount: number;
+
+  /** Scan context the scan was performed in */
+  context: number;
+}
+
+/**
+ * Scan context of the current parse
+ *
+ * Blockquotes and list items temporarily rewrite `bMarks`, `tShift` and `sCount` of the lines they
+ * contain, so a scan cached for an enclosing container is not valid inside them. Every installed
+ * container rule shares the context of the parse, which changes whenever a container opens outside
+ * another container, i.e. at the top level or inside a blockquote or list item.
+ */
+const scanContexts = new WeakMap<StateBlock, number>();
+
+/**
+ * Start a new scan context for the current parse
+ *
+ * @param state - Block state of the current parse
+ * @returns The new context
+ */
+const startScanContext = (state: StateBlock): number => {
+  const context = (scanContexts.get(state) ?? 0) + 1;
+
+  scanContexts.set(state, context);
+
+  return context;
+};
 
 const defaultCloseRenderer: RendererRule = (
   tokens: Token[],
@@ -55,6 +95,8 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
   // Precompute the character codes once per installation so the hot loop
   // compares numbers instead of allocating one-character strings.
   const markerCodes = Array.from({ length: markerLength }, (_, index) => marker.charCodeAt(index));
+  // Closing-marker scans of the current parse, keyed by container indent.
+  const closeScans = new WeakMap<StateBlock, Map<number, CloseScan>>();
 
   const containerRule: BlockRule = (state, startLine, endLine, silent) => {
     const currentLineStart = state.bMarks[startLine] + state.tShift[startLine];
@@ -89,53 +131,86 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
     // Since start is found, we can report success here in validation mode
     if (silent) return true;
 
+    let context = scanContexts.get(state) ?? 0;
+
+    // Blockquotes and list items may have rewritten the line arrays, so scans cached for an
+    // enclosing container cannot be reused inside them.
+    if (state.parentType !== "container") context = startScanContext(state);
+
+    let scans = closeScans.get(state);
+
+    if (scans == null) {
+      scans = new Map();
+      closeScans.set(state, scans);
+    }
+
+    const enclosingScan = scans.get(currentLineIndent);
+
     let nextLine = startLine + 1;
     let autoClosed = false;
 
-    // Search for the end of the block
-    for (
-      ;
-      // nextLine should be accessible outside the loop,
-      // unclosed block should be auto closed by end of document.
-      // also block seems to be auto closed by end of parent
-      nextLine < endLine;
-      nextLine++
+    if (
+      // An enclosing scan with the same indent already proved that none of the lines up to the end
+      // of the current range stops or closes a container with a marker at least this long, so the
+      // block is auto closed at the end of the range.
+      enclosingScan != null &&
+      enclosingScan.context === context &&
+      enclosingScan.markerCount <= markerCount &&
+      enclosingScan.closeLine >= endLine
     ) {
-      const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
-      const nextLineMax = state.eMarks[nextLine];
-
-      if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
-        // non-empty line with negative indent should stop the list:
-        // - :::
-        //  test
-        break;
-      }
-
-      if (
-        // closing fence should be indented same as opening one
-        state.sCount[nextLine] === currentLineIndent &&
-        // match start
-        markerCodes[0] === state.src.charCodeAt(nextLineStart)
+      nextLine = endLine;
+    } else {
+      // Search for the end of the block
+      for (
+        ;
+        // nextLine should be accessible outside the loop,
+        // unclosed block should be auto closed by end of document.
+        // also block seems to be auto closed by end of parent
+        nextLine < endLine;
+        nextLine++
       ) {
-        // check rest of marker
-        for (pos = nextLineStart + 1; pos <= nextLineMax; pos++) {
-          if (markerCodes[(pos - nextLineStart) % markerLength] !== state.src.charCodeAt(pos))
-            break;
+        const nextLineStart = state.bMarks[nextLine] + state.tShift[nextLine];
+        const nextLineMax = state.eMarks[nextLine];
+
+        if (nextLineStart < nextLineMax && state.sCount[nextLine] < currentLineIndent) {
+          // non-empty line with negative indent should stop the list:
+          // - :::
+          //  test
+          break;
         }
 
-        // closing code fence must be at least as long as the opening one
-        if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {
-          // make sure tail has spaces only
-          pos -= (pos - nextLineStart) % markerLength;
-          pos = state.skipSpaces(pos);
+        if (
+          // closing fence should be indented same as opening one
+          state.sCount[nextLine] === currentLineIndent &&
+          // match start
+          markerCodes[0] === state.src.charCodeAt(nextLineStart)
+        ) {
+          // check rest of marker
+          for (pos = nextLineStart + 1; pos <= nextLineMax; pos++) {
+            if (markerCodes[(pos - nextLineStart) % markerLength] !== state.src.charCodeAt(pos))
+              break;
+          }
 
-          if (pos >= nextLineMax) {
-            // found!
-            autoClosed = true;
-            break;
+          // closing code fence must be at least as long as the opening one
+          if (Math.floor((pos - nextLineStart) / markerLength) >= markerCount) {
+            // make sure tail has spaces only
+            pos -= (pos - nextLineStart) % markerLength;
+            pos = state.skipSpaces(pos);
+
+            if (pos >= nextLineMax) {
+              // found!
+              autoClosed = true;
+              break;
+            }
           }
         }
       }
+
+      scans.set(currentLineIndent, {
+        closeLine: nextLine,
+        markerCount,
+        context,
+      });
     }
 
     const oldParent = state.parentType;
