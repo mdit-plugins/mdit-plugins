@@ -29,82 +29,96 @@ const rubyRule: InlineRule = (state, silent) => {
   let tokens: Token[];
   const start = state.pos;
   const max = state.posMax;
+  const src = state.src;
 
-  if (silent || state.src.charCodeAt(start) !== 123 /* { */ || start + 4 >= max) return false;
+  if (silent || src.charCodeAt(start) !== 123 /* { */ || start + 4 >= max) return false;
 
-  state.pos = start + 1;
-
+  let pos = start + 1;
   let dividerPosition = 0;
   let closePos = 0;
 
-  while (state.pos < max) {
+  while (pos < max) {
+    const code = src.charCodeAt(pos);
+
     if (dividerPosition) {
-      if (state.src.charCodeAt(state.pos) === 125 /* } */ && !isEscaped(state.src, state.pos)) {
-        closePos = state.pos;
+      if (code === 125 /* } */ && !isEscaped(src, pos)) {
+        closePos = pos;
         break;
       }
-    } else if (state.src.charCodeAt(state.pos) === 58 /* : */ && !isEscaped(state.src, state.pos)) {
-      dividerPosition = state.pos;
+    } else if (code === 58 /* : */) {
+      if (!isEscaped(src, pos)) dividerPosition = pos;
+    } else if (code === 125 /* } */ && !isEscaped(src, pos)) {
+      // The divider has to be followed by the closing brace, so an unescaped
+      // closing brace before the divider means this opener can never match.
+      // Returning here keeps non-matching input linear instead of scanning the
+      // rest of the inline content for every opener.
+      return false;
     }
 
-    state.pos++;
+    pos++;
   }
 
-  if (!closePos || start + 1 === state.pos) {
-    state.pos = start;
-
-    return false;
-  }
+  if (!closePos) return false;
 
   // reject an empty ruby text (e.g. `{ab:}`) which would render an empty <rt>
-  if (dividerPosition + 1 >= closePos) {
-    state.pos = start;
+  if (dividerPosition + 1 >= closePos) return false;
 
-    return false;
-  }
-
-  const baseText = state.src.slice(start + 1, dividerPosition);
-  const rubyText = state.src.slice(dividerPosition + 1, closePos);
-  const rubyArray = rubyText.split("|");
+  const baseText = src.slice(start + 1, dividerPosition);
+  const rubyText = src.slice(dividerPosition + 1, closePos);
 
   // reject empty `|`-separated ruby segments (e.g. `{ab:|}`), which would
-  // otherwise render empty <rt> elements just like `{ab:}`
-  if (rubyArray.some((text) => text.length === 0)) {
-    state.pos = start;
+  // otherwise render empty <rt> elements just like `{ab:}`; the segment count
+  // is collected in the same pass so `split` is only needed for pairing
+  let segments = 1;
+  let segmentStart = 0;
 
-    return false;
+  for (let index = 0; index < rubyText.length; index++) {
+    if (rubyText.charCodeAt(index) === 124 /* | */) {
+      if (index === segmentStart) return false;
+
+      segments++;
+      segmentStart = index + 1;
+    }
   }
 
-  state.posMax = state.pos;
+  if (segmentStart === rubyText.length) return false;
+
+  // A single ruby segment annotates the whole base text, so only multi-segment
+  // rubies can pair the base per code point. Besides, a base text of
+  // `segments` to `2 * segments` UTF-16 code units is the only length that can
+  // hold exactly `segments` code points, which avoids building the code point
+  // array of `Array.from` for long base texts.
+  const baseArray = segments === 1 || baseText.length > segments * 2 ? [] : Array.from(baseText);
+
+  state.posMax = closePos;
   state.pos = start + 1;
 
+  const { inline } = state.md;
   const openToken = state.push("ruby_open", "ruby", 1);
 
   openToken.markup = "{";
 
-  const baseArray = Array.from(baseText);
+  if (baseArray.length === segments) {
+    const rubyArray = rubyText.split("|");
 
-  if (baseArray.length === rubyArray.length) {
-    baseArray.forEach((content, index) => {
-      state.md.inline.parse(content, state.md, state.env, (tokens = []));
-
+    for (let index = 0; index < baseArray.length; index++) {
+      inline.parse(baseArray[index], state.md, state.env, (tokens = []));
       state.tokens.push(...tokens);
 
       state.push("rt_open", "rt", 1);
 
-      state.md.inline.parse(rubyArray[index], state.md, state.env, (tokens = []));
-
+      inline.parse(rubyArray[index], state.md, state.env, (tokens = []));
       state.tokens.push(...tokens);
 
       state.push("rt_close", "rt", -1);
-    });
+    }
   } else {
-    state.md.inline.parse(baseText, state.md, state.env, (tokens = []));
+    inline.parse(baseText, state.md, state.env, (tokens = []));
     state.tokens.push(...tokens);
 
     state.push("rt_open", "rt", 1);
 
-    state.md.inline.parse(rubyText, state.md, state.env, (tokens = []));
+    inline.parse(rubyText, state.md, state.env, (tokens = []));
     state.tokens.push(...tokens);
 
     state.push("rt_close", "rt", -1);
