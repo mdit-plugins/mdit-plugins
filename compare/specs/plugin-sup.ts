@@ -37,6 +37,7 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [],
   correctness: [
     { name: "basic", markdown: "29^th^" },
     { name: "inline-sentence", markdown: "The 29^th^ of May is a holiday." },

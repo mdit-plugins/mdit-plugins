@@ -37,6 +37,7 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [],
   correctness: [
     { name: "basic", markdown: "H~2~0" },
     { name: "inline-sentence", markdown: "Water is H~2~O at room temperature." },

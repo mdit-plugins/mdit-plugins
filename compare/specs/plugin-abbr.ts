@@ -36,6 +36,16 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Installs the plugin twice and asserts an abbreviation is not wrapped twice; the reference has no idempotent-install contract and re-registers its inline rule, so the test only covers this package's installation internals.",
+        zh: "该测试重复安装插件并断言缩写不会被二次包裹；参考包没有幂等安装的约定，会重复注册行内规则，因此只覆盖本包的安装内部细节。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "definition-and-usage",

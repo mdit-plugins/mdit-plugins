@@ -97,6 +97,16 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: { throwOnError: false },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "mhchem-error.spec.ts",
+      name: "",
+      why: {
+        en: "Tests this package's own dynamic `./mhchem` loader by mocking `katex/contrib/mhchem` and asserting its custom error message; the reference has no equivalent subpath or dynamic loader, so there is no reference behavior to compare.",
+        zh: "通过 mock `katex/contrib/mhchem` 测试本包自己的动态 `./mhchem` 加载器及其自定义错误信息；参考包没有等价子路径或动态加载器，因此没有可对比的参考包行为。",
+      },
+    },
+  ],
   correctness: [
     { name: "inline-basic", markdown: "$a+b$" },
     { name: "inline-fraction", markdown: String.raw`$\frac{1}{2}$` },

@@ -40,6 +40,16 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts the internal `dl` block-rule count and that a second installation is a no-op; the reference registers its rule without a guard and has no idempotent-install contract.",
+        zh: "该测试断言内部 `dl` 块级规则的数量，以及第二次安装为空操作；参考包注册规则时没有守卫，也没有幂等安装的约定。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "basic",

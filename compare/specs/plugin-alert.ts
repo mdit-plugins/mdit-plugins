@@ -74,6 +74,48 @@ const spec: ComparisonSpec = defineComparison({
       },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts the internal `alert` block-rule count and that a second installation keeps the first parse options and renderers; the reference re-registers its rule on every install and has no idempotent-install contract.",
+        zh: "该文件断言内部 `alert` 块级规则的数量，以及第二次安装保留首次解析选项与渲染器的行为；参考包每次安装都会重新注册规则，也没有幂等安装的约定。",
+      },
+    },
+    {
+      file: "alert.spec.ts",
+      name: "should support non-ASCII alert names",
+      why: {
+        en: "Uses the fork-only `alertNames` option; the reference only accepts `markers` and has no option to add custom names, so it never parses the custom marker and the assertion only covers this package's option.",
+        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项；参考包只接受 `markers`，没有添加自定义名称的选项，因此不会解析该自定义标记，断言只覆盖了本包的选项。",
+      },
+    },
+    {
+      file: "alert.spec.ts",
+      name: "should escape alert name in title render",
+      why: {
+        en: "Uses the fork-only `alertNames` option to add a custom marker and asserts how its name is escaped; the reference has no custom-name option (`markers` only accepts its fixed marker list), so no reference escaping behavior is exercised.",
+        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项添加自定义标记并断言其名称的转义；参考包没有自定义名称选项（`markers` 只接受固定标记列表），因此没有覆盖参考包的转义行为。",
+      },
+    },
+    {
+      file: "alert.spec.ts",
+      name: "should not break out of class attribute with quotes in alert name",
+      why: {
+        en: "Uses the fork-only `alertNames` option to add a marker containing quotes and asserts the generated class attribute; the reference cannot register custom names, so the assertion only covers this package's escaping of `alertNames`.",
+        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项添加包含引号的标记并断言生成的 class 属性；参考包无法注册自定义名称，因此断言只覆盖本包对 `alertNames` 的转义。",
+      },
+    },
+    {
+      file: "alert.spec.ts",
+      name: "should support customize options",
+      why: {
+        en: "Uses the fork-only `openRenderer` / `closeRenderer` / `titleRenderer` hooks; the reference always renders its default wrapper and title markup and ignores these options, so the assertion only covers this package's renderer API.",
+        zh: "该测试使用仅本 fork 提供的 `openRenderer` / `closeRenderer` / `titleRenderer` 钩子；参考包始终渲染默认的包裹与标题标记并忽略这些选项，因此断言只覆盖本包的渲染器 API。",
+      },
+    },
+  ],
   correctness: [
     { name: "note", markdown: "> [!note]\n> Some text" },
     { name: "tip", markdown: "> [!tip]\n> Some tip" },

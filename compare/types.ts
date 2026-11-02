@@ -78,6 +78,16 @@ export interface ScalingCase {
   readonly targetMs?: number;
 }
 
+/** One test of the package test suite that is skipped when run against the reference */
+export interface TestSuiteSkip {
+  /** Substring of the test name (suite name plus test title) */
+  readonly name: string;
+  /** Optional substring of the test file name, e.g. `source-map.spec.ts` */
+  readonly file?: string;
+  /** Bilingual explanation of why the test only covers internal behavior */
+  readonly why: ComparisonNote;
+}
+
 /** A plugin comparison definition */
 export interface ComparisonSpec {
   /** Package directory under `packages/`, e.g. `plugin-attrs` */
@@ -94,6 +104,13 @@ export interface ComparisonSpec {
   readonly scaling?: readonly ScalingCase[];
   /** Normalize the rendered output of both sides before comparing */
   readonly normalize?: (html: string) => string;
+  /** Tests that are skipped when the package test suite runs against the reference */
+  readonly testSuiteSkips?: readonly TestSuiteSkip[];
+  /**
+   * Extra export aliases for the test suite shim, mapping names imported by the tests to reference
+   * exports when they differ from the compared variant exports (e.g. an alias such as `mathjax`).
+   */
+  readonly testSuiteExports?: Readonly<Record<string, string>>;
   /** Human readable notes rendered in reports */
   readonly notes?: readonly ComparisonNote[];
 }
@@ -201,6 +218,53 @@ export interface CorrectnessSummary {
   readonly error: number;
   /** Per case results */
   readonly cases: readonly CorrectnessCaseResult[];
+}
+
+/** Status of one test of the package test suite */
+export type TestSuiteStatus = "passed" | "failed" | "skipped";
+
+/** Result of one test of the package test suite */
+export interface TestSuiteCaseResult {
+  /** Test file name */
+  readonly file: string;
+  /** Full test name (suite plus title) */
+  readonly name: string;
+  /** Test status */
+  readonly status: TestSuiteStatus;
+  /** First line of the failure message, when the test failed */
+  readonly message?: string;
+  /** Explanation of a skipped test */
+  readonly skipReason?: ComparisonNote;
+}
+
+/** Result of running a package test suite against the reference implementation */
+export interface TestSuitePackageResult {
+  /** Package directory under `packages/` */
+  readonly plugin: string;
+  /** Reference npm package */
+  readonly reference: string;
+  /** Number of counted tests (passed + failed) */
+  readonly total: number;
+  /** Number of passed tests */
+  readonly passed: number;
+  /** Number of failed tests */
+  readonly failed: number;
+  /** Number of skipped tests (not counted in total) */
+  readonly skipped: number;
+  /** Per test results */
+  readonly tests: readonly TestSuiteCaseResult[];
+  /** Collection error when the suite could not run at all */
+  readonly error?: string;
+}
+
+/** Committed result of running the package test suites against the reference implementations */
+export interface TestSuiteData {
+  /** ISO timestamp of the run */
+  readonly generatedAt: string;
+  /** Commit of the run */
+  readonly commit: string;
+  /** Per package results */
+  readonly packages: readonly TestSuitePackageResult[];
 }
 
 /** Comparison result of one variant */

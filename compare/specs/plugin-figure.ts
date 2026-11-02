@@ -52,6 +52,32 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: { figcaption: "title" },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts that the internal core rule named `figure` is registered exactly once; the reference registers a differently named rule and has no idempotent-install contract.",
+        zh: "该测试断言名为 `figure` 的内部 core 规则只注册一次；参考包注册的规则名称不同，也没有幂等安装的约定。",
+      },
+    },
+    {
+      file: "figure.spec.ts",
+      name: "should keep an existing tabindex",
+      why: {
+        en: 'The test helper inserts attributes with `md.core.ruler.before("figure", ...)`; the reference registers its rule as `image_figures`, so the helper cannot run.',
+        zh: '测试辅助函数用 `md.core.ruler.before("figure", ...)` 插入属性；参考包的规则名为 `image_figures`，因此该辅助函数无法运行。',
+      },
+    },
+    {
+      file: "figure.spec.ts",
+      name: "moveAttrs",
+      why: {
+        en: "`moveAttrs` is a fork-only option: the reference only has `copyAttrs` with different copy/move and merge semantics, so these attribute-merging tests have no reference equivalent and are documented as not compared.",
+        zh: "`moveAttrs` 是仅本包提供的选项：参考包只有复制/移动与合并语义均不同的 `copyAttrs`，这些属性合并测试没有参考对应物，已记录为不参与对比。",
+      },
+    },
+  ],
   correctness: [
     { name: "figure-title", markdown: '![Alt](image.png "Caption")' },
     {

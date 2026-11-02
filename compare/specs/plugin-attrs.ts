@@ -32,6 +32,64 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts the internal `attrs` core-rule count and that a second installation keeps the first parse options; the reference re-registers its rule and has no idempotent-install contract.",
+        zh: "该文件断言内部 `attrs` core 规则的数量，以及第二次安装保留首次解析选项的行为；参考包会重新注册规则，也没有幂等安装的约定。",
+      },
+    },
+    {
+      file: "options.spec.ts",
+      name: "",
+      why: {
+        en: "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+        zh: "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。",
+      },
+    },
+    {
+      file: "parseAttrs.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+        zh: "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。",
+      },
+    },
+    {
+      file: "security.spec.ts",
+      name: "should only keep data urls accepted by markdown-it",
+      why: {
+        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+      },
+    },
+    {
+      file: "security.spec.ts",
+      name: "should drop dangerous attrs in programmatic parsing",
+      why: {
+        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+      },
+    },
+    {
+      file: "security.spec.ts",
+      name: "should keep normal attributes in programmatic parsing",
+      why: {
+        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+      },
+    },
+    {
+      file: "security.spec.ts",
+      name: "should not let allowed option bypass the safety filter",
+      why: {
+        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+      },
+    },
+  ],
   correctness: [
     { name: "heading-id", markdown: "## Hello World {#say-hello-world}" },
     {

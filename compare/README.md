@@ -46,6 +46,9 @@ pnpm exec node --experimental-strip-types compare/run.ts plugin-attrs --no-write
 # Refresh correctness data only, keep the existing benchmark measurements
 pnpm exec node --experimental-strip-types compare/run.ts plugin-attrs --correctness-only --merge
 
+# Run our own package test suites against the reference implementations
+pnpm run compare:tests
+
 # Refresh package sizes, then the generated reports
 pnpm run compare:sizes
 pnpm run compare:docs
@@ -131,6 +134,22 @@ export default defineComparison({
    in one controlled, sequential run so that measurements from different packages are comparable.
    When only correctness changes, run `--correctness-only --merge` to refresh the correctness data
    without re-measuring benchmarks.
+
+## Test suite comparison
+
+`pnpm run compare:tests` runs the tests of every compared package (`packages/<plugin>/__tests__`)
+against the reference implementation: a shim re-exports the reference package under our public
+export names and the vitest run swaps the package entry, so the whole suite executes against the
+reference. This is the most detailed correctness signal — our tests cover much more than the six
+benchmark corpora and the curated correctness cases.
+
+Some tests only assert internal implementation details that the reference does not provide (rule
+registration guards, internal helper APIs, fork-only extensions). Those are listed in the spec's
+`testSuiteSkips` with a bilingual reason, and they are **not counted** — neither passed nor failed.
+Every other failing test is a behavior difference between the two packages.
+
+`testSuiteExports` maps extra export aliases the tests import (e.g. `mathjax` as an alias of the
+compared `installSyncMathjax` variant) to the corresponding reference export.
 
 ## Presentation
 

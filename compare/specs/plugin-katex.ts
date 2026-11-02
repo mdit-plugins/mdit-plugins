@@ -92,6 +92,32 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: { throwOnError: false },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "katex.spec.ts",
+      name: "default logger should not give warnings",
+      why: {
+        en: "Asserts the warning count of the current package's default `logger`; the reference has no logging callback, so the console output it produces is not comparable.",
+        zh: "该测试断言当前包默认 `logger` 的警告次数；参考包没有日志回调，其产生的控制台输出不可对比。",
+      },
+    },
+    {
+      file: "katex.spec.ts",
+      name: "should support custom logger",
+      why: {
+        en: "Uses the fork-only `logger` option (no equivalent in the reference) and asserts its exact call count, so the test cannot be meaningfully run against the reference.",
+        zh: "该测试使用仅本包提供的 `logger` 选项（参考包没有对应项）并断言其精确调用次数，因此无法有意义地在参考实现上运行。",
+      },
+    },
+    {
+      file: "katex.spec.ts",
+      name: "should work with transformer",
+      why: {
+        en: "Uses the fork-only `transformer` option, which post-processes KaTeX HTML; the reference has no such hook and ignores the option.",
+        zh: "该测试使用仅本包提供的 `transformer` 选项对 KaTeX HTML 做后处理；参考包没有该钩子，会忽略此选项。",
+      },
+    },
+  ],
   correctness: [
     { name: "inline-basic", markdown: "$a+b$" },
     { name: "inline-fraction", markdown: String.raw`$\frac{1}{2}$` },

@@ -40,6 +40,16 @@ const spec: ComparisonSpec = defineComparison({
       ourOptions: { attrs: [["class", "spoiler"]] },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "spoiler.spec.ts",
+      name: "spoiler with attrs factory",
+      why: {
+        en: 'Asserts the fork-only `attrs` option when it is a factory: the reference accepts no `attrs` option at all, never calls the factory and hard-codes `class="spoiler"`, so these tests only inspect this package\'s token construction.',
+        zh: '断言仅本包提供的 `attrs` 工厂选项：参考包完全不接受 `attrs` 选项，不会调用该工厂，并硬编码 `class="spoiler"`，因此这些测试只检查当前包的 token 构造。',
+      },
+    },
+  ],
   correctness: [
     { name: "basic", markdown: "!!spoiler!!" },
     { name: "inline-sentence", markdown: "VuePress Theme Hope is !!powerful!!." },

@@ -235,6 +235,48 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer,
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts this fork's installation bookkeeping: the namespaced block rule name (`uml_<name>`), its position and `alt` list, renderer identity, and that repeated installations are a no-op. The reference hard-codes a different rule name and has no idempotent-install contract, so the whole file only covers internal registration behavior.",
+        zh: "断言本 fork 的安装簿记：命名空间化的块级规则名（`uml_<name>`）、其位置与 `alt` 列表、渲染器身份，以及重复安装为空操作。参考包硬编码了不同的规则名且没有幂等安装约定，因此整个文件只覆盖内部注册行为。",
+      },
+    },
+    {
+      file: "uml.spec.ts",
+      name: "should keep raw content for custom renderer",
+      why: {
+        en: "Installs the plugin with the fork's `name`/`open`/`close`/`renderer` option names; the reference only accepts `openMarker`/`closeMarker`/`render`, so it never parses the `@start` block and this custom-renderer behavior cannot be compared.",
+        zh: "使用本 fork 的 `name`/`open`/`close`/`renderer` 选项名安装插件；参考包只接受 `openMarker`/`closeMarker`/`render`，因此不会解析 `@start` 块，无法对比该自定义渲染器行为。",
+      },
+    },
+    {
+      file: "uml.spec.ts",
+      name: "should strip container prefixes at any depth",
+      why: {
+        en: "These cases configure the fork's `open`/`close`/`renderer` options, which the reference ignores, so it never parses the block. The underlying container-prefix difference is covered by the correctness cases (`blockquote`, `nested-blockquote`, `list-item`), not lost by this skip.",
+        zh: "这些用例配置了本 fork 的 `open`/`close`/`renderer` 选项，参考包会忽略它们，因此从不解析该块。底层的容器前缀差异已由正确性用例（`blockquote`、`nested-blockquote`、`list-item`）覆盖，不会因跳过而丢失。",
+      },
+    },
+    {
+      file: "uml.spec.ts",
+      name: "should handle tab-indented list content",
+      why: {
+        en: "Uses the fork's `renderer` option to read the raw token content; the reference has no such option and does not parse the default `@start` marker, so the dedent assertion only exercises fork-only configuration.",
+        zh: "使用本 fork 的 `renderer` 选项读取原始 token 内容；参考包没有该选项，也不会解析默认的 `@start` 标记，因此该去缩进断言只覆盖本 fork 专有配置。",
+      },
+    },
+    {
+      file: "uml.spec.ts",
+      name: "should render with options",
+      why: {
+        en: "Configures the fork-only `name`/`open`/`close`/`renderer` options and asserts the custom `<Test>` markup; the reference ignores all of them and renders the markers as paragraphs, so only the fork's option API is covered.",
+        zh: "配置仅本 fork 提供的 `name`/`open`/`close`/`renderer` 选项并断言自定义 `<Test>` 标记；参考包会忽略全部选项并把标记渲染为段落，因此只覆盖了本 fork 的选项 API。",
+      },
+    },
+  ],
   correctness: [
     { name: "basic", markdown: "@startuml\nBob -> Alice : hello\n@enduml" },
     {

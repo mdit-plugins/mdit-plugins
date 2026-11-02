@@ -79,6 +79,32 @@ const spec: ComparisonSpec = defineComparison({
       },
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "reuse.spec.ts",
+      name: "",
+      why: {
+        en: "The whole file asserts this package's repeated-install and id bookkeeping: a second `.use(tasklist)` must keep the first options, checkboxes must stay id-free and the label must wrap the input. The reference re-registers its core rule on every install, always emits `cbx_*` ids and associates the label through `for`/`id`, so these assertions cover this package's internals; the correctness comparison normalizes those ids and label wrappers.",
+        zh: "整个文件断言本包的重复安装与 id 簿记：第二次 `.use(tasklist)` 必须保留首次选项、复选框必须不生成 id、label 必须包裹 input。参考包每次安装都会重新注册 core 规则、始终输出 `cbx_*` id 并通过 `for`/`id` 关联 label，因此这些断言覆盖的是本包内部实现；正确性对比已将这些 id 与 label 包裹归一化。",
+      },
+    },
+    {
+      file: "tasklist.spec.ts",
+      name: "should not render label",
+      why: {
+        en: "Uses the fork-only `label: false` option: the reference has no label toggle and always wraps the item text in a `<label>` element.",
+        zh: "使用仅本包提供的 `label: false` 选项：参考包没有 label 开关，始终用 `<label>` 元素包裹条目文本。",
+      },
+    },
+    {
+      file: "tasklist.spec.ts",
+      name: "should support custom class names",
+      why: {
+        en: "Uses this fork's option names (`containerClass`, `itemClass`, `checkboxClass`, `labelClass`). The reference only accepts `ulClass`/`liClass` and has no checkbox or label class option, so the raw options passed by the test are ignored; the spec maps them for the correctness comparison only.",
+        zh: "使用本 fork 的选项名（`containerClass`、`itemClass`、`checkboxClass`、`labelClass`）。参考包只接受 `ulClass`/`liClass`，也没有复选框或 label 的 class 选项，因此测试传入的原始选项会被忽略；规范仅在正确性对比中映射了这些选项。",
+      },
+    },
+  ],
   correctness: [
     { name: "unchecked-item", markdown: "- [ ] task 1" },
     { name: "checked-item-lowercase", markdown: "- [x] task 1" },

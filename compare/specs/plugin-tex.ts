@@ -127,6 +127,160 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer: (module) => createTokenRenderer(module, "default", {}),
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts this fork's installation bookkeeping: the registered rule names, that repeated `.use(tex)` calls keep the first renderer and `render` function, and the validation order of the required `render` option. The reference installs a different rule set without these guards, so the whole file only covers internal installation behavior.",
+        zh: "断言本 fork 的安装簿记：注册的规则名、重复调用 `.use(tex)` 时保留首次渲染器与 `render` 函数，以及必需 `render` 选项的校验顺序。参考包安装的是另一套规则且没有这些守卫，因此整个文件只覆盖内部安装行为。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "config should require render option",
+      why: {
+        en: "Only asserts that the fork's required `render` option throws when omitted; the reference has no `render` option and never validates it, so the assertion can neither pass nor describe reference behavior.",
+        zh: "只断言本 fork 必需的 `render` 选项在缺省时抛错；参考包没有 `render` 选项也不会校验它，因此该断言既无法通过，也无法描述参考行为。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "allowSpace mode",
+      why: {
+        en: "Covers the fork-only `allowInlineWithSpace` mode, which relaxes the delimiter boundary checks. The reference has no such mode, so these cases only exercise an option it does not provide.",
+        zh: "覆盖仅本 fork 提供的 `allowInlineWithSpace` 模式，它放宽了分隔符边界检查。参考包没有该模式，因此这些用例只覆盖了它不提供的选项。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "bracket mode",
+      why: {
+        en: "Covers the fork-only bracket delimiters (`\\(...\\)` and `\\[...\\]`); the reference implements no bracket syntax and treats those delimiters as plain text, so no reference behavior is exercised.",
+        zh: "覆盖仅本 fork 提供的方括号分隔符（`\\(...\\)` 与 `\\[...\\]`）；参考包没有实现方括号语法，会把这些分隔符当作纯文本，因此没有覆盖到参考行为。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "should render math fence",
+      why: {
+        en: "Covers the fork-only `mathFence` option: the reference has no math-fence rule and renders a `math` fenced block as an ordinary code fence.",
+        zh: "覆盖仅本 fork 提供的 `mathFence` 选项：参考包没有数学围栏规则，会把 `math` 围栏块渲染为普通代码围栏。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "should handle math fence with spaces in info",
+      why: {
+        en: "Same fork-only `mathFence` option: the reference keeps the fence as a code block and has no math-fence info-string handling.",
+        zh: "同样是仅本 fork 提供的 `mathFence` 选项：参考包把围栏保留为代码块，也没有数学围栏 info 字符串的处理。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "should handle coverage edge cases for bracket rules",
+      why: {
+        en: "Covers edge cases of the fork-only bracket block rule; the reference does not implement bracket delimiters at all.",
+        zh: "覆盖仅本 fork 提供的方括号块级规则的边界情况；参考包完全没有实现方括号分隔符。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "should handle silent mode for inline rules",
+      why: {
+        en: "The dollar assertions pass; the failure comes only from the bracket assertions (`\\(a=1\\)`), a fork-only syntax the reference leaves as text.",
+        zh: "美元分隔符断言均通过；失败只来自方括号断言（`\\(a=1\\)`），这是参考包不解析、仅本 fork 提供的语法。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: String.raw`both syntaxes: \(`,
+      why: {
+        en: "The `\\(a=1\\)` half of the both-delimiter mode; the reference has no bracket syntax, so only the fork-only delimiter is exercised. The dollar cases of the same describe stay counted.",
+        zh: "双分隔符模式中的 `\\(a=1\\)` 部分；参考包没有方括号语法，因此只覆盖了本 fork 专有的分隔符。同一 describe 中的美元用例仍计入统计。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: String.raw`both block syntaxes: \[`,
+      why: {
+        en: "The `\\[a=1\\]` half of the both-delimiter block mode; the reference never parses bracket blocks, so only the fork-only delimiter is exercised. The dollar cases of the same describe stay counted.",
+        zh: "双分隔符块级模式中的 `\\[a=1\\]` 部分；参考包从不解析方括号块，因此只覆盖了本 fork 专有的分隔符。同一 describe 中的美元用例仍计入统计。",
+      },
+    },
+    {
+      file: "block-content.spec.ts",
+      name: "should continue a tab-indented bracket block in a list item",
+      why: {
+        en: "Uses the fork-only bracket block syntax (`\\[...\\]`); the reference leaves it as a paragraph, so no `math_block` token content exists to compare.",
+        zh: "使用仅本 fork 提供的方括号块语法（`\\[...\\]`）；参考包把它当作段落，因此没有可对比的 `math_block` token 内容。",
+      },
+    },
+    {
+      file: "block-content.spec.ts",
+      name: "should preserve trailing whitespace in bracket blocks",
+      why: {
+        en: "Uses the fork-only bracket block syntax (`\\[...\\]`); the reference does not produce a block token for it, so the trailing-whitespace assertion cannot be compared.",
+        zh: "使用仅本 fork 提供的方括号块语法（`\\[...\\]`）；参考包不会为其生成块级 token，因此无法对比尾随空白断言。",
+      },
+    },
+    {
+      file: "block-content.spec.ts",
+      name: "should handle trailing whitespace consistently for single-line blocks",
+      why: {
+        en: "The single-line `$$` assertion passes; only the `\\[a   \\]` half fails because the reference does not parse bracket blocks.",
+        zh: "单行 `$$` 断言通过；只有 `\\[a   \\]` 部分失败，因为参考包不解析方括号块。",
+      },
+    },
+    {
+      file: "block-content.spec.ts",
+      name: "should end single-line and multi-line content with a newline",
+      why: {
+        en: "The `$$` assertions pass; only the `\\[...\\]` assertions fail because the reference does not parse bracket blocks.",
+        zh: "`$$` 断言通过；只有 `\\[...\\]` 断言失败，因为参考包不解析方括号块。",
+      },
+    },
+    {
+      file: "block-content.spec.ts",
+      name: "should keep empty single-line and multi-line content empty",
+      why: {
+        en: "The `$$` assertions pass; only the `\\[...\\]` assertions fail because the reference does not parse bracket blocks.",
+        zh: "`$$` 断言通过；只有 `\\[...\\]` 断言失败，因为参考包不解析方括号块。",
+      },
+    },
+    {
+      file: "block-silent.spec.ts",
+      name: "should still split the paragraph when the block is closed",
+      why: {
+        en: "Uses the fork-only bracket block rule (`\\[...\\]`); the reference treats the block as paragraph text, so the silent-mode paragraph split cannot be compared.",
+        zh: "使用仅本 fork 提供的方括号块规则（`\\[...\\]`）；参考包把该块当作段落文本，因此无法对比 silent 模式下的段落切分。",
+      },
+    },
+    {
+      file: "block-silent.spec.ts",
+      name: "should still parse a closed multi-line block",
+      why: {
+        en: "Same fork-only bracket block rule: the reference never parses a `\\[ ... \\]` block, so the closed-block assertion cannot be compared.",
+        zh: "同样是仅本 fork 提供的方括号块规则：参考包从不解析 `\\[ ... \\]` 块，因此无法对比闭合块断言。",
+      },
+    },
+    {
+      file: "posmax.spec.ts",
+      name: "bracket delimiters should still parse inline tex inside link labels",
+      why: {
+        en: "The bracket variant of this posMax case; the reference does not implement bracket delimiters, so the link-label assertion only exercises fork-only syntax. The dollar variants stay counted.",
+        zh: "该 posMax 用例的方括号变体；参考包没有实现方括号分隔符，因此链接标签断言只覆盖本 fork 专有语法。美元变体仍计入统计。",
+      },
+    },
+    {
+      file: "unclosed-block.spec.ts",
+      name: String.raw`should still render a closed \[ block`,
+      why: {
+        en: "Only the fork-only bracket block syntax is tested here; the reference never parses `\\[...\\]` as math, so the closed-block assertion cannot be compared. The `$$` unclosed-block cases stay counted.",
+        zh: "此处只测试仅本 fork 提供的方括号块语法；参考包从不把 `\\[...\\]` 解析为数学，因此无法对比闭合块断言。`$$` 未闭合块用例仍计入统计。",
+      },
+    },
+  ],
   correctness: [
     { name: "inline-basic", markdown: "$a+b$" },
     { name: "inline-in-text", markdown: "The value $x^2$ is positive." },

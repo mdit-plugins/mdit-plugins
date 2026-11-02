@@ -6,6 +6,7 @@ import {
   buildDocsComparisonData,
   getDocsSlug,
   loadReportData,
+  loadTestSuiteData,
   renderPluginComparisonLink,
 } from "./render.ts";
 import type { ReportLocale } from "./render.ts";
@@ -132,7 +133,7 @@ export const syncDocs = ({
 
   checked++;
 
-  const expectedData = `${JSON.stringify(buildDocsComparisonData(reportData), null, 2)}\n`;
+  const expectedData = `${JSON.stringify(buildDocsComparisonData(reportData, loadTestSuiteData()), null, 2)}\n`;
   const actualData = existsSync(dataFile) ? readFileSync(dataFile, "utf8") : "";
 
   if (actualData !== expectedData) {

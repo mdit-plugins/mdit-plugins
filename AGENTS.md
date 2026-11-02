@@ -38,7 +38,7 @@ Generated and local-only folders must not be committed: `packages/*/dist`, `pack
 `temp/`.
 
 Exception: the comparison data is generated but committed, so the docs build and the CI checks are
-reproducible — `compare/results/*.json`, `compare/results/sizes.json` and
+reproducible — `compare/results/*.json`, `compare/results/sizes.json`, `compare/results/test-suites.json` and
 `docs/src/.vuepress/data/comparison.json`. Refresh them with the `compare` scripts instead of editing
 by hand.
 
@@ -84,6 +84,7 @@ source of truth.
 | `pnpm run compare:sizes`         | Measure package sizes into `compare/results/sizes.json`        |
 | `pnpm run compare:docs`          | Regenerate the comparison page data and plugin page links      |
 | `pnpm run compare:check`         | Verify the generated comparison data and links are up to date  |
+| `pnpm run compare:tests`         | Run our package test suites against the reference packages     |
 
 There is no root `release` script. Releases run through the publish workflow — see
 [Release Workflow](#release-workflow).
@@ -433,6 +434,7 @@ Configuration lives in `lerna.json` (`@lerna-lite/cli`):
 | `compare/size.ts`         | Measure published package sizes (`compare:sizes`)                                               |
 | `compare/render.ts`       | Build the docs comparison data and the generated README sections                                |
 | `compare/syncDocs.ts`     | Generate the comparison page data and the per-plugin link blocks (`compare:docs`)               |
+| `compare/test-suite.ts`   | Run each package test suite with the reference implementation swapped in (`compare:tests`)      |
 | `compare/specs/`          | One spec per compared package; `compare/corpora/` holds the benchmark markdown                  |
 | `compare/__tests__/`      | vitest tests for the comparison harness                                                         |
 

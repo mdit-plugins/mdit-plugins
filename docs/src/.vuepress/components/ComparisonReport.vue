@@ -62,6 +62,25 @@ interface PackageSize {
   readonly upstream: PackageSizeSide;
 }
 
+type TestSuiteStatus = "passed" | "failed" | "skipped";
+
+interface TestSuiteCase {
+  readonly file: string;
+  readonly name: string;
+  readonly status: TestSuiteStatus;
+  readonly message?: string;
+  readonly skipReason?: ComparisonNote;
+}
+
+interface TestSuite {
+  readonly total: number;
+  readonly passed: number;
+  readonly failed: number;
+  readonly skipped: number;
+  readonly tests: readonly TestSuiteCase[];
+  readonly error?: string;
+}
+
 interface ComparisonPackage {
   readonly plugin: string;
   readonly packageName: string;
@@ -69,6 +88,7 @@ interface ComparisonPackage {
   readonly reference: string;
   readonly referenceVersion: string;
   readonly variants: readonly Variant[];
+  readonly testSuite: TestSuite | null;
   readonly size: PackageSize | null;
 }
 
@@ -89,6 +109,10 @@ interface ComparisonTotals {
   readonly diff: number;
   readonly error: number;
   readonly benchCases: number;
+  readonly testCases: number;
+  readonly testPassed: number;
+  readonly testFailed: number;
+  readonly testSkipped: number;
 }
 
 interface ComparisonData {
@@ -132,6 +156,18 @@ interface Copy {
   readonly benchmarks: string;
   readonly benchmarkCasesUnit: string;
   readonly benchmarkMeta: string;
+  readonly ourTestSuites: string;
+  readonly ourTests: string;
+  readonly testSuiteTitle: string;
+  readonly testsPass: string;
+  readonly passed: string;
+  readonly failed: string;
+  readonly skipped: string;
+  readonly skippedNotCounted: string;
+  readonly failedTests: string;
+  readonly skippedTests: string;
+  readonly allTestsPass: string;
+  readonly testSuiteError: string;
   readonly measurement: string;
   readonly filterLabel: string;
   readonly filterPlaceholder: string;
@@ -184,6 +220,18 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     benchmarks: "Benchmarks",
     benchmarkCasesUnit: "benchmark cases",
     benchmarkMeta: "normal + heavy corpora · small / medium / large",
+    ourTestSuites: "Our test suites",
+    ourTests: "Our tests",
+    testSuiteTitle: "Our test suite against the reference",
+    testsPass: "tests pass",
+    passed: "passed",
+    failed: "failed",
+    skipped: "skipped",
+    skippedNotCounted: "skipped (not counted)",
+    failedTests: "Failed tests",
+    skippedTests: "Skipped tests (not counted)",
+    allTestsPass: "All counted tests pass against the reference.",
+    testSuiteError: "Test suite could not run",
     measurement: "Measurement",
     filterLabel: "Filter packages",
     filterPlaceholder: "Filter by package or reference…",
@@ -240,6 +288,18 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     benchmarks: "基准测试",
     benchmarkCasesUnit: "个基准用例",
     benchmarkMeta: "normal + heavy 语料 · 小 / 中 / 大 三种规模",
+    ourTestSuites: "我们的测试套件",
+    ourTests: "我们的测试",
+    testSuiteTitle: "我们的测试套件与参考实现对比",
+    testsPass: "个测试通过",
+    passed: "通过",
+    failed: "失败",
+    skipped: "跳过",
+    skippedNotCounted: "跳过（不计入）",
+    failedTests: "失败的测试",
+    skippedTests: "跳过的测试（不计入）",
+    allTestsPass: "所有计入的测试均在参考实现上通过。",
+    testSuiteError: "测试套件无法运行",
     measurement: "测量",
     filterLabel: "筛选包",
     filterPlaceholder: "按包名或参考包筛选…",
@@ -449,6 +509,19 @@ const ratioClass = (ratio: number): string => {
   return displayedRatio > 1 ? "is-faster" : "is-slower";
 };
 
+const testRatioClass = (suite: TestSuite): string => (suite.failed > 0 ? "is-failed" : "is-passed");
+
+const failedTests = (suite: TestSuite): readonly TestSuiteCase[] =>
+  suite.tests.filter((test) => test.status === "failed");
+
+const skippedTests = (suite: TestSuite): readonly TestSuiteCase[] =>
+  suite.tests.filter((test) => test.status === "skipped");
+
+const firstLine = (message: string | undefined): string => message?.split("\n")[0]?.trim() ?? "";
+
+const skipReasonText = (test: TestSuiteCase): string =>
+  test.skipReason?.[props.locale] ?? test.skipReason?.en ?? "";
+
 const isSuperlinear = (exponent: number): boolean =>
   Number.isFinite(exponent) && exponent > SUPERLINEAR_THRESHOLD;
 
@@ -495,6 +568,23 @@ watch([query, onlyDifferences, variantFilter], () => {
           <span v-if="report.totals.error > 0" class="cr-chip is-error">
             {{ report.totals.error }} {{ text.errors }}
           </span>
+        </p>
+      </article>
+
+      <article v-if="report.totals.testCases > 0" class="cr-card">
+        <p class="cr-card-label">{{ text.ourTestSuites }}</p>
+        <p class="cr-card-value cr-card-value--tests">
+          <span class="cr-card-ratio">
+            {{ formatInteger(report.totals.testPassed) }} /
+            {{ formatInteger(report.totals.testCases) }}
+          </span>
+          <span class="cr-card-unit">{{ text.passed }}</span>
+        </p>
+        <p v-if="report.totals.testFailed > 0" class="cr-card-meta cr-card-meta--failed">
+          {{ formatInteger(report.totals.testFailed) }} {{ text.failed }}
+        </p>
+        <p v-if="report.totals.testSkipped > 0" class="cr-card-meta">
+          {{ formatInteger(report.totals.testSkipped) }} {{ text.skipped }}
         </p>
       </article>
 
@@ -568,6 +658,7 @@ watch([query, onlyDifferences, variantFilter], () => {
           <tr>
             <th scope="col">{{ text.package }}</th>
             <th scope="col">{{ text.correctness }}</th>
+            <th scope="col" class="cr-num">{{ text.ourTests }}</th>
             <th scope="col" class="cr-num" :title="text.throughputHint">{{ text.throughput }}</th>
             <th scope="col" class="cr-num">{{ text.sizeUnpacked }}</th>
           </tr>
@@ -635,6 +726,25 @@ watch([query, onlyDifferences, variantFilter], () => {
               </td>
 
               <td class="cr-num">
+                <template v-if="row.pkg.testSuite">
+                  <template v-if="row.pkg.testSuite.error">
+                    <span class="cr-test-ratio is-failed" :title="row.pkg.testSuite.error">
+                      {{ text.errors }}
+                    </span>
+                  </template>
+                  <template v-else>
+                    <span class="cr-test-ratio" :class="testRatioClass(row.pkg.testSuite)">
+                      {{ row.pkg.testSuite.passed }}/{{ row.pkg.testSuite.total }}
+                    </span>
+                    <span v-if="row.pkg.testSuite.skipped > 0" class="cr-test-skipped">
+                      +{{ row.pkg.testSuite.skipped }} {{ text.skipped }}
+                    </span>
+                  </template>
+                </template>
+                <span v-else class="cr-muted">—</span>
+              </td>
+
+              <td class="cr-num">
                 <span v-if="row.ratio > 0" class="cr-ratio" :class="ratioClass(row.ratio)">
                   {{ formatRatio(row.ratio) }}
                 </span>
@@ -656,7 +766,7 @@ watch([query, onlyDifferences, variantFilter], () => {
             </tr>
 
             <tr v-if="isExpanded(row.pkg.plugin)" :id="detailsId(row.pkg)" class="cr-detail-row">
-              <td colspan="4">
+              <td colspan="5">
                 <div class="cr-detail">
                   <article v-for="variant in row.pkg.variants" :key="variant.id" class="cr-variant">
                     <header class="cr-variant-head">
@@ -844,6 +954,81 @@ watch([query, onlyDifferences, variantFilter], () => {
                     </div>
                     <p v-else class="cr-muted cr-empty-note">{{ text.sizeUnavailable }}</p>
                   </section>
+
+                  <section v-if="row.pkg.testSuite" class="cr-package-tests">
+                    <h4 class="cr-section-title">{{ text.testSuiteTitle }}</h4>
+                    <p v-if="row.pkg.testSuite.error" class="cr-test-error">
+                      <span class="cr-test-error-label">{{ text.testSuiteError }}</span>
+                      {{ row.pkg.testSuite.error }}
+                    </p>
+                    <template v-else>
+                      <p class="cr-test-summary">
+                        <span
+                          class="cr-test-summary-score"
+                          :class="testRatioClass(row.pkg.testSuite)"
+                        >
+                          {{ row.pkg.testSuite.passed }}/{{ row.pkg.testSuite.total }}
+                        </span>
+                        <span>{{ text.testsPass }}</span>
+                        <span v-if="row.pkg.testSuite.failed > 0" class="cr-chip is-error">
+                          {{ row.pkg.testSuite.failed }} {{ text.failed }}
+                        </span>
+                        <span v-if="row.pkg.testSuite.skipped > 0" class="cr-chip is-skipped">
+                          {{ row.pkg.testSuite.skipped }} {{ text.skippedNotCounted }}
+                        </span>
+                      </p>
+
+                      <div v-if="failedTests(row.pkg.testSuite).length > 0" class="cr-subsection">
+                        <h5 class="cr-subtitle">{{ text.failedTests }}</h5>
+                        <ul class="cr-test-list">
+                          <li
+                            v-for="test in failedTests(row.pkg.testSuite)"
+                            :key="`${test.file}:${test.name}`"
+                            class="cr-test-item is-failed"
+                          >
+                            <span class="cr-test-head">
+                              <code class="cr-test-file">{{ test.file }}</code>
+                              <span class="cr-test-separator" aria-hidden="true">&gt;</span>
+                              <span class="cr-test-name">{{ test.name }}</span>
+                            </span>
+                            <span v-if="firstLine(test.message)" class="cr-test-message">
+                              {{ firstLine(test.message) }}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div v-if="skippedTests(row.pkg.testSuite).length > 0" class="cr-subsection">
+                        <h5 class="cr-subtitle">{{ text.skippedTests }}</h5>
+                        <ul class="cr-test-list">
+                          <li
+                            v-for="test in skippedTests(row.pkg.testSuite)"
+                            :key="`${test.file}:${test.name}`"
+                            class="cr-test-item is-skipped"
+                          >
+                            <span class="cr-test-head">
+                              <code class="cr-test-file">{{ test.file }}</code>
+                              <span class="cr-test-separator" aria-hidden="true">&gt;</span>
+                              <span class="cr-test-name">{{ test.name }}</span>
+                            </span>
+                            <span v-if="skipReasonText(test)" class="cr-test-message">
+                              {{ skipReasonText(test) }}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <p
+                        v-if="
+                          failedTests(row.pkg.testSuite).length === 0 &&
+                          skippedTests(row.pkg.testSuite).length === 0
+                        "
+                        class="cr-muted cr-empty-note"
+                      >
+                        {{ text.allTestsPass }}
+                      </p>
+                    </template>
+                  </section>
                 </div>
               </td>
             </tr>
@@ -901,13 +1086,13 @@ watch([query, onlyDifferences, variantFilter], () => {
 
 .cr-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   gap: 0.75rem;
   margin-block-end: 1.25rem;
 }
 
 .cr-card {
-  padding: 0.9rem 1rem;
+  padding: 0.9rem 0.85rem;
   border: 1px solid var(--cr-divider);
   border-radius: 0.5rem;
   background: var(--cr-bg-alt);
@@ -932,6 +1117,16 @@ watch([query, onlyDifferences, variantFilter], () => {
 
 .cr-card-value--date {
   font-size: 1.2rem;
+  white-space: nowrap;
+}
+
+.cr-card-ratio {
+  white-space: nowrap;
+}
+
+.cr-card-value--tests .cr-card-unit {
+  display: block;
+  margin-inline-start: 0;
 }
 
 .cr-card-unit {
@@ -951,6 +1146,10 @@ watch([query, onlyDifferences, variantFilter], () => {
 .cr-card-meta--subtle {
   margin-block-start: 0.1rem;
   color: var(--cr-text-subtle);
+}
+
+.cr-card-meta--failed {
+  color: var(--cr-red);
 }
 
 .cr-chips {
@@ -989,6 +1188,11 @@ watch([query, onlyDifferences, variantFilter], () => {
 .cr-chip.is-error {
   color: var(--cr-red);
   background: var(--cr-red-soft);
+}
+
+.cr-chip.is-skipped {
+  color: var(--cr-text-mute);
+  background: var(--cr-bg-soft);
 }
 
 .cr-toolbar {
@@ -1100,7 +1304,7 @@ watch([query, onlyDifferences, variantFilter], () => {
 }
 
 .cr-overview {
-  min-width: 40rem;
+  min-width: 44rem;
 }
 
 .cr-bench-table,
@@ -1230,6 +1434,27 @@ watch([query, onlyDifferences, variantFilter], () => {
   color: var(--cr-red);
 }
 
+.cr-test-ratio {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cr-test-ratio.is-passed {
+  color: var(--cr-green);
+}
+
+.cr-test-ratio.is-failed {
+  color: var(--cr-red);
+}
+
+.cr-test-skipped {
+  display: block;
+  color: var(--cr-text-mute);
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
 .cr-num {
   font-variant-numeric: tabular-nums;
   text-align: end;
@@ -1319,7 +1544,8 @@ watch([query, onlyDifferences, variantFilter], () => {
 }
 
 .cr-variant,
-.cr-package-size {
+.cr-package-size,
+.cr-package-tests {
   padding: 0.9rem;
   border: 1px solid var(--cr-divider);
   border-radius: 0.5rem;
@@ -1535,6 +1761,104 @@ watch([query, onlyDifferences, variantFilter], () => {
   white-space: nowrap;
 }
 
+.cr-test-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+  margin: 0 0 0.7rem;
+  font-size: 0.85rem;
+}
+
+.cr-test-summary-score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cr-test-summary-score.is-passed {
+  color: var(--cr-green);
+}
+
+.cr-test-summary-score.is-failed {
+  color: var(--cr-red);
+}
+
+.cr-test-list {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cr-test-item {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.35rem 0.55rem;
+  border-inline-start: 2px solid var(--cr-divider);
+  border-radius: 0 0.3rem 0.3rem 0;
+  background: var(--cr-bg-alt);
+  font-size: 0.8rem;
+}
+
+.cr-test-item.is-failed {
+  border-inline-start-color: var(--cr-red);
+}
+
+.cr-test-item.is-skipped {
+  border-inline-start-color: var(--cr-text-subtle);
+}
+
+.cr-test-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.35rem;
+}
+
+.cr-test-file {
+  padding: 0.05rem 0.25rem;
+  border-radius: 0.25rem;
+  background: var(--cr-bg-soft);
+  color: var(--cr-text);
+  font-family: var(--vp-font-mono, ui-monospace, monospace);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.cr-test-separator {
+  color: var(--cr-text-subtle);
+}
+
+.cr-test-name {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cr-test-message {
+  color: var(--cr-text-mute);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.cr-test-error {
+  margin: 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.35rem;
+  background: var(--cr-red-soft);
+  color: var(--cr-red);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.cr-test-error-label {
+  display: block;
+  margin-block-end: 0.15rem;
+  font-weight: 700;
+}
+
 .cr-empty {
   margin: 0;
   padding: 1rem;
@@ -1614,6 +1938,10 @@ watch([query, onlyDifferences, variantFilter], () => {
     font-size: 1.4rem;
   }
 
+  .cr-card-value--date {
+    font-size: 1.05rem;
+  }
+
   .cr-result-count {
     margin-inline-start: 0;
   }
@@ -1623,7 +1951,8 @@ watch([query, onlyDifferences, variantFilter], () => {
   }
 
   .cr-variant,
-  .cr-package-size {
+  .cr-package-size,
+  .cr-package-tests {
     padding: 0.7rem;
   }
 

@@ -66,6 +66,16 @@ const spec: ComparisonSpec = defineComparison({
       referenceExport: "default",
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Installs the plugin twice and inspects the repeated footnote tail; the reference has no idempotent-install contract, so the test only covers the current package's installation internals.",
+        zh: "该测试重复安装插件并检查重复生成的脚注尾部；参考包没有幂等安装的约定，因此只覆盖当前包的安装内部细节。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "single-reference",

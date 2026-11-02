@@ -150,6 +150,32 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer: createReferencePermalinkRenderer("headerLink"),
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Installs the plugin twice and asserts a single slug registration; the reference registers its core rule again on the second install, so the duplicate-id check throws. This only covers this package's idempotent-install internals.",
+        zh: "该测试重复安装插件并断言只注册一次 slug；参考包在第二次安装时会再次注册 core 规则，因此重复 id 检查会抛错。该测试只覆盖本包的幂等安装内部细节。",
+      },
+    },
+    {
+      file: "basic.spec.ts",
+      name: "should only scan the tokens array when a permalink moves the heading token",
+      why: {
+        en: "Counts `Array.prototype.indexOf` calls to assert this package's token-rescan optimization; the reference rescans the token array for every heading, so the call count is an internal implementation detail rather than observable behavior.",
+        zh: "该测试统计 `Array.prototype.indexOf` 的调用次数，以断言本包的 token 重扫优化；参考包会为每个标题重扫 token 数组，因此调用次数属于内部实现细节而非可观察行为。",
+      },
+    },
+    {
+      file: "basic.spec.ts",
+      name: "defaultPlaceHolder",
+      why: {
+        en: "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
+        zh: "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "no-headings",

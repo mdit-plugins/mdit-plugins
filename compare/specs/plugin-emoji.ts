@@ -88,6 +88,32 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "coverage.spec.ts",
+      name: "",
+      why: {
+        en: "Imports the internal `src/normalizeOption.js` helper and only covers its default values; the reference has no such module, so the test never exercises it.",
+        zh: "该测试导入内部的 `src/normalizeOption.js` 辅助模块，只覆盖其默认值；参考包没有该模块，因此测试不会作用于参考实现。",
+      },
+    },
+    {
+      file: "data.spec.ts",
+      name: "",
+      why: {
+        en: "Checks the generated `src/data/*` tables and the `scripts/emojiAliases.js` pipeline of the current package; the reference ships its own data set and has no equivalent internal modules.",
+        zh: "该测试校验当前包生成的 `src/data/*` 数据表与 `scripts/emojiAliases.js` 流程；参考包使用自己的数据集，也没有对应的内部模块。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts the internal core-rule name/count and how repeated or mixed installations keep the first definitions; the reference registers its rule differently and has no variant-mixing contract.",
+        zh: "该测试断言内部 core 规则的名称/数量，以及重复安装或混用变体时保留首次定义的行为；参考包的规则注册方式不同，也没有变体混用的约定。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "no-syntax",

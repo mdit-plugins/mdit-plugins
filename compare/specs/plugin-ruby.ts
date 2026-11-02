@@ -44,6 +44,16 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Checks this fork's install bookkeeping: that the inline rule is registered only once and that calling `.use(ruby)` twice is a no-op. The reference has no registration guard, the comparison installs the plugin once, and the render assertion uses this package's `:` divider, so the file only covers internal install behavior.",
+        zh: "检查本 fork 的安装簿记：行内规则只注册一次，且重复调用 `.use(ruby)` 是空操作。参考包没有注册守卫，对比只安装一次插件，且渲染断言使用本包的 `:` 分隔符，因此该文件只覆盖内部安装行为。",
+      },
+    },
+  ],
   correctness: [
     {
       name: "documented-syntax",

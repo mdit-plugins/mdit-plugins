@@ -15,6 +15,7 @@
     "compare:docs": "node --experimental-strip-types compare/syncDocs.ts",
     "compare:sizes": "node --experimental-strip-types compare/size.ts",
     "compare:test": "node --experimental-strip-types compare/run.ts --correctness-only",
+    "compare:tests": "node --experimental-strip-types compare/test-suite.ts",
     "docs:build": "pnpm run --filter=docs docs:build",
     "docs:dev": "pnpm run --filter=docs docs:dev",
     "lint": "oxlint --fix && oxfmt",

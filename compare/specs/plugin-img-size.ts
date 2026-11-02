@@ -50,6 +50,40 @@ const spec: ComparisonSpec = defineComparison({
       referenceExport: "default",
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "imgSize.spec.ts",
+      name: "",
+      why: {
+        en: "The whole file tests the fork-only `imgSize` variant (`![alt =100x200](url)`); `markdown-it-imsize` only implements the legacy `(url =100x200)` syntax, so the shim exposes no `imgSize` export and the file cannot run.",
+        zh: "整个文件测试仅本包提供的 `imgSize` 变体（`![alt =100x200](url)`）；`markdown-it-imsize` 只实现旧式 `(url =100x200)` 语法，shim 没有 `imgSize` 导出，文件无法运行。",
+      },
+    },
+    {
+      file: "obsidianImgSize.spec.ts",
+      name: "",
+      why: {
+        en: "The whole file tests the fork-only `obsidianImgSize` variant (`![alt|100x200](url)`), which `markdown-it-imsize` does not implement at all; the shim exposes no `obsidianImgSize` export.",
+        zh: "整个文件测试仅本包提供的 `obsidianImgSize` 变体（`![alt|100x200](url)`），`markdown-it-imsize` 完全没有对应实现；shim 没有 `obsidianImgSize` 导出。",
+      },
+    },
+    {
+      file: "together.spec.ts",
+      name: "",
+      why: {
+        en: "Sets up `legacyImgSize`, `imgSize` and `obsidianImgSize` together; since the reference only provides the legacy behavior, the combined three-variant document cannot run against it.",
+        zh: "该文件同时安装 `legacyImgSize`、`imgSize` 和 `obsidianImgSize`；参考包只提供旧式行为，因此三变体组合的文档无法在其上运行。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts inline-rule registration names/counts for all three variants and repeated installations; the reference registers its own rule and exposes none of the fork-only variants.",
+        zh: "该测试断言三个变体的行内规则注册名称/数量以及重复安装行为；参考包注册自己的规则，也不提供任何仅本包存在的变体。",
+      },
+    },
+  ],
   correctness: [
     { name: "width-and-height", markdown: "![Alt](image.png =100x200)" },
     { name: "width-only", markdown: "![Alt](image.png =100x)" },

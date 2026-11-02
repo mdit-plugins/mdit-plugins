@@ -1,7 +1,13 @@
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItInstance } from "markdown-it";
 
-import type { CompareRenderer, ComparisonSpec, PluginFunction, PluginModule } from "../types.ts";
+import type {
+  CompareRenderer,
+  ComparisonNote,
+  ComparisonSpec,
+  PluginFunction,
+  PluginModule,
+} from "../types.ts";
 import { defineComparison } from "../types.ts";
 
 /** Container name that uses the default `:` marker */
@@ -21,6 +27,19 @@ const SPOILER_MARKER = "%";
  * results are unaffected.
  */
 const MD_OPTIONS = { maxNesting: 10_000 };
+
+/**
+ * Why the container syntax tests cannot exercise the reference
+ *
+ * The tests install the plugin with this package's required `{ name }` options object, while the
+ * reference takes the container name as a second positional argument. The reference therefore
+ * receives the object as the name, registers no container and never validates the options, so every
+ * assertion only covers this package's install API.
+ */
+const INSTALL_API_SKIP: ComparisonNote = {
+  en: "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+  zh: "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。",
+};
 
 /**
  * Install a plugin with an arbitrary number of positional arguments
@@ -114,6 +133,116 @@ const spec: ComparisonSpec = defineComparison({
       referenceExport: "default",
       createOurRenderer,
       createReferenceRenderer,
+    },
+  ],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Asserts the internal `container_<name>` block-rule count and that a second installation keeps the first parse options; the reference registers its rule positionally and has no idempotent-install contract.",
+        zh: "该文件断言内部 `container_<name>` 块级规则的数量，以及第二次安装保留首次解析选项的行为；参考包按位置参数注册规则，也没有幂等安装的约定。",
+      },
+    },
+    {
+      file: "renderer-idempotent.spec.ts",
+      name: "",
+      why: {
+        en: "Parses tokens with this package's `{ name }` options object and asserts renderer idempotency and class merging; the reference never registers the container through this API, so it produces no container tokens and the renderer internals cannot be compared.",
+        zh: "该文件用本包的 `{ name }` 选项对象解析 token，并断言渲染器幂等性与 class 合并；参考包无法通过该 API 注册容器，因此不会产生容器 token，渲染器内部行为无法对比。",
+      },
+    },
+    { file: "container.spec.ts", name: "simple container", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "should allow block elements in container",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "should allow longer ending marker to close",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "support nesting", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "support deeply nested containers",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "close nested containers with their own marker length",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "wrong syntax", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "ending markers must be the same indent",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "content indent should recalculate from container",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "list indentation quirks", why: INSTALL_API_SKIP },
+    { file: "container.spec.ts", name: "multi-char marker", why: INSTALL_API_SKIP },
+    { file: "container.spec.ts", name: "astral marker", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "space before name is optional and can be multiple",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "allow other params after container name",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "ending marker can not contain params",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "container should be auto close if it is not closed",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "should allow empty container", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "container should terminate paragraph",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: "negative indent should terminate container",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "nesting with others", why: INSTALL_API_SKIP },
+    { file: "container.spec.ts", name: "renderer", why: INSTALL_API_SKIP },
+    { file: "container.spec.ts", name: "2 char marker", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "marker should not collide with fence",
+      why: INSTALL_API_SKIP,
+    },
+    {
+      file: "container.spec.ts",
+      name: 'should throw if "name" is not provided',
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "should throw if options is null", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "validator should accept rule if return value is true",
+      why: INSTALL_API_SKIP,
+    },
+    { file: "container.spec.ts", name: "validator rule should call it", why: INSTALL_API_SKIP },
+    {
+      file: "container.spec.ts",
+      name: "validator should allow analyze mark",
+      why: INSTALL_API_SKIP,
     },
   ],
   correctness: [

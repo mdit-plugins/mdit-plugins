@@ -1,0 +1,4537 @@
+{
+  "generatedAt": "2026-11-02T09:43:32.773Z",
+  "commit": "74bad61df15f30a94a025436ac72759ef5d2e1f7",
+  "packages": [
+    {
+      "plugin": "plugin-abbr",
+      "reference": "markdown-it-abbr",
+      "total": 21,
+      "passed": 19,
+      "failed": 2,
+      "skipped": 1,
+      "tests": [
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should render",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not render without abbr",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin intersecting abbreviations",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin work with nested abbreviations",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin mixing up abbreviations and references",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not match the middle of the string",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not match the middle of the string after a replaced word",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin prefer earlier abbr definitions",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin interaction with linkifier",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin punctuation as a part of abbr",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin trailing spaces inside abbreviation",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin abbreviation that consists of only spaces",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not process empty abbreviations",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should trim non-space whitespace around titles",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not process whitespace-only titles",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should not split a paragraph on an invalid definition",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>foo</p>\\n<p>*[foo]:\\nbar</p>\\n' to be '<p>foo\\n*[foo]:\\nbar</p>\\n' // Object.is equality"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should keep paragraphs intact around a valid definition",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should match markdown-it reference definitions",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>[bar]:</p>\\n<p>*[foo]:</p>\\n' to be '' // Object.is equality"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should handle hasOwnProperty safely",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should handle edge cases: incomplete definitions",
+          "status": "passed"
+        },
+        {
+          "file": "abbr.spec.ts",
+          "name": "abbr_plugin should handle edge cases: brackets and nested brackets",
+          "status": "passed"
+        },
+        {
+          "file": "idempotent.spec.ts",
+          "name": "abbr repeated use should not wrap abbreviation text twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin twice and asserts an abbreviation is not wrapped twice; the reference has no idempotent-install contract and re-registers its inline rule, so the test only covers this package's installation internals.",
+            "zh": "该测试重复安装插件并断言缩写不会被二次包裹；参考包没有幂等安装的约定，会重复注册行内规则，因此只覆盖本包的安装内部细节。"
+          }
+        }
+      ]
+    },
+    {
+      "plugin": "plugin-alert",
+      "reference": "markdown-it-github-alerts",
+      "total": 23,
+      "passed": 8,
+      "failed": 15,
+      "skipped": 7,
+      "tests": [
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should render default alerts",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should support non-ASCII alert names",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `alertNames` option; the reference only accepts `markers` and has no option to add custom names, so it never parses the custom marker and the assertion only covers this package's option.",
+            "zh": "该测试使用仅本 fork 提供的 `alertNames` 选项；参考包只接受 `markers`，没有添加自定义名称的选项，因此不会解析该自定义标记，断言只覆盖了本包的选项。"
+          }
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should ignore casing in alert names",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should handle spaces and tabs",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should terminate by other content correctly",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1>Title</h1>\\n<div class=\"markdown-…' to be '<h1>Title</h1>\\n<div class=\"markdown-…' // Object.is equality"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not render",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<blockquote>\\n<p>[!Important]:\\nThis …'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not render in deep",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul>\\n<li>\\n<div class=\"markdown-aler…' to strictly equal '<ul>\\n<li>\\n<blockquote>\\n<p>[!Warnin…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not support nesting",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should render in deep and support nesting",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul>\\n<li>\\n<div class=\"markdown-aler…' to strictly equal '<ul>\\n<li>\\n<div class=\"markdown-aler…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not render when alert has no content",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<blockquote>\\n<p>[!Important]</p>\\n</…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should escape alert name in title render",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `alertNames` option to add a custom marker and asserts how its name is escaped; the reference has no custom-name option (`markers` only accepts its fixed marker list), so no reference escaping behavior is exercised.",
+            "zh": "该测试使用仅本 fork 提供的 `alertNames` 选项添加自定义标记并断言其名称的转义；参考包没有自定义名称选项（`markers` 只接受固定标记列表），因此没有覆盖参考包的转义行为。"
+          }
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not break out of class attribute with quotes in alert name",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `alertNames` option to add a marker containing quotes and asserts the generated class attribute; the reference cannot register custom names, so the assertion only covers this package's escaping of `alertNames`.",
+            "zh": "该测试使用仅本 fork 提供的 `alertNames` 选项添加包含引号的标记并断言生成的 class 属性；参考包无法注册自定义名称，因此断言只覆盖本包对 `alertNames` 的转义。"
+          }
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should support customize options",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `openRenderer` / `closeRenderer` / `titleRenderer` hooks; the reference always renders its default wrapper and title markup and ignores these options, so the assertion only covers this package's renderer API.",
+            "zh": "该测试使用仅本 fork 提供的 `openRenderer` / `closeRenderer` / `titleRenderer` 钩子；参考包始终渲染默认的包裹与标题标记并忽略这些选项，因此断言只覆盖本包的渲染器 API。"
+          }
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not be terminated by paragraph text",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should handle alert termination by other markdown elements",
+          "status": "failed",
+          "message": "AssertionError: expected '<div class=\"markdown-alert markdown-a…' to strictly equal '<div class=\"markdown-alert markdown-a…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should handle alert termination",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul>\\n<li>\\n<div class=\"markdown-aler…' to strictly equal '<ul>\\n<li>\\n<div class=\"markdown-aler…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should work under silence mode",
+          "status": "failed",
+          "message": "AssertionError: expected '<ol>\\n<li>step</li>\\n<li>step</li>\\n<…' to strictly equal '<ol>\\n<li>step</li>\\n<li>step</li>\\n<…'"
+        },
+        {
+          "file": "alert.spec.ts",
+          "name": "MarkdownItGitHubAlerts should fallback to standard blockquote for invalid or standard markers",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote in lists",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote in complex list items",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote with HTML blocks",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote with fenced code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote with setext headings",
+          "status": "passed"
+        },
+        {
+          "file": "default.spec.ts",
+          "name": "constant default behavior should not break blockquote with tabs",
+          "status": "passed"
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "MarkdownItGitHubAlerts should not register the rule twice when installed twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `alert` block-rule count and that a second installation keeps the first parse options and renderers; the reference re-registers its rule on every install and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `alert` 块级规则的数量，以及第二次安装保留首次解析选项与渲染器的行为；参考包每次安装都会重新注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "MarkdownItGitHubAlerts should keep the first installation's parse options",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `alert` block-rule count and that a second installation keeps the first parse options and renderers; the reference re-registers its rule on every install and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `alert` 块级规则的数量，以及第二次安装保留首次解析选项与渲染器的行为；参考包每次安装都会重新注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "MarkdownItGitHubAlerts should keep the first installation's renderers",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `alert` block-rule count and that a second installation keeps the first parse options and renderers; the reference re-registers its rule on every install and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `alert` 块级规则的数量，以及第二次安装保留首次解析选项与渲染器的行为；参考包每次安装都会重新注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "silent-state.spec.ts",
+          "name": "alert silent state should not leak state when a silent alert is interrupted by another block",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>foo</p>\\n<div class=\"markdown-aler…' to be '<p>foo</p>\\n<div class=\"markdown-aler…' // Object.is equality"
+        },
+        {
+          "file": "silent-state.spec.ts",
+          "name": "alert silent state should not leak state when a silent alert is rejected after finding a terminator",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>foo</p>\\n<div class=\"markdown-aler…' to be '<p>foo</p>\\n<blockquote>\\n<p>[!tip]</…' // Object.is equality"
+        }
+      ]
+    },
+    {
+      "plugin": "plugin-anchor",
+      "reference": "markdown-it-anchor",
+      "total": 87,
+      "passed": 70,
+      "failed": 17,
+      "skipped": 6,
+      "tests": [
+        {
+          "file": "basic.spec.ts",
+          "name": "basic functionality should add anchors to headings by default",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "basic functionality should add anchors to setext headings",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "basic functionality should slugify nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "level option should respect level as number",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "level option should respect level as array",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should handle duplicate slugs",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should handle code in headings",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should slugify punctuation without percent-encoding",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"hello%2C-world!-(c%2B%2B)\" ta…' to be '<h1 id=\"hello-world-c\" tabindex=\"-1\">…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should keep CJK in slug",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"%E4%B8%AD%E6%96%87%E6%A0%87%E…' to be '<h1 id=\"中文标题\" tabindex=\"-1\">中文标题</h1>…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should collapse consecutive dashes in slug",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"foo---bar\" tabindex=\"-1\">foo-…' to be '<h1 id=\"foo-bar\" tabindex=\"-1\">foo---…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should trim trailing dashes in slug",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"hello--\" tabindex=\"-1\">Hello …' to be '<h1 id=\"hello\" tabindex=\"-1\">Hello -<…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should trim leading dashes in slug",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"--foo\" tabindex=\"-1\">- foo</h…' to be '<h1 id=\"foo\" tabindex=\"-1\">- foo</h1>…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fold nbsp into a dash in slug",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should percent-encode punctuation with legacySlugify",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should percent-encode CJK with legacySlugify",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should keep dash runs with legacySlugify",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should support custom slugify",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should support slugifyWithState",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should prefer slugifyWithState over slugify",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fall back to a stable slug for image-only headings",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fall back to a stable slug for empty headings",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"></h1>\\n' to be '<h1 id=\"heading\" tabindex=\"-1\"></h1>\\n' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should deduplicate fallback slugs for multiple image-only headings",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should deduplicate fallback slug against existing slugs",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"heading\" tabindex=\"-1\">Headin…' to be '<h1 id=\"heading\" tabindex=\"-1\">Headin…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fall back to a stable slug when custom slugify returns empty",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fall back to a stable slug when slugifyWithState returns empty",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should deduplicate fallback slugs for three image-only headings",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should respect uniqueSlugStartIndex for fallback slugs",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"b\" …' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should use custom defaultPlaceHolder",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
+            "zh": "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。"
+          }
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should deduplicate custom defaultPlaceHolder for multiple image-only headings",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
+            "zh": "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。"
+          }
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should deduplicate custom defaultPlaceHolder against existing slugs",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
+            "zh": "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。"
+          }
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "slug options should fall back to default placeholder when defaultPlaceHolder is empty",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
+            "zh": "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。"
+          }
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "tabIndex option should default to -1",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "tabIndex option should set tabIndex to false to disable",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "tabIndex option should allow custom tabIndex value",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "uniqueSlugStartIndex option should start numbering from the given index",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "duplicate slug resolution should skip candidate indices occupied by another heading",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "duplicate slug resolution should resume after the last candidate index of a duplicate chain",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "duplicate slug resolution should track duplicate chains of different headings independently",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "duplicate slug resolution should skip candidate indices registered by explicit ids",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "getTokensText option should support custom token text extraction",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "permalink option should call custom permalink generators with defaults applied",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "callback option should invoke callback for each heading",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "attrs integration should preserve pre-set id from attrs plugin",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "attrs integration should throw on duplicate user-defined ids",
+          "status": "failed",
+          "message": "AssertionError: expected [Function] to throw error including 'User defined \"id\" attribute \"dup\" is …' but got 'User defined `id` attribute `dup` is …'"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "attrs integration should deduplicate when user id conflicts with auto slug",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "attrs integration should throw when a user id duplicates an earlier auto slug",
+          "status": "failed",
+          "message": "AssertionError: expected [Function] to throw error including 'User defined \"id\" attribute \"h1\" is n…' but got 'User defined `id` attribute `h1` is n…'"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "env slug registry should respect pre-seeded slugs in env",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "env slug registry should expose used slugs on env",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "env slug registry should reuse the slug registry across renders with the same env",
+          "status": "passed"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "legacy options should ignore markdown-it-anchor legacy permalink options",
+          "status": "failed",
+          "message": "Error: legacy renderPermalink should not be called"
+        },
+        {
+          "file": "basic.spec.ts",
+          "name": "performance should only scan the tokens array when a permalink moves the heading token",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Counts `Array.prototype.indexOf` calls to assert this package's token-rescan optimization; the reference rescans the token array for every heading, so the call count is an internal implementation detail rather than observable behavior.",
+            "zh": "该测试统计 `Array.prototype.indexOf` 的调用次数，以断言本包的 token 重扫优化；参考包会为每个标题重扫 token 数组，因此调用次数属于内部实现细节而非可观察行为。"
+          }
+        },
+        {
+          "file": "idempotent.spec.ts",
+          "name": "anchor repeated use should render the same output when installed twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin twice and asserts a single slug registration; the reference registers its core rule again on the second install, so the duplicate-id check throws. This only covers this package's idempotent-install internals.",
+            "zh": "该测试重复安装插件并断言只注册一次 slug；参考包在第二次安装时会再次注册 core 规则，因此重复 id 检查会抛错。该测试只覆盖本包的幂等安装内部细节。"
+          }
+        },
+        {
+          "file": "permalink-ariaHidden.spec.ts",
+          "name": "permalink.ariaHidden should render default",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-ariaHidden.spec.ts",
+          "name": "permalink.ariaHidden should render with HTML symbol",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should render default",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should render with Safari reader fix",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should render without class",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should support custom renderHref and renderAttrs",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains a link",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains a link with text",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains multiple links",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains a raw html anchor",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains an uppercase raw html anchor",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "permalink.headerLink should not nest anchor when heading contains a raw html anchor with a tab",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "headerLink level preservation should preserve inline token level with safariReaderFix",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-headerLink.spec.ts",
+          "name": "headerLink level preservation should preserve inline token level without safariReaderFix",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render default",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render without symbol",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render multiple headers",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render without explicit style and class",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render aria-label style",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render aria-describedby style",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render aria-labelledby style",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render with custom symbol and no text heading",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 id=\"\" tabindex=\"-1\"><img src=\"url…' to be '<h1 id=\"heading\" tabindex=\"-1\"><img s…' // Object.is equality"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should respect placement before",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render with string space",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should support native wrapper",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render with custom renderAttrs",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should render with custom renderHref",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "permalink.linkAfterHeader should support a composed permalink with a shifted index",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "linkAfterHeader error handling should throw on unknown style",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "linkAfterHeader error handling should throw on missing assistiveText for visually-hidden",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "linkAfterHeader error handling should throw on missing visuallyHiddenClass",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkAfterHeader.spec.ts",
+          "name": "linkAfterHeader error handling should throw on missing assistiveText for aria-label",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render default",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render without class",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render without space",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should mark the symbol token with isPermalinkSymbol meta",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render with HTML symbol and placement before",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should merge duplicate class attrs",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should support custom renderHref",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render with boolean space",
+          "status": "passed"
+        },
+        {
+          "file": "permalink-linkInsideHeader.spec.ts",
+          "name": "permalink.linkInsideHeader should render with string space",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "plugin": "plugin-attrs",
+      "reference": "markdown-it-attrs",
+      "total": 616,
+      "passed": 610,
+      "failed": 6,
+      "skipped": 20,
+      "tests": [
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "attributes should not register the rule twice when installed twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `attrs` core-rule count and that a second installation keeps the first parse options; the reference re-registers its rule and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `attrs` core 规则的数量，以及第二次安装保留首次解析选项的行为；参考包会重新注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "attributes should keep the first installation's parse options",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `attrs` core-rule count and that a second installation keeps the first parse options; the reference re-registers its rule and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `attrs` core 规则的数量，以及第二次安装保留首次解析选项的行为；参考包会重新注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "rule settings should disable all rules when rule option is false",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+            "zh": "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "rule settings should only enable specific rules when rule is array",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+            "zh": "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "rule settings should filter out invalid rule names",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+            "zh": "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "rule settings should handle empty rule array",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+            "zh": "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "rule settings should not throw when getting only allowed option",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
+            "zh": "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should parse attrs at the end by default",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should return null when no valid attrs section is found",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should support quoted values and css modules",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should unescape quotes and backslashes in quoted values",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should return an empty array when the attrs section contains no attrs",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should support where option",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should support custom delimiters",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should filter attrs with allowed option",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "parseAttrs.spec.ts",
+          "name": "undefined should keep every attr matched by a global RegExp in allowed",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
+            "zh": "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。"
+          }
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with katex plugin",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with mark plugin should apply inline attrs to mark element via render",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with mark plugin should apply inline attrs to link containing mark tokens via render",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with mark plugin should apply inline attrs to mark element via renderInline",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with mark plugin should not throw when using renderInline with softbreak followed by attrs",
+          "status": "failed",
+          "message": "AssertionError: expected '<mark>text</mark>\\n{.desc}' to be '<mark>text</mark>' // Object.is equality"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should add class to image inside figure",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should add id to image inside figure",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should add attributes to image inside figure",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should add multiple attributes to image inside figure",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should work with linked images in figure",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should work with figure disabled focusable",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "plugin compatibility should work with figure plugin should move class to figure with figure moveAttrs option",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "mark with attrs plugin should not leak inline attrs between mark tokens",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "mark with attrs plugin should not accumulate attrs across renders",
+          "status": "passed"
+        },
+        {
+          "file": "plugin.spec.ts",
+          "name": "mark with attrs plugin should put attrs on the correct token when nested",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline inline nesting self-close should apply attrs to code_inline",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline inline nesting self-close should apply multiple attrs to code_inline",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline inline attributes (closing tag before attrs text) should apply attrs to strong",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline inline attributes (closing tag before attrs text) should apply attrs to em",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline inline attributes (closing tag before attrs text) should apply attrs to nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline softbreak rule should not throw and remove softbreak and attrs tokens when attrs follow a softbreak",
+          "status": "failed",
+          "message": "AssertionError: expected 'some text\\n{.desc}' to be 'some text' // Object.is equality"
+        },
+        {
+          "file": "renderInline.spec.ts",
+          "name": "renderInline softbreak rule should not throw and consume softbreak and attrs when no block target exists",
+          "status": "failed",
+          "message": "AssertionError: expected '<strong>bold</strong>\\n{.desc}' to be '<strong>bold</strong>' // Object.is equality"
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should drop event handler attributes",
+          "status": "failed",
+          "message": "AssertionError: expected '<p><a href=\"url\" onclick=\"alert(1)\">t…' to be '<p><a href=\"url\">text</a></p>\\n' // Object.is equality"
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should drop dangerous url schemes",
+          "status": "failed",
+          "message": "AssertionError: expected '<p><a href=\"javascript:alert(1)\">text…' to be '<p><a href=\"url\">text</a></p>\\n' // Object.is equality"
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should only keep data urls accepted by markdown-it",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+            "zh": "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。"
+          }
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should keep normal attributes",
+          "status": "failed",
+          "message": "AssertionError: expected '<h1 class=\"c\" onclick=\"alert(1)\">titl…' to be '<h1 class=\"c\">title</h1>\\n' // Object.is equality"
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should drop dangerous attrs in programmatic parsing",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+            "zh": "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。"
+          }
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should keep normal attributes in programmatic parsing",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+            "zh": "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。"
+          }
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "plugin-attrs: security should not let allowed option bypass the safety filter",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
+            "zh": "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。"
+          }
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should get item by positive index",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should get item by negative index",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should handle empty array",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should handle single item array",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should work with different types",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should handle out of bounds positive index",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should handle out of bounds negative index",
+          "status": "passed"
+        },
+        {
+          "file": "utils.spec.ts",
+          "name": "getArrayItem should handle zero index on empty array",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should add class attribute",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should merge multiple class attributes",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should add id attribute",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should add css-module attribute",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should add custom attributes",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should handle quoted values",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should handle multiple attributes",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should filter attributes based on allowed list",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should handle regex in allowed list",
+          "status": "passed"
+        },
+        {
+          "file": "addAttrs.spec.ts",
+          "name": "addAttrs should do nothing if token is null",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with { } delimiters should parse {.class ..css-module #id key=val .class.with.dot}",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with { } delimiters should parse attributes with = {attr=/id=1}",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with { } delimiters should unescape quotes and backslashes in quoted values",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with { } delimiters should parse attributes whose are ignored the key chars(\\t,\\n,\\f,\\s,/,>,\",',=) eg: {gt>=true slash/=trace i\\td \"q\\fnu e'r\\ny\"=}",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [ ] delimiters should parse [.class ..css-module #id key=val .class.with.dot]",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [ ] delimiters should parse attributes with = [attr=/id=1]",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [ ] delimiters should unescape quotes and backslashes in quoted values",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [ ] delimiters should parse attributes whose are ignored the key chars(\\t,\\n,\\f,\\s,/,>,\",',=) eg: [gt>=true slash/=trace i\\td \"q\\fnu e'r\\ny\"=]",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [[ ]] delimiters should parse [[.class ..css-module #id key=val .class.with.dot]]",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [[ ]] delimiters should parse attributes with = [[attr=/id=1]]",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [[ ]] delimiters should unescape quotes and backslashes in quoted values",
+          "status": "passed"
+        },
+        {
+          "file": "getAttrs.spec.ts",
+          "name": "getAttrs with [[ ]] delimiters should parse attributes whose are ignored the key chars(\\t,\\n,\\f,\\s,/,>,\",',=) eg: [[gt>=true slash/=trace i\\td \"q\\fnu e'r\\ny\"=]]",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should check start delimiter",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should check end delimiter",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should ignore delimiters inside quoted values",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should check only delimiter",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should only reject a trailing character matching the end of a multi-char right delimiter",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should keep the trailing check for a symmetric multi-char right delimiter",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should work with custom delimiters",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should throw an error while calling `hasDelimiters` with an invalid `where` param",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should return null for softbreak tokens",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should return the same token for self-closing tokens (nesting: 0)",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should find matching opening token for closing tokens",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should find correct opening token with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should handle multiple nested elements at same level",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should handle complex nested structure",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should return null when no matching opening token found",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should return null for out-of-bounds or negative index",
+          "status": "passed"
+        },
+        {
+          "file": "getMatchingOpeningToken.spec.ts",
+          "name": "getMatchingOpeningToken should handle edge case with single token",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should return null for empty array",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should filter by string name (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should filter by string name (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should filter by regex name (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should filter by regex name (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - simple format should filter by mixed string and regex names",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name without value constraint",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name with string value (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name with string value (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name with regex value (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name with regex value (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by string name with mixed string and regex values",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name without value constraint",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name with string value (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name with string value (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name with regex value (match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should filter by regex name with regex value (no match)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should handle mixed entry types (string name + regex name)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should handle empty value array (allow any value)",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - entry format (AllowedAttrEntry[]) should handle multiple entries matching same name",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - stateful regexps should reset lastIndex of a global regexp name between calls",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - stateful regexps should reset lastIndex of a sticky regexp name between calls",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - stateful regexps should reset lastIndex of a global regexp entry name between calls",
+          "status": "passed"
+        },
+        {
+          "file": "normalizeAllowed.spec.ts",
+          "name": "normalizeAllowed - stateful regexps should reset lastIndex of a global regexp entry value between calls",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule string rules",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule function rules",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule boolean rules",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule number rules",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule position and shift",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule undefined properties",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule children with positions",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule children with shifts",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule children edge cases",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule negative position in children",
+          "status": "passed"
+        },
+        {
+          "file": "testRule.spec.ts",
+          "name": "testRule unsupported types",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add attributes when {} in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should not add attributes when it has too many delimiters {{}}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add classes with {.class} dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add css-modules with {..css-module} double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add identifiers with {#id} hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should keep the last value of repeated keys {#a #b}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should support classes, css-modules, identifiers and attributes in same {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should support attributes inside \" {attr=\"lorem ipsum\"}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add classes in same class attribute {.c1 .c2} -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add css-modules in same css-modules attribute {..c1 ..c2} -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add nested css-modules {..c1.c2} -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should only remove last {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should support {} curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should do nothing with empty className {.}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should do nothing with empty id {#}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add attributes when {} in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should not add attributes when it has too many delimiters {{}}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add classes with {.class} dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add css-modules with {..css-module} double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add identifiers with {#id} hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should keep the last value of repeated keys {#a #b}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should support classes, css-modules, identifiers and attributes in same {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should support attributes inside \" {attr=\"lorem ipsum\"}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add classes in same class attribute {.c1 .c2} -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add css-modules in same css-modules attribute {..c1 ..c2} -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add nested css-modules {..c1.c2} -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should only remove last {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should support {} curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should do nothing with empty className {.}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should do nothing with empty id {#}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add attributes when {} in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should not add attributes when it has too many delimiters {{}}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add classes with {.class} dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add css-modules with {..css-module} double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add identifiers with {#id} hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should keep the last value of repeated keys {#a #b}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should support classes, css-modules, identifiers and attributes in same {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should support attributes inside \" {attr=\"lorem ipsum\"}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add classes in same class attribute {.c1 .c2} -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add css-modules in same css-modules attribute {..c1 ..c2} -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add nested css-modules {..c1.c2} -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should only remove last {}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should support {} curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should do nothing with empty className {.}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should do nothing with empty id {#}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add attributes when [] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should not add attributes when it has too many delimiters [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add classes with [.class] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add css-modules with [..css-module] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add identifiers with [#id] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should keep the last value of repeated keys [#a #b]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should support classes, css-modules, identifiers and attributes in same []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should support attributes inside \" [attr=\"lorem ipsum\"]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add classes in same class attribute [.c1 .c2] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add css-modules in same css-modules attribute [..c1 ..c2] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add nested css-modules [..c1.c2] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should only remove last []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should support [] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should do nothing with empty className [.]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should do nothing with empty id [#]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add attributes when [] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should not add attributes when it has too many delimiters [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add classes with [.class] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add css-modules with [..css-module] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add identifiers with [#id] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should keep the last value of repeated keys [#a #b]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should support classes, css-modules, identifiers and attributes in same []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should support attributes inside \" [attr=\"lorem ipsum\"]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add classes in same class attribute [.c1 .c2] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add css-modules in same css-modules attribute [..c1 ..c2] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add nested css-modules [..c1.c2] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should only remove last []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should support [] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should do nothing with empty className [.]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should do nothing with empty id [#]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add attributes when [] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should not add attributes when it has too many delimiters [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add classes with [.class] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add css-modules with [..css-module] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add identifiers with [#id] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should keep the last value of repeated keys [#a #b]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should support classes, css-modules, identifiers and attributes in same []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should support attributes inside \" [attr=\"lorem ipsum\"]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add classes in same class attribute [.c1 .c2] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add css-modules in same css-modules attribute [..c1 ..c2] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add nested css-modules [..c1.c2] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should only remove last []",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should support [] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should do nothing with empty className [.]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should do nothing with empty id [#]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add attributes when [[]] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should not add attributes when it has too many delimiters [[[[]]]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add classes with [[.class]] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add css-modules with [[..css-module]] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add identifiers with [[#id]] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should keep the last value of repeated keys [[#a #b]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should support classes, css-modules, identifiers and attributes in same [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should support attributes inside \" [[attr=\"lorem ipsum\"]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add classes in same class attribute [[.c1 .c2]] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add css-modules in same css-modules attribute [[..c1 ..c2]] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add nested css-modules [[..c1.c2]] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should only remove last [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should support [[]] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should do nothing with empty className [[.]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should do nothing with empty id [[#]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add attributes when [[]] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should not add attributes when it has too many delimiters [[[[]]]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add classes with [[.class]] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add css-modules with [[..css-module]] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add identifiers with [[#id]] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should keep the last value of repeated keys [[#a #b]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should support classes, css-modules, identifiers and attributes in same [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should support attributes inside \" [[attr=\"lorem ipsum\"]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add classes in same class attribute [[.c1 .c2]] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add css-modules in same css-modules attribute [[..c1 ..c2]] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add nested css-modules [[..c1.c2]] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should only remove last [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should support [[]] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should do nothing with empty className [[.]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should do nothing with empty id [[#]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add attributes when [[]] in end of last inline",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should not add attributes when it has too many delimiters [[[[]]]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add classes with [[.class]] dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add css-modules with [[..css-module]] double dot notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add identifiers with [[#id]] hashtag notation",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should keep the last value of repeated keys [[#a #b]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should support classes, css-modules, identifiers and attributes in same [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should support attributes inside \" [[attr=\"lorem ipsum\"]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add classes in same class attribute [[.c1 .c2]] -> class=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add css-modules in same css-modules attribute [[..c1 ..c2]] -> css-module=\"c1 c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add nested css-modules [[..c1.c2]] -> css-module=\"c1.c2\"",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should only remove last [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should not create empty attributes",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should work with typography enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should support [[]] curlies with length == 3",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should do nothing with empty className [[.]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should do nothing with empty id [[#]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should restrict attributes by allowed (string)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should restrict attributes by allowed (regex)",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should apply attributes to the innermost block in nested structures",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block inside containers should apply attributes to the inner paragraph, not the container",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should find attrs before tokens appended by heading anchor style plugins",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should skip trailing whitespace-only text children",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should skip trailing top level non-text tokens",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should not search past inline code",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should not search past inline math",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "end of block child search should stop at unmatched opening tags",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (blockInfo rule only) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (blockInfo rule only) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (blockInfo rule only) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (all rules) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (all rules) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with default delimiters (all rules) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (blockInfo rule only) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (blockInfo rule only) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (blockInfo rule only) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (all rules) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (all rules) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [ ] delimiters (all rules) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (blockInfo rule only) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (blockInfo rule only) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (blockInfo rule only) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (all rules) should support containers",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (all rules) should support containers with attributes only",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rules with [[ ]] delimiters (all rules) should support attributes right after the title",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rule scope should not consume code block meta when fence rule is disabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rule scope should not apply to containers when only fence rule is enabled",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rule scope should support both containers and code blocks with all rules",
+          "status": "passed"
+        },
+        {
+          "file": "blockInfo.spec.ts",
+          "name": "blockInfo rule scope should respect allowed attributes",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should stay disabled by default",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply attributes to tight definitions",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should support attributes without a leading space",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply attributes to loose definitions",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply attributes to later definitions",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply attributes after a softbreak to the definition list",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply softbreak attributes from a middle definition",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "dl rule should apply attributes in a paragraph after the definition list",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (fence rule only) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (fence rule only) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (fence rule only) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (fence rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (fence rule only) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (all rules) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (all rules) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (all rules) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules  (all rules) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (fence rule only) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (fence rule only) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (fence rule only) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (fence rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (fence rule only) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (all rules) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (all rules) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (all rules) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [ ] delimiters (all rules) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (fence rule only) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (fence rule only) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (fence rule only) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (fence rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (fence rule only) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (all rules) should support code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (all rules) should support code blocks with language defined",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (all rules) should unescape escaped characters in attr values",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence rules with [[ ]] delimiters (all rules) should handle VuePress line numbers in code blocks",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence renderer should place attrs on <code> when fenceAttrsOnPre is false",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence renderer should not override a custom fence renderer",
+          "status": "passed"
+        },
+        {
+          "file": "fence.spec.ts",
+          "name": "fence renderer should render no-attrs fence normally",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules  (heading rule only) should add attributes on headings",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules  (heading rule only) should not add attributes on others",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules with [ ] delimiters (heading rule only) should add attributes on headings",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules with [ ] delimiters (heading rule only) should not add attributes on others",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules with [[ ]] delimiters (heading rule only) should add attributes on headings",
+          "status": "passed"
+        },
+        {
+          "file": "heading.spec.ts",
+          "name": "heading rules with [[ ]] delimiters (heading rule only) should not add attributes on others",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (hr rule only) should support horizontal rules ---{#id}",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (hr rule only) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (hr rule only) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (hr rule only) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (all rules) should support horizontal rules ---{#id}",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (all rules) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (all rules) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules  (all rules) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (hr rule only) should support horizontal rules ---[#id]",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (hr rule only) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (hr rule only) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (hr rule only) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (all rules) should support horizontal rules ---[#id]",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (all rules) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (all rules) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [ ] delimiters (all rules) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (hr rule only) should support horizontal rules ---[[#id]]",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (hr rule only) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (hr rule only) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (hr rule only) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (all rules) should support horizontal rules ---[[#id]]",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (all rules) should not convert marker < 3",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (all rules) should not convert when text follows the markers",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr rules with [[ ]] delimiters (all rules) should support multiple classes for <hr>",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr detection should keep paragraph text between the markers and the attrs",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr detection should not convert mixed marker paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "hr.spec.ts",
+          "name": "hr detection should lock the spacing boundary between markers and attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should not add classes to inline elements with too many {{}}",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should not apply inside `code{.red}`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (inline rule only) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should not add classes to inline elements with too many {{}}",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should not apply inside `code{.red}`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules  (all rules) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should not add classes to inline elements with too many [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should not apply inside `code[.red]`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (inline rule only) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should not add classes to inline elements with too many [[]]",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should not apply inside `code[.red]`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [ ] delimiters (all rules) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should not add classes to inline elements with too many [[[[]]]]",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should not apply inside `code[[.red]]`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (inline rule only) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should add classes to inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should not add classes to inline elements with too many [[[[]]]]",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should work with nested inline elements",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should add class to inline code block",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should keep the last value of repeated keys",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should work with multiple inline code blocks in same paragraph",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should not apply inside `code[[.red]]`",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should support images",
+          "status": "passed"
+        },
+        {
+          "file": "inline.spec.ts",
+          "name": "inline rules with [[ ]] delimiters (all rules) should support empty quoted attrs",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should not apply inside item lists with trailing `code{.red}`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should not apply inside item lists with trailing non-text, eg *{.red}*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (list rule only) should not crash on {#ids} in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should not apply inside item lists with trailing `code{.red}`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should not apply inside item lists with trailing non-text, eg *{.red}*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules  (all rules) should not crash on {#ids} in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should not apply inside item lists with trailing `code[.red]`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should not apply inside item lists with trailing non-text, eg *[.red]*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (list rule only) should not crash on [#ids] in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should not apply inside item lists with trailing `code[.red]`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should not apply inside item lists with trailing non-text, eg *[.red]*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [ ] delimiters (all rules) should not crash on [#ids] in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should not apply inside item lists with trailing `code[[.red]]`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should not apply inside item lists with trailing non-text, eg *[[.red]]*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (list rule only) should not crash on [[#ids]] in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should add classes for list items",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should add classes in nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should not trim unrelated white space",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should add attributes to ul when below last bullet point",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should add classes for both last list item and ul",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should add class ul after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should ignore non-text \"attr-like\" text after a \"soft-break\"",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should work with ordered lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should support nested lists",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should not apply inside item lists with trailing `code[[.red]]`",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should not apply inside item lists with trailing non-text, eg *[[.red]]*",
+          "status": "passed"
+        },
+        {
+          "file": "list.spec.ts",
+          "name": "list rules with [[ ]] delimiters (all rules) should not crash on [[#ids]] in front of list items",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (softbreak rule only) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules  (all rules) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (softbreak rule only) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [ ] delimiters (all rules) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (softbreak rule only) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should apply attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should apply ID after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should apply multiple attrs after softbreak",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should work with nested elements",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should work in blockquotes",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should work with multiple paragraphs",
+          "status": "passed"
+        },
+        {
+          "file": "softbreak.spec.ts",
+          "name": "softbreak rules with [[ ]] delimiters (all rules) should not interfere with normal text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (table rule only) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with { } delimiters (all rules) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (table rule only) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [ ] delimiters (all rules) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (table rule only) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should support tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should apply attributes to the last column of tables",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should calculate table's colspan and/or rowspan",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should apply attributes after a table with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should support consecutive tables with spans",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should support empty inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should handle incomplete attribute syntax in table cells",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "table rules with [[ ]] delimiters (all rules) should not handle attribute syntax in text",
+          "status": "passed"
+        },
+        {
+          "file": "table.spec.ts",
+          "name": "headerless tables should support tables without thead",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should stay disabled by default",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should apply attributes to task list items wrapped in labels",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should support attributes without a leading space",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should apply attributes after a softbreak to the task list",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should support ordered task lists",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should leave attributes inside nested inline tokens untouched",
+          "status": "passed"
+        },
+        {
+          "file": "tasklist.spec.ts",
+          "name": "tasklist rule should apply attributes to task list items without labels",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "plugin": "plugin-container",
+      "reference": "markdown-it-container",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 32,
+      "tests": [
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin simple container",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should allow block elements in container",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should allow longer ending marker to close",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin support nesting",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin support deeply nested containers",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin close nested containers with their own marker length",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin wrong syntax",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin ending markers must be the same indent",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin content indent should recalculate from container",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin list indentation quirks",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin multi-char marker",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin astral marker",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should not break code fence",
+          "status": "passed"
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin space before name is optional and can be multiple",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin allow other params after container name",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin ending marker can not contain params",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin container name must be a exact word",
+          "status": "passed"
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin container should be auto close if it is not closed",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should allow empty container",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin container should terminate paragraph",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin negative indent should terminate container",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin nesting with others",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin renderer",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin 2 char marker",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin marker should not collide with fence",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should throw if \"name\" is not provided",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin should throw if options is null",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin validator should skip rule if return value is falsy",
+          "status": "passed"
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin validator should accept rule if return value is true",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin validator rule should call it",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin validator should not trim params",
+          "status": "passed"
+        },
+        {
+          "file": "container.spec.ts",
+          "name": "container_plugin validator should allow analyze mark",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
+            "zh": "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。"
+          }
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "container_plugin should not register the rule twice when installed twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `container_<name>` block-rule count and that a second installation keeps the first parse options; the reference registers its rule positionally and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `container_<name>` 块级规则的数量，以及第二次安装保留首次解析选项的行为；参考包按位置参数注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "container_plugin should keep the first installation's parse options",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `container_<name>` block-rule count and that a second installation keeps the first parse options; the reference registers its rule positionally and has no idempotent-install contract.",
+            "zh": "该文件断言内部 `container_<name>` 块级规则的数量，以及第二次安装保留首次解析选项的行为；参考包按位置参数注册规则，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "renderer-idempotent.spec.ts",
+          "name": "container renderer idempotency should render the same output when rendering the same tokens twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Parses tokens with this package's `{ name }` options object and asserts renderer idempotency and class merging; the reference never registers the container through this API, so it produces no container tokens and the renderer internals cannot be compared.",
+            "zh": "该文件用本包的 `{ name }` 选项对象解析 token，并断言渲染器幂等性与 class 合并；参考包无法通过该 API 注册容器，因此不会产生容器 token，渲染器内部行为无法对比。"
+          }
+        },
+        {
+          "file": "renderer-idempotent.spec.ts",
+          "name": "container renderer idempotency should append the container class after classes added by other plugins",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Parses tokens with this package's `{ name }` options object and asserts renderer idempotency and class merging; the reference never registers the container through this API, so it produces no container tokens and the renderer internals cannot be compared.",
+            "zh": "该文件用本包的 `{ name }` 选项对象解析 token，并断言渲染器幂等性与 class 合并；参考包无法通过该 API 注册容器，因此不会产生容器 token，渲染器内部行为无法对比。"
+          }
+        }
+      ]
+    },
+    {
+      "plugin": "plugin-dl",
+      "reference": "markdown-it-deflist",
+      "total": 14,
+      "passed": 11,
+      "failed": 3,
+      "skipped": 1,
+      "tests": [
+        {
+          "file": "dd-source-map.spec.ts",
+          "name": "deflist_plugin should start definition source maps at the marker line",
+          "status": "failed",
+          "message": "AssertionError: expected [ [ 1, 3 ], [ 3, 5 ] ] to strictly equal [ [ 1, 3 ], [ 4, 5 ] ]"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should render basic definition lists",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle indentation and markers",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should detect marker indentation correctly",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should correctly split definition lists on invalid markers",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle marker indentation relative to block context",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle complex content and nesting",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle tight and loose lists",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle edge cases and boundaries",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should render empty definitions",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should not render invalid definition lists",
+          "status": "passed"
+        },
+        {
+          "file": "dl.spec.ts",
+          "name": "deflist_plugin should handle edge cases",
+          "status": "passed"
+        },
+        {
+          "file": "install-idempotent.spec.ts",
+          "name": "deflist_plugin should not register the rule twice when installed twice",
+          "status": "skipped",
+          "skipReason": {
+            "en": "Asserts the internal `dl` block-rule count and that a second installation is a no-op; the reference registers its rule without a guard and has no idempotent-install contract.",
+            "zh": "该测试断言内部 `dl` 块级规则的数量，以及第二次安装为空操作；参考包注册规则时没有守卫，也没有幂等安装的约定。"
+          }
+        },
+        {
+          "file": "source-map.spec.ts",
+          "name": "deflist_plugin should map definition terms to their complete source lines",
+          "status": "failed",
+          "message": "AssertionError: expected [ [ +0, +0 ] ] to strictly equal [ [ +0, 1 ] ]"
+        },
+        {
+          "file": "source-map.spec.ts",
+          "name": "deflist_plugin should use the same exclusive source range as a one-line paragraph",
+          "status": "failed",
+          "message": "AssertionError: expected [ +0, +0 ] to strictly equal [ +0, 1 ]"
+        }
+      ]
+    }
+  ]
+}

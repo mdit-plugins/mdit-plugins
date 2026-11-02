@@ -125,6 +125,32 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer,
     },
   ],
+  testSuiteSkips: [
+    {
+      file: "customBase64.spec.ts",
+      name: "",
+      why: {
+        en: "Tests this package's internal PlantUML base64 encoder (`../src/customBase64.js`), an implementation helper that the reference replaces with its own deflate encoder; it is not part of the compared plugin behavior.",
+        zh: "测试本包内部的 PlantUML base64 编码器（`../src/customBase64.js`），参考包用自带的 deflate 编码器替代了它；它不属于被对比的插件行为。",
+      },
+    },
+    {
+      file: "deflate-browser.spec.ts",
+      name: "",
+      why: {
+        en: "Tests this package's internal browser deflate implementation (`../src/deflate/browser.js`), a build/packaging helper with no reference counterpart.",
+        zh: "测试本包内部的浏览器 deflate 实现（`../src/deflate/browser.js`），它是构建/打包辅助模块，参考包没有对应实现。",
+      },
+    },
+    {
+      file: "plantuml.spec.ts",
+      name: "should parse custom uml",
+      why: {
+        en: "Uses this fork's `name` option to switch the markers to `@startjson`/`@endjson`; the reference has no `name` option for custom diagram markers, so the assertion only exercises a fork-only option shape.",
+        zh: "使用本 fork 的 `name` 选项把标记切换为 `@startjson`/`@endjson`；参考包没有用于自定义图表标记的 `name` 选项，因此该断言只覆盖 fork 专有的选项形式。",
+      },
+    },
+  ],
   correctness: [
     { name: "basic", markdown: "@startuml\nBob -> Alice : hello\n@enduml" },
     {

@@ -127,6 +127,97 @@ const spec: ComparisonSpec = defineComparison({
     },
   ],
   normalize: normalizeMathjaxOutput,
+  testSuiteExports: { mathjax: "default" },
+  testSuiteSkips: [
+    {
+      file: "a11y.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the fork-only async entry (`createMathjaxInstance`) and its assistive-MathML switch; the reference only exposes the synchronous plugin, so no async instance API exists to compare against.",
+        zh: "测试 fork 专有的异步入口（`createMathjaxInstance`）及其辅助 MathML 开关；参考包只提供同步插件，没有可对比的异步实例 API。",
+      },
+    },
+    {
+      file: "font.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the fork-only async entry with custom SVG/CHTML font data passed to `createMathjaxInstance`; the reference has no async instance or font-data API.",
+        zh: "测试 fork 专有的异步入口，并通过 `createMathjaxInstance` 传入自定义 SVG/CHTML 字体数据；参考包没有异步实例或字体数据 API。",
+      },
+    },
+    {
+      file: "html.spec.ts",
+      name: "",
+      why: {
+        en: "Tests CHTML rendering through the fork-only async entry; the reference is a synchronous plugin without `createMathjaxInstance`, so these assertions never exercise the reference.",
+        zh: "通过 fork 专有的异步入口测试 CHTML 渲染；参考包是同步插件且没有 `createMathjaxInstance`，因此这些断言不会作用于参考包。",
+      },
+    },
+    {
+      file: "svg.spec.ts",
+      name: "",
+      why: {
+        en: "Tests SVG rendering through the fork-only async entry; the reference is a synchronous plugin without `createMathjaxInstance`, so these assertions never exercise the reference.",
+        zh: "通过 fork 专有的异步入口测试 SVG 渲染；参考包是同步插件且没有 `createMathjaxInstance`，因此这些断言不会作用于参考包。",
+      },
+    },
+    {
+      file: "session.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the internal `createSession` module, which only exists in this fork; the reference has no session abstraction.",
+        zh: "测试本 fork 独有的内部 `createSession` 模块；参考包没有会话抽象。",
+      },
+    },
+    {
+      file: "tex.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the internal TeX package resolver (`../src/tex/`), a helper of this fork rather than plugin behavior; the reference has no equivalent module.",
+        zh: "测试内部 TeX 宏包解析器（`../src/tex/`），它是本 fork 的辅助模块而非插件行为；参考包没有等价模块。",
+      },
+    },
+    {
+      file: "tex-packages.spec.ts",
+      name: "",
+      why: {
+        en: "Tests the internal TeX package list and loaders (`../src/tex/`), which are implementation details of this fork with no reference counterpart.",
+        zh: "测试内部 TeX 宏包列表与加载器（`../src/tex/`），这些是本 fork 的实现细节，参考包没有对应实现。",
+      },
+    },
+    {
+      file: "optional-peer.spec.ts",
+      name: "",
+      why: {
+        en: "Inspects the built `dist` entries of this package for static `@mathjax` imports to verify optional-peer packaging; it tests this fork's build artifacts and has no reference behavior to compare.",
+        zh: "检查本包构建后的 `dist` 入口是否静态导入 `@mathjax`，以验证可选 peer 依赖的打包方式；它测试的是本 fork 的构建产物，没有可对比的参考包行为。",
+      },
+    },
+    {
+      file: "security.spec.ts",
+      name: "html TeX package gating (async)",
+      why: {
+        en: "Tests HTML/TeX package gating through the fork-only async entry (`createMathjaxInstance`); the reference only exposes the synchronous plugin. The sync gating tests stay counted.",
+        zh: "通过 fork 专有的异步入口（`createMathjaxInstance`）测试 HTML/TeX 宏包门控；参考包只提供同步插件。同步门控测试仍计入统计。",
+      },
+    },
+    {
+      file: "state.spec.ts",
+      name: "mathjax state isolation async",
+      why: {
+        en: "Tests TeX state isolation of the fork-only async entry; the reference has no async instance whose `reset` behavior could be compared. The sync state tests stay counted.",
+        zh: "测试 fork 专有异步入口的 TeX 状态隔离；参考包没有可对比 `reset` 行为的异步实例。同步状态测试仍计入统计。",
+      },
+    },
+    {
+      file: "state.spec.ts",
+      name: "mathjax state isolation sync reset and clearStyle should not throw",
+      why: {
+        en: "Only asserts that the internal state helpers `reset`/`clearStyle` returned by `getMathjax` do not throw; the reference exposes no state helper object at all.",
+        zh: "仅断言 `getMathjax` 返回的内部状态辅助方法 `reset`/`clearStyle` 不会抛错；参考包完全不提供状态辅助对象。",
+      },
+    },
+  ],
   correctness: [
     { name: "inline-simple", markdown: "Inline $x^2$ math." },
     {
