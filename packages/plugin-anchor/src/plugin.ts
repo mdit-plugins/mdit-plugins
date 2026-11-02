@@ -41,6 +41,9 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
 
     const slugs = (env.slugs ??= {});
     const { tokens } = state;
+    // Per-render cache of the next free duplicate index for each slug, so a
+    // long duplicate chain is scanned once instead of once per heading.
+    const nextSlugIndices = new Map<string, number>();
 
     const isLevelSelected = Array.isArray(level)
       ? isLevelSelectedArray(level)
@@ -65,9 +68,9 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
         // (e.g. image-only or empty headings) to avoid invalid empty ids
         if (!slug) slug = defaultPlaceHolder || DEFAULT_PLACE_HOLDER;
 
-        slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex);
+        slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex, nextSlugIndices);
       } else {
-        slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex);
+        slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex, nextSlugIndices);
       }
 
       token.attrSet("id", slug);
@@ -77,9 +80,11 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
       if (typeof permalink === "function") {
         permalink(slug, resolvedOptions, state, index);
 
-        // A permalink renderer could modify the `tokens` array so
-        // make sure to get the up-to-date index on each iteration.
-        index = tokens.indexOf(token);
+        // A permalink renderer could modify the `tokens` array so make sure to
+        // get the up-to-date index on each iteration. Checking the current
+        // position first avoids an O(n) `indexOf` scan for the common case
+        // where the renderer only rewrites token children.
+        if (tokens[index] !== token) index = tokens.indexOf(token);
       }
 
       // oxlint-disable-next-line promise/prefer-await-to-callbacks
