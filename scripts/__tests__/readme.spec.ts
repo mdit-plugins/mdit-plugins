@@ -69,7 +69,7 @@ const createTempPackage = (readme: string): string => {
 
 describe("scripts/syncReadme.ts", () => {
   it("should discover all packages", () => {
-    expect(packages).toHaveLength(40);
+    expect(packages).toHaveLength(41);
     expect(packages.map((pkg) => pkg.dirName)).toContain("helper");
     expect(packages.map((pkg) => pkg.dirName)).toContain("plugin-layout");
   });

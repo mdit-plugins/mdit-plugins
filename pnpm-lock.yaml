@@ -468,6 +468,18 @@ importers:
         specifier: ^4.2.3
         version: 4.2.3
 
+  packages/plugin-cjk-breaks:
+    dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
+      get-east-asian-width:
+        specifier: 'catalog:'
+        version: 1.7.0
+      markdown-it:
+        specifier: 'catalog:'
+        version: 15.0.3
+
   packages/plugin-cjk-friendly:
     dependencies:
       '@mdit/helper':
