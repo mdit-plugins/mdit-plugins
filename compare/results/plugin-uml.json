@@ -2,8 +2,8 @@
   "plugin": "plugin-uml",
   "reference": "markdown-it-plantuml",
   "referenceVersion": "1.4.1",
-  "generatedAt": "2026-11-03T00:07:47.826Z",
-  "commit": "5d79a1f2d84eaddab99fef5df8da6af196127154",
+  "generatedAt": "2026-11-03T02:00:19.056Z",
+  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -197,84 +197,84 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 35948.84966995329,
-            "meanMs": 0.027817301782421658
+            "opsPerSec": 15770.318255118342,
+            "meanMs": 0.06341026121495326
           },
           "reference": {
-            "opsPerSec": 32702.671018104986,
-            "meanMs": 0.03057854202326091
+            "opsPerSec": 13400.520823222383,
+            "meanMs": 0.07462396523178813
           },
-          "ratio": 1.0992634103205559
+          "ratio": 1.176843681164185
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 9163.964803409493,
-            "meanMs": 0.10912307297687847
+            "opsPerSec": 4468.358087828134,
+            "meanMs": 0.2237958508124076
           },
           "reference": {
-            "opsPerSec": 7314.300703411604,
-            "meanMs": 0.13671846982358418
+            "opsPerSec": 3007.6714926027626,
+            "meanMs": 0.3324831194029855
           },
-          "ratio": 1.2528832454393284
+          "ratio": 1.4856536356506573
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 2307.1341037419024,
-            "meanMs": 0.4334381769911496
+            "opsPerSec": 1141.4322214437018,
+            "meanMs": 0.8760923173652694
           },
           "reference": {
-            "opsPerSec": 1234.2362319919805,
-            "meanMs": 0.8102176666666657
+            "opsPerSec": 413.47641000046167,
+            "meanMs": 2.418517661016945
           },
-          "ratio": 1.8692808102208534
+          "ratio": 2.7605739864153973
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 96083.78017276397,
-            "meanMs": 0.010407583862770017
+            "opsPerSec": 17192.39670863015,
+            "meanMs": 0.058165246937212964
           },
           "reference": {
-            "opsPerSec": 38098.525696131044,
-            "meanMs": 0.026247734832992538
+            "opsPerSec": 2226.077478139265,
+            "meanMs": 0.44922066272189254
           },
-          "ratio": 2.5219815837262547
+          "ratio": 7.72317984322852
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 24413.026095279176,
-            "meanMs": 0.04096173887240358
+            "opsPerSec": 4303.746737475598,
+            "meanMs": 0.23235568006182428
           },
           "reference": {
-            "opsPerSec": 4161.438532085003,
-            "meanMs": 0.24030151888341614
+            "opsPerSec": 162.42931118676415,
+            "meanMs": 6.15652429166668
           },
-          "ratio": 5.86648725123606
+          "ratio": 26.496121334449743
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 6084.137908045951,
-            "meanMs": 0.16436182333696822
+            "opsPerSec": 1093.529257929026,
+            "meanMs": 0.9144702738853501
           },
           "reference": {
-            "opsPerSec": 317.8579910224051,
-            "meanMs": 3.146059020833339
+            "opsPerSec": 10.601540245834776,
+            "meanMs": 94.32591649999995
           },
-          "ratio": 19.141056949602046
+          "ratio": 103.14814947372021
         }
       ],
       "scaling": [
@@ -286,8 +286,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.9937623340558744,
-          "referenceExponent": 1.9354559280761383
+          "currentExponent": 1.008751367594635,
+          "referenceExponent": 1.9382406966960493
         },
         {
           "case": "long-block-body",
@@ -297,8 +297,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.9874388442965634,
-          "referenceExponent": 0.9776301909031883
+          "currentExponent": 0.9833119275573565,
+          "referenceExponent": 0.9686444832452772
         },
         {
           "case": "unmatched-openers",
@@ -308,8 +308,8 @@
             512,
             1024
           ],
-          "currentExponent": 1.0043721219334827,
-          "referenceExponent": 1.8805812303397165
+          "currentExponent": 1.001274105350325,
+          "referenceExponent": 1.8757048294917589
         }
       ]
     }

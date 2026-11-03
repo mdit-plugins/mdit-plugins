@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-ruby
 Compared against the upstream [`markdown-it-ruby`](https://www.npmjs.com/package/markdown-it-ruby) package `1.1.2`.
 
 - Correctness: **10/21** cases match the reference exactly (11 documented differences).
-- Throughput: **1.02×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Throughput: **1.03×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **23.0 kB** unpacked and **614 B** gzip entry, versus **21.3 kB** and **1.9 kB** for the reference.
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

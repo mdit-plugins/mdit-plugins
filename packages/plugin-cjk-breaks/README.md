@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-cjk-breaks
 Compared against the upstream [`markdown-it-cjk-breaks`](https://www.npmjs.com/package/markdown-it-cjk-breaks) package `2.0.1`.
 
 - Correctness: **22/22** cases match the reference exactly.
-- Throughput: **1.04×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Throughput: **1.02×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **41.7 kB** unpacked and **673 B** gzip entry, versus **33.1 kB** and **921 B** for the reference.
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

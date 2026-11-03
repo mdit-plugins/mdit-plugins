@@ -2,8 +2,8 @@
   "plugin": "plugin-ins",
   "reference": "markdown-it-ins",
   "referenceVersion": "4.0.0",
-  "generatedAt": "2026-11-03T01:29:46.220Z",
-  "commit": "548440d9321da11bc27690b49c0b57849776c6d6",
+  "generatedAt": "2026-11-03T01:56:42.972Z",
+  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -121,84 +121,84 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 11116.946410940493,
-            "meanMs": 0.08995275888133027
+            "opsPerSec": 10991.837153895882,
+            "meanMs": 0.09097660254596893
           },
           "reference": {
-            "opsPerSec": 11008.834738645794,
-            "meanMs": 0.0908361351351352
+            "opsPerSec": 11001.554958339693,
+            "meanMs": 0.09089624183006541
           },
-          "ratio": 1.0098204464742466
+          "ratio": 0.999116688097218
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 3219.092338541417,
-            "meanMs": 0.3106465720250522
+            "opsPerSec": 3135.3339096310365,
+            "meanMs": 0.3189452954048136
           },
           "reference": {
-            "opsPerSec": 3223.6073660123025,
-            "meanMs": 0.31021147629310375
+            "opsPerSec": 3173.1573354253674,
+            "meanMs": 0.3151435287610623
           },
-          "ratio": 0.9985993866627527
+          "ratio": 0.9880801921253424
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 813.3734335182027,
-            "meanMs": 1.2294475806451586
+            "opsPerSec": 817.9461920504809,
+            "meanMs": 1.2225743083333327
           },
           "reference": {
-            "opsPerSec": 820.1494258879164,
-            "meanMs": 1.2192900079365079
+            "opsPerSec": 822.9048504055874,
+            "meanMs": 1.215207322580645
           },
-          "ratio": 0.991738100209754
+          "ratio": 0.993974202056699
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 2256.15556304298,
-            "meanMs": 0.4432318481848186
+            "opsPerSec": 2260.9501619812177,
+            "meanMs": 0.4422919252336475
           },
           "reference": {
-            "opsPerSec": 2294.708387433699,
-            "meanMs": 0.43578522023809574
+            "opsPerSec": 2325.1706947607267,
+            "meanMs": 0.43007595195195153
           },
-          "ratio": 0.9831992489320898
+          "ratio": 0.9723802932299911
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 561.7735944893345,
-            "meanMs": 1.7800765465116308
+            "opsPerSec": 574.8513465343428,
+            "meanMs": 1.7395801645569562
           },
           "reference": {
-            "opsPerSec": 570.1133029919946,
-            "meanMs": 1.7540373023255724
+            "opsPerSec": 587.3053966159348,
+            "meanMs": 1.7026916588235348
           },
-          "ratio": 0.9853718401958125
+          "ratio": 0.9787945928075028
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 140.37217545545576,
-            "meanMs": 7.123918944444439
+            "opsPerSec": 141.50508622902763,
+            "meanMs": 7.066883789473746
           },
           "reference": {
-            "opsPerSec": 144.02904303291263,
-            "meanMs": 6.943044117647065
+            "opsPerSec": 145.25484936563717,
+            "meanMs": 6.88445173684211
           },
-          "ratio": 0.9746102070773238
+          "ratio": 0.9741849366614219
         }
       ],
       "scaling": [
@@ -210,8 +210,8 @@
             2000,
             4000
           ],
-          "currentExponent": 1.012654844369729,
-          "referenceExponent": 1.013305903307188
+          "currentExponent": 1.0102330499088243,
+          "referenceExponent": 1.0038209454638523
         },
         {
           "case": "unmatched-openers",
@@ -221,8 +221,8 @@
             2000,
             4000
           ],
-          "currentExponent": 0.9962879719746874,
-          "referenceExponent": 1.000115959726164
+          "currentExponent": 0.9975959379581543,
+          "referenceExponent": 0.999078353988019
         },
         {
           "case": "nested-odd-markers",
@@ -232,8 +232,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.9844703743400384,
-          "referenceExponent": 0.9847458208025814
+          "currentExponent": 0.9894169480135144,
+          "referenceExponent": 0.9874268554325056
         }
       ]
     }
