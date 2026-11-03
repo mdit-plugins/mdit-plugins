@@ -3,12 +3,37 @@ import type { InlineRule, PluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItIconOptions } from "./options.js";
 
+const AMPERSAND = 0x26; /* & */
+const BACKSLASH = 0x5c; /* \ */
+const BACKTICK = 0x60; /* ` */
+const BANG = 0x21; /* ! */
 const COLON = 0x3a; /* : */
+const LESS_THAN = 0x3c; /* < */
 const NEWLINE = 0x0a; /* \n */
+const OPEN_BRACKET = 0x5b; /* [ */
 const SPACE = 0x20;
+
+/**
+ * Check whether a character can start a token skipped by `skipToken`.
+ *
+ * Only the inline rules that also run in silent mode can consume input here: backtick code spans,
+ * autolinks and inline HTML, link labels, images, entities and escapes. Any other character is
+ * scanned one by one, since no silent rule can hide a `::` or a line break behind it.
+ *
+ * @param charCode Character code / 字符编码
+ * @returns Whether the character can start a nested token / 该字符是否可以开始一个嵌套 token
+ */
+const canStartToken = (charCode: number): boolean =>
+  charCode === BACKTICK ||
+  charCode === LESS_THAN ||
+  charCode === OPEN_BRACKET ||
+  charCode === BANG ||
+  charCode === AMPERSAND ||
+  charCode === BACKSLASH;
 
 const iconRule: InlineRule = (state, silent) => {
   let found = false;
+  let mayHaveNewline = false;
   const max = state.posMax;
   const start = state.pos;
 
@@ -26,23 +51,37 @@ const iconRule: InlineRule = (state, silent) => {
   // ::::
   if (max - start < 5) return false;
 
+  // Unlike the legacy scan, this loop only hands characters to `skipToken` when they can start a
+  // token on their own. With `linkify` enabled, an URL-ish candidate (e.g.
+  // `::https://example.com/a::`) is therefore parsed as icon content instead of letting the
+  // linkify rule swallow the `::` inside the URL. URLs are not realistic icon class names, so
+  // this contrived case is accepted as a behavior change.
   state.pos = start + 2;
 
   while (state.pos < max) {
+    const code = state.src.charCodeAt(state.pos);
+
     // ::xxx::
     //      ^^
-    if (
-      state.src.charCodeAt(state.pos) === COLON &&
-      state.src.charCodeAt(state.pos + 1) === COLON
-    ) {
+    if (code === COLON && state.src.charCodeAt(state.pos + 1) === COLON) {
       found = true;
       break;
     }
 
     // icon content must stay on a single line
-    if (state.src.charCodeAt(state.pos) === NEWLINE) break;
+    if (code === NEWLINE) break;
 
-    state.md.inline.skipToken(state);
+    if (canStartToken(code)) {
+      const pos = state.pos;
+
+      state.md.inline.skipToken(state);
+
+      // only a token spanning more than one character (e.g. a multi-line code span) can hide a
+      // line break from the checks above
+      if (state.pos - pos > 1) mayHaveNewline = true;
+    } else {
+      state.pos++;
+    }
   }
 
   if (!found) {
@@ -62,13 +101,15 @@ const iconRule: InlineRule = (state, silent) => {
   }
 
   // a nested token (e.g. a multi-line code span) can hide a line break from the loop above.
-  // Only the matched span needs to be checked, so the scan stays bounded instead of searching
-  // the rest of the document through `indexOf`.
-  for (let index = start + 2; index < state.pos; index++) {
-    if (state.src.charCodeAt(index) === NEWLINE) {
-      state.pos = start;
+  // Only the matched span needs to be checked, and only when a skipped token spanned more than
+  // one character, so the scan stays away from the common single-line icon path.
+  if (mayHaveNewline) {
+    for (let index = start + 2; index < state.pos; index++) {
+      if (state.src.charCodeAt(index) === NEWLINE) {
+        state.pos = start;
 
-      return false;
+        return false;
+      }
     }
   }
 
