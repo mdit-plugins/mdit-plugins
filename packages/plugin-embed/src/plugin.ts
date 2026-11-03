@@ -7,11 +7,8 @@ import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
 const ESCAPED_OPENING_MARKER_REGEXP = /\\{%/g;
 const ESCAPED_CLOSING_MARKER_REGEXP = /%\\}/g;
 
-const checkInlineOpeningMarker = (src: string, current: number): boolean => {
-  if (src.charCodeAt(current) !== 123 /* { */ || src.charCodeAt(current + 1) !== 37 /* % */)
-    return false;
-
-  // Check if the opening marker was escaped
+const isEscapedMarker = (src: string, current: number): boolean => {
+  // Check if the marker at `current` is escaped
   let pos = current - 1;
   let backslashCount = 0;
 
@@ -20,14 +17,26 @@ const checkInlineOpeningMarker = (src: string, current: number): boolean => {
     pos--;
   }
 
-  // If opening {% is escaped (odd number of preceding backslashes), don't parse
-  if (backslashCount % 2 === 1) return false;
-
-  return true;
+  // If the marker is escaped (odd number of preceding backslashes), don't parse
+  return backslashCount % 2 === 1;
 };
+
+const checkInlineOpeningMarker = (src: string, current: number): boolean =>
+  src.charCodeAt(current) === 123 /* { */ &&
+  src.charCodeAt(current + 1) === 37 /* % */ &&
+  !isEscapedMarker(src, current);
 
 const checkClosingMarker = (src: string, current: number): boolean =>
   src.charCodeAt(current) === 37 /* % */ && src.charCodeAt(current + 1) === 125; /* } */
+
+// Restore the escaped markers inside embed params. The string copy can be skipped entirely
+// when there is no backslash, which is the common case.
+const unescapeMarkers = (content: string): string =>
+  content.includes("\\")
+    ? content
+        .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
+        .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
+    : content;
 
 /*
  * Parse inline embed with bracket syntax: {%...%}
@@ -36,6 +45,7 @@ const createInlineEmbedRule =
   (inlineEmbedMap: Map<string, EmbedConfig>): InlineRule =>
   (state, silent) => {
     const isSpace = state.md.utils.isSpace;
+    const src = state.src;
     const start = state.pos;
     const max = state.posMax;
 
@@ -45,57 +55,54 @@ const createInlineEmbedRule =
     if (silent || max - start < 5) return false;
 
     // check opening marker
-    if (!checkInlineOpeningMarker(state.src, start)) return false;
+    if (!checkInlineOpeningMarker(src, start)) return false;
 
     let contentStart = start + 2; // Move past the opening {% marker
 
     // skip spaces
     while (contentStart < max) {
-      if (!isSpace(state.src.charCodeAt(contentStart))) break;
+      if (!isSpace(src.charCodeAt(contentStart))) break;
 
       contentStart++;
     }
 
     let contentEnd = contentStart;
+    let spacer = -1;
     let found = false;
 
+    // A single pass reads each character once: find the closing marker, reject nested opening
+    // markers, and remember the first space that separates the name from the params.
     for (; contentEnd + 1 < max; contentEnd++) {
-      // must not include opening marker
-      if (checkInlineOpeningMarker(state.src, contentEnd)) return false;
+      const code = src.charCodeAt(contentEnd);
 
-      if (checkClosingMarker(state.src, contentEnd)) {
+      if (code === 123 /* { */) {
+        // must not include an unescaped opening marker
+        if (src.charCodeAt(contentEnd + 1) === 37 /* % */ && !isEscapedMarker(src, contentEnd))
+          return false;
+      } else if (code === 37 /* % */ && src.charCodeAt(contentEnd + 1) === 125 /* } */) {
         found = true;
         break;
       }
+
+      if (spacer === -1 && isSpace(code)) spacer = contentEnd;
     }
 
     // No closing marker found
     if (!found) return false;
 
-    // get first space
-    let spacer = contentStart + 1;
-
-    while (spacer < contentEnd) {
-      if (isSpace(state.src.charCodeAt(spacer))) break;
-
-      spacer++;
-    }
+    // Without a space the name runs up to the closing marker; `Math.max` also keeps the historical
+    // behavior when the marker directly follows the skipped spaces.
+    if (spacer === -1) spacer = Math.max(contentStart + 1, contentEnd);
 
     // Extract embed name
-    const name = state.src.slice(contentStart, spacer);
+    const name = src.slice(contentStart, spacer);
 
     // Check if embed name exists in the map
     if (!inlineEmbedMap.has(name)) return false;
 
     const token = state.push("embed_inline", "embed", 0);
     const params =
-      spacer < contentEnd
-        ? state.src
-            .slice(spacer + 1, contentEnd)
-            .trim()
-            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
-            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}")
-        : "";
+      spacer < contentEnd ? unescapeMarkers(src.slice(spacer + 1, contentEnd).trim()) : "";
 
     token.markup = "{% %}";
     token.info = name;
@@ -114,18 +121,15 @@ const createBlockEmbedRule =
   (embedMap: Map<string, EmbedConfig>): BlockRule =>
   (state, startLine, _, silent) => {
     const isSpace = state.md.utils.isSpace;
+    const src = state.src;
     const start = state.bMarks[startLine] + state.tShift[startLine];
     let max = state.eMarks[startLine];
-    const src = state.src;
 
     // minimum length check for block embed - at least 5 characters: {%x%}
     if (max - start < 5) return false;
 
     // check opening marker
-    if (
-      state.src.charCodeAt(start) !== 123 /* { */ ||
-      state.src.charCodeAt(start + 1) !== 37 /* % */
-    )
+    if (src.charCodeAt(start) !== 123 /* { */ || src.charCodeAt(start + 1) !== 37 /* % */)
       return false;
 
     max = state.skipSpacesBack(max, start);
@@ -138,29 +142,33 @@ const createBlockEmbedRule =
 
     // skip spaces
     while (contentStart < contentEnd) {
-      if (!isSpace(state.src.charCodeAt(contentStart))) break;
+      if (!isSpace(src.charCodeAt(contentStart))) break;
 
       contentStart++;
     }
 
     let spacer = -1;
 
+    // A single pass reads each character once: reject nested markers and find the spacer that
+    // separates the embed name from its params.
     for (let pos = contentStart; pos + 1 < contentEnd; pos++) {
+      const code = src.charCodeAt(pos);
+
       // must not include unescaped opening marker or closing marker
-      if (checkInlineOpeningMarker(state.src, pos)) return false;
+      if (code === 123 /* { */) {
+        if (src.charCodeAt(pos + 1) === 37 /* % */ && !isEscapedMarker(src, pos)) return false;
+      } else if (code === 37 /* % */ && src.charCodeAt(pos + 1) === 125 /* } */) {
+        return false;
+      }
 
-      if (checkClosingMarker(state.src, pos)) return false;
-
-      if (spacer !== -1) continue;
-
-      if (isSpace(state.src.charCodeAt(pos))) spacer = pos;
+      if (spacer === -1 && isSpace(code)) spacer = pos;
     }
 
     // Extract content between {% and %}
     const name =
       spacer === -1
-        ? state.src.slice(contentStart, contentEnd).trimEnd()
-        : state.src.slice(contentStart, spacer);
+        ? src.slice(contentStart, contentEnd).trimEnd()
+        : src.slice(contentStart, spacer);
 
     // Check if embed name exists in the map
     if (!embedMap.has(name)) return false;
@@ -171,14 +179,7 @@ const createBlockEmbedRule =
 
     if (silent) return true;
 
-    const params =
-      spacer === -1
-        ? ""
-        : state.src
-            .slice(spacer + 1, contentEnd)
-            .trim()
-            .replaceAll(ESCAPED_OPENING_MARKER_REGEXP, "{%")
-            .replaceAll(ESCAPED_CLOSING_MARKER_REGEXP, "%}");
+    const params = spacer === -1 ? "" : unescapeMarkers(src.slice(spacer + 1, contentEnd).trim());
 
     const token = state.push("embed_block", "embed", 0);
 
