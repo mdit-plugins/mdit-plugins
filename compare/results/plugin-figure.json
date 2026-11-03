@@ -1,0 +1,302 @@
+{
+  "plugin": "plugin-figure",
+  "reference": "markdown-it-image-figures",
+  "referenceVersion": "2.1.1",
+  "generatedAt": "2026-11-03T01:55:58.049Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 18,
+        "normalized": 0,
+        "diff": 3,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "alt-caption-fallback",
+            "category": "difference",
+            "note": {
+              "en": "The current package falls back to the image `alt` text when the image has no `title`, while the reference only derives a caption from the configured `title` or `alt` source; both figures are valid.",
+              "zh": "当前包在图片没有 `title` 时回退使用 `alt` 文本作为 caption，而参考包只从配置的 `title` 或 `alt` 来源生成 caption；两种 figure 都合法。"
+            },
+            "cases": [
+              "figure-alt-only",
+              "linked-image-alt-only"
+            ]
+          },
+          {
+            "id": "tight-list-caption",
+            "category": "reference-error",
+            "note": {
+              "en": "For images in hidden (tight list) paragraphs the reference converts the hidden paragraph and renders only the `<figcaption>` — outside any `<figure>` — while dropping the image `title`; the current package leaves the image untouched.",
+              "zh": "对于隐藏段落（紧凑列表）中的图片，参考包会转换隐藏段落，只渲染出不在 `<figure>` 内的 `<figcaption>`，并丢失图片 `title`；当前包则保持图片不变。"
+            },
+            "cases": [
+              "tight-list-image"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "figure-title",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-markup",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-html",
+            "status": "exact"
+          },
+          {
+            "name": "figure-title-with-quotes",
+            "status": "exact"
+          },
+          {
+            "name": "figure-alt-only",
+            "status": "diff",
+            "issue": "alt-caption-fallback",
+            "category": "difference",
+            "ourHtml": "<figure><img src=\"image.png\" alt=\"Alt text\"><figcaption>Alt text</figcaption></figure>\n",
+            "referenceHtml": "<figure><img src=\"image.png\" alt=\"Alt text\"></figure>\n"
+          },
+          {
+            "name": "figure-empty-alt",
+            "status": "exact"
+          },
+          {
+            "name": "linked-image",
+            "status": "exact"
+          },
+          {
+            "name": "linked-image-alt-only",
+            "status": "diff",
+            "issue": "alt-caption-fallback",
+            "category": "difference",
+            "ourHtml": "<figure><a href=\"https://example.com\"><img src=\"image.png\" alt=\"Alt text\"></a><figcaption>Alt text</figcaption></figure>\n",
+            "referenceHtml": "<figure><a href=\"https://example.com\"><img src=\"image.png\" alt=\"Alt text\"></a></figure>\n"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "tight-list-image",
+            "status": "diff",
+            "issue": "tight-list-caption",
+            "category": "reference-error",
+            "ourHtml": "<ul>\n<li><img src=\"image.png\" alt=\"Alt\" title=\"Caption\"></li>\n</ul>\n",
+            "referenceHtml": "<ul>\n<li><img src=\"image.png\" alt=\"Alt\"><figcaption>Caption</figcaption></li>\n</ul>\n"
+          },
+          {
+            "name": "loose-list-image",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-image",
+            "status": "exact"
+          },
+          {
+            "name": "table-image",
+            "status": "exact"
+          },
+          {
+            "name": "heading-image",
+            "status": "exact"
+          },
+          {
+            "name": "reference-image",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-figures",
+            "status": "exact"
+          },
+          {
+            "name": "two-images-inline",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-image",
+            "status": "exact"
+          },
+          {
+            "name": "code-fence-image",
+            "status": "exact"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-figure-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 8763.9617476942,
+            "meanMs": 0.11410364727608495
+          },
+          "reference": {
+            "opsPerSec": 8833.070896017898,
+            "meanMs": 0.11321091065292109
+          },
+          "ratio": 0.9921760903838264
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2394.773911646218,
+            "meanMs": 0.41757595367847433
+          },
+          "reference": {
+            "opsPerSec": 2412.0216939926145,
+            "meanMs": 0.41458996927374314
+          },
+          "ratio": 0.9928492424469673
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 607.1603203890293,
+            "meanMs": 1.6470114505494435
+          },
+          "reference": {
+            "opsPerSec": 605.6361142806813,
+            "meanMs": 1.6511564888888894
+          },
+          "ratio": 1.0025167028062028
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3318.0563844266135,
+            "meanMs": 0.30138125581395386
+          },
+          "reference": {
+            "opsPerSec": 3319.9913377210055,
+            "meanMs": 0.3012056051587309
+          },
+          "ratio": 0.9994171812220087
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 831.188888710536,
+            "meanMs": 1.2030959672131192
+          },
+          "reference": {
+            "opsPerSec": 826.0666887429587,
+            "meanMs": 1.210556016393445
+          },
+          "ratio": 1.006200709987921
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 200.1480945788815,
+            "meanMs": 4.996300374999994
+          },
+          "reference": {
+            "opsPerSec": 199.07379202108856,
+            "meanMs": 5.023262931034471
+          },
+          "ratio": 1.0053965042152768
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-figures",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.004371889619658,
+          "referenceExponent": 1.0040227988814696
+        },
+        {
+          "case": "long-captions",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.0012678100473615,
+          "referenceExponent": 1.0023872728297767
+        },
+        {
+          "case": "linked-figures",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.0100120987793872,
+          "referenceExponent": 1.0036034523319532
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`focusable` is disabled because the current package adds `tabindex=\"0\"` to the image, while the reference `tabindex` option numbers figures from `1`; the reference option is therefore not used.",
+      "zh": "`focusable` 设为 `false`，因为当前包会给图片添加 `tabindex=\"0\"`，而参考包的 `tabindex` 选项从 `1` 开始为 figure 编号；因此不使用参考包的该选项。"
+    },
+    {
+      "en": "The current package derives `<figcaption>` from the image `title` and falls back to the `alt` text; `markdown-it-image-figures` has no fallback mode, so `figcaption: \"title\"` is compared and alt-only images are tracked by the `alt-caption-fallback` issue.",
+      "zh": "当前包从图片 `title` 生成 `<figcaption>`，并回退到 `alt` 文本；`markdown-it-image-figures` 没有回退模式，因此只对比 `figcaption: \"title\"`，仅有 alt 的图片归入 `alt-caption-fallback` issue。"
+    },
+    {
+      "en": "The current package skips hidden paragraphs (tight list items) so that a `<figcaption>` is never emitted without its `<figure>` wrapper; the reference converts images in tight list items without a `<figure>` wrapper, which is tracked by the `tight-list-caption` issue.",
+      "zh": "当前包会跳过隐藏段落（紧凑列表项），从而绝不在没有 `<figure>` 包裹的情况下输出 `<figcaption>`；参考包会转换紧凑列表项中的图片，但不生成 `<figure>` 包裹，这一点归入 `tight-list-caption` issue。"
+    },
+    {
+      "en": "`moveAttrs` is not compared: for `true` the current package copies non-native image attributes to `<figure>` and keeps them on the image, for a pattern list it moves them (the image loses them), and it merges `class`/`style` values. The reference `copyAttrs` copies every matching attribute to `<figure>` and keeps the original order on the image, which is not equivalent.",
+      "zh": "不对比 `moveAttrs`：取 `true` 时当前包将非原生图片属性复制到 `<figure>` 并保留在图片上，取模式列表时则移动这些属性（图片不再保留），并合并 `class`/`style` 值。参考包的 `copyAttrs` 会把每个匹配属性复制到 `<figure>`，并在图片上保留原始顺序，两者并不等价。"
+    },
+    {
+      "en": "Reference-only options (`dataType`, `link`, `tabindex`, `lazy`, `async`, `classes`, `removeSrc`) have no equivalent and are not compared.",
+      "zh": "仅参考包支持的选项（`dataType`、`link`、`tabindex`、`lazy`、`async`、`classes`、`removeSrc`）没有对应实现，因此不参与对比。"
+    },
+    {
+      "en": "Scaling: the reference core rule walks the token stream once and calls `md.parseInline` once per caption, so the work is linear in the document size and caption length; all three series measure ~1 (no superlinear behavior was found in the upstream implementation).",
+      "zh": "扩展性：参考包的核心规则只遍历一次 token 流，并为每个 caption 调用一次 `md.parseInline`，因此工作量与文档大小和 caption 长度成线性关系；三个序列的拟合指数均约为 1（上游实现中未发现超线性行为）。"
+    },
+    {
+      "en": "Attribute order is normalized.",
+      "zh": "属性顺序已归一化。"
+    }
+  ]
+}

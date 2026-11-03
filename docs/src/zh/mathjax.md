@@ -311,3 +311,11 @@ $$
 ## Cookbook
 
 - [$\TeX$ Cookbook](tex.md#tex-教程)
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

@@ -67,3 +67,11 @@ Output
 ```html
 <p><strong>这些星号不会被识别为强调标记，而是就这么原样显示出来。</strong>都是因为这个句子。</p>
 ```
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

@@ -81,3 +81,11 @@ UML 名称。运行时默认为 `"uml"`。
 渲染函数。运行时默认使用内置渲染器，将内容包裹在 class 为 UML 名称、`title` 为转义后 info 字符串的 `<div>` 中。
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

@@ -1,0 +1,347 @@
+{
+  "plugin": "plugin-plantuml",
+  "reference": "markdown-it-plantuml",
+  "referenceVersion": "1.4.1",
+  "generatedAt": "2026-11-03T01:58:36.727Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 24,
+        "exact": 6,
+        "normalized": 10,
+        "diff": 8,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "reference-dedent",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference slices `state.src` and keeps the raw list/blockquote indentation (even the `>` markers) inside the diagram source, so surrounding markup leaks into the image source; the current package extracts the block with `state.getLines` and dedents it.",
+              "zh": "参考包直接切取 `state.src`，把列表/引用块的原始缩进（甚至 `>` 标记）保留在图表源中，导致外围标记泄漏进图片源；当前包用 `state.getLines` 提取块内容并做 dedent。"
+            },
+            "cases": [
+              "list-item",
+              "blockquote",
+              "nested-blockquote",
+              "indented-marker",
+              "indented-content"
+            ]
+          },
+          {
+            "id": "title-handling",
+            "category": "difference",
+            "note": {
+              "en": "The current package uses the raw marker suffix (including the separating space) as the alt text, while the reference trims it and inline-parses it; both are valid title conventions, so the rendered alt text differs by design.",
+              "zh": "当前包把原始标记后缀（含分隔空格）作为 alt 文本，参考包则去掉空格并做行内解析；两者都是合理的标题约定，因此 alt 文本按设计不同。"
+            },
+            "cases": [
+              "title",
+              "title-inline-markup",
+              "title-html"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "normalized"
+          },
+          {
+            "name": "multiline",
+            "status": "normalized"
+          },
+          {
+            "name": "multiple-diagrams",
+            "status": "normalized"
+          },
+          {
+            "name": "empty-block",
+            "status": "normalized"
+          },
+          {
+            "name": "block-with-blank-lines",
+            "status": "normalized"
+          },
+          {
+            "name": "unclosed-block",
+            "status": "normalized"
+          },
+          {
+            "name": "markers-in-fence",
+            "status": "exact"
+          },
+          {
+            "name": "markers-in-indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "markers-in-inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "diff",
+            "issue": "reference-dedent",
+            "category": "reference-error",
+            "ourHtml": "<ul>\n<li>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</li>\n</ul>\n",
+            "referenceHtml": "<ul>\n<li>\n<img src=\"  Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</li>\n</ul>\n"
+          },
+          {
+            "name": "blockquote",
+            "status": "diff",
+            "issue": "reference-dedent",
+            "category": "reference-error",
+            "ourHtml": "<blockquote>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</blockquote>\n",
+            "referenceHtml": "<blockquote>\n<img src=\"&gt; Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</blockquote>\n"
+          },
+          {
+            "name": "nested-blockquote",
+            "status": "diff",
+            "issue": "reference-dedent",
+            "category": "reference-error",
+            "ourHtml": "<blockquote>\n<blockquote>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</blockquote>\n</blockquote>\n",
+            "referenceHtml": "<blockquote>\n<blockquote>\n<img src=\"&gt; &gt; Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</blockquote>\n</blockquote>\n"
+          },
+          {
+            "name": "indented-marker",
+            "status": "diff",
+            "issue": "reference-dedent",
+            "category": "reference-error",
+            "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n",
+            "referenceHtml": "<img src=\"  Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n"
+          },
+          {
+            "name": "indented-content",
+            "status": "diff",
+            "issue": "reference-dedent",
+            "category": "reference-error",
+            "ourHtml": "<img src=\"Alice -&gt; Bob\n  note right\nBob -&gt; Carol\" alt=\"PlantUML Diagram\">\n",
+            "referenceHtml": "<img src=\"  Alice -&gt; Bob\n    note right\n  Bob -&gt; Carol\" alt=\"uml diagram\">\n"
+          },
+          {
+            "name": "title",
+            "status": "diff",
+            "issue": "title-handling",
+            "category": "difference",
+            "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" My title\">\n",
+            "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"My title\">\n"
+          },
+          {
+            "name": "title-inline-markup",
+            "status": "diff",
+            "issue": "title-handling",
+            "category": "difference",
+            "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" **Flow** chart\">\n",
+            "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"Flow chart\">\n"
+          },
+          {
+            "name": "title-html",
+            "status": "diff",
+            "issue": "title-handling",
+            "category": "difference",
+            "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" &lt;b&gt;Flow&lt;/b&gt; chart\">\n",
+            "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"&lt;b&gt;Flow&lt;/b&gt; chart\">\n"
+          },
+          {
+            "name": "closing-marker-indented",
+            "status": "normalized",
+            "note": {
+              "en": "Both sides reject a closing marker that is indented deeper than the opening one, keep the line as diagram content and auto-close the block at the end of the document.",
+              "zh": "双方都拒绝比开始标记缩进更深的结束标记，将该行保留为图表内容，并在文档末尾自动闭合该块。"
+            }
+          },
+          {
+            "name": "closing-marker-trailing-text",
+            "status": "normalized",
+            "note": {
+              "en": "Both sides require the closing marker line to contain only spaces after the marker, so the line stays in the diagram source and the block is auto-closed at the end of the document.",
+              "zh": "双方都要求结束标记行在标记之后只包含空格，因此该行会留在图表源中，并在文档末尾自动闭合该块。"
+            }
+          },
+          {
+            "name": "marker-not-at-line-start",
+            "status": "exact"
+          },
+          {
+            "name": "content-escaping",
+            "status": "normalized"
+          },
+          {
+            "name": "adjacent-diagrams",
+            "status": "normalized"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "empty-document",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 15503.279000311011,
+            "meanMs": 0.06450248363458717
+          },
+          "reference": {
+            "opsPerSec": 13265.48352205604,
+            "meanMs": 0.0753836072644722
+          },
+          "ratio": 1.1686930954709844
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 4437.726784632844,
+            "meanMs": 0.22534059633027523
+          },
+          "reference": {
+            "opsPerSec": 2997.59871366611,
+            "meanMs": 0.3336003566591421
+          },
+          "ratio": 1.4804272381093448
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 1123.8823917820146,
+            "meanMs": 0.8897728154761921
+          },
+          "reference": {
+            "opsPerSec": 409.6522178766303,
+            "meanMs": 2.441095046874999
+          },
+          "ratio": 2.7435037398491025
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 17841.825355978715,
+            "meanMs": 0.05604807692307696
+          },
+          "reference": {
+            "opsPerSec": 2196.0488830177324,
+            "meanMs": 0.4553632697947213
+          },
+          "ratio": 8.124511933204834
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 4507.368691939989,
+            "meanMs": 0.22185893108504426
+          },
+          "reference": {
+            "opsPerSec": 162.1058906072301,
+            "meanMs": 6.168807291666667
+          },
+          "ratio": 27.80508885306945
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 1136.02038270097,
+            "meanMs": 0.8802658959537576
+          },
+          "reference": {
+            "opsPerSec": 10.718951310112288,
+            "meanMs": 93.29270850000012
+          },
+          "ratio": 105.98241841338016
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-diagrams",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.0030615356110555,
+          "referenceExponent": 1.9376790812863312
+        },
+        {
+          "case": "long-diagram-body",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9690964582627835,
+          "referenceExponent": 0.952140667291945
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 0.9958418444720885,
+          "referenceExponent": 1.8825151746956608
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Both packages parse `@startuml` … `@enduml` blocks and render an `<img>` whose `src` points at a PlantUML server. The current package compresses with its platform deflate implementation (Node: `node:zlib`, browser: pako) and its own base64 variant, while the reference package ships its own deflate implementation, so the encoded URLs are not byte-comparable by design. The source generators are replaced through the documented hooks: `srcGetter` returns the token content on the current side and `generateSource` returns the diagram code on the reference side. The compared `src` is therefore the decoded diagram source (the text that would be compressed into the URL), not the encoded URL. No PlantUML server is contacted and no request is made while rendering.",
+      "zh": "两个包都解析 `@startuml` … `@enduml` 块，并渲染一个 `src` 指向 PlantUML 服务器的 `<img>`。当前包使用其平台相关的 deflate 实现（Node：`node:zlib`，浏览器：pako）和自己实现的 base64 变体进行压缩，而参考包自带 deflate 实现，因此编码后的 URL 按设计无法逐字节比较。两侧的源生成器都通过文档化的钩子替换：当前包的 `srcGetter` 返回 token 内容，参考包的 `generateSource` 返回图表代码。因此比较的 `src` 是解码后的图表源（即将被压缩进 URL 的文本），而不是编码后的 URL。渲染过程中不会联系 PlantUML 服务器，也不会发起请求。"
+    },
+    {
+      "en": "The current package parses through `@mdit/plugin-uml` and extracts block content with `state.getLines` plus `dedent`, while the reference slices `state.src` itself. As a result the reference keeps the raw indentation of indented blocks and lists (and even the `>` prefix of blockquotes) in the diagram source, whereas the current package strips it. The `list-item`, `blockquote`, `nested-blockquote`, `indented-marker` and `indented-content` cases document this; block structure itself is identical.",
+      "zh": "当前包通过 `@mdit/plugin-uml` 解析，并用 `state.getLines` 加 `dedent` 提取块内容，而参考包直接切取 `state.src`。因此参考包会在图表源中保留缩进块和列表的原始缩进（甚至 blockquote 的 `>` 前缀），而当前包会将其去除。`list-item`、`blockquote`、`nested-blockquote`、`indented-marker` 和 `indented-content` 用例记录了这一点；块结构本身完全相同。"
+    },
+    {
+      "en": "An untitled diagram gets a different default alt text from each package (`PlantUML Diagram` vs `uml diagram`). Both are arbitrary fallbacks, so the current wording is normalized to the reference one before comparing; explicit titles are not normalized. Attribute order is normalized as well.",
+      "zh": "无标题图表的默认 alt 文本在两个包中不同（`PlantUML Diagram` 与 `uml diagram`）。两者都是任意选择的回退文案，因此比较前会把当前的文案归一化为参考包的文案；显式标题不做归一化。属性顺序也会归一化。"
+    },
+    {
+      "en": "Explicit titles differ by design: the current package uses the raw marker suffix (including the separating space after `@startuml`) and does not inline-parse it, while the reference drops that space and inline-parses the title, so emphasis and code markers disappear from its alt text. The `title`, `title-inline-markup` and `title-html` cases document this.",
+      "zh": "显式标题按设计不同：当前包使用原始的标记后缀（包括 `@startuml` 后的分隔空格）且不做行内解析，而参考包会去掉该空格并对标题做行内解析，因此强调和代码标记会从它的 alt 文本中消失。`title`、`title-inline-markup` 和 `title-html` 用例记录了这一点。"
+    },
+    {
+      "en": "The default renderer of each package is kept; only the `src` generator is replaced. Alt text, HTML escaping, block structure and the number of rendered images are therefore compared as produced by both plugins.",
+      "zh": "每个包的默认渲染器保持不变，只替换 `src` 生成器。因此 alt 文本、HTML 转义、块结构以及渲染出的图片数量都按两个插件实际产出的结果比较。"
+    },
+    {
+      "en": "Benchmarks run through the same deterministic renderers, so they measure parsing and markup generation only: the deflate + base64 encoders are bypassed on both sides and are not part of the throughput numbers. The `heavy` corpora contain many diagrams, so their ratios also reflect the reference's per-block document split described below. Corpora stay modest (normal ≈ 1/4/12 KB with one diagram per section, heavy ≈ 0.7/3/9 KB with four diagrams per section).",
+      "zh": "基准测试通过相同的确定性渲染器运行，因此只测量解析和标记生成：两侧的 deflate + base64 编码器都被绕过，不计入吞吐量。`heavy` 语料包含大量图表，因此其比值也反映了下文所述参考包按块切分文档的行为。语料保持较小规模（normal 约 1/4/12 KB，每节一个图表；heavy 约 0.7/3/9 KB，每节四个图表）。"
+    },
+    {
+      "en": "Scaling: the reference extracts every block with `state.src.split('\\n')`, so each diagram costs O(document size) and many diagrams cost O(blocks × document), i.e. quadratic (`many-diagrams`, and `unmatched-openers`, which places one unclosed marker inside every list item so each item auto-closes its own block). The current package slices only the block lines with `state.getLines` and stays linear in the number of diagrams. `long-diagram-body` is linear on both sides; no superlinear path was found in the current package. Encoding cost is excluded from all series.",
+      "zh": "伸缩性：参考包用 `state.src.split('\\n')` 提取每个块，因此每个图表的开销为 O(文档大小)，大量图表的开销为 O(块数 × 文档大小)，即二次（`many-diagrams`，以及 `unmatched-openers`，后者在每个列表项中放置一个未闭合标记，使每个列表项各自自动闭合一个块）。当前包只用 `state.getLines` 切取块所在行，在图表数量上保持线性。`long-diagram-body` 在双方都是线性；当前包未发现超线性路径。所有序列都不计入编码开销。"
+    }
+  ]
+}

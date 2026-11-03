@@ -41,3 +41,11 @@ Use `~ ~` to mark the subscript.
 
 <!-- prettier-ignore -->
 `H~2~O`: H~2~O
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

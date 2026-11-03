@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-mark
 # yarn
 yarn add -D @mdit/plugin-mark
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-mark`](https://www.npmjs.com/package/markdown-it-mark) package `4.0.0`.
+
+- Correctness: **23/23** cases match the reference exactly.
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **185 B** versus **1.1 kB** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

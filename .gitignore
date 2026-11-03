@@ -12,6 +12,9 @@ coverage/
 **/.vuepress/.temp/**
 **/.vuepress/dist/**
 
+# Generated comparison data consumed by the docs build
+docs/src/.vuepress/data/
+
 # npm config file
 .npmrc
 

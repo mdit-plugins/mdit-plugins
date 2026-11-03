@@ -1,0 +1,497 @@
+{
+  "plugin": "plugin-dl",
+  "reference": "markdown-it-deflist",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-03T01:54:56.265Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 3,
+        "normalized": 0,
+        "diff": 19,
+        "referenceErrors": 1,
+        "differences": 0,
+        "issues": [
+          {
+            "id": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference emits empty `dt` maps (`[line, line]`) for the term and its inline token, and lets `dd_open` start at the term line, so its `dt`/`dd` source maps cannot reflect the document; the current package maps them to the real source lines.",
+              "zh": "参考包为术语及其内联 token 输出空 `dt` 映射（`[line, line]`），并让 `dd_open` 从术语行开始，因此其 `dt`/`dd` 源码映射无法反映文档；当前包将它们映射到真实的源码行。"
+            },
+            "cases": [
+              "basic",
+              "blank-line-after-term",
+              "multiple-definitions",
+              "tilde-marker",
+              "lazy-continuation",
+              "multi-paragraph-definition",
+              "code-block-in-definition",
+              "list-in-definition",
+              "heading-in-definition",
+              "blockquote-in-definition",
+              "inline-markup-term",
+              "nested-deflist",
+              "empty-definition",
+              "empty-definition-next-line",
+              "definition-after-paragraph",
+              "deflist-in-list",
+              "deflist-in-blockquote",
+              "term-followed-by-unindented-line",
+              "consecutive-deflists"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "blank-line-after-term",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "multiple-definitions",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "tilde-marker",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "lazy-continuation",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "multi-paragraph-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "code-block-in-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "list-in-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "heading-in-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "blockquote-in-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "inline-markup-term",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "nested-deflist",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "empty-definition",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "empty-definition-next-line",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "no-space-after-marker",
+            "status": "exact"
+          },
+          {
+            "name": "double-marker",
+            "status": "exact"
+          },
+          {
+            "name": "definition-after-paragraph",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[4].map[1]`: current `3`, reference `2`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[4].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
+            },
+            "tokenDifference": {
+              "path": "[4].map[1]",
+              "current": "3",
+              "reference": "2"
+            }
+          },
+          {
+            "name": "deflist-in-list",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[6].map[1]`: current `3`, reference `2`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[6].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
+            },
+            "tokenDifference": {
+              "path": "[6].map[1]",
+              "current": "3",
+              "reference": "2"
+            }
+          },
+          {
+            "name": "deflist-in-blockquote",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[2].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[2].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[2].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "term-followed-by-unindented-line",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "consecutive-deflists",
+            "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].map[1]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "no-deflist-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10191.79567366542,
+            "meanMs": 0.09811813658940396
+          },
+          "reference": {
+            "opsPerSec": 10152.392610047795,
+            "meanMs": 0.09849894881038217
+          },
+          "ratio": 1.0038811603462447
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2776.777149684207,
+            "meanMs": 0.36012972813238775
+          },
+          "reference": {
+            "opsPerSec": 2781.665784555523,
+            "meanMs": 0.3594968186157519
+          },
+          "ratio": 0.998242551316388
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 714.9536948546361,
+            "meanMs": 1.3986919813084109
+          },
+          "reference": {
+            "opsPerSec": 712.2344545978707,
+            "meanMs": 1.4040320480769248
+          },
+          "ratio": 1.0038179004669194
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3183.6692121196907,
+            "meanMs": 0.31410298412698434
+          },
+          "reference": {
+            "opsPerSec": 3173.3637699638102,
+            "meanMs": 0.31512302795698843
+          },
+          "ratio": 1.0032474821365966
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 816.5996174333742,
+            "meanMs": 1.2245903361344512
+          },
+          "reference": {
+            "opsPerSec": 813.2898060629154,
+            "meanMs": 1.2295739999999962
+          },
+          "ratio": 1.0040696580060204
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 203.3522251181764,
+            "meanMs": 4.917575892857128
+          },
+          "reference": {
+            "opsPerSec": 202.7917666542745,
+            "meanMs": 4.93116666666665
+          },
+          "ratio": 1.0027637140952441
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-terms",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.001162016957967,
+          "referenceExponent": 1.0002090656860585
+        },
+        {
+          "case": "many-definitions-per-term",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 0.9971561583770896,
+          "referenceExponent": 0.995975866841136
+        },
+        {
+          "case": "nested-definitions",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.5846911139602906,
+          "referenceExponent": 1.5827662533920568
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Neither package takes options; both are installed with their defaults.",
+      "zh": "两个包都不接受选项，均以默认配置安装。"
+    },
+    {
+      "en": "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[line, line]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases reference the `term-source-map` reference error even though the rendered HTML is identical.",
+      "zh": "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[line, line]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例引用 `term-source-map` 参考包错误。"
+    },
+    {
+      "en": "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",
+      "zh": "历史背景：参考实现曾在以 `: >` 或 `~ >` 开头的定义行上卡死（无限循环，markdown-it-deflist#5），该问题在 2.0.3 中修复。当前安装的 4.0.0 与此分支在该模式及所有其他探测过的模式上均为线性。"
+    },
+    {
+      "en": "`nested-definitions` grows its indentation by four spaces per level, so the generated input itself is quadratic in the series size; the fitted exponent is a lower bound for the parser's work per input byte, not a quadratic parser.",
+      "zh": "`nested-definitions` 每层增加四个空格的缩进，因此生成的输入本身相对序列规模呈二次增长；拟合指数是解析器每输入字节工作量的下界，而不是说解析器是二次的。"
+    }
+  ]
+}

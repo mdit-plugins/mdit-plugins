@@ -1,0 +1,444 @@
+{
+  "plugin": "plugin-tasklist",
+  "reference": "markdown-it-task-checkbox",
+  "referenceVersion": "1.0.6",
+  "generatedAt": "2026-11-03T01:59:50.659Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 21,
+        "exact": 7,
+        "normalized": 0,
+        "diff": 14,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The checkbox token structure differs by design: our package emits `label_open` before the checkbox and has no document ids, while the reference emits `checkbox_input` first and associates the label through `for`/`id`. The HTML is normalized to compare behavior, but the token streams keep this difference.",
+              "zh": "复选框 token 结构在设计上不同：本包先输出 `label_open` 再输出复选框且不生成文档级 id，参考包则先输出 `checkbox_input` 并通过 `for`/`id` 关联 label。HTML 会归一化后比较行为，但 token 流仍保留该差异。"
+            },
+            "cases": [
+              "unchecked-item",
+              "checked-item-lowercase",
+              "checked-item-uppercase",
+              "mixed-items",
+              "ordered-list",
+              "nested-list",
+              "non-breaking-space",
+              "blockquote-list",
+              "inline-markup",
+              "plus-bullet",
+              "multiple-lists",
+              "link-inside-item",
+              "loose-item"
+            ]
+          },
+          {
+            "id": "marker-as-link",
+            "category": "reference-error",
+            "note": {
+              "en": "When the task marker also resolves as a link reference (`[x]`), the reference strips only the first text token, so the marker link stays in the item and its text is duplicated; our package removes all parsed marker tokens.",
+              "zh": "当任务标记同时解析为链接引用（`[x]`）时，参考包只剥离第一个文本 token，标记链接会留在条目中且其文本重复出现；本包会移除解析出的全部标记 token。"
+            },
+            "cases": [
+              "marker-as-link-reference"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "unchecked-item",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "checked-item-lowercase",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "checked-item-uppercase",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "mixed-items",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "ordered-list",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "nested-list",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "non-task-list",
+            "status": "exact"
+          },
+          {
+            "name": "marker-in-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "missing-space-after-marker",
+            "status": "exact"
+          },
+          {
+            "name": "empty-item",
+            "status": "exact"
+          },
+          {
+            "name": "non-breaking-space",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote-list",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[4].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[4].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[4].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "inline-markup",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "plus-bullet",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "multiple-lists",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "link-inside-item",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "loose-item",
+            "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
+            },
+            "tokenDifference": {
+              "path": "[3].children[0].type",
+              "current": "\"label_open\"",
+              "reference": "\"checkbox_input\""
+            }
+          },
+          {
+            "name": "marker-as-link-reference",
+            "status": "diff",
+            "issue": "marker-as-link",
+            "category": "reference-error",
+            "ourHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-item-label\"><input type=\"checkbox\" class=\"\" checked=\"checked\" disabled=\"disabled\"> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n",
+            "referenceHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"cbx_0\" checked=\"true\" disabled=\"true\"><label for=\"cbx_0\"><a href=\"https://example.com\">x</a> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n"
+          },
+          {
+            "name": "empty-input",
+            "status": "exact"
+          },
+          {
+            "name": "no-list-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 8608.596553439096,
+            "meanMs": 0.11616295336787556
+          },
+          "reference": {
+            "opsPerSec": 8433.737213959836,
+            "meanMs": 0.11857139659803045
+          },
+          "ratio": 1.020733316090265
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2222.2895963988744,
+            "meanMs": 0.44998635714285723
+          },
+          "reference": {
+            "opsPerSec": 2182.1504040593236,
+            "meanMs": 0.4582635542168679
+          },
+          "ratio": 1.018394328944917
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 554.5901241314509,
+            "meanMs": 1.8031334430379733
+          },
+          "reference": {
+            "opsPerSec": 552.281376369515,
+            "meanMs": 1.8106712317073133
+          },
+          "ratio": 1.004180383153806
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2358.1395803916703,
+            "meanMs": 0.42406310818713583
+          },
+          "reference": {
+            "opsPerSec": 2253.6304953504555,
+            "meanMs": 0.44372846483180595
+          },
+          "ratio": 1.0463736558663148
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 603.1842029907364,
+            "meanMs": 1.6578683510638257
+          },
+          "reference": {
+            "opsPerSec": 484.3285896424131,
+            "meanMs": 2.0647139594594544
+          },
+          "ratio": 1.2454028440403986
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 146.6078606247939,
+            "meanMs": 6.820916666666664
+          },
+          "reference": {
+            "opsPerSec": 73.92506205706525,
+            "meanMs": 13.527212181818207
+          },
+          "ratio": 1.983195638194018
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-task-items",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.0667858552493057,
+          "referenceExponent": 1.707704410920988
+        },
+        {
+          "case": "long-task-items",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9913298065729397,
+          "referenceExponent": 1.1129402155431536
+        },
+        {
+          "case": "many-lists",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.995954022509512,
+          "referenceExponent": 1.1774411030081204
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`ulClass` / `liClass` are mapped to `containerClass` / `itemClass` with the reference defaults (`task-list` / `task-list-item`); `divWrap` stays `false` and `disabled` stays `true` on the reference side.",
+      "zh": "`ulClass` / `liClass` 映射为 `containerClass` / `itemClass`，取参考包默认值（`task-list` / `task-list-item`）；参考包侧的 `divWrap` 保持 `false`，`disabled` 保持 `true`。"
+    },
+    {
+      "en": "Both packages label the item text, but the structure differs by design: the current package nests the checkbox inside `<label class=\"task-list-item-label\">` and emits no ids, while the reference emits `<input id=\"cbx_N\"><label for=\"cbx_N\">`. Normalization unwraps the label tags and removes the generated `cbx_*` ids, so the compared part is the list structure, container/item classes, checkbox state and item text.",
+      "zh": "两个包都会为条目文本加标签，但结构在设计上不同：当前包把复选框嵌套在 `<label class=\"task-list-item-label\">` 内且不生成 id，参考包则输出 `<input id=\"cbx_N\"><label for=\"cbx_N\">`。归一化会去掉 `label` 标签并移除生成的 `cbx_*` id，因此参与比较的部分是列表结构、容器/条目 class、复选框状态和条目文本。"
+    },
+    {
+      "en": "`checkboxClass` is set to an empty string because the reference emits no class on the checkbox; the resulting empty `class` attribute is normalized away. The current package's extra `labelClass` is not observable after the label tags are normalized.",
+      "zh": "`checkboxClass` 设为空字符串，因为参考包不会在复选框上输出 class；由此产生的空 `class` 属性会被归一化去掉。`label` 标签归一化后，当前包额外的 `labelClass` 已不可观测。"
+    },
+    {
+      "en": "`checked=\"checked\"` / `disabled=\"disabled\"` and the reference `checked=\"true\"` / `disabled=\"true\"` are equivalent boolean attributes; the normalizer canonicalizes them to the bare attribute.",
+      "zh": "`checked=\"checked\"` / `disabled=\"disabled\"` 与参考包的 `checked=\"true\"` / `disabled=\"true\"` 是等价的布尔属性；归一化器会将它们统一为不带值的属性。"
+    },
+    {
+      "en": "Scaling: the reference locates the parent list token with a backward scan through the token stream for every task item, which is quadratic in the number of items in one list; the current package records the last token index per nesting level in one forward pass and stays linear. `many-task-items` exposes the difference.",
+      "zh": "扩展性：参考包为每个任务条目回溯扫描 token 流以定位父列表 token，在单个列表的条目数上呈二次增长；当前包在一次前向遍历中记录每个嵌套层级的最后一个 token 下标，保持线性。`many-task-items` 体现了这一差异。"
+    },
+    {
+      "en": "Attribute order is normalized.",
+      "zh": "归一化了属性顺序。"
+    }
+  ]
+}

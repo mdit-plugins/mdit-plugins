@@ -17,6 +17,16 @@ npm i -D @mdit/plugin-abbr
 yarn add -D @mdit/plugin-abbr
 ```
 
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-abbr`](https://www.npmjs.com/package/markdown-it-abbr) package `2.0.0`.
+
+- Correctness: **23/23** cases match the reference exactly.
+- Throughput: **1.02×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **979 B** versus **1.6 kB** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).
+
 ## Acknowledgements / 鸣谢
 
 Rewritten from [markdown-it-abbr](https://github.com/markdown-it/markdown-it-abbr) by [Vitaly Puzrin](https://github.com/puzrin) and [Alex Kocharin](https://github.com/rlidwka).

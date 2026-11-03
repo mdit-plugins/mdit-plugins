@@ -479,3 +479,11 @@ $$
 ### Text
 
 To insert text in TeX, you should use `\text{}` to wrap them.
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

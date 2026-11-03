@@ -72,3 +72,11 @@ Whether to convert linked images (`[![image](url)](link)`) to figures.
 [![Logo](/favicon.ico "Markdown")](https://commonmark.org/)
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

@@ -265,3 +265,11 @@ A line with break
   border: 1px solid red;
 }
 </style>
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

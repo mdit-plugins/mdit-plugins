@@ -40,3 +40,11 @@ mdIt.render("{中国:zhōng|guó}");
 ## 示例
 
 `{中国:zhōng|guó}`: {中国:zhōng|guó}
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

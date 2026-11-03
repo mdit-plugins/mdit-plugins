@@ -30,3 +30,11 @@ Use `== ==` to mark.
 VuePress Theme Hope is ==powerful==.
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

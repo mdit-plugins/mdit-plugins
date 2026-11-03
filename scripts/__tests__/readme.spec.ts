@@ -112,12 +112,15 @@ describe("scripts/syncReadme.ts", () => {
 
   it("should render the shared README template", () => {
     expect(
-      renderReadme({
-        dirName: "plugin-attrs",
-        name: "@mdit/plugin-attrs",
-        description: "Attrs plugin for MarkdownIt",
-        homepage: "https://mdit-plugins.github.io/attrs.html",
-      }),
+      renderReadme(
+        {
+          dirName: "plugin-attrs",
+          name: "@mdit/plugin-attrs",
+          description: "Attrs plugin for MarkdownIt",
+          homepage: "https://mdit-plugins.github.io/attrs.html",
+        },
+        null,
+      ),
     ).toBe(`# @mdit/plugin-attrs
 
 [![Version](https://img.shields.io/npm/v/@mdit/plugin-attrs.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mdit/plugin-attrs.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mdit/plugin-attrs?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mdit/plugin-attrs)
@@ -137,6 +140,19 @@ npm i -D @mdit/plugin-attrs
 yarn add -D @mdit/plugin-attrs
 \`\`\`
 `);
+  });
+
+  it("should render the comparison section of packages that have results", () => {
+    const attrs = packages.find((pkg) => pkg.dirName === "plugin-attrs");
+
+    expect(attrs).toBeDefined();
+
+    const readme = renderReadme(attrs!);
+
+    expect(readme).toContain("## Comparison / 对比");
+    expect(readme).toContain("markdown-it-attrs");
+    expect(readme).toContain("https://mdit-plugins.github.io/attrs.html");
+    expect(renderReadme(attrs!, null)).not.toContain("## Comparison / 对比");
   });
 
   it("should not render a docs section for the helper package", () => {

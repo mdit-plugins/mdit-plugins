@@ -1,0 +1,254 @@
+{
+  "plugin": "plugin-cjk-friendly",
+  "reference": "markdown-it-cjk-friendly",
+  "referenceVersion": "3.0.0",
+  "generatedAt": "2026-11-03T01:54:26.329Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 22,
+        "normalized": 0,
+        "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
+        "error": 0,
+        "cases": [
+          {
+            "name": "strong-kana",
+            "status": "exact"
+          },
+          {
+            "name": "strong-after-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "strong-mixed-latin",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis-kana",
+            "status": "exact"
+          },
+          {
+            "name": "latin-only",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-then-latin",
+            "status": "exact"
+          },
+          {
+            "name": "latin-then-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "exact"
+          },
+          {
+            "name": "nested-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "code-span-inside",
+            "status": "exact"
+          },
+          {
+            "name": "intraword-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "quotes",
+            "status": "exact"
+          },
+          {
+            "name": "chinese",
+            "status": "exact"
+          },
+          {
+            "name": "korean",
+            "status": "exact"
+          },
+          {
+            "name": "trailing-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-marker",
+            "status": "exact"
+          },
+          {
+            "name": "underscore-strong",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-paragraphs",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "exact"
+          },
+          {
+            "name": "unmatched-delimiter",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7399.646928775306,
+            "meanMs": 0.1351415830546265
+          },
+          "reference": {
+            "opsPerSec": 7383.0659718043935,
+            "meanMs": 0.13544508525576723
+          },
+          "ratio": 1.0022458091305475
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2076.9140396669504,
+            "meanMs": 0.4814835765472306
+          },
+          "reference": {
+            "opsPerSec": 2071.6973700652175,
+            "meanMs": 0.48269598371335476
+          },
+          "ratio": 1.002518065465116
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 528.030942946749,
+            "meanMs": 1.8938284078947403
+          },
+          "reference": {
+            "opsPerSec": 526.0087862253332,
+            "meanMs": 1.901108928571427
+          },
+          "ratio": 1.0038443401980541
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2393.361200081958,
+            "meanMs": 0.4178224331395345
+          },
+          "reference": {
+            "opsPerSec": 2394.536223975132,
+            "meanMs": 0.41761740331491654
+          },
+          "ratio": 0.9995092895728996
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 621.618454095329,
+            "meanMs": 1.6087038494623647
+          },
+          "reference": {
+            "opsPerSec": 623.925485470594,
+            "meanMs": 1.6027554945054903
+          },
+          "ratio": 0.9963023927872974
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 151.2999845976618,
+            "meanMs": 6.60938599999999
+          },
+          "reference": {
+            "opsPerSec": 152.54279302040473,
+            "meanMs": 6.555537499999991
+          },
+          "ratio": 0.9918527227793928
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-delimiters",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.0004820277478272,
+          "referenceExponent": 1.0015825881438247
+        },
+        {
+          "case": "punctuation-dense",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.997182512285568,
+          "referenceExponent": 0.9959286669703523
+        },
+        {
+          "case": "long-text",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 0.8698745201803704,
+          "referenceExponent": 0.8657217601277779
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package is a rewrite of the reference implementation and implements the same CJK-friendly CommonMark amendments. Both are installed with their defaults, so the comparison is a direct behavior check of the delimiter-run handling.",
+      "zh": "当前包是参考实现的重写版本，实现了相同的 CJK 友好 CommonMark 修正。两者都使用默认配置安装，因此对比直接检验分隔符串的处理行为。"
+    },
+    {
+      "en": "Only delimiter runs adjacent to CJK characters are affected; Latin-only documents keep the plain markdown-it output on both sides.",
+      "zh": "只有与 CJK 字符相邻的分隔符串会受影响；纯拉丁文文档在两侧都保持普通 markdown-it 的输出。"
+    },
+    {
+      "en": "The reference is used by VuePress' markdown extensions, so the installed 3.0.0 is the version that ships in the ecosystem. The `many-delimiters` series is linear in the number of delimiter runs and `long-text` exercises the flanking scan on a single line.",
+      "zh": "参考包被 VuePress 的 Markdown 扩展使用，安装的 3.0.0 即生态中实际发布的版本。`many-delimiters` 系列随分隔符串数量线性增长，`long-text` 系列检验单行上的侧翼扫描。"
+    }
+  ]
+}

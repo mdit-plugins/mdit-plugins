@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-emoji
 # yarn
 yarn add -D @mdit/plugin-emoji
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-emoji`](https://www.npmjs.com/package/markdown-it-emoji) package `3.1.0`.
+
+- Correctness: **67/75** cases match the reference exactly (3 reference errors, 1 differences).
+- Throughput: **1.02×** the reference (geometric mean across 18 benchmark cases; above 1× means faster).
+- Entry gzip: **17.8 kB** versus **19.0 kB** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

@@ -129,3 +129,11 @@ mdLegacy.render("![image](https://example.com/image.png =300x200)");
 ![Logo|0x100](/logo.svg)
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-sub
 # yarn
 yarn add -D @mdit/plugin-sub
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-sub`](https://www.npmjs.com/package/markdown-it-sub) package `2.0.0`.
+
+- Correctness: **24/24** cases match the reference exactly.
+- Throughput: **0.98×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **156 B** versus **674 B** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

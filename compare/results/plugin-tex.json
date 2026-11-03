@@ -1,0 +1,372 @@
+{
+  "plugin": "plugin-tex",
+  "reference": "markdown-it-katex",
+  "referenceVersion": "2.0.3",
+  "generatedAt": "2026-11-03T02:00:02.983Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 18,
+        "normalized": 0,
+        "diff": 7,
+        "referenceErrors": 4,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "delimiter-word-boundary",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference does not enforce word boundaries around `$`: it opens a formula after a word character (`a$x$`) and closes one before a word character (`$a$b`), so inline math is parsed inside words where the fork keeps literal text.",
+              "zh": "参考包不检查 `$` 两侧的单词边界：它会在单词字符后开启公式（`a$x$`）、在单词字符前闭合公式（`$a$b`），因此会在单词内部解析行内公式，而本分支保持字面文本。"
+            },
+            "cases": [
+              "word-boundary-close",
+              "word-boundary-open"
+            ]
+          },
+          {
+            "id": "adjacent-dollar",
+            "category": "difference",
+            "note": {
+              "en": "A closing `$` immediately followed by another `$` never closes in the fork, so `$a$$b$` stays literal; the reference parses two inline formulas. This is an intentional, stricter delimiter design.",
+              "zh": "本分支中闭 `$` 后紧跟另一个 `$` 时不会闭合，因此 `$a$$b$` 保持字面文本；参考包将其解析为两个行内公式。这是有意采用的更严格分隔符设计。"
+            },
+            "cases": [
+              "adjacent-dollar-inline"
+            ]
+          },
+          {
+            "id": "literal-dollar-content",
+            "category": "reference-error",
+            "note": {
+              "en": "When a `$` inside a formula is surrounded by whitespace, the reference gives up on the whole expression and emits literal text; the fork treats that `$` as content and keeps scanning to the real closing delimiter.",
+              "zh": "当公式内的 `$` 两侧均为空白时，参考包会放弃整个表达式并输出字面文本；本分支把该 `$` 视为内容并继续扫描到真正的闭分隔符。"
+            },
+            "cases": [
+              "literal-gap-inline"
+            ]
+          },
+          {
+            "id": "block-trailing-content",
+            "category": "reference-error",
+            "note": {
+              "en": "For a single-line `$$...$$` followed by more text, the reference swallows the rest of the line into one display formula; the fork keeps the text as a paragraph and still parses following inline math.",
+              "zh": "对于后面还有其他文本的单行 `$$...$$`，参考包会把该行剩余内容吞入一个块级公式；本分支将文本保留为段落，并继续解析后面的行内公式。"
+            },
+            "cases": [
+              "block-trailing-content",
+              "block-trailing-inline-math"
+            ]
+          },
+          {
+            "id": "empty-block-fence",
+            "category": "reference-error",
+            "note": {
+              "en": "A lone `$$` is emitted by the reference as an empty `math_block` token; the fork only creates a block when a closing `$$` exists and keeps the lone marker as text.",
+              "zh": "参考包会为单独的 `$$` 输出空的 `math_block` token；本分支仅在存在闭合 `$$` 时创建块，并把单独的标记保留为文本。"
+            },
+            "cases": [
+              "empty-block-fence"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "inline-basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-text",
+            "status": "exact"
+          },
+          {
+            "name": "inline-multiple",
+            "status": "exact"
+          },
+          {
+            "name": "inline-escaped-dollar",
+            "status": "exact"
+          },
+          {
+            "name": "inline-escaped-text",
+            "status": "exact"
+          },
+          {
+            "name": "inline-word-price",
+            "status": "exact"
+          },
+          {
+            "name": "block-single-line",
+            "status": "exact"
+          },
+          {
+            "name": "block-multiline",
+            "status": "exact"
+          },
+          {
+            "name": "block-empty-lines",
+            "status": "exact"
+          },
+          {
+            "name": "block-edge-space",
+            "status": "exact"
+          },
+          {
+            "name": "block-closing-content",
+            "status": "exact"
+          },
+          {
+            "name": "block-in-document",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-link",
+            "status": "exact"
+          },
+          {
+            "name": "markdown-structure",
+            "status": "exact"
+          },
+          {
+            "name": "code-not-math",
+            "status": "exact"
+          },
+          {
+            "name": "no-math-baseline",
+            "status": "exact"
+          },
+          {
+            "name": "empty-document",
+            "status": "exact"
+          },
+          {
+            "name": "word-boundary-close",
+            "status": "diff",
+            "issue": "delimiter-word-boundary",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$a$b\"\n  text:\"$a$b\"\nparagraph_close:\"\"",
+            "referenceHtml": "paragraph_open:\"\"\ninline:\"$a$b\"\n  math_inline{$}:\"a\"\n  text:\"b\"\nparagraph_close:\"\""
+          },
+          {
+            "name": "word-boundary-open",
+            "status": "diff",
+            "issue": "delimiter-word-boundary",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"a$x$\"\n  text:\"a$x$\"\nparagraph_close:\"\"",
+            "referenceHtml": "paragraph_open:\"\"\ninline:\"a$x$\"\n  text:\"a\"\n  math_inline{$}:\"x\"\nparagraph_close:\"\""
+          },
+          {
+            "name": "adjacent-dollar-inline",
+            "status": "diff",
+            "issue": "adjacent-dollar",
+            "category": "difference",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$a$$b$\"\n  text:\"$a$$b$\"\nparagraph_close:\"\"",
+            "referenceHtml": "paragraph_open:\"\"\ninline:\"$a$$b$\"\n  math_inline{$}:\"a\"\n  math_inline{$}:\"b\"\nparagraph_close:\"\""
+          },
+          {
+            "name": "literal-gap-inline",
+            "status": "diff",
+            "issue": "literal-dollar-content",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$\\\\text{a $ b}$\"\n  math_inline{$}:\"\\\\text{a $ b}\"\nparagraph_close:\"\"",
+            "referenceHtml": "paragraph_open:\"\"\ninline:\"$\\\\text{a $ b}$\"\n  text:\"$\\\\text{a $ b}$\"\nparagraph_close:\"\""
+          },
+          {
+            "name": "block-trailing-content",
+            "status": "diff",
+            "issue": "block-trailing-content",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$$a$$ tail\"\n  text:\"$$a$$ tail\"\nparagraph_close:\"\"",
+            "referenceHtml": "math_block{$$}:\"a$$ tail\""
+          },
+          {
+            "name": "block-trailing-inline-math",
+            "status": "diff",
+            "issue": "block-trailing-content",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$$a$$ $b$\"\n  text:\"$$a$$ \"\n  math_inline{$}:\"b\"\nparagraph_close:\"\"",
+            "referenceHtml": "math_block{$$}:\"a$$ $b$\""
+          },
+          {
+            "name": "empty-block-fence",
+            "status": "diff",
+            "issue": "empty-block-fence",
+            "category": "reference-error",
+            "ourHtml": "paragraph_open:\"\"\ninline:\"$$\"\n  text:\"$$\"\nparagraph_close:\"\"",
+            "referenceHtml": "math_block{$$}:\"\""
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10679.473500367563,
+            "meanMs": 0.09363757492029755
+          },
+          "reference": {
+            "opsPerSec": 10663.738742315225,
+            "meanMs": 0.09377574077578049
+          },
+          "ratio": 1.0014755385922858
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2760.278318862888,
+            "meanMs": 0.36228230797101485
+          },
+          "reference": {
+            "opsPerSec": 2722.8010089644504,
+            "meanMs": 0.3672688517110272
+          },
+          "ratio": 1.0137642485716176
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 688.9706807412325,
+            "meanMs": 1.4514405735294063
+          },
+          "reference": {
+            "opsPerSec": 682.2409807303782,
+            "meanMs": 1.4657577428571391
+          },
+          "ratio": 1.0098641098980154
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 7820.827736091201,
+            "meanMs": 0.12786370365699853
+          },
+          "reference": {
+            "opsPerSec": 7824.731307558109,
+            "meanMs": 0.12779991551071848
+          },
+          "ratio": 0.999501123896339
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2018.6560011093,
+            "meanMs": 0.4953791034482725
+          },
+          "reference": {
+            "opsPerSec": 1994.2764842952026,
+            "meanMs": 0.5014349855072427
+          },
+          "ratio": 1.0122247426603506
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 502.82776481514,
+            "meanMs": 1.9887525510204092
+          },
+          "reference": {
+            "opsPerSec": 486.4627534149881,
+            "meanMs": 2.0556558399999996
+          },
+          "ratio": 1.0336408312563887
+        }
+      ],
+      "scaling": [
+        {
+          "case": "unmatched-block-fence",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 0.9926032197388714,
+          "referenceExponent": 0.9715241049732928
+        },
+        {
+          "case": "inline-formulas",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9703490258395651,
+          "referenceExponent": 0.9707630836352493
+        },
+        {
+          "case": "multiline-block-fences",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9909325090667014,
+          "referenceExponent": 0.9954946192186152
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`@mdit/plugin-tex` is a fork of `markdown-it-katex` with a pluggable renderer and a required `render` option, so rendered output is not comparable: the reference always renders KaTeX HTML while this package delegates rendering. Both sides are compared on the parsed token stream instead (token type, markup, content, and text tokens, so differences in literal `$` handling are visible).",
+      "zh": "`@mdit/plugin-tex` 是 `markdown-it-katex` 的分支，渲染器可插拔且必须提供 `render` 选项，因此无法比较渲染输出：参考包始终渲染 KaTeX HTML，而当前包把渲染委托出去。两侧改为比较解析后的 token 流（token 类型、markup、content 以及文本 token，因此字面量 `$` 处理上的差异可见）。"
+    },
+    {
+      "en": "The required `render` option of the current package is set to a deterministic stub (`\\(...\\)` / `\\[...\\]`). It is never invoked because the comparison reads the parsed tokens instead of rendering them, so no real KaTeX work happens on either side.",
+      "zh": "当前包必需的 `render` 选项被设为一个确定性的桩函数（`\\(...\\)` / `\\[...\\]`）。由于比较读取的是解析后的 token 而非渲染结果，该函数从未被调用，两侧都不会执行真正的 KaTeX 计算。"
+    },
+    {
+      "en": "Math token content is compared after trimming edge whitespace. The reference trims the first line of a block formula and drops the trailing newline, while the current package preserves both; both implementations pass the same formula payload to their renderer, so the edge formatting is not a behavioral difference and the case `block-edge-space` is reported as an exact match.",
+      "zh": "数学 token 的内容在去掉首尾空白后比较。参考包会裁掉块级公式首行的空白并丢弃末尾换行，当前包则两者都保留；两种实现传给渲染器的公式载荷相同，因此边缘格式不属于行为差异，`block-edge-space` 用例被报告为完全一致。"
+    },
+    {
+      "en": "Edge formatting aside, the token streams match on inline math, `$$` fences, escaping, unmatched delimiters, an effectively empty document, and markdown constructs that must not be parsed as math (code spans, fences). Labels are not implemented by either plugin, so no `math_block_label` tokens are compared.",
+      "zh": "除边缘格式外，两侧 token 流在行内公式、`$$` 围栏、转义、未匹配分隔符、实际为空的文档以及不应被解析为数学的 Markdown 结构（行内代码、围栏代码块）上完全一致。两个插件都未实现标签，因此没有比较 `math_block_label` token。"
+    },
+    {
+      "en": "The token-stream differences are grouped under five root causes: the reference ignores word boundaries around `$` (`$a$b`, `a$x$`), gives up on a `$` surrounded by whitespace inside a formula (`$\\text{a $ b}$`), swallows trailing content after a single-line `$$...$$` (`$$a$$ tail`), and emits an empty block for a lone `$$` — all reference errors — while refusing to close a formula before another `$` (`$a$$b$`) is our intentional stricter delimiter design and an accepted difference.",
+      "zh": "token 流差异归为五个根因：参考包忽略 `$` 两侧的单词边界（`$a$b`、`a$x$`）、在公式内被空白包围的 `$` 处放弃（`$\\text{a $ b}$`）、将单行 `$$...$$` 后的内容吞入块中（`$$a$$ tail`），并为单独的 `$$` 输出空块——这些都属参考包错误；而本分支在闭 `$` 后紧跟另一个 `$` 时不闭合（`$a$$b$`）是有意采用的更严格分隔符设计，属于可接受差异。"
+    },
+    {
+      "en": "Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\\(...\\)` / `\\[...\\]`), `mathFence` (```` ```math ````), `allowInlineWithSpace`, and the `render` callback itself.",
+      "zh": "以下仅当前分支具备的行为因参考包没有对应选项而不参与比较：方括号分隔符（`\\(...\\)` / `\\[...\\]`）、`mathFence`（```` ```math ````）、`allowInlineWithSpace` 以及 `render` 回调本身。"
+    },
+    {
+      "en": "Benchmarks measure parsing only on both sides (the stub renderer is never called and the reference renderer is not invoked), so the two sides do the same work. The corpora stay small on purpose: 24 inline formulas for `normal/large` and 24 inline plus 8 display formulas for `heavy/large`.",
+      "zh": "基准测试在两侧都只测量解析（桩渲染器从不被调用，参考包的渲染器也不会被调用），因此两侧做的工作相同。语料刻意保持较小：`normal/large` 含 24 个行内公式，`heavy/large` 含 24 个行内公式和 8 个块级公式。"
+    },
+    {
+      "en": "Scaling series probe the delimiter scanners: many unmatched `$$` fence lines (the paragraph terminator probes the block rule once per line; the current package memoizes unsuccessful closing-marker look-aheads and stays linear, while the reference short-circuits in silent mode and then consumes the rest of the document as a single block), many inline formulas, and many closed multi-line `$$` fences (the reference re-scans the document prefix to find the closing line).",
+      "zh": "扩展性系列针对分隔符扫描器：大量未匹配的 `$$` 围栏行（段落终止判断每行都会探测一次块级规则；当前包会缓存失败的闭合标记前瞻并保持线性，而参考包在 silent 模式下提前返回，随后把文档剩余部分当作单个块消费）、大量行内公式，以及大量成对的跨行 `$$` 围栏（参考包会重新扫描文档前缀以寻找闭合行）。"
+    }
+  ]
+}

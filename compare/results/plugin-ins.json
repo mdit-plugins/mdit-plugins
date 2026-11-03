@@ -1,0 +1,258 @@
+{
+  "plugin": "plugin-ins",
+  "reference": "markdown-it-ins",
+  "referenceVersion": "4.0.0",
+  "generatedAt": "2026-11-03T01:56:42.972Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 23,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "empty-markers",
+            "status": "exact"
+          },
+          {
+            "name": "empty-with-space",
+            "status": "exact"
+          },
+          {
+            "name": "single-marker",
+            "status": "exact"
+          },
+          {
+            "name": "whitespace-inside",
+            "status": "exact"
+          },
+          {
+            "name": "whitespace-newline",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-opening",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-closing",
+            "status": "exact"
+          },
+          {
+            "name": "nested",
+            "status": "exact"
+          },
+          {
+            "name": "nested-outer",
+            "status": "exact"
+          },
+          {
+            "name": "nested-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inside-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inside-inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "inside-code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "inside-link",
+            "status": "exact"
+          },
+          {
+            "name": "inside-link-destination",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed",
+            "status": "exact"
+          },
+          {
+            "name": "single-plus-inside",
+            "status": "exact"
+          },
+          {
+            "name": "punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "triple-markers",
+            "status": "exact"
+          },
+          {
+            "name": "link-priority",
+            "status": "exact"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10991.837153895882,
+            "meanMs": 0.09097660254596893
+          },
+          "reference": {
+            "opsPerSec": 11001.554958339693,
+            "meanMs": 0.09089624183006541
+          },
+          "ratio": 0.999116688097218
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3135.3339096310365,
+            "meanMs": 0.3189452954048136
+          },
+          "reference": {
+            "opsPerSec": 3173.1573354253674,
+            "meanMs": 0.3151435287610623
+          },
+          "ratio": 0.9880801921253424
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 817.9461920504809,
+            "meanMs": 1.2225743083333327
+          },
+          "reference": {
+            "opsPerSec": 822.9048504055874,
+            "meanMs": 1.215207322580645
+          },
+          "ratio": 0.993974202056699
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2260.9501619812177,
+            "meanMs": 0.4422919252336475
+          },
+          "reference": {
+            "opsPerSec": 2325.1706947607267,
+            "meanMs": 0.43007595195195153
+          },
+          "ratio": 0.9723802932299911
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 574.8513465343428,
+            "meanMs": 1.7395801645569562
+          },
+          "reference": {
+            "opsPerSec": 587.3053966159348,
+            "meanMs": 1.7026916588235348
+          },
+          "ratio": 0.9787945928075028
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 141.50508622902763,
+            "meanMs": 7.066883789473746
+          },
+          "reference": {
+            "opsPerSec": 145.25484936563717,
+            "meanMs": 6.88445173684211
+          },
+          "ratio": 0.9741849366614219
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-insertions",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 1.0102330499088243,
+          "referenceExponent": 1.0038209454638523
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 0.9975959379581543,
+          "referenceExponent": 0.999078353988019
+        },
+        {
+          "case": "nested-odd-markers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 0.9894169480135144,
+          "referenceExponent": 0.9874268554325056
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Both packages are option-less and neither side receives options; both renderers use markdown-it's default options.",
+      "zh": "两个包都不接受选项，两侧均不传选项；两个渲染器都使用 markdown-it 的默认选项。"
+    },
+    {
+      "en": "The package registers the shared nested inline rule with doubled `++` markers, like the reference; both follow the CommonMark emphasis delimiter rules and relocate the lone marker of odd-length runs. Every correctness case renders identical HTML, so no case is a documented difference.",
+      "zh": "本包与参考包一样，使用双 `++` 标记注册共享的嵌套行内规则；两者都遵循 CommonMark 强调定界符规则，并会移动奇数长度标记串中落单的标记。所有正确性用例渲染出的 HTML 完全相同，因此没有用例是已记录差异。"
+    },
+    {
+      "en": "Scaling: both implementations consume each marker run once and move the lone marker of an odd-length run within a single run of adjacent close tags. `inline-insertions`, `unmatched-openers` and `nested-odd-markers` all fit a near-linear exponent on both sides; no superlinear path was found.",
+      "zh": "扩展性：两个实现都只消费每个标记串一次，并在单次相邻闭合标签串内移动奇数长度标记串中落单的标记。`inline-insertions`、`unmatched-openers` 和 `nested-odd-markers` 在两侧的拟合指数都接近线性；未发现超线性路径。"
+    }
+  ]
+}

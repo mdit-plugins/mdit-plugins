@@ -1,0 +1,262 @@
+{
+  "plugin": "plugin-sup",
+  "reference": "markdown-it-sup",
+  "referenceVersion": "2.0.0",
+  "generatedAt": "2026-11-03T01:59:36.298Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 24,
+        "exact": 24,
+        "normalized": 0,
+        "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "empty-markers",
+            "status": "exact"
+          },
+          {
+            "name": "empty-with-space",
+            "status": "exact"
+          },
+          {
+            "name": "whitespace-inside",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-space",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-closing",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-opening",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-backslashes",
+            "status": "exact"
+          },
+          {
+            "name": "other-markers",
+            "status": "exact"
+          },
+          {
+            "name": "nested-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "nested-markers",
+            "status": "exact"
+          },
+          {
+            "name": "inside-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inside-strong",
+            "status": "exact"
+          },
+          {
+            "name": "inside-inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "code-inside",
+            "status": "exact"
+          },
+          {
+            "name": "inside-link",
+            "status": "exact"
+          },
+          {
+            "name": "link-inside",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed",
+            "status": "exact"
+          },
+          {
+            "name": "adjacent",
+            "status": "exact"
+          },
+          {
+            "name": "punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "multiline",
+            "status": "exact"
+          },
+          {
+            "name": "inside-code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10726.439037968577,
+            "meanMs": 0.09322758433253396
+          },
+          "reference": {
+            "opsPerSec": 10754.295362341822,
+            "meanMs": 0.092986101488498
+          },
+          "ratio": 0.997409748994733
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3180.0540241593653,
+            "meanMs": 0.31446006652806663
+          },
+          "reference": {
+            "opsPerSec": 3180.579101289382,
+            "meanMs": 0.31440815277777806
+          },
+          "ratio": 0.9998349114694857
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 796.318629957412,
+            "meanMs": 1.255778732758621
+          },
+          "reference": {
+            "opsPerSec": 798.4629588043025,
+            "meanMs": 1.2524062499999988
+          },
+          "ratio": 0.997314429150099
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 1931.4664911175169,
+            "meanMs": 0.5177413144876334
+          },
+          "reference": {
+            "opsPerSec": 2020.773331735014,
+            "meanMs": 0.4948600539682553
+          },
+          "ratio": 0.955805612032291
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 495.905805069956,
+            "meanMs": 2.016511986301376
+          },
+          "reference": {
+            "opsPerSec": 518.0542224881315,
+            "meanMs": 1.930299873239446
+          },
+          "ratio": 0.9572469126652415
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 123.87459108171691,
+            "meanMs": 8.072680533333308
+          },
+          "reference": {
+            "opsPerSec": 127.95093480857042,
+            "meanMs": 7.815495849999979
+          },
+          "ratio": 0.968141352519603
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-superscripts",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 1.0001475949684544,
+          "referenceExponent": 0.9977822994647065
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 0.9913170559382412,
+          "referenceExponent": 1.0108663676898777
+        },
+        {
+          "case": "long-inline-run",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 0.9229968433611484,
+          "referenceExponent": 0.9178135046239936
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "Both packages are option-less and neither side receives options; both renderers use markdown-it's default options.",
+      "zh": "两个包都没有选项，两侧均未传入选项；两个渲染器都使用 markdown-it 的默认选项。"
+    },
+    {
+      "en": "The package uses the shared linear inline rule; like the reference it scans to the next marker, rejects unescaped whitespace in the content and unescapes backslash escapes. Every correctness case renders identical HTML, so no case is a documented difference.",
+      "zh": "该包使用共享的线性行内规则；与参考包一样，它会扫描到下一个标记、拒绝内容中未转义的空白并反转义反斜杠转义。所有正确性用例渲染出的 HTML 完全相同，因此没有用例属于已记录差异。"
+    },
+    {
+      "en": "Scaling: the scanner stops at the next marker character, so repeated unmatched openers do not rescan the remaining line, and `long-inline-run` scans its content once. `inline-superscripts`, `unmatched-openers` and `long-inline-run` all fit a near-linear exponent on both sides; no superlinear path was found.",
+      "zh": "扩展性：扫描器在下一个标记字符处停止，因此重复的未匹配开标记不会重新扫描该行剩余部分，`long-inline-run` 也只扫描其内容一次。`inline-superscripts`、`unmatched-openers` 和 `long-inline-run` 在两侧的拟合指数都接近线性；未发现超线性路径。"
+    }
+  ]
+}

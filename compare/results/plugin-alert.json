@@ -1,0 +1,560 @@
+{
+  "plugin": "plugin-alert",
+  "reference": "markdown-it-github-alerts",
+  "referenceVersion": "1.0.1",
+  "generatedAt": "2026-11-03T01:52:40.923Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 4,
+        "normalized": 0,
+        "diff": 21,
+        "referenceErrors": 4,
+        "differences": 4,
+        "issues": [
+          {
+            "id": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the reference reuses the blockquote paragraph as the title and maps the marker line on `alert_open`, while the current package emits a dedicated `alert_title` token for it.",
+              "zh": "渲染结果一致，但参考包复用 blockquote 段落作为标题、把标记行映射到 `alert_open`，当前包则用独立的 `alert_title` token 承载该映射。"
+            },
+            "cases": [
+              "note",
+              "tip",
+              "important",
+              "warning",
+              "caution",
+              "mixed-case",
+              "multiline-body",
+              "inline-markup",
+              "inside-list",
+              "multiple-alerts",
+              "trailing-spaces",
+              "indented-marker"
+            ]
+          },
+          {
+            "id": "title-casing",
+            "category": "difference",
+            "note": {
+              "en": "The reference lowercases the written name before capitalizing the default title (`[!TIP]` → `Tip`), while the current package preserves the written casing (`TIP`); this is an intentional title style difference.",
+              "zh": "参考包把写出的名称转为小写后再首字母大写（`[!TIP]` → `Tip`），当前包保留写出的大小写（`TIP`），属有意的标题样式差异。"
+            },
+            "cases": [
+              "uppercase"
+            ]
+          },
+          {
+            "id": "marker-line-empty-paragraph",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference strips the marker from the first inline token but keeps its paragraph, so the marker line or an empty quoted line leaves a meaningless `<p></p>` before the body; the current package consumes the marker line.",
+              "zh": "参考包只从首个内联 token 中移除标记、却保留其段落，因此标记行或空引用行会在正文前留下无意义的 `<p></p>`；当前包会消费标记行。"
+            },
+            "cases": [
+              "list-body",
+              "empty-quoted-body"
+            ]
+          },
+          {
+            "id": "nested-blockquote-structure",
+            "category": "reference-error",
+            "note": {
+              "en": "With a nested blockquote the reference emits its alert `</div>` before the inner `</blockquote>` (and converts the outer quote for `> > [!note]`), producing unbalanced markup; the current package keeps the tags balanced.",
+              "zh": "遇到嵌套 blockquote 时，参考包会先输出告警 `</div>` 再输出内层 `</blockquote>`（并且对 `> > [!note]` 转换外层引用），产生不配对的标记；当前包保持标签配对。"
+            },
+            "cases": [
+              "nested-blockquote",
+              "nested-alert"
+            ]
+          },
+          {
+            "id": "empty-alert-body",
+            "category": "difference",
+            "note": {
+              "en": "The reference accepts a marker without a body and renders an empty alert, while the current package requires at least one body line and keeps the marker as a literal blockquote; both are valid syntax designs.",
+              "zh": "参考包接受没有正文的标记并渲染空告警，当前包要求至少一行正文、把标记保留为普通 blockquote；两种语法设计都成立。"
+            },
+            "cases": [
+              "empty-body"
+            ]
+          },
+          {
+            "id": "custom-title",
+            "category": "difference",
+            "note": {
+              "en": "The reference treats trailing text after the marker as a custom title (`> [!note] Title`), while the current package requires the marker to occupy the line by itself; this is a reference-only syntax extension.",
+              "zh": "参考包把标记后的尾随文本当作自定义标题（`> [!note] Title`），当前包要求标记独占一行；这是参考包独有的语法扩展。"
+            },
+            "cases": [
+              "custom-title"
+            ]
+          },
+          {
+            "id": "escaped-marker",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference's marker pattern accepts an optional backslash, so the escaped `\\[!note]` still becomes an alert; the current package treats it as literal text as the markdown escaping convention requires.",
+              "zh": "参考包的标记正则接受可选的反斜杠，因此转义的 `\\[!note]` 仍会被解析为告警；当前包按 markdown 转义约定将其视为字面文本。"
+            },
+            "cases": [
+              "escaped-bracket"
+            ]
+          },
+          {
+            "id": "marker-after-block",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference searches the whole first inline token, so a marker on a later blockquote line (e.g. after `<hr>`) still becomes an alert and the preceding block is moved inside it; the current package only accepts the marker on the blockquote's first line.",
+              "zh": "参考包在整个首个内联 token 中搜索标记，因此 blockquote 后续行（如 `<hr>` 之后）的标记仍会变成告警，前面的块被移入告警内部；当前包只接受 blockquote 首行的标记。"
+            },
+            "cases": [
+              "hr-before-marker"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "note",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "tip",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "important",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "warning",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "caution",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "mixed-case",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "uppercase",
+            "status": "diff",
+            "issue": "title-casing",
+            "category": "difference",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-tip\">\n<p class=\"markdown-alert-title\">TIP</p>\n<p>body</p>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-tip\"><p class=\"markdown-alert-title\">Tip</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "unknown-type",
+            "status": "exact"
+          },
+          {
+            "name": "multiline-body",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "inline-markup",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "list-body",
+            "status": "diff",
+            "issue": "marker-line-empty-paragraph",
+            "category": "reference-error",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<ul>\n<li>a</li>\n<li>b</li>\n</ul>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<ul>\n<li>a</li>\n<li>b</li>\n</ul>\n</div>\n"
+          },
+          {
+            "name": "nested-blockquote",
+            "status": "diff",
+            "issue": "nested-blockquote-structure",
+            "category": "reference-error",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<blockquote>\n<p>nested quote</p>\n</blockquote>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<blockquote>\n<p>nested quote</p>\n</div>\n</blockquote>\n"
+          },
+          {
+            "name": "nested-alert",
+            "status": "diff",
+            "issue": "nested-blockquote-structure",
+            "category": "reference-error",
+            "ourHtml": "<blockquote>\n<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>nested alert</p>\n</div>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><blockquote>\n<p>nested alert</p>\n</div>\n</blockquote>\n"
+          },
+          {
+            "name": "inside-list",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[2].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[2].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[2].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "multiple-alerts",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "empty-body",
+            "status": "diff",
+            "issue": "empty-alert-body",
+            "category": "difference",
+            "ourHtml": "<blockquote>\n<p>[!note]</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n</div>\n"
+          },
+          {
+            "name": "empty-quoted-body",
+            "status": "diff",
+            "issue": "marker-line-empty-paragraph",
+            "category": "reference-error",
+            "ourHtml": "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>body</p>\n</div>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p></p>\n<p>body</p>\n</div>\n"
+          },
+          {
+            "name": "custom-title",
+            "status": "diff",
+            "issue": "custom-title",
+            "category": "difference",
+            "ourHtml": "<blockquote>\n<p>[!note] Custom title\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Custom title</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "trailing-spaces",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "escaped-bracket",
+            "status": "diff",
+            "issue": "escaped-marker",
+            "category": "reference-error",
+            "ourHtml": "<blockquote>\n<p>[!note]\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><p>body</p>\n</div>\n"
+          },
+          {
+            "name": "escaped-bang",
+            "status": "exact"
+          },
+          {
+            "name": "unterminated-marker",
+            "status": "exact"
+          },
+          {
+            "name": "hr-before-marker",
+            "status": "diff",
+            "issue": "marker-after-block",
+            "category": "reference-error",
+            "ourHtml": "<blockquote>\n<hr>\n<p>[!note]\nbody</p>\n</blockquote>\n",
+            "referenceHtml": "<div class=\"markdown-alert markdown-alert-note\"><p class=\"markdown-alert-title\">Note</p><hr>\n<p>body</p>\n</div>\n"
+          },
+          {
+            "name": "indented-marker",
+            "status": "diff",
+            "issue": "title-token-representation",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].map[0]`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].map[0]` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[0].map[0]",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "no-alert-syntax",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10748.994834299881,
+            "meanMs": 0.09303195465393796
+          },
+          "reference": {
+            "opsPerSec": 10764.692098455193,
+            "meanMs": 0.09289629381443311
+          },
+          "ratio": 0.9985417823369455
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2804.120637529258,
+            "meanMs": 0.35661803797468256
+          },
+          "reference": {
+            "opsPerSec": 2818.4920418007414,
+            "meanMs": 0.35479965356265386
+          },
+          "ratio": 0.9949010307432689
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 721.9153887128882,
+            "meanMs": 1.385203883495145
+          },
+          "reference": {
+            "opsPerSec": 724.7379890984919,
+            "meanMs": 1.3798089999999987
+          },
+          "ratio": 0.9961053505845406
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3441.0017135918088,
+            "meanMs": 0.29061304911591385
+          },
+          "reference": {
+            "opsPerSec": 3444.9438279661545,
+            "meanMs": 0.29028049510763304
+          },
+          "ratio": 0.998855681087644
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 887.6415494566451,
+            "meanMs": 1.1265808823529422
+          },
+          "reference": {
+            "opsPerSec": 880.104145657236,
+            "meanMs": 1.1362291666666668
+          },
+          "ratio": 1.0085642180378327
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 215.7896913667933,
+            "meanMs": 4.63414166666668
+          },
+          "reference": {
+            "opsPerSec": 216.90411736546045,
+            "meanMs": 4.610332031250039
+          },
+          "ratio": 0.9948621261218871
+        }
+      ],
+      "scaling": [
+        {
+          "case": "alert-rows",
+          "sizes": [
+            250,
+            500,
+            1000,
+            2000
+          ],
+          "currentExponent": 1.0169255497395444,
+          "referenceExponent": 1.0038373453944258
+        },
+        {
+          "case": "long-alert-body",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 0.9946611071954147,
+          "referenceExponent": 0.9911024924615157
+        },
+        {
+          "case": "nested-alerts",
+          "sizes": [
+            250,
+            500,
+            1000,
+            2000
+          ],
+          "currentExponent": 1.029103042797906,
+          "referenceExponent": 1.011135861633184
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`deep: true` is enabled on the current package because the reference transforms every outermost blockquote after block parsing and therefore recognizes alerts at any nesting depth; the comparison covers nested blockquotes and alerts inside list items.",
+      "zh": "当前包启用了 `deep: true`，因为参考包在块解析后转换每个最外层 blockquote，从而能识别任意嵌套深度上的告警；对比覆盖了嵌套 blockquote 和列表项内的告警。"
+    },
+    {
+      "en": "The reference's default GitHub SVG icons are disabled with `icons: {}` because the current package has no icon option. This is a documented default-markup difference, not a normalization: with default options the reference title contains an inline `<svg>`, while the current title contains only text.",
+      "zh": "参考包默认的 GitHub SVG 图标通过 `icons: {}` 禁用，因为当前包没有图标选项。这是已记录的默认标记差异，而非归一化：使用默认选项时，参考包的标题包含内联 `<svg>`，当前包的标题则只包含文本。"
+    },
+    {
+      "en": "`deep: true` and `icons: {}` were measured to be irrelevant for the throughput gap: enabling `deep` costs about 1.6% only on the heavy corpus (one nested alert per unit) and 0% on the normal corpus, and disabling the reference icons changes the reference throughput by about 0.2%. The benchmark difference therefore follows the implementations, not the option mapping.",
+      "zh": "经测量，`deep: true` 和 `icons: {}` 与吞吐量差距无关：启用 `deep` 仅在 heavy 语料（每个单元含一个嵌套告警）上带来约 1.6% 的开销，在 normal 语料上为 0%；禁用参考包图标使参考包吞吐量变化约 0.2%。因此基准测试差异来自实现本身，而不是选项映射。"
+    },
+    {
+      "en": "Whitespace between block-level tags is normalized because the reference renders its opening `<div>` and title `<p>` without newlines while the current package uses markdown-it's default block renderer; attribute order is normalized by the shared normalizer as well. Text content and code whitespace are preserved.",
+      "zh": "块级标签之间的空白会被归一化，因为参考包渲染其起始 `<div>` 和标题 `<p>` 时不带换行，而当前包使用 markdown-it 的默认块渲染器；属性顺序也由共享归一化器归一化。文本内容和代码中的空白保持不变。"
+    },
+    {
+      "en": "The reference removes the marker from the first inline token and keeps the surrounding blockquote content. An alert whose first content line is empty therefore leaves an empty `<p></p>`, and a nested blockquote is hoisted into the alert. The current package consumes the marker line before parsing the body, so they are recorded as the `marker-line-empty-paragraph` and `nested-blockquote-structure` reference errors.",
+      "zh": "参考包从第一个内联 token 中移除标记，并保留其周围的 blockquote 内容。因此，首个内容行为空的告警会留下空的 `<p></p>`，嵌套的 blockquote 会被提升到告警内。当前包在解析正文前消费标记行，因此它们被记录为 `marker-line-empty-paragraph` 和 `nested-blockquote-structure` 两个参考包错误。"
+    },
+    {
+      "en": "Parse-level differences are documented rather than normalized: the reference supports a custom title from trailing text (`> [!note] Title`), accepts a marker without any body, treats `\\[!note]` as an alert, and finds a marker in the first inline token even after another block such as `<hr>`. The current package requires the marker line to contain only the marker, requires body content, and honors the escaped bracket; these differences are recorded as the `empty-alert-body`, `custom-title`, `escaped-marker` and `marker-after-block` issues.",
+      "zh": "解析层面的差异只记录而不归一化：参考包支持用尾随文本自定义标题（`> [!note] Title`），接受没有正文的标记，把 `\\[!note]` 视为告警，并且即使标记前还有 `<hr>` 等其他块，也能在第一个内联 token 中找到标记。当前包要求标记行只包含标记、要求有正文，并尊重转义的方括号；这些差异记录为 `empty-alert-body`、`custom-title`、`escaped-marker` 和 `marker-after-block` 问题。"
+    },
+    {
+      "en": "Default title casing differs: the reference lowercases the marker before capitalizing it (`[!TIP]` → `Tip`), while the current package capitalizes the written name and preserves its casing (`[!TIP]` → `TIP`).",
+      "zh": "默认标题的大小写处理不同：参考包先把标记转为小写再首字母大写（`[!TIP]` → `Tip`），当前包则把写出的名称首字母大写并保留原有大小写（`[!TIP]` → `TIP`）。"
+    },
+    {
+      "en": "Both sides use the same five case-insensitive alert names and the default `markdown-alert` class prefix. The reference's `classPrefix` / `titles` options and the current package's `openRenderer` / `closeRenderer` / `titleRenderer` hooks have no counterpart on the other side and are left at their defaults.",
+      "zh": "双方使用相同的五个不区分大小写的告警名称和默认的 `markdown-alert` 类前缀。参考包的 `classPrefix` / `titles` 选项与当前包的 `openRenderer` / `closeRenderer` / `titleRenderer` 钩子在对方都没有对应项，均保持默认值。"
+    },
+    {
+      "en": "Scaling: the reference scans a blockquote's token range once per outermost blockquote and the current package scans each alert body once, so `alert-rows`, `long-alert-body` and `nested-alerts` all grow linearly; no superlinear path was found.",
+      "zh": "扩展性：参考包对每个最外层 blockquote 扫描一次其 token 范围，当前包对每个告警正文扫描一次，因此 `alert-rows`、`long-alert-body` 和 `nested-alerts` 均呈线性增长；未发现超线性路径。"
+    }
+  ]
+}

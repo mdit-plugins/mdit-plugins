@@ -81,3 +81,11 @@ Closing marker. Defaults to `"end"` at runtime.
 Render function. Defaults to the built-in renderer at runtime, which wraps the content in a `<div>` whose class is the UML name and whose `title` is the escaped info string.
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

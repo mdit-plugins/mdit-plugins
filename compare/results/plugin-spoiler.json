@@ -1,0 +1,258 @@
+{
+  "plugin": "plugin-spoiler",
+  "reference": "markdown-it-spoiler",
+  "referenceVersion": "1.1.1",
+  "generatedAt": "2026-11-03T01:59:06.643Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 22,
+        "normalized": 0,
+        "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
+        "error": 0,
+        "cases": [
+          {
+            "name": "basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "multiline",
+            "status": "exact"
+          },
+          {
+            "name": "nested-markup",
+            "status": "exact"
+          },
+          {
+            "name": "link-inside",
+            "status": "exact"
+          },
+          {
+            "name": "nested-spoilers",
+            "status": "exact"
+          },
+          {
+            "name": "adjacent",
+            "status": "exact"
+          },
+          {
+            "name": "empty-pair",
+            "status": "exact"
+          },
+          {
+            "name": "single-marker",
+            "status": "exact"
+          },
+          {
+            "name": "unclosed",
+            "status": "exact"
+          },
+          {
+            "name": "closing-only",
+            "status": "exact"
+          },
+          {
+            "name": "odd-run",
+            "status": "exact"
+          },
+          {
+            "name": "leading-odd",
+            "status": "exact"
+          },
+          {
+            "name": "trailing-odd",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-open",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-marker",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "code-fence",
+            "status": "exact"
+          },
+          {
+            "name": "inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "punctuation",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10971.483808603192,
+            "meanMs": 0.09114537444933919
+          },
+          "reference": {
+            "opsPerSec": 11075.687824140576,
+            "meanMs": 0.09028784630606863
+          },
+          "ratio": 0.9905916438606855
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2781.9590299707093,
+            "meanMs": 0.3594589241706154
+          },
+          "reference": {
+            "opsPerSec": 2821.406928342226,
+            "meanMs": 0.35443309859154914
+          },
+          "ratio": 0.9860183591472588
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 697.403841008965,
+            "meanMs": 1.433889435643566
+          },
+          "reference": {
+            "opsPerSec": 701.5291370906998,
+            "meanMs": 1.4254575428571419
+          },
+          "ratio": 0.994119565583772
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3415.644219570587,
+            "meanMs": 0.29277053923541235
+          },
+          "reference": {
+            "opsPerSec": 3444.2573696239815,
+            "meanMs": 0.2903383495145639
+          },
+          "ratio": 0.9916925052390849
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 873.9067697289518,
+            "meanMs": 1.1442868217054285
+          },
+          "reference": {
+            "opsPerSec": 884.8926091783071,
+            "meanMs": 1.1300806330935222
+          },
+          "ratio": 0.9875851156000087
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 217.59397112573507,
+            "meanMs": 4.595715565217372
+          },
+          "reference": {
+            "opsPerSec": 222.61136871938726,
+            "meanMs": 4.4921335588235385
+          },
+          "ratio": 0.9774611798915945
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-spoilers",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 1.0159637944385296,
+          "referenceExponent": 1.0207110873491025
+        },
+        {
+          "case": "unmatched-openers",
+          "sizes": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "currentExponent": 1.0032342206684983,
+          "referenceExponent": 1.002857469004948
+        },
+        {
+          "case": "nested-odd-markers",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 0.991805123155633,
+          "referenceExponent": 0.9881531828578055
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package adds `tabindex=\"-1\"` to the spoiler element by default for keyboard accessibility. The variant sets `attrs` to `[[\"class\", \"spoiler\"]]` so that the compared markup is the reference's `<span class=\"spoiler\">`; the accessibility attribute is an intentional addition and is not part of this comparison.",
+      "zh": "当前包默认给 spoiler 元素加上 `tabindex=\"-1\"` 以支持键盘可访问性。该变体将 `attrs` 设为 `[[\"class\", \"spoiler\"]]`，使参与比较的标记与参考包的 `<span class=\"spoiler\">` 一致；可访问性属性是有意新增的，不属于本次比较范围。"
+    },
+    {
+      "en": "The reference exposes a `frontPriorMode` option that controls where an odd leftover marker is placed. The current package has no counterpart, so both sides are compared in the reference's default mode (`frontPriorMode: false`); the odd-length marker cases cover that mode.",
+      "zh": "参考包提供 `frontPriorMode` 选项，用于控制奇数个剩余标记的放置位置。当前包没有对应选项，因此两侧都在参考包的默认模式（`frontPriorMode: false`）下比较；奇数长度标记的用例覆盖了该模式。"
+    },
+    {
+      "en": "All correctness cases render identical HTML, so no output normalization beyond the harness default (attribute order) is applied.",
+      "zh": "所有正确性用例渲染出的 HTML 完全相同，因此除测试框架默认的属性顺序归一化外，未做其他输出归一化。"
+    },
+    {
+      "en": "Scaling: both implementations consume each marker run once and relocate lone odd markers within a single run of adjacent close tags, so `inline-spoilers`, `unmatched-openers` and `nested-odd-markers` all grow linearly; no superlinear path was found.",
+      "zh": "扩展性：两种实现都只消费每个标记序列一次，并在单个相邻闭合标签序列内重新定位落单的奇数标记，因此 `inline-spoilers`、`unmatched-openers` 和 `nested-odd-markers` 均为线性增长；未发现超线性路径。"
+    }
+  ]
+}

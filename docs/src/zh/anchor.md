@@ -254,3 +254,11 @@ mdIt.use(anchor, { permalink: customPermalink });
 其中 `state` 是 markdown-it 的 `StateCore` 实例，`idx` 是 `heading_open` token
 的索引。`heading_open` 之后紧跟着一个包含标题文本的 `inline` token，最后是
 `heading_close`。
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

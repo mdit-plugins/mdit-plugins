@@ -128,3 +128,11 @@ Renders as ↓
 ![Logo|0x100](/logo.svg)
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

@@ -1,0 +1,254 @@
+{
+  "plugin": "plugin-cjk-breaks",
+  "reference": "markdown-it-cjk-breaks",
+  "referenceVersion": "2.0.1",
+  "generatedAt": "2026-11-03T01:54:11.570Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 22,
+        "normalized": 0,
+        "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
+        "error": 0,
+        "cases": [
+          {
+            "name": "cjk-japanese",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-han-kana",
+            "status": "exact"
+          },
+          {
+            "name": "fullwidth-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "halfwidth-kana",
+            "status": "exact"
+          },
+          {
+            "name": "astral-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-before-break",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-after-break",
+            "status": "exact"
+          },
+          {
+            "name": "zwsp-both-sides",
+            "status": "exact"
+          },
+          {
+            "name": "latin-kept",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-latin-kept",
+            "status": "exact"
+          },
+          {
+            "name": "cjk-emoji-kept",
+            "status": "exact"
+          },
+          {
+            "name": "inline-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "inline-link",
+            "status": "exact"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "hardbreak-kept",
+            "status": "exact"
+          },
+          {
+            "name": "trailing-space",
+            "status": "exact"
+          },
+          {
+            "name": "multiple-paragraphs",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "code-block-kept",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 12579.426676417077,
+            "meanMs": 0.0794948788782816
+          },
+          "reference": {
+            "opsPerSec": 12538.867765925568,
+            "meanMs": 0.07975201738050901
+          },
+          "ratio": 1.0032346549344533
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3490.371322700705,
+            "meanMs": 0.2865024685185189
+          },
+          "reference": {
+            "opsPerSec": 3458.8639915943095,
+            "meanMs": 0.28911226415094327
+          },
+          "ratio": 1.0091091558335235
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 888.3533500071308,
+            "meanMs": 1.1256782000000034
+          },
+          "reference": {
+            "opsPerSec": 880.4682530645636,
+            "meanMs": 1.1357592923076936
+          },
+          "ratio": 1.0089555721232677
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5081.215052822635,
+            "meanMs": 0.19680332156862682
+          },
+          "reference": {
+            "opsPerSec": 4908.991680853014,
+            "meanMs": 0.20370782128240117
+          },
+          "ratio": 1.03508324787784
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1305.9642691658532,
+            "meanMs": 0.765717733333333
+          },
+          "reference": {
+            "opsPerSec": 1261.6250699031636,
+            "meanMs": 0.7926285105263129
+          },
+          "ratio": 1.035144513469515
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 328.4748428901235,
+            "meanMs": 3.044373173913063
+          },
+          "reference": {
+            "opsPerSec": 318.1514944461016,
+            "meanMs": 3.1431566956521437
+          },
+          "ratio": 1.0324479017833776
+        }
+      ],
+      "scaling": [
+        {
+          "case": "many-softbreaks",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9917538235648685,
+          "referenceExponent": 0.9947633869336447
+        },
+        {
+          "case": "long-line",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 0.7455797251036645,
+          "referenceExponent": 0.7442015305223468
+        },
+        {
+          "case": "mixed-inline-tokens",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.9954395932762647,
+          "referenceExponent": 0.9900834924432985
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The current package is a rewrite of the reference implementation. Both are installed with their defaults and no options are involved, so the comparison is a direct behavior check of the soft-break handling.",
+      "zh": "当前包是参考实现的重写版本。两者都使用默认配置安装，不涉及选项，因此对比直接检验软换行的处理行为。"
+    },
+    {
+      "en": "The reference only rewrites `softbreak` tokens into text; the current package also runs as a core rule and keeps the same token stream, which is why the token comparison also reports equal output.",
+      "zh": "参考包只把 `softbreak` token 改写为文本；当前包同样作为 core 规则运行并保持相同的 token 流，因此 token 对比结果也一致。"
+    },
+    {
+      "en": "Benchmarks measure the complete core-rule pass; the `many-softbreaks` series is linear in the number of soft breaks, and `long-line` exercises the per-character East Asian width lookup on a single line.",
+      "zh": "基准测试测量完整的 core 规则处理；`many-softbreaks` 系列随软换行数量线性增长，`long-line` 系列检验单行上逐字符的东亚宽度查询。"
+    }
+  ]
+}

@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-uml
 # yarn
 yarn add -D @mdit/plugin-uml
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-plantuml`](https://www.npmjs.com/package/markdown-it-plantuml) package `1.4.1`.
+
+- Correctness: **15/25** cases match the reference exactly (2 reference errors, 2 differences).
+- Throughput: **6.83×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **665 B** versus **1.5 kB** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

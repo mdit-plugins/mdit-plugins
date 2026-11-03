@@ -70,3 +70,11 @@ Duplicated footnote reference.
 [^second]: Footnote text.
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

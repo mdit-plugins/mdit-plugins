@@ -1,0 +1,265 @@
+{
+  "plugin": "plugin-attrs",
+  "reference": "markdown-it-attrs",
+  "referenceVersion": "5.0.1",
+  "generatedAt": "2026-11-03T01:53:56.384Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 20,
+        "exact": 19,
+        "normalized": 0,
+        "diff": 1,
+        "referenceErrors": 0,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "table-meta-key",
+            "category": "difference",
+            "note": {
+              "en": "Both packages store the table column count on the table token's `meta` for their cell-span rules, but under different keys (reference `colsnum`, current `columnCount`); the rendered HTML matches.",
+              "zh": "两个包都为单元格跨列规则把表格列数写入表格 token 的 `meta`，但键名不同（参考包 `colsnum`，当前包 `columnCount`）；渲染结果一致。"
+            },
+            "cases": [
+              "table"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "heading-id",
+            "status": "exact"
+          },
+          {
+            "name": "heading-multiple-attrs",
+            "status": "exact"
+          },
+          {
+            "name": "inline-image",
+            "status": "exact"
+          },
+          {
+            "name": "inline-code",
+            "status": "exact"
+          },
+          {
+            "name": "inline-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-link",
+            "status": "exact"
+          },
+          {
+            "name": "block-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "block-leading",
+            "status": "exact"
+          },
+          {
+            "name": "list-item",
+            "status": "exact"
+          },
+          {
+            "name": "nested-list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "diff",
+            "issue": "table-meta-key",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].meta`: current `\"{\\\"columnCount\\\":2}\"`, reference `\"{\\\"colsnum\\\":2}\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].meta` 处不同：当前包为 `\"{\\\"columnCount\\\":2}\"`，参考包为 `\"{\\\"colsnum\\\":2}\"`。"
+            },
+            "tokenDifference": {
+              "path": "[1].meta",
+              "current": "\"{\\\"columnCount\\\":2}\"",
+              "reference": "\"{\\\"colsnum\\\":2}\""
+            }
+          },
+          {
+            "name": "fence",
+            "status": "exact"
+          },
+          {
+            "name": "fence-info-string",
+            "status": "exact"
+          },
+          {
+            "name": "horizontal-rule",
+            "status": "exact"
+          },
+          {
+            "name": "softbreak",
+            "status": "exact"
+          },
+          {
+            "name": "escaped-attrs",
+            "status": "exact"
+          },
+          {
+            "name": "empty-attrs",
+            "status": "exact"
+          },
+          {
+            "name": "no-attrs",
+            "status": "exact"
+          },
+          {
+            "name": "multiline-paragraph",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3806.8091023963275,
+            "meanMs": 0.2626871936842106
+          },
+          "reference": {
+            "opsPerSec": 3626.972967901537,
+            "meanMs": 0.275712008016032
+          },
+          "ratio": 1.0495829817553999
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1018.3225918713997,
+            "meanMs": 0.9820070849673208
+          },
+          "reference": {
+            "opsPerSec": 971.9422325546997,
+            "meanMs": 1.0288677315436248
+          },
+          "ratio": 1.0477192550783514
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 254.717510739611,
+            "meanMs": 3.9259177631578925
+          },
+          "reference": {
+            "opsPerSec": 241.52901669224306,
+            "meanMs": 4.140289285714283
+          },
+          "ratio": 1.054604180599024
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 1082.8480758587043,
+            "meanMs": 0.9234905821917767
+          },
+          "reference": {
+            "opsPerSec": 1063.7729641732926,
+            "meanMs": 0.9400502115384615
+          },
+          "ratio": 1.017931562774991
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 276.48782905634175,
+            "meanMs": 3.6167957317073203
+          },
+          "reference": {
+            "opsPerSec": 268.517104922711,
+            "meanMs": 3.724157536585375
+          },
+          "ratio": 1.029684232354304
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 65.92941706491364,
+            "meanMs": 15.167736111111177
+          },
+          "reference": {
+            "opsPerSec": 65.2087970684104,
+            "meanMs": 15.335354200000074
+          },
+          "ratio": 1.0110509628899798
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-attrs",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.8911944903927248,
+          "referenceExponent": 0.918877495247305
+        },
+        {
+          "case": "unmatched-braces",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 0.727246564678198,
+          "referenceExponent": 0.7384150807781916
+        },
+        {
+          "case": "heading-attrs",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.0064890409736833,
+          "referenceExponent": 1.0144447932199172
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "`fenceAttrsOnPre` is set to `false` on the current package so that fence attrs are placed on `<code>`, matching the reference default.",
+      "zh": "当前包将 `fenceAttrsOnPre` 设为 `false`，使围栏属性放在 `<code>` 上，与参考包的默认行为一致。"
+    },
+    {
+      "en": "Table extension rules (`rowspan` / `colspan` cells) are not compared because the reference does not implement them.",
+      "zh": "不比较表格扩展规则（`rowspan` / `colspan` 单元格），因为参考包未实现它们。"
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+{
+  "plugin": "plugin-katex-slim",
+  "reference": "markdown-it-katex",
+  "referenceVersion": "2.0.3",
+  "generatedAt": "2026-11-03T01:57:06.376Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 25,
+        "exact": 10,
+        "normalized": 5,
+        "diff": 10,
+        "referenceErrors": 5,
+        "differences": 2,
+        "issues": [
+          {
+            "id": "annotation-whitespace",
+            "category": "difference",
+            "note": {
+              "en": "The reference trims the leading space of the first line and the trailing newline of block formulas, while the current package keeps them; KaTeX renders the same output and only the MathML `annotation` echo (token content) differs.",
+              "zh": "参考包会裁掉块级公式首行的前导空格与末尾换行，当前包会保留；KaTeX 的渲染结果相同，只有 MathML `annotation` 的回显（token content）不同。"
+            },
+            "cases": [
+              "block-edge-space",
+              "block-aligned"
+            ]
+          },
+          {
+            "id": "raw-latex-on-error",
+            "category": "reference-error",
+            "note": {
+              "en": "KaTeX's `throwOnError` defaults to `true` in the reference, whose catch block then returns the raw LaTeX as HTML instead of an escaped error message, so markup is leaked unescaped; the current package defaults to `throwOnError: false` and renders escaped `katex-error` markup.",
+              "zh": "参考包沿用 KaTeX 的 `throwOnError: true` 默认值，其 catch 块随后把原始 LaTeX 直接作为 HTML 返回，而不是输出转义后的错误信息，导致标记未转义地泄漏；当前包默认 `throwOnError: false`，会输出转义后的 `katex-error` 标记。"
+            },
+            "cases": [
+              "invalid-inline",
+              "invalid-display"
+            ]
+          },
+          {
+            "id": "word-boundary-delimiters",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference treats `$` adjacent to word characters as a math delimiter, so text such as `a$x$` or `$a$b` is partly swallowed into math; the current fork requires a non-word character on both sides.",
+              "zh": "参考包会把紧邻单词字符的 `$` 当作公式定界符，因此 `a$x$`、`$a$b` 这类文本会被部分吞进公式；当前 fork 要求两侧都是非单词字符。"
+            },
+            "cases": [
+              "word-boundary-close",
+              "word-boundary-open"
+            ]
+          },
+          {
+            "id": "adjacent-dollar-delimiter",
+            "category": "difference",
+            "note": {
+              "en": "The current fork refuses to close a formula when the closing `$` is immediately followed by another `$`, while the reference parses two adjacent formulas; the stricter rule avoids confusion with `$$` display delimiters.",
+              "zh": "当前 fork 在结束 `$` 紧跟另一个 `$` 时不闭合公式，而参考包会解析出两个相邻公式；更严格的规则用于避免与 `$$` 行间定界符混淆。"
+            },
+            "cases": [
+              "adjacent-dollar-inline"
+            ]
+          },
+          {
+            "id": "literal-gap-inline",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference stops at the first inner `$` that cannot close a formula and emits the whole line literally, losing the formula; the current fork treats a whitespace-surrounded `$` inside a formula as literal content and keeps scanning.",
+              "zh": "参考包在遇到第一个无法闭合公式的内部 `$` 时停止，并把整行作为字面文本输出，从而丢失公式；当前 fork 会把公式内被空白包围的 `$` 当作字面内容并继续扫描。"
+            },
+            "cases": [
+              "literal-gap-inline"
+            ]
+          },
+          {
+            "id": "block-trailing-content",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference treats a single-line `$$...$$` followed by text as one display formula, so the trailing text is consumed as math and then leaked raw by the error path; the current fork leaves the line as a paragraph.",
+              "zh": "参考包会把单行 `$$...$$` 后的文本并入同一个行间公式，导致尾部文本被当作公式内容，并由错误路径原样泄漏；当前 fork 会把该行保留为段落。"
+            },
+            "cases": [
+              "block-trailing-content"
+            ]
+          },
+          {
+            "id": "gdef-macro-scope",
+            "category": "reference-error",
+            "note": {
+              "en": "`\\gdef` defines a macro for the rest of the document, but the reference creates fresh KaTeX settings per formula, so a later formula renders the macro as an error or raw LaTeX; the current package shares one macro table per render.",
+              "zh": "`\\gdef` 定义的宏应在文档后续内容中可用，但参考包为每个公式创建全新的 KaTeX 设置，因此后面的公式会把该宏渲染为错误或原始 LaTeX；当前包在每次渲染中共享同一份宏表。"
+            },
+            "cases": [
+              "macro-scope"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "inline-basic",
+            "status": "exact"
+          },
+          {
+            "name": "inline-fraction",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-text",
+            "status": "exact"
+          },
+          {
+            "name": "inline-escaped-dollar",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-emphasis",
+            "status": "exact"
+          },
+          {
+            "name": "inline-in-link",
+            "status": "exact"
+          },
+          {
+            "name": "block-single-line",
+            "status": "normalized"
+          },
+          {
+            "name": "block-multiline",
+            "status": "normalized"
+          },
+          {
+            "name": "block-empty-lines",
+            "status": "normalized"
+          },
+          {
+            "name": "block-edge-space",
+            "status": "diff",
+            "issue": "annotation-whitespace",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].content`: current `\" a \\n\"`, reference `\"a \\n\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].content` 处不同：当前包为 `\" a \\n\"`，参考包为 `\"a \\n\"`。"
+            },
+            "tokenDifference": {
+              "path": "[0].content",
+              "current": "\" a \\n\"",
+              "reference": "\"a \\n\""
+            }
+          },
+          {
+            "name": "block-fraction",
+            "status": "normalized"
+          },
+          {
+            "name": "block-aligned",
+            "status": "diff",
+            "issue": "annotation-whitespace",
+            "category": "difference",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[0].content`: current `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"`, reference `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\"`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[0].content` 处不同：当前包为 `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"`，参考包为 `\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\"`。"
+            },
+            "tokenDifference": {
+              "path": "[0].content",
+              "current": "\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\\n\"",
+              "reference": "\"\\\\begin{aligned}\\na &= b \\\\\\\\\\nc &= d\\n\\\\end{aligned}\""
+            }
+          },
+          {
+            "name": "block-in-document",
+            "status": "normalized"
+          },
+          {
+            "name": "invalid-inline",
+            "status": "diff",
+            "issue": "raw-latex-on-error",
+            "category": "reference-error",
+            "ourHtml": "<p>Broken <span class=\"katex-error\" title=\"ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: \\frac{1}\" style=\"color:#cc0000\">\\frac{1}</span> formula.</p>\n",
+            "referenceHtml": "<p>Broken \\frac{1} formula.</p>\n"
+          },
+          {
+            "name": "invalid-display",
+            "status": "diff",
+            "issue": "raw-latex-on-error",
+            "category": "reference-error",
+            "ourHtml": "<p class='katex-block'><span class=\"katex-error\" title=\"ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: \\frac{1}\n\" style=\"color:#cc0000\">\\frac{1}\n</span></p>\n",
+            "referenceHtml": "\\frac{1}\n\n"
+          },
+          {
+            "name": "markdown-structure",
+            "status": "exact"
+          },
+          {
+            "name": "code-not-math",
+            "status": "exact"
+          },
+          {
+            "name": "no-math-baseline",
+            "status": "exact"
+          },
+          {
+            "name": "empty-document",
+            "status": "exact"
+          },
+          {
+            "name": "word-boundary-close",
+            "status": "diff",
+            "issue": "word-boundary-delimiters",
+            "category": "reference-error",
+            "ourHtml": "<p>$a$b</p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>a</mi></mrow><annotation encoding=\"application/x-tex\">a</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">a</span></span></span></span>b</p>\n"
+          },
+          {
+            "name": "word-boundary-open",
+            "status": "diff",
+            "issue": "word-boundary-delimiters",
+            "category": "reference-error",
+            "ourHtml": "<p>a$x$</p>\n",
+            "referenceHtml": "<p>a<span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi></mrow><annotation encoding=\"application/x-tex\">x</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">x</span></span></span></span></p>\n"
+          },
+          {
+            "name": "adjacent-dollar-inline",
+            "status": "diff",
+            "issue": "adjacent-dollar-delimiter",
+            "category": "difference",
+            "ourHtml": "<p>$a$$b$</p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>a</mi></mrow><annotation encoding=\"application/x-tex\">a</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">a</span></span></span></span><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>b</mi></mrow><annotation encoding=\"application/x-tex\">b</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.6944em;\"></span><span class=\"mord mathnormal\">b</span></span></span></span></p>\n"
+          },
+          {
+            "name": "literal-gap-inline",
+            "status": "diff",
+            "issue": "literal-gap-inline",
+            "category": "reference-error",
+            "ourHtml": "<p><span class=\"katex-error\" title=\"ParseError: KaTeX parse error: Expected &#x27;$&#x27;, got &#x27;EOF&#x27; at position 12: \\text{a $ b}̲\" style=\"color:#cc0000\">\\text{a $ b}</span></p>\n",
+            "referenceHtml": "<p>$\\text{a $ b}$</p>\n"
+          },
+          {
+            "name": "block-trailing-content",
+            "status": "diff",
+            "issue": "block-trailing-content",
+            "category": "reference-error",
+            "ourHtml": "<p>$$a$$ tail</p>\n",
+            "referenceHtml": "a$$ tail\n\n"
+          },
+          {
+            "name": "macro-scope",
+            "status": "diff",
+            "issue": "gdef-macro-scope",
+            "category": "reference-error",
+            "ourHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow></mrow><annotation encoding=\"application/x-tex\">\\gdef\\foo{x}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"></span></span> <span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi></mrow><annotation encoding=\"application/x-tex\">\\foo</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"katex-base\"><span class=\"katex-strut\" style=\"height:0.4306em;\"></span><span class=\"mord mathnormal\">x</span></span></span></span></p>\n",
+            "referenceHtml": "<p><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow></mrow><annotation encoding=\"application/x-tex\">\\gdef\\foo{x}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"></span></span> \\foo</p>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2756.295883534825,
+            "meanMs": 0.36280575172413826
+          },
+          "reference": {
+            "opsPerSec": 2826.573256801985,
+            "meanMs": 0.3537852760736195
+          },
+          "ratio": 0.9751369000969491
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 725.5699935346532,
+            "meanMs": 1.3782267857142854
+          },
+          "reference": {
+            "opsPerSec": 746.6619817287411,
+            "meanMs": 1.3392941176470605
+          },
+          "ratio": 0.9717516242821769
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 185.42352308773206,
+            "meanMs": 5.393058999999994
+          },
+          "reference": {
+            "opsPerSec": 187.09219747581378,
+            "meanMs": 5.344958333333352
+          },
+          "ratio": 0.9910810049238027
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 431.268213947087,
+            "meanMs": 2.3187426470588246
+          },
+          "reference": {
+            "opsPerSec": 434.57667205919137,
+            "meanMs": 2.3010899210526317
+          },
+          "ratio": 0.9923869403840119
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 89.84915169765756,
+            "meanMs": 11.129765625000005
+          },
+          "reference": {
+            "opsPerSec": 99.27255279369487,
+            "meanMs": 10.0732777777778
+          },
+          "ratio": 0.9050754631482004
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 19.134758189707473,
+            "meanMs": 52.26091650000035
+          },
+          "reference": {
+            "opsPerSec": 20.36859519072004,
+            "meanMs": 49.095187500000065
+          },
+          "ratio": 0.9394245410908503
+        }
+      ],
+      "scaling": [
+        {
+          "case": "inline-formulas",
+          "sizes": [
+            32,
+            64,
+            128,
+            256
+          ],
+          "currentExponent": 1.0103795249870124,
+          "referenceExponent": 1.006210649262704
+        },
+        {
+          "case": "long-formula",
+          "sizes": [
+            64,
+            128,
+            256,
+            512
+          ],
+          "currentExponent": 1.0001667495156892,
+          "referenceExponent": 1.0002362690127335
+        },
+        {
+          "case": "display-formulas",
+          "sizes": [
+            16,
+            32,
+            64,
+            128
+          ],
+          "currentExponent": 1.00198445818838,
+          "referenceExponent": 0.9994108551462382
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "This comparison renders real KaTeX on both sides and compares the resulting HTML. The reference declares `katex: ^0.6.0`, but the committed workspace override (`pnpm-workspace.yaml`: `overrides.katex: ^0.19.0`, kept for the docs toolchain) makes the installed reference use the same KaTeX 0.19.1 as this package, so the rendered math HTML is directly comparable. If that override is ever removed the reference would fall back to KaTeX 0.6 and this spec would have to switch to a token-level comparison.",
+      "zh": "本次对比会让双方都实际渲染 KaTeX，并比较生成的 HTML。参考包声明 `katex: ^0.6.0`，但仓库已提交的 workspace override（`pnpm-workspace.yaml` 中的 `overrides.katex: ^0.19.0`，为文档工具链保留）让已安装的参考包使用与本包相同的 KaTeX 0.19.1，因此渲染出的数学 HTML 可以直接比较。如果该 override 被移除，参考包会回退到 KaTeX 0.6，本 spec 就必须改为 token 级对比。"
+    },
+    {
+      "en": "The benchmark still shows a small gap that is not plugin overhead: this ESM package resolves `katex` through the `import` condition (`dist/katex.mjs`) while the CJS reference resolves `dist/katex.js`. The identical KaTeX 0.19.1 code runs about 4.5% faster as CJS on Node, so with both sides forced onto the same KaTeX build the packages measure at parity; neither package allocates KaTeX options per formula any more.",
+      "zh": "基准测试仍显示一个小差距，但它不是插件开销：本 ESM 包通过 `import` 条件解析 `katex`（`dist/katex.mjs`），而 CJS 参考包解析到 `dist/katex.js`。完全相同的 KaTeX 0.19.1 代码在 Node 上以 CJS 运行时快约 4.5%，因此把双方强制到同一个 KaTeX 构建后，两个包测得的结果基本持平；两个包都不再为每个公式分配 KaTeX 选项。"
+    },
+    {
+      "en": "`@mdit/plugin-katex-slim` is the same tex + KaTeX composition as `@mdit/plugin-katex`; the only difference is that it loads KaTeX with a dynamic `import(\"katex\")` at module initialization and throws when KaTeX is not installed. The comparison therefore uses the same cases and the results should match `plugin-katex`.",
+      "zh": "`@mdit/plugin-katex-slim` 与 `@mdit/plugin-katex` 是相同的 tex + KaTeX 组合；唯一区别是它在模块初始化时通过动态 `import(\"katex\")` 加载 KaTeX，并在未安装 KaTeX 时抛错。因此对比使用相同的用例，结果应与 `plugin-katex` 一致。"
+    },
+    {
+      "en": "Two intentional markup differences are normalized instead of compared: the current package wraps display math in `<p class='katex-block'>` (the reference emits a plain `<p>`), and it keeps the edge whitespace/newline of the block formula while the reference trims it. The display wrapper is renderer-only; the retained whitespace also shows up in the token content and is tracked by the `annotation-whitespace` issue.",
+      "zh": "两处有意的标记差异通过归一化处理而非直接对比：当前包把显示公式包在 `<p class='katex-block'>` 中（参考包输出普通 `<p>`），并保留块公式首尾的空白与换行，而参考包会将其裁剪。显示公式的包裹仅存在于渲染阶段；保留的空白还会体现在 token content 中，归入 `annotation-whitespace` issue。"
+    },
+    {
+      "en": "Both packages run with their own defaults for error handling: the current package catches KaTeX parse errors and renders escaped `katex-error` markup, while the reference's catch block returns the raw LaTeX into the HTML. Tracked by the `raw-latex-on-error` issue.",
+      "zh": "两侧都以各自的默认设置处理错误：当前包捕获 KaTeX 解析错误并渲染转义后的 `katex-error` 标记，而参考包的 catch 块会把原始 LaTeX 写入 HTML。归入 `raw-latex-on-error` issue。"
+    },
+    {
+      "en": "The current fork applies stricter delimiter rules than the reference; the affected cases are grouped under the `word-boundary-delimiters`, `literal-gap-inline`, `block-trailing-content` and `adjacent-dollar-delimiter` issues.",
+      "zh": "当前 fork 的定界符规则比参考包更严格；相关用例分别归入 `word-boundary-delimiters`、`literal-gap-inline`、`block-trailing-content` 和 `adjacent-dollar-delimiter` issue。"
+    },
+    {
+      "en": "Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\\(...\\)` / `\\[...\\]`), `mathFence` (```` ```math ````), `allowInlineWithSpace`, `transformer`, and the `logger` callback.",
+      "zh": "参考包没有等价选项的 fork 专有行为不参与比较：方括号定界符（`\\(...\\)` / `\\[...\\]`）、`mathFence`（```` ```math ````）、`allowInlineWithSpace`、`transformer` 以及 `logger` 回调。"
+    },
+    {
+      "en": "Benchmarks render real KaTeX on both sides with small corpora: 24 inline formulas for `normal/large`, and 24 inline plus 8 display formulas for `heavy/large`. Per-case `targetMs` is 100 ms.",
+      "zh": "基准测试会让双方实际渲染 KaTeX，语料较小：`normal/large` 有 24 个行内公式，`heavy/large` 有 24 个行内公式加 8 个显示公式。每个用例的 `targetMs` 为 100 ms。"
+    },
+    {
+      "en": "Scaling series measure real rendering: many inline formulas, one very long formula, and many display formulas. KaTeX 0.19 rendering and the reference parser were both measured as linear (~1) on every pattern probed, so these series are a regression baseline rather than an exposure of superlinear behavior.",
+      "zh": "伸缩序列测量实际渲染：大量行内公式、一个超长公式以及大量显示公式。KaTeX 0.19 渲染与参考包解析器在探测到的每种模式上均测得为线性（约 1），因此这些序列是回归基线，而不是用来暴露超线性行为。"
+    }
+  ]
+}

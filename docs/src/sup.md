@@ -40,3 +40,11 @@ Use `^ ^` to mark the superscript.
 ## Demo
 
 `19^th^`: 19^th^
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

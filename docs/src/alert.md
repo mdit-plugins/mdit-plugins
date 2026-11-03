@@ -151,3 +151,11 @@ Hint title render function.
 With default options, you can import `@mdit/plugin-alert/style` to apply styles for alert box.
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

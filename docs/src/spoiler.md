@@ -45,3 +45,11 @@ Custom HTML attributes for the spoiler element. A static array is cloned for eve
 VuePress Theme Hope is !!powerful!!.
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->

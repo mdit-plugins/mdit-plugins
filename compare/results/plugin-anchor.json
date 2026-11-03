@@ -1,0 +1,1079 @@
+{
+  "plugin": "plugin-anchor",
+  "reference": "markdown-it-anchor",
+  "referenceVersion": "10.0.0",
+  "generatedAt": "2026-11-03T01:53:41.199Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "default",
+      "correctness": {
+        "total": 22,
+        "exact": 16,
+        "normalized": 0,
+        "diff": 6,
+        "referenceErrors": 0,
+        "differences": 2,
+        "issues": [
+          {
+            "id": "empty-slug-placeholder",
+            "category": "difference",
+            "note": {
+              "en": "Headings without text produce an empty slug in the reference (`id=\"\"`), while this package falls back to its `defaultPlaceHolder` option (`heading`); both are valid id variants.",
+              "zh": "没有文本的标题在参考包中生成空 slug（`id=\"\"`），当前包则回退到 `defaultPlaceHolder` 选项（`heading`）；两种 id 变体都有效。"
+            },
+            "cases": [
+              "heading-image-only",
+              "heading-empty"
+            ]
+          },
+          {
+            "id": "default-slugify",
+            "category": "difference",
+            "note": {
+              "en": "The reference default slugify percent-encodes punctuation, CJK and raw HTML, while this package's default lowercases ASCII, keeps CJK and strips ASCII punctuation; the id policy is an intentional design choice.",
+              "zh": "参考包默认对 slug 做百分号编码（标点、CJK 与原始 HTML），当前包默认将 ASCII 转为小写、保留 CJK 并去除 ASCII 标点；这是有意的 id 生成策略选择。"
+            },
+            "cases": [
+              "heading-punctuation",
+              "heading-cjk",
+              "heading-only-punctuation",
+              "heading-html"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact"
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"></h1>\n<h2 id=\"-1\" tabindex=\"-1\"></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "diff",
+            "issue": "default-slugify",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"hello-world-how-are-you\" tabindex=\"-1\">Hello, World! How are you?</h2>\n",
+            "referenceHtml": "<h2 id=\"hello%2C-world!-how-are-you%3F\" tabindex=\"-1\">Hello, World! How are you?</h2>\n"
+          },
+          {
+            "name": "heading-cjk",
+            "status": "diff",
+            "issue": "default-slugify",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"你好-世界\" tabindex=\"-1\">你好 世界</h2>\n",
+            "referenceHtml": "<h2 id=\"%E4%BD%A0%E5%A5%BD-%E4%B8%96%E7%95%8C\" tabindex=\"-1\">你好 世界</h2>\n"
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "diff",
+            "issue": "default-slugify",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\">!!!</h2>\n",
+            "referenceHtml": "<h2 id=\"!!!\" tabindex=\"-1\">!!!</h2>\n"
+          },
+          {
+            "name": "heading-html",
+            "status": "diff",
+            "issue": "default-slugify",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading-with-emraw-htmlem\" tabindex=\"-1\">Heading with &lt;em&gt;raw html&lt;/em&gt;</h2>\n",
+            "referenceHtml": "<h2 id=\"heading-with-%3Cem%3Eraw-html%3C%2Fem%3E\" tabindex=\"-1\">Heading with &lt;em&gt;raw html&lt;/em&gt;</h2>\n"
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 9974.654403161569,
+            "meanMs": 0.10025409999999997
+          },
+          "reference": {
+            "opsPerSec": 9891.514566889853,
+            "meanMs": 0.10109675249807833
+          },
+          "ratio": 1.0084051674502923
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2730.376889413545,
+            "meanMs": 0.366249803782506
+          },
+          "reference": {
+            "opsPerSec": 2582.0785679610603,
+            "meanMs": 0.38728488451443616
+          },
+          "ratio": 1.0574336982974102
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 705.5979082608269,
+            "meanMs": 1.4172377614678902
+          },
+          "reference": {
+            "opsPerSec": 561.4723428363657,
+            "meanMs": 1.7810316265060235
+          },
+          "ratio": 1.2566921902090284
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2931.7817433770397,
+            "meanMs": 0.34108951058823606
+          },
+          "reference": {
+            "opsPerSec": 2246.9632612518967,
+            "meanMs": 0.44504510476190406
+          },
+          "ratio": 1.3047751131202723
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 756.794347586479,
+            "meanMs": 1.3213629345794364
+          },
+          "reference": {
+            "opsPerSec": 319.4168874364171,
+            "meanMs": 3.130704854166671
+          },
+          "ratio": 2.3692997375948885
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 186.72961923815626,
+            "meanMs": 5.355336791666635
+          },
+          "reference": {
+            "opsPerSec": 24.27939513956849,
+            "meanMs": 41.187187500000164
+          },
+          "ratio": 7.69086783936558
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.0029436344415252,
+          "referenceExponent": 1.9268161483541228
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "currentExponent": 1.0806479365363484,
+          "referenceExponent": 1.3413051754801806
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 1.039454301880355,
+          "referenceExponent": 1.0635862099069389
+        }
+      ]
+    },
+    {
+      "id": "legacy-slugify",
+      "correctness": {
+        "total": 22,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 2,
+        "referenceErrors": 0,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "empty-slug-placeholder",
+            "category": "difference",
+            "note": {
+              "en": "Headings without text produce an empty slug in the reference (`id=\"\"`), while this package falls back to its `defaultPlaceHolder` option (`heading`); both are valid id variants.",
+              "zh": "没有文本的标题在参考包中生成空 slug（`id=\"\"`），当前包则回退到 `defaultPlaceHolder` 选项（`heading`）；两种 id 变体都有效。"
+            },
+            "cases": [
+              "heading-image-only",
+              "heading-empty"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact"
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"></h1>\n<h2 id=\"-1\" tabindex=\"-1\"></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-html",
+            "status": "exact"
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10010.389464521431,
+            "meanMs": 0.09989621318373024
+          },
+          "reference": {
+            "opsPerSec": 9873.529658957614,
+            "meanMs": 0.10128090303478907
+          },
+          "ratio": 1.013861284696669
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2717.5729141549145,
+            "meanMs": 0.3679754073170731
+          },
+          "reference": {
+            "opsPerSec": 2546.1575705865116,
+            "meanMs": 0.3927486702127584
+          },
+          "ratio": 1.0673231482405534
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 693.0048536070271,
+            "meanMs": 1.442991336633634
+          },
+          "reference": {
+            "opsPerSec": 557.3414811349846,
+            "meanMs": 1.7942321428571477
+          },
+          "ratio": 1.2434115834977402
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2918.422172921459,
+            "meanMs": 0.3426509054373581
+          },
+          "reference": {
+            "opsPerSec": 2244.1583647970497,
+            "meanMs": 0.44560135135134943
+          },
+          "ratio": 1.300452864067544
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 755.1902787031809,
+            "meanMs": 1.3241695877192812
+          },
+          "reference": {
+            "opsPerSec": 319.0906809048078,
+            "meanMs": 3.1339053750000403
+          },
+          "ratio": 2.366694873575677
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 185.19053005315718,
+            "meanMs": 5.399844148148178
+          },
+          "reference": {
+            "opsPerSec": 24.401626368397878,
+            "meanMs": 40.98087499999929
+          },
+          "ratio": 7.589269963292046
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.0084132773380314,
+          "referenceExponent": 1.8979544389441714
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "currentExponent": 1.0835131085605751,
+          "referenceExponent": 1.3469317419691604
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 1.0348228686021945,
+          "referenceExponent": 1.069401287956133
+        }
+      ]
+    },
+    {
+      "id": "link-inside-header",
+      "correctness": {
+        "total": 22,
+        "exact": 20,
+        "normalized": 0,
+        "diff": 2,
+        "referenceErrors": 0,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "empty-slug-placeholder",
+            "category": "difference",
+            "note": {
+              "en": "Headings without text produce an empty slug in the reference (`id=\"\"`), while this package falls back to its `defaultPlaceHolder` option (`heading`); both are valid id variants.",
+              "zh": "没有文本的标题在参考包中生成空 slug（`id=\"\"`），当前包则回退到 `defaultPlaceHolder` 选项（`heading`）；两种 id 变体都有效。"
+            },
+            "cases": [
+              "heading-image-only",
+              "heading-empty"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "exact"
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"> <a class=\"anchor-link\" href=\"#heading\">¶</a></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><img src=\"image.png\" alt=\"alt\"> <a class=\"anchor-link\" href=\"#\">¶</a></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#heading\">¶</a></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#heading-1\">¶</a></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#\">¶</a></h1>\n<h2 id=\"-1\" tabindex=\"-1\"> <a class=\"anchor-link\" href=\"#-1\">¶</a></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-html",
+            "status": "exact"
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 8710.847473765893,
+            "meanMs": 0.11479939271255289
+          },
+          "reference": {
+            "opsPerSec": 8544.766959306779,
+            "meanMs": 0.11703069314381023
+          },
+          "ratio": 1.0194365177248308
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2369.9467802865897,
+            "meanMs": 0.4219504034090898
+          },
+          "reference": {
+            "opsPerSec": 2233.3850113809294,
+            "meanMs": 0.447750833333339
+          },
+          "ratio": 1.0611456458289843
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 609.0267210473701,
+            "meanMs": 1.641964080459813
+          },
+          "reference": {
+            "opsPerSec": 496.6084391506026,
+            "meanMs": 2.0136588933333406
+          },
+          "ratio": 1.2263720731146803
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2025.9286769669022,
+            "meanMs": 0.49360079225352566
+          },
+          "reference": {
+            "opsPerSec": 1655.6689486502223,
+            "meanMs": 0.6039854771784215
+          },
+          "ratio": 1.2236314986873027
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 525.4132714546158,
+            "meanMs": 1.903263686567114
+          },
+          "reference": {
+            "opsPerSec": 260.8656276586793,
+            "meanMs": 3.833391194444428
+          },
+          "ratio": 2.0141146082383643
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 128.59870950166135,
+            "meanMs": 7.776127800000055
+          },
+          "reference": {
+            "opsPerSec": 23.666927565617545,
+            "meanMs": 42.253055333332064
+          },
+          "ratio": 5.433688388368792
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.0024712134962421,
+          "referenceExponent": 1.802932340519432
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "currentExponent": 1.1372126445925574,
+          "referenceExponent": 1.301758171292295
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 1.041203427672712,
+          "referenceExponent": 1.0681723113125938
+        }
+      ]
+    },
+    {
+      "id": "header-link",
+      "correctness": {
+        "total": 22,
+        "exact": 19,
+        "normalized": 0,
+        "diff": 3,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "header-link-nested-anchor",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference `headerLink` preset wraps a heading that already contains a link in another `<a>`, producing invalid nested anchors; the current preset leaves such headings untouched.",
+              "zh": "参考包的 `headerLink` 预设会给已含链接的标题再包一层 `<a>`，产生非法的嵌套锚点；当前包的预设不会改动此类标题。"
+            },
+            "cases": [
+              "heading-with-link"
+            ]
+          },
+          {
+            "id": "empty-slug-placeholder",
+            "category": "difference",
+            "note": {
+              "en": "Headings without text produce an empty slug in the reference (`id=\"\"`), while this package falls back to its `defaultPlaceHolder` option (`heading`); both are valid id variants.",
+              "zh": "没有文本的标题在参考包中生成空 slug（`id=\"\"`），当前包则回退到 `defaultPlaceHolder` 选项（`heading`）；两种 id 变体都有效。"
+            },
+            "cases": [
+              "heading-image-only",
+              "heading-empty"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-headings",
+            "status": "exact"
+          },
+          {
+            "name": "single-heading",
+            "status": "exact"
+          },
+          {
+            "name": "heading-levels",
+            "status": "exact"
+          },
+          {
+            "name": "heading-inline-markup",
+            "status": "exact"
+          },
+          {
+            "name": "heading-with-link",
+            "status": "diff",
+            "issue": "header-link-nested-anchor",
+            "category": "reference-error",
+            "ourHtml": "<h2 id=\"heading-with-link\" tabindex=\"-1\">Heading with <a href=\"https://example.com\">link</a></h2>\n",
+            "referenceHtml": "<h2 id=\"heading-with-link\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading-with-link\">Heading with <a href=\"https://example.com\">link</a></a></h2>\n"
+          },
+          {
+            "name": "heading-image-only",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h2 id=\"heading\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading\"><img src=\"image.png\" alt=\"alt\"></a></h2>\n",
+            "referenceHtml": "<h2 id=\"\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#\"><img src=\"image.png\" alt=\"alt\"></a></h2>\n"
+          },
+          {
+            "name": "heading-empty",
+            "status": "diff",
+            "issue": "empty-slug-placeholder",
+            "category": "difference",
+            "ourHtml": "<h1 id=\"heading\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading\"></a></h1>\n<h2 id=\"heading-1\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#heading-1\"></a></h2>\n",
+            "referenceHtml": "<h1 id=\"\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#\"></a></h1>\n<h2 id=\"-1\" tabindex=\"-1\"><a class=\"anchor-link\" href=\"#-1\"></a></h2>\n"
+          },
+          {
+            "name": "heading-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-cjk",
+            "status": "exact"
+          },
+          {
+            "name": "heading-only-punctuation",
+            "status": "exact"
+          },
+          {
+            "name": "heading-html",
+            "status": "exact"
+          },
+          {
+            "name": "heading-tab",
+            "status": "exact"
+          },
+          {
+            "name": "heading-trailing-spaces",
+            "status": "exact"
+          },
+          {
+            "name": "heading-code-only",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-headings",
+            "status": "exact"
+          },
+          {
+            "name": "duplicate-existing-index",
+            "status": "exact"
+          },
+          {
+            "name": "multi-word",
+            "status": "exact"
+          },
+          {
+            "name": "setext-headings",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "heading-in-list",
+            "status": "exact"
+          },
+          {
+            "name": "nested-headings",
+            "status": "exact"
+          },
+          {
+            "name": "not-a-heading",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 9089.97292905553,
+            "meanMs": 0.11001132872503532
+          },
+          "reference": {
+            "opsPerSec": 8942.653175989764,
+            "meanMs": 0.11182363671275006
+          },
+          "ratio": 1.0164738305474381
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2451.711866092956,
+            "meanMs": 0.4078782722512978
+          },
+          "reference": {
+            "opsPerSec": 2320.994275330442,
+            "meanMs": 0.4308498347578341
+          },
+          "ratio": 1.0563196523799712
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 644.9171026643472,
+            "meanMs": 1.5505868829787552
+          },
+          "reference": {
+            "opsPerSec": 515.943706358304,
+            "meanMs": 1.9381959459459648
+          },
+          "ratio": 1.2499757138552552
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2308.1784375111083,
+            "meanMs": 0.4332420681818224
+          },
+          "reference": {
+            "opsPerSec": 1811.7505001878806,
+            "meanMs": 0.551952379699246
+          },
+          "ratio": 1.2740045813547438
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 586.1119642922337,
+            "meanMs": 1.7061586538462181
+          },
+          "reference": {
+            "opsPerSec": 278.2277241754707,
+            "meanMs": 3.5941781249999623
+          },
+          "ratio": 2.1065908008599052
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 143.91583847818882,
+            "meanMs": 6.948505533333324
+          },
+          "reference": {
+            "opsPerSec": 24.766805051190524,
+            "meanMs": 40.37662499999897
+          },
+          "ratio": 5.810835841794252
+        }
+      ],
+      "scaling": [
+        {
+          "case": "duplicate-headings",
+          "sizes": [
+            128,
+            256,
+            512,
+            1024
+          ],
+          "currentExponent": 1.009988134783481,
+          "referenceExponent": 1.8459569057122782
+        },
+        {
+          "case": "unique-headings",
+          "sizes": [
+            1024,
+            2048,
+            4096,
+            8192
+          ],
+          "currentExponent": 1.1178253693147093,
+          "referenceExponent": 1.3183154318084003
+        },
+        {
+          "case": "heading-inline-content",
+          "sizes": [
+            256,
+            512,
+            1024,
+            2048
+          ],
+          "currentExponent": 1.0322349520427863,
+          "referenceExponent": 1.0787943893647214
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The `default` variant uses the defaults of both packages. The current package intentionally ships a different default slugify than the reference legacy percent-encoding slugify: it lowercases ASCII, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash and strips other ASCII punctuation. Headings with punctuation, CJK or raw HTML text therefore produce different ids; those cases reference the `default-slugify` issue. Generated ids are compared byte for byte and are never normalized.",
+      "zh": "`default` 变体使用两个包的默认配置。当前包有意提供与参考包旧版百分号编码 slugify 不同的默认 slugify：它将 ASCII 转为小写，保留非 ASCII 字符（如 CJK），把空白和连字符折叠为单个连字符，并去除其他 ASCII 标点。因此，含标点、CJK 或原始 HTML 文本的标题会产生不同的 id；这些用例引用 `default-slugify` 问题。生成的 id 按字节比较，从不归一化。"
+    },
+    {
+      "en": "The `legacy-slugify` variant configures the current package with its exported `legacySlugify`, which is byte-identical to the reference default slugify, so every heading id matches.",
+      "zh": "`legacy-slugify` 变体为当前包配置其导出的 `legacySlugify`，它与参考包的默认 slugify 逐字节相同，因此所有标题 id 都一致。"
+    },
+    {
+      "en": "`link-inside-header` compares the `linkInsideHeader` permalink presets with the same `class` and `symbol` options and a matching slugify. Markup is identical except for the empty-slug placeholder difference.",
+      "zh": "`link-inside-header` 使用相同的 `class`、`symbol` 选项和匹配的 slugify 比较 `linkInsideHeader` 永久链接预设。除空 slug 占位符差异外，标记完全相同。"
+    },
+    {
+      "en": "`header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case references the `header-link-nested-anchor` issue.",
+      "zh": "`header-link` 比较 `headerLink` 预设。当前预设不会改动已包含链接的标题，因为再包裹会产生无效的嵌套 `<a>` 元素；参考包则会包裹已有链接。该用例引用 `header-link-nested-anchor` 问题。"
+    },
+    {
+      "en": "Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=\"\"`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases reference the `empty-slug-placeholder` issue.",
+      "zh": "空 slug 属于行为差异而非格式差异：对于没有文本的标题（仅图片或空标题），参考包输出 `id=\"\"`，当前包则回退到其 `defaultPlaceHolder` 选项（`heading`）。这些用例引用 `empty-slug-placeholder` 问题。"
+    },
+    {
+      "en": "Manual heading ids (e.g. set by plugin-attrs) are not compared: both packages reuse a preset id and both throw on duplicate explicit ids (reference default `failOnNonUnique: true`; the current package has no option to disable the failure).",
+      "zh": "不比较手动设置的标题 id（例如由 plugin-attrs 设置）：两个包都会复用预设 id，且遇到重复的显式 id 都会抛错（参考包默认 `failOnNonUnique: true`；当前包没有可关闭该失败的选项）。"
+    },
+    {
+      "en": "Scaling: `duplicate-headings` is quadratic in the reference, because its unique-slug loop rescans the used-slug map for every duplicate; the current package resumes from the last used candidate and stays linear. `unique-headings` exposes the leftover `state.tokens.indexOf(token)` call the reference executes for every heading after the permalink step (the O(n²) loop from markdown-it-anchor#80); the current package only rescans when a permalink actually moves the heading token. `heading-inline-content` is the linear baseline.",
+      "zh": "扩展性：`duplicate-headings` 在参考包中呈二次增长，因为其唯一 slug 循环会为每个重复项重新扫描已用 slug 映射；当前包从最后使用的候选项继续，保持线性。`unique-headings` 暴露了参考包在永久链接步骤后为每个标题执行的 `state.tokens.indexOf(token)` 调用（即 markdown-it-anchor#80 中的 O(n²) 循环）；当前包仅在永久链接实际移动标题 token 时才重新扫描。`heading-inline-content` 是线性基线。"
+    },
+    {
+      "en": "Benchmarks render fixed corpora (`normal` = sparse headings, `heavy` = heading-dense) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.",
+      "zh": "基准测试渲染固定语料（`normal` = 稀疏标题，`heavy` = 标题密集），并交错比较双方；结果文件中的比率和指数值来自受控的顺序对比运行，而不是临时运行。"
+    },
+    {
+      "en": "Only attribute order is normalized (the harness default); no other normalization is applied.",
+      "zh": "仅归一化属性顺序（测试框架默认行为）；不应用其他归一化。"
+    }
+  ]
+}

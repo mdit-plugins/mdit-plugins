@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-figure
 # yarn
 yarn add -D @mdit/plugin-figure
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-image-figures`](https://www.npmjs.com/package/markdown-it-image-figures) package `2.1.1`.
+
+- Correctness: **18/21** cases match the reference exactly (1 reference errors, 1 differences).
+- Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **1.1 kB** versus **972 B** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

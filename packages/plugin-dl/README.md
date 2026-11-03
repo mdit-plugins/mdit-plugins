@@ -16,3 +16,13 @@ npm i -D @mdit/plugin-dl
 # yarn
 yarn add -D @mdit/plugin-dl
 ```
+
+## Comparison / 对比
+
+Compared against the upstream [`markdown-it-deflist`](https://www.npmjs.com/package/markdown-it-deflist) package `4.0.0`.
+
+- Correctness: **3/22** cases match the reference exactly (1 reference errors).
+- Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **978 B** versus **1.9 kB** for the reference (import cost).
+
+See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

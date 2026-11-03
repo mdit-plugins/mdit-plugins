@@ -151,3 +151,11 @@ mdIt.render(`
 在使用默认选项的情况下，你可以在你的项目中导入 `@mdit/plugin-alert/style` 以应用样式。
 
 :::
+
+<!-- comparison:start -->
+
+---
+
+> 与上游参考实现的完整对比见[对比报告](compare.md)。
+
+<!-- comparison:end -->

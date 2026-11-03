@@ -1,0 +1,875 @@
+{
+  "plugin": "plugin-emoji",
+  "reference": "markdown-it-emoji",
+  "referenceVersion": "3.1.0",
+  "generatedAt": "2026-11-03T01:55:43.088Z",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.13.0",
+    "cpu": "Apple M4",
+    "memoryGB": 16
+  },
+  "variants": [
+    {
+      "id": "bare",
+      "correctness": {
+        "total": 25,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 2,
+        "referenceErrors": 1,
+        "differences": 0,
+        "issues": [
+          {
+            "id": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference inserts `emoji` tokens without the surrounding nesting level, so an emoji inside a link or emphasis keeps `level: 0`; the current package sets the correct level, and the reference token structure cannot reflect the document.",
+              "zh": "参考包插入的 `emoji` token 没有携带所在嵌套层级，因此链接或强调内的表情仍为 `level: 0`；当前包设置正确的层级，参考包的 token 结构无法反映文档。"
+            },
+            "cases": [
+              "link-text",
+              "emphasis"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[1].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[1].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[1].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[2].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[2].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[2].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "exact"
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 12600.610303108053,
+            "meanMs": 0.07936123536439668
+          },
+          "reference": {
+            "opsPerSec": 12419.980211422951,
+            "meanMs": 0.08051542619047623
+          },
+          "ratio": 1.0145435088148507
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3192.0948768317994,
+            "meanMs": 0.313273896480331
+          },
+          "reference": {
+            "opsPerSec": 3173.0822375639445,
+            "meanMs": 0.31515098731501057
+          },
+          "ratio": 1.0059918520367286
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 819.7591271269847,
+            "meanMs": 1.2198705289256206
+          },
+          "reference": {
+            "opsPerSec": 814.0963054762871,
+            "meanMs": 1.2283559000000006
+          },
+          "ratio": 1.0069559603852822
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 5225.942049978436,
+            "meanMs": 0.19135305949367085
+          },
+          "reference": {
+            "opsPerSec": 5087.60430648746,
+            "meanMs": 0.1965561666666666
+          },
+          "ratio": 1.027191136565903
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 1361.0052473255612,
+            "meanMs": 0.7347510246305418
+          },
+          "reference": {
+            "opsPerSec": 1325.67689436135,
+            "meanMs": 0.7543316205128203
+          },
+          "ratio": 1.0266492937415423
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 341.0277257012072,
+            "meanMs": 2.9323129019608043
+          },
+          "reference": {
+            "opsPerSec": 332.4341662695186,
+            "meanMs": 3.008114392156844
+          },
+          "ratio": 1.0258504098063177
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.004332859957393,
+          "referenceExponent": 1.005789410650139
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.017084098583633,
+          "referenceExponent": 1.779624262466848
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 0.9816076369489182,
+          "referenceExponent": 0.9838564456102155
+        }
+      ]
+    },
+    {
+      "id": "light",
+      "correctness": {
+        "total": 25,
+        "exact": 23,
+        "normalized": 0,
+        "diff": 2,
+        "referenceErrors": 1,
+        "differences": 0,
+        "issues": [
+          {
+            "id": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference inserts `emoji` tokens without the surrounding nesting level, so an emoji inside a link or emphasis keeps `level: 0`; the current package sets the correct level, and the reference token structure cannot reflect the document.",
+              "zh": "参考包插入的 `emoji` token 没有携带所在嵌套层级，因此链接或强调内的表情仍为 `level: 0`；当前包设置正确的层级，参考包的 token 结构无法反映文档。"
+            },
+            "cases": [
+              "link-text",
+              "emphasis"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[1].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[1].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[1].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[2].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[2].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[2].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "exact"
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "exact"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 11967.875897232412,
+            "meanMs": 0.0835570161812299
+          },
+          "reference": {
+            "opsPerSec": 11733.863154109802,
+            "meanMs": 0.08522342444821751
+          },
+          "ratio": 1.01994336733343
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 3002.3780180260674,
+            "meanMs": 0.3330693183856496
+          },
+          "reference": {
+            "opsPerSec": 2961.1080827621395,
+            "meanMs": 0.33771141479820416
+          },
+          "ratio": 1.0139373282266113
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 774.4397321038432,
+            "meanMs": 1.2912560636363526
+          },
+          "reference": {
+            "opsPerSec": 758.5315438893687,
+            "meanMs": 1.3183367363636618
+          },
+          "ratio": 1.0209723489321292
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 3478.415608550632,
+            "meanMs": 0.28748721042471254
+          },
+          "reference": {
+            "opsPerSec": 3406.278484751814,
+            "meanMs": 0.293575526627225
+          },
+          "ratio": 1.0211776941086113
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 903.129905708924,
+            "meanMs": 1.1072604214285613
+          },
+          "reference": {
+            "opsPerSec": 884.2454460475269,
+            "meanMs": 1.1309077185185203
+          },
+          "ratio": 1.0213565811911256
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 224.90453653848243,
+            "meanMs": 4.446330942857146
+          },
+          "reference": {
+            "opsPerSec": 220.64723188017993,
+            "meanMs": 4.532121212121252
+          },
+          "ratio": 1.0192946207483553
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.0006222050806852,
+          "referenceExponent": 1.0016726672517777
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.0175903837657696,
+          "referenceExponent": 1.7732149851812273
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 0.9846581968686244,
+          "referenceExponent": 0.9904139067582788
+        }
+      ]
+    },
+    {
+      "id": "full",
+      "correctness": {
+        "total": 25,
+        "exact": 21,
+        "normalized": 0,
+        "diff": 4,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference inserts `emoji` tokens without the surrounding nesting level, so an emoji inside a link or emphasis keeps `level: 0`; the current package sets the correct level, and the reference token structure cannot reflect the document.",
+              "zh": "参考包插入的 `emoji` token 没有携带所在嵌套层级，因此链接或强调内的表情仍为 `level: 0`；当前包设置正确的层级，参考包的 token 结构无法反映文档。"
+            },
+            "cases": [
+              "link-text",
+              "emphasis"
+            ]
+          },
+          {
+            "id": "emoji-data-version",
+            "category": "difference",
+            "note": {
+              "en": "The two `full` data sets come from different emoji versions: the current package knows newer Unicode names, the reference has the `u6e80` alias; each side renders the names it knows, and the `light` / `bare` data is identical.",
+              "zh": "两个 `full` 数据集来自不同的表情版本：当前包包含较新的 Unicode 名称，参考包带有 `u6e80` 别名；双方各自渲染已知名称，`light` / `bare` 数据一致。"
+            },
+            "cases": [
+              "full-new-emoji-name",
+              "full-reference-only-name"
+            ]
+          }
+        ],
+        "error": 0,
+        "cases": [
+          {
+            "name": "no-syntax",
+            "status": "exact"
+          },
+          {
+            "name": "single-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "consecutive-emojis",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-in-sentence",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-smileys",
+            "status": "exact"
+          },
+          {
+            "name": "shortcut-boundaries",
+            "status": "exact"
+          },
+          {
+            "name": "emoji-adjacent-to-text",
+            "status": "exact"
+          },
+          {
+            "name": "partial-delimiters",
+            "status": "exact"
+          },
+          {
+            "name": "unknown-emoji",
+            "status": "exact"
+          },
+          {
+            "name": "multi-line",
+            "status": "exact"
+          },
+          {
+            "name": "heading",
+            "status": "exact"
+          },
+          {
+            "name": "blockquote",
+            "status": "exact"
+          },
+          {
+            "name": "list",
+            "status": "exact"
+          },
+          {
+            "name": "table",
+            "status": "exact"
+          },
+          {
+            "name": "code-span",
+            "status": "exact"
+          },
+          {
+            "name": "fenced-code",
+            "status": "exact"
+          },
+          {
+            "name": "indented-code",
+            "status": "exact"
+          },
+          {
+            "name": "autolink",
+            "status": "exact"
+          },
+          {
+            "name": "link-text",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[1].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[1].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[1].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "link-href",
+            "status": "exact"
+          },
+          {
+            "name": "image-alt",
+            "status": "exact"
+          },
+          {
+            "name": "emphasis",
+            "status": "diff",
+            "issue": "emoji-token-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The rendered HTML matches, but the token stream differs at `[1].children[2].level`: current `1`, reference `0`.",
+              "zh": "渲染后的 HTML 一致，但 token 流在 `[1].children[2].level` 处不同：当前包为 `1`，参考包为 `0`。"
+            },
+            "tokenDifference": {
+              "path": "[1].children[2].level",
+              "current": "1",
+              "reference": "0"
+            }
+          },
+          {
+            "name": "escaped-colon",
+            "status": "exact"
+          },
+          {
+            "name": "full-new-emoji-name",
+            "status": "diff",
+            "issue": "emoji-data-version",
+            "category": "difference",
+            "ourHtml": "<p>🙂‍↔️</p>\n",
+            "referenceHtml": "<p>:head_shaking_horizontally:</p>\n"
+          },
+          {
+            "name": "full-reference-only-name",
+            "status": "diff",
+            "issue": "emoji-data-version",
+            "category": "difference",
+            "ourHtml": "<p>:u6e80:</p>\n",
+            "referenceHtml": "<p>🈵</p>\n"
+          }
+        ]
+      },
+      "bench": [
+        {
+          "case": "normal/small",
+          "kind": "normal",
+          "size": "small",
+          "current": {
+            "opsPerSec": 10667.025755917419,
+            "meanMs": 0.09374684404837597
+          },
+          "reference": {
+            "opsPerSec": 10415.027687122767,
+            "meanMs": 0.09601510721247615
+          },
+          "ratio": 1.0241956215926555
+        },
+        {
+          "case": "normal/medium",
+          "kind": "normal",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 2690.77071889858,
+            "meanMs": 0.3716407321428459
+          },
+          "reference": {
+            "opsPerSec": 2615.7239945064052,
+            "meanMs": 0.38230333249999604
+          },
+          "ratio": 1.028690612828337
+        },
+        {
+          "case": "normal/large",
+          "kind": "normal",
+          "size": "large",
+          "current": {
+            "opsPerSec": 693.2410952947804,
+            "meanMs": 1.4424995961538885
+          },
+          "reference": {
+            "opsPerSec": 676.6976365396112,
+            "meanMs": 1.4777648775509857
+          },
+          "ratio": 1.0244473423016025
+        },
+        {
+          "case": "heavy/small",
+          "kind": "heavy",
+          "size": "small",
+          "current": {
+            "opsPerSec": 2927.165152380974,
+            "meanMs": 0.3416274613636316
+          },
+          "reference": {
+            "opsPerSec": 2878.4229550365235,
+            "meanMs": 0.3474124600939028
+          },
+          "ratio": 1.016933646689818
+        },
+        {
+          "case": "heavy/medium",
+          "kind": "heavy",
+          "size": "medium",
+          "current": {
+            "opsPerSec": 763.2826948649407,
+            "meanMs": 1.3101305803571839
+          },
+          "reference": {
+            "opsPerSec": 748.4882762056076,
+            "meanMs": 1.3360262702702679
+          },
+          "ratio": 1.0197657319822457
+        },
+        {
+          "case": "heavy/large",
+          "kind": "heavy",
+          "size": "large",
+          "current": {
+            "opsPerSec": 190.69461364334026,
+            "meanMs": 5.243986607143078
+          },
+          "reference": {
+            "opsPerSec": 184.92374891806782,
+            "meanMs": 5.407634259259255
+          },
+          "ratio": 1.0312067257939341
+        }
+      ],
+      "scaling": [
+        {
+          "case": "dense-emoji-text",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.0045370913753793,
+          "referenceExponent": 1.0031027095619642
+        },
+        {
+          "case": "inline-token-replacements",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 1.0195983191370779,
+          "referenceExponent": 1.770018602585195
+        },
+        {
+          "case": "unmatched-colon-words",
+          "sizes": [
+            512,
+            1024,
+            2048,
+            4096
+          ],
+          "currentExponent": 0.9802764413450806,
+          "referenceExponent": 0.9845122368785271
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "en": "The `bare` preset ships no built-in data, so both sides receive the same custom definitions (the reference option is `defs`, the current one `definitions`), shortcuts and `enabled` whitelist (`enabled: [\"smile\", \"rocket\"]`).",
+      "zh": "`bare` 预设不内置任何数据，因此两侧接收相同的自定义定义数据（参考包的选项名为 `defs`，当前包为 `definitions`）、快捷键和 `enabled` 白名单（`enabled: [\"smile\", \"rocket\"]`）。"
+    },
+    {
+      "en": "`light` data (150 names) and the shortcut table (25 names) are identical on both sides, so every `light` case renders identically; the token-level `emoji` level difference applies to all three variants.",
+      "zh": "两侧的 `light` 数据（150 个名称）和快捷键表（25 个名称）完全一致，因此所有 `light` 用例渲染结果相同；token 层的 `emoji` 层级差异适用于全部三个变体。"
+    },
+    {
+      "en": "`full` data differs: the current package ships 1957 names, markdown-it-emoji 3.1.0 ships 1903. 55 newer names (Unicode 15.1/16.0 additions such as `head_shaking_horizontally`, `phoenix` or `leafless_tree`) exist only in the current data, and the reference-only generated name `u6e80` (🈵, exposed as `no_vacancy` in the current data) is missing from the current data. The two `full` cases covering these names reference the `emoji-data-version` issue; the `light` and `bare` variants render them as literal text on both sides.",
+      "zh": "`full` 数据存在差异：当前包包含 1957 个名称，markdown-it-emoji 3.1.0 包含 1903 个。55 个较新的名称（Unicode 15.1/16.0 新增，例如 `head_shaking_horizontally`、`phoenix` 或 `leafless_tree`）只存在于当前数据中，而仅由参考包生成的名称 `u6e80`（🈵，在当前数据中名为 `no_vacancy`）在当前数据中缺失。覆盖这些名称的两个 `full` 用例引用 `emoji-data-version` 问题；`light` 和 `bare` 变体在两侧都将它们渲染为字面文本。"
+    },
+    {
+      "en": "The current package ignores empty or whitespace-only shortcut aliases, while the reference compiles a zero-length alternative that duplicates emojis next to whitespace or punctuation (e.g. `a :smile: b` with an empty `smile` alias becomes `a 😄😄 b`). This is documented behavior of the current package and is not covered by a case, because such an alias changes every shortcut-bearing text token.",
+      "zh": "当前包会忽略空或仅含空白的快捷键别名，而参考包会编译一个零长度分支，在空白或标点旁重复输出表情（例如 `smile` 别名为空时，`a :smile: b` 会变成 `a 😄😄 b`）。这是当前包的已记录行为，且没有对应用例，因为这种别名会改变每一个包含快捷键的文本 token。"
+    },
+    {
+      "en": "Scaling: `dense-emoji-text` and `unmatched-colon-words` are linear baselines. `inline-token-replacements` exposes the replacement loop from markdown-it-emoji#22: the reference rewrites every matching text token with `arrayReplaceAt`, which copies the whole inline children array, so an inline token with m matching children costs O(m²); the current package rebuilds the children list in one pass and stays linear.",
+      "zh": "扩展性：`dense-emoji-text` 和 `unmatched-colon-words` 是线性基线。`inline-token-replacements` 暴露 markdown-it-emoji#22 中的替换循环：参考包用 `arrayReplaceAt` 重写每个匹配的文本 token，该函数会复制整个 inline children 数组，因此包含 m 个匹配子节点的 inline token 开销为 O(m²)；当前包一次性重建子节点列表，保持线性。"
+    },
+    {
+      "en": "Benchmarks render fixed corpora (`normal` = sparse emoji, `heavy` = dense emoji) and compare both sides interleaved; the ratio and exponent values in the result file come from the controlled sequential comparison run, not from ad-hoc runs.",
+      "zh": "基准测试渲染固定语料（`normal` = 稀疏表情，`heavy` = 密集表情），并以交错方式对比两侧；结果文件中的比值和拟合指数来自受控的顺序对比运行，而非临时运行。"
+    }
+  ]
+}

@@ -263,3 +263,11 @@ mdIt.use(anchor, { permalink: customPermalink });
 Where `state` is a markdown-it `StateCore` instance, and `idx` is the
 index of the `heading_open` token. The `heading_open` token is followed
 by an `inline` token containing the heading text, then `heading_close`.
+
+<!-- comparison:start -->
+
+---
+
+> See the [comparison report](compare.md) for the full upstream comparison.
+
+<!-- comparison:end -->
