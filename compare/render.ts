@@ -253,7 +253,9 @@ export interface DocsPackageSizeSide {
   readonly version: string;
   /** Unpacked size in bytes */
   readonly unpackedBytes: number;
-  /** Gzipped entry size in bytes */
+  /** Number of modules in the entry module graph */
+  readonly entryFileCount: number;
+  /** Gzipped size of the entry module graph in bytes */
   readonly entryGzipBytes: number;
 }
 
@@ -347,7 +349,7 @@ const METHOD_NOTES: Readonly<Record<ReportLocale, readonly string[]>> = {
     "The test suite comparison runs each compared package's own unit tests against the reference implementation by swapping the built package entry for the reference package. Tests of features the reference does not provide are reported as feature gaps; tests that only assert internal implementation details are skipped silently and only counted in the aggregate; every other failing test is a behavior difference between the two packages.",
     'Each correctness difference is grouped under one root cause: "reference error" when the reference output or token stream is wrong (wrong source maps, missing or broken nesting, lost or misplaced content, security issues), and "difference" when the implementations merely represent the same result differently (equivalent token shape, alternative but valid output, intentional syntax or option design). Counts are per root cause, not per case.',
     "Scaling exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic. The series are built to expose the known superlinear paths of the reference implementations.",
-    "Import cost is the gzipped size of the package's main entry (`exports['.']`), i.e. what a consumer downloads and parses when importing the plugin. The reference value measures the equivalent entry of the installed reference package; the unpacked size of the published files is recorded in the committed data but not shown, because only the entry gzip matters for import cost.",
+    "Import cost is the gzipped size of the module graph reachable from the package's main entry (`exports['.']`): the entry file plus every relative import it loads, concatenated and gzipped as one stream, i.e. what a consumer downloads and parses when importing the plugin. Bare (peer) imports are not counted for either side. Comparing a single bundled file with an unbundled reference entry would understate the reference badly, so both sides are measured over the whole graph; the unpacked size of the published files is recorded in the committed data but not shown.",
     "Entry gzip is the gzipped size of the ESM entry: the resolved `exports` entry for the current package and the `module` / `exports.import` / `main` entry for the reference.",
   ],
   zh: [
@@ -458,12 +460,14 @@ export const buildDocsComparisonData = (
                 name: size.current.name,
                 version: size.current.version,
                 unpackedBytes: size.current.unpackedBytes,
+                entryFileCount: size.current.entryFileCount,
                 entryGzipBytes: size.current.entryGzipBytes,
               },
               upstream: {
                 name: size.upstream.name,
                 version: size.upstream.version,
                 unpackedBytes: size.upstream.unpackedBytes,
+                entryFileCount: size.upstream.entryFileCount,
                 entryGzipBytes: size.upstream.entryGzipBytes,
               },
             },

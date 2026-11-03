@@ -32,7 +32,9 @@ export interface PackageSizeSide {
   readonly fileCount: number;
   /** ESM entry, relative to the package directory */
   readonly entry: string;
-  /** Gzipped size of the ESM entry in bytes */
+  /** Number of modules in the entry module graph */
+  readonly entryFileCount: number;
+  /** Gzipped size of the entry module graph in bytes */
   readonly entryGzipBytes: number;
 }
 
@@ -258,14 +260,91 @@ const sumFileSizes = (directory: string, files: readonly string[]): number => {
   return total;
 };
 
+/** Matches the specifier of static, dynamic and side-effect imports */
+const IMPORT_SPECIFIER_RE =
+  /(?:\bfrom\s*|import\s*\(\s*|\bimport\s+)["'](?<specifier>[^"']+)["']/gu;
+
 /**
- * Compute the gzipped size of a file
+ * Resolve a relative module specifier to a file
  *
- * @param filePath - Absolute file path
- * @returns Gzipped size in bytes
+ * @param fromFile - Absolute path of the importing file
+ * @param specifier - Relative module specifier
+ * @returns Absolute path of the imported file, or `null` when it cannot be resolved
  */
-const getGzipSize = (filePath: string): number =>
-  gzipSync(readFileSync(filePath), { level: 9 }).length;
+const resolveRelativeModule = (fromFile: string, specifier: string): string | null => {
+  const target = path.resolve(path.dirname(fromFile), specifier);
+  const candidates = [
+    target,
+    `${target}.js`,
+    `${target}.mjs`,
+    `${target}.cjs`,
+    `${target}.json`,
+    path.join(target, "index.js"),
+    path.join(target, "index.mjs"),
+  ];
+
+  for (const candidate of candidates)
+    if (existsSync(candidate) && statSync(candidate).isFile()) return candidate;
+
+  return null;
+};
+
+/**
+ * Collect the module graph of an entry
+ *
+ * Only relative imports are followed: bare imports are peer dependencies of both sides and are not
+ * part of the package's own import cost.
+ *
+ * @param entryPath - Absolute path of the entry file
+ * @returns Absolute paths of all modules in the graph, sorted
+ */
+const collectEntryGraph = (entryPath: string): readonly string[] => {
+  const visited = new Set<string>();
+  const pending = [entryPath];
+
+  while (pending.length > 0) {
+    const file = pending.pop();
+
+    if (file == null || visited.has(file)) continue;
+
+    visited.add(file);
+
+    if (!/\.[cm]?js$/u.test(file)) continue;
+
+    const source = readFileSync(file, "utf8");
+
+    for (const match of source.matchAll(IMPORT_SPECIFIER_RE)) {
+      const specifier = match.groups?.specifier;
+
+      if (!specifier?.startsWith(".")) continue;
+
+      const resolved = resolveRelativeModule(file, specifier);
+
+      if (resolved) pending.push(resolved);
+    }
+  }
+
+  return [...visited].sort();
+};
+
+/**
+ * Compute the gzipped size of the entry module graph
+ *
+ * @param entryPath - Absolute path of the entry file
+ * @returns Gzipped size in bytes and number of modules in the graph
+ */
+const getEntryGzipSize = (entryPath: string): { bytes: number; fileCount: number } => {
+  const files = collectEntryGraph(entryPath);
+  const chunks: Buffer[] = [];
+
+  for (const [index, file] of files.entries()) {
+    if (index > 0) chunks.push(Buffer.from("\n"));
+
+    chunks.push(readFileSync(file));
+  }
+
+  return { bytes: gzipSync(Buffer.concat(chunks), { level: 9 }).length, fileCount: files.length };
+};
 
 /**
  * Resolve the first existing entry of an `exports` target
@@ -347,6 +426,7 @@ const getCurrentSize = (directory: string, plugin: string): PackageSizeSide => {
   }
 
   const entryPath = path.join(directory, entry);
+  const entryGzip = getEntryGzipSize(entryPath);
 
   const files = resolvePublishedFiles(directory, manifest.files ?? ["dist"]);
 
@@ -356,7 +436,8 @@ const getCurrentSize = (directory: string, plugin: string): PackageSizeSide => {
     unpackedBytes: sumFileSizes(directory, files),
     fileCount: files.length,
     entry,
-    entryGzipBytes: getGzipSize(entryPath),
+    entryFileCount: entryGzip.fileCount,
+    entryGzipBytes: entryGzip.bytes,
   };
 };
 
@@ -444,6 +525,7 @@ const getReferenceSize = (packageName: string): PackageSizeSide => {
   const manifest = readManifest(path.join(directory, "package.json"));
   const files = walkFiles(directory, true);
   const entry = resolveReferenceEntry(directory, manifest, packageName);
+  const entryGzip = getEntryGzipSize(path.join(directory, entry));
 
   return {
     name: manifest.name,
@@ -451,7 +533,8 @@ const getReferenceSize = (packageName: string): PackageSizeSide => {
     unpackedBytes: sumFileSizes(directory, files),
     fileCount: files.length,
     entry,
-    entryGzipBytes: getGzipSize(path.join(directory, entry)),
+    entryFileCount: entryGzip.fileCount,
+    entryGzipBytes: entryGzip.bytes,
   };
 };
 

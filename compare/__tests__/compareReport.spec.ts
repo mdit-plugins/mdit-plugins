@@ -171,6 +171,7 @@ describe("compare/render.ts", () => {
           unpackedBytes: 1000,
           fileCount: 3,
           entry: "dist/index.js",
+          entryFileCount: 1,
           entryGzipBytes: 500,
         },
         upstream: {
@@ -179,6 +180,7 @@ describe("compare/render.ts", () => {
           unpackedBytes: 2000,
           fileCount: 4,
           entry: "index.js",
+          entryFileCount: 1,
           entryGzipBytes: 600,
         },
       },

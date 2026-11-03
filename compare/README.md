@@ -7,20 +7,20 @@ The harness lives in `compare/` and its data is presented on the dedicated
 [comparison page](https://mdit-plugins.github.io/compare.html) of the documentation site — the
 plugin pages only link to it, so the comparison never overshadows the plugin documentation.
 
-| File                    | Purpose                                                            |
-| ----------------------- | ------------------------------------------------------------------ |
-| `types.ts`              | Spec and result types, plus `defineComparison()`                   |
-| `loader.ts`             | Loads the current `dist` build and the installed reference package |
-| `normalize.ts`          | Shared HTML normalization helpers                                  |
-| `bench.ts`              | Interleaved benchmark measurement and scaling exponent fitting     |
-| `run.ts`                | CLI that runs specs and writes `results/<plugin>.json`             |
-| `size.ts`               | Package size measurement, writes `results/sizes.json`              |
-| `render.ts`             | Builds the docs data and the generated README comparison sections  |
-| `syncDocs.ts`           | Generates the docs data and the per-plugin links                   |
-| `specs/<plugin>.ts`     | One comparison spec per package                                    |
-| `corpora/<plugin>/*.md` | Benchmark corpora, read verbatim by `run.ts`                       |
-| `results/<plugin>.json` | Committed comparison data                                          |
-| `results/sizes.json`    | Committed package size data                                        |
+| File                    | Purpose                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| `types.ts`              | Spec and result types, plus `defineComparison()`                                            |
+| `loader.ts`             | Loads the current `dist` build and the installed reference package                          |
+| `normalize.ts`          | Shared HTML normalization helpers                                                           |
+| `bench.ts`              | Interleaved benchmark measurement and scaling exponent fitting                              |
+| `run.ts`                | CLI that runs specs and writes `results/<plugin>.json`                                      |
+| `size.ts`               | Entry import-cost measurement (gzip of the entry module graph), writes `results/sizes.json` |
+| `render.ts`             | Builds the docs data and the generated README comparison sections                           |
+| `syncDocs.ts`           | Generates the docs data and the per-plugin links                                            |
+| `specs/<plugin>.ts`     | One comparison spec per package                                                             |
+| `corpora/<plugin>/*.md` | Benchmark corpora, read verbatim by `run.ts`                                                |
+| `results/<plugin>.json` | Committed comparison data                                                                   |
+| `results/sizes.json`    | Committed package size data                                                                 |
 
 ## Commands
 

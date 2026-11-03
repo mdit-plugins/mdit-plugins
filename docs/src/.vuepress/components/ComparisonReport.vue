@@ -72,6 +72,7 @@ interface PackageSizeSide {
   readonly name: string;
   readonly version: string;
   readonly unpackedBytes: number;
+  readonly entryFileCount: number;
   readonly entryGzipBytes: number;
 }
 
@@ -316,6 +317,7 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     metric: "Metric",
     current: "Current",
     entryGzip: "Entry gzip",
+    entryFiles: "Entry files",
     sizeUnavailable: "Package size data is not available for this package.",
     methodology: "Methodology",
   },
@@ -390,6 +392,7 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     metric: "指标",
     current: "本包",
     entryGzip: "入口 gzip",
+    entryFiles: "入口文件数",
     sizeUnavailable: "该包暂无包体积数据。",
     methodology: "测量方法",
   },
@@ -985,12 +988,14 @@ watch([query, onlyDifferences, variantFilter], () => {
 
               <td class="cr-num">
                 <template v-if="row.pkg.size">
-                  <span class="cr-size-line cr-size-current" :title="text.current">
-                    {{ formatBytes(row.pkg.size.current.entryGzipBytes) }}
-                  </span>
-                  <span class="cr-size-line cr-size-reference" :title="text.reference">
-                    <span class="cr-size-separator">/ </span>
-                    {{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}
+                  <span class="cr-size-compare">
+                    <span class="cr-size-current" :title="text.current">
+                      {{ formatBytes(row.pkg.size.current.entryGzipBytes) }}
+                    </span>
+                    <span class="cr-size-vs">{{ text.vs }}</span>
+                    <span class="cr-size-reference" :title="text.reference">
+                      {{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}
+                    </span>
                   </span>
                 </template>
                 <span v-else class="cr-muted">—</span>
@@ -1200,6 +1205,11 @@ watch([query, onlyDifferences, variantFilter], () => {
                             <th scope="row">{{ text.entryGzip }}</th>
                             <td>{{ formatBytes(row.pkg.size.current.entryGzipBytes) }}</td>
                             <td>{{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">{{ text.entryFiles }}</th>
+                            <td>{{ formatInteger(row.pkg.size.current.entryFileCount) }}</td>
+                            <td>{{ formatInteger(row.pkg.size.upstream.entryFileCount) }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -1799,8 +1809,16 @@ watch([query, onlyDifferences, variantFilter], () => {
   color: var(--cr-text-mute);
 }
 
-.cr-size-line {
-  display: block;
+.cr-size-compare {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.cr-size-vs {
+  color: var(--cr-text-mute);
+  font-size: 0.76rem;
 }
 
 .cr-size-current {
@@ -1810,10 +1828,6 @@ watch([query, onlyDifferences, variantFilter], () => {
 .cr-size-reference {
   color: var(--cr-text-mute);
   font-size: 0.78rem;
-}
-
-.cr-size-separator {
-  color: var(--cr-text-subtle);
 }
 
 .cr-muted {
