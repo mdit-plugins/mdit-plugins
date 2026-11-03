@@ -3,7 +3,7 @@ import type { MarkdownIt, RendererRule } from "markdown-it";
 
 import type { AdvancedLinkProps, MarkdownItAdvancedLinksOptions } from "./options.js";
 import { createBlockRule, createInlineRule } from "./rules.js";
-import type { AdvancedLinkConfigs } from "./types.js";
+import type { AdvancedLinkConfigs, AdvancedLinkContext } from "./types.js";
 
 const INVALID_NAME_CHARS = " \t\n\r[]()\"'";
 
@@ -73,11 +73,13 @@ const createRenderer =
  * @param configs - Registered configs / 已注册的配置
  */
 const registerParserRules = (md: MarkdownIt, configs: AdvancedLinkConfigs): void => {
-  md.block.ruler.before("paragraph", "advanced_link_block", createBlockRule(configs), {
+  const context: AdvancedLinkContext = { md, configs };
+
+  md.block.ruler.before("paragraph", "advanced_link_block", createBlockRule(context), {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.inline.ruler.before("link", "advanced_link_inline", createInlineRule(configs));
+  md.inline.ruler.before("link", "advanced_link_inline", createInlineRule(context));
 };
 
 /**

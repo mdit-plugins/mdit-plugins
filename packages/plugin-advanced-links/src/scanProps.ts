@@ -17,45 +17,38 @@ const isWhitespace = (code: number): boolean => code === SPACE || code === TAB;
 const isLineBreak = (code: number): boolean => code === LINE_FEED || code === CARRIAGE_RETURN;
 
 /**
- * Scanned bare token
+ * Scanned token
  *
- * 扫描出的裸字符片段
+ * 扫描出的字符片段
  */
 interface ScannedToken {
   /**
-   * Unescaped text
+   * Unescaped text, `null` when the token is malformed
    *
-   * 反转义后的文本
+   * 反转义后的文本，格式错误时为 `null`
    */
-  text: string;
+  text: string | null;
 
   /**
-   * Position right after the token
+   * Position right after the token, or the furthest position reached by a malformed read
    *
-   * 片段之后的位置
+   * 片段之后的位置，格式错误时为读取到的最远位置
    */
   end: number;
-}
-
-/**
- * Scanned props
- *
- * 扫描出的属性
- */
-export interface ScannedProps {
-  /**
-   * Parsed props
-   *
-   * 解析后的属性
-   */
-  props: AdvancedLinkProps;
 
   /**
-   * Position of the `]` that ends the props, or `max` when the props are not closed
+   * Highest position of a whitespace or `]` read as token content, `-1` when there is none
    *
-   * 结束属性时右中括号的位置，未闭合时为 `max`
+   * 作为片段内容读取到的最后一个空白或 `]` 的位置，没有时为 `-1`
    */
-  end: number;
+  lastHidden: number;
+
+  /**
+   * Whether a `]` was read as token content
+   *
+   * 是否将 `]` 作为片段内容读取过
+   */
+  sawClose: boolean;
 }
 
 /**
@@ -87,13 +80,17 @@ const skipEscape = (src: string, pos: number, max: number): number => {
  * @returns Unescaped text / 反转义后的文本
  */
 const unescape = (raw: string): string => {
-  let pos = 0;
   let index = raw.indexOf("\\");
+
+  // a token without any escape is returned as-is
+  if (index === -1) return raw;
+
+  let pos = 0;
   let text = "";
 
   while (index !== -1) {
     // the escaped character is taken literally
-    text += raw.slice(pos, index) + raw.slice(index + 1, index + 2);
+    text += raw.slice(pos, index) + raw.charAt(index + 1);
     pos = index + 2;
     index = raw.indexOf("\\", pos);
   }
@@ -118,7 +115,7 @@ const unescape = (raw: string): string => {
  * @param quote - Quote character of a quoted value, or `NO_QUOTE` for a bare token /
  *   引号包裹的值的引号字符，裸片段为 `NO_QUOTE`
  * @param isKey - Whether `=` also ends a bare token / 裸片段是否为 key（key 也会以 `=` 结束）
- * @returns Scanned token, or `null` if the token is malformed / 扫描结果，格式错误时为 `null`
+ * @returns Scanned token / 扫描结果
  */
 const readToken = (
   src: string,
@@ -126,46 +123,90 @@ const readToken = (
   max: number,
   quote: number,
   isKey: boolean,
-): ScannedToken | null => {
+): ScannedToken => {
   let pos = start;
-  let hasEscape = false;
+  let lastHidden = -1;
+  let sawClose = false;
 
   while (pos < max) {
     const code = src.charCodeAt(pos);
 
-    if (isLineBreak(code)) return null;
+    if (isLineBreak(code)) return { text: null, end: pos, lastHidden, sawClose };
 
     if (quote === NO_QUOTE) {
       // `]` ends the props, whitespaces end the token, and `=` also ends a key
       if (code === CLOSE_BRACKET || isWhitespace(code) || (isKey && code === EQUAL)) break;
     } else if (code === quote) {
-      const raw = src.slice(start, pos);
-
-      return { text: hasEscape ? unescape(raw) : raw, end: pos + 1 };
+      return { text: unescape(src.slice(start, pos)), end: pos + 1, lastHidden, sawClose };
     }
 
     if (code === BACKSLASH) {
       const nextPos = skipEscape(src, pos, max);
 
       // a dangling `\` is malformed
-      if (nextPos === -1) return null;
+      if (nextPos === -1) return { text: null, end: pos, lastHidden, sawClose };
 
-      hasEscape = true;
+      const escapedCode = src.charCodeAt(pos + 1);
+
+      // an escaped whitespace or `]` is content instead of a boundary
+      if (escapedCode === CLOSE_BRACKET) sawClose = true;
+      if (escapedCode === CLOSE_BRACKET || isWhitespace(escapedCode)) lastHidden = pos + 1;
+
       pos = nextPos;
 
       continue;
+    }
+
+    // a whitespace or `]` inside a quoted value is content instead of a boundary
+    if (quote !== NO_QUOTE && (code === CLOSE_BRACKET || isWhitespace(code))) {
+      if (code === CLOSE_BRACKET) sawClose = true;
+      lastHidden = pos;
     }
 
     pos++;
   }
 
   // an unterminated quoted value
-  if (quote !== NO_QUOTE) return null;
+  if (quote !== NO_QUOTE) return { text: null, end: max, lastHidden, sawClose };
 
-  const raw = src.slice(start, pos);
-
-  return { text: hasEscape ? unescape(raw) : raw, end: pos };
+  return { text: unescape(src.slice(start, pos)), end: pos, lastHidden, sawClose };
 };
+
+/**
+ * Scanned props
+ *
+ * 扫描出的属性
+ */
+export interface PropsScan {
+  /**
+   * Parsed props, `null` when the props are malformed
+   *
+   * 解析后的属性，格式错误时为 `null`
+   */
+  props: AdvancedLinkProps | null;
+
+  /**
+   * Position where the scan stopped: the `]` that ends the props, `max` when the props are not
+   * closed by one, or the furthest position reached by a malformed scan
+   *
+   * 扫描停止的位置：结束属性的 `]`，属性未被 `]` 结束时的 `max`，或者格式错误的扫描到达的最远位置
+   */
+  end: number;
+
+  /**
+   * Highest position of a whitespace or `]` read as props content, `-1` when there is none
+   *
+   * 作为属性内容读取到的最后一个空白或 `]` 的位置，没有时为 `-1`
+   */
+  lastHidden: number;
+
+  /**
+   * Whether a `]` was read as props content
+   *
+   * 是否将 `]` 作为属性内容读取过
+   */
+  sawClose: boolean;
+}
 
 /**
  * Scan props from the source
@@ -182,11 +223,13 @@ const readToken = (
  * @param src - Source string / 源字符串
  * @param start - Start position / 起始位置
  * @param max - Max position, usually the end of the line / 结束位置，通常为行尾
- * @returns Scanned props, or `null` if the props are malformed / 扫描结果，格式错误时为 `null`
+ * @returns Scanned props / 扫描结果
  */
-export const scanProps = (src: string, start: number, max: number): ScannedProps | null => {
+export const scanProps = (src: string, start: number, max: number): PropsScan => {
   const props: AdvancedLinkProps = {};
   let pos = start;
+  let lastHidden = -1;
+  let sawClose = false;
 
   while (pos < max) {
     // skip whitespaces between props
@@ -198,10 +241,11 @@ export const scanProps = (src: string, start: number, max: number): ScannedProps
     // read the key, which ends with a whitespace or `=`
     const key = readToken(src, pos, max, NO_QUOTE, true);
 
-    if (!key) return null;
+    if (key.lastHidden > lastHidden) lastHidden = key.lastHidden;
+    if (key.sawClose) sawClose = true;
 
     // a malformed prop like `=value` has no key, reject the whole syntax
-    if (!key.text) return null;
+    if (!key.text) return { props: null, end: key.end, lastHidden, sawClose };
 
     pos = key.end;
 
@@ -219,7 +263,9 @@ export const scanProps = (src: string, start: number, max: number): ScannedProps
     if (quote === DOUBLE_QUOTE || quote === SINGLE_QUOTE) {
       const value = readToken(src, pos + 1, max, quote, false);
 
-      if (!value) return null;
+      if (value.lastHidden > lastHidden) lastHidden = value.lastHidden;
+      if (value.sawClose) sawClose = true;
+      if (value.text == null) return { props: null, end: value.end, lastHidden, sawClose };
 
       props[key.text] = value.text;
       pos = value.end;
@@ -229,11 +275,14 @@ export const scanProps = (src: string, start: number, max: number): ScannedProps
 
     const value = readToken(src, pos, max, NO_QUOTE, false);
 
-    if (!value) return null;
+    if (value.lastHidden > lastHidden) lastHidden = value.lastHidden;
+    if (value.sawClose) sawClose = true;
+    if (value.text == null) return { props: null, end: value.end, lastHidden, sawClose };
 
     props[key.text] = value.text;
     pos = value.end;
   }
 
-  return { props, end: pos };
+  // `pos < max` only holds when the `]` ending the props was found
+  return { props, end: pos, lastHidden, sawClose: sawClose || pos < max };
 };

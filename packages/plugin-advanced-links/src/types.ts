@@ -1,3 +1,5 @@
+import type { MarkdownIt } from "markdown-it";
+
 import type { AdvancedLinkRenderer, AdvancedLinkProps } from "./options.js";
 
 /**
@@ -33,6 +35,27 @@ export interface AdvancedLinkConfig {
  * 已注册的配置
  */
 export type AdvancedLinkConfigs = Map<string, AdvancedLinkConfig>;
+
+/**
+ * Context shared by the block and inline rules of one MarkdownIt instance
+ *
+ * 一个 MarkdownIt 实例的块级规则与行内规则共享的上下文
+ */
+export interface AdvancedLinkContext {
+  /**
+   * MarkdownIt instance
+   *
+   * MarkdownIt 实例
+   */
+  md: MarkdownIt;
+
+  /**
+   * Registered configs
+   *
+   * 已注册的配置
+   */
+  configs: AdvancedLinkConfigs;
+}
 
 /**
  * Scanned advanced link
