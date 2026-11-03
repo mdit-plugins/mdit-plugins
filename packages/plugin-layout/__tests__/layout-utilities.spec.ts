@@ -254,6 +254,27 @@ A
 `);
       });
 
+      it("should warn once per unknown utility name", () => {
+        const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        const mdInstance = new MarkdownIt().use(layout);
+        const source = `\
+@flexs unknown-once
+@flex
+A
+@end
+`;
+
+        mdInstance.render(source);
+        mdInstance.render(source);
+
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(
+          `[layout] Unrecognized utility "unknown-once" ignored.`,
+        );
+
+        vi.restoreAllMocks();
+      });
+
       it("should ignore Object.prototype members as utilities in inline mode", () => {
         const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
