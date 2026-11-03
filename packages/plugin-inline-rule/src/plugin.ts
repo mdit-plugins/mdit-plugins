@@ -6,6 +6,18 @@ import type { InlineRuleAttrs, InlineRuleOptions } from "./options.js";
 
 const UNESCAPED_SPACES_OR_NEW_LINES_RE = /(?:^|[^\\])(?:\\\\)*\s/u;
 
+// Markers owned by markdown-it's built-in delimiter rules (`*`/`_` emphasis, `~` strikethrough).
+// Those rules push delimiters of these markers without this plugin's tokenizer running, and
+// `postProcess` is expected to still see them (e.g. it overrides `_` emphasis), so delimiter
+// arrays are never skipped for them.
+const BUILT_IN_DELIMITER_MARKERS: ReadonlySet<number> = new Set([0x2a, 0x5f, 0x7e]);
+
+// Delimiter arrays that received at least one delimiter for a given marker. Keying by marker and
+// sharing the set between plugin instances is safe because a delimiter array belongs to a single
+// inline parse, and another instance installed with the same marker must keep processing that
+// array (its delimiters are indistinguishable), exactly like before the quick check was added.
+const MARKER_DELIMITER_ARRAYS = new Map<number, WeakSet<Delimiter[]>>();
+
 // Resolve attrs for a single token. A factory is expected to return a fresh array for every call,
 // while a static template array is cloned (both outer array and inner tuples) so that tokens never
 // share attribute arrays. markdown-it's `Token#attrJoin` mutates the inner arrays in place (this is
@@ -80,7 +92,8 @@ const createLinearRule = (config: LinearRuleConfig): InlineRule => {
 
     const textToken = state.push("text", "", 0);
 
-    textToken.content = content.replace(UNESCAPE_RE, "$<char>");
+    // Without a backslash `UNESCAPE_RE` cannot match, so skip the extra string allocation.
+    textToken.content = content.includes("\\") ? content.replace(UNESCAPE_RE, "$<char>") : content;
 
     const closeToken = state.push(`${token}_close`, tag, -1);
 
@@ -93,8 +106,20 @@ const createLinearRule = (config: LinearRuleConfig): InlineRule => {
   };
 };
 
+const getMarkerDelimiterArrays = (markerCode: number): WeakSet<Delimiter[]> => {
+  const markerDelimiterArrays = MARKER_DELIMITER_ARRAYS.get(markerCode);
+
+  if (markerDelimiterArrays) return markerDelimiterArrays;
+
+  const newMarkerDelimiterArrays = new WeakSet<Delimiter[]>();
+
+  MARKER_DELIMITER_ARRAYS.set(markerCode, newMarkerDelimiterArrays);
+
+  return newMarkerDelimiterArrays;
+};
+
 const createNestedTokenize =
-  (markerCode: number, double: boolean): InlineRule =>
+  (markerCode: number, double: boolean, markerDelimiterArrays: WeakSet<Delimiter[]>): InlineRule =>
   (state, silent): boolean => {
     const start = state.pos;
     const marker = state.src.charCodeAt(start);
@@ -102,53 +127,62 @@ const createNestedTokenize =
     if (silent || marker !== markerCode) return false;
 
     const scanned = state.scanDelims(state.pos, true);
+    const { length } = scanned;
+
+    // A lone marker is left to the text rule in double mode, as before.
+    if (double && length < 2) return false;
+
+    // A run that can neither open nor close never produces a delimiter, so all of its characters
+    // stay plain text. Emit the whole run as a single text token instead of one token per marker
+    // pair: markdown-it's `text_join` core rule merges adjacent text tokens anyway, so the final
+    // token stream is unchanged while the per-pair token/delimiter allocation and join are avoided.
+    if (!scanned.can_open && !scanned.can_close) {
+      state.push("text", "", 0).content = state.src.slice(start, start + length);
+      state.pos += length;
+
+      return true;
+    }
+
     const markerChar = String.fromCharCode(marker);
 
+    // Every remaining run contributes at least one delimiter, so its array can be recorded here.
+    markerDelimiterArrays.add(state.delimiters);
+
     if (double) {
-      let { length } = scanned;
+      let pairLength = length;
 
-      if (length < 2) return false;
-
-      if (length % 2) {
+      if (pairLength % 2) {
         state.push("text", "", 0).content = markerChar;
-        length--;
+        pairLength--;
       }
 
-      for (let ii = 0; ii < length; ii += 2) {
+      for (let ii = 0; ii < pairLength; ii += 2) {
         state.push("text", "", 0).content = markerChar + markerChar;
-
-        if (scanned.can_open || scanned.can_close) {
-          state.delimiters.push({
-            marker: markerCode,
-            length: 0, // disable "rule of 3" length checks meant for emphasis
-            token: state.tokens.length - 1,
-            end: -1,
-            open: scanned.can_open,
-            close: scanned.can_close,
-          });
-        }
+        state.delimiters.push({
+          marker: markerCode,
+          length: 0, // disable "rule of 3" length checks meant for emphasis
+          token: state.tokens.length - 1,
+          end: -1,
+          open: scanned.can_open,
+          close: scanned.can_close,
+        });
       }
     } else {
       // Single marker: each character is its own delimiter, like markdown-it emphasis
-      const { length } = scanned;
-
       for (let ii = 0; ii < length; ii++) {
         state.push("text", "", 0).content = markerChar;
-
-        if (scanned.can_open || scanned.can_close) {
-          state.delimiters.push({
-            marker: markerCode,
-            length: 0,
-            token: state.tokens.length - 1,
-            end: -1,
-            open: scanned.can_open,
-            close: scanned.can_close,
-          });
-        }
+        state.delimiters.push({
+          marker: markerCode,
+          length: 0,
+          token: state.tokens.length - 1,
+          end: -1,
+          open: scanned.can_open,
+          close: scanned.can_close,
+        });
       }
     }
 
-    state.pos += scanned.length;
+    state.pos += length;
 
     return true;
   };
@@ -167,6 +201,7 @@ const createNestedPostProcess = (
 ): ((state: StateInline, delimiters: Delimiter[]) => void) => {
   const { markerCode, tag, token: tokenType, markup, double, attrs } = config;
   const closeType = `${tokenType}_close`;
+  const markerChar = String.fromCharCode(markerCode);
 
   return (state, delimiters): void => {
     let token;
@@ -204,7 +239,7 @@ const createNestedPostProcess = (
         if (
           double &&
           state.tokens[endDelim.token - 1].type === "text" &&
-          state.tokens[endDelim.token - 1].content === String.fromCharCode(markerCode)
+          state.tokens[endDelim.token - 1].content === markerChar
         )
           loneMarkers.push(endDelim.token - 1);
       }
@@ -232,12 +267,20 @@ const createNestedPostProcess = (
   };
 };
 
-const createRuler2Handler =
-  (
-    postProcess: (state: StateInline, delimiters: Delimiter[]) => void,
-  ): ((state: StateInline) => void) =>
-  (state): void => {
-    postProcess(state, state.delimiters);
+const createRuler2Handler = (
+  postProcess: (state: StateInline, delimiters: Delimiter[]) => void,
+  markerDelimiterArrays: WeakSet<Delimiter[]>,
+  markerCode: number,
+): ((state: StateInline) => void) => {
+  // Delimiters of a built-in marker may be pushed by markdown-it itself, so those arrays must
+  // always be processed. For any other marker only arrays this plugin pushed a delimiter into
+  // can contain one; skipping the rest avoids scanning arrays that belong to other markers.
+  const checkDelimiterArrays = !BUILT_IN_DELIMITER_MARKERS.has(markerCode);
+  const shouldProcess = (delimiters: Delimiter[]): boolean =>
+    !checkDelimiterArrays || markerDelimiterArrays.has(delimiters);
+
+  return (state): void => {
+    if (shouldProcess(state.delimiters)) postProcess(state, state.delimiters);
 
     const tokensMeta = state.tokens_meta;
     const tokensMetaLength = tokensMeta.length;
@@ -246,10 +289,10 @@ const createRuler2Handler =
       const tokenMeta = tokensMeta[ii];
       const { delimiters } = tokenMeta ?? {};
 
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (delimiters?.length) postProcess(state, delimiters);
+      if (delimiters && shouldProcess(delimiters)) postProcess(state, delimiters);
     }
   };
+};
 
 export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
   if (
@@ -279,7 +322,10 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
   // Repeated installation of the same configuration must not register the rule twice.
   if (!hasRule(md, ruleName, "inline")) {
     if (nested) {
-      const tokenize = createNestedTokenize(markerCode, double);
+      // Arrays that received at least one delimiter for this marker, so the ruler2 handler can
+      // skip the delimiter arrays of other markers without scanning them.
+      const markerDelimiterArrays = getMarkerDelimiterArrays(markerCode);
+      const tokenize = createNestedTokenize(markerCode, double, markerDelimiterArrays);
       const postProcess = createNestedPostProcess({
         markerCode,
         tag,
@@ -288,7 +334,7 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
         double,
         attrs,
       });
-      const ruler2Handler = createRuler2Handler(postProcess);
+      const ruler2Handler = createRuler2Handler(postProcess, markerDelimiterArrays, markerCode);
 
       if (isBefore) {
         md.inline.ruler.before("emphasis", ruleName, tokenize);
