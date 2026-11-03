@@ -118,7 +118,7 @@ const buildIndex = (
   const closerRuns: number[] = [];
   const { src } = state;
   let coverUntil = from;
-  let line = from;
+  let line = from + 1;
 
   // The opening line only provides the snapshot used to detect a changed scan context; its own
   // marker/closing fence never terminates the scan, which starts on the next line.
@@ -126,7 +126,7 @@ const buildIndex = (
   lineIndents.push(state.sCount[from]);
   coveredUntil.push(0);
 
-  for (line = from + 1; line < to; line++) {
+  for (; line < to; line++) {
     const lineStart = state.bMarks[line] + state.tShift[line];
     const lineMax = state.eMarks[line];
     const lineIndent = state.sCount[line];
