@@ -285,38 +285,82 @@ export const resolveParameterizedUtility = (utility: string): string => {
   return "";
 };
 
-/**
- * Resolve a utility class to an inline style.
- *
- * @param utility - Utility class name / 工具类名
- * @returns CSS style string or empty string / CSS 样式字符串或空字符串
- */
-export const resolveUtility = (utility: string): string => {
+const resolveUtilityUncached = (utility: string): string => {
   if (Object.hasOwn(STATIC_UTILITIES, utility)) return STATIC_UTILITIES[utility];
 
   return resolveParameterizedUtility(utility);
 };
 
 /**
+ * Per-renderer memo for resolved utilities and already reported unknown utility names.
+ *
+ * 渲染器级别的工具类解析缓存及已警告工具类名称集合。
+ */
+export interface UtilityCache {
+  /** Resolved utility → inline style / 工具类 → 内联样式 */
+  styles: Map<string, string>;
+  /** Utility names that have already been reported / 已警告的工具类名称 */
+  warned: Set<string>;
+}
+
+/**
+ * Resolve a utility class to an inline style.
+ *
+ * 将工具类解析为内联样式。
+ *
+ * @param utility - Utility class name / 工具类名
+ * @param cache - Optional per-renderer memo / 可选的渲染器级缓存
+ * @returns CSS style string or empty string / CSS 样式字符串或空字符串
+ */
+export const resolveUtility = (utility: string, cache?: UtilityCache): string => {
+  if (cache == null) return resolveUtilityUncached(utility);
+
+  const cached = cache.styles.get(utility);
+
+  if (cached != null) return cached;
+
+  const style = resolveUtilityUncached(utility);
+
+  cache.styles.set(utility, style);
+
+  return style;
+};
+
+/**
  * Build inline style string from utilities and optional base display.
+ *
+ * 根据工具类与可选的基础显示样式构建内联样式字符串。
  *
  * @param utilities - Utility class names / 工具类名列表
  * @param baseDisplay - Base display style / 基础显示样式
+ * @param cache - Optional per-renderer memo / 可选的渲染器级缓存
  * @returns CSS style string / CSS 样式字符串
  */
-export const buildStyleString = (utilities: string[], baseDisplay?: string): string => {
+export const buildStyleString = (
+  utilities: string[],
+  baseDisplay?: string,
+  cache?: UtilityCache,
+): string => {
   const parts: string[] = [];
 
   if (baseDisplay) parts.push(baseDisplay);
 
   for (let i = 0; i < utilities.length; i++) {
-    const style = resolveUtility(utilities[i]);
+    const utility = utilities[i];
+    const style = resolveUtility(utility, cache);
 
     if (style) {
       parts.push(style);
     } else {
+      // Report an unknown utility only once per renderer
+      if (cache != null) {
+        if (cache.warned.has(utility)) continue;
+
+        cache.warned.add(utility);
+      }
+
       // oxlint-disable-next-line no-console
-      console.warn(`[layout] Unrecognized utility "${utilities[i]}" ignored.`);
+      console.warn(`[layout] Unrecognized utility "${utility}" ignored.`);
     }
   }
 
