@@ -634,6 +634,20 @@ const toggle = (plugin: string): void => {
   expandedPlugin.value = expandedPlugin.value === plugin ? null : plugin;
 };
 
+/**
+ * Class of the winning side of a size comparison, where smaller is better
+ *
+ * @param value - Size of this side in bytes
+ * @param other - Size of the other side in bytes
+ * @returns The winner or loser class, or an empty string for a tie
+ */
+const sizeWinnerClass = (value: number, other: number): string => {
+  // Do not pick a winner when both sizes render the same, e.g. 2.2 kB vs 2.2 kB.
+  if (formatBytes(value) === formatBytes(other)) return "";
+
+  return value < other ? "is-winner" : "is-loser";
+};
+
 const ratioClass = (ratio: number): string => {
   if (!Number.isFinite(ratio)) return "is-even";
 
@@ -989,11 +1003,29 @@ watch([query, onlyDifferences, variantFilter], () => {
               <td class="cr-num">
                 <template v-if="row.pkg.size">
                   <span class="cr-size-compare">
-                    <span class="cr-size-current" :title="text.current">
+                    <span
+                      class="cr-size-current"
+                      :class="
+                        sizeWinnerClass(
+                          row.pkg.size.current.entryGzipBytes,
+                          row.pkg.size.upstream.entryGzipBytes,
+                        )
+                      "
+                      :title="text.current"
+                    >
                       {{ formatBytes(row.pkg.size.current.entryGzipBytes) }}
                     </span>
                     <span class="cr-size-vs">{{ text.vs }}</span>
-                    <span class="cr-size-reference" :title="text.reference">
+                    <span
+                      class="cr-size-reference"
+                      :class="
+                        sizeWinnerClass(
+                          row.pkg.size.upstream.entryGzipBytes,
+                          row.pkg.size.current.entryGzipBytes,
+                        )
+                      "
+                      :title="text.reference"
+                    >
                       {{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}
                     </span>
                   </span>
@@ -1203,8 +1235,26 @@ watch([query, onlyDifferences, variantFilter], () => {
                         <tbody>
                           <tr>
                             <th scope="row">{{ text.entryGzip }}</th>
-                            <td>{{ formatBytes(row.pkg.size.current.entryGzipBytes) }}</td>
-                            <td>{{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}</td>
+                            <td
+                              :class="
+                                sizeWinnerClass(
+                                  row.pkg.size.current.entryGzipBytes,
+                                  row.pkg.size.upstream.entryGzipBytes,
+                                )
+                              "
+                            >
+                              {{ formatBytes(row.pkg.size.current.entryGzipBytes) }}
+                            </td>
+                            <td
+                              :class="
+                                sizeWinnerClass(
+                                  row.pkg.size.upstream.entryGzipBytes,
+                                  row.pkg.size.current.entryGzipBytes,
+                                )
+                              "
+                            >
+                              {{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}
+                            </td>
                           </tr>
                           <tr>
                             <th scope="row">{{ text.entryFiles }}</th>
@@ -1826,6 +1876,20 @@ watch([query, onlyDifferences, variantFilter], () => {
 }
 
 .cr-size-reference {
+  color: var(--cr-text-mute);
+  font-size: 0.78rem;
+}
+
+.cr-size-current.is-winner,
+.cr-size-reference.is-winner,
+.cr-size-table td.is-winner {
+  color: var(--cr-green);
+  font-weight: 600;
+}
+
+.cr-size-current.is-loser,
+.cr-size-reference.is-loser,
+.cr-size-table td.is-loser {
   color: var(--cr-text-mute);
   font-size: 0.78rem;
 }
