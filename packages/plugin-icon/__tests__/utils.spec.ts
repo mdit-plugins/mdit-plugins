@@ -369,6 +369,10 @@ describe(extractInfo, () => {
       size: "size",
     });
   });
+
+  it("should keep plain content surrounded by spaces", () => {
+    expect(extractInfo({ content: " icon " })).toStrictEqual({ attrs: {}, content: "icon" });
+  });
 });
 
 describe(appendStyle, () => {
