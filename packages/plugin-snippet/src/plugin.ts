@@ -2,9 +2,11 @@
 import { readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent, hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
 import { dirname, extname, resolve } from "upath";
 
+import type { CachedSnippetFile, SnippetCache } from "./cache.js";
+import { snippetCacheKey } from "./constant.js";
 import type { MarkdownItSnippetOptions } from "./options.js";
 import { createSecurityChecker } from "./security.js";
 import type { SecurityChecker } from "./security.js";
@@ -64,6 +66,76 @@ const findRegion = (
   return null;
 };
 
+const getSnippetCache = (env: SnippetEnv): SnippetCache =>
+  (env[snippetCacheKey] ??= { files: new Map(), security: new Map() });
+
+// Security verdicts are only reusable inside one render. Clearing them at the
+// start of every parse keeps a symlink retargeted between renders (with a
+// reused env) from being served a stale "inside root" verdict.
+const resetSnippetSecurityCache: CoreRule = (state): void => {
+  (state.env as SnippetEnv)[snippetCacheKey]?.security.clear();
+};
+
+/*
+ * Read a snippet file through the render cache.
+ *
+ * The entry is revalidated against `statSync` (mtime + size) on every use, so a file rewritten
+ * between renders is re-read instead of serving the previous content.
+ */
+const readSnippetFile = (src: string, cache: SnippetCache): CachedSnippetFile | null => {
+  const stats = statSync(src, { throwIfNoEntry: false });
+
+  if (!stats?.isFile()) {
+    // Drop any entry from an earlier read so a deleted file does not keep its content around.
+    cache.files.delete(src);
+
+    return null;
+  }
+
+  const cached = cache.files.get(src);
+
+  if (cached != null && cached.mtimeMs === stats.mtimeMs && cached.size === stats.size)
+    return cached;
+
+  const file: CachedSnippetFile = {
+    mtimeMs: stats.mtimeMs,
+    size: stats.size,
+    content: readFileSync(src, "utf-8"),
+    regions: new Map(),
+  };
+
+  cache.files.set(src, file);
+
+  return file;
+};
+
+// Extract a region from the cached file, falling back to the whole file when it does not exist.
+const getRegionContent = (file: CachedSnippetFile, region: string): string => {
+  const cached = file.regions.get(region);
+
+  if (cached != null) return cached;
+
+  const lines = (file.lines ??= file.content.split(NEWLINE_RE));
+  const regionInfo = findRegion(lines, region);
+
+  if (!regionInfo) {
+    file.regions.set(region, file.content);
+
+    return file.content;
+  }
+
+  const content = dedent(
+    lines
+      .slice(regionInfo.start, regionInfo.end)
+      .filter((line: string) => !regionInfo.regexp.test(line.trim()))
+      .join("\n"),
+  );
+
+  file.regions.set(region, content);
+
+  return content;
+};
+
 const createSnippetRule =
   (
     currentPath: Required<MarkdownItSnippetOptions>["currentPath"],
@@ -109,7 +181,11 @@ const createSnippetRule =
     const absolutePath = resolve(cwd, resolvedPath);
     const ext = extname(absolutePath).slice(1);
 
-    checkSecurity(requestedPath, absolutePath);
+    // Both the block rule and the fence renderer validate the path; sharing the
+    // render cache means the second check only reads the cached verdict.
+    const cache = getSnippetCache(env);
+
+    checkSecurity(requestedPath, absolutePath, cache.security);
 
     state.line = startLine + 1;
 
@@ -152,6 +228,8 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
     denyFiles,
   });
 
+  md.core.ruler.before("normalize", "snippet_security_cache", resetSnippetSecurityCache);
+
   md.block.ruler.before(
     "fence",
     "snippet",
@@ -170,31 +248,19 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
     };
 
     if (src) {
+      const cache = getSnippetCache(snippetEnv);
+
       // Re-validate at the actual read site: a custom token can carry `meta.src`
       // without going through the snippet block rule.
-      checkSecurity(requestedPath ?? src, src);
+      checkSecurity(requestedPath ?? src, src, cache.security);
 
       try {
         // `statSync` follows symbolic links, so symlinked snippet files are
         // resolved like regular files.
-        if (statSync(src, { throwIfNoEntry: false })?.isFile()) {
-          let content = readFileSync(src, "utf-8");
+        const file = readSnippetFile(src, cache);
 
-          if (region) {
-            const lines = content.split(NEWLINE_RE);
-            const regionInfo = findRegion(lines, region);
-
-            if (regionInfo) {
-              content = dedent(
-                lines
-                  .slice(regionInfo.start, regionInfo.end)
-                  .filter((line: string) => !regionInfo.regexp.test(line.trim()))
-                  .join("\n"),
-              );
-            }
-          }
-
-          token.content = content;
+        if (file) {
+          token.content = region ? getRegionContent(file, region) : file.content;
 
           (snippetEnv.snippetFiles ??= []).push(src);
         } else {

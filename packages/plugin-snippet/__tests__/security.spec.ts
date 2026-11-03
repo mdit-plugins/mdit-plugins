@@ -8,6 +8,7 @@ import { describe, expect, it } from "vitest";
 
 import type { MarkdownItSnippetOptions, SnippetEnv } from "../src/index.js";
 import { defaultSensitiveFiles, snippet } from "../src/index.js";
+import type { SecurityCache } from "../src/security.js";
 import { createSecurityChecker } from "../src/security.js";
 
 interface Fixture {
@@ -320,6 +321,22 @@ describe("snippet security", () => {
 
     expect(checker("package.json", join(cwd, "package.json"))).toBeUndefined();
     expect(() => checker(".env", join(cwd, ".env"))).toThrow("sensitive file");
+  });
+
+  it("should reuse cached verdicts passed by the caller", () => {
+    const { base, root } = createFixture();
+
+    try {
+      const checker = createSecurityChecker({ projectRoot: root });
+      const cache: SecurityCache = new Map();
+
+      expect(checker("inside.md", join(root, "inside.md"), cache)).toBeUndefined();
+      expect(checker("inside.md", join(root, "inside.md"), cache)).toBeUndefined();
+      expect(() => checker(".env", join(root, ".env"), cache)).toThrow("sensitive file");
+      expect(() => checker(".env", join(root, ".env"), cache)).toThrow("sensitive file");
+    } finally {
+      rmSync(base, { recursive: true, force: true });
+    }
   });
 
   it("should re-validate custom tokens at the actual read site", () => {
