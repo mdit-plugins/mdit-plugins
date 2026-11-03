@@ -20,6 +20,16 @@ describe(dedent, () => {
     `);
   });
 
+  it("when a later line starts at column 0, return the text unchanged", () => {
+    const text = '  fn main() {\nprintln!("Hello");\n  }';
+
+    expect(dedent(text)).toBe(text);
+  });
+
+  it("when every line is whitespace-only, return the text unchanged", () => {
+    expect(dedent("  \n\t\n")).toBe("  \n\t\n");
+  });
+
   it("when 4-level is minimal, remove 4 spaces", () => {
     expect(
       dedent(

@@ -13,16 +13,27 @@
  */
 export const dedent = (text: string): string => {
   const lines = text.split("\n");
+  let minIndentLength = Infinity;
 
-  const minIndentLength = lines.reduce((acc, line) => {
-    for (let i = 0; i < line.length; i++)
-      if (line[i] !== " " && line[i] !== "\t") return Math.min(i, acc);
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex];
+    const { length } = line;
 
-    return acc;
-  }, Infinity);
+    for (let index = 0; index < length; index++) {
+      const charCode = line.charCodeAt(index);
 
-  if (minIndentLength < Infinity)
-    return lines.map((line) => line.slice(minIndentLength)).join("\n");
+      if (charCode !== 32 /* space */ && charCode !== 9 /* tab */) {
+        // At least one line starts at column 0, so removing the common indent is a no-op.
+        if (index === 0) return text;
 
-  return text;
+        if (index < minIndentLength) minIndentLength = index;
+        break;
+      }
+    }
+  }
+
+  // Every line is blank or whitespace-only, so there is nothing to remove.
+  if (minIndentLength === Infinity) return text;
+
+  return lines.map((line) => line.slice(minIndentLength)).join("\n");
 };
