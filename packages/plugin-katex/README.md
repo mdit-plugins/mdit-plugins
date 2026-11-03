@@ -23,6 +23,6 @@ Compared against the upstream [`markdown-it-katex`](https://www.npmjs.com/packag
 
 - Correctness: **10/25** cases match the reference exactly (5 matching after normalization, 5 reference errors, 2 differences).
 - Throughput: **0.96×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Package size: **37.2 kB** unpacked and **605 B** gzip entry, versus **29.9 kB** and **2.0 kB** for the reference.
+- Entry gzip: **605 B** versus **2.0 kB** for the reference (import cost).
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

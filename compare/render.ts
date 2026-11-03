@@ -347,7 +347,7 @@ const METHOD_NOTES: Readonly<Record<ReportLocale, readonly string[]>> = {
     "The test suite comparison runs each compared package's own unit tests against the reference implementation by swapping the built package entry for the reference package. Tests of features the reference does not provide are reported as feature gaps; tests that only assert internal implementation details are skipped silently and only counted in the aggregate; every other failing test is a behavior difference between the two packages.",
     'Each correctness difference is grouped under one root cause: "reference error" when the reference output or token stream is wrong (wrong source maps, missing or broken nesting, lost or misplaced content, security issues), and "difference" when the implementations merely represent the same result differently (equivalent token shape, alternative but valid output, intentional syntax or option design). Counts are per root cause, not per case.',
     "Scaling exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic. The series are built to expose the known superlinear paths of the reference implementations.",
-    "Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.",
+    "Import cost is the gzipped size of the package's main entry (`exports['.']`), i.e. what a consumer downloads and parses when importing the plugin. The reference value measures the equivalent entry of the installed reference package; the unpacked size of the published files is recorded in the committed data but not shown, because only the entry gzip matters for import cost.",
     "Entry gzip is the gzipped size of the ESM entry: the resolved `exports` entry for the current package and the `module` / `exports.import` / `main` entry for the reference.",
   ],
   zh: [
@@ -638,7 +638,7 @@ export const renderReadmeComparison = (
 
   if (size) {
     bullets.push(
-      `- Package size: **${formatBytes(size.current.unpackedBytes)}** unpacked and **${formatBytes(size.current.entryGzipBytes)}** gzip entry, versus **${formatBytes(size.upstream.unpackedBytes)}** and **${formatBytes(size.upstream.entryGzipBytes)}** for the reference.`,
+      `- Entry gzip: **${formatBytes(size.current.entryGzipBytes)}** versus **${formatBytes(size.upstream.entryGzipBytes)}** for the reference (import cost).`,
     );
   }
 

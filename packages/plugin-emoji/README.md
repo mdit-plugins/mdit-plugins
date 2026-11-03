@@ -23,6 +23,6 @@ Compared against the upstream [`markdown-it-emoji`](https://www.npmjs.com/packag
 
 - Correctness: **67/75** cases match the reference exactly (3 reference errors, 1 differences).
 - Throughput: **1.02×** the reference (geometric mean across 18 benchmark cases; above 1× means faster).
-- Package size: **291.9 kB** unpacked and **17.8 kB** gzip entry, versus **344.3 kB** and **91 B** for the reference.
+- Entry gzip: **17.8 kB** versus **91 B** for the reference (import cost).
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

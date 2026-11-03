@@ -192,7 +192,6 @@ interface Copy {
   readonly benchmarkCasesUnit: string;
   readonly benchmarkMeta: string;
   readonly ourTestSuites: string;
-  readonly ourTests: string;
   readonly testSuiteTitle: string;
   readonly testsPass: string;
   readonly passed: string;
@@ -216,7 +215,6 @@ interface Copy {
   readonly reference: string;
   readonly throughput: string;
   readonly throughputHint: string;
-  readonly sizeUnpacked: string;
   readonly showDetails: string;
   readonly hideDetails: string;
   readonly noResults: string;
@@ -238,7 +236,6 @@ interface Copy {
   readonly packageSize: string;
   readonly metric: string;
   readonly current: string;
-  readonly unpacked: string;
   readonly entryGzip: string;
   readonly sizeUnavailable: string;
   readonly methodology: string;
@@ -263,7 +260,11 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     benchmarkCasesUnit: "benchmark cases",
     benchmarkMeta: "normal + heavy corpora · small / medium / large",
     ourTestSuites: "Our test suites",
-    ourTests: "Our tests",
+    correctnessTests: "Correctness & tests",
+    correctnessTestsHint:
+      "Our package passes all counted tests; the second number is how many of them the reference passes.",
+    exactShort: "exact",
+    vs: "vs",
     testSuiteTitle: "Our test suite against the reference",
     testsPass: "tests pass",
     passed: "passed",
@@ -288,7 +289,7 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     throughput: "Throughput",
     throughputHint:
       "Geometric mean of current / reference throughput across all variants and benchmark cases. Above 1× means faster.",
-    sizeUnpacked: "Size (unpacked)",
+    entryGzipHeader: "Entry gzip",
     showDetails: "Show details for",
     hideDetails: "Hide details for",
     noResults: "No package matches the current filters.",
@@ -311,10 +312,9 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     currentExponent: "Current exponent",
     referenceExponent: "Reference exponent",
     superlinear: "superlinear",
-    packageSize: "Package size",
+    packageSize: "Import cost (entry gzip)",
     metric: "Metric",
     current: "Current",
-    unpacked: "Unpacked",
     entryGzip: "Entry gzip",
     sizeUnavailable: "Package size data is not available for this package.",
     methodology: "Methodology",
@@ -337,7 +337,10 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     benchmarkCasesUnit: "个基准用例",
     benchmarkMeta: "normal + heavy 语料 · 小 / 中 / 大 三种规模",
     ourTestSuites: "我们的测试套件",
-    ourTests: "我们的测试",
+    correctnessTests: "正确性与测试",
+    correctnessTestsHint: "本包通过全部计入的测试；第二个数字是参考包通过的数量。",
+    exactShort: "完全一致",
+    vs: "对比",
     testSuiteTitle: "我们的测试套件与参考实现对比",
     testsPass: "个测试通过",
     passed: "通过",
@@ -361,7 +364,6 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     reference: "参考包",
     throughput: "吞吐量",
     throughputHint: "所有变体与基准用例的当前 / 参考吞吐量几何平均值；大于 1× 表示更快。",
-    sizeUnpacked: "体积（解压）",
     showDetails: "展开详情：",
     hideDetails: "收起详情：",
     noResults: "没有匹配当前筛选条件的包。",
@@ -384,10 +386,9 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     currentExponent: "本包指数",
     referenceExponent: "参考包指数",
     superlinear: "超线性",
-    packageSize: "包体积",
+    packageSize: "入口体积（entry gzip）",
     metric: "指标",
     current: "本包",
-    unpacked: "解压体积",
     entryGzip: "入口 gzip",
     sizeUnavailable: "该包暂无包体积数据。",
     methodology: "测量方法",
@@ -643,8 +644,6 @@ const ratioClass = (ratio: number): string => {
   return displayedRatio >= 0.95 ? "is-warning" : "is-slower";
 };
 
-const testRatioClass = (suite: TestSuite): string => (suite.failed > 0 ? "is-failed" : "is-passed");
-
 const failedTests = (suite: TestSuite): readonly TestSuiteCase[] =>
   suite.tests.filter((test) => test.status === "failed");
 
@@ -654,6 +653,8 @@ const featureGapTests = (suite: TestSuite): readonly TestSuiteCase[] =>
 const skippedByCategory = (suite: TestSuite, category: SkipCategory): number =>
   suite.skippedByCategory?.[category] ??
   suite.tests.filter((test) => test.status === "skipped" && test.skipCategory === category).length;
+
+const testRatioClass = (suite: TestSuite): string => (suite.failed > 0 ? "is-failed" : "is-passed");
 
 const featureGapCount = (suite: TestSuite): number => skippedByCategory(suite, "feature-gap");
 
@@ -874,10 +875,9 @@ watch([query, onlyDifferences, variantFilter], () => {
         <thead>
           <tr>
             <th scope="col">{{ text.package }}</th>
-            <th scope="col">{{ text.correctness }}</th>
-            <th scope="col" class="cr-num">{{ text.ourTests }}</th>
+            <th scope="col">{{ text.correctnessTests }}</th>
             <th scope="col" class="cr-num" :title="text.throughputHint">{{ text.throughput }}</th>
-            <th scope="col" class="cr-num">{{ text.sizeUnpacked }}</th>
+            <th scope="col" class="cr-num">{{ text.entryGzipHeader }}</th>
           </tr>
         </thead>
         <tbody>
@@ -927,47 +927,53 @@ watch([query, onlyDifferences, variantFilter], () => {
 
               <td>
                 <span class="cr-correctness">
-                  <span class="cr-correctness-score">
-                    {{ row.correctness.exact }}/{{ row.correctness.total }}
+                  <span class="cr-correctness-tests" :title="text.correctnessTestsHint">
+                    <template
+                      v-if="
+                        row.pkg.testSuite && !row.pkg.testSuite.error && row.pkg.testSuite.total > 0
+                      "
+                    >
+                      <span class="cr-test-our">
+                        {{ row.pkg.testSuite.total }}/{{ row.pkg.testSuite.total }}
+                      </span>
+                      <span class="cr-test-vs">{{ text.vs }}</span>
+                      <span
+                        class="cr-test-ref"
+                        :class="row.pkg.testSuite.failed > 0 ? 'is-failed' : 'is-passed'"
+                      >
+                        {{ row.pkg.testSuite.passed }}/{{ row.pkg.testSuite.total }}
+                      </span>
+                    </template>
+                    <span v-else class="cr-muted">—</span>
                   </span>
-                  <span
-                    v-if="row.correctness.referenceErrors > 0"
-                    class="cr-correctness-detail is-error"
-                    :title="text.referenceErrors"
-                  >
-                    {{ row.correctness.referenceErrors }} {{ text.referenceErrorsShort }}
-                  </span>
-                  <span
-                    v-if="row.correctness.differences > 0"
-                    class="cr-correctness-detail is-diff"
-                    :title="text.differences"
-                  >
-                    {{ row.correctness.differences }} {{ text.differencesShort }}
-                  </span>
-                </span>
-              </td>
-
-              <td class="cr-num">
-                <template v-if="row.pkg.testSuite">
-                  <template v-if="row.pkg.testSuite.error">
-                    <span class="cr-test-ratio is-failed" :title="row.pkg.testSuite.error">
-                      {{ text.errorsShort }}
-                    </span>
-                  </template>
-                  <template v-else>
-                    <span class="cr-test-ratio" :class="testRatioClass(row.pkg.testSuite)">
-                      {{ row.pkg.testSuite.passed }}/{{ row.pkg.testSuite.total }}
+                  <span class="cr-correctness-details">
+                    <span class="cr-correctness-detail">
+                      {{ row.correctness.exact }}/{{ row.correctness.total }}
+                      {{ text.exactShort }}
                     </span>
                     <span
-                      v-if="featureGapCount(row.pkg.testSuite) > 0"
-                      class="cr-test-skipped is-feature-gap"
+                      v-if="row.correctness.referenceErrors > 0"
+                      class="cr-correctness-detail is-error"
+                      :title="text.referenceErrors"
                     >
-                      +{{ formatInteger(featureGapCount(row.pkg.testSuite)) }}
-                      {{ text.featureGaps }}
+                      {{ row.correctness.referenceErrors }} {{ text.referenceErrorsShort }}
                     </span>
-                  </template>
-                </template>
-                <span v-else class="cr-muted">—</span>
+                    <span
+                      v-if="row.correctness.differences > 0"
+                      class="cr-correctness-detail is-diff"
+                      :title="text.differences"
+                    >
+                      {{ row.correctness.differences }} {{ text.differencesShort }}
+                    </span>
+                    <span
+                      v-if="row.pkg.testSuite && featureGapCount(row.pkg.testSuite) > 0"
+                      class="cr-correctness-detail is-feature-gap"
+                      :title="text.featureGapTests"
+                    >
+                      {{ featureGapCount(row.pkg.testSuite) }} {{ text.featureGaps }}
+                    </span>
+                  </span>
+                </span>
               </td>
 
               <td class="cr-num">
@@ -980,11 +986,11 @@ watch([query, onlyDifferences, variantFilter], () => {
               <td class="cr-num">
                 <template v-if="row.pkg.size">
                   <span class="cr-size-line cr-size-current" :title="text.current">
-                    {{ formatBytes(row.pkg.size.current.unpackedBytes) }}
+                    {{ formatBytes(row.pkg.size.current.entryGzipBytes) }}
                   </span>
                   <span class="cr-size-line cr-size-reference" :title="text.reference">
                     <span class="cr-size-separator">/ </span>
-                    {{ formatBytes(row.pkg.size.upstream.unpackedBytes) }}
+                    {{ formatBytes(row.pkg.size.upstream.entryGzipBytes) }}
                   </span>
                 </template>
                 <span v-else class="cr-muted">—</span>
@@ -992,7 +998,7 @@ watch([query, onlyDifferences, variantFilter], () => {
             </tr>
 
             <tr v-if="isExpanded(row.pkg.plugin)" :id="detailsId(row.pkg)" class="cr-detail-row">
-              <td colspan="5">
+              <td colspan="4">
                 <div class="cr-detail">
                   <article v-for="variant in row.pkg.variants" :key="variant.id" class="cr-variant">
                     <header class="cr-variant-head">
@@ -1190,11 +1196,6 @@ watch([query, onlyDifferences, variantFilter], () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">{{ text.unpacked }}</th>
-                            <td>{{ formatBytes(row.pkg.size.current.unpackedBytes) }}</td>
-                            <td>{{ formatBytes(row.pkg.size.upstream.unpackedBytes) }}</td>
-                          </tr>
                           <tr>
                             <th scope="row">{{ text.entryGzip }}</th>
                             <td>{{ formatBytes(row.pkg.size.current.entryGzipBytes) }}</td>
@@ -1709,16 +1710,41 @@ watch([query, onlyDifferences, variantFilter], () => {
 }
 
 .cr-correctness {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cr-correctness-tests,
+.cr-correctness-details {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.35rem;
 }
 
-.cr-correctness-score {
+.cr-correctness-tests {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.cr-test-our {
+  color: var(--cr-green);
+}
+
+.cr-test-ref.is-passed {
+  color: var(--cr-green);
+}
+
+.cr-test-ref.is-failed {
+  color: var(--cr-red);
+}
+
+.cr-test-vs {
+  color: var(--cr-text-mute);
+  font-size: 0.76rem;
+  font-weight: 400;
 }
 
 .cr-correctness-detail {
@@ -1735,28 +1761,7 @@ watch([query, onlyDifferences, variantFilter], () => {
   color: var(--cr-red);
 }
 
-.cr-test-ratio {
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.cr-test-ratio.is-passed {
-  color: var(--cr-green);
-}
-
-.cr-test-ratio.is-failed {
-  color: var(--cr-red);
-}
-
-.cr-test-skipped {
-  display: block;
-  color: var(--cr-text-mute);
-  font-size: 0.76rem;
-  white-space: nowrap;
-}
-
-.cr-test-skipped.is-feature-gap {
+.cr-correctness-detail.is-feature-gap {
   color: var(--cr-accent);
 }
 

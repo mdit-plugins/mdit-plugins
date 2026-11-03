@@ -191,7 +191,7 @@ describe("compare/render.ts", () => {
     expect(section).toContain("## Comparison / 对比");
     expect(section).toContain("Correctness:");
     expect(section).toContain("Throughput:");
-    expect(section).toContain("Package size:");
+    expect(section).toContain("Entry gzip:");
     expect(section).toContain("[English](https://example.com/compare.html)");
     expect(section).toContain("[中文](https://example.com/zh/compare.html)");
   });
