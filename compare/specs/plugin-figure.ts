@@ -19,12 +19,12 @@ const spec: ComparisonSpec = defineComparison({
       zh: '`focusable` 设为 `false`，因为当前包会给图片添加 `tabindex="0"`，而参考包的 `tabindex` 选项从 `1` 开始为 figure 编号；因此不使用参考包的该选项。',
     },
     {
-      en: 'The current package derives `<figcaption>` from the image `title` and falls back to the `alt` text; `markdown-it-image-figures` has no fallback mode, so `figcaption: "title"` is compared and alt-only images are documented as a difference.',
-      zh: '当前包从图片 `title` 生成 `<figcaption>`，并回退到 `alt` 文本；`markdown-it-image-figures` 没有回退模式，因此只对比 `figcaption: "title"`，仅有 alt 的图片被记录为差异。',
+      en: 'The current package derives `<figcaption>` from the image `title` and falls back to the `alt` text; `markdown-it-image-figures` has no fallback mode, so `figcaption: "title"` is compared and alt-only images are tracked by the `alt-caption-fallback` issue.',
+      zh: '当前包从图片 `title` 生成 `<figcaption>`，并回退到 `alt` 文本；`markdown-it-image-figures` 没有回退模式，因此只对比 `figcaption: "title"`，仅有 alt 的图片归入 `alt-caption-fallback` issue。',
     },
     {
-      en: "The current package skips hidden paragraphs (tight list items) so that a `<figcaption>` is never emitted without its `<figure>` wrapper; the reference converts images in tight list items without a `<figure>` wrapper. Documented in `tight-list-image`.",
-      zh: "当前包会跳过隐藏段落（紧凑列表项），从而绝不在没有 `<figure>` 包裹的情况下输出 `<figcaption>`；参考包会转换紧凑列表项中的图片，但不生成 `<figure>` 包裹。已在 `tight-list-image` 中记录。",
+      en: "The current package skips hidden paragraphs (tight list items) so that a `<figcaption>` is never emitted without its `<figure>` wrapper; the reference converts images in tight list items without a `<figure>` wrapper, which is tracked by the `tight-list-caption` issue.",
+      zh: "当前包会跳过隐藏段落（紧凑列表项），从而绝不在没有 `<figure>` 包裹的情况下输出 `<figcaption>`；参考包会转换紧凑列表项中的图片，但不生成 `<figure>` 包裹，这一点归入 `tight-list-caption` issue。",
     },
     {
       en: "`moveAttrs` is not compared: for `true` the current package copies non-native image attributes to `<figure>` and keeps them on the image, for a pattern list it moves them (the image loses them), and it merges `class`/`style` values. The reference `copyAttrs` copies every matching attribute to `<figure>` and keeps the original order on the image, which is not equivalent.",
@@ -52,18 +52,38 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: { figcaption: "title" },
     },
   ],
+  issues: [
+    {
+      id: "alt-caption-fallback",
+      category: "difference",
+      note: {
+        en: "The current package falls back to the image `alt` text when the image has no `title`, while the reference only derives a caption from the configured `title` or `alt` source; both figures are valid.",
+        zh: "当前包在图片没有 `title` 时回退使用 `alt` 文本作为 caption，而参考包只从配置的 `title` 或 `alt` 来源生成 caption；两种 figure 都合法。",
+      },
+    },
+    {
+      id: "tight-list-caption",
+      category: "reference-error",
+      note: {
+        en: "For images in hidden (tight list) paragraphs the reference converts the hidden paragraph and renders only the `<figcaption>` — outside any `<figure>` — while dropping the image `title`; the current package leaves the image untouched.",
+        zh: "对于隐藏段落（紧凑列表）中的图片，参考包会转换隐藏段落，只渲染出不在 `<figure>` 内的 `<figcaption>`，并丢失图片 `title`；当前包则保持图片不变。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Asserts that the internal core rule named `figure` is registered exactly once; the reference registers a differently named rule and has no idempotent-install contract.",
-        zh: "该测试断言名为 `figure` 的内部 core 规则只注册一次；参考包注册的规则名称不同，也没有幂等安装的约定。",
+        en: "Asserts our idempotent-install contract (a single `figure` core rule); the reference has no such contract and registers a differently named rule. It renders the same when installed twice, so only the registration assertion cannot run.",
+        zh: "该测试断言本包的幂等安装约定（只注册一个 `figure` core 规则）；参考包没有该约定，注册的是另一个规则名。它重复安装两次的渲染结果相同，因此只有注册断言无法运行。",
       },
     },
     {
       file: "figure.spec.ts",
       name: "should keep an existing tabindex",
+      category: "internal",
       why: {
         en: 'The test helper inserts attributes with `md.core.ruler.before("figure", ...)`; the reference registers its rule as `image_figures`, so the helper cannot run.',
         zh: '测试辅助函数用 `md.core.ruler.before("figure", ...)` 插入属性；参考包的规则名为 `image_figures`，因此该辅助函数无法运行。',
@@ -72,9 +92,10 @@ const spec: ComparisonSpec = defineComparison({
     {
       file: "figure.spec.ts",
       name: "moveAttrs",
+      category: "feature-gap",
       why: {
-        en: "`moveAttrs` is a fork-only option: the reference only has `copyAttrs` with different copy/move and merge semantics, so these attribute-merging tests have no reference equivalent and are documented as not compared.",
-        zh: "`moveAttrs` 是仅本包提供的选项：参考包只有复制/移动与合并语义均不同的 `copyAttrs`，这些属性合并测试没有参考对应物，已记录为不参与对比。",
+        en: "`moveAttrs` is a fork-only option: the reference only has `copyAttrs` with different copy/move and merge semantics, so these attribute-merging tests cannot run against it.",
+        zh: "`moveAttrs` 是仅本包提供的选项：参考包只有复制/移动与合并语义均不同的 `copyAttrs`，因此这些属性合并测试无法在参考包上运行。",
       },
     },
   ],
@@ -95,10 +116,7 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "figure-alt-only",
       markdown: "![Alt text](image.png)",
-      note: {
-        en: 'The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: "title"`.',
-        zh: '当前包回退使用 alt 文本作为 caption，而参考包在 `figcaption: "title"` 下不输出 `<figcaption>`。',
-      },
+      issue: "alt-caption-fallback",
     },
     { name: "figure-empty-alt", markdown: "![](image.png)" },
     {
@@ -108,19 +126,13 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "linked-image-alt-only",
       markdown: "[![Alt text](image.png)](https://example.com)",
-      note: {
-        en: 'The current package falls back to the alt text as the caption, while the reference emits no `<figcaption>` for `figcaption: "title"`.',
-        zh: '当前包回退使用 alt 文本作为 caption，而参考包在 `figcaption: "title"` 下不输出 `<figcaption>`。',
-      },
+      issue: "alt-caption-fallback",
     },
     { name: "inline-image", markdown: "Text with ![img](a.png) in the middle." },
     {
       name: "tight-list-image",
       markdown: '- ![Alt](image.png "Caption")',
-      note: {
-        en: "The current package skips images inside hidden (tight list) paragraphs, so the paragraph is untouched; the reference converts it and emits a `<figcaption>` without a `<figure>` wrapper.",
-        zh: "当前包会跳过隐藏（紧凑列表）段落中的图片，因此该段落保持原样；参考包会进行转换，并输出不带 `<figure>` 包裹的 `<figcaption>`。",
-      },
+      issue: "tight-list-caption",
     },
     {
       name: "loose-list-image",

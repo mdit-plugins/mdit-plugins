@@ -42,12 +42,12 @@ const spec: ComparisonSpec = defineComparison({
       zh: "块级标签之间的空白会被归一化，因为参考包渲染其起始 `<div>` 和标题 `<p>` 时不带换行，而当前包使用 markdown-it 的默认块渲染器；属性顺序也由共享归一化器归一化。文本内容和代码中的空白保持不变。",
     },
     {
-      en: "The reference removes the marker from the first inline token and keeps the surrounding blockquote content. An alert whose first content line is empty therefore leaves an empty `<p></p>`, and a nested blockquote is hoisted into the alert. The current package consumes the marker line before parsing the body, so those structural differences remain visible in the `list-body`, `nested-blockquote`, `empty-quoted-body` and `nested-alert` cases.",
-      zh: "参考包从第一个内联 token 中移除标记，并保留其周围的 blockquote 内容。因此，首个内容行为空的告警会留下空的 `<p></p>`，嵌套的 blockquote 会被提升到告警内。当前包在解析正文前消费标记行，所以这些结构差异仍会体现在 `list-body`、`nested-blockquote`、`empty-quoted-body` 和 `nested-alert` 用例中。",
+      en: "The reference removes the marker from the first inline token and keeps the surrounding blockquote content. An alert whose first content line is empty therefore leaves an empty `<p></p>`, and a nested blockquote is hoisted into the alert. The current package consumes the marker line before parsing the body, so they are recorded as the `marker-line-empty-paragraph` and `nested-blockquote-structure` reference errors.",
+      zh: "参考包从第一个内联 token 中移除标记，并保留其周围的 blockquote 内容。因此，首个内容行为空的告警会留下空的 `<p></p>`，嵌套的 blockquote 会被提升到告警内。当前包在解析正文前消费标记行，因此它们被记录为 `marker-line-empty-paragraph` 和 `nested-blockquote-structure` 两个参考包错误。",
     },
     {
-      en: "Parse-level differences are documented rather than normalized: the reference supports a custom title from trailing text (`> [!note] Title`), accepts a marker without any body, treats `\\[!note]` as an alert, and finds a marker in the first inline token even after another block such as `<hr>`. The current package requires the marker line to contain only the marker, requires body content, and honors the escaped bracket. See the matching diff cases.",
-      zh: "解析层面的差异只记录而不归一化：参考包支持用尾随文本自定义标题（`> [!note] Title`），接受没有正文的标记，把 `\\[!note]` 视为告警，并且即使标记前还有 `<hr>` 等其他块，也能在第一个内联 token 中找到标记。当前包要求标记行只包含标记、要求有正文，并尊重转义的方括号。参见对应的 diff 用例。",
+      en: "Parse-level differences are documented rather than normalized: the reference supports a custom title from trailing text (`> [!note] Title`), accepts a marker without any body, treats `\\[!note]` as an alert, and finds a marker in the first inline token even after another block such as `<hr>`. The current package requires the marker line to contain only the marker, requires body content, and honors the escaped bracket; these differences are recorded as the `empty-alert-body`, `custom-title`, `escaped-marker` and `marker-after-block` issues.",
+      zh: "解析层面的差异只记录而不归一化：参考包支持用尾随文本自定义标题（`> [!note] Title`），接受没有正文的标记，把 `\\[!note]` 视为告警，并且即使标记前还有 `<hr>` 等其他块，也能在第一个内联 token 中找到标记。当前包要求标记行只包含标记、要求有正文，并尊重转义的方括号；这些差异记录为 `empty-alert-body`、`custom-title`、`escaped-marker` 和 `marker-after-block` 问题。",
     },
     {
       en: "Default title casing differs: the reference lowercases the marker before capitalizing it (`[!TIP]` → `Tip`), while the current package capitalizes the written name and preserves its casing (`[!TIP]` → `TIP`).",
@@ -74,141 +74,213 @@ const spec: ComparisonSpec = defineComparison({
       },
     },
   ],
-  testSuiteSkips: [
+  issues: [
     {
-      file: "install-idempotent.spec.ts",
-      name: "",
-      why: {
-        en: "Asserts the internal `alert` block-rule count and that a second installation keeps the first parse options and renderers; the reference re-registers its rule on every install and has no idempotent-install contract.",
-        zh: "该文件断言内部 `alert` 块级规则的数量，以及第二次安装保留首次解析选项与渲染器的行为；参考包每次安装都会重新注册规则，也没有幂等安装的约定。",
+      id: "title-token-representation",
+      category: "difference",
+      note: {
+        en: "The rendered HTML matches, but the reference reuses the blockquote paragraph as the title and maps the marker line on `alert_open`, while the current package emits a dedicated `alert_title` token for it.",
+        zh: "渲染结果一致，但参考包复用 blockquote 段落作为标题、把标记行映射到 `alert_open`，当前包则用独立的 `alert_title` token 承载该映射。",
       },
     },
     {
+      id: "title-casing",
+      category: "difference",
+      note: {
+        en: "The reference lowercases the written name before capitalizing the default title (`[!TIP]` → `Tip`), while the current package preserves the written casing (`TIP`); this is an intentional title style difference.",
+        zh: "参考包把写出的名称转为小写后再首字母大写（`[!TIP]` → `Tip`），当前包保留写出的大小写（`TIP`），属有意的标题样式差异。",
+      },
+    },
+    {
+      id: "marker-line-empty-paragraph",
+      category: "reference-error",
+      note: {
+        en: "The reference strips the marker from the first inline token but keeps its paragraph, so the marker line or an empty quoted line leaves a meaningless `<p></p>` before the body; the current package consumes the marker line.",
+        zh: "参考包只从首个内联 token 中移除标记、却保留其段落，因此标记行或空引用行会在正文前留下无意义的 `<p></p>`；当前包会消费标记行。",
+      },
+    },
+    {
+      id: "nested-blockquote-structure",
+      category: "reference-error",
+      note: {
+        en: "With a nested blockquote the reference emits its alert `</div>` before the inner `</blockquote>` (and converts the outer quote for `> > [!note]`), producing unbalanced markup; the current package keeps the tags balanced.",
+        zh: "遇到嵌套 blockquote 时，参考包会先输出告警 `</div>` 再输出内层 `</blockquote>`（并且对 `> > [!note]` 转换外层引用），产生不配对的标记；当前包保持标签配对。",
+      },
+    },
+    {
+      id: "empty-alert-body",
+      category: "difference",
+      note: {
+        en: "The reference accepts a marker without a body and renders an empty alert, while the current package requires at least one body line and keeps the marker as a literal blockquote; both are valid syntax designs.",
+        zh: "参考包接受没有正文的标记并渲染空告警，当前包要求至少一行正文、把标记保留为普通 blockquote；两种语法设计都成立。",
+      },
+    },
+    {
+      id: "custom-title",
+      category: "difference",
+      note: {
+        en: "The reference treats trailing text after the marker as a custom title (`> [!note] Title`), while the current package requires the marker to occupy the line by itself; this is a reference-only syntax extension.",
+        zh: "参考包把标记后的尾随文本当作自定义标题（`> [!note] Title`），当前包要求标记独占一行；这是参考包独有的语法扩展。",
+      },
+    },
+    {
+      id: "escaped-marker",
+      category: "reference-error",
+      note: {
+        en: "The reference's marker pattern accepts an optional backslash, so the escaped `\\[!note]` still becomes an alert; the current package treats it as literal text as the markdown escaping convention requires.",
+        zh: "参考包的标记正则接受可选的反斜杠，因此转义的 `\\[!note]` 仍会被解析为告警；当前包按 markdown 转义约定将其视为字面文本。",
+      },
+    },
+    {
+      id: "marker-after-block",
+      category: "reference-error",
+      note: {
+        en: "The reference searches the whole first inline token, so a marker on a later blockquote line (e.g. after `<hr>`) still becomes an alert and the preceding block is moved inside it; the current package only accepts the marker on the blockquote's first line.",
+        zh: "参考包在整个首个内联 token 中搜索标记，因此 blockquote 后续行（如 `<hr>` 之后）的标记仍会变成告警，前面的块被移入告警内部；当前包只接受 blockquote 首行的标记。",
+      },
+    },
+  ],
+  testSuiteSkips: [
+    {
       file: "alert.spec.ts",
       name: "should support non-ASCII alert names",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `alertNames` option; the reference only accepts `markers` and has no option to add custom names, so it never parses the custom marker and the assertion only covers this package's option.",
-        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项；参考包只接受 `markers`，没有添加自定义名称的选项，因此不会解析该自定义标记，断言只覆盖了本包的选项。",
+        en: "This package provides the `alertNames` option for custom and non-ASCII alert names; the reference only accepts its fixed `markers` list and has no equivalent option.",
+        zh: "本包提供 `alertNames` 选项自定义告警名称（含非 ASCII 名称），参考包只接受固定的 `markers` 列表，无对应选项。",
       },
     },
     {
       file: "alert.spec.ts",
       name: "should escape alert name in title render",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `alertNames` option to add a custom marker and asserts how its name is escaped; the reference has no custom-name option (`markers` only accepts its fixed marker list), so no reference escaping behavior is exercised.",
-        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项添加自定义标记并断言其名称的转义；参考包没有自定义名称选项（`markers` 只接受固定标记列表），因此没有覆盖参考包的转义行为。",
+        en: "This test uses the `alertNames` option to register a custom marker and checks how its name is escaped; the reference has no custom-name option.",
+        zh: "该测试使用 `alertNames` 选项注册自定义标记并检查名称转义，参考包没有自定义名称选项。",
       },
     },
     {
       file: "alert.spec.ts",
       name: "should not break out of class attribute with quotes in alert name",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `alertNames` option to add a marker containing quotes and asserts the generated class attribute; the reference cannot register custom names, so the assertion only covers this package's escaping of `alertNames`.",
-        zh: "该测试使用仅本 fork 提供的 `alertNames` 选项添加包含引号的标记并断言生成的 class 属性；参考包无法注册自定义名称，因此断言只覆盖本包对 `alertNames` 的转义。",
+        en: "This test registers a marker with quotes through the `alertNames` option and checks the generated class attribute; the reference cannot register custom names.",
+        zh: "该测试通过 `alertNames` 选项注册含引号的标记并检查生成的 class 属性，参考包无法注册自定义名称。",
       },
     },
     {
       file: "alert.spec.ts",
       name: "should support customize options",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `openRenderer` / `closeRenderer` / `titleRenderer` hooks; the reference always renders its default wrapper and title markup and ignores these options, so the assertion only covers this package's renderer API.",
-        zh: "该测试使用仅本 fork 提供的 `openRenderer` / `closeRenderer` / `titleRenderer` 钩子；参考包始终渲染默认的包裹与标题标记并忽略这些选项，因此断言只覆盖本包的渲染器 API。",
+        en: "This package provides the `openRenderer` / `closeRenderer` / `titleRenderer` hooks; the reference always renders its own alert markup and has no renderer hooks.",
+        zh: "本包提供 `openRenderer` / `closeRenderer` / `titleRenderer` 渲染钩子，参考包始终渲染自己的告警标记，没有对应钩子。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should not register the rule twice when installed twice",
+      category: "feature-gap",
+      why: {
+        en: "The reference does not guard repeated installation and registers its core rule again (the test counts this package's block rule instead), but repeated installation still renders correctly.",
+        zh: "参考包未防范多次安装，会重复注册 core 规则（测试断言的则是本包的块级规则数量），但重复安装后渲染结果仍正确。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should keep the first installation's parse options",
+      category: "feature-gap",
+      why: {
+        en: "This package supports the `alertNames` / `deep` options and keeps the first installation's options; the reference has neither option and no first-install contract.",
+        zh: "本包支持 `alertNames` / `deep` 选项并在重复安装时保留首次选项，参考包没有这些选项，也没有首次安装优先的约定。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should keep the first installation's renderers",
+      category: "feature-gap",
+      why: {
+        en: "This package provides the renderer hooks and keeps the first installation's renderers; the reference has no renderer hooks.",
+        zh: "本包提供渲染钩子并保留首次安装的渲染器，参考包没有对应钩子。",
       },
     },
   ],
   correctness: [
-    { name: "note", markdown: "> [!note]\n> Some text" },
-    { name: "tip", markdown: "> [!tip]\n> Some tip" },
-    { name: "important", markdown: "> [!important]\n> Important" },
-    { name: "warning", markdown: "> [!warning]\n> Warning\n> second line" },
-    { name: "caution", markdown: "> [!caution]\n> Caution" },
-    { name: "mixed-case", markdown: "> [!Note]\n> body" },
+    { name: "note", markdown: "> [!note]\n> Some text", issue: "title-token-representation" },
+    { name: "tip", markdown: "> [!tip]\n> Some tip", issue: "title-token-representation" },
     {
-      name: "uppercase",
-      markdown: "> [!TIP]\n> body",
-      note: {
-        en: "The reference lowercases the alert name before capitalizing the default title, so `[!TIP]` renders `Tip`; the current package preserves the written casing and renders `TIP`.",
-        zh: "参考包在生成默认标题前先把告警名称转为小写，因此 `[!TIP]` 渲染为 `Tip`；当前包保留写出的名称大小写，渲染为 `TIP`。",
-      },
+      name: "important",
+      markdown: "> [!important]\n> Important",
+      issue: "title-token-representation",
     },
+    {
+      name: "warning",
+      markdown: "> [!warning]\n> Warning\n> second line",
+      issue: "title-token-representation",
+    },
+    { name: "caution", markdown: "> [!caution]\n> Caution", issue: "title-token-representation" },
+    { name: "mixed-case", markdown: "> [!Note]\n> body", issue: "title-token-representation" },
+    { name: "uppercase", markdown: "> [!TIP]\n> body", issue: "title-casing" },
     { name: "unknown-type", markdown: "> [!danger]\n> body" },
-    { name: "multiline-body", markdown: "> [!warning]\n> first line\n> second line" },
+    {
+      name: "multiline-body",
+      markdown: "> [!warning]\n> first line\n> second line",
+      issue: "title-token-representation",
+    },
     {
       name: "inline-markup",
       markdown: "> [!note]\n> **bold** and [link](https://example.com)",
+      issue: "title-token-representation",
     },
     {
       name: "list-body",
       markdown: "> [!note]\n> - a\n> - b",
-      note: {
-        en: "The reference keeps the marker line's empty paragraph and emits `<p></p>` before the list; the current package consumes the marker line and starts the body with the list.",
-        zh: "参考包保留标记行的空段落，在列表前输出 `<p></p>`；当前包消费标记行，正文直接从列表开始。",
-      },
+      issue: "marker-line-empty-paragraph",
     },
     {
       name: "nested-blockquote",
       markdown: "> [!note]\n> > nested quote",
-      note: {
-        en: "The reference keeps an empty `<p></p>` for the marker line and closes the hoisted alert `<div>` before the nested `</blockquote>`; the current package keeps the nested blockquote inside the alert with balanced tags.",
-        zh: "参考包为标记行保留一个空 `<p></p>`，并在嵌套 `</blockquote>` 之前关闭被提升的告警 `<div>`；当前包把嵌套 blockquote 留在告警内部，标签保持配对。",
-      },
+      issue: "nested-blockquote-structure",
     },
     {
       name: "nested-alert",
       markdown: "> > [!note]\n> > nested alert",
-      note: {
-        en: "The reference transforms the outermost blockquote because its first inline token starts with the marker, leaving the inner blockquote inside the alert; the current package (`deep: true`) transforms the inner blockquote and keeps the outer quote.",
-        zh: "参考包转换最外层 blockquote，因为其第一个内联 token 以标记开头，从而把内层 blockquote 留在告警内部；当前包（`deep: true`）转换内层 blockquote，并保留外层引用。",
-      },
+      issue: "nested-blockquote-structure",
     },
-    { name: "inside-list", markdown: "- > [!note]\n  > in list" },
-    { name: "multiple-alerts", markdown: "> [!note]\n> first\n\n> [!tip]\n> second" },
     {
-      name: "empty-body",
-      markdown: "> [!note]",
-      note: {
-        en: "The reference accepts a marker with no body and renders an empty alert; the current package requires at least one body line, so the marker stays a literal blockquote.",
-        zh: "参考包接受没有正文的标记并渲染空告警；当前包要求至少一行正文，因此该标记仍为普通 blockquote。",
-      },
+      name: "inside-list",
+      markdown: "- > [!note]\n  > in list",
+      issue: "title-token-representation",
     },
+    {
+      name: "multiple-alerts",
+      markdown: "> [!note]\n> first\n\n> [!tip]\n> second",
+      issue: "title-token-representation",
+    },
+    { name: "empty-body", markdown: "> [!note]", issue: "empty-alert-body" },
     {
       name: "empty-quoted-body",
       markdown: "> [!note]\n>\n> body",
-      note: {
-        en: "The reference keeps an empty paragraph for the empty quoted line before the body; the current package consumes the marker line and emits only the body paragraph.",
-        zh: "参考包为空引用行保留一个空段落；当前包消费标记行，只输出正文段落。",
-      },
+      issue: "marker-line-empty-paragraph",
     },
+    { name: "custom-title", markdown: "> [!note] Custom title\n> body", issue: "custom-title" },
     {
-      name: "custom-title",
-      markdown: "> [!note] Custom title\n> body",
-      note: {
-        en: "The reference treats trailing text after the marker as a custom title; the current package rejects the marker when anything but spaces follows `]`, so it stays a literal blockquote.",
-        zh: "参考包把标记后的尾随文本视为自定义标题；当前包在 `]` 后除空格还有任何内容时拒绝该标记，因此它仍为普通 blockquote。",
-      },
+      name: "trailing-spaces",
+      markdown: "> [!note]   \n> body",
+      issue: "title-token-representation",
     },
-    { name: "trailing-spaces", markdown: "> [!note]   \n> body" },
-    {
-      name: "escaped-bracket",
-      markdown: "> \\[!note]\n> body",
-      note: {
-        en: "The reference's regex accepts an optional backslash before `[`, so `\\[!note]` is still parsed as an alert; the current package treats the escaped bracket as literal text, as documented.",
-        zh: "参考包的正则接受 `[` 前的可选反斜杠，因此 `\\[!note]` 仍会被解析为告警；当前包则按文档将转义的方括号视为字面文本。",
-      },
-    },
+    { name: "escaped-bracket", markdown: "> \\[!note]\n> body", issue: "escaped-marker" },
     { name: "escaped-bang", markdown: "> [\\!note]\n> body" },
     { name: "unterminated-marker", markdown: "> [!note\n> body" },
     {
       name: "hr-before-marker",
       markdown: "> ***\n> [!note]\n> body",
-      note: {
-        en: "The reference searches the first inline token of the blockquote and therefore finds the marker after an `<hr>`; the current package only accepts the marker on the first line of the blockquote.",
-        zh: "参考包搜索 blockquote 的第一个内联 token，因此能找到 `<hr>` 之后的标记；当前包只接受 blockquote 第一行上的标记。",
-      },
+      issue: "marker-after-block",
     },
     {
       name: "indented-marker",
       markdown: ">    [!note]\n> body",
+      issue: "title-token-representation",
     },
     {
       name: "no-alert-syntax",

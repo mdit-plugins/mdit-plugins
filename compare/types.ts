@@ -42,13 +42,28 @@ export interface ComparisonVariant {
   readonly compareTokens?: boolean;
 }
 
+/** Category of an expected difference / 预期差异的分类 */
+export type CaseCategory = "reference-error" | "difference";
+
+/** A root cause behind one or more expected differences / 导致一个或多个预期差异的根因 */
+export interface ComparisonIssue {
+  /** Stable issue id, unique within the spec / spec 内唯一的 issue id */
+  readonly id: string;
+  /** Whether the difference is a reference bug or an acceptable tradeoff / 参考包错误或可接受差异 */
+  readonly category: CaseCategory;
+  /** Bilingual explanation of the root cause / 根因的中英文说明 */
+  readonly note: ComparisonNote;
+}
+
 /** A markdown case used by the correctness comparison */
 export interface CorrectnessCase {
   /** Case name shown in reports */
   readonly name: string;
   /** Markdown input */
   readonly markdown: string;
-  /** Explanation for an expected difference */
+  /** Issue id of the expected difference; required when the case differs */
+  readonly issue?: string;
+  /** Additional explanation for this case / 该用例的补充说明 */
   readonly note?: ComparisonNote;
 }
 
@@ -78,13 +93,18 @@ export interface ScalingCase {
   readonly targetMs?: number;
 }
 
+/** Why a test suite test is skipped against the reference / 测试套件对比中跳过测试的原因 */
+export type SkipCategory = "feature-gap" | "internal" | "packaging";
+
 /** One test of the package test suite that is skipped when run against the reference */
 export interface TestSuiteSkip {
   /** Substring of the test name (suite name plus test title) */
   readonly name: string;
   /** Optional substring of the test file name, e.g. `source-map.spec.ts` */
   readonly file?: string;
-  /** Bilingual explanation of why the test only covers internal behavior */
+  /** Why the test is skipped / 跳过原因分类 */
+  readonly category: SkipCategory;
+  /** Concise bilingual explanation / 简洁的中英文说明 */
   readonly why: ComparisonNote;
 }
 
@@ -104,8 +124,17 @@ export interface ComparisonSpec {
   readonly scaling?: readonly ScalingCase[];
   /** Normalize the rendered output of both sides before comparing */
   readonly normalize?: (html: string) => string;
+  /** Root causes of the expected correctness differences / 预期正确性差异的根因 */
+  readonly issues?: readonly ComparisonIssue[];
   /** Tests that are skipped when the package test suite runs against the reference */
   readonly testSuiteSkips?: readonly TestSuiteSkip[];
+  /**
+   * Adapt the reference module to our public API so the test suite can run against it
+   *
+   * Use it when both implementations offer the same functionality through a different API shape.
+   * The result must expose our export names / 当两边功能相同但 API 形态不同时，用它将参考模块适配成我们的公开 API。
+   */
+  readonly testSuiteAdapter?: (reference: PluginModule) => PluginModule;
   /**
    * Extra export aliases for the test suite shim, mapping names imported by the tests to reference
    * exports when they differ from the compared variant exports (e.g. an alias such as `mathjax`).
@@ -186,12 +215,28 @@ export interface TokenDifference {
   readonly reference: string;
 }
 
+/** One root cause with the cases that demonstrate it / 一个根因及其对应的用例 */
+export interface IssueSummary {
+  /** Issue id */
+  readonly id: string;
+  /** Category of the issue */
+  readonly category: CaseCategory;
+  /** Bilingual explanation */
+  readonly note: ComparisonNote;
+  /** Names of the cases that demonstrate the issue */
+  readonly cases: readonly string[];
+}
+
 /** Correctness result of one case */
 export interface CorrectnessCaseResult {
   /** Case name */
   readonly name: string;
   /** Comparison status */
   readonly status: CorrectnessStatus;
+  /** Issue id of the difference */
+  readonly issue?: string;
+  /** Category of the difference */
+  readonly category?: CaseCategory;
   /** Explanation for an expected difference */
   readonly note?: ComparisonNote;
   /** First token stream difference when the rendered HTML matches */
@@ -212,8 +257,14 @@ export interface CorrectnessSummary {
   readonly exact: number;
   /** Number of outputs identical after normalization */
   readonly normalized: number;
-  /** Number of documented differences */
+  /** Number of differences (reference errors plus accepted differences) */
   readonly diff: number;
+  /** Number of issues caused by bugs in the reference */
+  readonly referenceErrors: number;
+  /** Number of accepted difference issues */
+  readonly differences: number;
+  /** Aggregated issues behind the differences */
+  readonly issues: readonly IssueSummary[];
   /** Number of rendering errors */
   readonly error: number;
   /** Per case results */
@@ -233,6 +284,8 @@ export interface TestSuiteCaseResult {
   readonly status: TestSuiteStatus;
   /** First line of the failure message, when the test failed */
   readonly message?: string;
+  /** Why the test is skipped */
+  readonly skipCategory?: SkipCategory;
   /** Explanation of a skipped test */
   readonly skipReason?: ComparisonNote;
 }
@@ -251,6 +304,8 @@ export interface TestSuitePackageResult {
   readonly failed: number;
   /** Number of skipped tests (not counted in total) */
   readonly skipped: number;
+  /** Number of skipped tests per category */
+  readonly skippedByCategory: Readonly<Record<SkipCategory, number>>;
   /** Per test results */
   readonly tests: readonly TestSuiteCaseResult[];
   /** Collection error when the suite could not run at all */

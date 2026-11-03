@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-anchor
 
 Compared against the upstream [`markdown-it-anchor`](https://www.npmjs.com/package/markdown-it-anchor) package `10.0.0`.
 
-- Correctness: **75/88** cases match the reference exactly (13 documented differences).
+- Correctness: **75/88** cases match the reference exactly (1 reference errors, 5 differences).
 - Throughput: **1.71×** the reference (geometric mean across 24 benchmark cases; above 1× means faster).
 - Package size: **80.5 kB** unpacked and **2.2 kB** gzip entry, versus **138.7 kB** and **2.2 kB** for the reference.
 

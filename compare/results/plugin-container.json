@@ -3,7 +3,7 @@
   "reference": "markdown-it-container",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-03T01:54:41.124Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,23 @@
         "exact": 20,
         "normalized": 0,
         "diff": 3,
+        "referenceErrors": 0,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "closing-marker-indent",
+            "category": "difference",
+            "note": {
+              "en": "The reference accepts a closing marker indented less than four columns relative to the enclosing block, while this package requires the closing marker indentation to match the opening marker exactly; both are valid closing rules.",
+              "zh": "参考包接受相对于外层块缩进小于四列的结束标记，当前包要求结束标记与起始标记缩进完全一致；两种结束标记规则都合理。"
+            },
+            "cases": [
+              "indented-opening",
+              "indented-closing",
+              "indented-closing-after-blank"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
@@ -104,30 +121,24 @@
           {
             "name": "indented-opening",
             "status": "diff",
-            "note": {
-              "en": "The current package requires the closing marker to be indented exactly like the opening marker (both are 2 columns here, then 0), so the container stays unclosed; the reference accepts the unindented closing marker and closes it.",
-              "zh": "当前包要求结束标记与起始标记缩进完全一致（此处起始为 2 列、结束为 0 列），因此容器保持未闭合；参考包接受未缩进的结束标记并将其闭合。"
-            },
+            "issue": "closing-marker-indent",
+            "category": "difference",
             "ourHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n<p>:::</p>\n",
             "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
           },
           {
             "name": "indented-closing",
             "status": "diff",
-            "note": {
-              "en": "The reference accepts a closing marker indented by less than four columns; the current package requires the closing marker to be indented exactly like the opening marker, so it keeps the `:::` line as container content.",
-              "zh": "参考包接受缩进小于四列的结束标记；当前包要求结束标记与起始标记缩进完全一致，因此将 `:::` 行保留为容器内容。"
-            },
+            "issue": "closing-marker-indent",
+            "category": "difference",
             "ourHtml": "<div class=\"warning\">\n<p>content\n:::</p>\n</div>\n",
             "referenceHtml": "<div class=\"warning\">\n<p>content</p>\n</div>\n"
           },
           {
             "name": "indented-closing-after-blank",
             "status": "diff",
-            "note": {
-              "en": "Same closing-marker rule as `indented-closing`: the reference closes the empty container, while the current package renders the indented marker as a paragraph inside it.",
-              "zh": "与 `indented-closing` 相同的结束标记规则：参考包闭合空容器，当前包则把缩进的标记渲染为容器内的段落。"
-            },
+            "issue": "closing-marker-indent",
+            "category": "difference",
             "ourHtml": "<div class=\"warning\">\n<p>:::</p>\n</div>\n",
             "referenceHtml": "<div class=\"warning\"></div>\n"
           }

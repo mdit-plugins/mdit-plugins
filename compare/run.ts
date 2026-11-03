@@ -18,11 +18,14 @@ import {
 import { canonicalizeTokens, findTokenDifference, normalizeHtml } from "./normalize.ts";
 import type {
   BenchResult,
+  ComparisonIssue,
   ComparisonResult,
   ComparisonSpec,
   ComparisonNote,
+  CorrectnessCase,
   CorrectnessCaseResult,
   CorrectnessSummary,
+  IssueSummary,
   MachineInfo,
   ScalingResult,
   TokenDifference,
@@ -136,6 +139,36 @@ const createTokenNote = (difference: TokenDifference): ComparisonNote => ({
 });
 
 /**
+ * Resolve and validate the issue of a difference case
+ *
+ * @param spec - Comparison spec
+ * @param issueMap - Issues of the spec by id
+ * @param testCase - Correctness case
+ * @returns The issue of the case
+ */
+const resolveIssue = (
+  spec: ComparisonSpec,
+  issueMap: ReadonlyMap<string, ComparisonIssue>,
+  testCase: CorrectnessCase,
+): ComparisonIssue => {
+  if (!testCase.issue) {
+    throw new Error(
+      `[compare] ${spec.plugin}::${testCase.name} is a difference case without an issue; define it under the spec "issues" and reference it from the case.`,
+    );
+  }
+
+  const issue = issueMap.get(testCase.issue);
+
+  if (!issue) {
+    throw new Error(
+      `[compare] ${spec.plugin}::${testCase.name} references unknown issue "${testCase.issue}".`,
+    );
+  }
+
+  return issue;
+};
+
+/**
  * Compare the correctness cases of one variant
  *
  * @param spec - Comparison spec
@@ -154,6 +187,7 @@ const compareCorrectness = async (
   referenceTokenize?: (markdown: string) => readonly Token[],
 ): Promise<CorrectnessSummary> => {
   const normalize = spec.normalize ?? normalizeHtml;
+  const issueMap = new Map((spec.issues ?? []).map((issue) => [issue.id, issue]));
   const cases: CorrectnessCaseResult[] = [];
 
   for (const testCase of spec.correctness) {
@@ -175,10 +209,12 @@ const compareCorrectness = async (
             );
       const status = tokenDifference ? "diff" : htmlStatus;
       const note = testCase.note ?? (tokenDifference ? createTokenNote(tokenDifference) : void 0);
+      const issue = status === "diff" ? resolveIssue(spec, issueMap, testCase) : void 0;
 
       cases.push({
         name: testCase.name,
         status,
+        ...(issue ? { issue: issue.id, category: issue.category } : {}),
         ...(note ? { note } : {}),
         ...(tokenDifference ? { tokenDifference } : {}),
         ...(status === "diff" && htmlStatus === "diff" ? { ourHtml, referenceHtml } : {}),
@@ -195,12 +231,33 @@ const compareCorrectness = async (
 
   const count = (status: CorrectnessCaseResult["status"]): number =>
     cases.filter((testCase) => testCase.status === status).length;
+  const diffCases = cases.filter((testCase) => testCase.status === "diff");
+  const issueIds = [...new Set(diffCases.map((testCase) => testCase.issue))].filter(
+    (issueId): issueId is string => issueId != null,
+  );
+  const issues: IssueSummary[] = issueIds.map((issueId) => {
+    const issue = issueMap.get(issueId);
+
+    if (!issue) throw new Error(`[compare] ${spec.plugin} references unknown issue "${issueId}".`);
+
+    return {
+      id: issue.id,
+      category: issue.category,
+      note: issue.note,
+      cases: diffCases
+        .filter((testCase) => testCase.issue === issue.id)
+        .map((testCase) => testCase.name),
+    };
+  });
 
   return {
     total: cases.length,
     exact: count("exact"),
     normalized: count("normalized"),
-    diff: count("diff"),
+    diff: diffCases.length,
+    referenceErrors: issues.filter((issue) => issue.category === "reference-error").length,
+    differences: issues.filter((issue) => issue.category === "difference").length,
+    issues,
     error: count("error"),
     cases,
   };
@@ -336,7 +393,17 @@ const runSpec = async (plugin: string, flags: RunFlags): Promise<ComparisonResul
           ourTokenize,
           referenceTokenize,
         )
-      : { total: 0, exact: 0, normalized: 0, diff: 0, error: 0, cases: [] };
+      : {
+          total: 0,
+          exact: 0,
+          normalized: 0,
+          diff: 0,
+          referenceErrors: 0,
+          differences: 0,
+          issues: [],
+          error: 0,
+          cases: [],
+        };
     const bench = flags.bench ? await compareBench(spec, ourRenderer, referenceRenderer) : [];
     const scaling = flags.bench ? await compareScaling(spec, ourRenderer, referenceRenderer) : [];
 

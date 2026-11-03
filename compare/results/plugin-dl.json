@@ -3,7 +3,7 @@
   "reference": "markdown-it-deflist",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-03T01:54:56.265Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,11 +19,46 @@
         "exact": 3,
         "normalized": 0,
         "diff": 19,
+        "referenceErrors": 1,
+        "differences": 0,
+        "issues": [
+          {
+            "id": "term-source-map",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference emits empty `dt` maps (`[line, line]`) for the term and its inline token, and lets `dd_open` start at the term line, so its `dt`/`dd` source maps cannot reflect the document; the current package maps them to the real source lines.",
+              "zh": "参考包为术语及其内联 token 输出空 `dt` 映射（`[line, line]`），并让 `dd_open` 从术语行开始，因此其 `dt`/`dd` 源码映射无法反映文档；当前包将它们映射到真实的源码行。"
+            },
+            "cases": [
+              "basic",
+              "blank-line-after-term",
+              "multiple-definitions",
+              "tilde-marker",
+              "lazy-continuation",
+              "multi-paragraph-definition",
+              "code-block-in-definition",
+              "list-in-definition",
+              "heading-in-definition",
+              "blockquote-in-definition",
+              "inline-markup-term",
+              "nested-deflist",
+              "empty-definition",
+              "empty-definition-next-line",
+              "definition-after-paragraph",
+              "deflist-in-list",
+              "deflist-in-blockquote",
+              "term-followed-by-unindented-line",
+              "consecutive-deflists"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
             "name": "basic",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -37,6 +72,8 @@
           {
             "name": "blank-line-after-term",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -50,6 +87,8 @@
           {
             "name": "multiple-definitions",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -63,6 +102,8 @@
           {
             "name": "tilde-marker",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -76,6 +117,8 @@
           {
             "name": "lazy-continuation",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -89,6 +132,8 @@
           {
             "name": "multi-paragraph-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -102,6 +147,8 @@
           {
             "name": "code-block-in-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -115,6 +162,8 @@
           {
             "name": "list-in-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -128,6 +177,8 @@
           {
             "name": "heading-in-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -141,6 +192,8 @@
           {
             "name": "blockquote-in-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -154,6 +207,8 @@
           {
             "name": "inline-markup-term",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -167,6 +222,8 @@
           {
             "name": "nested-deflist",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -180,6 +237,8 @@
           {
             "name": "empty-definition",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -193,6 +252,8 @@
           {
             "name": "empty-definition-next-line",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -214,6 +275,8 @@
           {
             "name": "definition-after-paragraph",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[4].map[1]`: current `3`, reference `2`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[4].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
@@ -227,6 +290,8 @@
           {
             "name": "deflist-in-list",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[6].map[1]`: current `3`, reference `2`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[6].map[1]` 处不同：当前包为 `3`，参考包为 `2`。"
@@ -240,6 +305,8 @@
           {
             "name": "deflist-in-blockquote",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[2].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[2].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -253,6 +320,8 @@
           {
             "name": "term-followed-by-unindented-line",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -266,6 +335,8 @@
           {
             "name": "consecutive-deflists",
             "status": "diff",
+            "issue": "term-source-map",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].map[1]`: current `1`, reference `0`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].map[1]` 处不同：当前包为 `1`，参考包为 `0`。"
@@ -411,8 +482,8 @@
       "zh": "两个包都不接受选项，均以默认配置安装。"
     },
     {
-      "en": "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[0, 0]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases are documented differences at token level even though the rendered HTML is identical.",
-      "zh": "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[0, 0]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例在 token 层被记为已记录差异。"
+      "en": "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[line, line]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases reference the `term-source-map` reference error even though the rendered HTML is identical.",
+      "zh": "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[line, line]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例引用 `term-source-map` 参考包错误。"
     },
     {
       "en": "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",

@@ -3,7 +3,7 @@
   "reference": "markdown-it-attrs",
   "referenceVersion": "5.0.1",
   "generatedAt": "2026-11-03T01:53:56.384Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,21 @@
         "exact": 19,
         "normalized": 0,
         "diff": 1,
+        "referenceErrors": 0,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "table-meta-key",
+            "category": "difference",
+            "note": {
+              "en": "Both packages store the table column count on the table token's `meta` for their cell-span rules, but under different keys (reference `colsnum`, current `columnCount`); the rendered HTML matches.",
+              "zh": "两个包都为单元格跨列规则把表格列数写入表格 token 的 `meta`，但键名不同（参考包 `colsnum`，当前包 `columnCount`）；渲染结果一致。"
+            },
+            "cases": [
+              "table"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
@@ -64,6 +79,8 @@
           {
             "name": "table",
             "status": "diff",
+            "issue": "table-meta-key",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[1].meta`: current `\"{\\\"columnCount\\\":2}\"`, reference `\"{\\\"colsnum\\\":2}\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[1].meta` 处不同：当前包为 `\"{\\\"columnCount\\\":2}\"`，参考包为 `\"{\\\"colsnum\\\":2}\"`。"

@@ -1,5 +1,35 @@
-import type { ComparisonSpec } from "../types.ts";
+import type { ComparisonSpec, PluginFunction, PluginModule } from "../types.ts";
 import { defineComparison } from "../types.ts";
+
+/**
+ * Adapt the reference module to this package's option names
+ *
+ * The reference calls the custom definitions option `defs`, while this package calls it
+ * `definitions`; `shortcuts` and `enabled` are shared.
+ *
+ * @param reference - Module namespace of the reference package
+ * @returns A module namespace that exposes this package's emoji exports
+ */
+const createTestSuiteAdapter = (reference: PluginModule): PluginModule => {
+  const adapt =
+    (referenceName: string): PluginFunction =>
+    (md, options): void => {
+      const { definitions, ...rest } = (options ?? {}) as {
+        definitions?: Record<string, string>;
+      } & Record<string, unknown>;
+
+      (reference[referenceName] as PluginFunction)(
+        md,
+        definitions == null ? rest : { ...rest, defs: definitions },
+      );
+    };
+
+  return {
+    bareEmoji: adapt("bare"),
+    lightEmoji: adapt("light"),
+    fullEmoji: adapt("full"),
+  };
+};
 
 /** Custom emoji data for the bare variant, which ships no built-in definitions */
 const BARE_DEFINITIONS: Record<string, string> = {
@@ -37,12 +67,12 @@ const spec: ComparisonSpec = defineComparison({
       zh: '`bare` 预设不内置任何数据，因此两侧接收相同的自定义定义数据（参考包的选项名为 `defs`，当前包为 `definitions`）、快捷键和 `enabled` 白名单（`enabled: ["smile", "rocket"]`）。',
     },
     {
-      en: "`light` data (150 names) and the shortcut table (25 names) are identical on both sides, so every `light` case matches.",
-      zh: "两侧的 `light` 数据（150 个名称）和快捷键表（25 个名称）完全一致，因此所有 `light` 用例的输出都相同。",
+      en: "`light` data (150 names) and the shortcut table (25 names) are identical on both sides, so every `light` case renders identically; the token-level `emoji` level difference applies to all three variants.",
+      zh: "两侧的 `light` 数据（150 个名称）和快捷键表（25 个名称）完全一致，因此所有 `light` 用例渲染结果相同；token 层的 `emoji` 层级差异适用于全部三个变体。",
     },
     {
-      en: "`full` data differs: the current package ships 1957 names, markdown-it-emoji 3.1.0 ships 1903. 55 newer names (Unicode 15.1/16.0 additions such as `head_shaking_horizontally`, `phoenix` or `leafless_tree`) exist only in the current data, and the reference-only generated name `u6e80` (🈵, exposed as `no_vacancy` in the current data) is missing from the current data. The two `full` cases covering these names are reported as documented diffs; the `light` and `bare` variants render them as literal text on both sides.",
-      zh: "`full` 数据存在差异：当前包包含 1957 个名称，markdown-it-emoji 3.1.0 包含 1903 个。55 个较新的名称（Unicode 15.1/16.0 新增，例如 `head_shaking_horizontally`、`phoenix` 或 `leafless_tree`）只存在于当前数据中，而仅由参考包生成的名称 `u6e80`（🈵，在当前数据中名为 `no_vacancy`）在当前数据中缺失。覆盖这些名称的两个 `full` 用例被记录为已记录差异；`light` 和 `bare` 变体在两侧都将它们渲染为字面文本。",
+      en: "`full` data differs: the current package ships 1957 names, markdown-it-emoji 3.1.0 ships 1903. 55 newer names (Unicode 15.1/16.0 additions such as `head_shaking_horizontally`, `phoenix` or `leafless_tree`) exist only in the current data, and the reference-only generated name `u6e80` (🈵, exposed as `no_vacancy` in the current data) is missing from the current data. The two `full` cases covering these names reference the `emoji-data-version` issue; the `light` and `bare` variants render them as literal text on both sides.",
+      zh: "`full` 数据存在差异：当前包包含 1957 个名称，markdown-it-emoji 3.1.0 包含 1903 个。55 个较新的名称（Unicode 15.1/16.0 新增，例如 `head_shaking_horizontally`、`phoenix` 或 `leafless_tree`）只存在于当前数据中，而仅由参考包生成的名称 `u6e80`（🈵，在当前数据中名为 `no_vacancy`）在当前数据中缺失。覆盖这些名称的两个 `full` 用例引用 `emoji-data-version` 问题；`light` 和 `bare` 变体在两侧都将它们渲染为字面文本。",
     },
     {
       en: "The current package ignores empty or whitespace-only shortcut aliases, while the reference compiles a zero-length alternative that duplicates emojis next to whitespace or punctuation (e.g. `a :smile: b` with an empty `smile` alias becomes `a 😄😄 b`). This is documented behavior of the current package and is not covered by a case, because such an alias changes every shortcut-bearing text token.",
@@ -88,32 +118,63 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  issues: [
+    {
+      id: "emoji-token-level",
+      category: "reference-error",
+      note: {
+        en: "The reference inserts `emoji` tokens without the surrounding nesting level, so an emoji inside a link or emphasis keeps `level: 0`; the current package sets the correct level, and the reference token structure cannot reflect the document.",
+        zh: "参考包插入的 `emoji` token 没有携带所在嵌套层级，因此链接或强调内的表情仍为 `level: 0`；当前包设置正确的层级，参考包的 token 结构无法反映文档。",
+      },
+    },
+    {
+      id: "emoji-data-version",
+      category: "difference",
+      note: {
+        en: "The two `full` data sets come from different emoji versions: the current package knows newer Unicode names, the reference has the `u6e80` alias; each side renders the names it knows, and the `light` / `bare` data is identical.",
+        zh: "两个 `full` 数据集来自不同的表情版本：当前包包含较新的 Unicode 名称，参考包带有 `u6e80` 别名；双方各自渲染已知名称，`light` / `bare` 数据一致。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "coverage.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Imports the internal `src/normalizeOption.js` helper and only covers its default values; the reference has no such module, so the test never exercises it.",
-        zh: "该测试导入内部的 `src/normalizeOption.js` 辅助模块，只覆盖其默认值；参考包没有该模块，因此测试不会作用于参考实现。",
+        en: "Covers only the default values of the internal `normalizeOption` module; the reference has no such module.",
+        zh: "该文件只覆盖内部 `normalizeOption` 模块的默认值，参考包没有对应模块。",
       },
     },
     {
       file: "data.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Checks the generated `src/data/*` tables and the `scripts/emojiAliases.js` pipeline of the current package; the reference ships its own data set and has no equivalent internal modules.",
-        zh: "该测试校验当前包生成的 `src/data/*` 数据表与 `scripts/emojiAliases.js` 流程；参考包使用自己的数据集，也没有对应的内部模块。",
+        en: "Checks this package's generated `src/data/*` tables and alias generation pipeline; the reference ships its own data set and has no equivalent internal modules.",
+        zh: "该文件校验本包生成的 `src/data/*` 数据表与别名生成流程，参考包使用自己的数据集，没有对应内部模块。",
       },
     },
     {
       file: "install-idempotent.spec.ts",
-      name: "",
+      name: "should not register the core rule twice",
+      category: "feature-gap",
       why: {
-        en: "Asserts the internal core-rule name/count and how repeated or mixed installations keep the first definitions; the reference registers its rule differently and has no variant-mixing contract.",
-        zh: "该测试断言内部 core 规则的名称/数量，以及重复安装或混用变体时保留首次定义的行为；参考包的规则注册方式不同，也没有变体混用的约定。",
+        en: "The reference does not guard repeated installation and registers its core rule again, but repeated installation still renders correctly; this package registers the rule once.",
+        zh: "参考包未防范多次安装，会重复注册 core 规则，但重复安装后渲染结果仍正确；本包只注册一次。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should keep the first installation's definitions when variants are mixed",
+      category: "feature-gap",
+      why: {
+        en: "This package keeps the first installation's definitions when variants are mixed; the reference keeps both core rules, so the later variant converts the text again.",
+        zh: "本包在混用变体时保留首次安装的定义，参考包会保留两个 core 规则，后安装的变体会再次转换文本。",
       },
     },
   ],
+  testSuiteAdapter: createTestSuiteAdapter,
   correctness: [
     {
       name: "no-syntax",
@@ -148,26 +209,28 @@ const spec: ComparisonSpec = defineComparison({
     { name: "fenced-code", markdown: "```\n:smile: :)\n```" },
     { name: "indented-code", markdown: "    :smile: :)" },
     { name: "autolink", markdown: "<https://example.com/:smile:>" },
-    { name: "link-text", markdown: "[link :smile:](https://example.com)" },
+    {
+      name: "link-text",
+      markdown: "[link :smile:](https://example.com)",
+      issue: "emoji-token-level",
+    },
     { name: "link-href", markdown: "[link](https://example.com/:smile:)" },
     { name: "image-alt", markdown: "![alt :smile:](image.png)" },
-    { name: "emphasis", markdown: "**:smile:** _:heart:_" },
+    {
+      name: "emphasis",
+      markdown: "**:smile:** _:heart:_",
+      issue: "emoji-token-level",
+    },
     { name: "escaped-colon", markdown: String.raw`escaped \:smile: and unescaped :heart:` },
     {
       name: "full-new-emoji-name",
       markdown: ":head_shaking_horizontally:",
-      note: {
-        en: "This Unicode 15.1 name exists only in the current `full` data; the reference renders it as literal text. `light` and `bare` render it literally on both sides.",
-        zh: "这个 Unicode 15.1 名称只存在于当前包的 `full` 数据中；参考包将其渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。",
-      },
+      issue: "emoji-data-version",
     },
     {
       name: "full-reference-only-name",
       markdown: ":u6e80:",
-      note: {
-        en: "`u6e80` (🈵) only exists in the reference data; the current `full` data names the same character `no_vacancy` and renders `:u6e80:` as literal text. `light` and `bare` render it literally on both sides.",
-        zh: "`u6e80`（🈵）只存在于参考包数据中；当前包的 `full` 数据将同一字符命名为 `no_vacancy`，并把 `:u6e80:` 渲染为字面文本。`light` 和 `bare` 在两侧都将其渲染为字面文本。",
-      },
+      issue: "emoji-data-version",
     },
   ],
   bench: BENCH_CASES,

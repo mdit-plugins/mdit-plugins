@@ -6,10 +6,12 @@ import { RESULTS_DIR, SIZES_FILE, readSizeData } from "./size.ts";
 import type { PackageSize, SizeData } from "./size.ts";
 import type {
   BenchResult,
+  CaseCategory,
   ComparisonNote,
   ComparisonResult,
   CorrectnessStatus,
   MachineInfo,
+  SkipCategory,
   TestSuiteCaseResult,
   TestSuiteData,
   TestSuitePackageResult,
@@ -175,6 +177,8 @@ export interface DocsTestSuite {
   readonly failed: number;
   /** Number of skipped tests (not counted) */
   readonly skipped: number;
+  /** Number of skipped tests per category */
+  readonly skippedByCategory: Readonly<Record<SkipCategory, number>>;
   /** Failed and skipped tests; passed tests are only counted */
   readonly tests: readonly TestSuiteCaseResult[];
   /** Collection error when the suite could not run */
@@ -187,8 +191,24 @@ export interface DocsCorrectnessCase {
   readonly name: string;
   /** Comparison status */
   readonly status: CorrectnessStatus;
-  /** Bilingual explanation of a documented difference */
+  /** Issue id of a difference */
+  readonly issue?: string;
+  /** Category of a difference */
+  readonly category?: CaseCategory;
+  /** Bilingual explanation of a difference */
   readonly note?: ComparisonNote;
+}
+
+/** One root cause behind a difference in the generated docs data */
+export interface DocsIssue {
+  /** Issue id */
+  readonly id: string;
+  /** Category of the issue */
+  readonly category: CaseCategory;
+  /** Bilingual explanation */
+  readonly note: ComparisonNote;
+  /** Names of the cases that demonstrate the issue */
+  readonly cases: readonly string[];
 }
 
 /** Correctness summary of the generated docs data */
@@ -199,8 +219,14 @@ export interface DocsCorrectness {
   readonly exact: number;
   /** Number of outputs identical after normalization */
   readonly normalized: number;
-  /** Number of documented differences */
+  /** Number of differences (reference errors plus accepted differences) */
   readonly diff: number;
+  /** Number of reference error issues */
+  readonly referenceErrors: number;
+  /** Number of accepted difference issues */
+  readonly differences: number;
+  /** Root causes behind the differences */
+  readonly issues: readonly DocsIssue[];
   /** Number of rendering errors */
   readonly error: number;
   /** Per case results */
@@ -271,8 +297,12 @@ export interface DocsComparisonTotals {
   readonly exact: number;
   /** Number of cases that match after normalization */
   readonly normalized: number;
-  /** Number of documented differences */
+  /** Number of differences (reference errors plus accepted differences) */
   readonly diff: number;
+  /** Number of reference error issues */
+  readonly referenceErrors: number;
+  /** Number of accepted difference issues */
+  readonly differences: number;
   /** Number of rendering errors */
   readonly error: number;
   /** Number of benchmark cases */
@@ -285,6 +315,12 @@ export interface DocsComparisonTotals {
   readonly testFailed: number;
   /** Number of test suite tests skipped as internal-only differences */
   readonly testSkipped: number;
+  /** Number of skipped tests caused by missing reference features */
+  readonly testSkippedFeatureGap: number;
+  /** Number of skipped internal-implementation tests */
+  readonly testSkippedInternal: number;
+  /** Number of skipped packaging tests */
+  readonly testSkippedPackaging: number;
 }
 
 /** Data consumed by the documentation comparison page */
@@ -306,9 +342,10 @@ export interface DocsComparisonData {
 /** Measurement method notes rendered on the comparison page */
 const METHOD_NOTES: Readonly<Record<ReportLocale, readonly string[]>> = {
   en: [
-    "Correctness renders the same markdown with both implementations and compares the output byte for byte after a minimal normalization (attribute order; wrapper markup and generated ids only where both sides emit them by design). For variants without a custom renderer, the parsed token streams are compared as well — token metadata such as source maps is part of the public contract for plugins that build on top of these tokens. Every remaining difference is documented with a reason.",
+    "Correctness renders the same markdown with both implementations and compares the output byte for byte after a minimal normalization (attribute order; wrapper markup and generated ids only where both sides emit them by design). For variants without a custom renderer, the parsed token streams are compared as well — token metadata such as source maps is part of the public contract for plugins that build on top of these tokens. Every remaining difference is categorized as a reference error or an acceptable difference, grouped by root cause.",
     "Benchmark throughput and scaling numbers are medians of interleaved samples, so both sides run in the same process under the same load. Corpora are committed markdown files: `normal` is a realistic document with sparse syntax, `heavy` is dense plugin syntax; each is measured at three sizes.",
-    "The test suite comparison runs each compared package's own unit tests against the reference implementation by swapping the built package entry for the reference package. Tests that only assert internal implementation details the reference does not provide are skipped with a reason and are not counted; every other failing test is a behavior difference between the two packages.",
+    "The test suite comparison runs each compared package's own unit tests against the reference implementation by swapping the built package entry for the reference package. Tests of features the reference does not provide are reported as feature gaps; tests that only assert internal implementation details are skipped silently and only counted in the aggregate; every other failing test is a behavior difference between the two packages.",
+    'Each correctness difference is grouped under one root cause: "reference error" when the reference output or token stream is wrong (wrong source maps, missing or broken nesting, lost or misplaced content, security issues), and "difference" when the implementations merely represent the same result differently (equivalent token shape, alternative but valid output, intentional syntax or option design). Counts are per root cause, not per case.',
     "Scaling exponents are fitted on log-log axes: ~1 is linear and ~2 is quadratic. The series are built to expose the known superlinear paths of the reference implementations.",
     "Package size covers the files published to npm: `dist/**`, `README`, `LICENSE*`, `package.json`, plus any extra file listed in the package `files` field. The reference size is the installed package directory without nested `node_modules`.",
     "Entry gzip is the gzipped size of the ESM entry: the resolved `exports` entry for the current package and the `module` / `exports.import` / `main` entry for the reference.",
@@ -316,7 +353,8 @@ const METHOD_NOTES: Readonly<Record<ReportLocale, readonly string[]>> = {
   zh: [
     "正确性对比会用两个实现渲染同一段 Markdown，并在最小化归一化（属性顺序；仅当双方都按设计输出包裹标记和生成 id 时才归一化这些内容）后逐字节比较输出；对于未使用自定义渲染器的变体，还会比较解析后的 token 流——源码映射等 token 元数据对基于这些 token 的下游插件属于公共契约。其余每一处差异都会附带原因说明。",
     "基准性能与复杂度缩放数据为交错采样结果的中位数，因此两侧在同一进程、相同负载下运行。语料为仓库提交的 markdown 文件：`normal` 是语法较稀疏的真实文档，`heavy` 是语法密集的文档；每种语料在三个规模下测量。",
-    "测试套件对比会把每个包的单元测试直接跑在参考实现上（用参考包替换插件入口）。只断言参考实现不存在的内部实现细节的测试会被标记为跳过并注明原因，不计入统计；其余失败测试都代表两个包之间的行为差异。",
+    "测试套件对比会把每个包的单元测试直接跑在参考实现上（用参考包替换插件入口）。参考包缺少对应功能的测试会归为功能缺失；只断言内部实现细节的测试会静默跳过、仅计入汇总；其余失败测试都代表两个包之间的行为差异。",
+    "每个正确性差异都归因到一个根因：当参考实现的输出或 token 流有误时（源码映射错误、嵌套缺失/错误、内容丢失或错位、安全问题）记为「参考包错误」；当双方只是对同一结果的表示方式不同时（等价的 token 形状、同样合法的不同输出、有意的语法或选项设计）记为「差异」。统计按根因计数，而不是按用例计数。",
     "拟合指数基于对数坐标计算：约 1 为线性增长，约 2 为二次增长。各缩放系列针对参考实现已知的超线性路径设计。",
     "包体积按发布到 npm 的文件计算：`dist/**`、`README`、`LICENSE*`、`package.json`，以及包 `files` 字段中列出的其他文件。参考包体积为已安装包目录的大小，不包含嵌套的 `node_modules`。",
     "入口 gzip 为 ESM 入口 gzip 后的大小：本包为 `exports` 解析出的入口，参考包为 `package.json` 中的 `module` / `exports.import` / `main` 入口。",
@@ -336,10 +374,15 @@ const mapDocsVariant = (variant: VariantResult): DocsVariant => ({
     exact: variant.correctness.exact,
     normalized: variant.correctness.normalized,
     diff: variant.correctness.diff,
+    referenceErrors: variant.correctness.referenceErrors ?? 0,
+    differences: variant.correctness.differences ?? 0,
+    issues: variant.correctness.issues ?? [],
     error: variant.correctness.error,
     cases: variant.correctness.cases.map((testCase) => ({
       name: testCase.name,
       status: testCase.status,
+      ...(testCase.issue ? { issue: testCase.issue } : {}),
+      ...(testCase.category ? { category: testCase.category } : {}),
       ...(testCase.note ? { note: testCase.note } : {}),
     })),
   },
@@ -375,6 +418,11 @@ const mapDocsTestSuite = (suite: TestSuitePackageResult | undefined): DocsTestSu
         passed: suite.passed,
         failed: suite.failed,
         skipped: suite.skipped,
+        skippedByCategory: suite.skippedByCategory ?? {
+          "feature-gap": 0,
+          internal: 0,
+          packaging: 0,
+        },
         tests: suite.tests.filter((test) => test.status !== "passed"),
         ...(suite.error ? { error: suite.error } : {}),
       };
@@ -447,12 +495,32 @@ export const buildDocsComparisonData = (
       exact: variants.reduce((total, variant) => total + variant.correctness.exact, 0),
       normalized: variants.reduce((total, variant) => total + variant.correctness.normalized, 0),
       diff: variants.reduce((total, variant) => total + variant.correctness.diff, 0),
+      referenceErrors: variants.reduce(
+        (total, variant) => total + (variant.correctness.referenceErrors ?? 0),
+        0,
+      ),
+      differences: variants.reduce(
+        (total, variant) => total + (variant.correctness.differences ?? 0),
+        0,
+      ),
       error: variants.reduce((total, variant) => total + variant.correctness.error, 0),
       benchCases: variants.reduce((total, variant) => total + variant.bench.length, 0),
       testCases: packages.reduce((total, pkg) => total + (pkg.testSuite?.total ?? 0), 0),
       testPassed: packages.reduce((total, pkg) => total + (pkg.testSuite?.passed ?? 0), 0),
       testFailed: packages.reduce((total, pkg) => total + (pkg.testSuite?.failed ?? 0), 0),
       testSkipped: packages.reduce((total, pkg) => total + (pkg.testSuite?.skipped ?? 0), 0),
+      testSkippedFeatureGap: packages.reduce(
+        (total, pkg) => total + (pkg.testSuite?.skippedByCategory?.["feature-gap"] ?? 0),
+        0,
+      ),
+      testSkippedInternal: packages.reduce(
+        (total, pkg) => total + (pkg.testSuite?.skippedByCategory?.internal ?? 0),
+        0,
+      ),
+      testSkippedPackaging: packages.reduce(
+        (total, pkg) => total + (pkg.testSuite?.skippedByCategory?.packaging ?? 0),
+        0,
+      ),
     },
     packages,
   };
@@ -534,7 +602,6 @@ export const renderReadmeComparison = (
   const total = variants.reduce((sum, variant) => sum + variant.correctness.total, 0);
   const exact = variants.reduce((sum, variant) => sum + variant.correctness.exact, 0);
   const normalized = variants.reduce((sum, variant) => sum + variant.correctness.normalized, 0);
-  const diff = variants.reduce((sum, variant) => sum + variant.correctness.diff, 0);
   const error = variants.reduce((sum, variant) => sum + variant.correctness.error, 0);
   const ratios = variants
     .flatMap((variant) => variant.bench.map((bench) => bench.ratio))
@@ -542,9 +609,18 @@ export const renderReadmeComparison = (
   const bullets: string[] = [];
 
   if (total > 0) {
+    const referenceErrors = variants.reduce(
+      (sum, variant) => sum + (variant.correctness.referenceErrors ?? 0),
+      0,
+    );
+    const differences = variants.reduce(
+      (sum, variant) => sum + (variant.correctness.differences ?? 0),
+      0,
+    );
     const details = [
       normalized > 0 ? `${normalized} matching after normalization` : "",
-      diff > 0 ? `${diff} documented differences` : "",
+      referenceErrors > 0 ? `${referenceErrors} reference errors` : "",
+      differences > 0 ? `${differences} differences` : "",
       error > 0 ? `${error} rendering errors` : "",
     ].filter(Boolean);
 

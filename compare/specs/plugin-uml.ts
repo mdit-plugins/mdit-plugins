@@ -1,8 +1,10 @@
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItInstance, RendererRule } from "markdown-it";
 
+import { defaultRenderer } from "../../packages/plugin-uml/src/options.ts";
+import type { MarkdownItUMLOptions } from "../../packages/plugin-uml/src/options.ts";
 import { resolvePlugin } from "../loader.ts";
-import type { CompareRenderer, ComparisonSpec, PluginModule } from "../types.ts";
+import type { CompareRenderer, ComparisonSpec, PluginFunction, PluginModule } from "../types.ts";
 import { defineComparison } from "../types.ts";
 
 /**
@@ -174,6 +176,61 @@ const createReferenceRenderer = (module: PluginModule): CompareRenderer => {
   return createDumpRenderer(md, REFERENCE_TOKEN_TYPE);
 };
 
+/** Options accepted by the reference plugin, mapped from our option names */
+interface ReferenceUmlOptions {
+  /** Opening marker, e.g. `@startuml` */
+  openMarker: string;
+  /** Closing marker, e.g. `@enduml` */
+  closeMarker: string;
+  /** Source extractor, replaced by the identity so the raw source is kept */
+  generateSource: (contents: string) => string;
+  /** Renderer of the reference block token */
+  render: RendererRule;
+}
+
+/**
+ * Adapt the reference module to our option and token shape for the test suite
+ *
+ * The tests install the plugin with our `name`/`open`/`close`/`renderer` options and read
+ * `token.content`, `token.info` and `token.type` in custom renderers. The reference uses
+ * `openMarker`/`closeMarker`/`render`/`generateSource`, always uses the `uml_diagram` token type
+ * and stores the diagram source in the `src` attribute, so the adapter maps the options and the
+ * token fields while keeping the reference's block parsing.
+ *
+ * @param reference - Reference module namespace
+ * @returns Module namespace exposing our `uml` export
+ */
+const createTestSuiteAdapter = (reference: PluginModule): PluginModule => {
+  const referencePlugin = resolvePlugin(reference);
+
+  const uml: PluginFunction = function uml(md, options) {
+    const {
+      name = "uml",
+      open = "start",
+      close = "end",
+      renderer,
+    } = (options ?? {}) as Partial<MarkdownItUMLOptions>;
+    const render: RendererRule = renderer ?? defaultRenderer;
+    const referenceOptions: ReferenceUmlOptions = {
+      openMarker: `@${open}`,
+      closeMarker: `@${close}`,
+      generateSource: (contents) => contents,
+      render: (tokens, index, mdOptions, env, self) => {
+        const token = tokens[index];
+
+        token.content = String(token.attrGet("src") ?? "");
+        token.type = name;
+
+        return render(tokens, index, mdOptions, env, self);
+      },
+    };
+
+    referencePlugin(md, referenceOptions);
+  };
+
+  return { uml };
+};
+
 /** Benchmark cases, one per committed corpus file */
 const BENCH_CASES = (["normal", "heavy"] as const).flatMap((kind) =>
   (["small", "medium", "large"] as const).map((size) => ({
@@ -235,45 +292,49 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer,
     },
   ],
+  testSuiteAdapter: createTestSuiteAdapter,
+  issues: [
+    {
+      id: "container-prefix-leak",
+      category: "reference-error",
+      note: {
+        en: "The reference extracts the body by slicing the raw document, so list-item indentation and blockquote `>` prefixes leak into the diagram source; our package reads the block lines with `state.getLines` and strips container prefixes.",
+        zh: "参考包直接切分原始文档来提取正文，因此列表项缩进与块引用 `>` 前缀会泄漏到图表源码中；本包通过 `state.getLines` 读取块内各行并去掉容器前缀。",
+      },
+    },
+    {
+      id: "marker-indent",
+      category: "reference-error",
+      note: {
+        en: "For an indented block the reference keeps the block indentation on the body because it slices the raw document; our package strips the indentation that belongs to the document layout.",
+        zh: "对于缩进的块，参考包切分原始文档时会保留正文上的块缩进；本包会去掉属于文档排版的缩进。",
+      },
+    },
+    {
+      id: "body-indent",
+      category: "difference",
+      note: {
+        en: "Our `dedent` removes the common indentation of the diagram body while preserving relative indentation; the reference keeps every line as written. Both describe the same diagram, so this is an intentional formatting difference.",
+        zh: "本包的 `dedent` 会去掉图表正文的公共缩进并保留相对缩进；参考包按原样保留每一行。两者描述同一张图，因此这是有意的格式差异。",
+      },
+    },
+    {
+      id: "title-derivation",
+      category: "difference",
+      note: {
+        en: "The reference derives the image alt text by dropping the first suffix character and inline-parsing the rest; our base exposes the raw marker suffix as `info` and leaves the title to the renderer. This is an intentional design difference in title/alt handling.",
+        zh: "参考包通过丢弃后缀首字符并对剩余部分做行内解析来生成图片 alt 文本；本基础包把原始标记后缀暴露为 `info`，把标题交给渲染器处理。这是标题/alt 处理上的有意设计差异。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Asserts this fork's installation bookkeeping: the namespaced block rule name (`uml_<name>`), its position and `alt` list, renderer identity, and that repeated installations are a no-op. The reference hard-codes a different rule name and has no idempotent-install contract, so the whole file only covers internal registration behavior.",
-        zh: "断言本 fork 的安装簿记：命名空间化的块级规则名（`uml_<name>`）、其位置与 `alt` 列表、渲染器身份，以及重复安装为空操作。参考包硬编码了不同的规则名且没有幂等安装约定，因此整个文件只覆盖内部注册行为。",
-      },
-    },
-    {
-      file: "uml.spec.ts",
-      name: "should keep raw content for custom renderer",
-      why: {
-        en: "Installs the plugin with the fork's `name`/`open`/`close`/`renderer` option names; the reference only accepts `openMarker`/`closeMarker`/`render`, so it never parses the `@start` block and this custom-renderer behavior cannot be compared.",
-        zh: "使用本 fork 的 `name`/`open`/`close`/`renderer` 选项名安装插件；参考包只接受 `openMarker`/`closeMarker`/`render`，因此不会解析 `@start` 块，无法对比该自定义渲染器行为。",
-      },
-    },
-    {
-      file: "uml.spec.ts",
-      name: "should strip container prefixes at any depth",
-      why: {
-        en: "These cases configure the fork's `open`/`close`/`renderer` options, which the reference ignores, so it never parses the block. The underlying container-prefix difference is covered by the correctness cases (`blockquote`, `nested-blockquote`, `list-item`), not lost by this skip.",
-        zh: "这些用例配置了本 fork 的 `open`/`close`/`renderer` 选项，参考包会忽略它们，因此从不解析该块。底层的容器前缀差异已由正确性用例（`blockquote`、`nested-blockquote`、`list-item`）覆盖，不会因跳过而丢失。",
-      },
-    },
-    {
-      file: "uml.spec.ts",
-      name: "should handle tab-indented list content",
-      why: {
-        en: "Uses the fork's `renderer` option to read the raw token content; the reference has no such option and does not parse the default `@start` marker, so the dedent assertion only exercises fork-only configuration.",
-        zh: "使用本 fork 的 `renderer` 选项读取原始 token 内容；参考包没有该选项，也不会解析默认的 `@start` 标记，因此该去缩进断言只覆盖本 fork 专有配置。",
-      },
-    },
-    {
-      file: "uml.spec.ts",
-      name: "should render with options",
-      why: {
-        en: "Configures the fork-only `name`/`open`/`close`/`renderer` options and asserts the custom `<Test>` markup; the reference ignores all of them and renders the markers as paragraphs, so only the fork's option API is covered.",
-        zh: "配置仅本 fork 提供的 `name`/`open`/`close`/`renderer` 选项并断言自定义 `<Test>` 标记；参考包会忽略全部选项并把标记渲染为段落，因此只覆盖了本 fork 的选项 API。",
+        en: "Asserts our namespaced block rule name, rule position and `alt` list, renderer identity and repeat-install guards; the reference hard-codes a different rule name and has no idempotent-install contract.",
+        zh: "断言本包的命名空间块规则名、规则位置与 `alt` 列表、渲染器身份及重复安装守卫；参考包硬编码了不同的规则名，也没有幂等安装约定。",
       },
     },
   ],
@@ -303,82 +364,52 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "list-item",
       markdown: "- @startuml\n  Bob -> Alice : hello\n  @enduml",
-      note: {
-        en: "The current package strips the list indentation from the diagram source (`getLines` with `blkIndent` plus `dedent`), while the reference slices `state.src` and keeps the two leading spaces. The list structure and the token map are identical.",
-        zh: "当前包会去掉图表源码中的列表缩进（`getLines` 配合 `blkIndent` 加上 `dedent`），而参考包切分 `state.src` 并保留两个前导空格。列表结构和 token map 完全相同。",
-      },
+      issue: "container-prefix-leak",
     },
     {
       name: "list-item-unclosed",
       markdown: "- @startuml\n  Bob -> Alice : hello\n- second item",
-      note: {
-        en: "Both sides auto-close the unclosed block at the end of the list item and produce the same map; the current package strips the item indentation from the source while the reference keeps it.",
-        zh: "两侧都会在列表项结束时自动闭合未闭合的块，并产生相同的 map；当前包会去掉条目缩进，而参考包保留。",
-      },
+      issue: "container-prefix-leak",
     },
     {
       name: "blockquote",
       markdown: "> @startuml\n> Bob -> Alice : hello\n> @enduml",
-      note: {
-        en: "The reference slices `state.src` without removing blockquote markers, so the `>` prefix leaks into the diagram source; the current package strips it through `getLines`. The blockquote structure is identical.",
-        zh: "参考包切分 `state.src` 时不移除块引用标记，因此 `>` 前缀会泄漏到图表源码中；当前包通过 `getLines` 将其去掉。块引用结构完全相同。",
-      },
+      issue: "container-prefix-leak",
     },
     {
       name: "nested-blockquote",
       markdown: "> > @startuml\n> > Bob -> Alice : hello\n> > @enduml",
-      note: {
-        en: "Same cause as `blockquote`: the reference keeps both `> >` prefixes in the diagram source, the current package strips both quote levels. The nested blockquote structure is identical.",
-        zh: "与 `blockquote` 原因相同：参考包在图表源码中保留两个 `> >` 前缀，当前包去掉这两层引用。嵌套块引用结构完全相同。",
-      },
+      issue: "container-prefix-leak",
     },
     {
       name: "indented-marker",
       markdown: "  @startuml\n  Bob -> Alice : hello\n  @enduml",
-      note: {
-        en: "Both sides accept the two-space indented marker, but `dedent` removes the indentation of the content line in the current package while the reference keeps the line as written.",
-        zh: "两侧都接受缩进两个空格的标记，但当前包会用 `dedent` 去掉内容行的缩进，而参考包按原样保留该行。",
-      },
+      issue: "marker-indent",
     },
     {
       name: "indented-content",
       markdown: "@startuml\n  Alice -> Bob\n    note right\n  Bob -> Carol\n@enduml",
-      note: {
-        en: "The current package removes the common indentation of the diagram body, the reference keeps every line as written. `dedent` preserves the relative indentation, so the drawing itself is unchanged.",
-        zh: "当前包会去掉图表正文的公共缩进，参考包则按原样保留每一行。`dedent` 保留相对缩进，因此图形本身不变。",
-      },
+      issue: "body-indent",
     },
     {
       name: "title",
       markdown: "@startuml My title\nBob -> Alice : hello\n@enduml",
-      note: {
-        en: "The current base keeps the raw marker suffix (including the separating space) as `info`; the reference removes that space and inline-parses the suffix for its alt text, which is the title compared here.",
-        zh: "当前基础包把原始标记后缀（含分隔空格）保留为 `info`；参考包去掉该空格并对后缀做行内解析以生成 alt 文本，也就是这里比较的 title。",
-      },
+      issue: "title-derivation",
     },
     {
       name: "title-inline-markup",
       markdown: "@startuml **Flow** chart\nBob -> Alice : hello\n@enduml",
-      note: {
-        en: "Besides the separating space, the reference inline-parses the title, so `**Flow**` disappears from its alt text; the current base keeps the raw markers in `info`.",
-        zh: "除分隔空格外，参考包还会对标题做行内解析，因此 `**Flow**` 从 alt 文本中消失；当前基础包在 `info` 中保留原始标记。",
-      },
+      issue: "title-derivation",
     },
     {
       name: "title-only-space",
       markdown: "@startuml \nA -> B\n@enduml",
-      note: {
-        en: 'The marker is followed by a single space, so the suffix is `" "`: the current base keeps it, while the reference unconditionally drops the first suffix character and ends up with an empty alt text.',
-        zh: '标记后只有一个空格，因此后缀为 `" "`：当前基础包保留它，而参考包无条件丢弃后缀的第一个字符，最终得到空的 alt 文本。',
-      },
+      issue: "title-derivation",
     },
     {
       name: "odd-marker-suffix",
       markdown: "@startumlExtra\nA -> B\n@enduml",
-      note: {
-        en: "`@startumlExtra` still matches the opening marker as a prefix on both sides and both report the suffix `Extra` in `info`, but the reference unconditionally drops the first suffix character for its alt text (`xtra`), while the current base keeps the raw suffix as the title.",
-        zh: "两侧都会把 `@startumlExtra` 按前缀匹配为开标记，并在 `info` 中报告后缀 `Extra`，但参考包会无条件丢弃后缀第一个字符得到 alt 文本（`xtra`），而当前基础包把原始后缀保留为 title。",
-      },
+      issue: "title-derivation",
     },
     { name: "escaped-marker", markdown: "\\@startuml\nBob -> Alice\n@enduml" },
     {

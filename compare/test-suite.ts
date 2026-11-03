@@ -6,6 +6,7 @@ import { pathToFileURL } from "node:url";
 
 import type {
   ComparisonSpec,
+  SkipCategory,
   TestSuiteCaseResult,
   TestSuitePackageResult,
   TestSuiteStatus,
@@ -139,6 +140,27 @@ const createShim = (spec: ComparisonSpec): string => {
       variant.referenceExport ?? "default",
     ]),
   );
+
+  if (spec.testSuiteAdapter) {
+    const shimDir = path.join(WORK_DIR, spec.plugin);
+    const relativeSpec = path
+      .relative(shimDir, path.join(SPECS_DIR, `${spec.plugin}.ts`))
+      .replaceAll(path.sep, "/");
+    const specImport = relativeSpec.startsWith(".") ? relativeSpec : `./${relativeSpec}`;
+    const lines = [
+      `import * as referenceModule from ${JSON.stringify(spec.reference)};`,
+      `import spec from ${JSON.stringify(specImport)};`,
+      "",
+      "const adapted = (spec.testSuiteAdapter as (module: unknown) => Record<string, unknown>)(referenceModule);",
+      "",
+    ];
+
+    for (const name of [...names].sort())
+      lines.push(`export const ${name} = adapted[${JSON.stringify(name)}] as never;`);
+
+    return `${lines.join("\n")}\n`;
+  }
+
   const lines = [
     `import * as referenceModule from ${JSON.stringify(spec.reference)};`,
     "",
@@ -222,7 +244,13 @@ const applySkip = (spec: ComparisonSpec, test: TestSuiteCaseResult): TestSuiteCa
 
   if (!skip) return test;
 
-  return { file: test.file, name: test.name, status: "skipped", skipReason: skip.why };
+  return {
+    file: test.file,
+    name: test.name,
+    status: "skipped",
+    skipCategory: skip.category,
+    skipReason: skip.why,
+  };
 };
 
 /**
@@ -275,6 +303,7 @@ const runPackage = async (plugin: string): Promise<TestSuitePackageResult> => {
       passed: 0,
       failed: 0,
       skipped: 0,
+      skippedByCategory: { "feature-gap": 0, internal: 0, packaging: 0 },
       tests: [],
       error: (output || "vitest produced no report").trim().split("\n").slice(-5).join("\n"),
     };
@@ -284,6 +313,8 @@ const runPackage = async (plugin: string): Promise<TestSuitePackageResult> => {
   const tests = flattenReport(report).map((test) => applySkip(spec, test));
   const count = (status: TestSuiteStatus): number =>
     tests.filter((test) => test.status === status).length;
+  const countSkipped = (category: SkipCategory): number =>
+    tests.filter((test) => test.skipCategory === category).length;
 
   return {
     plugin,
@@ -292,6 +323,11 @@ const runPackage = async (plugin: string): Promise<TestSuitePackageResult> => {
     passed: count("passed"),
     failed: count("failed"),
     skipped: count("skipped"),
+    skippedByCategory: {
+      "feature-gap": countSkipped("feature-gap"),
+      internal: countSkipped("internal"),
+      packaging: countSkipped("packaging"),
+    },
     tests,
   };
 };

@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-mathjax
 
 Compared against the upstream [`markdown-it-mathjax3`](https://www.npmjs.com/package/markdown-it-mathjax3) package `5.2.0`.
 
-- Correctness: **8/25** cases match the reference exactly (11 matching after normalization, 6 documented differences).
+- Correctness: **8/25** cases match the reference exactly (11 matching after normalization, 3 reference errors, 1 differences).
 - Throughput: **1.14×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **117.3 kB** unpacked and **1.7 kB** gzip entry, versus **14.6 kB** and **1.7 kB** for the reference.
 

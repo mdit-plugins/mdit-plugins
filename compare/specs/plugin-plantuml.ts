@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 
 import { resolvePlugin } from "../loader.ts";
 import { composeNormalizers, normalizeHtml, replaceMatches } from "../normalize.ts";
-import type { CompareRenderer, ComparisonSpec, PluginModule } from "../types.ts";
+import type { CompareRenderer, ComparisonSpec, PluginFunction, PluginModule } from "../types.ts";
 import { defineComparison } from "../types.ts";
 
 /** Default alt text of the current package, replaced before comparing */
@@ -125,29 +125,118 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer,
     },
   ],
+  testSuiteAdapter: (reference) => {
+    const referencePlugin = resolvePlugin(reference);
+    const plantuml: PluginFunction = (md, options) => {
+      const source = (options ?? {}) as {
+        format?: string;
+        renderer?: unknown;
+        srcGetter?: (content: string) => string;
+        [key: string]: unknown;
+      };
+      const { format, renderer, srcGetter, ...rest } = source;
+
+      referencePlugin(md, {
+        ...rest,
+        ...(format == null ? {} : { imageFormat: format }),
+        ...(renderer == null ? {} : { render: renderer }),
+        ...(srcGetter == null
+          ? {}
+          : { generateSource: (content: string): string => srcGetter(content) }),
+      });
+    };
+
+    return { plantuml };
+  },
+  issues: [
+    {
+      id: "reference-dedent",
+      category: "reference-error",
+      note: {
+        en: "The reference slices `state.src` and keeps the raw list/blockquote indentation (even the `>` markers) inside the diagram source, so surrounding markup leaks into the image source; the current package extracts the block with `state.getLines` and dedents it.",
+        zh: "参考包直接切取 `state.src`，把列表/引用块的原始缩进（甚至 `>` 标记）保留在图表源中，导致外围标记泄漏进图片源；当前包用 `state.getLines` 提取块内容并做 dedent。",
+      },
+    },
+    {
+      id: "title-handling",
+      category: "difference",
+      note: {
+        en: "The current package uses the raw marker suffix (including the separating space) as the alt text, while the reference trims it and inline-parses it; both are valid title conventions, so the rendered alt text differs by design.",
+        zh: "当前包把原始标记后缀（含分隔空格）作为 alt 文本，参考包则去掉空格并做行内解析；两者都是合理的标题约定，因此 alt 文本按设计不同。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "customBase64.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Tests this package's internal PlantUML base64 encoder (`../src/customBase64.js`), an implementation helper that the reference replaces with its own deflate encoder; it is not part of the compared plugin behavior.",
-        zh: "测试本包内部的 PlantUML base64 编码器（`../src/customBase64.js`），参考包用自带的 deflate 编码器替代了它；它不属于被对比的插件行为。",
+        en: "Tests this package's internal PlantUML base64 encoder (`../src/customBase64.js`), which the reference replaces with its own deflate encoder.",
+        zh: "测试本包内部的 PlantUML base64 编码器（`../src/customBase64.js`），参考包用自带的 deflate 编码器替代了它。",
       },
     },
     {
       file: "deflate-browser.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Tests this package's internal browser deflate implementation (`../src/deflate/browser.js`), a build/packaging helper with no reference counterpart.",
-        zh: "测试本包内部的浏览器 deflate 实现（`../src/deflate/browser.js`），它是构建/打包辅助模块，参考包没有对应实现。",
+        en: "Tests this package's internal browser deflate implementation (`../src/deflate/browser.js`); the reference has no equivalent module.",
+        zh: "测试本包内部的浏览器 deflate 实现（`../src/deflate/browser.js`）；参考包没有对应模块。",
       },
     },
     {
       file: "plantuml.spec.ts",
       name: "should parse custom uml",
+      category: "feature-gap",
       why: {
-        en: "Uses this fork's `name` option to switch the markers to `@startjson`/`@endjson`; the reference has no `name` option for custom diagram markers, so the assertion only exercises a fork-only option shape.",
-        zh: "使用本 fork 的 `name` 选项把标记切换为 `@startjson`/`@endjson`；参考包没有用于自定义图表标记的 `name` 选项，因此该断言只覆盖 fork 专有的选项形式。",
+        en: "Uses this fork's `name` shorthand to switch the markers to `@startjson`/`@endjson`; the reference configures markers through `openMarker`/`closeMarker` only and has no fence mode.",
+        zh: "使用本 fork 的 `name` 简写把标记切换为 `@startjson`/`@endjson`；参考包只能通过 `openMarker`/`closeMarker` 配置标记，且没有围栏模式。",
+      },
+    },
+    {
+      file: "plantuml.spec.ts",
+      name: "should parse code block",
+      category: "feature-gap",
+      why: {
+        en: 'Installs the plugin with this fork\'s `type: "fence"` option to parse fenced code blocks as diagrams; the reference only parses `@startuml` blocks and has no fence mode.',
+        zh: '使用本 fork 的 `type: "fence"` 选项把围栏代码块解析为图表；参考包只解析 `@startuml` 块，没有围栏模式。',
+      },
+    },
+    {
+      file: "plantuml.spec.ts",
+      name: "should parse custom code block",
+      category: "feature-gap",
+      why: {
+        en: "Uses this fork's fence mode with custom `name`/`fence` options; the reference has neither fence mode nor custom fence info.",
+        zh: "使用本 fork 的围栏模式及自定义 `name`/`fence` 选项；参考包既没有围栏模式，也没有自定义围栏信息。",
+      },
+    },
+    {
+      file: "plantuml.spec.ts",
+      name: "should not break normal code block",
+      category: "feature-gap",
+      why: {
+        en: "Checks that this fork's fence mode leaves ordinary code blocks untouched; the reference has no fence mode to check.",
+        zh: "检查本 fork 的围栏模式不会影响普通代码块；参考包没有可检查的围栏模式。",
+      },
+    },
+    {
+      file: "plantuml.spec.ts",
+      name: "should support alt text in fence info",
+      category: "feature-gap",
+      why: {
+        en: "Reads the alt text of fenced diagram info through this fork's fence mode; the reference only supports alt text on `@startuml` markers.",
+        zh: "通过本 fork 的围栏模式读取围栏信息中的 alt 文本；参考包只支持 `@startuml` 标记上的 alt 文本。",
+      },
+    },
+    {
+      file: "renderer-idempotent.spec.ts",
+      name: "should render the same output in fence mode",
+      category: "feature-gap",
+      why: {
+        en: "Renders a fenced diagram through this fork's fence mode; the reference has no fence mode, so it renders a plain code block.",
+        zh: "通过本 fork 的围栏模式渲染图表；参考包没有围栏模式，会把该内容渲染为普通代码块。",
       },
     },
   ],
@@ -181,66 +270,42 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "list-item",
       markdown: "- @startuml\n  Bob -> Alice : hello\n  @enduml",
-      note: {
-        en: "The current package strips the list indentation from the diagram source, while the reference keeps the two leading spaces of the content line. The rendered list and `<img>` structure are identical.",
-        zh: "当前包会从图表源中去掉列表缩进，而参考包保留内容行的两个前导空格。渲染出的列表和 `<img>` 结构完全相同。",
-      },
+      issue: "reference-dedent",
     },
     {
       name: "blockquote",
       markdown: "> @startuml\n> Bob -> Alice : hello\n> @enduml",
-      note: {
-        en: "The reference slices `state.src` without removing blockquote markers, so the `>` prefix leaks into the diagram source; the current package dedents the quoted lines. The blockquote structure is identical.",
-        zh: "参考包直接切取 `state.src`，未移除 blockquote 标记，因此 `>` 前缀会泄漏到图表源中；当前包会对引用行做 dedent。blockquote 结构完全相同。",
-      },
+      issue: "reference-dedent",
     },
     {
       name: "nested-blockquote",
       markdown: "> > @startuml\n> > Bob -> Alice : hello\n> > @enduml",
-      note: {
-        en: "Same cause as `blockquote`: the reference keeps every `>` prefix in the diagram source, while the current package strips both quote levels. The nested blockquote structure is identical.",
-        zh: "原因与 `blockquote` 相同：参考包在图表源中保留每个 `>` 前缀，而当前包会去掉两层引用标记。嵌套 blockquote 结构完全相同。",
-      },
+      issue: "reference-dedent",
     },
     {
       name: "indented-marker",
       markdown: "  @startuml\n  Bob -> Alice : hello\n  @enduml",
-      note: {
-        en: "Both sides accept the two-space indented marker, but the reference keeps the indentation of the content line in the diagram source and the current package strips it with `dedent`.",
-        zh: "双方都接受两空格缩进的标记，但参考包在图表源中保留内容行的缩进，当前包则用 `dedent` 将其去掉。",
-      },
+      issue: "reference-dedent",
     },
     {
       name: "indented-content",
       markdown: "@startuml\n  Alice -> Bob\n    note right\n  Bob -> Carol\n@enduml",
-      note: {
-        en: "The current package removes the common indentation of the diagram body, while the reference keeps every line as written. The relative indentation is preserved by `dedent`, so the drawing itself is unchanged.",
-        zh: "当前包会移除图表主体的公共缩进，而参考包按原样保留每一行。`dedent` 保留了相对缩进，因此图形本身不变。",
-      },
+      issue: "reference-dedent",
     },
     {
       name: "title",
       markdown: "@startuml My title\nBob -> Alice : hello\n@enduml",
-      note: {
-        en: "The current package uses the raw marker suffix as alt, including the separating space after `@startuml`; the reference removes that space and inline-parses the title.",
-        zh: "当前包把原始标记后缀作为 alt，包括 `@startuml` 后的分隔空格；参考包会去掉该空格并对标题做行内解析。",
-      },
+      issue: "title-handling",
     },
     {
       name: "title-inline-markup",
       markdown: "@startuml **Flow** chart\nBob -> Alice : hello\n@enduml",
-      note: {
-        en: "Besides the separating space, the reference inline-parses the title, so `**Flow**` becomes `Flow` in alt; the current package keeps the raw markers.",
-        zh: "除了分隔空格外，参考包还会对标题做行内解析，因此 `**Flow**` 在 alt 中变为 `Flow`；当前包保留原始标记。",
-      },
+      issue: "title-handling",
     },
     {
       name: "title-html",
       markdown: "@startuml <b>Flow</b> chart\nBob -> Alice : hello\n@enduml",
-      note: {
-        en: "Only the separating space differs: the reference inline-parses `<b>` but keeps it as text in the alt attribute, so both sides end up with the same escaped HTML.",
-        zh: "只有分隔空格不同：参考包会行内解析 `<b>`，但在 alt 属性中将其保留为文本，因此双方最终得到相同的转义 HTML。",
-      },
+      issue: "title-handling",
     },
     {
       name: "closing-marker-indented",

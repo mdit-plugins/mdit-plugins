@@ -91,8 +91,8 @@ const spec: ComparisonSpec = defineComparison({
   reference: "markdown-it-anchor",
   notes: [
     {
-      en: "The `default` variant uses the defaults of both packages. The current package intentionally ships a different default slugify than the reference legacy percent-encoding slugify: it lowercases ASCII, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash and strips other ASCII punctuation. Headings with punctuation, CJK or raw HTML text therefore produce different ids; those cases carry a `note`. Generated ids are compared byte for byte and are never normalized.",
-      zh: "`default` 变体使用两个包的默认配置。当前包有意提供与参考包旧版百分号编码 slugify 不同的默认 slugify：它将 ASCII 转为小写，保留非 ASCII 字符（如 CJK），把空白和连字符折叠为单个连字符，并去除其他 ASCII 标点。因此，含标点、CJK 或原始 HTML 文本的标题会产生不同的 id；这些用例带有 `note`。生成的 id 按字节比较，从不归一化。",
+      en: "The `default` variant uses the defaults of both packages. The current package intentionally ships a different default slugify than the reference legacy percent-encoding slugify: it lowercases ASCII, keeps non-ASCII characters (e.g. CJK), folds whitespace and dashes into a single dash and strips other ASCII punctuation. Headings with punctuation, CJK or raw HTML text therefore produce different ids; those cases reference the `default-slugify` issue. Generated ids are compared byte for byte and are never normalized.",
+      zh: "`default` 变体使用两个包的默认配置。当前包有意提供与参考包旧版百分号编码 slugify 不同的默认 slugify：它将 ASCII 转为小写，保留非 ASCII 字符（如 CJK），把空白和连字符折叠为单个连字符，并去除其他 ASCII 标点。因此，含标点、CJK 或原始 HTML 文本的标题会产生不同的 id；这些用例引用 `default-slugify` 问题。生成的 id 按字节比较，从不归一化。",
     },
     {
       en: "The `legacy-slugify` variant configures the current package with its exported `legacySlugify`, which is byte-identical to the reference default slugify, so every heading id matches.",
@@ -103,12 +103,12 @@ const spec: ComparisonSpec = defineComparison({
       zh: "`link-inside-header` 使用相同的 `class`、`symbol` 选项和匹配的 slugify 比较 `linkInsideHeader` 永久链接预设。除空 slug 占位符差异外，标记完全相同。",
     },
     {
-      en: "`header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case carries a `note`.",
-      zh: "`header-link` 比较 `headerLink` 预设。当前预设不会改动已包含链接的标题，因为再包裹会产生无效的嵌套 `<a>` 元素；参考包则会包裹已有链接。该用例带有 `note`。",
+      en: "`header-link` compares the `headerLink` presets. The current preset leaves headings that already contain a link untouched, because wrapping them would emit invalid nested `<a>` elements, while the reference wraps the existing link; that case references the `header-link-nested-anchor` issue.",
+      zh: "`header-link` 比较 `headerLink` 预设。当前预设不会改动已包含链接的标题，因为再包裹会产生无效的嵌套 `<a>` 元素；参考包则会包裹已有链接。该用例引用 `header-link-nested-anchor` 问题。",
     },
     {
-      en: 'Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=""`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases carry a `note`.',
-      zh: '空 slug 属于行为差异而非格式差异：对于没有文本的标题（仅图片或空标题），参考包输出 `id=""`，当前包则回退到其 `defaultPlaceHolder` 选项（`heading`）。这些用例带有 `note`。',
+      en: 'Empty slugs are behavior, not a formatting difference: for headings without text (image-only or empty headings) the reference emits `id=""`, while the current package falls back to its `defaultPlaceHolder` option (`heading`). These cases reference the `empty-slug-placeholder` issue.',
+      zh: '空 slug 属于行为差异而非格式差异：对于没有文本的标题（仅图片或空标题），参考包输出 `id=""`，当前包则回退到其 `defaultPlaceHolder` 选项（`heading`）。这些用例引用 `empty-slug-placeholder` 问题。',
     },
     {
       en: "Manual heading ids (e.g. set by plugin-attrs) are not compared: both packages reuse a preset id and both throw on duplicate explicit ids (reference default `failOnNonUnique: true`; the current package has no option to disable the failure).",
@@ -150,29 +150,49 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer: createReferencePermalinkRenderer("headerLink"),
     },
   ],
-  testSuiteSkips: [
+  issues: [
     {
-      file: "idempotent.spec.ts",
-      name: "",
-      why: {
-        en: "Installs the plugin twice and asserts a single slug registration; the reference registers its core rule again on the second install, so the duplicate-id check throws. This only covers this package's idempotent-install internals.",
-        zh: "该测试重复安装插件并断言只注册一次 slug；参考包在第二次安装时会再次注册 core 规则，因此重复 id 检查会抛错。该测试只覆盖本包的幂等安装内部细节。",
+      id: "default-slugify",
+      category: "difference",
+      note: {
+        en: "The reference default slugify percent-encodes punctuation, CJK and raw HTML, while this package's default lowercases ASCII, keeps CJK and strips ASCII punctuation; the id policy is an intentional design choice.",
+        zh: "参考包默认对 slug 做百分号编码（标点、CJK 与原始 HTML），当前包默认将 ASCII 转为小写、保留 CJK 并去除 ASCII 标点；这是有意的 id 生成策略选择。",
       },
     },
     {
+      id: "empty-slug-placeholder",
+      category: "difference",
+      note: {
+        en: 'Headings without text produce an empty slug in the reference (`id=""`), while this package falls back to its `defaultPlaceHolder` option (`heading`); both are valid id variants.',
+        zh: '没有文本的标题在参考包中生成空 slug（`id=""`），当前包则回退到 `defaultPlaceHolder` 选项（`heading`）；两种 id 变体都有效。',
+      },
+    },
+    {
+      id: "header-link-nested-anchor",
+      category: "reference-error",
+      note: {
+        en: "The reference `headerLink` preset wraps a heading that already contains a link in another `<a>`, producing invalid nested anchors; the current preset leaves such headings untouched.",
+        zh: "参考包的 `headerLink` 预设会给已含链接的标题再包一层 `<a>`，产生非法的嵌套锚点；当前包的预设不会改动此类标题。",
+      },
+    },
+  ],
+  testSuiteSkips: [
+    {
       file: "basic.spec.ts",
       name: "should only scan the tokens array when a permalink moves the heading token",
+      category: "internal",
       why: {
-        en: "Counts `Array.prototype.indexOf` calls to assert this package's token-rescan optimization; the reference rescans the token array for every heading, so the call count is an internal implementation detail rather than observable behavior.",
-        zh: "该测试统计 `Array.prototype.indexOf` 的调用次数，以断言本包的 token 重扫优化；参考包会为每个标题重扫 token 数组，因此调用次数属于内部实现细节而非可观察行为。",
+        en: "Counts `Array.prototype.indexOf` calls to assert this package's token-rescan optimization, an internal implementation detail with no reference equivalent.",
+        zh: "该测试统计 `Array.prototype.indexOf` 的调用次数以断言本包的 token 重扫优化，属于参考包没有对应行为的内部实现细节。",
       },
     },
     {
       file: "basic.spec.ts",
       name: "defaultPlaceHolder",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `defaultPlaceHolder` option; the reference always emits an empty slug for headings without text and has no placeholder option, so these assertions only cover this package's fallback option. The default-option fallback tests stay counted.",
-        zh: "这些用例使用仅本 fork 提供的 `defaultPlaceHolder` 选项；参考包对没有文本的标题始终输出空 slug，也没有占位符选项，因此这些断言只覆盖本包的回退选项。使用默认选项的回退用例仍计入统计。",
+        en: "This package provides the `defaultPlaceHolder` option for headings without text; the reference always emits an empty slug and has no placeholder option.",
+        zh: "本包提供 `defaultPlaceHolder` 选项为无文本标题设置回退 slug，参考包始终输出空 slug，没有占位符选项。",
       },
     },
   ],
@@ -194,58 +214,37 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "heading-with-link",
       markdown: "## Heading with [link](https://example.com)",
-      note: {
-        en: "Our `headerLink` preset leaves this heading untouched; the reference wraps the existing link and emits nested anchors. The `default`, `legacy-slugify` and `link-inside-header` variants match.",
-        zh: "当前包的 `headerLink` 预设不会改动该标题；参考包包裹已有链接并产生嵌套锚点。`default`、`legacy-slugify` 和 `link-inside-header` 变体一致。",
-      },
+      issue: "header-link-nested-anchor",
     },
     {
       name: "heading-image-only",
       markdown: "## ![alt](image.png)",
-      note: {
-        en: 'No text tokens, so both slugify produce an empty slug. The reference keeps `id=""`; the current package falls back to `heading` via `defaultPlaceHolder`.',
-        zh: '没有文本 token，因此双方的 slugify 都生成空 slug。参考包保留 `id=""`；当前包通过 `defaultPlaceHolder` 回退到 `heading`。',
-      },
+      issue: "empty-slug-placeholder",
     },
     {
       name: "heading-empty",
       markdown: "#\n\n##",
-      note: {
-        en: 'Empty headings: the reference emits `id=""` and `id="-1"`; the current package emits the `heading` placeholder and `heading-1`.',
-        zh: '空标题：参考包输出 `id=""` 和 `id="-1"`；当前包输出 `heading` 占位符和 `heading-1`。',
-      },
+      issue: "empty-slug-placeholder",
     },
     {
       name: "heading-punctuation",
       markdown: "## Hello, World! How are you?",
-      note: {
-        en: "Default slugify policy difference: the reference percent-encodes `,`, `!` and `?`, the current default strips them.",
-        zh: "默认 slugify 策略差异：参考包对 `,`、`!` 和 `?` 进行百分号编码，当前包默认将其去除。",
-      },
+      issue: "default-slugify",
     },
     {
       name: "heading-cjk",
       markdown: "## 你好 世界",
-      note: {
-        en: "Default slugify policy difference: the reference percent-encodes CJK characters, the current default keeps them.",
-        zh: "默认 slugify 策略差异：参考包对 CJK 字符进行百分号编码，当前包默认保留它们。",
-      },
+      issue: "default-slugify",
     },
     {
       name: "heading-only-punctuation",
       markdown: "## !!!",
-      note: {
-        en: "The current default strips all punctuation and falls back to `heading`; the reference keeps `!!!` (percent-encoding leaves `!` untouched).",
-        zh: "当前包默认去除所有标点并回退到 `heading`；参考包保留 `!!!`（百分号编码不会改动 `!`）。",
-      },
+      issue: "default-slugify",
     },
     {
       name: "heading-html",
       markdown: "## Heading with <em>raw html</em>",
-      note: {
-        en: "With `html: false` the angle brackets are text; the reference percent-encodes them and the current default strips them.",
-        zh: "在 `html: false` 下，尖括号是文本；参考包对其进行百分号编码，当前包默认将其去除。",
-      },
+      issue: "default-slugify",
     },
     { name: "heading-tab", markdown: "## Tab\there" },
     { name: "heading-trailing-spaces", markdown: "## Trailing   spaces   " },

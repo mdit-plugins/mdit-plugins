@@ -19,8 +19,8 @@ const spec: ComparisonSpec = defineComparison({
       zh: "两个包都不接受选项，均以默认配置安装。",
     },
     {
-      en: "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[0, 0]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases are documented differences at token level even though the rendered HTML is identical.",
-      zh: "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[0, 0]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例在 token 层被记为已记录差异。",
+      en: "Token streams are compared in addition to the rendered HTML. The reference emits empty `dt` maps (`[line, line]`) and lets `dd_open` begin at the term line, while the current package maps both to the real source lines, so most cases reference the `term-source-map` reference error even though the rendered HTML is identical.",
+      zh: "除渲染后的 HTML 外还会比较 token 流。参考实现为 `dt` 输出空映射（`[line, line]`），并让 `dd_open` 从术语行开始，而当前包将其映射到真实的源码行；因此尽管渲染后的 HTML 一致，多数用例引用 `term-source-map` 参考包错误。",
     },
     {
       en: "Historical context: the reference implementation had a hang (infinite loop) on definition lines starting with `: >` or `~ >` (markdown-it-deflist#5), fixed in 2.0.3. The installed 4.0.0 and this fork are both linear on that pattern and on all other probed patterns.",
@@ -40,13 +40,24 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  issues: [
+    {
+      id: "term-source-map",
+      category: "reference-error",
+      note: {
+        en: "The reference emits empty `dt` maps (`[line, line]`) for the term and its inline token, and lets `dd_open` start at the term line, so its `dt`/`dd` source maps cannot reflect the document; the current package maps them to the real source lines.",
+        zh: "参考包为术语及其内联 token 输出空 `dt` 映射（`[line, line]`），并让 `dd_open` 从术语行开始，因此其 `dt`/`dd` 源码映射无法反映文档；当前包将它们映射到真实的源码行。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
-      name: "",
+      name: "should not register the rule twice when installed twice",
+      category: "feature-gap",
       why: {
-        en: "Asserts the internal `dl` block-rule count and that a second installation is a no-op; the reference registers its rule without a guard and has no idempotent-install contract.",
-        zh: "该测试断言内部 `dl` 块级规则的数量，以及第二次安装为空操作；参考包注册规则时没有守卫，也没有幂等安装的约定。",
+        en: "The reference does not guard repeated installation and registers its block rule again under a different name (`deflist`), but repeated installation still renders correctly; this package registers the `dl` rule once.",
+        zh: "参考包未防范多次安装，会以不同名称（`deflist`）重复注册块级规则，但重复安装后渲染结果仍正确；本包只注册一次 `dl` 规则。",
       },
     },
   ],
@@ -55,59 +66,99 @@ const spec: ComparisonSpec = defineComparison({
       name: "basic",
       markdown:
         "Apple\n: Pomaceous fruit of plants of the genus Malus.\n\nOrange\n: The fruit of an evergreen tree of the genus Citrus.\n",
+      issue: "term-source-map",
     },
     {
       name: "blank-line-after-term",
       markdown: "Term 1\n\n: Definition 1\n\nTerm 2\n: Definition 2\n",
+      issue: "term-source-map",
     },
-    { name: "multiple-definitions", markdown: "Term 1\n: Definition 1\n: Definition 2\n" },
-    { name: "tilde-marker", markdown: "Term 1\n~ Tilde definition\n" },
+    {
+      name: "multiple-definitions",
+      markdown: "Term 1\n: Definition 1\n: Definition 2\n",
+      issue: "term-source-map",
+    },
+    {
+      name: "tilde-marker",
+      markdown: "Term 1\n~ Tilde definition\n",
+      issue: "term-source-map",
+    },
     {
       name: "lazy-continuation",
       markdown: "Term 1\n: Definition\nwith lazy continuation.\n",
+      issue: "term-source-map",
     },
     {
       name: "multi-paragraph-definition",
       markdown: "Term\n: Def with paragraph\n\n    Second paragraph.\n",
+      issue: "term-source-map",
     },
     {
       name: "code-block-in-definition",
       markdown: "Term\n: Def\n\n      six spaces\n",
+      issue: "term-source-map",
     },
     {
       name: "list-in-definition",
       markdown: "Term\n: Def\n  - nested list\n",
+      issue: "term-source-map",
     },
-    { name: "heading-in-definition", markdown: "Term\n: Def\n\n    # heading\n" },
+    {
+      name: "heading-in-definition",
+      markdown: "Term\n: Def\n\n    # heading\n",
+      issue: "term-source-map",
+    },
     {
       name: "blockquote-in-definition",
       markdown: "Term\n: Def\n\n    > quote in dd\n",
+      issue: "term-source-map",
     },
     {
       name: "inline-markup-term",
       markdown: "Term with *emphasis*\n: Def with `code`\n",
+      issue: "term-source-map",
     },
     {
       name: "nested-deflist",
       markdown: "Term\n: Definition\n\n    Term 2\n    : Nested definition\n",
+      issue: "term-source-map",
     },
-    { name: "empty-definition", markdown: "Term\n:\n: empty definition\n" },
-    { name: "empty-definition-next-line", markdown: "Term\n\n:\n" },
+    {
+      name: "empty-definition",
+      markdown: "Term\n:\n: empty definition\n",
+      issue: "term-source-map",
+    },
+    {
+      name: "empty-definition-next-line",
+      markdown: "Term\n\n:\n",
+      issue: "term-source-map",
+    },
     { name: "no-space-after-marker", markdown: "Term\n:no space\n" },
     { name: "double-marker", markdown: "Term\n:: double marker\n" },
     {
       name: "definition-after-paragraph",
       markdown: "A paragraph\n\nTerm\n: Definition\n",
+      issue: "term-source-map",
     },
-    { name: "deflist-in-list", markdown: "- item\n\n  Term\n  : Def\n" },
-    { name: "deflist-in-blockquote", markdown: "> Term\n> : Def\n" },
+    {
+      name: "deflist-in-list",
+      markdown: "- item\n\n  Term\n  : Def\n",
+      issue: "term-source-map",
+    },
+    {
+      name: "deflist-in-blockquote",
+      markdown: "> Term\n> : Def\n",
+      issue: "term-source-map",
+    },
     {
       name: "term-followed-by-unindented-line",
       markdown: "Term\n: Def\nnot a marker\n",
+      issue: "term-source-map",
     },
     {
       name: "consecutive-deflists",
       markdown: "A\n: 1\n\nB\n: 2\n\nC\n: 3\n",
+      issue: "term-source-map",
     },
     {
       name: "no-deflist-syntax",

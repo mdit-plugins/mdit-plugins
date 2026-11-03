@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// The report keeps its data mapping, copy and view logic in one SFC.
+// oxlint-disable max-lines
 import { computed, ref, watch } from "vue";
 
 import data from "../data/comparison.json";
@@ -7,14 +9,27 @@ type Locale = "en" | "zh";
 
 type CorrectnessStatus = "exact" | "normalized" | "diff" | "error";
 
+type CaseCategory = "reference-error" | "difference";
+
+type SkipCategory = "feature-gap" | "internal" | "packaging";
+
 interface ComparisonNote {
   readonly en: string;
   readonly zh: string;
 }
 
+interface ComparisonIssue {
+  readonly id: string;
+  readonly category?: CaseCategory;
+  readonly note?: ComparisonNote;
+  readonly cases?: readonly string[];
+}
+
 interface CorrectnessCase {
   readonly name: string;
   readonly status: CorrectnessStatus;
+  readonly issue?: string;
+  readonly category?: CaseCategory;
   readonly note?: ComparisonNote;
 }
 
@@ -23,6 +38,9 @@ interface Correctness {
   readonly exact: number;
   readonly normalized: number;
   readonly diff: number;
+  readonly referenceErrors?: number;
+  readonly differences?: number;
+  readonly issues?: readonly ComparisonIssue[];
   readonly error: number;
   readonly cases: readonly CorrectnessCase[];
 }
@@ -69,6 +87,7 @@ interface TestSuiteCase {
   readonly name: string;
   readonly status: TestSuiteStatus;
   readonly message?: string;
+  readonly skipCategory?: SkipCategory;
   readonly skipReason?: ComparisonNote;
 }
 
@@ -77,6 +96,7 @@ interface TestSuite {
   readonly passed: number;
   readonly failed: number;
   readonly skipped: number;
+  readonly skippedByCategory?: Readonly<Partial<Record<SkipCategory, number>>>;
   readonly tests: readonly TestSuiteCase[];
   readonly error?: string;
 }
@@ -107,12 +127,17 @@ interface ComparisonTotals {
   readonly exact: number;
   readonly normalized: number;
   readonly diff: number;
+  readonly referenceErrors?: number;
+  readonly differences?: number;
   readonly error: number;
   readonly benchCases: number;
   readonly testCases: number;
   readonly testPassed: number;
   readonly testFailed: number;
   readonly testSkipped: number;
+  readonly testSkippedFeatureGap?: number;
+  readonly testSkippedInternal?: number;
+  readonly testSkippedPackaging?: number;
 }
 
 interface ComparisonData {
@@ -127,9 +152,15 @@ interface ComparisonData {
 interface CorrectnessTotals {
   readonly total: number;
   readonly exact: number;
-  readonly normalized: number;
-  readonly diff: number;
-  readonly error: number;
+  readonly referenceErrors: number;
+  readonly differences: number;
+}
+
+interface IssueGroup {
+  readonly id: string;
+  readonly category: CaseCategory;
+  readonly note?: ComparisonNote;
+  readonly cases: readonly string[];
 }
 
 interface PackageRow {
@@ -151,8 +182,12 @@ interface Copy {
   readonly casesUnit: string;
   readonly exact: string;
   readonly normalized: string;
-  readonly documentedDiffs: string;
-  readonly errors: string;
+  readonly referenceErrors: string;
+  readonly differences: string;
+  readonly referenceErrorsShort: string;
+  readonly differencesShort: string;
+  readonly renderingErrors: string;
+  readonly errorsShort: string;
   readonly benchmarks: string;
   readonly benchmarkCasesUnit: string;
   readonly benchmarkMeta: string;
@@ -162,10 +197,12 @@ interface Copy {
   readonly testsPass: string;
   readonly passed: string;
   readonly failed: string;
-  readonly skipped: string;
-  readonly skippedNotCounted: string;
+  readonly featureGaps: string;
+  readonly featureGapTests: string;
+  readonly internalSkipped: string;
+  readonly packagingSkipped: string;
+  readonly skippedAggregatePrefix: string;
   readonly failedTests: string;
-  readonly skippedTests: string;
   readonly allTestsPass: string;
   readonly testSuiteError: string;
   readonly measurement: string;
@@ -183,9 +220,11 @@ interface Copy {
   readonly showDetails: string;
   readonly hideDetails: string;
   readonly noResults: string;
-  readonly documentedDifferences: string;
-  readonly noDocumentedDifferences: string;
+  readonly issueSectionTitle: string;
+  readonly noIssues: string;
   readonly noNote: string;
+  readonly casesLabel: string;
+  readonly categories: Readonly<Record<CaseCategory, string>>;
   readonly caseLabel: string;
   readonly currentOps: string;
   readonly referenceOps: string;
@@ -203,7 +242,6 @@ interface Copy {
   readonly entryGzip: string;
   readonly sizeUnavailable: string;
   readonly methodology: string;
-  readonly status: Readonly<Record<CorrectnessStatus, string>>;
 }
 
 const COPY: Readonly<Record<Locale, Copy>> = {
@@ -215,8 +253,12 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     casesUnit: "cases",
     exact: "exact",
     normalized: "normalized",
-    documentedDiffs: "documented diffs",
-    errors: "errors",
+    referenceErrors: "reference errors",
+    differences: "differences",
+    referenceErrorsShort: "errors",
+    differencesShort: "diffs",
+    renderingErrors: "rendering errors",
+    errorsShort: "errors",
     benchmarks: "Benchmarks",
     benchmarkCasesUnit: "benchmark cases",
     benchmarkMeta: "normal + heavy corpora · small / medium / large",
@@ -226,16 +268,18 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     testsPass: "tests pass",
     passed: "passed",
     failed: "failed",
-    skipped: "skipped",
-    skippedNotCounted: "skipped (not counted)",
+    featureGaps: "feature gaps",
+    featureGapTests: "Feature-gap tests",
+    internalSkipped: "internal tests skipped",
+    packagingSkipped: "packaging tests skipped",
+    skippedAggregatePrefix: "+",
     failedTests: "Failed tests",
-    skippedTests: "Skipped tests (not counted)",
     allTestsPass: "All counted tests pass against the reference.",
     testSuiteError: "Test suite could not run",
     measurement: "Measurement",
     filterLabel: "Filter packages",
     filterPlaceholder: "Filter by package or reference…",
-    onlyDifferences: "Only packages with documented differences",
+    onlyDifferences: "Only packages with reference errors or differences",
     variant: "Variant",
     allVariants: "All variants",
     showing: "Showing",
@@ -248,9 +292,14 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     showDetails: "Show details for",
     hideDetails: "Hide details for",
     noResults: "No package matches the current filters.",
-    documentedDifferences: "Documented differences",
-    noDocumentedDifferences: "No documented differences.",
+    issueSectionTitle: "Reference errors and differences",
+    noIssues: "No reference errors or differences.",
     noNote: "No note provided.",
+    casesLabel: "Cases:",
+    categories: {
+      "reference-error": "Reference error",
+      difference: "Difference",
+    },
     caseLabel: "Case",
     currentOps: "Current (ops/s)",
     referenceOps: "Reference (ops/s)",
@@ -268,12 +317,6 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     entryGzip: "Entry gzip",
     sizeUnavailable: "Package size data is not available for this package.",
     methodology: "Methodology",
-    status: {
-      exact: "exact",
-      normalized: "normalized",
-      diff: "documented diff",
-      error: "error",
-    },
   },
   zh: {
     packages: "包",
@@ -283,8 +326,12 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     casesUnit: "个用例",
     exact: "完全一致",
     normalized: "归一化一致",
-    documentedDiffs: "已记录差异",
-    errors: "错误",
+    referenceErrors: "参考包错误",
+    differences: "差异",
+    referenceErrorsShort: "参考包错误",
+    differencesShort: "差异",
+    renderingErrors: "渲染错误",
+    errorsShort: "错误",
     benchmarks: "基准测试",
     benchmarkCasesUnit: "个基准用例",
     benchmarkMeta: "normal + heavy 语料 · 小 / 中 / 大 三种规模",
@@ -294,16 +341,18 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     testsPass: "个测试通过",
     passed: "通过",
     failed: "失败",
-    skipped: "跳过",
-    skippedNotCounted: "跳过（不计入）",
+    featureGaps: "功能缺失",
+    featureGapTests: "功能缺失的测试",
+    internalSkipped: "个内部实现测试跳过",
+    packagingSkipped: "个打包相关测试跳过",
+    skippedAggregatePrefix: "另有 ",
     failedTests: "失败的测试",
-    skippedTests: "跳过的测试（不计入）",
     allTestsPass: "所有计入的测试均在参考实现上通过。",
     testSuiteError: "测试套件无法运行",
     measurement: "测量",
     filterLabel: "筛选包",
     filterPlaceholder: "按包名或参考包筛选…",
-    onlyDifferences: "仅显示有已记录差异的包",
+    onlyDifferences: "仅显示有参考包错误或差异的包",
     variant: "变体",
     allVariants: "全部变体",
     showing: "显示",
@@ -315,9 +364,14 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     showDetails: "展开详情：",
     hideDetails: "收起详情：",
     noResults: "没有匹配当前筛选条件的包。",
-    documentedDifferences: "已记录的差异",
-    noDocumentedDifferences: "没有已记录的差异。",
+    issueSectionTitle: "参考包错误与差异",
+    noIssues: "没有参考包错误或差异。",
     noNote: "未提供说明。",
+    casesLabel: "涉及用例：",
+    categories: {
+      "reference-error": "参考包错误",
+      difference: "差异",
+    },
     caseLabel: "用例",
     currentOps: "本包（ops/s）",
     referenceOps: "参考包（ops/s）",
@@ -335,12 +389,6 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     entryGzip: "入口 gzip",
     sizeUnavailable: "该包暂无包体积数据。",
     methodology: "测量方法",
-    status: {
-      exact: "完全一致",
-      normalized: "归一化一致",
-      diff: "已记录差异",
-      error: "错误",
-    },
   },
 };
 
@@ -366,17 +414,91 @@ const variantOptions = computed<string[]>(() =>
   ),
 );
 
+const toCategory = (category: CaseCategory | undefined): CaseCategory =>
+  category === "reference-error" ? "reference-error" : "difference";
+
+// Older generated data only carries per-case notes, so cases sharing a note are treated as one
+// root cause until the generated issue list is available.
+const derivedIssues = (correctness: Correctness): readonly IssueGroup[] => {
+  const groups = new Map<
+    string,
+    { id: string; category: CaseCategory; note?: ComparisonNote; cases: string[] }
+  >();
+
+  for (const testCase of correctness.cases) {
+    if (testCase.status !== "diff") continue;
+
+    const category = toCategory(testCase.category);
+    const id = testCase.issue ?? `${category}:${testCase.note?.en ?? testCase.name}`;
+    const group = groups.get(id);
+
+    if (group) {
+      group.cases.push(testCase.name);
+    } else {
+      groups.set(id, {
+        id,
+        category,
+        ...(testCase.note ? { note: testCase.note } : {}),
+        cases: [testCase.name],
+      });
+    }
+  }
+
+  return [...groups.values()];
+};
+
+const issueGroups = (correctness: Correctness): readonly IssueGroup[] =>
+  correctness.issues && correctness.issues.length > 0
+    ? correctness.issues.map((issue) => ({
+        id: issue.id,
+        category: toCategory(issue.category),
+        ...(issue.note ? { note: issue.note } : {}),
+        cases: issue.cases ?? [],
+      }))
+    : derivedIssues(correctness);
+
+const countIssues = (correctness: Correctness, category: CaseCategory): number =>
+  issueGroups(correctness).filter((issue) => issue.category === category).length;
+
+const hasIssueBreakdown = (correctness: Correctness): boolean =>
+  (correctness.issues?.length ?? 0) > 0 ||
+  (correctness.referenceErrors ?? 0) > 0 ||
+  (correctness.differences ?? 0) > 0;
+
+const referenceErrorCount = (correctness: Correctness): number =>
+  hasIssueBreakdown(correctness)
+    ? (correctness.referenceErrors ?? countIssues(correctness, "reference-error"))
+    : countIssues(correctness, "reference-error");
+
+const differenceCount = (correctness: Correctness): number =>
+  hasIssueBreakdown(correctness)
+    ? (correctness.differences ?? countIssues(correctness, "difference"))
+    : countIssues(correctness, "difference");
+
 const summarizeCorrectness = (variants: readonly Variant[]): CorrectnessTotals =>
   variants.reduce<CorrectnessTotals>(
     (totals, variant) => ({
       total: totals.total + variant.correctness.total,
       exact: totals.exact + variant.correctness.exact,
-      normalized: totals.normalized + variant.correctness.normalized,
-      diff: totals.diff + variant.correctness.diff,
-      error: totals.error + variant.correctness.error,
+      referenceErrors: totals.referenceErrors + referenceErrorCount(variant.correctness),
+      differences: totals.differences + differenceCount(variant.correctness),
     }),
-    { total: 0, exact: 0, normalized: 0, diff: 0, error: 0 },
+    { total: 0, exact: 0, referenceErrors: 0, differences: 0 },
   );
+
+const correctnessTotals = computed<{ referenceErrors: number; differences: number }>(() => {
+  let referenceErrors = 0;
+  let differences = 0;
+
+  for (const pkg of report.packages) {
+    for (const variant of pkg.variants) {
+      referenceErrors += referenceErrorCount(variant.correctness);
+      differences += differenceCount(variant.correctness);
+    }
+  }
+
+  return { referenceErrors, differences };
+});
 
 const geometricMean = (values: readonly number[]): number =>
   values.length === 0
@@ -514,22 +636,71 @@ const testRatioClass = (suite: TestSuite): string => (suite.failed > 0 ? "is-fai
 const failedTests = (suite: TestSuite): readonly TestSuiteCase[] =>
   suite.tests.filter((test) => test.status === "failed");
 
-const skippedTests = (suite: TestSuite): readonly TestSuiteCase[] =>
-  suite.tests.filter((test) => test.status === "skipped");
+const featureGapTests = (suite: TestSuite): readonly TestSuiteCase[] =>
+  suite.tests.filter((test) => test.status === "skipped" && test.skipCategory === "feature-gap");
+
+const skippedByCategory = (suite: TestSuite, category: SkipCategory): number =>
+  suite.skippedByCategory?.[category] ??
+  suite.tests.filter((test) => test.status === "skipped" && test.skipCategory === category).length;
+
+const featureGapCount = (suite: TestSuite): number => skippedByCategory(suite, "feature-gap");
+
+const testSkipTotals = computed<{
+  featureGaps: number;
+  internal: number;
+  packaging: number;
+}>(() => {
+  let featureGaps = 0;
+  let internal = 0;
+  let packaging = 0;
+
+  for (const pkg of report.packages) {
+    const suite = pkg.testSuite;
+
+    if (!suite) continue;
+
+    featureGaps += featureGapCount(suite);
+    internal += skippedByCategory(suite, "internal");
+    packaging += skippedByCategory(suite, "packaging");
+  }
+
+  return {
+    featureGaps: report.totals.testSkippedFeatureGap ?? featureGaps,
+    internal: report.totals.testSkippedInternal ?? internal,
+    packaging: report.totals.testSkippedPackaging ?? packaging,
+  };
+});
 
 const firstLine = (message: string | undefined): string => message?.split("\n")[0]?.trim() ?? "";
 
 const skipReasonText = (test: TestSuiteCase): string =>
   test.skipReason?.[props.locale] ?? test.skipReason?.en ?? "";
 
+const issueNoteText = (group: IssueGroup): string =>
+  group.note?.[props.locale] ?? group.note?.en ?? "";
+
+const caseNoteText = (variant: Variant, caseName: string): string => {
+  const note = variant.correctness.cases.find((testCase) => testCase.name === caseName)?.note;
+
+  return note?.[props.locale] ?? note?.en ?? "";
+};
+
+const hasCaseNote = (variant: Variant, group: IssueGroup, caseName: string): boolean => {
+  const noteText = caseNoteText(variant, caseName);
+
+  return noteText !== "" && noteText !== issueNoteText(group);
+};
+
+const hasCaseNotes = (variant: Variant, group: IssueGroup): boolean =>
+  group.cases.some((caseName) => hasCaseNote(variant, group, caseName));
+
+const issueNoteSegments = (group: IssueGroup): InlineSegment[] => parseInline(issueNoteText(group));
+
+const caseNoteSegments = (variant: Variant, caseName: string): InlineSegment[] =>
+  parseInline(caseNoteText(variant, caseName));
+
 const isSuperlinear = (exponent: number): boolean =>
   Number.isFinite(exponent) && exponent > SUPERLINEAR_THRESHOLD;
-
-const documentedCases = (variant: Variant): readonly CorrectnessCase[] =>
-  variant.correctness.cases.filter((item) => item.status === "diff" || Boolean(item.note));
-
-const noteText = (item: CorrectnessCase): string =>
-  item.note?.[props.locale] ?? item.note?.en ?? "";
 
 const sortedBench = (variant: Variant): readonly BenchCase[] =>
   [...variant.bench].sort(
@@ -561,12 +732,35 @@ watch([query, onlyDifferences, variantFilter], () => {
         </p>
         <p class="cr-chips">
           <span class="cr-chip is-exact">{{ report.totals.exact }} {{ text.exact }}</span>
-          <span class="cr-chip is-normalized">
+          <span v-if="report.totals.normalized > 0" class="cr-chip is-normalized">
             {{ report.totals.normalized }} {{ text.normalized }}
           </span>
-          <span class="cr-chip is-diff">{{ report.totals.diff }} {{ text.documentedDiffs }}</span>
+          <span v-if="correctnessTotals.referenceErrors > 0" class="cr-chip is-error">
+            {{ correctnessTotals.referenceErrors }} {{ text.referenceErrors }}
+          </span>
+          <span v-if="correctnessTotals.differences > 0" class="cr-chip is-diff">
+            {{ correctnessTotals.differences }} {{ text.differences }}
+          </span>
           <span v-if="report.totals.error > 0" class="cr-chip is-error">
-            {{ report.totals.error }} {{ text.errors }}
+            {{ report.totals.error }} {{ text.renderingErrors }}
+          </span>
+          <span
+            v-if="correctnessTotals.referenceErrors === 0 && correctnessTotals.differences === 0"
+            class="cr-chips-empty"
+          >
+            {{ text.noIssues }}
+          </span>
+          <span
+            v-if="correctnessTotals.referenceErrors === 0 && correctnessTotals.differences > 0"
+            class="cr-visually-hidden"
+          >
+            0 {{ text.referenceErrors }}
+          </span>
+          <span
+            v-if="correctnessTotals.differences === 0 && correctnessTotals.referenceErrors > 0"
+            class="cr-visually-hidden"
+          >
+            0 {{ text.differences }}
           </span>
         </p>
       </article>
@@ -579,11 +773,29 @@ watch([query, onlyDifferences, variantFilter], () => {
           </span>
           <span class="cr-card-unit">{{ text.passed }}</span>
         </p>
-        <p v-if="report.totals.testFailed > 0" class="cr-card-meta cr-card-meta--failed">
-          {{ formatInteger(report.totals.testFailed) }} {{ text.failed }}
+        <p class="cr-chips">
+          <span class="cr-chip" :class="report.totals.testFailed > 0 ? 'is-error' : 'is-zero'">
+            {{ formatInteger(report.totals.testFailed) }} {{ text.failed }}
+          </span>
+          <span
+            class="cr-chip"
+            :class="testSkipTotals.featureGaps > 0 ? 'is-feature-gap' : 'is-zero'"
+          >
+            {{ formatInteger(testSkipTotals.featureGaps) }} {{ text.featureGaps }}
+          </span>
         </p>
-        <p v-if="report.totals.testSkipped > 0" class="cr-card-meta">
-          {{ formatInteger(report.totals.testSkipped) }} {{ text.skipped }}
+        <p
+          v-if="testSkipTotals.internal > 0 || testSkipTotals.packaging > 0"
+          class="cr-card-meta cr-card-meta--subtle"
+        >
+          <span v-if="testSkipTotals.internal > 0" class="cr-skip-line">
+            {{ text.skippedAggregatePrefix }}{{ formatInteger(testSkipTotals.internal) }}
+            {{ text.internalSkipped }}
+          </span>
+          <span v-if="testSkipTotals.packaging > 0" class="cr-skip-line">
+            {{ text.skippedAggregatePrefix }}{{ formatInteger(testSkipTotals.packaging) }}
+            {{ text.packagingSkipped }}
+          </span>
         </p>
       </article>
 
@@ -712,14 +924,19 @@ watch([query, onlyDifferences, variantFilter], () => {
                   <span class="cr-correctness-score">
                     {{ row.correctness.exact }}/{{ row.correctness.total }}
                   </span>
-                  <span v-if="row.correctness.normalized > 0" class="cr-correctness-detail">
-                    +{{ row.correctness.normalized }} {{ text.normalized }}
+                  <span
+                    v-if="row.correctness.referenceErrors > 0"
+                    class="cr-correctness-detail is-error"
+                    :title="text.referenceErrors"
+                  >
+                    {{ row.correctness.referenceErrors }} {{ text.referenceErrorsShort }}
                   </span>
-                  <span v-if="row.correctness.diff > 0" class="cr-correctness-detail is-diff">
-                    {{ row.correctness.diff }} {{ text.documentedDiffs }}
-                  </span>
-                  <span v-if="row.correctness.error > 0" class="cr-correctness-detail is-error">
-                    {{ row.correctness.error }} {{ text.errors }}
+                  <span
+                    v-if="row.correctness.differences > 0"
+                    class="cr-correctness-detail is-diff"
+                    :title="text.differences"
+                  >
+                    {{ row.correctness.differences }} {{ text.differencesShort }}
                   </span>
                 </span>
               </td>
@@ -728,15 +945,19 @@ watch([query, onlyDifferences, variantFilter], () => {
                 <template v-if="row.pkg.testSuite">
                   <template v-if="row.pkg.testSuite.error">
                     <span class="cr-test-ratio is-failed" :title="row.pkg.testSuite.error">
-                      {{ text.errors }}
+                      {{ text.errorsShort }}
                     </span>
                   </template>
                   <template v-else>
                     <span class="cr-test-ratio" :class="testRatioClass(row.pkg.testSuite)">
                       {{ row.pkg.testSuite.passed }}/{{ row.pkg.testSuite.total }}
                     </span>
-                    <span v-if="row.pkg.testSuite.skipped > 0" class="cr-test-skipped">
-                      +{{ row.pkg.testSuite.skipped }} {{ text.skipped }}
+                    <span
+                      v-if="featureGapCount(row.pkg.testSuite) > 0"
+                      class="cr-test-skipped is-feature-gap"
+                    >
+                      +{{ formatInteger(featureGapCount(row.pkg.testSuite)) }}
+                      {{ text.featureGaps }}
                     </span>
                   </template>
                 </template>
@@ -784,49 +1005,95 @@ watch([query, onlyDifferences, variantFilter], () => {
                         >
                           +{{ variant.correctness.normalized }} {{ text.normalized }}
                         </span>
-                        <span v-if="variant.correctness.diff > 0" class="cr-chip is-diff">
-                          {{ variant.correctness.diff }} {{ text.documentedDiffs }}
+                        <span
+                          v-if="referenceErrorCount(variant.correctness) > 0"
+                          class="cr-chip is-error"
+                        >
+                          {{ referenceErrorCount(variant.correctness) }}
+                          {{ text.referenceErrors }}
+                        </span>
+                        <span
+                          v-if="differenceCount(variant.correctness) > 0"
+                          class="cr-chip is-diff"
+                        >
+                          {{ differenceCount(variant.correctness) }} {{ text.differences }}
                         </span>
                         <span v-if="variant.correctness.error > 0" class="cr-chip is-error">
-                          {{ variant.correctness.error }} {{ text.errors }}
+                          {{ variant.correctness.error }} {{ text.renderingErrors }}
                         </span>
                       </p>
                     </header>
 
                     <div class="cr-subsection">
-                      <h5 class="cr-subtitle">{{ text.documentedDifferences }}</h5>
-                      <ul v-if="documentedCases(variant).length > 0" class="cr-notes">
+                      <h5 class="cr-subtitle">{{ text.issueSectionTitle }}</h5>
+                      <ul v-if="issueGroups(variant.correctness).length > 0" class="cr-issues">
                         <li
-                          v-for="item in documentedCases(variant)"
-                          :key="item.name"
-                          class="cr-note-item"
-                          :class="`is-${item.status}`"
+                          v-for="group in issueGroups(variant.correctness)"
+                          :key="group.id"
+                          class="cr-issue"
+                          :class="`is-${group.category}`"
                         >
-                          <span class="cr-note-head">
-                            <code class="cr-case-name">{{ item.name }}</code>
-                            <span class="cr-status" :class="`is-${item.status}`">
-                              {{ text.status[item.status] }}
+                          <div class="cr-issue-head">
+                            <span
+                              class="cr-issue-badge"
+                              :class="group.category === 'reference-error' ? 'is-error' : 'is-diff'"
+                            >
+                              {{ text.categories[group.category] }}
                             </span>
-                          </span>
-                          <span class="cr-note-separator" aria-hidden="true">—</span>
-                          <span class="cr-note-text">
-                            <template v-if="item.note">
-                              <span
-                                v-for="(segment, segmentIndex) in parseInline(noteText(item))"
-                                :key="segmentIndex"
-                                class="cr-inline"
+                            <span class="cr-issue-note">
+                              <template v-if="group.note">
+                                <span
+                                  v-for="(segment, segmentIndex) in issueNoteSegments(group)"
+                                  :key="segmentIndex"
+                                  class="cr-inline"
+                                >
+                                  <code v-if="segment.code">{{ segment.text }}</code>
+                                  <template v-else>{{ segment.text }}</template>
+                                </span>
+                              </template>
+                              <span v-else class="cr-muted">{{ text.noNote }}</span>
+                            </span>
+                          </div>
+                          <div v-if="group.cases.length > 0" class="cr-issue-cases">
+                            <span class="cr-issue-cases-label">{{ text.casesLabel }}</span>
+                            <ul v-if="hasCaseNotes(variant, group)" class="cr-case-list">
+                              <li
+                                v-for="caseName in group.cases"
+                                :key="caseName"
+                                class="cr-case-entry"
                               >
-                                <code v-if="segment.code">{{ segment.text }}</code>
-                                <template v-else>{{ segment.text }}</template>
-                              </span>
-                            </template>
-                            <span v-else class="cr-muted">{{ text.noNote }}</span>
-                          </span>
+                                <code class="cr-case-name">{{ caseName }}</code>
+                                <span
+                                  v-if="hasCaseNote(variant, group, caseName)"
+                                  class="cr-case-note"
+                                >
+                                  <span
+                                    v-for="(segment, segmentIndex) in caseNoteSegments(
+                                      variant,
+                                      caseName,
+                                    )"
+                                    :key="segmentIndex"
+                                    class="cr-inline"
+                                  >
+                                    <code v-if="segment.code">{{ segment.text }}</code>
+                                    <template v-else>{{ segment.text }}</template>
+                                  </span>
+                                </span>
+                              </li>
+                            </ul>
+                            <span v-else class="cr-issue-case-list">
+                              <template
+                                v-for="(caseName, caseIndex) in group.cases"
+                                :key="caseName"
+                              >
+                                <span v-if="caseIndex > 0" class="cr-case-separator">,</span>
+                                <code class="cr-case-name">{{ caseName }}</code>
+                              </template>
+                            </span>
+                          </div>
                         </li>
                       </ul>
-                      <p v-else class="cr-muted cr-empty-note">
-                        {{ text.noDocumentedDifferences }}
-                      </p>
+                      <p v-else class="cr-muted cr-empty-note">{{ text.noIssues }}</p>
                     </div>
 
                     <div class="cr-subsection">
@@ -970,10 +1237,39 @@ watch([query, onlyDifferences, variantFilter], () => {
                         </span>
                         <span>{{ text.testsPass }}</span>
                         <span v-if="row.pkg.testSuite.failed > 0" class="cr-chip is-error">
-                          {{ row.pkg.testSuite.failed }} {{ text.failed }}
+                          {{ formatInteger(row.pkg.testSuite.failed) }} {{ text.failed }}
                         </span>
-                        <span v-if="row.pkg.testSuite.skipped > 0" class="cr-chip is-skipped">
-                          {{ row.pkg.testSuite.skipped }} {{ text.skippedNotCounted }}
+                        <span
+                          v-if="featureGapCount(row.pkg.testSuite) > 0"
+                          class="cr-chip is-feature-gap"
+                        >
+                          {{ formatInteger(featureGapCount(row.pkg.testSuite)) }}
+                          {{ text.featureGaps }}
+                        </span>
+                      </p>
+
+                      <p
+                        v-if="
+                          skippedByCategory(row.pkg.testSuite, 'internal') > 0 ||
+                          skippedByCategory(row.pkg.testSuite, 'packaging') > 0
+                        "
+                        class="cr-test-skip-aggregate"
+                      >
+                        <span
+                          v-if="skippedByCategory(row.pkg.testSuite, 'internal') > 0"
+                          class="cr-skip-line"
+                        >
+                          {{ text.skippedAggregatePrefix
+                          }}{{ formatInteger(skippedByCategory(row.pkg.testSuite, "internal")) }}
+                          {{ text.internalSkipped }}
+                        </span>
+                        <span
+                          v-if="skippedByCategory(row.pkg.testSuite, 'packaging') > 0"
+                          class="cr-skip-line"
+                        >
+                          {{ text.skippedAggregatePrefix
+                          }}{{ formatInteger(skippedByCategory(row.pkg.testSuite, "packaging")) }}
+                          {{ text.packagingSkipped }}
                         </span>
                       </p>
 
@@ -997,13 +1293,16 @@ watch([query, onlyDifferences, variantFilter], () => {
                         </ul>
                       </div>
 
-                      <div v-if="skippedTests(row.pkg.testSuite).length > 0" class="cr-subsection">
-                        <h5 class="cr-subtitle">{{ text.skippedTests }}</h5>
+                      <div
+                        v-if="featureGapTests(row.pkg.testSuite).length > 0"
+                        class="cr-subsection"
+                      >
+                        <h5 class="cr-subtitle">{{ text.featureGapTests }}</h5>
                         <ul class="cr-test-list">
                           <li
-                            v-for="test in skippedTests(row.pkg.testSuite)"
+                            v-for="test in featureGapTests(row.pkg.testSuite)"
                             :key="`${test.file}:${test.name}`"
-                            class="cr-test-item is-skipped"
+                            class="cr-test-item is-feature-gap"
                           >
                             <span class="cr-test-head">
                               <code class="cr-test-file">{{ test.file }}</code>
@@ -1018,10 +1317,7 @@ watch([query, onlyDifferences, variantFilter], () => {
                       </div>
 
                       <p
-                        v-if="
-                          failedTests(row.pkg.testSuite).length === 0 &&
-                          skippedTests(row.pkg.testSuite).length === 0
-                        "
+                        v-if="failedTests(row.pkg.testSuite).length === 0"
                         class="cr-muted cr-empty-note"
                       >
                         {{ text.allTestsPass }}
@@ -1151,8 +1447,14 @@ watch([query, onlyDifferences, variantFilter], () => {
   color: var(--cr-text-subtle);
 }
 
-.cr-card-meta--failed {
-  color: var(--cr-red);
+.cr-chips-empty {
+  color: var(--cr-text-mute);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.cr-skip-line {
+  display: block;
 }
 
 .cr-chips {
@@ -1193,9 +1495,14 @@ watch([query, onlyDifferences, variantFilter], () => {
   background: var(--cr-red-soft);
 }
 
-.cr-chip.is-skipped {
+.cr-chip.is-zero {
   color: var(--cr-text-mute);
   background: var(--cr-bg-soft);
+}
+
+.cr-chip.is-feature-gap {
+  color: var(--cr-accent);
+  background: var(--cr-accent-soft);
 }
 
 .cr-card .cr-chip {
@@ -1464,6 +1771,17 @@ watch([query, onlyDifferences, variantFilter], () => {
   white-space: nowrap;
 }
 
+.cr-test-skipped.is-feature-gap {
+  color: var(--cr-accent);
+}
+
+.cr-test-skip-aggregate {
+  margin: 0 0 0.7rem;
+  color: var(--cr-text-mute);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .cr-num {
   font-variant-numeric: tabular-nums;
   text-align: end;
@@ -1622,35 +1940,62 @@ watch([query, onlyDifferences, variantFilter], () => {
   line-height: 1.4;
 }
 
-.cr-notes {
+.cr-issues {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.cr-note-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.4rem;
-  padding: 0.4rem 0.55rem;
+.cr-issue {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.5rem 0.6rem;
   border-inline-start: 2px solid var(--cr-divider);
   border-radius: 0 0.35rem 0.35rem 0;
   background: var(--cr-bg-alt);
   font-size: 0.82rem;
 }
 
-.cr-note-item.is-diff {
+.cr-issue.is-reference-error {
+  border-inline-start-color: var(--cr-red);
+}
+
+.cr-issue.is-difference {
   border-inline-start-color: var(--cr-yellow);
 }
 
-.cr-note-head {
-  display: inline-flex;
+.cr-issue-head {
+  display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.3rem;
+  align-items: baseline;
+  gap: 0.3rem 0.45rem;
+}
+
+.cr-issue-badge {
+  flex: none;
+  padding: 0.02rem 0.3rem;
+  border-radius: 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.cr-issue-badge.is-diff {
+  color: var(--cr-yellow);
+  background: var(--cr-yellow-soft);
+}
+
+.cr-issue-badge.is-error {
+  color: var(--cr-red);
+  background: var(--cr-red-soft);
+}
+
+.cr-issue-note {
+  flex: 1 1 14rem;
+  min-width: 0;
 }
 
 .cr-case-name {
@@ -1663,49 +2008,61 @@ watch([query, onlyDifferences, variantFilter], () => {
   white-space: nowrap;
 }
 
-.cr-note-head .cr-case-name {
-  white-space: normal;
+.cr-issue-cases {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.15rem 0.3rem;
+  color: var(--cr-text-mute);
+  font-size: 0.78rem;
 }
 
-.cr-status {
-  padding: 0.02rem 0.3rem;
-  border-radius: 0.25rem;
-  font-size: 0.68rem;
+.cr-issue-cases-label {
   font-weight: 600;
-  line-height: 1.5;
-  white-space: nowrap;
 }
 
-.cr-status.is-exact {
-  color: var(--cr-green);
-  background: var(--cr-green-soft);
+.cr-issue-case-list {
+  display: inline-flex;
+  flex: 1 1 14rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 0.1rem 0;
 }
 
-.cr-status.is-normalized {
-  color: var(--cr-accent);
-  background: var(--cr-accent-soft);
+.cr-case-list {
+  display: grid;
+  flex: 1 1 14rem;
+  gap: 0.2rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.cr-status.is-diff {
-  color: var(--cr-yellow);
-  background: var(--cr-yellow-soft);
+.cr-case-entry {
+  display: grid;
+  gap: 0.05rem;
 }
 
-.cr-status.is-error {
-  color: var(--cr-red);
-  background: var(--cr-red-soft);
+.cr-case-entry .cr-case-name {
+  justify-self: start;
 }
 
-.cr-note-separator {
+.cr-case-separator {
+  align-self: flex-start;
+  margin-inline: 0.15rem;
   color: var(--cr-text-subtle);
 }
 
-.cr-note-text {
-  flex: 1 1 14rem;
-  min-width: 0;
+.cr-case-note {
+  color: var(--cr-text-mute);
+  font-size: 0.74rem;
+  line-height: 1.4;
 }
 
-.cr-note-text code,
+.cr-issue-note code,
+.cr-case-note code,
 .cr-methodology-body code {
   padding: 0.05rem 0.25rem;
   border-radius: 0.2rem;
@@ -1814,8 +2171,8 @@ watch([query, onlyDifferences, variantFilter], () => {
   border-inline-start-color: var(--cr-red);
 }
 
-.cr-test-item.is-skipped {
-  border-inline-start-color: var(--cr-text-subtle);
+.cr-test-item.is-feature-gap {
+  border-inline-start-color: var(--cr-accent);
 }
 
 .cr-test-head {

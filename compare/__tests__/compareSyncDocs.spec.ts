@@ -29,6 +29,9 @@ const resultFixture = {
         exact: 1,
         normalized: 1,
         diff: 0,
+        referenceErrors: 0,
+        differences: 0,
+        issues: [],
         error: 0,
         cases: [
           { name: "heading", status: "exact" },

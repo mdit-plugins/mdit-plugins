@@ -3,7 +3,7 @@
   "reference": "markdown-it-katex",
   "referenceVersion": "2.0.3",
   "generatedAt": "2026-11-03T02:00:02.983Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,67 @@
         "exact": 18,
         "normalized": 0,
         "diff": 7,
+        "referenceErrors": 4,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "delimiter-word-boundary",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference does not enforce word boundaries around `$`: it opens a formula after a word character (`a$x$`) and closes one before a word character (`$a$b`), so inline math is parsed inside words where the fork keeps literal text.",
+              "zh": "参考包不检查 `$` 两侧的单词边界：它会在单词字符后开启公式（`a$x$`）、在单词字符前闭合公式（`$a$b`），因此会在单词内部解析行内公式，而本分支保持字面文本。"
+            },
+            "cases": [
+              "word-boundary-close",
+              "word-boundary-open"
+            ]
+          },
+          {
+            "id": "adjacent-dollar",
+            "category": "difference",
+            "note": {
+              "en": "A closing `$` immediately followed by another `$` never closes in the fork, so `$a$$b$` stays literal; the reference parses two inline formulas. This is an intentional, stricter delimiter design.",
+              "zh": "本分支中闭 `$` 后紧跟另一个 `$` 时不会闭合，因此 `$a$$b$` 保持字面文本；参考包将其解析为两个行内公式。这是有意采用的更严格分隔符设计。"
+            },
+            "cases": [
+              "adjacent-dollar-inline"
+            ]
+          },
+          {
+            "id": "literal-dollar-content",
+            "category": "reference-error",
+            "note": {
+              "en": "When a `$` inside a formula is surrounded by whitespace, the reference gives up on the whole expression and emits literal text; the fork treats that `$` as content and keeps scanning to the real closing delimiter.",
+              "zh": "当公式内的 `$` 两侧均为空白时，参考包会放弃整个表达式并输出字面文本；本分支把该 `$` 视为内容并继续扫描到真正的闭分隔符。"
+            },
+            "cases": [
+              "literal-gap-inline"
+            ]
+          },
+          {
+            "id": "block-trailing-content",
+            "category": "reference-error",
+            "note": {
+              "en": "For a single-line `$$...$$` followed by more text, the reference swallows the rest of the line into one display formula; the fork keeps the text as a paragraph and still parses following inline math.",
+              "zh": "对于后面还有其他文本的单行 `$$...$$`，参考包会把该行剩余内容吞入一个块级公式；本分支将文本保留为段落，并继续解析后面的行内公式。"
+            },
+            "cases": [
+              "block-trailing-content",
+              "block-trailing-inline-math"
+            ]
+          },
+          {
+            "id": "empty-block-fence",
+            "category": "reference-error",
+            "note": {
+              "en": "A lone `$$` is emitted by the reference as an empty `math_block` token; the fork only creates a block when a closing `$$` exists and keeps the lone marker as text.",
+              "zh": "参考包会为单独的 `$$` 输出空的 `math_block` token；本分支仅在存在闭合 `$$` 时创建块，并把单独的标记保留为文本。"
+            },
+            "cases": [
+              "empty-block-fence"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
@@ -96,70 +157,56 @@
           {
             "name": "word-boundary-close",
             "status": "diff",
-            "note": {
-              "en": "The current fork requires a non-word character after the closing `$`, so `$a$b` stays literal text; the reference closes the formula before `b`.",
-              "zh": "当前分支要求闭 `$` 后为非单词字符，因此 `$a$b` 保持为字面文本；参考包会在 `b` 之前闭合公式。"
-            },
+            "issue": "delimiter-word-boundary",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$a$b\"\n  text:\"$a$b\"\nparagraph_close:\"\"",
             "referenceHtml": "paragraph_open:\"\"\ninline:\"$a$b\"\n  math_inline{$}:\"a\"\n  text:\"b\"\nparagraph_close:\"\""
           },
           {
             "name": "word-boundary-open",
             "status": "diff",
-            "note": {
-              "en": "The current fork requires a non-word character before the opening `$`, so `a$x$` stays literal text; the reference parses the formula.",
-              "zh": "当前分支要求开 `$` 前为非单词字符，因此 `a$x$` 保持为字面文本；参考包会将其解析为公式。"
-            },
+            "issue": "delimiter-word-boundary",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"a$x$\"\n  text:\"a$x$\"\nparagraph_close:\"\"",
             "referenceHtml": "paragraph_open:\"\"\ninline:\"a$x$\"\n  text:\"a\"\n  math_inline{$}:\"x\"\nparagraph_close:\"\""
           },
           {
             "name": "adjacent-dollar-inline",
             "status": "diff",
-            "note": {
-              "en": "The current fork never closes a formula when the closing `$` is immediately followed by another `$`, so the whole line stays literal; the reference parses `$a$` and `$b$` as two formulas.",
-              "zh": "当闭 `$` 后紧跟另一个 `$` 时，当前分支不会闭合公式，因此整行保持为字面文本；参考包会把 `$a$` 和 `$b$` 解析为两个公式。"
-            },
+            "issue": "adjacent-dollar",
+            "category": "difference",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$a$$b$\"\n  text:\"$a$$b$\"\nparagraph_close:\"\"",
             "referenceHtml": "paragraph_open:\"\"\ninline:\"$a$$b$\"\n  math_inline{$}:\"a\"\n  math_inline{$}:\"b\"\nparagraph_close:\"\""
           },
           {
             "name": "literal-gap-inline",
             "status": "diff",
-            "note": {
-              "en": "The current fork treats a space-surrounded `$` inside a formula as literal content and keeps scanning for the closing delimiter; the reference gives up at the first `$` that cannot close and emits literal text.",
-              "zh": "当前分支将公式内被空格包围的 `$` 视为字面内容并继续扫描闭合分隔符；参考包在第一个无法闭合的 `$` 处放弃，并输出字面文本。"
-            },
+            "issue": "literal-dollar-content",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$\\\\text{a $ b}$\"\n  math_inline{$}:\"\\\\text{a $ b}\"\nparagraph_close:\"\"",
             "referenceHtml": "paragraph_open:\"\"\ninline:\"$\\\\text{a $ b}$\"\n  text:\"$\\\\text{a $ b}$\"\nparagraph_close:\"\""
           },
           {
             "name": "block-trailing-content",
             "status": "diff",
-            "note": {
-              "en": "A single-line `$$...$$` followed by non-whitespace content is deliberately not treated as a block by the current fork (the trailing content stays a paragraph); the reference swallows the entire line into one display formula.",
-              "zh": "单行 `$$...$$` 后接非空白内容时，当前分支有意不将其视为块（后续内容仍为段落）；参考包会把整行吞入一个块级公式。"
-            },
+            "issue": "block-trailing-content",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$$a$$ tail\"\n  text:\"$$a$$ tail\"\nparagraph_close:\"\"",
             "referenceHtml": "math_block{$$}:\"a$$ tail\""
           },
           {
             "name": "block-trailing-inline-math",
             "status": "diff",
-            "note": {
-              "en": "Same as `block-trailing-content`: the current fork falls back to a paragraph and parses `$b$` as inline math, while the reference emits one display formula containing the whole line.",
-              "zh": "与 `block-trailing-content` 相同：当前分支回退为段落并将 `$b$` 解析为行内公式，而参考包输出一个包含整行的块级公式。"
-            },
+            "issue": "block-trailing-content",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$$a$$ $b$\"\n  text:\"$$a$$ \"\n  math_inline{$}:\"b\"\nparagraph_close:\"\"",
             "referenceHtml": "math_block{$$}:\"a$$ $b$\""
           },
           {
             "name": "empty-block-fence",
             "status": "diff",
-            "note": {
-              "en": "The current fork only emits a math block when a closing `$$` exists; the reference emits an empty `math_block` token for a lone `$$`.",
-              "zh": "当前分支仅在存在闭合 `$$` 时输出数学块；参考包会为单独的 `$$` 输出一个空的 `math_block` token。"
-            },
+            "issue": "empty-block-fence",
+            "category": "reference-error",
             "ourHtml": "paragraph_open:\"\"\ninline:\"$$\"\n  text:\"$$\"\nparagraph_close:\"\"",
             "referenceHtml": "math_block{$$}:\"\""
           }
@@ -306,8 +353,8 @@
       "zh": "除边缘格式外，两侧 token 流在行内公式、`$$` 围栏、转义、未匹配分隔符、实际为空的文档以及不应被解析为数学的 Markdown 结构（行内代码、围栏代码块）上完全一致。两个插件都未实现标签，因此没有比较 `math_block_label` token。"
     },
     {
-      "en": "Documented differences, inherited from the current fork's stricter delimiter rules: opening `$` needs a non-word character before it and closing `$` needs a non-word character after it (`$a$b`, `a$x$`), an inline `$` surrounded by whitespace inside a formula is treated as literal and scanning continues (`$\\text{a $ b}$`), a closing `$` may not be immediately followed by another `$` (`$a$$b$`), a single-line `$$...$$` followed by inline content is not a block (`$$a$$ tail`), and `$$` alone is not a math block.",
-      "zh": "已记录差异源自当前分支更严格的分隔符规则：开 `$` 前必须是单词字符以外的字符，闭 `$` 后必须是单词字符以外的字符（`$a$b`、`a$x$`）；公式内被空白包围的行内 `$` 视为字面量并继续扫描（`$\\text{a $ b}$`）；闭 `$` 后不能紧跟另一个 `$`（`$a$$b$`）；单行 `$$...$$` 后接行内内容时不构成块（`$$a$$ tail`）；单独的 `$$` 不是数学块。"
+      "en": "The token-stream differences are grouped under five root causes: the reference ignores word boundaries around `$` (`$a$b`, `a$x$`), gives up on a `$` surrounded by whitespace inside a formula (`$\\text{a $ b}$`), swallows trailing content after a single-line `$$...$$` (`$$a$$ tail`), and emits an empty block for a lone `$$` — all reference errors — while refusing to close a formula before another `$` (`$a$$b$`) is our intentional stricter delimiter design and an accepted difference.",
+      "zh": "token 流差异归为五个根因：参考包忽略 `$` 两侧的单词边界（`$a$b`、`a$x$`）、在公式内被空白包围的 `$` 处放弃（`$\\text{a $ b}$`）、将单行 `$$...$$` 后的内容吞入块中（`$$a$$ tail`），并为单独的 `$$` 输出空块——这些都属参考包错误；而本分支在闭 `$` 后紧跟另一个 `$` 时不闭合（`$a$$b$`）是有意采用的更严格分隔符设计，属于可接受差异。"
     },
     {
       "en": "Fork-only behavior is not compared because the reference has no equivalent option: bracket delimiters (`\\(...\\)` / `\\[...\\]`), `mathFence` (```` ```math ````), `allowInlineWithSpace`, and the `render` callback itself.",

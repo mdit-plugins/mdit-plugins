@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-plantuml
 
 Compared against the upstream [`markdown-it-plantuml`](https://www.npmjs.com/package/markdown-it-plantuml) package `1.4.1`.
 
-- Correctness: **6/24** cases match the reference exactly (10 matching after normalization, 8 documented differences).
+- Correctness: **6/24** cases match the reference exactly (10 matching after normalization, 1 reference errors, 1 differences).
 - Throughput: **6.96×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **391.0 kB** unpacked and **749 B** gzip entry, versus **64.1 kB** and **1.5 kB** for the reference.
 

@@ -15,8 +15,8 @@ const spec: ComparisonSpec = defineComparison({
   reference: "markdown-it-ruby",
   notes: [
     {
-      en: "The current package and the installed reference use different dividers: this package implements `{ruby base:ruby text}` (the upstream syntax that the fork was based on), while the installed `markdown-it-ruby@1.1.2` implements DenDenMarkdown's `{ruby base|ruby text}`. This is a real behavioral difference, not a normalization, so every case that renders ruby on one side renders plain text on the other and carries a `note`.",
-      zh: "当前包与已安装的参考包使用不同的分隔符：本包实现 `{ruby base:ruby text}`（fork 所基于的上游语法），而已安装的 `markdown-it-ruby@1.1.2` 实现 DenDenMarkdown 的 `{ruby base|ruby text}`。这是真实的行为差异，不是归一化，因此每个在一侧渲染 ruby 的用例在另一侧都会渲染为纯文本，并带有 `note`。",
+      en: "The current package and the installed reference use different dividers: this package implements `{ruby base:ruby text}` (the upstream syntax that the fork was based on), while the installed `markdown-it-ruby@1.1.2` implements DenDenMarkdown's `{ruby base|ruby text}`. This is a real behavioral difference, not a normalization, so every case that renders ruby on one side renders plain text on the other and references the `divider-syntax` issue.",
+      zh: "当前包与已安装的参考包使用不同的分隔符：本包实现 `{ruby base:ruby text}`（fork 所基于的上游语法），而已安装的 `markdown-it-ruby@1.1.2` 实现 DenDenMarkdown 的 `{ruby base|ruby text}`。这是真实的行为差异，不是归一化，因此每个在一侧渲染 ruby 的用例在另一侧都会渲染为纯文本，并引用 `divider-syntax` 问题。",
     },
     {
       en: "The reference has an `rp` option (`[open, close]`). This package does not implement it, so the reference is left at its default `rp: []`, which renders no `<rp>` elements and matches the current package's output shape.",
@@ -44,13 +44,33 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  issues: [
+    {
+      id: "divider-syntax",
+      category: "difference",
+      note: {
+        en: "Intentional syntax difference: this package splits ruby on `:` (and per base character), while the reference splits on `|`; each case therefore renders ruby on one side and plain text on the other. Both divider conventions are valid designs.",
+        zh: "有意的语法差异：本包用 `:` 分割 ruby（并按 base 字符拆分），参考包用 `|` 分割；因此每个用例在一侧渲染 ruby，另一侧渲染纯文本。两种分隔符约定都是合理的设计。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
-      name: "",
+      name: "should not register the inline rule twice",
+      category: "internal",
       why: {
-        en: "Checks this fork's install bookkeeping: that the inline rule is registered only once and that calling `.use(ruby)` twice is a no-op. The reference has no registration guard, the comparison installs the plugin once, and the render assertion uses this package's `:` divider, so the file only covers internal install behavior.",
-        zh: "检查本 fork 的安装簿记：行内规则只注册一次，且重复调用 `.use(ruby)` 是空操作。参考包没有注册守卫，对比只安装一次插件，且渲染断言使用本包的 `:` 分隔符，因此该文件只覆盖内部安装行为。",
+        en: "Inspects this fork's inline rule registration internals (`md.inline.ruler.__rules__`) to assert the rule is registered once; the reference has no registration guard.",
+        zh: "检查本 fork 的规则注册内部实现（`md.inline.ruler.__rules__`），断言行内规则只注册一次；参考包没有注册守卫。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should render the same output when used twice",
+      category: "feature-gap",
+      why: {
+        en: "Asserts this fork's install guard and `:` divider output; the reference has no guard for repeated `.use()` and does not parse `:` at all.",
+        zh: "断言本 fork 的安装守卫和 `:` 分隔符输出；参考包没有重复 `.use()` 的守卫，也完全不解析 `:`。",
       },
     },
   ],
@@ -58,90 +78,57 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "documented-syntax",
       markdown: "{中国:zhōng|guó}",
-      note: {
-        en: "The reference splits on `|`, not on `:`: it renders `中国:zhōng` as the base text with `guó` as ruby text, while this package splits the base per character and pairs `中`/`zhōng` and `国`/`guó`.",
-        zh: "参考包按 `|` 而不是 `:` 分割：它把 `中国:zhōng` 渲染为 base 文本、把 `guó` 渲染为 ruby 文本，而本包按字符拆分 base，并配对 `中`/`zhōng` 与 `国`/`guó`。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "upstream-syntax",
       markdown: "{漢字|かんじ}",
-      note: {
-        en: "This package does not recognize the upstream `|` divider, so it leaves the construct as plain text; the reference renders it as ruby.",
-        zh: "本包不识别上游的 `|` 分隔符，因此将该结构保留为纯文本；参考包会将其渲染为 ruby。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "simple-ruby",
       markdown: "{ruby base:ruby text}",
-      note: {
-        en: "Same divider difference: this package renders ruby, the reference leaves the text untouched.",
-        zh: "同样的分隔符差异：本包渲染 ruby，参考包保持文本不变。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "equal-length-pairs",
       markdown: "{鬼門:き|もん}",
-      note: {
-        en: "Divider difference: this package splits per character into two `<rt>` pairs, while the reference does not recognize `:` as the divider.",
-        zh: "分隔符差异：本包按字符拆分成两对 `<rt>`，而参考包不把 `:` 识别为分隔符。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "wrapped-in-strong",
       markdown: "**{ruby base:ruby text}**",
-      note: {
-        en: "Divider difference inside emphasis; both sides keep the surrounding `**` markup.",
-        zh: "强调内部的同一分隔符差异；双方都保留外层的 `**` 标记。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "inline-markup-inside-ruby",
       markdown: "{**ruby base**:ruby text}",
-      note: {
-        en: "Divider difference: this package parses inline markup inside the base text, the reference leaves the whole construct as text with the emphasis parsed normally.",
-        zh: "分隔符差异：本包会解析 base 文本内部的行内标记，参考包则把整个结构当作文本，并正常解析其中的强调。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "inline-markup-in-ruby-text",
       markdown: "{ruby base:**ruby text**}",
-      note: {
-        en: "Divider difference: this package parses inline markup inside the ruby text, the reference leaves the construct as text.",
-        zh: "分隔符差异：本包会解析 ruby 文本内部的行内标记，参考包则把该结构当作文本。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "empty-ruby-segment",
       markdown: "{ab:|b}",
-      note: {
-        en: "This package rejects empty `|`-separated segments and leaves the source as text; the reference sees no `:` divider, treats `ab:` as base text and renders an empty `<rt></rt>`.",
-        zh: "本包拒绝空的 `|` 分隔段并保留源文本；参考包看不到 `:` 分隔符，把 `ab:` 当作 base 文本，并渲染空的 `<rt></rt>`。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "extra-colon",
       markdown: "{a:b:c}",
-      note: {
-        en: "This package keeps everything after the first `:` as ruby text; the reference does not recognize `:` and leaves the source as text.",
-        zh: "本包保留第一个 `:` 之后的所有内容作为 ruby 文本；参考包不识别 `:`，保留源文本。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "escaped-backslash",
       markdown: String.raw`{a\\:b}`,
-      note: {
-        en: "This package treats `\\\\` as an escaped backslash and the following `:` as the divider; the reference does not parse `:` at all.",
-        zh: "本包把 `\\\\` 视为转义反斜杠，并把其后的 `:` 作为分隔符；参考包完全不解析 `:`。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "in-table-cell",
       markdown: "| a | b |\n| - | - |\n| {中:zhōng} | x |\n",
-      note: {
-        en: "Divider difference: this package renders ruby inside the table cell, the reference keeps the source text.",
-        zh: "分隔符差异：本包在表格单元格内渲染 ruby，参考包保留源文本。",
-      },
+      issue: "divider-syntax",
     },
     {
       name: "no-ruby-syntax",

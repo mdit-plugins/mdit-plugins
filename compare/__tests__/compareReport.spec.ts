@@ -36,12 +36,16 @@ const resultFixture: ComparisonResult = {
         exact: 1,
         normalized: 1,
         diff: 0,
+        referenceErrors: 0,
+        differences: 0,
+        issues: [],
         error: 0,
         cases: [
           { name: "heading", status: "exact" },
           {
             name: "inline",
             status: "diff",
+            category: "reference-error",
             note: { en: "English reason.", zh: "中文原因。" },
           },
         ],

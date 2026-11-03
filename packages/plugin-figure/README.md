@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-figure
 
 Compared against the upstream [`markdown-it-image-figures`](https://www.npmjs.com/package/markdown-it-image-figures) package `2.1.1`.
 
-- Correctness: **18/21** cases match the reference exactly (3 documented differences).
+- Correctness: **18/21** cases match the reference exactly (1 reference errors, 1 differences).
 - Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **38.4 kB** unpacked and **1.1 kB** gzip entry, versus **22.7 kB** and **972 B** for the reference.
 

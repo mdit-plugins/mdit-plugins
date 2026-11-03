@@ -1,13 +1,7 @@
 import MarkdownIt from "markdown-it";
-import type { MarkdownIt as MarkdownItInstance } from "markdown-it";
+import type { MarkdownIt as MarkdownItInstance, RendererRule } from "markdown-it";
 
-import type {
-  CompareRenderer,
-  ComparisonNote,
-  ComparisonSpec,
-  PluginFunction,
-  PluginModule,
-} from "../types.ts";
+import type { CompareRenderer, ComparisonSpec, PluginFunction, PluginModule } from "../types.ts";
 import { defineComparison } from "../types.ts";
 
 /** Container name that uses the default `:` marker */
@@ -28,17 +22,78 @@ const SPOILER_MARKER = "%";
  */
 const MD_OPTIONS = { maxNesting: 10_000 };
 
+/** Options object this package accepts, mirroring the package's public options */
+interface ContainerTestOptions {
+  /** Container name */
+  name: string;
+  /** Container marker */
+  marker?: string;
+  /** Validator of the content after the marker */
+  validate?: (params: string, markup: string) => boolean;
+  /** Opening tag renderer */
+  openRenderer?: RendererRule;
+  /** Closing tag renderer */
+  closeRenderer?: RendererRule;
+}
+
+/** Reference plugin signature: the container name is positional and `render` handles both tags */
+type ReferenceContainerPlugin = (
+  md: MarkdownItInstance,
+  name: string,
+  options: {
+    marker?: string;
+    validate?: ContainerTestOptions["validate"];
+    render?: RendererRule;
+  },
+) => void;
+
 /**
- * Why the container syntax tests cannot exercise the reference
+ * Adapt the reference plugin to this package's options object API
  *
- * The tests install the plugin with this package's required `{ name }` options object, while the
- * reference takes the container name as a second positional argument. The reference therefore
- * receives the object as the name, registers no container and never validates the options, so every
- * assertion only covers this package's install API.
+ * The reference takes the container name as a positional argument and one `render` callback for
+ * both tags, while this package takes a `{ name }` options object and separate `openRenderer` /
+ * `closeRenderer` callbacks.
+ *
+ * @param reference - Module namespace of the reference package
+ * @returns A module namespace that exposes this package's `container` export
  */
-const INSTALL_API_SKIP: ComparisonNote = {
-  en: "Installs the plugin with this package's required `{ name }` options object; the reference takes the container name as a positional argument, so it receives the object as the name and never registers or validates a container. This assertion therefore only exercises this package's install API.",
-  zh: "该测试用本包必需的 `{ name }` 选项对象安装插件；参考包把容器名作为位置参数，因此会把该对象当作名称，既不会注册也不会校验容器。该断言因此只覆盖了本包的安装 API。",
+const createTestSuiteAdapter = (reference: PluginModule): PluginModule => {
+  const referenceContainer = reference.default as ReferenceContainerPlugin;
+
+  return {
+    container: (md: MarkdownItInstance, options: ContainerTestOptions): void => {
+      const { name, marker, validate, openRenderer, closeRenderer } = options;
+      // The reference calls the same `render` for the opening and the closing token, so dispatch on
+      // `nesting` to keep this package's two renderer options working.
+      const render: RendererRule | undefined =
+        openRenderer || closeRenderer
+          ? (tokens, index, mdOptions, env, self): string => {
+              const token = tokens[index];
+
+              if (token.nesting === 1) {
+                if (openRenderer) return openRenderer(tokens, index, mdOptions, env, self);
+
+                const classes = token.attrGet("class");
+
+                if (classes == null || !String(classes).split(" ").includes(name))
+                  token.attrJoin("class", name);
+
+                return self.renderToken(tokens, index, mdOptions);
+              }
+
+              if (closeRenderer) return closeRenderer(tokens, index, mdOptions, env, self);
+
+              return self.renderToken(tokens, index, mdOptions);
+            }
+          : void 0;
+
+      referenceContainer(md, name, {
+        ...(marker == null ? {} : { marker }),
+        ...(validate == null ? {} : { validate }),
+        ...(render == null ? {} : { render }),
+      });
+    },
+  };
 };
 
 /**
@@ -135,116 +190,55 @@ const spec: ComparisonSpec = defineComparison({
       createReferenceRenderer,
     },
   ],
+  issues: [
+    {
+      id: "closing-marker-indent",
+      category: "difference",
+      note: {
+        en: "The reference accepts a closing marker indented less than four columns relative to the enclosing block, while this package requires the closing marker indentation to match the opening marker exactly; both are valid closing rules.",
+        zh: "参考包接受相对于外层块缩进小于四列的结束标记，当前包要求结束标记与起始标记缩进完全一致；两种结束标记规则都合理。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
-      name: "",
+      name: "should not register the rule twice when installed twice",
+      category: "feature-gap",
       why: {
-        en: "Asserts the internal `container_<name>` block-rule count and that a second installation keeps the first parse options; the reference registers its rule positionally and has no idempotent-install contract.",
-        zh: "该文件断言内部 `container_<name>` 块级规则的数量，以及第二次安装保留首次解析选项的行为；参考包按位置参数注册规则，也没有幂等安装的约定。",
+        en: "The reference does not guard repeated installation and registers its block rule again, but repeated installation still renders correctly; this package registers the rule once.",
+        zh: "参考包未防范多次安装，会重复注册块级规则，但重复安装后渲染结果仍正确；本包只注册一次。",
       },
     },
     {
-      file: "renderer-idempotent.spec.ts",
-      name: "",
+      file: "install-idempotent.spec.ts",
+      name: "should keep the first installation's parse options",
+      category: "feature-gap",
       why: {
-        en: "Parses tokens with this package's `{ name }` options object and asserts renderer idempotency and class merging; the reference never registers the container through this API, so it produces no container tokens and the renderer internals cannot be compared.",
-        zh: "该文件用本包的 `{ name }` 选项对象解析 token，并断言渲染器幂等性与 class 合并；参考包无法通过该 API 注册容器，因此不会产生容器 token，渲染器内部行为无法对比。",
+        en: "This package keeps the first installation's `marker` option on repeated installation; the reference applies every installation and has no first-install contract.",
+        zh: "本包在重复安装时保留首次安装的 `marker` 选项，参考包会同时应用每次安装的配置，没有首次安装优先的约定。",
       },
-    },
-    { file: "container.spec.ts", name: "simple container", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "should allow block elements in container",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "should allow longer ending marker to close",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "support nesting", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "support deeply nested containers",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "close nested containers with their own marker length",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "wrong syntax", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "ending markers must be the same indent",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "content indent should recalculate from container",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "list indentation quirks", why: INSTALL_API_SKIP },
-    { file: "container.spec.ts", name: "multi-char marker", why: INSTALL_API_SKIP },
-    { file: "container.spec.ts", name: "astral marker", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "space before name is optional and can be multiple",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "allow other params after container name",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "ending marker can not contain params",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "container should be auto close if it is not closed",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "should allow empty container", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "container should terminate paragraph",
-      why: INSTALL_API_SKIP,
-    },
-    {
-      file: "container.spec.ts",
-      name: "negative indent should terminate container",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "nesting with others", why: INSTALL_API_SKIP },
-    { file: "container.spec.ts", name: "renderer", why: INSTALL_API_SKIP },
-    { file: "container.spec.ts", name: "2 char marker", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "marker should not collide with fence",
-      why: INSTALL_API_SKIP,
     },
     {
       file: "container.spec.ts",
       name: 'should throw if "name" is not provided',
-      why: INSTALL_API_SKIP,
+      category: "feature-gap",
+      why: {
+        en: "This package validates its required `name` option and throws a specific error; the reference takes the name as a positional argument and has no option validation.",
+        zh: "本包校验必填的 `name` 选项并抛出特定错误，参考包以位置参数接收名称，没有对应的选项校验。",
+      },
     },
-    { file: "container.spec.ts", name: "should throw if options is null", why: INSTALL_API_SKIP },
     {
       file: "container.spec.ts",
-      name: "validator should accept rule if return value is true",
-      why: INSTALL_API_SKIP,
-    },
-    { file: "container.spec.ts", name: "validator rule should call it", why: INSTALL_API_SKIP },
-    {
-      file: "container.spec.ts",
-      name: "validator should allow analyze mark",
-      why: INSTALL_API_SKIP,
+      name: "should throw if options is null",
+      category: "feature-gap",
+      why: {
+        en: "This package rejects a null options object with its own error message; the reference has no options object to validate.",
+        zh: "本包对为 null 的选项对象抛出自己的错误信息，参考包没有可校验的选项对象。",
+      },
     },
   ],
+  testSuiteAdapter: createTestSuiteAdapter,
   correctness: [
     { name: "basic", markdown: "::: warning\nWarning Text\n:::\n" },
     { name: "inline-markup", markdown: "::: warning\n_here be dragons_\n:::\n" },
@@ -284,26 +278,17 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "indented-opening",
       markdown: "  ::: warning\n  content\n:::\n",
-      note: {
-        en: "The current package requires the closing marker to be indented exactly like the opening marker (both are 2 columns here, then 0), so the container stays unclosed; the reference accepts the unindented closing marker and closes it.",
-        zh: "当前包要求结束标记与起始标记缩进完全一致（此处起始为 2 列、结束为 0 列），因此容器保持未闭合；参考包接受未缩进的结束标记并将其闭合。",
-      },
+      issue: "closing-marker-indent",
     },
     {
       name: "indented-closing",
       markdown: "::: warning\ncontent\n  :::\n",
-      note: {
-        en: "The reference accepts a closing marker indented by less than four columns; the current package requires the closing marker to be indented exactly like the opening marker, so it keeps the `:::` line as container content.",
-        zh: "参考包接受缩进小于四列的结束标记；当前包要求结束标记与起始标记缩进完全一致，因此将 `:::` 行保留为容器内容。",
-      },
+      issue: "closing-marker-indent",
     },
     {
       name: "indented-closing-after-blank",
       markdown: "::: warning\n\n  :::\n",
-      note: {
-        en: "Same closing-marker rule as `indented-closing`: the reference closes the empty container, while the current package renders the indented marker as a paragraph inside it.",
-        zh: "与 `indented-closing` 相同的结束标记规则：参考包闭合空容器，当前包则把缩进的标记渲染为容器内的段落。",
-      },
+      issue: "closing-marker-indent",
     },
   ],
   bench: BENCH_CASES,

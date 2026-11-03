@@ -128,42 +128,81 @@ const spec: ComparisonSpec = defineComparison({
   ],
   normalize: normalizeMathjaxOutput,
   testSuiteExports: { mathjax: "default" },
+  issues: [
+    {
+      id: "inline-word-boundary",
+      category: "reference-error",
+      note: {
+        en: "The reference delimiter check only rejects spaces and trailing digits, so it parses math next to word characters (`a$x$b`); the current package requires non-word characters around both `$` delimiters so currency and word-embedded dollars stay literal.",
+        zh: "参考包的分隔符检查只排除空格和紧随的数字，因此会把紧邻单词字符的 `$` 解析为公式（`a$x$b`）；当前包要求两个 `$` 两侧均为非单词字符，以免货币金额和单词内的 `$` 被解析。",
+      },
+    },
+    {
+      id: "block-swallow",
+      category: "reference-error",
+      note: {
+        en: "The reference `$$` block rule emits a display formula even without a closing fence or with trailing content on the line, swallowing the rest of the document/line into the formula; the current package only opens a block when a closing `$$` exists and keeps trailing content as a paragraph.",
+        zh: "参考包的 `$$` 块规则在没有闭合围栏或行尾仍有内容时也会输出显示公式，把文档/该行剩余内容吞入公式；当前包只在存在闭合 `$$` 时开启块，并让行尾内容保持为段落。",
+      },
+    },
+    {
+      id: "inline-literal-gap",
+      category: "reference-error",
+      note: {
+        en: "The reference inline rule gives up on the whole formula at the first `$` that cannot close (such as a whitespace-surrounded `$` inside `\\text{…}`) and leaves the line literal; the current package treats it as literal TeX content and keeps scanning for the closing `$`.",
+        zh: "参考包的行内规则在遇到第一个无法闭合的 `$`（例如 `\\text{…}` 中被空白包围的 `$`）时就放弃整个公式并保留字面文本；当前包将其视为字面 TeX 内容并继续扫描闭合 `$`。",
+      },
+    },
+    {
+      id: "mathml-text-split",
+      category: "difference",
+      note: {
+        en: "`\\tag{1}` is laid out identically, but MathJax 4 splits the tag into one `<mtext>` per character in the assistive MathML while MathJax 3 emits a single `<mtext>(1)</mtext>`; only the MathML text-node representation differs.",
+        zh: "`\\tag{1}` 的排版结果相同，但在辅助 MathML 中 MathJax 4 把标签拆成每个字符一个 `<mtext>`，而 MathJax 3 输出单个 `<mtext>(1)</mtext>`；仅 MathML 文本节点的表示不同。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "a11y.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Tests the fork-only async entry (`createMathjaxInstance`) and its assistive-MathML switch; the reference only exposes the synchronous plugin, so no async instance API exists to compare against.",
-        zh: "测试 fork 专有的异步入口（`createMathjaxInstance`）及其辅助 MathML 开关；参考包只提供同步插件，没有可对比的异步实例 API。",
+        en: "Tests the fork-only async MathJax API (`createMathjaxInstance`) and its assistive-MathML switch; the reference only exposes the synchronous plugin.",
+        zh: "测试 fork 专有的异步 MathJax API（`createMathjaxInstance`）及其辅助 MathML 开关；参考包只提供同步插件。",
       },
     },
     {
       file: "font.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Tests the fork-only async entry with custom SVG/CHTML font data passed to `createMathjaxInstance`; the reference has no async instance or font-data API.",
-        zh: "测试 fork 专有的异步入口，并通过 `createMathjaxInstance` 传入自定义 SVG/CHTML 字体数据；参考包没有异步实例或字体数据 API。",
+        en: "Tests custom SVG/CHTML font data through the fork-only async API; the reference has no async instance or font-data option.",
+        zh: "通过 fork 专有的异步 API 测试自定义 SVG/CHTML 字体数据；参考包没有异步实例或字体数据选项。",
       },
     },
     {
       file: "html.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Tests CHTML rendering through the fork-only async entry; the reference is a synchronous plugin without `createMathjaxInstance`, so these assertions never exercise the reference.",
-        zh: "通过 fork 专有的异步入口测试 CHTML 渲染；参考包是同步插件且没有 `createMathjaxInstance`，因此这些断言不会作用于参考包。",
+        en: "Tests CHTML output through the fork-only async API; the reference is a synchronous SVG-only plugin.",
+        zh: "通过 fork 专有的异步 API 测试 CHTML 输出；参考包是只输出 SVG 的同步插件。",
       },
     },
     {
       file: "svg.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Tests SVG rendering through the fork-only async entry; the reference is a synchronous plugin without `createMathjaxInstance`, so these assertions never exercise the reference.",
-        zh: "通过 fork 专有的异步入口测试 SVG 渲染；参考包是同步插件且没有 `createMathjaxInstance`，因此这些断言不会作用于参考包。",
+        en: "Tests SVG output through the fork-only async API; the reference is a synchronous plugin without `createMathjaxInstance`.",
+        zh: "通过 fork 专有的异步 API 测试 SVG 输出；参考包是同步插件，没有 `createMathjaxInstance`。",
       },
     },
     {
       file: "session.spec.ts",
       name: "",
+      category: "internal",
       why: {
         en: "Tests the internal `createSession` module, which only exists in this fork; the reference has no session abstraction.",
         zh: "测试本 fork 独有的内部 `createSession` 模块；参考包没有会话抽象。",
@@ -172,49 +211,55 @@ const spec: ComparisonSpec = defineComparison({
     {
       file: "tex.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Tests the internal TeX package resolver (`../src/tex/`), a helper of this fork rather than plugin behavior; the reference has no equivalent module.",
-        zh: "测试内部 TeX 宏包解析器（`../src/tex/`），它是本 fork 的辅助模块而非插件行为；参考包没有等价模块。",
+        en: "Tests the internal TeX package resolver (`../src/tex/`); the reference has no equivalent module.",
+        zh: "测试内部 TeX 宏包解析器（`../src/tex/`）；参考包没有等价模块。",
       },
     },
     {
       file: "tex-packages.spec.ts",
       name: "",
+      category: "internal",
       why: {
-        en: "Tests the internal TeX package list and loaders (`../src/tex/`), which are implementation details of this fork with no reference counterpart.",
-        zh: "测试内部 TeX 宏包列表与加载器（`../src/tex/`），这些是本 fork 的实现细节，参考包没有对应实现。",
+        en: "Tests the internal TeX package list and loaders (`../src/tex/`), which have no reference counterpart.",
+        zh: "测试内部 TeX 宏包列表与加载器（`../src/tex/`），参考包没有对应实现。",
       },
     },
     {
       file: "optional-peer.spec.ts",
       name: "",
+      category: "packaging",
       why: {
-        en: "Inspects the built `dist` entries of this package for static `@mathjax` imports to verify optional-peer packaging; it tests this fork's build artifacts and has no reference behavior to compare.",
-        zh: "检查本包构建后的 `dist` 入口是否静态导入 `@mathjax`，以验证可选 peer 依赖的打包方式；它测试的是本 fork 的构建产物，没有可对比的参考包行为。",
+        en: "Inspects the built `dist` entries for static `@mathjax` imports to verify optional-peer packaging; it tests this fork's build artifacts, not reference behavior.",
+        zh: "检查构建后的 `dist` 入口是否静态导入 `@mathjax`，以验证可选 peer 依赖的打包方式；它测试本 fork 的构建产物，而非参考包行为。",
       },
     },
     {
       file: "security.spec.ts",
       name: "html TeX package gating (async)",
+      category: "feature-gap",
       why: {
-        en: "Tests HTML/TeX package gating through the fork-only async entry (`createMathjaxInstance`); the reference only exposes the synchronous plugin. The sync gating tests stay counted.",
-        zh: "通过 fork 专有的异步入口（`createMathjaxInstance`）测试 HTML/TeX 宏包门控；参考包只提供同步插件。同步门控测试仍计入统计。",
+        en: "Tests HTML/TeX package gating through the fork-only async API; the reference only exposes the synchronous plugin. The sync gating tests stay counted.",
+        zh: "通过 fork 专有的异步 API 测试 HTML/TeX 宏包门控；参考包只提供同步插件。同步门控测试仍计入统计。",
       },
     },
     {
       file: "state.spec.ts",
       name: "mathjax state isolation async",
+      category: "feature-gap",
       why: {
-        en: "Tests TeX state isolation of the fork-only async entry; the reference has no async instance whose `reset` behavior could be compared. The sync state tests stay counted.",
-        zh: "测试 fork 专有异步入口的 TeX 状态隔离；参考包没有可对比 `reset` 行为的异步实例。同步状态测试仍计入统计。",
+        en: "Tests TeX state isolation of the fork-only async API; the reference has no async instance whose reset behavior could be compared. The sync state tests stay counted.",
+        zh: "测试 fork 专有异步 API 的 TeX 状态隔离；参考包没有可对比 reset 行为的异步实例。同步状态测试仍计入统计。",
       },
     },
     {
       file: "state.spec.ts",
       name: "mathjax state isolation sync reset and clearStyle should not throw",
+      category: "internal",
       why: {
-        en: "Only asserts that the internal state helpers `reset`/`clearStyle` returned by `getMathjax` do not throw; the reference exposes no state helper object at all.",
-        zh: "仅断言 `getMathjax` 返回的内部状态辅助方法 `reset`/`clearStyle` 不会抛错；参考包完全不提供状态辅助对象。",
+        en: "Only asserts that the internal `reset`/`clearStyle` helpers of `getMathjax` do not throw; the reference exposes no state helper object.",
+        zh: "仅断言 `getMathjax` 的内部 `reset`/`clearStyle` 辅助方法不抛错；参考包不提供状态辅助对象。",
       },
     },
   ],
@@ -244,50 +289,32 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "tag-numbered",
       markdown: String.raw`$$\tag{1} x = y$$`,
-      note: {
-        en: "`\\tag{1}` is laid out identically, but MathJax 4 splits the tag into `<mtext>(</mtext><mtext>1</mtext><mtext>)</mtext>` while MathJax 3 emits a single `<mtext>(1)</mtext>` in the assistive MathML.",
-        zh: "`\\tag{1}` 的排版结果相同，但在辅助 MathML 中，MathJax 4 会把标签拆成 `<mtext>(</mtext><mtext>1</mtext><mtext>)</mtext>`，而 MathJax 3 输出单个 `<mtext>(1)</mtext>`。",
-      },
+      issue: "mathml-text-split",
     },
     {
       name: "inline-adjacent-word",
       markdown: "a$x$b",
-      note: {
-        en: "The reference delimiter check has no word-boundary rule, so it parses `a$x$b` as inline math; the current package requires a word boundary around `$` so that currency amounts stay literal (see `plain-dollar-currency`).",
-        zh: "参考包的定界符检查没有单词边界规则，因此会把 `a$x$b` 解析为行内公式；当前包要求 `$` 两侧满足单词边界，以免货币金额被当作公式（见 `plain-dollar-currency`）。",
-      },
+      issue: "inline-word-boundary",
     },
     {
       name: "block-unclosed",
       markdown: "$$\nunclosed block\n",
-      note: {
-        en: "An unclosed `$$` block is still emitted as display math by the reference: its `math_block` rule scans to the end of the document and then pushes the token anyway. The current package only starts a block when the closing `$$` exists and otherwise falls back to a paragraph.",
-        zh: "未闭合的 `$$` 块仍会被参考包输出为显示公式：其 `math_block` 规则扫描到文档末尾后仍推入该 token。当前包只在存在结束 `$$` 时才开启块，否则回退为段落。",
-      },
+      issue: "block-swallow",
     },
     {
       name: "block-trailing-inline",
       markdown: "$$a=1$$ and $b=2$",
-      note: {
-        en: "The reference parses `$$a=1$$ and $b=2$` as one display-math block that swallows the trailing inline expression; the current package keeps the line as a paragraph and renders `$b=2$` as inline math.",
-        zh: "参考包把 `$$a=1$$ and $b=2$` 解析为一个吞掉尾部行内表达式的显示公式块；当前包保持整行为段落，并把 `$b=2$` 渲染为行内公式。",
-      },
+      issue: "block-swallow",
     },
     {
       name: "escaped-backslash-dollar",
       markdown: String.raw`$a\\$b`,
-      note: {
-        en: "`$a\\\\$b`: the reference counts the preceding backslash run differently and closes the math after the escaped backslash (`\\\\` then `$`), while the current package treats a `$` preceded by an even number of backslashes as escaped and keeps the line literal.",
-        zh: "`$a\\\\$b`：参考包对前置反斜杠数量的计算方式不同，会在转义反斜杠之后闭合公式（先 `\\\\`，再 `$`），而当前包把前面有偶数个反斜杠的 `$` 视为已转义，整行保持字面量。",
-      },
+      issue: "inline-word-boundary",
     },
     {
       name: "text-with-dollar",
       markdown: String.raw`$a \text{ $ b}$`,
-      note: {
-        en: "The reference stops scanning at the whitespace-surrounded `$` inside `\\text{…}` and leaves the whole line literal; the current package treats that `$` as literal TeX content, keeps scanning to the final `$` and renders an error node.",
-        zh: "参考包遇到 `\\text{…}` 内部被空白包围的 `$` 就停止扫描，整行保持字面量；当前包把该 `$` 视为字面 TeX 内容，继续扫描到最后的 `$`，并渲染一个错误节点。",
-      },
+      issue: "inline-literal-gap",
     },
   ],
   bench: BENCH_CASES,

@@ -3,7 +3,7 @@
   "reference": "markdown-it-plantuml",
   "referenceVersion": "1.4.1",
   "generatedAt": "2026-11-03T02:00:19.056Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,60 @@
         "exact": 15,
         "normalized": 0,
         "diff": 10,
+        "referenceErrors": 2,
+        "differences": 2,
+        "issues": [
+          {
+            "id": "container-prefix-leak",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference extracts the body by slicing the raw document, so list-item indentation and blockquote `>` prefixes leak into the diagram source; our package reads the block lines with `state.getLines` and strips container prefixes.",
+              "zh": "参考包直接切分原始文档来提取正文，因此列表项缩进与块引用 `>` 前缀会泄漏到图表源码中；本包通过 `state.getLines` 读取块内各行并去掉容器前缀。"
+            },
+            "cases": [
+              "list-item",
+              "list-item-unclosed",
+              "blockquote",
+              "nested-blockquote"
+            ]
+          },
+          {
+            "id": "marker-indent",
+            "category": "reference-error",
+            "note": {
+              "en": "For an indented block the reference keeps the block indentation on the body because it slices the raw document; our package strips the indentation that belongs to the document layout.",
+              "zh": "对于缩进的块，参考包切分原始文档时会保留正文上的块缩进；本包会去掉属于文档排版的缩进。"
+            },
+            "cases": [
+              "indented-marker"
+            ]
+          },
+          {
+            "id": "body-indent",
+            "category": "difference",
+            "note": {
+              "en": "Our `dedent` removes the common indentation of the diagram body while preserving relative indentation; the reference keeps every line as written. Both describe the same diagram, so this is an intentional formatting difference.",
+              "zh": "本包的 `dedent` 会去掉图表正文的公共缩进并保留相对缩进；参考包按原样保留每一行。两者描述同一张图，因此这是有意的格式差异。"
+            },
+            "cases": [
+              "indented-content"
+            ]
+          },
+          {
+            "id": "title-derivation",
+            "category": "difference",
+            "note": {
+              "en": "The reference derives the image alt text by dropping the first suffix character and inline-parsing the rest; our base exposes the raw marker suffix as `info` and leaves the title to the renderer. This is an intentional design difference in title/alt handling.",
+              "zh": "参考包通过丢弃后缀首字符并对剩余部分做行内解析来生成图片 alt 文本；本基础包把原始标记后缀暴露为 `info`，把标题交给渲染器处理。这是标题/alt 处理上的有意设计差异。"
+            },
+            "cases": [
+              "title",
+              "title-inline-markup",
+              "title-only-space",
+              "odd-marker-suffix"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
@@ -56,100 +110,80 @@
           {
             "name": "list-item",
             "status": "diff",
-            "note": {
-              "en": "The current package strips the list indentation from the diagram source (`getLines` with `blkIndent` plus `dedent`), while the reference slices `state.src` and keeps the two leading spaces. The list structure and the token map are identical.",
-              "zh": "当前包会去掉图表源码中的列表缩进（`getLines` 配合 `blkIndent` 加上 `dedent`），而参考包切分 `state.src` 并保留两个前导空格。列表结构和 token map 完全相同。"
-            },
+            "issue": "container-prefix-leak",
+            "category": "reference-error",
             "ourHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</li>\n</ul>\n",
             "referenceHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n</li>\n</ul>\n"
           },
           {
             "name": "list-item-unclosed",
             "status": "diff",
-            "note": {
-              "en": "Both sides auto-close the unclosed block at the end of the list item and produce the same map; the current package strips the item indentation from the source while the reference keeps it.",
-              "zh": "两侧都会在列表项结束时自动闭合未闭合的块，并产生相同的 map；当前包会去掉条目缩进，而参考包保留。"
-            },
+            "issue": "container-prefix-leak",
+            "category": "reference-error",
             "ourHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</li>\n<li>second item</li>\n</ul>\n",
             "referenceHtml": "blocks=1\n<ul>\n<li>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n</li>\n<li>second item</li>\n</ul>\n"
           },
           {
             "name": "blockquote",
             "status": "diff",
-            "note": {
-              "en": "The reference slices `state.src` without removing blockquote markers, so the `>` prefix leaks into the diagram source; the current package strips it through `getLines`. The blockquote structure is identical.",
-              "zh": "参考包切分 `state.src` 时不移除块引用标记，因此 `>` 前缀会泄漏到图表源码中；当前包通过 `getLines` 将其去掉。块引用结构完全相同。"
-            },
+            "issue": "container-prefix-leak",
+            "category": "reference-error",
             "ourHtml": "blocks=1\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</blockquote>\n",
             "referenceHtml": "blocks=1\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"> Bob -> Alice : hello\"\n</blockquote>\n"
           },
           {
             "name": "nested-blockquote",
             "status": "diff",
-            "note": {
-              "en": "Same cause as `blockquote`: the reference keeps both `> >` prefixes in the diagram source, the current package strips both quote levels. The nested blockquote structure is identical.",
-              "zh": "与 `blockquote` 原因相同：参考包在图表源码中保留两个 `> >` 前缀，当前包去掉这两层引用。嵌套块引用结构完全相同。"
-            },
+            "issue": "container-prefix-leak",
+            "category": "reference-error",
             "ourHtml": "blocks=1\n<blockquote>\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n</blockquote>\n</blockquote>\n",
             "referenceHtml": "blocks=1\n<blockquote>\n<blockquote>\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"> > Bob -> Alice : hello\"\n</blockquote>\n</blockquote>\n"
           },
           {
             "name": "indented-marker",
             "status": "diff",
-            "note": {
-              "en": "Both sides accept the two-space indented marker, but `dedent` removes the indentation of the content line in the current package while the reference keeps the line as written.",
-              "zh": "两侧都接受缩进两个空格的标记，但当前包会用 `dedent` 去掉内容行的缩进，而参考包按原样保留该行。"
-            },
+            "issue": "marker-indent",
+            "category": "reference-error",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"Bob -> Alice : hello\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..2 content=\"  Bob -> Alice : hello\"\n"
           },
           {
             "name": "indented-content",
             "status": "diff",
-            "note": {
-              "en": "The current package removes the common indentation of the diagram body, the reference keeps every line as written. `dedent` preserves the relative indentation, so the drawing itself is unchanged.",
-              "zh": "当前包会去掉图表正文的公共缩进，参考包则按原样保留每一行。`dedent` 保留相对缩进，因此图形本身不变。"
-            },
+            "issue": "body-indent",
+            "category": "difference",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..4 content=\"Alice -> Bob\\n  note right\\nBob -> Carol\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"\" title=\"\" map=0..4 content=\"  Alice -> Bob\\n    note right\\n  Bob -> Carol\"\n"
           },
           {
             "name": "title",
             "status": "diff",
-            "note": {
-              "en": "The current base keeps the raw marker suffix (including the separating space) as `info`; the reference removes that space and inline-parses the suffix for its alt text, which is the title compared here.",
-              "zh": "当前基础包把原始标记后缀（含分隔空格）保留为 `info`；参考包去掉该空格并对后缀做行内解析以生成 alt 文本，也就是这里比较的 title。"
-            },
+            "issue": "title-derivation",
+            "category": "difference",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" My title\" title=\" My title\" map=0..2 content=\"Bob -> Alice : hello\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" My title\" title=\"My title\" map=0..2 content=\"Bob -> Alice : hello\"\n"
           },
           {
             "name": "title-inline-markup",
             "status": "diff",
-            "note": {
-              "en": "Besides the separating space, the reference inline-parses the title, so `**Flow**` disappears from its alt text; the current base keeps the raw markers in `info`.",
-              "zh": "除分隔空格外，参考包还会对标题做行内解析，因此 `**Flow**` 从 alt 文本中消失；当前基础包在 `info` 中保留原始标记。"
-            },
+            "issue": "title-derivation",
+            "category": "difference",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" **Flow** chart\" title=\" **Flow** chart\" map=0..2 content=\"Bob -> Alice : hello\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" **Flow** chart\" title=\"Flow chart\" map=0..2 content=\"Bob -> Alice : hello\"\n"
           },
           {
             "name": "title-only-space",
             "status": "diff",
-            "note": {
-              "en": "The marker is followed by a single space, so the suffix is `\" \"`: the current base keeps it, while the reference unconditionally drops the first suffix character and ends up with an empty alt text.",
-              "zh": "标记后只有一个空格，因此后缀为 `\" \"`：当前基础包保留它，而参考包无条件丢弃后缀的第一个字符，最终得到空的 alt 文本。"
-            },
+            "issue": "title-derivation",
+            "category": "difference",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\" \" title=\" \" map=0..2 content=\"A -> B\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\" \" title=\"\" map=0..2 content=\"A -> B\"\n"
           },
           {
             "name": "odd-marker-suffix",
             "status": "diff",
-            "note": {
-              "en": "`@startumlExtra` still matches the opening marker as a prefix on both sides and both report the suffix `Extra` in `info`, but the reference unconditionally drops the first suffix character for its alt text (`xtra`), while the current base keeps the raw suffix as the title.",
-              "zh": "两侧都会把 `@startumlExtra` 按前缀匹配为开标记，并在 `info` 中报告后缀 `Extra`，但参考包会无条件丢弃后缀第一个字符得到 alt 文本（`xtra`），而当前基础包把原始后缀保留为 title。"
-            },
+            "issue": "title-derivation",
+            "category": "difference",
             "ourHtml": "blocks=1\nblock markup=\"@startuml\" params=\"Extra\" title=\"Extra\" map=0..2 content=\"A -> B\"\n",
             "referenceHtml": "blocks=1\nblock markup=\"@startuml\" params=\"Extra\" title=\"xtra\" map=0..2 content=\"A -> B\"\n"
           },

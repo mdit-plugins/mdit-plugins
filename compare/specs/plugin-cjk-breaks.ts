@@ -31,9 +31,10 @@ const spec: ComparisonSpec = defineComparison({
     {
       file: "cjkBreaks.spec.ts",
       name: "inline token processing",
+      category: "internal",
       why: {
-        en: "This test calls the internal `processInlines` helper that is exported for tests only; the reference package exposes the plugin alone, so the helper has no counterpart.",
-        zh: "该测试调用了仅为测试导出的内部 `processInlines` 辅助函数；参考包只导出插件本身，没有对应的辅助函数。",
+        en: "Calls the internal `processInlines` helper that only our package exports for tests; the reference exposes the plugin alone.",
+        zh: "调用仅本包为测试导出的内部 `processInlines` 辅助函数；参考包只导出插件本身。",
       },
     },
   ],

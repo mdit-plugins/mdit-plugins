@@ -3,7 +3,7 @@
   "reference": "markdown-it-task-checkbox",
   "referenceVersion": "1.0.6",
   "generatedAt": "2026-11-03T01:59:50.659Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,11 +19,51 @@
         "exact": 7,
         "normalized": 0,
         "diff": 14,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "label-structure",
+            "category": "difference",
+            "note": {
+              "en": "The checkbox token structure differs by design: our package emits `label_open` before the checkbox and has no document ids, while the reference emits `checkbox_input` first and associates the label through `for`/`id`. The HTML is normalized to compare behavior, but the token streams keep this difference.",
+              "zh": "复选框 token 结构在设计上不同：本包先输出 `label_open` 再输出复选框且不生成文档级 id，参考包则先输出 `checkbox_input` 并通过 `for`/`id` 关联 label。HTML 会归一化后比较行为，但 token 流仍保留该差异。"
+            },
+            "cases": [
+              "unchecked-item",
+              "checked-item-lowercase",
+              "checked-item-uppercase",
+              "mixed-items",
+              "ordered-list",
+              "nested-list",
+              "non-breaking-space",
+              "blockquote-list",
+              "inline-markup",
+              "plus-bullet",
+              "multiple-lists",
+              "link-inside-item",
+              "loose-item"
+            ]
+          },
+          {
+            "id": "marker-as-link",
+            "category": "reference-error",
+            "note": {
+              "en": "When the task marker also resolves as a link reference (`[x]`), the reference strips only the first text token, so the marker link stays in the item and its text is duplicated; our package removes all parsed marker tokens.",
+              "zh": "当任务标记同时解析为链接引用（`[x]`）时，参考包只剥离第一个文本 token，标记链接会留在条目中且其文本重复出现；本包会移除解析出的全部标记 token。"
+            },
+            "cases": [
+              "marker-as-link-reference"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
             "name": "unchecked-item",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -37,6 +77,8 @@
           {
             "name": "checked-item-lowercase",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -50,6 +92,8 @@
           {
             "name": "checked-item-uppercase",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -63,6 +107,8 @@
           {
             "name": "mixed-items",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -76,6 +122,8 @@
           {
             "name": "ordered-list",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -89,6 +137,8 @@
           {
             "name": "nested-list",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -118,6 +168,8 @@
           {
             "name": "non-breaking-space",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -135,6 +187,8 @@
           {
             "name": "blockquote-list",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[4].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[4].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -148,6 +202,8 @@
           {
             "name": "inline-markup",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -161,6 +217,8 @@
           {
             "name": "plus-bullet",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -174,6 +232,8 @@
           {
             "name": "multiple-lists",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -187,6 +247,8 @@
           {
             "name": "link-inside-item",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -200,6 +262,8 @@
           {
             "name": "loose-item",
             "status": "diff",
+            "issue": "label-structure",
+            "category": "difference",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[3].children[0].type`: current `\"label_open\"`, reference `\"checkbox_input\"`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[3].children[0].type` 处不同：当前包为 `\"label_open\"`，参考包为 `\"checkbox_input\"`。"
@@ -213,10 +277,8 @@
           {
             "name": "marker-as-link-reference",
             "status": "diff",
-            "note": {
-              "en": "The marker also resolves as a link reference: the current package removes the three parsed marker tokens, while the reference only strips the first text token, leaving the link markup inside the item.",
-              "zh": "该标记同时会解析为链接引用：当前包移除解析出的三个标记 token，而参考包只剥离第一个文本 token，链接标记仍留在条目内。"
-            },
+            "issue": "marker-as-link",
+            "category": "reference-error",
             "ourHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-item-label\"><input type=\"checkbox\" class=\"\" checked=\"checked\" disabled=\"disabled\"> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n",
             "referenceHtml": "<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"cbx_0\" checked=\"true\" disabled=\"true\"><label for=\"cbx_0\"><a href=\"https://example.com\">x</a> <a href=\"https://example.com\">x</a></label></li>\n</ul>\n"
           },

@@ -3,7 +3,7 @@
   "reference": "markdown-it-ins",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-03T01:56:42.972Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,9 @@
         "exact": 23,
         "normalized": 0,
         "diff": 0,
+        "referenceErrors": 0,
+        "differences": 0,
+        "issues": [],
         "error": 0,
         "cases": [
           {

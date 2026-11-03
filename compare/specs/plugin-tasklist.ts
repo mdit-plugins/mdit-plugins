@@ -79,73 +79,91 @@ const spec: ComparisonSpec = defineComparison({
       },
     },
   ],
-  testSuiteSkips: [
+  issues: [
     {
-      file: "reuse.spec.ts",
-      name: "",
-      why: {
-        en: "The whole file asserts this package's repeated-install and id bookkeeping: a second `.use(tasklist)` must keep the first options, checkboxes must stay id-free and the label must wrap the input. The reference re-registers its core rule on every install, always emits `cbx_*` ids and associates the label through `for`/`id`, so these assertions cover this package's internals; the correctness comparison normalizes those ids and label wrappers.",
-        zh: "整个文件断言本包的重复安装与 id 簿记：第二次 `.use(tasklist)` 必须保留首次选项、复选框必须不生成 id、label 必须包裹 input。参考包每次安装都会重新注册 core 规则、始终输出 `cbx_*` id 并通过 `for`/`id` 关联 label，因此这些断言覆盖的是本包内部实现；正确性对比已将这些 id 与 label 包裹归一化。",
+      id: "marker-as-link",
+      category: "reference-error",
+      note: {
+        en: "When the task marker also resolves as a link reference (`[x]`), the reference strips only the first text token, so the marker link stays in the item and its text is duplicated; our package removes all parsed marker tokens.",
+        zh: "当任务标记同时解析为链接引用（`[x]`）时，参考包只剥离第一个文本 token，标记链接会留在条目中且其文本重复出现；本包会移除解析出的全部标记 token。",
       },
     },
     {
+      id: "label-structure",
+      category: "difference",
+      note: {
+        en: "The checkbox token structure differs by design: our package emits `label_open` before the checkbox and has no document ids, while the reference emits `checkbox_input` first and associates the label through `for`/`id`. The HTML is normalized to compare behavior, but the token streams keep this difference.",
+        zh: "复选框 token 结构在设计上不同：本包先输出 `label_open` 再输出复选框且不生成文档级 id，参考包则先输出 `checkbox_input` 并通过 `for`/`id` 关联 label。HTML 会归一化后比较行为，但 token 流仍保留该差异。",
+      },
+    },
+  ],
+  testSuiteSkips: [
+    {
       file: "tasklist.spec.ts",
       name: "should not render label",
+      category: "feature-gap",
       why: {
-        en: "Uses the fork-only `label: false` option: the reference has no label toggle and always wraps the item text in a `<label>` element.",
-        zh: "使用仅本包提供的 `label: false` 选项：参考包没有 label 开关，始终用 `<label>` 元素包裹条目文本。",
+        en: "Uses our `label: false` option; the reference has no label toggle and always wraps the item text in a `<label>`.",
+        zh: "使用本包的 `label: false` 选项；参考包没有 label 开关，始终用 `<label>` 包裹条目文本。",
       },
     },
     {
       file: "tasklist.spec.ts",
       name: "should support custom class names",
+      category: "feature-gap",
       why: {
-        en: "Uses this fork's option names (`containerClass`, `itemClass`, `checkboxClass`, `labelClass`). The reference only accepts `ulClass`/`liClass` and has no checkbox or label class option, so the raw options passed by the test are ignored; the spec maps them for the correctness comparison only.",
-        zh: "使用本 fork 的选项名（`containerClass`、`itemClass`、`checkboxClass`、`labelClass`）。参考包只接受 `ulClass`/`liClass`，也没有复选框或 label 的 class 选项，因此测试传入的原始选项会被忽略；规范仅在正确性对比中映射了这些选项。",
+        en: "Uses our `containerClass`/`itemClass`/`checkboxClass`/`labelClass` options; the reference only accepts `ulClass`/`liClass`.",
+        zh: "使用本包的 `containerClass`/`itemClass`/`checkboxClass`/`labelClass` 选项；参考包只接受 `ulClass`/`liClass`。",
       },
     },
   ],
   correctness: [
-    { name: "unchecked-item", markdown: "- [ ] task 1" },
-    { name: "checked-item-lowercase", markdown: "- [x] task 1" },
-    { name: "checked-item-uppercase", markdown: "- [X] task 1" },
+    { name: "unchecked-item", markdown: "- [ ] task 1", issue: "label-structure" },
+    { name: "checked-item-lowercase", markdown: "- [x] task 1", issue: "label-structure" },
+    { name: "checked-item-uppercase", markdown: "- [X] task 1", issue: "label-structure" },
     {
       name: "mixed-items",
       markdown: "- [ ] one\n- [x] two\n- [X] three",
+      issue: "label-structure",
     },
-    { name: "ordered-list", markdown: "1. [ ] one\n2. [x] two" },
+    { name: "ordered-list", markdown: "1. [ ] one\n2. [x] two", issue: "label-structure" },
     {
       name: "nested-list",
       markdown: "- [ ] one\n  - [x] two\n- [x] three",
+      issue: "label-structure",
     },
     { name: "non-task-list", markdown: "- one\n- two" },
     { name: "marker-in-paragraph", markdown: "[ ] not a task" },
     { name: "missing-space-after-marker", markdown: "- [x]no space" },
     { name: "empty-item", markdown: "- [ ]" },
-    { name: "non-breaking-space", markdown: "- [x]\u00A0text" },
+    { name: "non-breaking-space", markdown: "- [x]\u00A0text", issue: "label-structure" },
     { name: "code-fence", markdown: "```\n- [ ] code\n```" },
-    { name: "blockquote-list", markdown: "> - [ ] quoted" },
+    { name: "blockquote-list", markdown: "> - [ ] quoted", issue: "label-structure" },
     {
       name: "inline-markup",
       markdown: "- [x] **bold** and `code`",
+      issue: "label-structure",
     },
-    { name: "plus-bullet", markdown: "+ [ ] plus\n+ [x] plus 2" },
+    { name: "plus-bullet", markdown: "+ [ ] plus\n+ [x] plus 2", issue: "label-structure" },
     {
       name: "multiple-lists",
       markdown: "- [ ] a\n- [x] b\n\n- [ ] c\n\n- [x] d",
+      issue: "label-structure",
     },
-    { name: "link-inside-item", markdown: "- [x] [link](https://example.com)" },
+    {
+      name: "link-inside-item",
+      markdown: "- [x] [link](https://example.com)",
+      issue: "label-structure",
+    },
     {
       name: "loose-item",
       markdown: "- [x] first\n\n  second paragraph",
+      issue: "label-structure",
     },
     {
       name: "marker-as-link-reference",
       markdown: "- [x] [x]\n\n[x]: https://example.com",
-      note: {
-        en: "The marker also resolves as a link reference: the current package removes the three parsed marker tokens, while the reference only strips the first text token, leaving the link markup inside the item.",
-        zh: "该标记同时会解析为链接引用：当前包移除解析出的三个标记 token，而参考包只剥离第一个文本 token，链接标记仍留在条目内。",
-      },
+      issue: "marker-as-link",
     },
     { name: "empty-input", markdown: "\n" },
     { name: "no-list-syntax", markdown: "# Title\n\nParagraph.\n\n> quote" },

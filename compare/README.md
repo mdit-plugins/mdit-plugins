@@ -99,7 +99,26 @@ export default defineComparison({
     },
   ],
   normalize: (html) => html, // optional, defaults to sorting attributes
-  notes: [{ en: "Any documented difference goes here.", zh: "任何已记录的差异写在这里。" }],
+  // Root causes of the expected differences, grouped by cause rather than by case
+  issues: [
+    {
+      id: "source-map",
+      category: "reference-error", // or "difference"
+      note: { en: "The reference emits empty maps.", zh: "参考包输出空映射。" },
+    },
+  ],
+  notes: [{ en: "Comparison notes go here.", zh: "对比说明写在这里。" }],
+  testSuiteSkips: [
+    {
+      file: "install-idempotent.spec.ts",
+      name: "",
+      category: "feature-gap", // "feature-gap" | "internal" | "packaging"
+      why: {
+        en: "This package provides idempotent installs; the reference has no equivalent protection.",
+        zh: "本包提供幂等安装保护，参考包无对应能力。",
+      },
+    },
+  ],
 });
 ```
 
@@ -113,12 +132,14 @@ export default defineComparison({
    design, generated ids). Never normalize away a real output difference.
 3. **Correctness compares HTML and tokens.** Besides the rendered HTML, the parsed token streams are
    compared for variants without a custom renderer (token metadata such as source maps is part of the
-   public contract of a markdown-it plugin). A difference in either output counts as a documented
-   difference and needs a `note`; token-only differences get a generated note pointing at the first
-   diverging field. Use `compareTokens: false` on a variant only when the token stream is not
-   comparable there.
-4. **Document real differences.** A case that still differs after normalization must have a `note`
-   explaining why. Do not remove the case to make the numbers look better.
+   public contract of a markdown-it plugin). Every difference must reference an issue id:
+   `reference-error` when the reference output/tokens are objectively wrong (wrong `map`, broken
+   `nesting`, lost or misplaced content, security issues), and `difference` when both sides are valid
+   or the divergence is an intentional design decision. Issues are counted once per root cause, not
+   per case. Use `compareTokens: false` on a variant only when the token stream is not comparable
+   there.
+4. **Document real differences.** A case that still differs must reference an issue explaining the
+   root cause. Do not remove the case to make the numbers look better.
 5. **Notes and case notes are bilingual.** Every note is `{ en, zh }`; the English page renders `en`
    and the Chinese page renders `zh`.
 6. **Benchmarks are committed markdown files.** Every spec has six benchmark cases:

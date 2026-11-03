@@ -3,7 +3,7 @@
   "reference": "markdown-it-plantuml",
   "referenceVersion": "1.4.1",
   "generatedAt": "2026-11-03T01:58:36.727Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,6 +19,38 @@
         "exact": 6,
         "normalized": 10,
         "diff": 8,
+        "referenceErrors": 1,
+        "differences": 1,
+        "issues": [
+          {
+            "id": "reference-dedent",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference slices `state.src` and keeps the raw list/blockquote indentation (even the `>` markers) inside the diagram source, so surrounding markup leaks into the image source; the current package extracts the block with `state.getLines` and dedents it.",
+              "zh": "参考包直接切取 `state.src`，把列表/引用块的原始缩进（甚至 `>` 标记）保留在图表源中，导致外围标记泄漏进图片源；当前包用 `state.getLines` 提取块内容并做 dedent。"
+            },
+            "cases": [
+              "list-item",
+              "blockquote",
+              "nested-blockquote",
+              "indented-marker",
+              "indented-content"
+            ]
+          },
+          {
+            "id": "title-handling",
+            "category": "difference",
+            "note": {
+              "en": "The current package uses the raw marker suffix (including the separating space) as the alt text, while the reference trims it and inline-parses it; both are valid title conventions, so the rendered alt text differs by design.",
+              "zh": "当前包把原始标记后缀（含分隔空格）作为 alt 文本，参考包则去掉空格并做行内解析；两者都是合理的标题约定，因此 alt 文本按设计不同。"
+            },
+            "cases": [
+              "title",
+              "title-inline-markup",
+              "title-html"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
@@ -60,80 +92,64 @@
           {
             "name": "list-item",
             "status": "diff",
-            "note": {
-              "en": "The current package strips the list indentation from the diagram source, while the reference keeps the two leading spaces of the content line. The rendered list and `<img>` structure are identical.",
-              "zh": "当前包会从图表源中去掉列表缩进，而参考包保留内容行的两个前导空格。渲染出的列表和 `<img>` 结构完全相同。"
-            },
+            "issue": "reference-dedent",
+            "category": "reference-error",
             "ourHtml": "<ul>\n<li>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</li>\n</ul>\n",
             "referenceHtml": "<ul>\n<li>\n<img src=\"  Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</li>\n</ul>\n"
           },
           {
             "name": "blockquote",
             "status": "diff",
-            "note": {
-              "en": "The reference slices `state.src` without removing blockquote markers, so the `>` prefix leaks into the diagram source; the current package dedents the quoted lines. The blockquote structure is identical.",
-              "zh": "参考包直接切取 `state.src`，未移除 blockquote 标记，因此 `>` 前缀会泄漏到图表源中；当前包会对引用行做 dedent。blockquote 结构完全相同。"
-            },
+            "issue": "reference-dedent",
+            "category": "reference-error",
             "ourHtml": "<blockquote>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</blockquote>\n",
             "referenceHtml": "<blockquote>\n<img src=\"&gt; Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</blockquote>\n"
           },
           {
             "name": "nested-blockquote",
             "status": "diff",
-            "note": {
-              "en": "Same cause as `blockquote`: the reference keeps every `>` prefix in the diagram source, while the current package strips both quote levels. The nested blockquote structure is identical.",
-              "zh": "原因与 `blockquote` 相同：参考包在图表源中保留每个 `>` 前缀，而当前包会去掉两层引用标记。嵌套 blockquote 结构完全相同。"
-            },
+            "issue": "reference-dedent",
+            "category": "reference-error",
             "ourHtml": "<blockquote>\n<blockquote>\n<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n</blockquote>\n</blockquote>\n",
             "referenceHtml": "<blockquote>\n<blockquote>\n<img src=\"&gt; &gt; Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n</blockquote>\n</blockquote>\n"
           },
           {
             "name": "indented-marker",
             "status": "diff",
-            "note": {
-              "en": "Both sides accept the two-space indented marker, but the reference keeps the indentation of the content line in the diagram source and the current package strips it with `dedent`.",
-              "zh": "双方都接受两空格缩进的标记，但参考包在图表源中保留内容行的缩进，当前包则用 `dedent` 将其去掉。"
-            },
+            "issue": "reference-dedent",
+            "category": "reference-error",
             "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"PlantUML Diagram\">\n",
             "referenceHtml": "<img src=\"  Bob -&gt; Alice : hello\" alt=\"uml diagram\">\n"
           },
           {
             "name": "indented-content",
             "status": "diff",
-            "note": {
-              "en": "The current package removes the common indentation of the diagram body, while the reference keeps every line as written. The relative indentation is preserved by `dedent`, so the drawing itself is unchanged.",
-              "zh": "当前包会移除图表主体的公共缩进，而参考包按原样保留每一行。`dedent` 保留了相对缩进，因此图形本身不变。"
-            },
+            "issue": "reference-dedent",
+            "category": "reference-error",
             "ourHtml": "<img src=\"Alice -&gt; Bob\n  note right\nBob -&gt; Carol\" alt=\"PlantUML Diagram\">\n",
             "referenceHtml": "<img src=\"  Alice -&gt; Bob\n    note right\n  Bob -&gt; Carol\" alt=\"uml diagram\">\n"
           },
           {
             "name": "title",
             "status": "diff",
-            "note": {
-              "en": "The current package uses the raw marker suffix as alt, including the separating space after `@startuml`; the reference removes that space and inline-parses the title.",
-              "zh": "当前包把原始标记后缀作为 alt，包括 `@startuml` 后的分隔空格；参考包会去掉该空格并对标题做行内解析。"
-            },
+            "issue": "title-handling",
+            "category": "difference",
             "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" My title\">\n",
             "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"My title\">\n"
           },
           {
             "name": "title-inline-markup",
             "status": "diff",
-            "note": {
-              "en": "Besides the separating space, the reference inline-parses the title, so `**Flow**` becomes `Flow` in alt; the current package keeps the raw markers.",
-              "zh": "除了分隔空格外，参考包还会对标题做行内解析，因此 `**Flow**` 在 alt 中变为 `Flow`；当前包保留原始标记。"
-            },
+            "issue": "title-handling",
+            "category": "difference",
             "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" **Flow** chart\">\n",
             "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"Flow chart\">\n"
           },
           {
             "name": "title-html",
             "status": "diff",
-            "note": {
-              "en": "Only the separating space differs: the reference inline-parses `<b>` but keeps it as text in the alt attribute, so both sides end up with the same escaped HTML.",
-              "zh": "只有分隔空格不同：参考包会行内解析 `<b>`，但在 alt 属性中将其保留为文本，因此双方最终得到相同的转义 HTML。"
-            },
+            "issue": "title-handling",
+            "category": "difference",
             "ourHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\" &lt;b&gt;Flow&lt;/b&gt; chart\">\n",
             "referenceHtml": "<img src=\"Bob -&gt; Alice : hello\" alt=\"&lt;b&gt;Flow&lt;/b&gt; chart\">\n"
           },

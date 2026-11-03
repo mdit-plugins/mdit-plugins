@@ -66,13 +66,13 @@ const spec: ComparisonSpec = defineComparison({
       referenceExport: "default",
     },
   ],
-  testSuiteSkips: [
+  issues: [
     {
-      file: "idempotent.spec.ts",
-      name: "",
-      why: {
-        en: "Installs the plugin twice and inspects the repeated footnote tail; the reference has no idempotent-install contract, so the test only covers the current package's installation internals.",
-        zh: "该测试重复安装插件并检查重复生成的脚注尾部；参考包没有幂等安装的约定，因此只覆盖当前包的安装内部细节。",
+      id: "footnote-body-level",
+      category: "reference-error",
+      note: {
+        en: "The reference parses footnote definitions inside a temporary `footnote_reference_open` wrapper and never re-levels them, so the paragraph inside `<li>` reports `level: 1` even though `footnote_block_open` plus `footnote_open` nest it two levels deep; the current package reports the correct level.",
+        zh: "参考包在临时的 `footnote_reference_open` 包裹中解析脚注定义，且不再重新计算层级，因此 `<li>` 内段落的 `level` 为 1，而 `footnote_block_open` 加 `footnote_open` 实际嵌套了两层；当前包报告的层级是正确的。",
       },
     },
   ],
@@ -80,14 +80,17 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "single-reference",
       markdown: "Footnote 1 link[^first].\n\n[^first]: Footnote text.",
+      issue: "footnote-body-level",
     },
     {
       name: "multiple-references",
       markdown: "A[^a] B[^b]\n\n[^a]: first\n\n[^b]: second",
+      issue: "footnote-body-level",
     },
     {
       name: "duplicate-reference",
       markdown: "A[^a] B[^a] C[^a]\n\n[^a]: duplicated text",
+      issue: "footnote-body-level",
     },
     {
       name: "inline-footnote",
@@ -104,18 +107,22 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "multi-paragraph-definition",
       markdown: "A[^a]\n\n[^a]: first paragraph\n\n    second paragraph",
+      issue: "footnote-body-level",
     },
     {
       name: "definition-with-markup",
       markdown: "A[^a]\n\n[^a]: Footnote **can have markup**",
+      issue: "footnote-body-level",
     },
     {
       name: "definition-with-list",
       markdown: "A[^a]\n\n[^a]:\n    - one\n    - two",
+      issue: "footnote-body-level",
     },
     {
       name: "nested-footnotes",
       markdown: "A[^a]\n\n[^a]: see[^b]\n\n[^b]: other",
+      issue: "footnote-body-level",
     },
     {
       name: "escaped-reference",
@@ -129,17 +136,32 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "reference-order",
       markdown: "B[^b] A[^a]\n\n[^a]: first def\n\n[^b]: second def",
+      issue: "footnote-body-level",
     },
-    { name: "reference-in-list", markdown: "- item[^a]\n\n[^a]: note" },
-    { name: "reference-in-blockquote", markdown: "> quote[^a]\n\n[^a]: note" },
-    { name: "reference-in-emphasis", markdown: "*text[^a]*\n\n[^a]: note" },
+    {
+      name: "reference-in-list",
+      markdown: "- item[^a]\n\n[^a]: note",
+      issue: "footnote-body-level",
+    },
+    {
+      name: "reference-in-blockquote",
+      markdown: "> quote[^a]\n\n[^a]: note",
+      issue: "footnote-body-level",
+    },
+    {
+      name: "reference-in-emphasis",
+      markdown: "*text[^a]*\n\n[^a]: note",
+      issue: "footnote-body-level",
+    },
     {
       name: "label-with-punctuation",
       markdown: "A[^a-b_c]\n\n[^a-b_c]: text",
+      issue: "footnote-body-level",
     },
     {
       name: "unicode-label",
       markdown: "文字[^注]\n\n[^注]: 脚注",
+      issue: "footnote-body-level",
     },
     { name: "code-fence", markdown: "```\nA[^a]\n```\n\n[^a]: note" },
     { name: "empty-input", markdown: "\n" },

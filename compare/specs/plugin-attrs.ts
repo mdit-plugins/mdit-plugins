@@ -32,61 +32,78 @@ const spec: ComparisonSpec = defineComparison({
       referenceOptions: {},
     },
   ],
+  issues: [
+    {
+      id: "table-meta-key",
+      category: "difference",
+      note: {
+        en: "Both packages store the table column count on the table token's `meta` for their cell-span rules, but under different keys (reference `colsnum`, current `columnCount`); the rendered HTML matches.",
+        zh: "两个包都为单元格跨列规则把表格列数写入表格 token 的 `meta`，但键名不同（参考包 `colsnum`，当前包 `columnCount`）；渲染结果一致。",
+      },
+    },
+  ],
   testSuiteSkips: [
     {
       file: "install-idempotent.spec.ts",
-      name: "",
+      name: "should not register the rule twice when installed twice",
+      category: "feature-gap",
       why: {
-        en: "Asserts the internal `attrs` core-rule count and that a second installation keeps the first parse options; the reference re-registers its rule and has no idempotent-install contract.",
-        zh: "该文件断言内部 `attrs` core 规则的数量，以及第二次安装保留首次解析选项的行为；参考包会重新注册规则，也没有幂等安装的约定。",
+        en: "The reference does not guard repeated installation and registers its core rule again under a different name (`curly_attributes`), but repeated installation still renders correctly; this package registers the `attrs` rule once.",
+        zh: "参考包未防范多次安装，会以不同名称（`curly_attributes`）重复注册 core 规则，但重复安装后渲染结果仍正确；本包只注册一次 `attrs` 规则。",
+      },
+    },
+    {
+      file: "install-idempotent.spec.ts",
+      name: "should keep the first installation's parse options",
+      category: "feature-gap",
+      why: {
+        en: "This package supports the `rule` option and keeps the first installation's options; the reference has no `rule` option and applies both installations' options.",
+        zh: "本包支持 `rule` 选项并在重复安装时保留首次选项，参考包没有 `rule` 选项，且两次安装的配置都会生效。",
       },
     },
     {
       file: "options.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Uses this fork's option names (`rule`, `allowed`); the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter, so the options are ignored and the assertions never exercise reference behavior.",
-        zh: "该文件使用本 fork 的选项名（`rule`、`allowed`）；参考包只接受 `allowedAttributes` / `allowedAttributeValues`，且没有规则过滤，因此这些选项会被忽略，断言不会作用于参考行为。",
+        en: "This package provides the `rule` / `allowed` options for rule and attribute filtering; the reference only accepts `allowedAttributes` / `allowedAttributeValues` and has no rule filter.",
+        zh: "本包提供 `rule` / `allowed` 选项用于规则与属性过滤，参考包只接受 `allowedAttributes` / `allowedAttributeValues`，没有规则过滤功能。",
       },
     },
     {
       file: "parseAttrs.spec.ts",
       name: "",
+      category: "feature-gap",
       why: {
-        en: "Tests the fork-only `parseAttrs` helper; the reference exports only the plugin function, so the shim has no `parseAttrs` and the file cannot run.",
-        zh: "该文件测试仅本 fork 提供的 `parseAttrs` 辅助函数；参考包只导出插件函数，shim 没有 `parseAttrs`，因此文件无法运行。",
+        en: "This package additionally exports the `parseAttrs` parsing helper; the reference only exports the plugin function, so the shim has no `parseAttrs`.",
+        zh: "本包额外导出 `parseAttrs` 解析辅助函数，参考包只导出插件函数，shim 中没有 `parseAttrs`。",
       },
     },
     {
       file: "security.spec.ts",
       name: "should only keep data urls accepted by markdown-it",
+      category: "feature-gap",
       why: {
-        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
-        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+        en: "This test calls the `parseAttrs` helper, which the reference does not export; the rendering-level security differences stay counted.",
+        zh: "该测试调用本包导出的 `parseAttrs` 辅助函数，参考包没有该导出；渲染层面的安全差异仍计入统计。",
       },
     },
     {
       file: "security.spec.ts",
-      name: "should drop dangerous attrs in programmatic parsing",
+      name: "programmatic parsing",
+      category: "feature-gap",
       why: {
-        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
-        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
-      },
-    },
-    {
-      file: "security.spec.ts",
-      name: "should keep normal attributes in programmatic parsing",
-      why: {
-        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
-        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+        en: "These tests call the `parseAttrs` helper, which the reference does not export; the rendering-level security differences stay counted.",
+        zh: "这些测试调用本包导出的 `parseAttrs` 辅助函数，参考包没有该导出；渲染层面的安全差异仍计入统计。",
       },
     },
     {
       file: "security.spec.ts",
       name: "should not let allowed option bypass the safety filter",
+      category: "feature-gap",
       why: {
-        en: "Calls the fork-only `parseAttrs` helper, which the reference does not export, so the assertion cannot run; the rendering-level security differences stay counted.",
-        zh: "该测试调用仅本 fork 提供的 `parseAttrs` 辅助函数，参考包没有该导出，因此断言无法运行；渲染层面的安全差异仍计入统计。",
+        en: "This test calls the `parseAttrs` helper with this package's `allowed` option, which the reference does not provide.",
+        zh: "该测试用本包的 `allowed` 选项调用 `parseAttrs` 辅助函数，参考包没有提供这些能力。",
       },
     },
   ],
@@ -117,6 +134,7 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "table",
       markdown: "| A | B |\n|---|---|\n| 1 | 2 |\n\n{.table border=1}",
+      issue: "table-meta-key",
     },
     { name: "fence", markdown: "```js {.hl data-lang=javascript}\nconst a = 1;\n```" },
     { name: "fence-info-string", markdown: "```js title=example\nconst a = 1;\n```" },

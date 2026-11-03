@@ -3,7 +3,7 @@
   "reference": "markdown-it-footnote",
   "referenceVersion": "4.0.0",
   "generatedAt": "2026-11-03T01:56:12.384Z",
-  "commit": "004fd7084381506f5dcf07433adb74ce68d78eb9",
+  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -19,11 +19,40 @@
         "exact": 6,
         "normalized": 3,
         "diff": 13,
+        "referenceErrors": 1,
+        "differences": 0,
+        "issues": [
+          {
+            "id": "footnote-body-level",
+            "category": "reference-error",
+            "note": {
+              "en": "The reference parses footnote definitions inside a temporary `footnote_reference_open` wrapper and never re-levels them, so the paragraph inside `<li>` reports `level: 1` even though `footnote_block_open` plus `footnote_open` nest it two levels deep; the current package reports the correct level.",
+              "zh": "参考包在临时的 `footnote_reference_open` 包裹中解析脚注定义，且不再重新计算层级，因此 `<li>` 内段落的 `level` 为 1，而 `footnote_block_open` 加 `footnote_open` 实际嵌套了两层；当前包报告的层级是正确的。"
+            },
+            "cases": [
+              "single-reference",
+              "multiple-references",
+              "duplicate-reference",
+              "multi-paragraph-definition",
+              "definition-with-markup",
+              "definition-with-list",
+              "nested-footnotes",
+              "reference-order",
+              "reference-in-list",
+              "reference-in-blockquote",
+              "reference-in-emphasis",
+              "label-with-punctuation",
+              "unicode-label"
+            ]
+          }
+        ],
         "error": 0,
         "cases": [
           {
             "name": "single-reference",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -37,6 +66,8 @@
           {
             "name": "multiple-references",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -50,6 +81,8 @@
           {
             "name": "duplicate-reference",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -75,6 +108,8 @@
           {
             "name": "multi-paragraph-definition",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -88,6 +123,8 @@
           {
             "name": "definition-with-markup",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -101,6 +138,8 @@
           {
             "name": "definition-with-list",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -114,6 +153,8 @@
           {
             "name": "nested-footnotes",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -139,6 +180,8 @@
           {
             "name": "reference-order",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -152,6 +195,8 @@
           {
             "name": "reference-in-list",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[9].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[9].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -165,6 +210,8 @@
           {
             "name": "reference-in-blockquote",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[7].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[7].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -178,6 +225,8 @@
           {
             "name": "reference-in-emphasis",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -191,6 +240,8 @@
           {
             "name": "label-with-punctuation",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
@@ -204,6 +255,8 @@
           {
             "name": "unicode-label",
             "status": "diff",
+            "issue": "footnote-body-level",
+            "category": "reference-error",
             "note": {
               "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
               "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"

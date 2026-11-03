@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import type { ComparisonSpec } from "../types.ts";
+import type { ComparisonIssue, ComparisonSpec, TestSuiteSkip } from "../types.ts";
 
 const COMPARE_DIR = path.resolve(import.meta.dirname, "..");
 const SPECS_DIR = path.join(COMPARE_DIR, "specs");
@@ -14,6 +14,22 @@ const EXPECTED_BENCH_NAMES = KINDS.flatMap((kind) => SIZES.map((size) => `${kind
 const MIN_CORRECTNESS_CASES = 10;
 const MIN_SCALING_SERIES = 2;
 const MIN_SCALING_SIZES = 4;
+
+/**
+ * Read the declared issues of a spec
+ *
+ * @param spec - Comparison spec
+ * @returns Declared issues
+ */
+const issuesOf = (spec: ComparisonSpec): readonly ComparisonIssue[] => spec.issues ?? [];
+
+/**
+ * Read the declared skips of a spec
+ *
+ * @param spec - Comparison spec
+ * @returns Declared skips
+ */
+const skipsOf = (spec: ComparisonSpec): readonly TestSuiteSkip[] => spec.testSuiteSkips ?? [];
 
 const specNames = readdirSync(SPECS_DIR)
   .filter((fileName) => fileName.endsWith(".ts") && !fileName.startsWith("_"))
@@ -119,6 +135,44 @@ describe("comparison specs", () => {
       for (const testCase of caseNotes) {
         expect(testCase.note!.en.length).toBeGreaterThan(0);
         expect(testCase.note!.zh.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("defines every difference issue", async () => {
+      const spec = await loadSpec(name);
+      const issues = issuesOf(spec);
+      const issueIds = issues.map((issue) => issue.id);
+
+      expect(new Set(issueIds).size).toBe(issueIds.length);
+
+      for (const issue of issues) {
+        expect(issue.id.length).toBeGreaterThan(0);
+        expect(["reference-error", "difference"]).toContain(issue.category);
+        expect(issue.note.en.length).toBeGreaterThan(0);
+        expect(issue.note.zh.length).toBeGreaterThan(0);
+      }
+
+      const issueMap = new Map(issues.map((issue) => [issue.id, issue]));
+      const referencedCases = spec.correctness.filter((testCase) => testCase.issue !== undefined);
+
+      for (const testCase of referencedCases) expect(issueMap.has(testCase.issue!)).toBe(true);
+
+      const referencedIds = new Set(
+        spec.correctness
+          .map((testCase) => testCase.issue)
+          .filter((issueId): issueId is string => issueId != null),
+      );
+
+      for (const issue of issues) expect(referencedIds.has(issue.id)).toBe(true);
+    });
+
+    it("categorizes every skipped test", async () => {
+      const spec = await loadSpec(name);
+
+      for (const skip of skipsOf(spec)) {
+        expect(["feature-gap", "internal", "packaging"]).toContain(skip.category);
+        expect(skip.why.en.length).toBeGreaterThan(0);
+        expect(skip.why.zh.length).toBeGreaterThan(0);
       }
     });
   });

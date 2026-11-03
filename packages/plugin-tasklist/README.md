@@ -21,7 +21,7 @@ yarn add -D @mdit/plugin-tasklist
 
 Compared against the upstream [`markdown-it-task-checkbox`](https://www.npmjs.com/package/markdown-it-task-checkbox) package `1.0.6`.
 
-- Correctness: **7/21** cases match the reference exactly (14 documented differences).
+- Correctness: **7/21** cases match the reference exactly (1 reference errors, 1 differences).
 - Throughput: **1.18×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **27.3 kB** unpacked and **731 B** gzip entry, versus **76.9 kB** and **1.4 kB** for the reference.
 
