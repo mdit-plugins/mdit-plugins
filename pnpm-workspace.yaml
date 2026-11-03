@@ -1,4 +1,5 @@
 packages:
+  - compare/
   - docs/
   - packages/*
 

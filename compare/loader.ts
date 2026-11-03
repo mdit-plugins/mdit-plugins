@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import MarkdownIt from "markdown-it";
 import type { MarkdownIt as MarkdownItInstance, MarkdownItOptions } from "markdown-it";
@@ -119,6 +119,45 @@ export const loadReference = async (packageName: string): Promise<PluginModule> 
   (await import(/* @vite-ignore */ packageName)) as PluginModule;
 
 /**
+ * Resolve the installed directory of a reference package
+ *
+ * The reference packages are dependencies of the compare package, so the directory is resolved from
+ * the module resolver instead of assuming a hoisted `node_modules` layout.
+ *
+ * @param rootName - Root npm package name, e.g. `markdown-it-attrs`
+ * @returns Absolute directory of the installed package, or `null` when it cannot be resolved
+ */
+const resolveReferencePackageDirectory = (rootName: string): string | null => {
+  let directory: string;
+
+  try {
+    directory = path.dirname(fileURLToPath(import.meta.resolve(rootName)));
+  } catch {
+    return null;
+  }
+
+  while (true) {
+    const manifestPath = path.join(directory, "package.json");
+
+    if (existsSync(manifestPath)) {
+      try {
+        const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { name?: unknown };
+
+        if (manifest.name === rootName) return directory;
+      } catch {
+        // Keep walking up when the manifest is unreadable.
+      }
+    }
+
+    const parent = path.dirname(directory);
+
+    if (parent === directory) return null;
+
+    directory = parent;
+  }
+};
+
+/**
  * Get the installed version of a reference package
  *
  * @param packageName - Npm package name, subpath exports are allowed
@@ -128,12 +167,14 @@ export const getReferenceVersion = (packageName: string): string => {
   const rootName = packageName.startsWith("@")
     ? packageName.split("/").slice(0, 2).join("/")
     : (packageName.split("/")[0] ?? packageName);
-  const manifestPath = path.join(ROOT, "node_modules", rootName, "package.json");
+  const directory = resolveReferencePackageDirectory(rootName);
 
-  if (!existsSync(manifestPath)) return "unknown";
+  if (!directory) return "unknown";
 
   try {
-    const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { version?: unknown };
+    const manifest = JSON.parse(readFileSync(path.join(directory, "package.json"), "utf8")) as {
+      version?: unknown;
+    };
 
     return typeof manifest.version === "string" ? manifest.version : "unknown";
   } catch {

@@ -2,7 +2,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import type {
   ComparisonSpec,
@@ -141,6 +141,8 @@ const createShim = (spec: ComparisonSpec): string => {
     ]),
   );
 
+  const referenceModulePath = fileURLToPath(import.meta.resolve(spec.reference));
+
   if (spec.testSuiteAdapter) {
     const shimDir = path.join(WORK_DIR, spec.plugin);
     const relativeSpec = path
@@ -148,7 +150,7 @@ const createShim = (spec: ComparisonSpec): string => {
       .replaceAll(path.sep, "/");
     const specImport = relativeSpec.startsWith(".") ? relativeSpec : `./${relativeSpec}`;
     const lines = [
-      `import * as referenceModule from ${JSON.stringify(spec.reference)};`,
+      `import * as referenceModule from ${JSON.stringify(referenceModulePath)};`,
       `import spec from ${JSON.stringify(specImport)};`,
       "",
       "const adapted = (spec.testSuiteAdapter as (module: unknown) => Record<string, unknown>)(referenceModule);",
@@ -162,7 +164,7 @@ const createShim = (spec: ComparisonSpec): string => {
   }
 
   const lines = [
-    `import * as referenceModule from ${JSON.stringify(spec.reference)};`,
+    `import * as referenceModule from ${JSON.stringify(referenceModulePath)};`,
     "",
     "const reference = referenceModule as Record<string, unknown>;",
     "",

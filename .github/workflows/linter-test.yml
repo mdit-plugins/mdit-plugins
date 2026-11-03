@@ -26,7 +26,7 @@ jobs:
         run: pnpm run packages:check-readme
 
       - name: Check comparison reports
-        run: pnpm run compare:check
+        run: pnpm --filter=@mdit/compare run check
 
       - name: Build project
         run: pnpm run build
