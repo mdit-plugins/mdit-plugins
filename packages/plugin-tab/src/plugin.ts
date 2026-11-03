@@ -62,6 +62,18 @@ const checkTabMarker = (
   return false;
 };
 
+// Characters that built-in inline syntax, linkify or typographer rules may transform. A title
+// without any of them renders as a single escaped text token, so the inline parser can be skipped.
+const INLINE_MARKUP = new Uint8Array(128);
+
+for (const code of [
+  33 /* ! */, 34 /* " */, 35 /* # */, 36 /* $ */, 38 /* & */, 39 /* ' */, 40 /* ( */, 41 /* ) */,
+  42 /* * */, 43 /* + */, 45 /* - */, 46 /* . */, 58 /* : */, 60 /* < */, 61 /* = */, 62 /* > */,
+  64 /* @ */, 91 /* [ */, 92 /* \ */, 93 /* ] */, 94 /* ^ */, 95 /* _ */, 96 /* ` */, 123 /* { */,
+  124 /* | */, 125 /* } */, 126 /* ~ */,
+])
+  INLINE_MARKUP[code] = 1;
+
 const createTabItemRule =
   (name: string): BlockRule =>
   (state: TabStateBlock, startLine, endLine, silent) => {
@@ -347,89 +359,116 @@ const createTabContainerRule =
     return true;
   };
 
+interface TabFrame {
+  level: number;
+  meta: TabContainerMeta;
+  data: MarkdownItTabData[];
+  activeIndex: number;
+  inTabItem: boolean;
+}
+
 const createTabsCoreRule =
   (name: string): CoreRule =>
   (state) => {
     const tokens = state.tokens;
+    const tabsOpenType = `${name}_tabs_open`;
+    const tabsCloseType = `${name}_tabs_close`;
+    const tabOpenType = `${name}_tab_open`;
+    const tabCloseType = `${name}_tab_close`;
+    const emptyType = `${name}_tabs_empty`;
+    const frames: TabFrame[] = [];
+
+    // Number of open containers that are currently outside any tab item. They hide every token
+    // that belongs to a deeper block, which is what the previous per-container forward scans did
+    // for each level one by one.
+    let outerFrames = 0;
 
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index];
+      const type = token.type;
 
-      if (token.type !== `${name}_tabs_open`) continue;
+      if (type === tabsOpenType) {
+        frames.push({
+          level: token.level,
+          meta: token.meta as TabContainerMeta,
+          data: [],
+          activeIndex: -1,
+          inTabItem: false,
+        });
+        outerFrames++;
+        continue;
+      }
 
-      const data: MarkdownItTabData[] = [];
-      let activeIndex = -1;
-      let inTabItem = false;
-      let nestingDepth = 0;
-      const { level } = token;
+      if (type === tabsCloseType) {
+        const frame = frames[frames.length - 1];
 
-      for (let i = index + 1; i < tokens.length; i++) {
-        const child = tokens[i];
-        const meta = child.meta as TabMeta;
-        const type = child.type;
+        frames.length--;
 
-        // record the nesting depth of tabs
-        if (type === `${name}_tabs_open`) {
-          nestingDepth++;
-          continue;
-        }
+        frame.meta.tabsData = {
+          active: frame.activeIndex,
+          data: frame.data,
+          id: frame.meta.id,
+        };
 
-        if (type === `${name}_tabs_close`) {
-          if (child.level === level) break;
+        // All tab items of a container are closed before the container itself
+        outerFrames--;
+        continue;
+      }
 
-          nestingDepth--;
-          continue;
-        }
+      const frame: TabFrame | undefined = frames[frames.length - 1];
 
-        // skip processing tokens deep inside other blocks
-        if (child.level > level + 1 || nestingDepth > 0) {
-          // hide contents outside any tab item
-          if (!inTabItem) {
-            child.type = `${name}_tabs_empty`;
-            child.hidden = true;
-          }
+      // Tokens outside every tabs container are left untouched
+      if (frame == null) continue;
 
-          continue;
-        }
+      const isDirectChild = frame.level === token.level - 1;
 
-        if (type === `${name}_tab_open`) {
-          inTabItem = true;
+      // A container outside a tab item hides the token before a nested container gets to see it,
+      // so the nested container does not treat a hidden marker as one of its own.
+      if (outerFrames - (frame.inTabItem ? 0 : 1) > 0) {
+        token.type = emptyType;
+        token.hidden = true;
+        continue;
+      }
 
-          meta.index = data.length;
-          // tab is active
+      if (isDirectChild) {
+        if (type === tabOpenType) {
+          const meta = token.meta as TabMeta;
+
+          frame.inTabItem = true;
+          outerFrames--;
+          meta.index = frame.data.length;
+
+          // only the first active tab of a container stays active
           if (meta.active) {
-            if (activeIndex === -1) activeIndex = data.length;
+            if (frame.activeIndex === -1) frame.activeIndex = frame.data.length;
             else meta.active = false;
           }
 
-          data.push({
-            title: child.info,
-            index: data.length,
+          frame.data.push({
+            title: token.info,
+            index: frame.data.length,
             id: meta.id,
             isActive: meta.active,
           });
-
           continue;
         }
 
-        if (type === `${name}_tab_close`) {
-          inTabItem = false;
+        if (type === tabCloseType) {
+          frame.inTabItem = false;
+          outerFrames++;
           continue;
         }
 
         // hide contents outside any tab item
-        child.type = `${name}_tabs_empty`;
-        child.hidden = true;
+        token.type = emptyType;
+        token.hidden = true;
+        continue;
       }
 
-      const containerMeta = token.meta as TabContainerMeta;
-
-      // store the computed tab data for the renderer (rendering stays read-only)
-      containerMeta.tabsData = {
-        active: activeIndex,
-        data,
-        id: containerMeta.id,
-      };
+      if (outerFrames > 0) {
+        token.type = emptyType;
+        token.hidden = true;
+      }
     }
   };
 
@@ -446,6 +485,18 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
 };
 
 export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
+  const renderTabTitle = (title: string, env: Env | undefined): string => {
+    for (let i = 0; i < title.length; i++) {
+      const code = title.charCodeAt(i);
+
+      // Non-ASCII text never matches a built-in inline rule
+      if (code < 128 && INLINE_MARKUP[code] === 1) return md.renderInline(title, env);
+    }
+
+    // Plain text is escaped as a whole by the inline parser, and no escaped character is left
+    return title;
+  };
+
   const {
     name = "tabs",
 
@@ -464,7 +515,7 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
             active === dataIndex ? " active" : ""
           }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
             active === dataIndex ? " data-active" : ""
-          }>${md.renderInline(title, env)}</button>`,
+          }>${renderTabTitle(title, env)}</button>`,
       );
 
       return `\
