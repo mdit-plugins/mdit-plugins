@@ -15,13 +15,18 @@ export const extractSize = <Data extends { content: string }>(
 ): Data & { size?: string } => {
   let size = "";
 
-  data.content = data.content
-    .replace(SIZE_REGEXP, (_, match: string) => {
-      size = match;
+  // the size syntax requires `=`, so content without it can skip the regexp
+  if (data.content.includes("=")) {
+    data.content = data.content
+      .replace(SIZE_REGEXP, (_, match: string) => {
+        size = match;
 
-      return "";
-    })
-    .trim();
+        return "";
+      })
+      .trim();
+  } else {
+    data.content = data.content.trim();
+  }
 
   if (size) data.size = Number.isNaN(Number(size)) ? size : `${size}px`;
 
@@ -43,13 +48,18 @@ export const extractColor = <Data extends { content: string }>(
 ): Data & { color?: string } => {
   let color = "";
 
-  data.content = data.content
-    .replace(COLOR_REGEXP, (_, match: string) => {
-      color = match;
+  // the color syntax requires `/`, so content without it can skip the regexp
+  if (data.content.includes("/")) {
+    data.content = data.content
+      .replace(COLOR_REGEXP, (_, match: string) => {
+        color = match;
 
-      return "";
-    })
-    .trim();
+        return "";
+      })
+      .trim();
+  } else {
+    data.content = data.content.trim();
+  }
 
   if (color) data.color = color;
 
@@ -109,12 +119,17 @@ const URL_SCHEME_REGEXP = /^[\u0000-\u0020]*(?<scheme>[a-z][a-z0-9+.-]*):/i;
 /**
  * Get the URL scheme of an attribute value
  *
+ * Browsers strip tab, line feed and carriage return characters before parsing the URL, so the
+ * stripped value is only matched when the raw value has no scheme.
+ *
  * @param value Attribute value / 属性值
  * @returns Lower-cased URL scheme, empty for relative URLs / 小写的 URL scheme，相对 URL 返回空字符串
  */
 const getUrlScheme = (value: string): string => {
   const { scheme } =
-    URL_SCHEME_REGEXP.exec(value.replaceAll(URL_STRIPPED_CHAR_REGEXP, ""))?.groups ?? {};
+    URL_SCHEME_REGEXP.exec(value)?.groups ??
+    URL_SCHEME_REGEXP.exec(value.replaceAll(URL_STRIPPED_CHAR_REGEXP, ""))?.groups ??
+    {};
 
   return scheme ? scheme.toLowerCase() : "";
 };
@@ -227,9 +242,11 @@ export const extractAttrs = <Data extends { content: string }>(
   data: Data & { attrs?: AttrsInfo },
 ): Data & { attrs: AttrsInfo } => {
   const attrs: AttrsInfo = {};
+  let content = data.content;
 
-  const content = data.content
-    .replaceAll(
+  // every attribute requires `=`, so plain class strings can skip the regexp
+  if (content.includes("=")) {
+    content = content.replaceAll(
       ATTR_REGEXP,
       // oxlint-disable-next-line max-params
       (
@@ -265,8 +282,10 @@ export const extractAttrs = <Data extends { content: string }>(
 
         return "";
       },
-    )
-    .trim();
+    );
+  }
+
+  content = content.trim();
 
   return Object.assign({}, data, { attrs, content });
 };
@@ -319,10 +338,13 @@ export const appendStyle = (
  * @returns Stringified attrs / 序列化后的属性字符串
  */
 export const stringifyAttrs = (attrs: Record<string, string>): string => {
-  const result = Object.entries(attrs)
-    .filter(([key, value]) => isSafeAttr(key, value))
-    .map(([key, value]) => `${key}="${escapeHtml(value)}"`)
-    .join(" ");
+  let result = "";
 
-  return result ? ` ${result}` : "";
+  for (const key of Object.keys(attrs)) {
+    const value = attrs[key];
+
+    if (isSafeAttr(key, value)) result += ` ${key}="${escapeHtml(value)}"`;
+  }
+
+  return result;
 };

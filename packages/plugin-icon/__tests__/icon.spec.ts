@@ -68,6 +68,23 @@ xx</p>\n`);
     );
   });
 
+  it("should scan icon names with many dashes and colons", () => {
+    expect(markdownIt.render("::my:icon-name::")).toBe(`<p><i class="my:icon-name"></i></p>\n`);
+
+    expect(markdownIt.render("::icon-with-many-dashes-and:colons-in-the-name::")).toBe(
+      `<p><i class="icon-with-many-dashes-and:colons-in-the-name"></i></p>\n`,
+    );
+  });
+
+  it("should keep nested inline tokens as literal content", () => {
+    expect(markdownIt.render("::a`b`::")).toBe('<p><i class="a`b`"></i></p>\n');
+    expect(markdownIt.render("::a<b>::")).toBe('<p><i class="a&lt;b&gt;"></i></p>\n');
+    expect(markdownIt.render("::a[b]::")).toBe('<p><i class="a[b]"></i></p>\n');
+    expect(markdownIt.render("::a!b::")).toBe('<p><i class="a!b"></i></p>\n');
+    expect(markdownIt.render("::a&amp;b::")).toBe('<p><i class="a&amp;amp;b"></i></p>\n');
+    expect(markdownIt.render(String.raw`::a\:b::`)).toBe('<p><i class="a\\:b"></i></p>\n');
+  });
+
   it("respect backticks", () => {
     expect(markdownIt.render("::`icon::`")).toBe(`<p>::<code>icon::</code></p>\n`);
     expect(markdownIt.render("` :: icon`::")).toBe(`<p><code> :: icon</code>::</p>\n`);
@@ -133,5 +150,20 @@ describe("silent mode", () => {
 
     expect(state.pos).toBe(src.length);
     expect(state.tokens).toHaveLength(0);
+  });
+});
+
+describe("linkify interaction", () => {
+  it("should keep the legacy scan when the icon content contains a URL", () => {
+    const markdownIt = new MarkdownIt({ linkify: true }).use(icon);
+
+    expect(markdownIt.render("abcd ::https://example.com/a::b:: x")).toBe(
+      '<p>abcd ::<a href="https://example.com/a::b::">https://example.com/a::b::</a> x</p>\n',
+    );
+    expect(markdownIt.render("::https://example.com/a::\n")).toBe(
+      '<p><i class="https://example.com/a"></i></p>\n',
+    );
+    expect(markdownIt.render("::icon\nmore::")).toBe("<p>::icon\nmore::</p>\n");
+    expect(markdownIt.render("::plain::")).toBe('<p><i class="plain"></i></p>\n');
   });
 });
