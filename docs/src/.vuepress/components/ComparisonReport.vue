@@ -637,8 +637,10 @@ const ratioClass = (ratio: number): string => {
   const displayedRatio = Number(ratio.toFixed(2));
 
   if (displayedRatio === 1) return "is-even";
+  if (displayedRatio > 1) return "is-faster";
 
-  return displayedRatio > 1 ? "is-faster" : "is-slower";
+  // Slightly slower results are a warning rather than a failure.
+  return displayedRatio >= 0.95 ? "is-warning" : "is-slower";
 };
 
 const testRatioClass = (suite: TestSuite): string => (suite.failed > 0 ? "is-failed" : "is-passed");
@@ -1784,6 +1786,10 @@ watch([query, onlyDifferences, variantFilter], () => {
   color: var(--cr-red);
 }
 
+.cr-ratio.is-warning {
+  color: var(--cr-yellow);
+}
+
 .cr-ratio.is-even {
   color: var(--cr-text-mute);
 }
@@ -2244,9 +2250,11 @@ watch([query, onlyDifferences, variantFilter], () => {
   content: "▸";
 
   display: inline-block;
+  flex: none;
 
   color: var(--cr-text-mute);
-  font-size: 0.75rem;
+  font-size: 1.05rem;
+  line-height: 1;
   transition: transform 0.15s ease;
 }
 
