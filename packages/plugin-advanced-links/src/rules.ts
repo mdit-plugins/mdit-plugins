@@ -16,9 +16,6 @@ const TAB = 0x09; /* \t */
 
 const MARKUP = "@[...](...)";
 
-/** Max number of link resolutions kept per inline block / 每个行内块最多缓存的链接解析数 */
-const LINK_CACHE_LIMIT = 64;
-
 const isLineBreak = (code: number): boolean => code === LINE_FEED || code === CARRIAGE_RETURN;
 
 /**
@@ -75,40 +72,34 @@ interface ScanMemo {
    * 只会拒绝该位置之前的属性起始位置
    */
   deadUntil: number;
-
-  /**
-   * Normalized links of the inline block, `null` for an invalid destination
-   *
-   * 行内块规范化后的链接，无效地址为 `null`
-   */
-  links: Map<string, string | null> | null;
 }
 
 const SCAN_MEMOS = new WeakMap<StateInline, ScanMemo>();
 
 /**
- * Get the memo of an inline state
+ * Create the memo of an inline state
  *
- * 获取行内状态的缓存
+ * 创建行内状态的缓存
+ *
+ * A memo only helps after a candidate failed, so the inline rule creates it lazily and successful
+ * candidates never pay for it.
+ *
+ * 缓存只在候选失败后才有帮助，因此行内规则延迟创建它，成功的候选无需为它付出代价。
  *
  * @param state - Inline state / 行内状态
  * @returns Memo of the state / 该状态的缓存
  */
-const getScanMemo = (state: StateInline): ScanMemo => {
-  let memo = SCAN_MEMOS.get(state);
+const createScanMemo = (state: StateInline): ScanMemo => {
+  const memo: ScanMemo = {
+    lineStart: 0,
+    lineBreak: -1,
+    searchedTo: 0,
+    bound: -1,
+    deadFrom: 0,
+    deadUntil: 0,
+  };
 
-  if (!memo) {
-    memo = {
-      lineStart: 0,
-      lineBreak: -1,
-      searchedTo: 0,
-      bound: -1,
-      deadFrom: 0,
-      deadUntil: 0,
-      links: null,
-    };
-    SCAN_MEMOS.set(state, memo);
-  }
+  SCAN_MEMOS.set(state, memo);
 
   return memo;
 };
@@ -231,37 +222,14 @@ const markDead = (memo: ScanMemo | undefined, from: number, until: number): null
  *
  * 规范化并校验链接地址
  *
- * The result is cached on the memo, since the same destination often appears repeatedly. The cache
- * is capped, dropping it early only costs a recomputation, so validation is never skipped.
- *
- * 结果会缓存在 memo 上，因为同一个地址常常重复出现。缓存有上限，提前丢弃只会重新计算一次，因此绝不会跳过校验。
- *
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param link - Raw link destination / 原始链接地址
- * @param memo - Scan memo, or `undefined` when the scan is not memoized / 扫描缓存，不缓存时为 `undefined`
  * @returns Normalized link, or `null` when it is invalid / 规范化后的链接，地址无效时为 `null`
  */
-const resolveLink = (md: MarkdownIt, link: string, memo?: ScanMemo): string | null => {
-  if (!memo) {
-    const normalizedLink = md.normalizeLink(link);
-
-    return md.validateLink(normalizedLink) ? normalizedLink : null;
-  }
-
-  const { links } = memo;
-
-  if (links?.has(link)) return links.get(link) ?? null;
-
+const resolveLink = (md: MarkdownIt, link: string): string | null => {
   const normalizedLink = md.normalizeLink(link);
-  const resolved = md.validateLink(normalizedLink) ? normalizedLink : null;
-  const cache = (memo.links ??= new Map());
 
-  // the cache is only a shortcut, so dropping it early is always safe
-  if (cache.size >= LINK_CACHE_LIMIT) cache.clear();
-
-  cache.set(link, resolved);
-
-  return resolved;
+  return md.validateLink(normalizedLink) ? normalizedLink : null;
 };
 
 /**
@@ -373,7 +341,7 @@ export const scanAtLink = (
   // scheme from the validation. The renderer still has to HTML-escape the link and the props.
   // 与普通 Markdown 链接一样规范化并校验目标地址：规范化会对控制字符进行百分号编码，因此实体解码得到的
   // 制表符或换行无法在校验时藏匿危险 scheme。渲染器生成 HTML 时仍必须对链接与属性值做 HTML 转义。
-  const normalizedLink = resolveLink(md, link, memo);
+  const normalizedLink = resolveLink(md, link);
 
   if (normalizedLink == null) return markDead(memo, repeatFrom, close);
 
@@ -445,9 +413,21 @@ export const createInlineRule =
     // the memo of the state. / 规则会在行内内容的每个位置运行，因此先检查标记，再访问状态上的缓存。
     if (src.charCodeAt(pos) !== AT || src.charCodeAt(pos + 1) !== OPEN_BRACKET) return false;
 
-    const scanned = scanAtLink(context, src, pos, posMax, getScanMemo(state));
+    // A memo only helps after a failed candidate, so successful links never pay for it.
+    const memo = SCAN_MEMOS.get(state);
+    const scanned = scanAtLink(context, src, pos, posMax, memo);
 
-    if (!scanned) return false;
+    // On the first failure, rescan once with a memo so the dead range is recorded for the rest of
+    // the line; every later failed candidate of the line is then rejected without a scan. Silent
+    // look-ahead scans (e.g. markdown-it's label pre-scan) use another `posMax`, so they leave the
+    // memo to the real tokenization.
+    // 首次失败时补扫一次以记录本行后续候选的失败范围，之后同一行的失败候选无需再扫描。静默预查
+    // （例如 markdown-it 的链接标签预查）使用的是另一个 `posMax`，因此把缓存的创建留给真正的解析。
+    if (!scanned) {
+      if (!memo && !silent) scanAtLink(context, src, pos, posMax, createScanMemo(state));
+
+      return false;
+    }
 
     // the inline syntax is opt-in for each config
     if (!scanned.config.inline) return false;

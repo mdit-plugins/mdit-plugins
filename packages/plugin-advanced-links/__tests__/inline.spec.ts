@@ -261,4 +261,18 @@ describe("inline syntax", () => {
       );
     });
   });
+
+  describe("scan memo", () => {
+    it("should parse candidates on a later line after a failure inside a link label", () => {
+      const md = createMarkdown();
+
+      // The failed candidate of the label memoizes the line; the candidate on the next line must
+      // still be parsed instead of being rejected by the stale line data of the memo.
+      expect(
+        md.render("[label @[video a=1 ]](https://example.com)\nmore @[badge text=ok](/ok)"),
+      ).toBe(
+        '<p><a href="https://example.com">label @[video a=1 ]</a>\nmore <span class="badge badge-/ok">ok</span></p>\n',
+      );
+    });
+  });
 });
