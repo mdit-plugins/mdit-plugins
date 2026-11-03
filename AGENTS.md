@@ -395,7 +395,10 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
   `plugin-tasklist` tests).
 - **Benchmarks**: `*.bench.ts` files via `benchmark.include`; run with `pnpm run test:bench`, which
   first runs `bench:prepare` (builds the current tree and an `origin/main` baseline worktree under
-  `temp/bench-baseline`). Bench files load the built `dist` entries through `scripts/bench.ts`.
+  `temp/bench-baseline`; override the baseline ref with `BENCH_BASELINE_REF`). Bench files load the
+  built `dist` entries through `scripts/bench.ts`, and both sides are production `dist` builds, so
+  the comparison is apples-to-apples. The baseline worktree is git-ignored; remove it with
+  `pnpm run bench:clean`.
 - **CI reports**: `TEST_REPORT=true` switches coverage reporters to `["cobertura", "text"]` (no HTML
   report) and adds the `junit` reporter writing `coverage/test-report.junit.xml`.
 - **Discovery**: the root config excludes `**/node_modules/**`, `**/dist/**` and `temp/**` for both
