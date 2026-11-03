@@ -23,11 +23,24 @@ export interface SecurityOptions {
 }
 
 /**
+ * Per-render cache of security verdicts. `true` marks a path that passed; an `Error` stores the
+ * failure so repeated checks of the same path throw the same error without touching the filesystem
+ * again.
+ *
+ * 单次渲染的安全校验结果缓存。`true` 表示路径通过；`Error` 保存失败结果，重复校验同一路径时直接抛出相同错误，不再访问文件系统。
+ */
+export type SecurityCache = Map<string, true | Error>;
+
+/**
  * Validate a requested file before reading it.
  *
  * 读取文件前校验请求路径。
  */
-export type SecurityChecker = (requestedPath: string, absolutePath: string) => void;
+export type SecurityChecker = (
+  requestedPath: string,
+  absolutePath: string,
+  cache?: SecurityCache,
+) => void;
 
 const toPosixPath = (path: string): string => path.split(sep).join("/");
 
@@ -87,18 +100,37 @@ export const createSecurityChecker = ({
   if (!statSync(rootRealPath).isDirectory())
     throw new Error(`${PROJECT_ROOT_ERROR}: ${projectRootPath}`);
 
-  return (requestedPath, absolutePath) => {
-    const targetRealPath = resolveRealPath(absolutePath);
-    const relativePath = relative(rootRealPath, targetRealPath);
-    const outside =
-      relativePath === ".." || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath);
+  return (requestedPath, absolutePath, cache) => {
+    // Callers scope this cache to a single render (include passes a fresh one per call,
+    // snippet clears it at the start of every parse), so a symlink retargeted or a file
+    // becoming sensitive between renders is re-checked instead of served with a stale verdict.
+    const cacheKey = `${requestedPath}\u0000${absolutePath}`;
 
-    if (outside && !allowOutsideRoot)
-      throw new Error(`${PLUGIN_NAME}: Refusing to read "${requestedPath}": outside root`);
+    if (cache) {
+      const cached = cache.get(cacheKey);
 
-    const matcherPath = toPosixPath(outside ? targetRealPath : relativePath);
+      if (cached === true) return;
+      if (cached instanceof Error) throw cached;
+    }
 
-    if (isSensitiveFile(matcherPath, denyFiles ?? defaultSensitiveFiles))
-      throw new Error(`${PLUGIN_NAME}: Refusing to read "${requestedPath}": sensitive file`);
+    try {
+      const targetRealPath = resolveRealPath(absolutePath);
+      const relativePath = relative(rootRealPath, targetRealPath);
+      const outside =
+        relativePath === ".." || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath);
+
+      if (outside && !allowOutsideRoot)
+        throw new Error(`${PLUGIN_NAME}: Refusing to read "${requestedPath}": outside root`);
+
+      const matcherPath = toPosixPath(outside ? targetRealPath : relativePath);
+
+      if (isSensitiveFile(matcherPath, denyFiles ?? defaultSensitiveFiles))
+        throw new Error(`${PLUGIN_NAME}: Refusing to read "${requestedPath}": sensitive file`);
+    } catch (err) {
+      cache?.set(cacheKey, err as Error);
+      throw err;
+    }
+
+    cache?.set(cacheKey, true);
   };
 };
