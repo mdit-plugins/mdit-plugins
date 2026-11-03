@@ -1,253 +1,23 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { randomBytes } from "node:crypto";
-// oxlint-disable-next-line import/no-nodejs-modules
-import { existsSync, readFileSync, statSync } from "node:fs";
 
-import { NEWLINE_RE, defaultSensitiveFiles, dedent, hasRule, scanFence } from "@mdit/helper";
+import { defaultSensitiveFiles, hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { MarkdownIt, StateBlock, Token } from "markdown-it";
+import type { MarkdownIt, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
-import { includeNonceKey, includePathsKey } from "./constant.js";
+import { DEFAULT_INCLUDE_NONCE, includeNonceKey, includePathsKey } from "./constant.js";
+import { handleInclude, scanCodeRanges } from "./include-file.js";
+import type { IncludeInfo } from "./include-file.js";
 import type { MarkdownItIncludeOptions } from "./options.js";
 import { createSecurityChecker } from "./security.js";
-import type { SecurityChecker } from "./security.js";
 import type { IncludeEnv } from "./types.js";
-
-// fallback nonce for direct helper calls that don't go through the plugin
-const DEFAULT_INCLUDE_NONCE = "mdit-include";
-
-interface ImportFileInfoBase {
-  filePath: string;
-  /** Path exactly as requested by the user / 用户原始请求路径 */
-  requestedPath?: string;
-}
-
-interface ImportFileLineInfo extends ImportFileInfoBase {
-  lineStart?: number | undefined;
-  lineEnd?: number | undefined;
-}
-
-interface ImportFileRegionInfo extends ImportFileInfoBase {
-  region: string;
-}
-
-type ImportFileInfo = ImportFileLineInfo | ImportFileRegionInfo;
-
-interface IncludeInfo {
-  cwd: string | null;
-  includedFiles: string[];
-  nonce?: string;
-  resolvedPath?: boolean;
-  checkSecurity?: SecurityChecker;
-  stack?: string[];
-}
-
-const BOM_RE = /^\uFEFF/;
-
-const REGIONS_RE = [
-  /^\/\/ ?#?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // javascript, typescript, java
-  /^\/\* ?#(?<tag>(?:end)?region) (?<name>[\w*-]+) ?\*\/$/, // css, less, scss
-  /^#pragma (?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C, C++
-  /^<!-- #?(?<tag>(?:end)?region) (?<name>[\w*-]+) -->$/, // HTML, markdown
-  /^#(?<tag>(?:End )Region) (?<name>[\w*-]+)$/, // Visual Basic
-  /^::#(?<tag>(?:end)region) (?<name>[\w*-]+)$/, // Bat
-  /^# ?(?<tag>(?:end)?region) (?<name>[\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
-];
 
 // regexp to match the import syntax
 const INCLUDE_COMMENT_RE =
   /^(?<indent> *)<!-{2,}\s*@include:\s*(?<includePath>[^<>|:"*?]+(?:\.[a-z0-9]+))(?:#(?<region>[\w-]+))?(?:\{(?<lineStart>\d+)?-(?<lineEnd>\d+)?\})?\s*-{2,}>\s*$/gm;
 const INCLUDE_RE =
   /^(?<indent> *)@include:\s*(?<includePath>[^<>|:"*?]+(?:\.[a-z0-9]+))(?:#(?<region>[\w-]+))?(?:\{(?<lineStart>\d+)?-(?<lineEnd>\d+)?\})?\s*$/gm;
-
-const testLine = (line: string, regexp: RegExp, regionName: string, end = false): boolean => {
-  const [full, tag, name] = regexp.exec(line.trim()) ?? [];
-
-  return Boolean(
-    full && tag && name === regionName && (end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/).test(tag),
-  );
-};
-
-const findRegion = (
-  lines: string[],
-  regionName: string,
-): { lineStart: number; lineEnd: number } | null => {
-  let regexp = null;
-  let lineStart = -1;
-
-  const lineEnd = lines.length;
-
-  for (let lineIndex = 0; lineIndex < lineEnd; lineIndex++) {
-    const line = lines[lineIndex];
-
-    if (regexp == null) {
-      for (let i = 0; i < REGIONS_RE.length; i++) {
-        const reg = REGIONS_RE[i];
-
-        if (testLine(line, reg, regionName)) {
-          lineStart = lineIndex + 1;
-          regexp = reg;
-          break;
-        }
-      }
-    } else if (testLine(line, regexp, regionName, true)) {
-      return { lineStart, lineEnd: lineIndex };
-    }
-  }
-
-  return null;
-};
-
-/**
- * Include a file and return the included content
- *
- * 包含文件并返回包含的内容
- *
- * @param info - File info to include / 要包含的文件信息
- * @param includeInfo - Include context / 包含上下文
- * @returns Included Markdown content / 包含的 Markdown 内容
- */
-export const handleInclude = (
-  info: ImportFileInfo,
-  { cwd, includedFiles, resolvedPath, checkSecurity, nonce = DEFAULT_INCLUDE_NONCE }: IncludeInfo,
-): string => {
-  const { filePath } = info;
-  let realPath = filePath;
-
-  if (!isAbsolute(filePath)) {
-    // if the importPath is relative path, we need to resolve it
-    // according to the markdown filePath
-    if (!cwd) {
-      // oxlint-disable-next-line no-console
-      console.error(`[@mdit/plugin-include]: Error when resolving path: ${filePath}`);
-
-      return "\nError when resolving path\n";
-    }
-
-    realPath = resolve(cwd, filePath);
-  }
-
-  (checkSecurity ?? createSecurityChecker({}))(info.requestedPath ?? filePath, realPath);
-
-  includedFiles.push(realPath);
-
-  // check file existence; also skip directories to avoid an EISDIR crash on read
-  if (!existsSync(realPath) || !statSync(realPath).isFile()) {
-    // oxlint-disable-next-line no-console
-    console.error(`[@mdit/plugin-include]: ${realPath} not found`);
-
-    return "\nFile not found\n";
-  }
-
-  // read file content; an unreadable file (e.g. EACCES) should not crash the
-  // whole render, degrade to a "Failed to read file" result instead
-  let fileContent: string;
-
-  try {
-    fileContent = readFileSync(realPath).toString();
-  } catch {
-    // oxlint-disable-next-line no-console
-    console.error(`[@mdit/plugin-include]: failed to read ${realPath}`);
-
-    return "\nFailed to read file\n";
-  }
-
-  const lines = fileContent.replace(BOM_RE, "").replace(NEWLINE_RE, "\n").split("\n");
-  let results: string[] = [];
-
-  // is region
-  if ("region" in info) {
-    const region = findRegion(lines, info.region);
-
-    if (region) results = lines.slice(region.lineStart, region.lineEnd);
-  }
-  // is file
-  else {
-    const { lineStart, lineEnd } = info;
-
-    if (lineStart != null || lineEnd != null) {
-      // explicit ranges always use the raw file lines, so line numbers match
-      // what an editor shows (frontmatter included); line 0 is clamped to line 1
-      const startLine = Math.max(lineStart ?? 1, 1);
-
-      results = lines.slice(startLine - 1, lineEnd ?? lines.length);
-    } else if (lines[0] === "---") {
-      const endLineIndex = lines.findIndex((line, index) => index !== 0 && line === "---");
-
-      results = lines.slice(Math.max(endLineIndex + 1, 1));
-    } else {
-      results = lines.slice(0);
-    }
-  }
-
-  if (resolvedPath && realPath.endsWith(".md")) {
-    const dirName = dirname(realPath);
-
-    results.unshift(`<!-- #include-env-start:${nonce}: ${dirName} -->`);
-    results.push(`<!-- #include-env-end:${nonce} -->`);
-  }
-
-  return dedent(results.join("\n").replace(/\n?$/, "\n"));
-};
-
-// Forked and modified from markdown-it/lib/rules_block/code.mjs
-const scanCode = (state: StateBlock, startLine: number, endLine: number): number => {
-  if (state.sCount[startLine] - state.blkIndent < 4) return startLine;
-
-  let nextLine = startLine + 1;
-  let last = nextLine;
-
-  while (nextLine < endLine) {
-    if (state.isEmpty(nextLine)) {
-      nextLine++;
-      continue;
-    }
-
-    if (state.sCount[nextLine] - state.blkIndent >= 4) {
-      nextLine++;
-      last = nextLine;
-      continue;
-    }
-    break;
-  }
-
-  return last;
-};
-
-// Locate fenced / indented code blocks, reusing markdown-it's block structure
-const scanCodeRanges = (content: string, md: MarkdownIt): [number, number][] => {
-  const state = new md.block.State(content, md, {}, []);
-  const ranges: [number, number][] = [];
-  let line = 0;
-
-  while (line < state.lineMax) {
-    line = state.skipEmptyLines(line);
-    if (line >= state.lineMax) break;
-
-    const fenceEnd = scanFence(state, line, state.lineMax, state.blkIndent);
-
-    if (fenceEnd != null && fenceEnd > line) {
-      ranges.push([line, fenceEnd]);
-      line = fenceEnd;
-      continue;
-    }
-
-    // indented code blocks can't directly follow a paragraph line (markdown-it
-    // treats such lines as lazy continuation), so require a blank line before
-    const codeEnd = scanCode(state, line, state.lineMax);
-
-    if (codeEnd > line && (line === 0 || state.isEmpty(line - 1))) {
-      ranges.push([line, codeEnd]);
-      line = codeEnd;
-      continue;
-    }
-
-    line++;
-  }
-
-  return ranges;
-};
 
 /**
  * Expand include directives in the given content
@@ -265,7 +35,16 @@ const scanCodeRanges = (content: string, md: MarkdownIt): [number, number][] => 
 export const resolveInclude = (
   content: string,
   options: Required<MarkdownItIncludeOptions>,
-  { cwd, includedFiles, checkSecurity, nonce = DEFAULT_INCLUDE_NONCE, stack = [] }: IncludeInfo,
+  {
+    cwd,
+    includedFiles,
+    checkSecurity,
+    nonce = DEFAULT_INCLUDE_NONCE,
+    stack = new Set<string>(),
+    // A fresh cache per call: a call expands exactly one render (or one direct API call), so no
+    // entry can outlive the file state it was read from.
+    cache = { files: new Map(), security: new Map() },
+  }: IncludeInfo,
   codeRanges: [number, number][],
   md: MarkdownIt,
 ): string => {
@@ -294,7 +73,7 @@ export const resolveInclude = (
 
     // Detect circular includes in the current deep include chain: if this
     // file is already being processed, skip it instead of recursing forever.
-    if (stack.includes(realPath)) {
+    if (stack.has(realPath)) {
       // oxlint-disable-next-line no-console
       console.error(`[@mdit/plugin-include]: Circular include detected: ${realPath}`);
 
@@ -313,36 +92,40 @@ export const resolveInclude = (
               lineEnd: lineEnd ? Number(lineEnd) : undefined,
             },
       ),
-      { cwd, includedFiles, resolvedPath, checkSecurity: security, nonce },
+      { cwd, includedFiles, resolvedPath, checkSecurity: security, nonce, cache },
     );
 
     let included = fileContent;
 
-    if (options.deep && actualPath.endsWith(".md")) {
-      stack.push(realPath);
+    // A file without any include directive cannot expand further, so skip the
+    // block scan and the recursive expansion entirely.
+    if (options.deep && actualPath.endsWith(".md") && fileContent.includes("@include")) {
+      stack.add(realPath);
 
       try {
         included = resolveInclude(
           fileContent,
           options,
           {
-            cwd: isAbsolute(actualPath)
-              ? dirname(actualPath)
-              : cwd
-                ? resolve(cwd, dirname(actualPath))
-                : null,
+            // `realPath` is absolute whenever the file was read successfully, so its
+            // directory is also the base for nested relative includes.
+            cwd: dirname(realPath),
             includedFiles,
             checkSecurity: security,
             nonce,
             stack,
+            cache,
           },
           scanCodeRanges(fileContent, md),
           md,
         );
       } finally {
-        stack.pop();
+        stack.delete(realPath);
       }
     }
+
+    // Prefixing an empty indent would split and re-join the content without changing it.
+    if (!indent) return included;
 
     return included
       .split("\n")
@@ -410,34 +193,40 @@ const includePushRule: BlockRule = (state, startLine, _, silent): boolean => {
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
+  // Cheap prefix test first: the common case is a line that is not a marker, and it must not
+  // allocate a substring for the regex.
+  if (
+    max - start < INCLUDE_START_PREFIX.length ||
+    !state.src.startsWith(INCLUDE_START_PREFIX, start)
+  )
+    return false;
+
   const content = state.src.slice(start, max);
 
-  if (content.startsWith(INCLUDE_START_PREFIX)) {
-    // check if it matches the marker syntax
-    const match = SYNTAX_PUSH_RE.exec(content);
+  // check if it matches the marker syntax
+  const match = SYNTAX_PUSH_RE.exec(content);
 
-    if (match) {
-      const { nonce: markerNonce, includePath } = match.groups as {
-        nonce: string;
-        includePath: string;
-      };
-      const expectedNonce =
-        (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
+  if (match) {
+    const { nonce: markerNonce, includePath } = match.groups as {
+      nonce: string;
+      includePath: string;
+    };
+    const expectedNonce =
+      (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
 
-      // a marker with another nonce is user content, not an include boundary
-      if (markerNonce !== expectedNonce) return false;
+    // a marker with another nonce is user content, not an include boundary
+    if (markerNonce !== expectedNonce) return false;
 
-      if (silent) return true;
+    if (silent) return true;
 
-      state.line = startLine + 1;
-      const token = state.push("include_start", "", 0);
+    state.line = startLine + 1;
+    const token = state.push("include_start", "", 0);
 
-      token.map = [startLine, state.line];
-      token.info = includePath;
-      token.markup = "include_start";
+    token.map = [startLine, state.line];
+    token.info = includePath;
+    token.markup = "include_start";
 
-      return true;
-    }
+    return true;
   }
 
   return false;
@@ -447,29 +236,30 @@ const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean 
   const start = state.bMarks[startLine] + state.tShift[startLine];
   const max = state.eMarks[startLine];
 
+  if (max - start < INCLUDE_END_PREFIX.length || !state.src.startsWith(INCLUDE_END_PREFIX, start))
+    return false;
+
   const content = state.src.slice(start, max);
 
-  if (content.startsWith(INCLUDE_END_PREFIX)) {
-    const match = SYNTAX_POP_RE.exec(content);
+  const match = SYNTAX_POP_RE.exec(content);
 
-    if (match) {
-      const { nonce: markerNonce } = match.groups as { nonce: string };
-      const expectedNonce =
-        (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
+  if (match) {
+    const { nonce: markerNonce } = match.groups as { nonce: string };
+    const expectedNonce =
+      (state.env as IncludeEnv | undefined)?.[includeNonceKey] ?? DEFAULT_INCLUDE_NONCE;
 
-      // only the marker carrying the current render nonce closes an include
-      if (markerNonce === expectedNonce) {
-        if (silent) return true;
+    // only the marker carrying the current render nonce closes an include
+    if (markerNonce === expectedNonce) {
+      if (silent) return true;
 
-        state.line = startLine + 1;
+      state.line = startLine + 1;
 
-        const token = state.push("include_end", "", 0);
+      const token = state.push("include_end", "", 0);
 
-        token.map = [startLine, state.line];
-        token.markup = "include_end";
+      token.map = [startLine, state.line];
+      token.markup = "include_end";
 
-        return true;
-      }
+      return true;
     }
   }
 
