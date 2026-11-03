@@ -30,4 +30,29 @@ describe(imgLazyload, () => {
       '<blockquote>\n<p><img src="/logo.svg" alt="image" loading="lazy"></p>\n</blockquote>\n',
     );
   });
+
+  it("should not wrap the image renderer twice when installed twice", () => {
+    const md = new MarkdownIt().use(imgLazyload);
+    const installedImageRender = md.renderer.rules.image;
+
+    md.use(imgLazyload);
+
+    expect(md.renderer.rules.image).toBe(installedImageRender);
+    expect(md.render(`![image](/logo.svg)`)).toBe(
+      '<p><img src="/logo.svg" alt="image" loading="lazy"></p>\n',
+    );
+  });
+
+  it("should wrap a replaced image renderer again", () => {
+    const md = new MarkdownIt().use(imgLazyload);
+
+    md.renderer.rules.image = (tokens, index, _options, _env, self): string =>
+      `<img${self.renderAttrs(tokens[index])}>`;
+
+    md.use(imgLazyload);
+
+    expect(md.render(`![image](/logo.svg)`)).toBe(
+      '<p><img src="/logo.svg" alt="" loading="lazy"></p>\n',
+    );
+  });
 });
