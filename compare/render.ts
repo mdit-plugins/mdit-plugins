@@ -383,7 +383,6 @@ const mapDocsVariant = (variant: VariantResult): DocsVariant => ({
       status: testCase.status,
       ...(testCase.issue ? { issue: testCase.issue } : {}),
       ...(testCase.category ? { category: testCase.category } : {}),
-      ...(testCase.note ? { note: testCase.note } : {}),
     })),
   },
   bench: variant.bench.map((benchCase) => ({

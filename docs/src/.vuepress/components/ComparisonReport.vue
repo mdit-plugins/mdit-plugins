@@ -296,6 +296,7 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     noIssues: "No reference errors or differences.",
     noNote: "No note provided.",
     casesLabel: "Cases:",
+    moreCases: (count: number) => `+${count} more`,
     categories: {
       "reference-error": "Reference error",
       difference: "Difference",
@@ -368,6 +369,7 @@ const COPY: Readonly<Record<Locale, Copy>> = {
     noIssues: "没有参考包错误或差异。",
     noNote: "未提供说明。",
     casesLabel: "涉及用例：",
+    moreCases: (count: number) => `另有 ${count} 个`,
     categories: {
       "reference-error": "参考包错误",
       difference: "差异",
@@ -447,15 +449,23 @@ const derivedIssues = (correctness: Correctness): readonly IssueGroup[] => {
   return [...groups.values()];
 };
 
-const issueGroups = (correctness: Correctness): readonly IssueGroup[] =>
-  correctness.issues && correctness.issues.length > 0
-    ? correctness.issues.map((issue) => ({
-        id: issue.id,
-        category: toCategory(issue.category),
-        ...(issue.note ? { note: issue.note } : {}),
-        cases: issue.cases ?? [],
-      }))
-    : derivedIssues(correctness);
+const issueGroups = (correctness: Correctness): readonly IssueGroup[] => {
+  const groups: readonly IssueGroup[] =
+    correctness.issues && correctness.issues.length > 0
+      ? correctness.issues.map((issue) => ({
+          id: issue.id,
+          category: toCategory(issue.category),
+          ...(issue.note ? { note: issue.note } : {}),
+          cases: issue.cases ?? [],
+        }))
+      : derivedIssues(correctness);
+
+  // Reference errors come first, then accepted differences.
+  return [...groups].sort(
+    (groupA, groupB) =>
+      Number(groupB.category === "reference-error") - Number(groupA.category === "reference-error"),
+  );
+};
 
 const countIssues = (correctness: Correctness, category: CaseCategory): number =>
   issueGroups(correctness).filter((issue) => issue.category === category).length;
@@ -679,25 +689,19 @@ const skipReasonText = (test: TestSuiteCase): string =>
 const issueNoteText = (group: IssueGroup): string =>
   group.note?.[props.locale] ?? group.note?.en ?? "";
 
-const caseNoteText = (variant: Variant, caseName: string): string => {
-  const note = variant.correctness.cases.find((testCase) => testCase.name === caseName)?.note;
-
-  return note?.[props.locale] ?? note?.en ?? "";
-};
-
-const hasCaseNote = (variant: Variant, group: IssueGroup, caseName: string): boolean => {
-  const noteText = caseNoteText(variant, caseName);
-
-  return noteText !== "" && noteText !== issueNoteText(group);
-};
-
-const hasCaseNotes = (variant: Variant, group: IssueGroup): boolean =>
-  group.cases.some((caseName) => hasCaseNote(variant, group, caseName));
-
 const issueNoteSegments = (group: IssueGroup): InlineSegment[] => parseInline(issueNoteText(group));
 
-const caseNoteSegments = (variant: Variant, caseName: string): InlineSegment[] =>
-  parseInline(caseNoteText(variant, caseName));
+/** Maximum number of case names shown inline for one issue */
+const MAX_VISIBLE_CASES = 8;
+
+/**
+ * Limit the affected case names of an issue for a compact rendering
+ *
+ * @param group - Issue group
+ * @returns The visible case names
+ */
+const visibleCases = (group: IssueGroup): readonly string[] =>
+  group.cases.length > MAX_VISIBLE_CASES ? group.cases.slice(0, MAX_VISIBLE_CASES) : group.cases;
 
 const isSuperlinear = (exponent: number): boolean =>
   Number.isFinite(exponent) && exponent > SUPERLINEAR_THRESHOLD;
@@ -1056,39 +1060,18 @@ watch([query, onlyDifferences, variantFilter], () => {
                           </div>
                           <div v-if="group.cases.length > 0" class="cr-issue-cases">
                             <span class="cr-issue-cases-label">{{ text.casesLabel }}</span>
-                            <ul v-if="hasCaseNotes(variant, group)" class="cr-case-list">
-                              <li
-                                v-for="caseName in group.cases"
-                                :key="caseName"
-                                class="cr-case-entry"
-                              >
-                                <code class="cr-case-name">{{ caseName }}</code>
-                                <span
-                                  v-if="hasCaseNote(variant, group, caseName)"
-                                  class="cr-case-note"
-                                >
-                                  <span
-                                    v-for="(segment, segmentIndex) in caseNoteSegments(
-                                      variant,
-                                      caseName,
-                                    )"
-                                    :key="segmentIndex"
-                                    class="cr-inline"
-                                  >
-                                    <code v-if="segment.code">{{ segment.text }}</code>
-                                    <template v-else>{{ segment.text }}</template>
-                                  </span>
-                                </span>
-                              </li>
-                            </ul>
-                            <span v-else class="cr-issue-case-list">
+                            <span class="cr-issue-case-list" :title="group.cases.join(', ')">
                               <template
-                                v-for="(caseName, caseIndex) in group.cases"
+                                v-for="(caseName, caseIndex) in visibleCases(group)"
                                 :key="caseName"
                               >
                                 <span v-if="caseIndex > 0" class="cr-case-separator">,</span>
                                 <code class="cr-case-name">{{ caseName }}</code>
                               </template>
+                              <span v-if="group.cases.length > MAX_VISIBLE_CASES" class="cr-muted">
+                                {{ " "
+                                }}{{ text.moreCases(group.cases.length - MAX_VISIBLE_CASES) }}
+                              </span>
                             </span>
                           </div>
                         </li>
