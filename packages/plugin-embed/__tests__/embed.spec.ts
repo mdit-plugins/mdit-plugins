@@ -245,6 +245,12 @@ Click {% icon play %} to start, or check the {% badge premium %} content.
 
       expect(result).toContain('data-content="{key: value}"');
     });
+
+    it("should handle a lone curly brace in inline parameters", () => {
+      const result = md.render("Text {% icon a{b %} more");
+
+      expect(result).toContain('<i class="icon icon-a{b"></i>');
+    });
   });
 
   describe("escape sequences", () => {
