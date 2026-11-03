@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import type { Token } from "markdown-it";
 import { describe, expect, it } from "vitest";
 
 import { inlineRule } from "../src/index.js";
@@ -306,6 +307,65 @@ describe(inlineRule, () => {
         // + followed/preceded by space should not render (scanDelims prevents)
         expect(md.render("foo + bar + baz")).toBe("<p>foo + bar + baz</p>\n");
         expect(md.render("+test +")).toBe("<p>+test +</p>\n");
+      });
+    });
+
+    describe("non-flanking marker runs", () => {
+      const md = new MarkdownIt({ linkify: true }).use(inlineRule, {
+        marker: "=",
+        tag: "mark",
+        token: "mark",
+        double: true,
+        nested: true,
+        placement: "before-emphasis",
+      });
+
+      const getInlineChildren = (src: string): Token[] =>
+        md.parse(src, {}).flatMap((token) => token.children ?? []);
+
+      it("should keep a short non-flanking '==' run as text", () => {
+        expect(md.render("a == b")).toBe("<p>a == b</p>\n");
+
+        const children = getInlineChildren("a == b");
+
+        expect(children).toHaveLength(1);
+        expect(children[0].type).toBe("text");
+        expect(children[0].content).toBe("a == b");
+      });
+
+      it("should keep a long non-flanking '=' run as a single text token", () => {
+        const src = `a ${"=".repeat(64)} b`;
+
+        expect(md.render(src)).toBe(`<p>${src}</p>\n`);
+
+        const children = getInlineChildren(src);
+
+        expect(children).toHaveLength(1);
+        expect(children[0].type).toBe("text");
+        expect(children[0].content).toBe(src);
+      });
+
+      it("should keep an odd-length non-flanking '=' run as text", () => {
+        const src = `a ${"=".repeat(65)} b`;
+
+        expect(md.render(src)).toBe(`<p>${src}</p>\n`);
+
+        const children = getInlineChildren(src);
+
+        expect(children).toHaveLength(1);
+        expect(children[0].content).toBe(src);
+      });
+
+      it("should still render flanking runs next to a non-flanking run", () => {
+        expect(md.render("==a== == b")).toBe("<p><mark>a</mark> == b</p>\n");
+        expect(md.render("==a == b==")).toBe("<p><mark>a == b</mark></p>\n");
+      });
+
+      it("should leave other markers' delimiter arrays untouched", () => {
+        expect(md.render("*plain emphasis*")).toBe("<p><em>plain emphasis</em></p>\n");
+        expect(md.render("[link *emphasis*](https://example.com)")).toBe(
+          '<p><a href="https://example.com">link <em>emphasis</em></a></p>\n',
+        );
       });
     });
   });

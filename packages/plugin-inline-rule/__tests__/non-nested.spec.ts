@@ -12,6 +12,12 @@ describe(inlineRule, () => {
         token: "sup",
       });
 
+      const getTokens = (src: string): { type: string; content: string }[] =>
+        md
+          .parse(src, {})
+          .flatMap(({ children }) => children ?? [])
+          .map(({ type, content }) => ({ type, content }));
+
       it("should render", () => {
         expect(md.render("^test^")).toBe("<p><sup>test</sup></p>\n");
       });
@@ -34,6 +40,22 @@ describe(inlineRule, () => {
         expect(md.render("^foo~bar^baz^bar~foo^")).toBe(
           "<p><sup>foo~bar</sup>baz<sup>bar~foo</sup></p>\n",
         );
+      });
+
+      it("should only unescape content containing a backslash", () => {
+        const expectedTokens = [
+          { type: "sup_open", content: "" },
+          { type: "text", content: "a*b" },
+          { type: "sup_close", content: "" },
+        ];
+
+        // No backslash in the content: no unescape pass is needed.
+        expect(md.render("^a*b^")).toBe("<p><sup>a*b</sup></p>\n");
+        expect(getTokens("^a*b^")).toStrictEqual(expectedTokens);
+
+        // Backslash in the content: escapes are still unescaped.
+        expect(md.render(String.raw`^a\*b^`)).toBe("<p><sup>a*b</sup></p>\n");
+        expect(getTokens(String.raw`^a\*b^`)).toStrictEqual(expectedTokens);
       });
 
       it(String.raw`should handle multiple '\'`, () => {

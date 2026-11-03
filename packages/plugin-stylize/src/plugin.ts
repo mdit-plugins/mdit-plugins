@@ -4,17 +4,61 @@ import type { Token } from "markdown-it";
 
 import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
+// Try to apply a single config to the text token between `tokenPrev` and `tokenNext`; returns
+// whether the replacer produced a result.
+const applyConfig = <
+  // oxlint-disable-next-line typescript/no-explicit-any
+  MarkdownEnv extends Record<string, any>,
+>(
+  config: MarkdownItStylizeConfig<MarkdownEnv>,
+  token: Token,
+  tokenPrev: Token,
+  tokenNext: Token,
+  env: MarkdownEnv,
+): boolean => {
+  const content = token.content;
+  const matcher = config.matcher;
+
+  if (typeof matcher === "string") {
+    if (matcher !== content) return false;
+  } else {
+    // reset `lastIndex` for stateful regexps so a `g`/`y` flag does not carry state across
+    // tokens or renders (which would make matches alternate unexpectedly); `test` ignores
+    // `lastIndex` for other regexps
+    if (matcher.global || matcher.sticky) matcher.lastIndex = 0;
+
+    if (!matcher.test(content)) return false;
+  }
+
+  const result = config.replacer({
+    tag: tokenPrev.tag,
+    content,
+    // the previous token usually has no attrs at all, so skip building an iterable for them
+    attrs: tokenPrev.attrs ? Object.fromEntries(tokenPrev.attrs) : {},
+    env,
+  });
+
+  if (!result) return false;
+
+  tokenPrev.tag = tokenNext.tag = result.tag;
+  // Guard against user replacers omitting optional fields at runtime
+  tokenPrev.attrs = Object.entries(result.attrs ?? {});
+  token.content = result.content ?? content;
+
+  return true;
+};
+
 const scanTokens = <
   // oxlint-disable-next-line typescript/no-explicit-any
   MarkdownEnv extends Record<string, any>,
 >(
   tokens: Token[],
-  config: MarkdownItStylizeConfig<MarkdownEnv>[],
+  localConfig: MarkdownItStylizeConfig<MarkdownEnv>[] | null,
+  globalConfig: MarkdownItStylizeConfig<MarkdownEnv>[],
   env: MarkdownEnv,
 ): void => {
   for (let index = 1, len = tokens.length; index < len - 1; index++) {
     const token = tokens[index];
-    const content = token.content;
 
     // skip current token
     if (token.type !== "text") continue;
@@ -28,33 +72,23 @@ const scanTokens = <
 
     let matched = false;
 
-    // Try configs in order: matching is not enough, the replacer result decides
-    // whether the next config gets a chance.
-    for (const { matcher, replacer } of config) {
-      if (typeof matcher === "string") {
-        if (matcher !== content) continue;
-      } else {
-        // reset `lastIndex` so a `g`-flagged regexp does not carry state across
-        // tokens or renders (which would make matches alternate unexpectedly)
-        matcher.lastIndex = 0;
-
-        if (!matcher.test(content)) continue;
+    // Try local configs first, then the global ones: matching is not enough, the replacer result
+    // decides whether the next config gets a chance.
+    if (localConfig) {
+      for (const config of localConfig) {
+        if (applyConfig(config, token, tokenPrev, tokenNext, env)) {
+          matched = true;
+          break;
+        }
       }
+    }
 
-      const result = replacer({
-        tag: tokenPrev.tag,
-        content: token.content,
-        attrs: Object.fromEntries(tokenPrev.attrs ?? []),
-        env,
-      });
-
-      if (result) {
-        tokenPrev.tag = tokenNext.tag = result.tag;
-        // Guard against user replacers omitting optional fields at runtime
-        tokenPrev.attrs = Object.entries(result.attrs ?? {});
-        token.content = result.content ?? token.content;
-        matched = true;
-        break;
+    if (!matched) {
+      for (const config of globalConfig) {
+        if (applyConfig(config, token, tokenPrev, tokenNext, env)) {
+          matched = true;
+          break;
+        }
       }
     }
 
@@ -82,19 +116,18 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
   const stylizeRule: CoreRule = (state) => {
     const tokens = state.tokens;
 
-    let effectiveConfig = globalConfig;
+    // The local configs are resolved once per render; keeping them in a separate array avoids
+    // copying the global configs on every render.
+    let localConfig: MarkdownItStylizeConfig[] | null = null;
 
     if (localConfigGetter) {
       // oxlint-disable-next-line typescript/no-explicit-any
-      const localConfig = localConfigGetter(state.env as Record<string, any>);
+      const config = localConfigGetter(state.env as Record<string, any>);
 
-      if (localConfig && localConfig.length > 0) {
-        effectiveConfig =
-          effectiveConfig.length > 0 ? localConfig.concat(effectiveConfig) : localConfig;
-      }
+      if (config && config.length > 0) localConfig = config;
     }
 
-    if (effectiveConfig.length === 0) return;
+    if (globalConfig.length === 0 && !localConfig) return;
 
     const length = tokens.length;
 
@@ -102,7 +135,7 @@ export const stylize: PluginWithOptions<MarkdownItStylizeOptions> = (md, options
       const token = tokens[i];
 
       if (token.type === "inline" && token.children)
-        scanTokens(token.children, effectiveConfig, state.env);
+        scanTokens(token.children, localConfig, globalConfig, state.env);
     }
   };
 
