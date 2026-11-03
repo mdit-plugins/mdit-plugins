@@ -44,6 +44,8 @@ Use `~ ~` to mark the subscript.
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

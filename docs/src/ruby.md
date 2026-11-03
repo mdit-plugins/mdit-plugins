@@ -43,6 +43,8 @@ Use `{ruby base:ruby text1|ruby text2|...}` to add ruby annotation.
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

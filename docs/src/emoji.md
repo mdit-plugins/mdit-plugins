@@ -97,6 +97,8 @@ And you can make image height match the line height with this style:
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

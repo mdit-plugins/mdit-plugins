@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-container
 Compared against the upstream [`markdown-it-container`](https://www.npmjs.com/package/markdown-it-container) package `4.0.0`.
 
 - Correctness: **20/23** cases match the reference exactly (3 documented differences).
-- Throughput: **0.98×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **37.0 kB** unpacked and **1.1 kB** gzip entry, versus **20.1 kB** and **1.4 kB** for the reference.
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

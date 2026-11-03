@@ -492,8 +492,8 @@ export const writeDocsComparisonData = ({
  */
 export const renderPluginComparisonLink = (locale: ReportLocale): string =>
   locale === "zh"
-    ? "> 与上游参考实现的完整对比见[对比报告](compare.md)。"
-    : "> See the [comparison report](compare.md) for the full upstream comparison.";
+    ? "---\n\n> 与上游参考实现的完整对比见[对比报告](compare.md)。"
+    : "---\n\n> See the [comparison report](compare.md) for the full upstream comparison.";
 
 /** Options of a README comparison section */
 export interface ReadmeComparisonOptions {

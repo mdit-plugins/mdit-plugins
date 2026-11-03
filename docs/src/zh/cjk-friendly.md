@@ -70,6 +70,8 @@ CommonMark 规定，`**` 的后面是标点符号时不能开启强调，除非�
 
 <!-- comparison:start -->
 
+---
+
 > 与上游参考实现的完整对比见[对比报告](compare.md)。
 
 <!-- comparison:end -->

@@ -33,8 +33,30 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const SPECS_DIR = path.join(import.meta.dirname, "specs");
 const RESULTS_DIR = path.join(import.meta.dirname, "results");
 
-/** Repetitions of the base corpus document for every benchmark size */
-const CORPUS_REPETITIONS = { small: 1, medium: 4, large: 16 } as const;
+/** Target document size in bytes for every corpus kind and benchmark size */
+const CORPUS_TARGET_BYTES = {
+  normal: { small: 2048, medium: 8192, large: 32768 },
+  heavy: { small: 4096, medium: 16384, large: 65536 },
+} as const;
+
+/**
+ * Compute how often the base corpus document is repeated for a benchmark size
+ *
+ * @param baseCorpus - Committed base document
+ * @param kind - Corpus kind
+ * @param size - Benchmark size
+ * @returns Number of repetitions
+ */
+const getCorpusRepetitions = (
+  baseCorpus: string,
+  kind: BenchResult["kind"],
+  size: BenchResult["size"],
+): number => {
+  const target = CORPUS_TARGET_BYTES[kind][size];
+  const baseSize = Math.max(Buffer.byteLength(baseCorpus), 1);
+
+  return Math.max(1, Math.ceil(target / baseSize));
+};
 
 /** Command line flags of a comparison run */
 interface RunFlags {
@@ -200,10 +222,12 @@ const compareBench = async (
   const results: BenchResult[] = [];
 
   for (const benchCase of spec.bench) {
-    // The committed corpus files contain the base document once; the size is expressed through
-    // repetitions so the repository only stores each document a single time.
+    // The committed corpus files contain the document once; it is repeated until the document
+    // reaches the target size, so the repository only stores each document a single time.
     const baseCorpus = readFileSync(path.join(import.meta.dirname, benchCase.file), "utf8");
-    const markdown = baseCorpus.repeat(CORPUS_REPETITIONS[benchCase.size]);
+    const markdown = baseCorpus.repeat(
+      getCorpusRepetitions(baseCorpus, benchCase.kind, benchCase.size),
+    );
     const measurement = await measurePair(
       () => ourRenderer(markdown),
       () => referenceRenderer(markdown),
@@ -216,8 +240,15 @@ const compareBench = async (
       case: benchCase.name,
       kind: benchCase.kind,
       size: benchCase.size,
-      current: measurement.current,
-      reference: measurement.reference,
+      // The committed data keeps the derived numbers only; samples stay in memory.
+      current: {
+        opsPerSec: measurement.current.opsPerSec,
+        meanMs: measurement.current.meanMs,
+      },
+      reference: {
+        opsPerSec: measurement.reference.opsPerSec,
+        meanMs: measurement.reference.meanMs,
+      },
       ratio: measurement.current.opsPerSec / measurement.reference.opsPerSec,
     });
   }
@@ -252,8 +283,6 @@ const compareScaling = async (
     results.push({
       case: scalingCase.name,
       sizes,
-      current: measurement.current,
-      reference: measurement.reference,
       currentExponent: fitExponent(measurement.current),
       referenceExponent: fitExponent(measurement.reference),
     });

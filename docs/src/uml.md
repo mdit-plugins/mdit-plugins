@@ -84,6 +84,8 @@ Render function. Defaults to the built-in renderer at runtime, which wraps the c
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

@@ -266,6 +266,8 @@ by an `inline` token containing the heading text, then `heading_close`.
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

@@ -176,6 +176,8 @@ Here is a **hint** for you!
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

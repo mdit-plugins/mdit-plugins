@@ -154,6 +154,8 @@ With default options, you can import `@mdit/plugin-alert/style` to apply styles 
 
 <!-- comparison:start -->
 
+---
+
 > See the [comparison report](compare.md) for the full upstream comparison.
 
 <!-- comparison:end -->

@@ -129,8 +129,8 @@ export interface Measurement {
   readonly opsPerSec: number;
   /** Median milliseconds per operation */
   readonly meanMs: number;
-  /** Milliseconds per operation of every sample */
-  readonly samples: readonly number[];
+  /** Milliseconds per operation of every sample; only kept in memory, not in the committed data */
+  readonly samples?: readonly number[];
 }
 
 /** Benchmark result of one case */
@@ -163,10 +163,10 @@ export interface ScalingResult {
   readonly case: string;
   /** Measured sizes */
   readonly sizes: readonly number[];
-  /** Current package measurements */
-  readonly current: readonly ScalingPoint[];
-  /** Reference package measurements */
-  readonly reference: readonly ScalingPoint[];
+  /** Current package measurements; only kept in memory, not in the committed data */
+  readonly current?: readonly ScalingPoint[];
+  /** Reference package measurements; only kept in memory, not in the committed data */
+  readonly reference?: readonly ScalingPoint[];
   /** Fitted growth exponent of the current package */
   readonly currentExponent: number;
   /** Fitted growth exponent of the reference package */
