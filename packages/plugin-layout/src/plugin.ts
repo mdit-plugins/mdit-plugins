@@ -5,7 +5,41 @@ import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN, layoutKey } from "./constant.js";
 import { detectDirective, parseAttributes } from "./directive.js";
 import type { MarkdownItLayoutOptions } from "./options.js";
 import type { LayoutMeta, LayoutStateBlock } from "./types.js";
+import type { UtilityCache } from "./utilities.js";
 import { buildStyleString, resolveUtility } from "./utilities.js";
+
+const escapeAttribute = (value: string): string => {
+  for (let i = 0; i < value.length; i++) {
+    const code = value.charCodeAt(i);
+
+    if (
+      code === 38 /* & */ ||
+      code === 60 /* < */ ||
+      code === 62 /* > */ ||
+      code === 34 /* " */ ||
+      code === 39 /* ' */
+    )
+      return escapeHtml(value);
+  }
+
+  return value;
+};
+
+/**
+ * Join class names without allocating an intermediate combined array.
+ *
+ * 在不分配中间合并数组的情况下拼接类名。
+ *
+ * @param classes - Class names / 类名列表
+ * @param utilities - Utility names / 工具类列表
+ * @returns Space separated class names / 以空格分隔的类名
+ */
+const joinClassNames = (classes: string[], utilities: string[]): string => {
+  if (classes.length === 0) return utilities.join(" ");
+  if (utilities.length === 0) return classes.join(" ");
+
+  return `${classes.join(" ")} ${utilities.join(" ")}`;
+};
 
 // `scanFence` is provided by @mdit/helper (forked and modified from
 // markdown-it/lib/rules_block/fence.mjs).
@@ -257,6 +291,9 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
+  // Resolved utilities and warned names are cached for this installation
+  const utilityCache: UtilityCache = { styles: new Map(), warned: new Set() };
+
   // Container open renderer
   md.renderer.rules.layout_container_open = (tokens, index): string => {
     const token = tokens[index];
@@ -265,19 +302,18 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
     const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
 
     if (inlineStyles) {
-      const style = buildStyleString(meta.utilities, baseDisplay);
+      const style = buildStyleString(meta.utilities, baseDisplay, utilityCache);
 
       if (style) attrs.push(`style="${style}"`);
-      if (meta.classes.length > 0) attrs.push(`class="${escapeHtml(meta.classes.join(" "))}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
     } else {
       if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
 
-      const classNames = [...meta.classes, ...meta.utilities];
-
-      if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
+      if (meta.classes.length > 0 || meta.utilities.length > 0)
+        attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
     }
 
-    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
+    if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };
@@ -298,20 +334,18 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
         styleParts.push("column-span:all");
 
       for (let idx = 0; idx < meta.utilities.length; idx++) {
-        const style = resolveUtility(meta.utilities[idx]);
+        const style = resolveUtility(meta.utilities[idx], utilityCache);
 
         if (style) styleParts.push(style);
       }
 
       if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
-      if (meta.classes.length > 0) attrs.push(`class="${escapeHtml(meta.classes.join(" "))}"`);
-    } else {
-      const classNames = [...meta.classes, ...meta.utilities];
-
-      if (classNames.length > 0) attrs.push(`class="${escapeHtml(classNames.join(" "))}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
+    } else if (meta.classes.length > 0 || meta.utilities.length > 0) {
+      attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
     }
 
-    if (meta.id) attrs.push(`id="${escapeHtml(meta.id)}"`);
+    if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
 
     return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
   };
