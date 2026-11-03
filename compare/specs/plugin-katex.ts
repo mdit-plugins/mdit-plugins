@@ -37,7 +37,7 @@ const BENCH_CASES = (["normal", "heavy"] as const).flatMap((kind) =>
     kind,
     size,
     targetMs: 100,
-    file: `corpora/plugin-katex/${kind}-${size}.md`,
+    file: `corpora/plugin-katex/${kind}.md`,
   })),
 );
 

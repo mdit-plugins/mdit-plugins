@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-spoiler
 Compared against the upstream [`markdown-it-spoiler`](https://www.npmjs.com/package/markdown-it-spoiler) package `1.1.1`.
 
 - Correctness: **22/22** cases match the reference exactly.
-- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Throughput: **0.98×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **21.4 kB** unpacked and **235 B** gzip entry, versus **6.6 kB** and **1.7 kB** for the reference.
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

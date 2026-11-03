@@ -60,7 +60,7 @@ export interface BenchCase {
   readonly kind: "normal" | "heavy";
   /** Corpus size */
   readonly size: "small" | "medium" | "large";
-  /** Benchmark corpus file, relative to the `compare/` directory */
+  /** Base benchmark corpus document, relative to the `compare/` directory; repeated per size */
   readonly file: string;
   /** Target duration of one sample in milliseconds */
   readonly targetMs?: number;

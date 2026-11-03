@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-cjk-friendly
 Compared against the upstream [`markdown-it-cjk-friendly`](https://www.npmjs.com/package/markdown-it-cjk-friendly) package `3.0.0`.
 
 - Correctness: **22/22** cases match the reference exactly.
-- Throughput: **1.00×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Throughput: **0.99×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
 - Package size: **49.4 kB** unpacked and **797 B** gzip entry, versus **25.2 kB** and **1.2 kB** for the reference.
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

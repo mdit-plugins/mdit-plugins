@@ -80,7 +80,7 @@ const BENCH_CASES = (["normal", "heavy"] as const).flatMap((kind) =>
     kind,
     size,
     targetMs: 100,
-    file: `corpora/plugin-mathjax-slim/${kind}-${size}.md`,
+    file: `corpora/plugin-mathjax-slim/${kind}.md`,
   })),
 );
 

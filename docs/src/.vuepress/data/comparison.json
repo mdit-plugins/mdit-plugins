@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-02T09:59:58.410Z",
-  "date": "2026-11-02",
+  "generatedAt": "2026-11-03T00:07:47.826Z",
+  "date": "2026-11-03",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -156,49 +156,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 10568.89668757842,
-              "reference": 10094.49121257602,
-              "ratio": 1.0469964721363443
+              "current": 10504.495015410996,
+              "reference": 9989.131894353015,
+              "ratio": 1.0515923832529754
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2419.628433672631,
-              "reference": 2369.0186509454097,
-              "ratio": 1.0213631845857458
+              "current": 2821.6466985961233,
+              "reference": 2710.175447265958,
+              "ratio": 1.0411306402478917
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 599.4062145809685,
-              "reference": 590.1981703856734,
-              "ratio": 1.0156016142667437
+              "current": 712.2583765582808,
+              "reference": 700.1184815891917,
+              "ratio": 1.0173397721790358
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5585.105047187108,
-              "reference": 5471.435549652702,
-              "ratio": 1.0207750774916138
+              "current": 5691.992065474105,
+              "reference": 5531.135684624721,
+              "ratio": 1.0290819806313065
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1045.022202535016,
-              "reference": 1042.6780327371214,
-              "ratio": 1.0022482201833112
+              "current": 1445.9153825644705,
+              "reference": 1439.095249693185,
+              "ratio": 1.00473918100469
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 260.9972276369324,
-              "reference": 252.92944802838608,
-              "ratio": 1.0318973518956989
+              "current": 361.063216535126,
+              "reference": 355.68690033535455,
+              "ratio": 1.015115305609238
             }
           ],
           "scaling": [
@@ -210,8 +210,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0484015262862427,
-              "referenceExponent": 1.9378717212360825
+              "currentExponent": 1.0134731451958938,
+              "referenceExponent": 1.8996354687584067
             },
             {
               "case": "many-definitions",
@@ -221,8 +221,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9468453610105424,
-              "referenceExponent": 0.9475497404285917
+              "currentExponent": 0.9518224453498355,
+              "referenceExponent": 0.9569320292316329
             },
             {
               "case": "dense-occurrences",
@@ -232,8 +232,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9941112369985066,
-              "referenceExponent": 0.9752486317335716
+              "currentExponent": 0.9647002096875287,
+              "referenceExponent": 0.9484783220420108
             }
           ]
         }
@@ -489,49 +489,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17242.826061042888,
-              "reference": 17098.152021305603,
-              "ratio": 1.008461384572848
+              "current": 17642.44627470324,
+              "reference": 17328.66792273876,
+              "ratio": 1.018107471004897
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2481.1807187907316,
-              "reference": 2500.5734571078788,
-              "ratio": 0.9922446836096643
+              "current": 4456.542165710343,
+              "reference": 4423.775344655156,
+              "ratio": 1.007406981255225
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 787.0292409190108,
-              "reference": 795.5812055987553,
-              "ratio": 0.9892506703029664
+              "current": 1121.6247742966618,
+              "reference": 1113.7579998345634,
+              "ratio": 1.007063270893019
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 8224.455942620152,
-              "reference": 8178.686149601106,
-              "ratio": 1.0055962280715807
+              "current": 8381.926471046854,
+              "reference": 8402.39172864777,
+              "ratio": 0.9975643533101248
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1646.1786572267924,
-              "reference": 1658.1184997759292,
-              "ratio": 0.9927991620920035
+              "current": 2104.167210734812,
+              "reference": 2111.0692116038813,
+              "ratio": 0.9967305662783906
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 428.652048737623,
-              "reference": 434.91527920508804,
-              "ratio": 0.9855989642881422
+              "current": 519.620865036955,
+              "reference": 524.2246992605685,
+              "ratio": 0.9912178227578606
             }
           ],
           "scaling": [
@@ -543,8 +543,8 @@
                 1000,
                 2000
               ],
-              "currentExponent": 1.021317309186558,
-              "referenceExponent": 1.0111240719800114
+              "currentExponent": 1.025107732987933,
+              "referenceExponent": 1.0626143551885998
             },
             {
               "case": "long-alert-body",
@@ -554,8 +554,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 0.997089054456939,
-              "referenceExponent": 0.9926537394370498
+              "currentExponent": 1.0520047214298143,
+              "referenceExponent": 0.9721293578170627
             },
             {
               "case": "nested-alerts",
@@ -565,8 +565,8 @@
                 1000,
                 2000
               ],
-              "currentExponent": 1.0230095645108945,
-              "referenceExponent": 1.0107329583587994
+              "currentExponent": 0.9773980003844045,
+              "referenceExponent": 0.9595028907125677
             }
           ]
         }
@@ -886,49 +886,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17248.449094588705,
-              "reference": 17044.22977626942,
-              "ratio": 1.0119817275993086
+              "current": 15738.608540819869,
+              "reference": 15446.294234508703,
+              "ratio": 1.0189245589830929
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2483.5040860191407,
-              "reference": 2324.2796733914115,
-              "ratio": 1.0685048423606447
+              "current": 3784.131838589507,
+              "reference": 3856.490596560134,
+              "ratio": 0.981237149123307
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 619.8404556269321,
-              "reference": 497.01804300831157,
-              "ratio": 1.2471186194271957
+              "current": 1098.2608450907576,
+              "reference": 957.3764893529944,
+              "ratio": 1.14715669050216
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 8318.764773764178,
-              "reference": 7654.9766365209625,
-              "ratio": 1.0867132806227473
+              "current": 8295.147046834918,
+              "reference": 7070.739040987522,
+              "ratio": 1.1731654921430097
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1452.9850366757664,
-              "reference": 884.7822165049538,
-              "ratio": 1.6421951182691197
+              "current": 1783.9235785615308,
+              "reference": 1259.4220868643813,
+              "ratio": 1.416462040143361
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 382.6997031644884,
-              "reference": 97.49832597115386,
-              "ratio": 3.9251925543594983
+              "current": 456.5913487747826,
+              "reference": 149.9115320763691,
+              "ratio": 3.045738659666171
             }
           ],
           "scaling": [
@@ -940,8 +940,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.006553069820709,
-              "referenceExponent": 1.8983949996710827
+              "currentExponent": 1.0063068379030955,
+              "referenceExponent": 1.891210464186831
             },
             {
               "case": "unique-headings",
@@ -951,8 +951,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 1.0700322705509198,
-              "referenceExponent": 1.3456897258275844
+              "currentExponent": 1.1509704984999474,
+              "referenceExponent": 1.3707872675216195
             },
             {
               "case": "heading-inline-content",
@@ -962,8 +962,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 1.0366745637470778,
-              "referenceExponent": 1.0644879128340388
+              "currentExponent": 1.0355135876608719,
+              "referenceExponent": 1.0602399334188697
             }
           ]
         },
@@ -1099,49 +1099,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17307.0105883457,
-              "reference": 17214.175117288356,
-              "ratio": 1.0053929665769525
+              "current": 17218.12778472044,
+              "reference": 15764.561554282263,
+              "ratio": 1.092204672196756
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2375.8457848264957,
-              "reference": 2283.5420523423427,
-              "ratio": 1.0404212974267202
+              "current": 4355.215707067556,
+              "reference": 4239.866390197674,
+              "ratio": 1.0272058848685803
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 629.259138712798,
-              "reference": 493.564170005215,
-              "ratio": 1.274928726504092
+              "current": 1100.47099333161,
+              "reference": 952.9068565581749,
+              "ratio": 1.1548568317646757
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 8223.659427993498,
-              "reference": 7520.5453953653205,
-              "ratio": 1.0934924258367598
+              "current": 8342.22273591649,
+              "reference": 7599.497942579004,
+              "ratio": 1.0977334027786354
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1439.5123082977507,
-              "reference": 877.3329079597909,
-              "ratio": 1.6407823019488574
+              "current": 2065.1432456782795,
+              "reference": 1434.896924642296,
+              "ratio": 1.4392275920398234
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 381.02867072292196,
-              "reference": 97.68125954303616,
-              "ratio": 3.900734618957788
+              "current": 512.6139418054087,
+              "reference": 158.4582484915439,
+              "ratio": 3.235009516293904
             }
           ],
           "scaling": [
@@ -1153,8 +1153,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0045416095363064,
-              "referenceExponent": 1.9040318623557346
+              "currentExponent": 1.0046406758726125,
+              "referenceExponent": 1.9109283281358027
             },
             {
               "case": "unique-headings",
@@ -1164,8 +1164,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 1.108700967141676,
-              "referenceExponent": 1.3465504488614304
+              "currentExponent": 1.0869538720826424,
+              "referenceExponent": 1.3369217118025465
             },
             {
               "case": "heading-inline-content",
@@ -1175,8 +1175,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 1.0321260550963929,
-              "referenceExponent": 1.0565715129534634
+              "currentExponent": 1.0344814205395063,
+              "referenceExponent": 1.0723784742533498
             }
           ]
         },
@@ -1312,49 +1312,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 15135.090523268605,
-              "reference": 15005.314113284818,
-              "ratio": 1.008648696655333
+              "current": 15409.246988622946,
+              "reference": 15261.704792489241,
+              "ratio": 1.0096674780530623
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2169.8398545273817,
-              "reference": 2046.1186719463662,
-              "ratio": 1.0604662790469166
+              "current": 3887.0783561417206,
+              "reference": 3730.379452039258,
+              "ratio": 1.042006156777644
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 552.9070611075133,
-              "reference": 445.1737064976294,
-              "ratio": 1.2420029598276772
+              "current": 970.8699435319998,
+              "reference": 853.1536989781888,
+              "ratio": 1.1379777696501794
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5719.437181599822,
-              "reference": 5282.828756164518,
-              "ratio": 1.0826467117499932
+              "current": 5785.49321818874,
+              "reference": 5320.801715813037,
+              "ratio": 1.0873348655325143
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 997.2599768839549,
-              "reference": 678.4852816088063,
-              "ratio": 1.4698328820328697
+              "current": 1459.9578266849412,
+              "reference": 1093.3785086354433,
+              "ratio": 1.3352721085646688
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 259.6945463580004,
-              "reference": 87.80544000359664,
-              "ratio": 2.9576134046747327
+              "current": 362.13714169058863,
+              "reference": 138.99878434310443,
+              "ratio": 2.605325963115546
             }
           ],
           "scaling": [
@@ -1366,8 +1366,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0024946392801866,
-              "referenceExponent": 1.8093880596994487
+              "currentExponent": 0.974928169489756,
+              "referenceExponent": 1.8158911473503057
             },
             {
               "case": "unique-headings",
@@ -1377,8 +1377,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 1.1516073157702968,
-              "referenceExponent": 1.2948108460613632
+              "currentExponent": 1.1681872838148688,
+              "referenceExponent": 1.3116131209389073
             },
             {
               "case": "heading-inline-content",
@@ -1388,8 +1388,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 1.0584632572574761,
-              "referenceExponent": 1.0714111455258721
+              "currentExponent": 1.0472119212138478,
+              "referenceExponent": 1.0808498489924783
             }
           ]
         },
@@ -1525,49 +1525,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 15863.42971485663,
-              "reference": 15505.479665595545,
-              "ratio": 1.0230853902607944
+              "current": 15999.561759212887,
+              "reference": 15739.50191207877,
+              "ratio": 1.016522749486408
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2270.646921499418,
-              "reference": 2105.346524198282,
-              "ratio": 1.0785145796196578
+              "current": 4026.6953631721,
+              "reference": 3867.77087108547,
+              "ratio": 1.0410894278341851
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 575.3590997575675,
-              "reference": 456.3805620055644,
-              "ratio": 1.2607002744138618
+              "current": 1010.6832737455394,
+              "reference": 880.5308343029913,
+              "ratio": 1.1478113364940523
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 6522.810204833688,
-              "reference": 5879.336178029274,
-              "ratio": 1.1094467142751654
+              "current": 6553.022554174821,
+              "reference": 5927.555648629236,
+              "ratio": 1.1055185210602327
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1148.4429250574499,
-              "reference": 735.7808338459762,
-              "ratio": 1.5608491988768736
+              "current": 1646.491655580332,
+              "reference": 1184.21367869478,
+              "ratio": 1.3903670302095033
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 303.10642966234303,
-              "reference": 89.48166006953888,
-              "ratio": 3.387358140503763
+              "current": 396.8189584704883,
+              "reference": 150.31346584901848,
+              "ratio": 2.6399428436376478
             }
           ],
           "scaling": [
@@ -1579,8 +1579,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0057570039265709,
-              "referenceExponent": 1.8259569188535365
+              "currentExponent": 1.0108838070975659,
+              "referenceExponent": 1.8192262096678455
             },
             {
               "case": "unique-headings",
@@ -1590,8 +1590,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 1.111833247145028,
-              "referenceExponent": 1.3190122382521614
+              "currentExponent": 1.1334114361994385,
+              "referenceExponent": 1.3339439895569143
             },
             {
               "case": "heading-inline-content",
@@ -1601,8 +1601,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 1.0559167508120677,
-              "referenceExponent": 1.053358322485043
+              "currentExponent": 1.0453993538185486,
+              "referenceExponent": 1.076332901884018
             }
           ]
         }
@@ -1893,49 +1893,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 19682.46973649831,
-              "reference": 18961.165853877206,
-              "ratio": 1.0380411145696302
+              "current": 19450.867086134993,
+              "reference": 18575.880322274228,
+              "ratio": 1.0471033807647636
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 5146.9309685272165,
-              "reference": 4862.516140321954,
-              "ratio": 1.0584912872261296
+              "current": 5061.493752112494,
+              "reference": 4833.477910128359,
+              "ratio": 1.0471742803471464
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 1756.6291679243643,
-              "reference": 1675.7167321636634,
-              "ratio": 1.0482852705398649
+              "current": 1287.60546186733,
+              "reference": 1242.2182033912907,
+              "ratio": 1.036537267246713
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 8869.562496163873,
-              "reference": 8658.142897023865,
-              "ratio": 1.0244185851001237
+              "current": 8874.910854822596,
+              "reference": 8717.739620952121,
+              "ratio": 1.018028897478508
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 2288.5981840039653,
-              "reference": 2228.416584693094,
-              "ratio": 1.0270064402339563
+              "current": 2260.5262070715016,
+              "reference": 2223.948650614192,
+              "ratio": 1.0164471227549288
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 759.1221763289914,
-              "reference": 738.6712804334029,
-              "ratio": 1.0276860579764104
+              "current": 510.00226582331885,
+              "reference": 495.06321012664966,
+              "ratio": 1.0301760570995517
             }
           ],
           "scaling": [
@@ -1947,8 +1947,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.907951919861298,
-              "referenceExponent": 0.9443588179448739
+              "currentExponent": 0.9122756931180745,
+              "referenceExponent": 0.9669153352740715
             },
             {
               "case": "unmatched-braces",
@@ -1958,8 +1958,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.7266545646181413,
-              "referenceExponent": 0.7374527218633612
+              "currentExponent": 0.7253826985490834,
+              "referenceExponent": 0.7377610350661541
             },
             {
               "case": "heading-attrs",
@@ -1969,8 +1969,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0682178946978593,
-              "referenceExponent": 1.0865053775963278
+              "currentExponent": 1.0104283904798592,
+              "referenceExponent": 1.020052250315046
             }
           ]
         }
@@ -2325,49 +2325,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 13051.703146980713,
-              "reference": 13070.993029613817,
-              "ratio": 0.9985242221008457
+              "current": 12424.071279325348,
+              "reference": 12516.75215557817,
+              "ratio": 0.9925954532692798
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 3722.973526656038,
-              "reference": 3666.9720587866827,
-              "ratio": 1.015271855626815
+              "current": 3170.181807966448,
+              "reference": 3146.346323141759,
+              "ratio": 1.007575607506833
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 940.6068073105686,
-              "reference": 938.9040885860768,
-              "ratio": 1.0018135172113862
+              "current": 786.5231672413183,
+              "reference": 789.3986176898217,
+              "ratio": 0.9963574164128659
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5257.890371321882,
-              "reference": 5086.570046143294,
-              "ratio": 1.0336809133904459
+              "current": 5077.711437689164,
+              "reference": 4894.364399592251,
+              "ratio": 1.0374608474416387
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1368.065921233606,
-              "reference": 1319.7737873241956,
-              "ratio": 1.0365912206873888
+              "current": 1272.2610215342954,
+              "reference": 1226.378870706375,
+              "ratio": 1.0374127049347264
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 345.55205396140894,
-              "reference": 330.2120838704309,
-              "ratio": 1.046454902289394
+              "current": 317.07062577510754,
+              "reference": 305.8165591231915,
+              "ratio": 1.0368000564919788
             }
           ],
           "scaling": [
@@ -2379,8 +2379,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.995688780235264,
-              "referenceExponent": 0.991842230805835
+              "currentExponent": 0.9984653619144126,
+              "referenceExponent": 0.9805201742002435
             },
             {
               "case": "long-line",
@@ -2390,8 +2390,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.7551865337164334,
-              "referenceExponent": 0.7583300499465992
+              "currentExponent": 0.7552268146598842,
+              "referenceExponent": 0.7542128952641307
             },
             {
               "case": "mixed-inline-tokens",
@@ -2401,8 +2401,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9884509421786962,
-              "referenceExponent": 0.9919689032100862
+              "currentExponent": 1.0029244001895603,
+              "referenceExponent": 0.9989147402601191
             }
           ]
         }
@@ -2550,49 +2550,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 7828.408705442016,
-              "reference": 7784.929815380508,
-              "ratio": 1.0055850073273118
+              "current": 7336.576222299861,
+              "reference": 7413.65286262222,
+              "ratio": 0.9896034192926728
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2180.4454922696123,
-              "reference": 2166.6646210996173,
-              "ratio": 1.0063604080833706
+              "current": 1884.6970834662109,
+              "reference": 1881.1918078733524,
+              "ratio": 1.0018633270558526
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 550.8355447567029,
-              "reference": 553.1186444686293,
-              "ratio": 0.9958723146746938
+              "current": 468.222062205888,
+              "reference": 467.12997802159873,
+              "ratio": 1.0023378593446615
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 2477.500356800136,
-              "reference": 2478.6599437191635,
-              "ratio": 0.9995321718406893
+              "current": 2359.9462339630363,
+              "reference": 2378.8821368205986,
+              "ratio": 0.9920399995592593
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 647.1970158874688,
-              "reference": 647.8022962523796,
-              "ratio": 0.9990656402911622
+              "current": 592.2165300343427,
+              "reference": 595.7943953074501,
+              "ratio": 0.9939947987069244
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 159.42266781359817,
-              "reference": 161.00668168946825,
-              "ratio": 0.9901618127940481
+              "current": 146.7385284370699,
+              "reference": 148.54905686008448,
+              "ratio": 0.9878119157315157
             }
           ],
           "scaling": [
@@ -2604,8 +2604,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9900224997194629,
-              "referenceExponent": 0.989253173569433
+              "currentExponent": 1.0029910690893717,
+              "referenceExponent": 1.0025070839821055
             },
             {
               "case": "punctuation-dense",
@@ -2615,8 +2615,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9861583411414921,
-              "referenceExponent": 0.9895844631208689
+              "currentExponent": 0.9922690620409049,
+              "referenceExponent": 0.9957499345761732
             },
             {
               "case": "long-text",
@@ -2626,8 +2626,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.8697732853355374,
-              "referenceExponent": 0.8750911554454607
+              "currentExponent": 0.8958655298211177,
+              "referenceExponent": 0.8924410308646458
             }
           ]
         }
@@ -2781,49 +2781,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 11219.3881327649,
-              "reference": 11117.167389682696,
-              "ratio": 1.0091948550830556
+              "current": 11351.637506103265,
+              "reference": 11734.875046416193,
+              "ratio": 0.9673420007629338
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2172.9858883294255,
-              "reference": 2151.43494837073,
-              "ratio": 1.0100170074744839
+              "current": 2974.539052215527,
+              "reference": 3021.0915296324342,
+              "ratio": 0.9845908417668594
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 556.26115369835,
-              "reference": 562.212811965043,
-              "ratio": 0.9894138693746753
+              "current": 743.8293580286753,
+              "reference": 751.3585809208026,
+              "ratio": 0.9899791882553598
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 6945.094462456196,
-              "reference": 7044.034488166135,
-              "ratio": 0.9859540685276093
+              "current": 7143.288351787072,
+              "reference": 7233.201217838416,
+              "ratio": 0.9875694228124607
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1011.8014659139392,
-              "reference": 838.2121427444876,
-              "ratio": 1.2070947369016662
+              "current": 1793.7758901247237,
+              "reference": 1834.0684891193882,
+              "ratio": 0.9780310281575086
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 292.99309286741243,
-              "reference": 292.93054376296124,
-              "ratio": 1.0002135287896157
+              "current": 451.64843632282077,
+              "reference": 459.1523942449394,
+              "ratio": 0.9836569339152448
             }
           ],
           "scaling": [
@@ -2835,8 +2835,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0003193775144126,
-              "referenceExponent": 1.0009955998404982
+              "currentExponent": 0.9997307224430795,
+              "referenceExponent": 1.0005154722163538
             },
             {
               "case": "deeply-nested-containers",
@@ -2846,8 +2846,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9977071028479724,
-              "referenceExponent": 1.6540853543955207
+              "currentExponent": 0.9942115156223152,
+              "referenceExponent": 1.6526421391169148
             },
             {
               "case": "non-matching-containers",
@@ -2857,8 +2857,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0012415446472023,
-              "referenceExponent": 0.9987023807469713
+              "currentExponent": 0.9996815053599744,
+              "referenceExponent": 0.9979508263634106
             }
           ]
         }
@@ -3361,49 +3361,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 11491.212522501195,
-              "reference": 11870.633554377813,
-              "ratio": 0.9680370023943086
+              "current": 11884.469412195225,
+              "reference": 11848.953425191532,
+              "ratio": 1.0029973944304806
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2207.538582544352,
-              "reference": 2193.813760043723,
-              "ratio": 1.0062561475137959
+              "current": 2969.084654000653,
+              "reference": 2957.324915632768,
+              "ratio": 1.003976478305012
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 547.004146774084,
-              "reference": 547.8566195804082,
-              "ratio": 0.9984439855687478
+              "current": 750.382735977018,
+              "reference": 750.0671512821248,
+              "ratio": 1.000420741922045
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5883.876747216357,
-              "reference": 5821.562178854081,
-              "ratio": 1.010704097362152
+              "current": 6275.212640548795,
+              "reference": 6301.746781671455,
+              "ratio": 0.9957893990282449
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1279.4518569542504,
-              "reference": 1282.450745311609,
-              "ratio": 0.9976615956844176
+              "current": 1563.051682416956,
+              "reference": 1565.845824411139,
+              "ratio": 0.9982155701726039
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 317.9667275286559,
-              "reference": 312.9122357946395,
-              "ratio": 1.0161530651595663
+              "current": 392.49141935259007,
+              "reference": 392.43818986129605,
+              "ratio": 1.000135637898322
             }
           ],
           "scaling": [
@@ -3415,8 +3415,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9999928296198466,
-              "referenceExponent": 1.0057298976215638
+              "currentExponent": 1.004969584729181,
+              "referenceExponent": 1.003716865519881
             },
             {
               "case": "many-definitions-per-term",
@@ -3426,8 +3426,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9953559526125998,
-              "referenceExponent": 0.9999989604515314
+              "currentExponent": 0.9975913561114631,
+              "referenceExponent": 0.997937966872868
             },
             {
               "case": "nested-definitions",
@@ -3437,8 +3437,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.5869259554342892,
-              "referenceExponent": 1.59191921308805
+              "currentExponent": 1.5866931235969162,
+              "referenceExponent": 1.5879611729261405
             }
           ]
         }
@@ -3632,49 +3632,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 9660.9013775166,
-              "reference": 9891.042719190511,
-              "ratio": 0.9767323478213887
+              "current": 10268.811049169131,
+              "reference": 10232.733609391973,
+              "ratio": 1.0035256893372115
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 1924.752077280354,
-              "reference": 1930.3680873315677,
-              "ratio": 0.9970907050898375
+              "current": 2611.537192616447,
+              "reference": 2604.4658563429252,
+              "ratio": 1.0027150811965149
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 527.8018805447375,
-              "reference": 534.2169326480943,
-              "ratio": 0.9879916720880456
+              "current": 655.205634092983,
+              "reference": 645.5029123275925,
+              "ratio": 1.0150312594724071
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 11924.87535198536,
-              "reference": 11616.391617692774,
-              "ratio": 1.0265559000113889
+              "current": 11975.632552429886,
+              "reference": 11560.33876108951,
+              "ratio": 1.0359240157164078
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 2270.839814966103,
-              "reference": 2206.341070756594,
-              "ratio": 1.0292333515721535
+              "current": 3022.154644528533,
+              "reference": 2936.2369454238064,
+              "ratio": 1.0292611600159283
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 624.2552634706751,
-              "reference": 603.331149390154,
-              "ratio": 1.0346809776052026
+              "current": 759.8582937345541,
+              "reference": 738.40293506747,
+              "ratio": 1.0290564374112674
             }
           ],
           "scaling": [
@@ -3686,8 +3686,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 0.9933663540313127,
-              "referenceExponent": 1.001991474047926
+              "currentExponent": 0.995680260950973,
+              "referenceExponent": 0.9955458883769186
             },
             {
               "case": "inline-token-replacements",
@@ -3697,8 +3697,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.02411402808132,
-              "referenceExponent": 1.7805032320023053
+              "currentExponent": 1.0216781765773912,
+              "referenceExponent": 1.82117683511111
             },
             {
               "case": "unmatched-colon-words",
@@ -3708,8 +3708,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.002652448375065,
-              "referenceExponent": 0.9871932997053513
+              "currentExponent": 0.9818443405086308,
+              "referenceExponent": 0.9858520431744473
             }
           ]
         },
@@ -3845,49 +3845,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 8903.077939610146,
-              "reference": 8472.504943744594,
-              "ratio": 1.0508200347741847
+              "current": 9994.31867961039,
+              "reference": 9768.485548822184,
+              "ratio": 1.0231185407051593
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 1566.321073024186,
-              "reference": 1549.8494036637821,
-              "ratio": 1.010627916055241
+              "current": 2515.047412801439,
+              "reference": 2482.2476024809084,
+              "ratio": 1.013213754456948
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 430.71902803032583,
-              "reference": 415.9142195275272,
-              "ratio": 1.035595821945248
+              "current": 630.4338620353095,
+              "reference": 618.5255161894537,
+              "ratio": 1.0192527964233706
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 6675.981753492535,
-              "reference": 6546.21348436836,
-              "ratio": 1.0198234092783633
+              "current": 8061.477937621906,
+              "reference": 7913.810309960707,
+              "ratio": 1.0186594853651392
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1289.5156805275628,
-              "reference": 1286.993659016088,
-              "ratio": 1.0019596223289886
+              "current": 2020.0974593077253,
+              "reference": 1980.5480283727748,
+              "ratio": 1.019968933026807
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 369.8643543107628,
-              "reference": 361.6611958201214,
-              "ratio": 1.022681887317326
+              "current": 504.9996564084598,
+              "reference": 493.92698169171496,
+              "ratio": 1.0224176348472007
             }
           ],
           "scaling": [
@@ -3899,8 +3899,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0112049225460211,
-              "referenceExponent": 1.010900760835702
+              "currentExponent": 0.9945734691354623,
+              "referenceExponent": 0.9967526236174489
             },
             {
               "case": "inline-token-replacements",
@@ -3910,8 +3910,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.010992644421186,
-              "referenceExponent": 1.7737972068738608
+              "currentExponent": 1.023355410116983,
+              "referenceExponent": 1.7998814505431624
             },
             {
               "case": "unmatched-colon-words",
@@ -3921,8 +3921,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 0.985893517611758,
-              "referenceExponent": 0.985948477681708
+              "currentExponent": 0.9723713496096856,
+              "referenceExponent": 0.9783899384724233
             }
           ]
         },
@@ -4058,49 +4058,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 7812.108075567723,
-              "reference": 7654.07518185466,
-              "ratio": 1.0206468959290742
+              "current": 8914.911041065392,
+              "reference": 8695.21427492305,
+              "ratio": 1.0252664004814633
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 1455.451259504916,
-              "reference": 1423.9632187613684,
-              "ratio": 1.0221129593297622
+              "current": 2245.3073912283667,
+              "reference": 2172.0413274890693,
+              "ratio": 1.0337314317237207
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 400.6854060955893,
-              "reference": 392.95212299401834,
-              "ratio": 1.019679962644428
+              "current": 561.7460818227333,
+              "reference": 547.4602419488328,
+              "ratio": 1.026094753151473
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5946.763101448727,
-              "reference": 5816.882952524084,
-              "ratio": 1.022328135185922
+              "current": 6823.478712290341,
+              "reference": 6712.381428193888,
+              "ratio": 1.0165510981884631
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1119.2491990069918,
-              "reference": 1106.904834544331,
-              "ratio": 1.011152146126223
+              "current": 1705.5278496617661,
+              "reference": 1677.2534006782605,
+              "ratio": 1.0168575893016951
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 316.8053705480108,
-              "reference": 308.73850572171045,
-              "ratio": 1.0261284701350846
+              "current": 426.6468992108083,
+              "reference": 418.80396006165495,
+              "ratio": 1.0187269937657675
             }
           ],
           "scaling": [
@@ -4112,8 +4112,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0029667124021906,
-              "referenceExponent": 1.002596561987339
+              "currentExponent": 1.0031410236513256,
+              "referenceExponent": 1.0030140048360812
             },
             {
               "case": "inline-token-replacements",
@@ -4123,8 +4123,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0217435734330782,
-              "referenceExponent": 1.8140357279391779
+              "currentExponent": 1.0250937161480085,
+              "referenceExponent": 1.794956848233453
             },
             {
               "case": "unmatched-colon-words",
@@ -4134,8 +4134,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 0.9899256086730492,
-              "referenceExponent": 0.990825549364202
+              "currentExponent": 0.9837079216920109,
+              "referenceExponent": 0.9769730683080387
             }
           ]
         }
@@ -4468,49 +4468,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 12515.610761165832,
-              "reference": 12591.728756613658,
-              "ratio": 0.9939549209708122
+              "current": 13705.682957872099,
+              "reference": 13771.12713145486,
+              "ratio": 0.9952477256975373
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2057.9956458803763,
-              "reference": 2066.8909582299884,
-              "ratio": 0.9956962836795078
+              "current": 3538.149386145942,
+              "reference": 3506.7402670372444,
+              "ratio": 1.008956785138591
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 490.4829472733214,
-              "reference": 493.6989312727521,
-              "ratio": 0.9934859409333945
+              "current": 892.7121544591894,
+              "reference": 890.3844565307216,
+              "ratio": 1.0026142616387728
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 8194.911257115209,
-              "reference": 8216.295578913649,
-              "ratio": 0.9973973280789313
+              "current": 9114.699582679816,
+              "reference": 9097.425849661631,
+              "ratio": 1.0018987495258151
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1424.0697307900364,
-              "reference": 1414.104473063234,
-              "ratio": 1.007047044908369
+              "current": 2313.170611523956,
+              "reference": 2299.154516850729,
+              "ratio": 1.0060961951754444
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 324.61760890339457,
-              "reference": 317.5127280599667,
-              "ratio": 1.0223766804147958
+              "current": 566.4737342329158,
+              "reference": 569.1764596345884,
+              "ratio": 0.9952515158420155
             }
           ],
           "scaling": [
@@ -4522,8 +4522,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0045384613226718,
-              "referenceExponent": 1.0072079485113572
+              "currentExponent": 0.9955115954102147,
+              "referenceExponent": 0.9997540469694254
             },
             {
               "case": "long-captions",
@@ -4533,8 +4533,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0838921995657624,
-              "referenceExponent": 1.079800330961849
+              "currentExponent": 1.0033587898532759,
+              "referenceExponent": 1.0043180722071057
             },
             {
               "case": "linked-figures",
@@ -4544,8 +4544,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0049423017255623,
-              "referenceExponent": 0.974845230121742
+              "currentExponent": 1.0202421922729605,
+              "referenceExponent": 1.0200158828566732
             }
           ]
         }
@@ -5039,49 +5039,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17185.419050782577,
-              "reference": 17241.27536164497,
-              "ratio": 0.9967603144378373
+              "current": 18239.89393019008,
+              "reference": 18380.715420973418,
+              "ratio": 0.9923386284179856
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2458.798339794571,
-              "reference": 2446.5030438261724,
-              "ratio": 1.0050256614229138
+              "current": 4789.953532136237,
+              "reference": 4787.683501582885,
+              "ratio": 1.000474139644486
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 591.6587494382094,
-              "reference": 585.3197795177549,
-              "ratio": 1.0108299260374853
+              "current": 1199.2271700425385,
+              "reference": 1198.2925995879468,
+              "ratio": 1.0007799184063333
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 9229.91199462459,
-              "reference": 9094.97664787612,
-              "ratio": 1.0148362499402328
+              "current": 10025.051285506695,
+              "reference": 9865.47655693652,
+              "ratio": 1.016175065406037
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1591.678657204274,
-              "reference": 1515.7098458564778,
-              "ratio": 1.0501209460078875
+              "current": 2563.463066317052,
+              "reference": 2482.450829089404,
+              "ratio": 1.032633974569947
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 395.3442515964255,
-              "reference": 326.57807330916285,
-              "ratio": 1.2105658153668006
+              "current": 640.6444116763665,
+              "reference": 553.7792366083144,
+              "ratio": 1.1568588515525935
             }
           ],
           "scaling": [
@@ -5093,8 +5093,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0292651197012606,
-              "referenceExponent": 1.6067201718762854
+              "currentExponent": 1.0466882201064056,
+              "referenceExponent": 1.6358145022084016
             },
             {
               "case": "duplicate-references",
@@ -5104,8 +5104,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9767123061239144,
-              "referenceExponent": 0.9712274670821117
+              "currentExponent": 0.9819707463317411,
+              "referenceExponent": 0.9875855470680929
             },
             {
               "case": "many-definitions",
@@ -5115,8 +5115,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9973870512703344,
-              "referenceExponent": 0.9969979334696577
+              "currentExponent": 1.001093249960761,
+              "referenceExponent": 0.9986012267003146
             }
           ]
         }
@@ -5466,49 +5466,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17507.623591153053,
-              "reference": 17589.54148169341,
-              "ratio": 0.9953428069386792
+              "current": 17201.243120490555,
+              "reference": 17894.052916616783,
+              "ratio": 0.9612826787003144
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2069.160526272015,
-              "reference": 2065.5956531553115,
-              "ratio": 1.0017258329873313
+              "current": 4589.974359945579,
+              "reference": 4623.140192096415,
+              "ratio": 0.9928261245013646
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 545.6166479813779,
-              "reference": 548.1190476004939,
-              "ratio": 0.9954345691322519
+              "current": 1158.6458324800167,
+              "reference": 1153.4525751245267,
+              "ratio": 1.0045023588030304
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 15180.419762632526,
-              "reference": 15513.56380890574,
-              "ratio": 0.9785256276135618
+              "current": 16171.169793885501,
+              "reference": 16642.150923188517,
+              "ratio": 0.9716995037794802
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1951.466136508362,
-              "reference": 2003.2383539628868,
-              "ratio": 0.9741557377073443
+              "current": 4075.7959680681665,
+              "reference": 4153.386303570201,
+              "ratio": 0.9813187770578098
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 534.1288924009176,
-              "reference": 542.2082951001211,
-              "ratio": 0.9850990795009664
+              "current": 1020.9131193951338,
+              "reference": 1036.8297584290324,
+              "ratio": 0.9846487440155894
             }
           ],
           "scaling": [
@@ -5520,8 +5520,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0028260931651933,
-              "referenceExponent": 1.0040096855424505
+              "currentExponent": 1.002463556064836,
+              "referenceExponent": 1.0032482424540532
             },
             {
               "case": "malformed-sizes",
@@ -5531,8 +5531,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0262642704644276,
-              "referenceExponent": 1.02426069020703
+              "currentExponent": 1.0224140585443284,
+              "referenceExponent": 1.0226690441474418
             },
             {
               "case": "unmatched-labels",
@@ -5542,8 +5542,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.1929021501625556,
-              "referenceExponent": 1.1955943155534305
+              "currentExponent": 1.19368064248907,
+              "referenceExponent": 1.19699721317757
             }
           ]
         }
@@ -5800,49 +5800,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 10798.619811209704,
-              "reference": 10687.815205243678,
-              "ratio": 1.0103673766656878
+              "current": 11081.47280717554,
+              "reference": 11000.441002646923,
+              "ratio": 1.0073662323636952
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2255.6761462247537,
-              "reference": 2212.2581873652116,
-              "ratio": 1.0196260812176055
+              "current": 2826.6031831306927,
+              "reference": 2847.099643439477,
+              "ratio": 0.9928009332739675
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 629.2760179413572,
-              "reference": 621.3952368021451,
-              "ratio": 1.0126823970839696
+              "current": 709.848315565796,
+              "reference": 710.5054592540932,
+              "ratio": 0.9990751039562918
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 4294.985473243121,
-              "reference": 4310.652330278541,
-              "ratio": 0.9963655484518262
+              "current": 4516.3340661922375,
+              "reference": 4600.692455626319,
+              "ratio": 0.981663979879612
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 812.0351802300157,
-              "reference": 792.5003256743439,
-              "ratio": 1.024649648615664
+              "current": 1139.8885416983899,
+              "reference": 1156.7055325395684,
+              "ratio": 0.9854613033584646
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 221.4873300735757,
-              "reference": 223.39615411904182,
-              "ratio": 0.9914554301393704
+              "current": 281.59908320349786,
+              "reference": 286.4045465123951,
+              "ratio": 0.9832214140193851
             }
           ],
           "scaling": [
@@ -5854,8 +5854,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0302991616592514,
-              "referenceExponent": 1.0171937236527668
+              "currentExponent": 1.021408417984399,
+              "referenceExponent": 1.0083743618669918
             },
             {
               "case": "unmatched-openers",
@@ -5865,8 +5865,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0259891264306364,
-              "referenceExponent": 1.0042775259473828
+              "currentExponent": 1.0003592908765053,
+              "referenceExponent": 1.0006629633763704
             },
             {
               "case": "nested-odd-markers",
@@ -5876,8 +5876,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0364284868806553,
-              "referenceExponent": 1.0139023876145687
+              "currentExponent": 0.9868741823489522,
+              "referenceExponent": 0.9887587778181324
             }
           ]
         }
@@ -6059,49 +6059,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 16112.371357489039,
-              "reference": 16237.560222609898,
-              "ratio": 0.9922901677712308
+              "current": 17460.66106812649,
+              "reference": 18041.600187072534,
+              "ratio": 0.9678000225632808
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 4540.402503379816,
-              "reference": 4562.973143279519,
-              "ratio": 0.9950535233956077
+              "current": 4598.297215496341,
+              "reference": 4721.467606400836,
+              "ratio": 0.9739126896184748
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 1514.290523639344,
-              "reference": 1544.7957994332928,
-              "ratio": 0.9802528749721228
+              "current": 1148.4145366674695,
+              "reference": 1200.5154550780192,
+              "ratio": 0.956601209763548
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 7369.293486811844,
-              "reference": 7458.147608378142,
-              "ratio": 0.988086301554761
+              "current": 7446.128697737319,
+              "reference": 7518.449063290199,
+              "ratio": 0.9903809462637723
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 3670.8768108298527,
-              "reference": 3789.161257893349,
-              "ratio": 0.9687834750191501
+              "current": 1858.003637720595,
+              "reference": 1904.8382892547052,
+              "ratio": 0.975412793937256
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 1845.299848789724,
-              "reference": 1898.2899842243098,
-              "ratio": 0.9720853316010941
+              "current": 457.6152439163021,
+              "reference": 471.4499348456221,
+              "ratio": 0.9706550157147646
             }
           ],
           "scaling": [
@@ -6113,8 +6113,8 @@
                 128,
                 256
               ],
-              "currentExponent": 1.011187458406175,
-              "referenceExponent": 1.0055465068951501
+              "currentExponent": 1.0042419401277374,
+              "referenceExponent": 1.0066003207217278
             },
             {
               "case": "long-formula",
@@ -6124,8 +6124,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9915998365002189,
-              "referenceExponent": 0.9540031129104415
+              "currentExponent": 1.0090683405204204,
+              "referenceExponent": 0.9965492093754424
             },
             {
               "case": "display-formulas",
@@ -6135,8 +6135,8 @@
                 64,
                 128
               ],
-              "currentExponent": 1.0009927799728746,
-              "referenceExponent": 1.0122192726252468
+              "currentExponent": 1.0012077373428543,
+              "referenceExponent": 1.0083329590670584
             }
           ]
         }
@@ -6406,49 +6406,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 17179.57596191994,
-              "reference": 17579.693654686296,
-              "ratio": 0.9772397801335012
+              "current": 17559.280036362245,
+              "reference": 18043.136317061464,
+              "ratio": 0.9731833605756396
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 4531.86209986655,
-              "reference": 4686.804884370784,
-              "ratio": 0.9669406368886988
+              "current": 4653.4875303769295,
+              "reference": 4734.261940087099,
+              "ratio": 0.9829383310994653
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 1469.234186498431,
-              "reference": 1541.709481223716,
-              "ratio": 0.9529903035507322
+              "current": 1171.3337913022613,
+              "reference": 1202.1913670785557,
+              "ratio": 0.9743322264480393
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 6803.755678502381,
-              "reference": 7095.274234156064,
-              "ratio": 0.9589137014253322
+              "current": 7399.346363865086,
+              "reference": 7568.608403091022,
+              "ratio": 0.9776363064104611
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 3447.9761594355587,
-              "reference": 3594.713058812561,
-              "ratio": 0.9591798018433566
+              "current": 1873.7818938388418,
+              "reference": 1918.1534576048084,
+              "ratio": 0.9768675631295042
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 1643.235347818147,
-              "reference": 1487.3824865578088,
-              "ratio": 1.1047833107279772
+              "current": 453.6501405681489,
+              "reference": 472.4988640429279,
+              "ratio": 0.9601084258414926
             }
           ],
           "scaling": [
@@ -6460,8 +6460,8 @@
                 128,
                 256
               ],
-              "currentExponent": 0.9438204502997213,
-              "referenceExponent": 0.9453805979758894
+              "currentExponent": 0.9984973770354795,
+              "referenceExponent": 1.0003132435066198
             },
             {
               "case": "long-formula",
@@ -6471,8 +6471,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9625859176734297,
-              "referenceExponent": 0.9499137149706508
+              "currentExponent": 0.9982914304896692,
+              "referenceExponent": 0.9877102681204883
             },
             {
               "case": "display-formulas",
@@ -6482,8 +6482,8 @@
                 64,
                 128
               ],
-              "currentExponent": 0.9981718907352022,
-              "referenceExponent": 1.002009597749883
+              "currentExponent": 1.0442726240934097,
+              "referenceExponent": 1.0242921679468888
             }
           ]
         }
@@ -6713,49 +6713,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 10862.221354632655,
-              "reference": 10918.829387913134,
-              "ratio": 0.9948155584019709
+              "current": 11100.832562442185,
+              "reference": 11110.883591237,
+              "ratio": 0.9990953888849361
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2221.8375425963272,
-              "reference": 2222.4782955520964,
-              "ratio": 0.9997116943922235
+              "current": 2843.4477668319514,
+              "reference": 2847.736191764515,
+              "ratio": 0.9984940933275472
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 636.2377587018067,
-              "reference": 636.9552564905943,
-              "ratio": 0.9988735507220071
+              "current": 686.5802174988057,
+              "reference": 657.830260330992,
+              "ratio": 1.0437042180962426
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 4348.364109795927,
-              "reference": 4263.17012089481,
-              "ratio": 1.0199837178637468
+              "current": 4297.44190726752,
+              "reference": 4329.095689789991,
+              "ratio": 0.9926881305494989
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 805.9285148571144,
-              "reference": 809.6512964699483,
-              "ratio": 0.9954019938842004
+              "current": 1016.950551604878,
+              "reference": 1070.2936198808302,
+              "ratio": 0.9501603417182927
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 228.17309642549407,
-              "reference": 232.17850222895572,
-              "ratio": 0.9827485931513511
+              "current": 277.75873626897334,
+              "reference": 286.54774667735103,
+              "ratio": 0.9693279374544376
             }
           ],
           "scaling": [
@@ -6767,8 +6767,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0099533680892776,
-              "referenceExponent": 1.0132134577572376
+              "currentExponent": 1.0179785929573906,
+              "referenceExponent": 1.0065772428257365
             },
             {
               "case": "unmatched-openers",
@@ -6778,8 +6778,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 0.993253378079622,
-              "referenceExponent": 0.9938781410452264
+              "currentExponent": 1.0013883584203884,
+              "referenceExponent": 1.0030303058839762
             },
             {
               "case": "nested-odd-markers",
@@ -6789,8 +6789,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0928909048994726,
-              "referenceExponent": 0.9857621860656007
+              "currentExponent": 1.039364173856867,
+              "referenceExponent": 1.070779961692842
             }
           ]
         }
@@ -6964,49 +6964,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 1649.9586204127643,
-              "reference": 1784.6444096013877,
-              "ratio": 0.9245307421108576
+              "current": 1218.5886318857936,
+              "reference": 1475.6105190961678,
+              "ratio": 0.8258199681527049
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 626.303461995058,
-              "reference": 608.2416746920776,
-              "ratio": 1.0296950834750418
+              "current": 514.6569964628335,
+              "reference": 488.1789069568147,
+              "ratio": 1.0542384956184947
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 307.76582742447727,
-              "reference": 263.1954125502821,
-              "ratio": 1.1693434336196125
+              "current": 139.17541506653714,
+              "reference": 129.4870693465507,
+              "ratio": 1.0748209513805367
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 698.9255660377866,
-              "reference": 609.2036382938281,
-              "ratio": 1.1472773997135655
+              "current": 619.4880594405375,
+              "reference": 540.5609886864582,
+              "ratio": 1.1460095574892835
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 254.70676946841655,
-              "reference": 239.03247084196926,
-              "ratio": 1.0655739304841558
+              "current": 158.28969796405005,
+              "reference": 145.53844408701983,
+              "ratio": 1.0876143341851727
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 122.41788437849455,
-              "reference": 108.73081240944833,
-              "ratio": 1.1258803430761164
+              "current": 44.63094376917274,
+              "reference": 37.9654476081661,
+              "ratio": 1.175567432519166
             }
           ],
           "scaling": [
@@ -7018,8 +7018,8 @@
                 128,
                 256
               ],
-              "currentExponent": 1.00694277306673,
-              "referenceExponent": 1.0047767792117634
+              "currentExponent": 0.9895940979428304,
+              "referenceExponent": 1.019056630749271
             },
             {
               "case": "unmatched-dollars",
@@ -7029,8 +7029,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 0.9658629093284892,
-              "referenceExponent": 0.9884224541846202
+              "currentExponent": 1.0000445645123646,
+              "referenceExponent": 1.0071914946523812
             },
             {
               "case": "block-fences",
@@ -7040,8 +7040,8 @@
                 128,
                 256
               ],
-              "currentExponent": 0.9917026401210925,
-              "referenceExponent": 1.006010363573267
+              "currentExponent": 0.9725245748621653,
+              "referenceExponent": 0.9949255924108311
             },
             {
               "case": "unclosed-block",
@@ -7051,8 +7051,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.9929398092938554,
-              "referenceExponent": 1.4635666824882516
+              "currentExponent": 0.997830620228665,
+              "referenceExponent": 1.931282259184049
             }
           ]
         }
@@ -7956,49 +7956,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 1722.822475449781,
-              "reference": 1730.948636610503,
-              "ratio": 0.9953053712924524
+              "current": 1420.4104098327894,
+              "reference": 1759.2274697896257,
+              "ratio": 0.8074057699898506
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 742.2211741784346,
-              "reference": 684.351603597946,
-              "ratio": 1.0845611674996334
+              "current": 474.05120292680743,
+              "reference": 461.03329086314795,
+              "ratio": 1.028236381887493
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 295.0701160363225,
-              "reference": 256.68866488524776,
-              "ratio": 1.1495253059508221
+              "current": 132.8884655702206,
+              "reference": 121.67398089523799,
+              "ratio": 1.092168305766525
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 702.5740556965608,
-              "reference": 629.8949174067377,
-              "ratio": 1.1153829571907665
+              "current": 634.6401752472296,
+              "reference": 568.1896648667422,
+              "ratio": 1.1169512831530861
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 304.12083734603937,
-              "reference": 258.0640325756706,
-              "ratio": 1.1784704528976304
+              "current": 187.75221870317236,
+              "reference": 158.3963263203397,
+              "ratio": 1.1853319017226667
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 134.1397247215866,
-              "reference": 109.68014873944308,
-              "ratio": 1.2230082313277113
+              "current": 46.316354386946,
+              "reference": 37.66979365193342,
+              "ratio": 1.2295356543469889
             }
           ],
           "scaling": [
@@ -8010,8 +8010,8 @@
                 128,
                 256
               ],
-              "currentExponent": 1.0170930359196322,
-              "referenceExponent": 0.989202289367294
+              "currentExponent": 0.9813535573068105,
+              "referenceExponent": 0.9993135071680272
             },
             {
               "case": "unmatched-dollars",
@@ -8021,8 +8021,8 @@
                 4096,
                 8192
               ],
-              "currentExponent": 1.0387911881945875,
-              "referenceExponent": 1.0486925418065658
+              "currentExponent": 0.9931678905473433,
+              "referenceExponent": 0.9836961996402234
             },
             {
               "case": "block-fences",
@@ -8032,8 +8032,8 @@
                 128,
                 256
               ],
-              "currentExponent": 0.9017698415729323,
-              "referenceExponent": 0.9130735349369967
+              "currentExponent": 0.9209119371336151,
+              "referenceExponent": 1.0265076425843638
             },
             {
               "case": "unclosed-block",
@@ -8043,8 +8043,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 0.9913340053264559,
-              "referenceExponent": 1.7529945425055622
+              "currentExponent": 0.9844417896804541,
+              "referenceExponent": 1.7081421652597513
             }
           ]
         }
@@ -8987,49 +8987,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 36932.17963834212,
-              "reference": 34018.753310458575,
-              "ratio": 1.0856417723864047
+              "current": 36029.5815123508,
+              "reference": 33352.11312420567,
+              "ratio": 1.080278823059098
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 9062.555361063836,
-              "reference": 7248.388062229763,
-              "ratio": 1.2502856198176557
+              "current": 9140.383761473619,
+              "reference": 7043.065048969882,
+              "ratio": 1.2977849413460252
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 3113.691131777034,
-              "reference": 1843.7190024742722,
-              "ratio": 1.6888100234354901
+              "current": 2197.6597969042364,
+              "reference": 1180.9931507393767,
+              "ratio": 1.8608573602043008
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 97252.52098981375,
-              "reference": 38980.53206243023,
-              "ratio": 2.4948997831547444
+              "current": 94509.31673037693,
+              "reference": 38134.80328018938,
+              "ratio": 2.4782956407558947
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 24580.166829990078,
-              "reference": 4155.83721411916,
-              "ratio": 5.9146125229546325
+              "current": 24080.878041014395,
+              "reference": 4100.483965259823,
+              "ratio": 5.872691673722601
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 8286.317538333742,
-              "reference": 556.7618062415814,
-              "ratio": 14.883056713732751
+              "current": 6018.587404099689,
+              "reference": 297.06926574203277,
+              "ratio": 20.259879085997653
             }
           ],
           "scaling": [
@@ -9041,8 +9041,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0130113420625624,
-              "referenceExponent": 1.9447442605808725
+              "currentExponent": 0.9794067647181957,
+              "referenceExponent": 1.9100743271302256
             },
             {
               "case": "long-diagram-body",
@@ -9052,8 +9052,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9764514935520584,
-              "referenceExponent": 0.9526601462090365
+              "currentExponent": 0.9752048336189073,
+              "referenceExponent": 0.9440173353957771
             },
             {
               "case": "unmatched-openers",
@@ -9063,8 +9063,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0070928346278054,
-              "referenceExponent": 1.8743262849846
+              "currentExponent": 0.9953744164194989,
+              "referenceExponent": 1.8733041897879055
             }
           ]
         }
@@ -9492,49 +9492,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 7068.830446353508,
-              "reference": 7435.215084145904,
-              "ratio": 0.950723061317535
+              "current": 7315.0035418787165,
+              "reference": 7755.552828567923,
+              "ratio": 0.9431956307400262
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 1402.33026245808,
-              "reference": 1473.292801039342,
-              "ratio": 0.9518340559790958
+              "current": 1852.7786524366484,
+              "reference": 1913.1562261265292,
+              "ratio": 0.9684408555530647
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 347.590114458085,
-              "reference": 364.22403505610964,
-              "ratio": 0.9543305246303634
+              "current": 447.9331468736949,
+              "reference": 463.45976369783074,
+              "ratio": 0.9664984578159433
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 3569.1804512742033,
-              "reference": 3258.9278739146116,
-              "ratio": 1.095200811237015
+              "current": 3482.6329097434277,
+              "reference": 3251.693034428167,
+              "ratio": 1.071021425721962
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 679.3525407964879,
-              "reference": 622.9444507706419,
-              "ratio": 1.090550754495146
+              "current": 905.8031078187613,
+              "reference": 825.158410901001,
+              "ratio": 1.0977323818704137
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 165.6261655527332,
-              "reference": 148.5059519622328,
-              "ratio": 1.1152830129990634
+              "current": 224.7919392226371,
+              "reference": 201.29843754836713,
+              "ratio": 1.1167098063969079
             }
           ],
           "scaling": [
@@ -9546,8 +9546,8 @@
                 1024,
                 2048
               ],
-              "currentExponent": 1.9083038954885179,
-              "referenceExponent": 1.922859156858231
+              "currentExponent": 1.893271330279891,
+              "referenceExponent": 1.9232890498016553
             },
             {
               "case": "dense-documented-syntax",
@@ -9557,8 +9557,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9998888715130251,
-              "referenceExponent": 1.9279315617604424
+              "currentExponent": 0.9971375053746915,
+              "referenceExponent": 1.900473210604082
             },
             {
               "case": "upstream-syntax",
@@ -9568,8 +9568,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9823338104336277,
-              "referenceExponent": 1.0051436224697121
+              "currentExponent": 0.9669033063897619,
+              "referenceExponent": 1.0057150345338983
             }
           ]
         }
@@ -9762,49 +9762,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 18894.422099787298,
-              "reference": 19234.21585488158,
-              "ratio": 0.9823338909338463
+              "current": 17489.92536367724,
+              "reference": 17621.115134457963,
+              "ratio": 0.9925549677316289
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2566.4606424683934,
-              "reference": 2562.17573627963,
-              "ratio": 1.001672370137649
+              "current": 4384.031384882138,
+              "reference": 4461.8553585594045,
+              "ratio": 0.9825579344413367
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 747.0677177042488,
-              "reference": 752.8638374061397,
-              "ratio": 0.992301237735285
+              "current": 1099.7498075581689,
+              "reference": 1109.703144421538,
+              "ratio": 0.9910306311076036
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 5900.97387330736,
-              "reference": 6009.127162866357,
-              "ratio": 0.9820018304443057
+              "current": 5436.265947799109,
+              "reference": 5529.518433856502,
+              "ratio": 0.9831355140284151
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1199.2051858810653,
-              "reference": 1189.9878174498601,
-              "ratio": 1.0077457670541181
+              "current": 1349.2141571586549,
+              "reference": 1393.7206263971973,
+              "ratio": 0.9680664342655294
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 338.5816556826967,
-              "reference": 341.94807638464647,
-              "ratio": 0.9901551699382481
+              "current": 336.84442591051464,
+              "reference": 343.0275785597474,
+              "ratio": 0.9819747651917854
             }
           ],
           "scaling": [
@@ -9816,8 +9816,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0224589130058936,
-              "referenceExponent": 1.0121563333938817
+              "currentExponent": 1.017949756129968,
+              "referenceExponent": 1.0094545419842085
             },
             {
               "case": "unmatched-openers",
@@ -9827,8 +9827,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0007657591481263,
-              "referenceExponent": 0.9968701830616725
+              "currentExponent": 1.013196294337583,
+              "referenceExponent": 1.0126415271094005
             },
             {
               "case": "nested-odd-markers",
@@ -9838,8 +9838,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9843263249505687,
-              "referenceExponent": 0.9884127958583747
+              "currentExponent": 1.006092679115726,
+              "referenceExponent": 0.9944309462893234
             }
           ]
         }
@@ -10055,49 +10055,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 10776.408301964724,
-              "reference": 10752.532310468487,
-              "ratio": 1.0022204993955695
+              "current": 10156.512993734903,
+              "reference": 10430.594195075368,
+              "ratio": 0.973723337691551
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2348.241865479045,
-              "reference": 2337.789196754346,
-              "ratio": 1.0044711767593122
+              "current": 2687.828739474742,
+              "reference": 2716.7715858452416,
+              "ratio": 0.9893466029601842
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 648.1240874125365,
-              "reference": 650.4320277933942,
-              "ratio": 0.9964516809101676
+              "current": 674.1535159914824,
+              "reference": 677.8639081173322,
+              "ratio": 0.994526346540333
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 3886.9648375256897,
-              "reference": 3887.656267420586,
-              "ratio": 0.999822147369177
+              "current": 3724.617775398741,
+              "reference": 3854.26292604588,
+              "ratio": 0.9663631793848213
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 731.6028023871127,
-              "reference": 738.0469371309403,
-              "ratio": 0.9912686654200094
+              "current": 919.7977981447485,
+              "reference": 964.9714226412411,
+              "ratio": 0.9531865675639937
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 201.7989950774587,
-              "reference": 202.97432562720024,
-              "ratio": 0.9942094619794414
+              "current": 231.1529828228575,
+              "reference": 238.48298271885562,
+              "ratio": 0.9692640547663757
             }
           ],
           "scaling": [
@@ -10109,8 +10109,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.011599012614327,
-              "referenceExponent": 1.0143747943980554
+              "currentExponent": 1.087258974508245,
+              "referenceExponent": 1.0519966910792076
             },
             {
               "case": "unmatched-openers",
@@ -10120,8 +10120,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 0.9905477559098191,
-              "referenceExponent": 0.9996286944260138
+              "currentExponent": 0.9668738312441084,
+              "referenceExponent": 1.0377207531192982
             },
             {
               "case": "long-inline-run",
@@ -10131,8 +10131,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 0.9282292865901841,
-              "referenceExponent": 0.9151719040530455
+              "currentExponent": 0.9331753735940538,
+              "referenceExponent": 0.9047117370086145
             }
           ]
         }
@@ -10278,49 +10278,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 10913.401911034596,
-              "reference": 10884.519926541234,
-              "ratio": 1.0026534918111487
+              "current": 9998.5313121444,
+              "reference": 9941.398065845951,
+              "ratio": 1.0057470031800388
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2367.452202912265,
-              "reference": 2354.0012202237945,
-              "ratio": 1.0057140933372972
+              "current": 2584.371263495017,
+              "reference": 2602.8433847234214,
+              "ratio": 0.9929030992272448
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 644.7218067819624,
-              "reference": 648.4660879187887,
-              "ratio": 0.9942259414847069
+              "current": 593.8115263740943,
+              "reference": 649.66456289995,
+              "ratio": 0.914027884980303
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 3941.7331765224303,
-              "reference": 3941.6109675888374,
-              "ratio": 1.0000310048187397
+              "current": 3680.2760207015654,
+              "reference": 3902.2827107691087,
+              "ratio": 0.9431085068606453
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 755.2980631090118,
-              "reference": 755.7445767117098,
-              "ratio": 0.999409173924025
+              "current": 937.8460542299841,
+              "reference": 974.4402638717064,
+              "ratio": 0.962445917930029
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 205.88878696576907,
-              "reference": 206.57369840322653,
-              "ratio": 0.9966844208979571
+              "current": 234.5056874547123,
+              "reference": 240.39541230015692,
+              "ratio": 0.975499845071541
             }
           ],
           "scaling": [
@@ -10332,8 +10332,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 1.0025016232462403,
-              "referenceExponent": 0.9993983013092904
+              "currentExponent": 0.9922265817003687,
+              "referenceExponent": 0.9906250440182938
             },
             {
               "case": "unmatched-openers",
@@ -10343,8 +10343,8 @@
                 2000,
                 4000
               ],
-              "currentExponent": 0.9911796412891114,
-              "referenceExponent": 1.0045462832633647
+              "currentExponent": 0.984547796060798,
+              "referenceExponent": 1.017558560549244
             },
             {
               "case": "long-inline-run",
@@ -10354,8 +10354,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 0.934604704657542,
-              "referenceExponent": 0.9312575992609773
+              "currentExponent": 0.924966887790277,
+              "referenceExponent": 0.9317546330788214
             }
           ]
         }
@@ -10545,49 +10545,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 14640.446091838374,
-              "reference": 14664.273497236736,
-              "ratio": 0.9983751390477781
+              "current": 14380.73283845377,
+              "reference": 14198.392140213376,
+              "ratio": 1.0128423483757685
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 2057.9678012265913,
-              "reference": 2041.8354542036311,
-              "ratio": 1.0079009045463225
+              "current": 3652.5671153206317,
+              "reference": 3660.516328471137,
+              "ratio": 0.9978283901949359
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 515.7866722215499,
-              "reference": 510.14955650679667,
-              "ratio": 1.0110499276983653
+              "current": 898.0776114903701,
+              "reference": 906.8590778097669,
+              "ratio": 0.9903166141969868
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 6655.940088868892,
-              "reference": 6427.8307958788655,
-              "ratio": 1.0354877563261742
+              "current": 6542.680216929738,
+              "reference": 6406.195530911816,
+              "ratio": 1.0213051077444237
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 1178.0871993153262,
-              "reference": 1066.883435211694,
-              "ratio": 1.1042323466964008
+              "current": 1652.3489570341533,
+              "reference": 1537.5284544314754,
+              "ratio": 1.0746786196195208
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 261.23737466299974,
-              "reference": 160.76726175673386,
-              "ratio": 1.62494137057763
+              "current": 405.52903435008056,
+              "reference": 294.82175490852376,
+              "ratio": 1.3755058017204553
             }
           ],
           "scaling": [
@@ -10599,8 +10599,8 @@
                 2048,
                 4096
               ],
-              "currentExponent": 1.0242580795793128,
-              "referenceExponent": 1.617830004370526
+              "currentExponent": 1.0587598006235934,
+              "referenceExponent": 1.6173819561071692
             },
             {
               "case": "long-task-items",
@@ -10610,8 +10610,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9956236292958517,
-              "referenceExponent": 1.114572854978975
+              "currentExponent": 1.0080040637394685,
+              "referenceExponent": 1.1225453200045403
             },
             {
               "case": "many-lists",
@@ -10621,8 +10621,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9996427977401339,
-              "referenceExponent": 1.1773279752230006
+              "currentExponent": 1.0024994502139428,
+              "referenceExponent": 1.176626002552623
             }
           ]
         }
@@ -10915,49 +10915,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 66950.67360587008,
-              "reference": 67554.62361805893,
-              "ratio": 0.991059827146644
+              "current": 65991.52012661312,
+              "reference": 65670.3689927325,
+              "ratio": 1.0048903506833677
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 17306.707109850937,
-              "reference": 17164.27420810282,
-              "ratio": 1.008298218731607
+              "current": 17064.442213125294,
+              "reference": 17190.889171388822,
+              "ratio": 0.9926445364749383
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 5784.351515243127,
-              "reference": 5804.440478265838,
-              "ratio": 0.9965390353992032
+              "current": 4286.285290561364,
+              "reference": 4358.1932095951715,
+              "ratio": 0.9835005206112725
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 123370.95287133398,
-              "reference": 121819.3302555835,
-              "ratio": 1.0127370804985965
+              "current": 125626.3380143383,
+              "reference": 124416.01210125338,
+              "ratio": 1.0097280558397894
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 63874.86642633754,
-              "reference": 63313.65575828765,
-              "ratio": 1.008863975098712
+              "current": 32362.232610858766,
+              "reference": 32323.458701764474,
+              "ratio": 1.0011995594113874
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 32525.352053097147,
-              "reference": 32241.64478085204,
-              "ratio": 1.008799404440235
+              "current": 8293.628594511325,
+              "reference": 8304.741828021872,
+              "ratio": 0.9986618207115062
             }
           ],
           "scaling": [
@@ -10969,8 +10969,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9934571924313456,
-              "referenceExponent": 0.976554608889969
+              "currentExponent": 0.9857476560459627,
+              "referenceExponent": 0.974616301928959
             },
             {
               "case": "inline-formulas",
@@ -10980,8 +10980,8 @@
                 256,
                 512
               ],
-              "currentExponent": 0.9784788250778584,
-              "referenceExponent": 0.9704826096890722
+              "currentExponent": 0.9751226681574853,
+              "referenceExponent": 0.9747554210354131
             },
             {
               "case": "multiline-block-fences",
@@ -10991,8 +10991,8 @@
                 256,
                 512
               ],
-              "currentExponent": 1.0063721204531837,
-              "referenceExponent": 1.00475575082958
+              "currentExponent": 1.0091260499550654,
+              "referenceExponent": 1.0144317748026515
             }
           ]
         }
@@ -12205,49 +12205,49 @@
               "case": "normal/small",
               "kind": "normal",
               "size": "small",
-              "current": 36352.878749929274,
-              "reference": 32755.773627212282,
-              "ratio": 1.109815911040753
+              "current": 35948.84966995329,
+              "reference": 32702.671018104986,
+              "ratio": 1.0992634103205559
             },
             {
               "case": "normal/medium",
               "kind": "normal",
               "size": "medium",
-              "current": 9045.92663474367,
-              "reference": 7273.942811355648,
-              "ratio": 1.2436070600695
+              "current": 9163.964803409493,
+              "reference": 7314.300703411604,
+              "ratio": 1.2528832454393284
             },
             {
               "case": "normal/large",
               "kind": "normal",
               "size": "large",
-              "current": 3028.7419756217996,
-              "reference": 1854.2769282262666,
-              "ratio": 1.6333816861535257
+              "current": 2307.1341037419024,
+              "reference": 1234.2362319919805,
+              "ratio": 1.8692808102208534
             },
             {
               "case": "heavy/small",
               "kind": "heavy",
               "size": "small",
-              "current": 93180.49363929994,
-              "reference": 38357.932639230916,
-              "ratio": 2.429236594049356
+              "current": 96083.78017276397,
+              "reference": 38098.525696131044,
+              "ratio": 2.5219815837262547
             },
             {
               "case": "heavy/medium",
               "kind": "heavy",
               "size": "medium",
-              "current": 22503.274300986686,
-              "reference": 3931.812126264919,
-              "ratio": 5.723384937612468
+              "current": 24413.026095279176,
+              "reference": 4161.438532085003,
+              "ratio": 5.86648725123606
             },
             {
               "case": "heavy/large",
               "kind": "heavy",
               "size": "large",
-              "current": 7041.264456710137,
-              "reference": 477.0328567534222,
-              "ratio": 14.760543968881706
+              "current": 6084.137908045951,
+              "reference": 317.8579910224051,
+              "ratio": 19.141056949602046
             }
           ],
           "scaling": [
@@ -12259,8 +12259,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 0.9785410087740033,
-              "referenceExponent": 1.911904796537364
+              "currentExponent": 0.9937623340558744,
+              "referenceExponent": 1.9354559280761383
             },
             {
               "case": "long-block-body",
@@ -12270,8 +12270,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.010499140561242,
-              "referenceExponent": 0.9615033828107619
+              "currentExponent": 0.9874388442965634,
+              "referenceExponent": 0.9776301909031883
             },
             {
               "case": "unmatched-openers",
@@ -12281,8 +12281,8 @@
                 512,
                 1024
               ],
-              "currentExponent": 1.0091282370173933,
-              "referenceExponent": 1.8972376489333151
+              "currentExponent": 1.0043721219334827,
+              "referenceExponent": 1.8805812303397165
             }
           ]
         }

@@ -6,7 +6,7 @@ const BENCH_CASES = (["normal", "heavy"] as const).flatMap((kind) =>
     name: `${kind}/${size}`,
     kind,
     size,
-    file: `corpora/plugin-img-size/${kind}-${size}.md`,
+    file: `corpora/plugin-img-size/${kind}.md`,
   })),
 );
 

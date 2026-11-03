@@ -33,6 +33,9 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const SPECS_DIR = path.join(import.meta.dirname, "specs");
 const RESULTS_DIR = path.join(import.meta.dirname, "results");
 
+/** Repetitions of the base corpus document for every benchmark size */
+const CORPUS_REPETITIONS = { small: 1, medium: 4, large: 16 } as const;
+
 /** Command line flags of a comparison run */
 interface RunFlags {
   /** Whether correctness cases are compared */
@@ -197,7 +200,10 @@ const compareBench = async (
   const results: BenchResult[] = [];
 
   for (const benchCase of spec.bench) {
-    const markdown = readFileSync(path.join(import.meta.dirname, benchCase.file), "utf8");
+    // The committed corpus files contain the base document once; the size is expressed through
+    // repetitions so the repository only stores each document a single time.
+    const baseCorpus = readFileSync(path.join(import.meta.dirname, benchCase.file), "utf8");
+    const markdown = baseCorpus.repeat(CORPUS_REPETITIONS[benchCase.size]);
     const measurement = await measurePair(
       () => ourRenderer(markdown),
       () => referenceRenderer(markdown),
