@@ -11,6 +11,73 @@ const MIN_MARKER_NUM = 3;
 const INCLUDE_MARKER_RE = /^\s*<!-- #include-env-(?:start:(?:[^:]+: )?.*|end(?::[^:]+)?) -->$/;
 
 /**
+ * Extract the source code displayed by a demo block in a single pass over `src`.
+ *
+ * The range starts at the end of the opening marker line and ends at the end of the last content
+ * line. The opening line is skipped, every remaining line is dedented by `indent` characters,
+ * include markers are dropped, and leading/trailing blank lines are trimmed (the result always ends
+ * with exactly one newline).
+ *
+ * @param src - Source string / 源字符串
+ * @param start - Start position of the code range / 代码范围的起始位置
+ * @param end - End position of the code range / 代码范围的结束位置
+ * @param indent - Characters to remove from every line / 每行需要移除的缩进字符数
+ * @returns Demo source code / 示例源码
+ */
+const extractDemoCode = (src: string, start: number, end: number, indent: number): string => {
+  // The range starts with the line break that terminates the opening marker line, which belongs
+  // to the dropped first segment of a split on `/\n\r?/`.
+  let pos = start;
+
+  /* istanbul ignore next -- callers pass `eMarks[startLine]`, so the range starts at a line break */
+  while (pos < end && src.charCodeAt(pos) !== 10 /* \n */) pos++;
+
+  let code = "";
+  let pendingEmptyLines = 0;
+  let hasCode = false;
+
+  if (pos < end) {
+    // Skip the line break itself: `\n` optionally followed by `\r`.
+    pos += 1;
+    if (pos < end && src.charCodeAt(pos) === 13 /* \r */) pos += 1;
+
+    while (pos < end) {
+      let lineEnd = pos;
+
+      while (lineEnd < end && src.charCodeAt(lineEnd) !== 10 /* \n */) lineEnd++;
+
+      // `line.slice(indent)` is empty when the line is shorter than the indentation.
+      const lineStart = pos + indent;
+      const line = src.slice(lineStart < lineEnd ? lineStart : lineEnd, lineEnd);
+
+      // this is a workaround to work with include plugin
+      if (!INCLUDE_MARKER_RE.test(line)) {
+        if (line.length === 0) {
+          // Empty lines only matter between two code lines; leading ones are trimmed by the
+          // leading `\n+` trim and trailing ones collapse into the final newline.
+          if (hasCode) pendingEmptyLines += 1;
+        } else {
+          if (hasCode) code += "\n".repeat(pendingEmptyLines + 1);
+
+          code += line;
+          hasCode = true;
+          pendingEmptyLines = 0;
+        }
+      }
+
+      if (lineEnd === end) break;
+
+      pos = lineEnd + 1;
+      if (pos < end && src.charCodeAt(pos) === 13 /* \r */) pos += 1;
+    }
+  }
+
+  // Both `replace(/^\n+/, "")` and `replace(/\n*$/, "\n")` are folded into the accumulation
+  // above: leading empty lines were skipped and trailing ones collapse into this newline.
+  return `${code}\n`;
+};
+
+/**
  * Demo block plugin, rendering `::: demo` blocks with both the source code and the result
  *
  * 示例块插件，渲染 `::: demo` 块，同时展示源码与渲染结果
@@ -162,23 +229,13 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
 
       const indent = state.sCount[startLine];
       // The content of the block is the source between the opening and closing markers.
-      // Split only that line range instead of the whole document: starting at the newline
-      // that terminates the (newline-terminated) opening marker line makes the first segment
-      // empty, so dropping it keeps the split result identical to splitting the full source.
-      // Do not switch to `eMarks[startLine] + 1`: that changes raw LFCR (`\n\r`) handling.
+      // The extraction skips the line break that terminates the opening marker line, so the
+      // range starts at `eMarks[startLine]`: do not switch to `eMarks[startLine] + 1`, that
+      // changes raw LFCR (`\n\r`) handling.
       const contentStart = state.eMarks[startLine];
       const contentEnd = state.eMarks[nextLine - 1];
 
-      codeToken.content = state.src
-        .slice(contentStart, contentEnd)
-        .split(/\n\r?/)
-        .slice(1)
-        .map((line) => line.slice(indent))
-        // this is a workaround to work with include plugin
-        .filter((line) => !INCLUDE_MARKER_RE.test(line))
-        .join("\n")
-        .replace(/^\n+/, "")
-        .replace(/\n*$/, "\n");
+      codeToken.content = extractDemoCode(state.src, contentStart, contentEnd, indent);
       // the code content is the source between the opening and closing markers
       codeToken.map = [startLine + 1, nextLine];
       (codeToken.meta ??= {}).title = title;

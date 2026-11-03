@@ -3,7 +3,7 @@ import type { BlockRule } from "@mdit/helper";
 import type { Env, StateBlock, Token } from "markdown-it";
 
 import type { AllowedAttributes } from "./utils.js";
-import { parseAttributes, scanCodeSpan } from "./utils.js";
+import { parseAttributesRange, scanCodeSpan } from "./utils.js";
 
 export interface FieldContext {
   /** Container name (e.g., "fields", "props") */
@@ -281,9 +281,10 @@ export const getFieldItemRule =
     if (silent) return true;
 
     // Parse attributes (if enabled), filtering out invalid keys
-    const afterName = state.src.slice(marker.end, max);
     const attributes = shouldParseAttributes
-      ? parseAttributes(afterName, allowedAttributes).filter((attr) => isValidAttrKey(attr.attr))
+      ? parseAttributesRange(state.src, marker.end, max, allowedAttributes).filter((attr) =>
+          isValidAttrKey(attr.attr),
+        )
       : [];
 
     const currentDepth = marker.depth;
@@ -401,82 +402,100 @@ export const getFieldItemRule =
     return true;
   };
 
-export const getFieldsScanner =
-  (name: string): ((tokens: Token[]) => void) =>
-  (tokens: Token[]) => {
+interface FieldsScanContext {
+  /** Nesting level of the container opening token / 容器开始 token 的嵌套层级 */
+  level: number;
+  /** Whether a field item has been found in this container / 容器内是否已找到字段项 */
+  hasField: boolean;
+  /** Containers hidden before the first field / 第一个字段前被隐藏的容器 */
+  hiddenContainers: { index: number; type: string }[];
+}
+
+export const getFieldsScanner = (name: string): ((tokens: Token[]) => void) => {
+  // Hoist the token type strings: the scanner compares them for every token, so building them
+  // inside the loop would allocate a new string per comparison.
+  const fieldsOpenType = `${name}_fields_open`;
+  const fieldsCloseType = `${name}_fields_close`;
+  const fieldsEmptyType = `${name}_fields_empty`;
+  const fieldOpenType = `${name}_field_open`;
+  const fieldCloseType = `${name}_field_close`;
+  const innerOpenType = `${name}_fields_inner_open`;
+  const innerCloseType = `${name}_fields_inner_close`;
+
+  return (tokens: Token[]) => {
+    // Containers currently open, outermost first. The scanner walks the token array once and
+    // keeps the state of every open container on this stack instead of re-scanning the document
+    // for each `${name}_fields_open` (which was O(containers × tokens) when levels desynced).
+    const activeContexts: FieldsScanContext[] = [];
+
+    const hideToken = (context: FieldsScanContext, index: number, token: Token): void => {
+      if (token.nesting > 0) context.hiddenContainers.push({ index, type: token.type });
+      else if (token.nesting < 0 && context.hiddenContainers.length > 0)
+        context.hiddenContainers.pop();
+
+      token.type = fieldsEmptyType;
+      token.hidden = true;
+    };
+
     for (let ii = 0; ii < tokens.length; ii++) {
       const token = tokens[ii];
 
-      if (token.type !== `${name}_fields_open`) continue;
+      // A close token belongs to the innermost open container: block tokens are emitted in
+      // document order, so same-name containers pair up like a stack. Popping by token order
+      // instead of comparing `level` means a third-party rule that re-levels (or defers) close
+      // tokens can never leave a container scanning to the end of the document.
+      if (token.type === fieldsCloseType) {
+        activeContexts.pop();
+        continue;
+      }
 
-      const { level } = token;
-      let isFieldStart = false;
-      let nestingDepth = 0;
-      // Containers hidden before the first field. If the first field turns out
-      // to be nested inside them (e.g. a blockquote or list item), their open
-      // tokens are restored so the emitted tags stay balanced.
-      const hiddenContainers: { index: number; type: string }[] = [];
+      const contextCount = activeContexts.length;
 
-      const hideToken = (index: number, innerToken: Token): void => {
-        if (innerToken.nesting > 0) hiddenContainers.push({ index, type: innerToken.type });
-        else if (innerToken.nesting < 0 && hiddenContainers.length > 0) hiddenContainers.pop();
+      for (let ci = 0; ci < contextCount; ci++) {
+        const context = activeContexts[ci];
 
-        innerToken.type = `${name}_fields_empty`;
-        innerToken.hidden = true;
-      };
+        if (context.hasField) continue;
 
-      for (let jj = ii + 1; jj < tokens.length; jj++) {
-        const innerToken = tokens[jj];
-        const type = innerToken.type;
+        // Read the type again for every container: an outer container may have hidden (renamed)
+        // the token, and a nested container must observe the renamed type, matching the previous
+        // per-container scan order.
+        const type = token.type;
 
-        // record the nesting depth of fields
-        if (type === `${name}_fields_open`) {
-          nestingDepth++;
-          continue;
-        }
+        // A nested fields container only increases the nesting depth of the outer containers;
+        // the stack itself records it.
+        if (type === fieldsOpenType) continue;
 
-        if (type === `${name}_fields_close`) {
-          if (innerToken.level === level) break;
+        const nestingDepth = contextCount - 1 - ci;
 
-          nestingDepth--;
-          continue;
-        }
+        // A field item may be nested inside another block, e.g. a blockquote or a list item, so
+        // it is recognized at any depth while no nested fields container is open.
+        if (nestingDepth === 0 && type === fieldOpenType) {
+          for (const hidden of context.hiddenContainers) {
+            const hiddenToken = tokens[hidden.index];
 
-        // A field item may be nested inside another block, e.g. a blockquote
-        // or a list item, so it is recognized at any depth.
-        if (nestingDepth === 0 && type === `${name}_field_open`) {
-          if (!isFieldStart) {
-            for (const hidden of hiddenContainers) {
-              const hiddenToken = tokens[hidden.index];
-
-              hiddenToken.type = hidden.type;
-              hiddenToken.hidden = false;
-            }
-
-            hiddenContainers.length = 0;
+            hiddenToken.type = hidden.type;
+            hiddenToken.hidden = false;
           }
 
-          isFieldStart = true;
+          context.hiddenContainers.length = 0;
+          context.hasField = true;
           continue;
         }
 
-        // skip processing tokens deep inside other blocks
-        if (innerToken.level > level + 1 || nestingDepth > 0) {
-          // hide contents before first field
-          if (!isFieldStart) hideToken(jj, innerToken);
-
+        // skip processing tokens deep inside other blocks, and hide contents before the first field
+        if (token.level > context.level + 1 || nestingDepth > 0) {
+          hideToken(context, ii, token);
           continue;
         }
 
-        if (
-          type === `${name}_field_close` ||
-          type === `${name}_fields_inner_open` ||
-          type === `${name}_fields_inner_close`
-        )
-          continue;
+        if (type === fieldCloseType || type === innerOpenType || type === innerCloseType) continue;
 
         // hide contents before first field
-        if (!isFieldStart) hideToken(jj, innerToken);
+        hideToken(context, ii, token);
       }
+
+      if (token.type === fieldsOpenType)
+        activeContexts.push({ level: token.level, hasField: false, hiddenContainers: [] });
     }
   };
+};

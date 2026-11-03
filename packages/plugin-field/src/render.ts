@@ -11,16 +11,16 @@ export const getDefaultFieldOpenRender = (classPrefix: string): MarkdownItFieldO
   return (meta): string => {
     const { name, level, attributes } = meta;
 
-    let metaHtml = "";
+    const metaHtml = attributes
+      .map((attribute) => {
+        const escapedName = escapeHtml(attribute.name);
+        const attrClass = `${escapedClassPrefix}attr-${escapeHtml(attribute.attr)}`;
 
-    attributes.forEach((attribute) => {
-      const escapedName = escapeHtml(attribute.name);
-      const attrClass = `${escapedClassPrefix}attr-${escapeHtml(attribute.attr)}`;
-
-      metaHtml += `<span class="${escapedClassPrefix}attr ${attrClass}">${
-        attribute.value === true ? escapedName : `${escapedName}: ${escapeHtml(attribute.value)}`
-      }</span>\n`;
-    });
+        return `<span class="${escapedClassPrefix}attr ${attrClass}">${
+          attribute.value === true ? escapedName : `${escapedName}: ${escapeHtml(attribute.value)}`
+        }</span>\n`;
+      })
+      .join("");
 
     return `\
 <dt class="${escapedClassPrefix}name" data-level="${level}">${escapeHtml(name)}</dt>

@@ -188,24 +188,27 @@ export const normalizeAttributes = (allowedAttributes?: FieldAttr[]): AllowedAtt
 };
 
 /**
- * Parse `key=value` attributes after a field marker
+ * Parse `key=value` attributes from `src` between `start` and `end`, without slicing the line.
  *
- * 解析字段标记后的 `key=value` 属性
+ * 从 `src` 的 `start` 到 `end` 之间解析 `key=value` 属性，无需截取整行。
  *
- * @param content - Attribute content / 属性内容
+ * @param src - Source string / 源字符串
+ * @param start - Start position of the attribute content / 属性内容的起始位置
+ * @param end - End position of the attribute content / 属性内容的结束位置
  * @param allowedAttributes - Allowed attributes / 允许的属性
  * @returns Parsed attributes / 解析后的属性
  */
-export const parseAttributes = (
-  content: string,
-  allowedAttributes: AllowedAttributes | null = null,
+export const parseAttributesRange = (
+  src: string,
+  start: number,
+  end: number,
+  allowedAttributes: AllowedAttributes | null,
 ): FieldAttrItem[] => {
   const attrs: Record<string, ParsedAttr> = {};
-  const length = content.length;
-  let pos = 0;
+  let pos = start;
 
-  while (pos < length) {
-    let charCode = content.charCodeAt(pos);
+  while (pos < end) {
+    let charCode = src.charCodeAt(pos);
 
     // skip spaces
     if (isSpace(charCode)) {
@@ -216,34 +219,34 @@ export const parseAttributes = (
     // parse key
     const keyStart = pos;
 
-    while (pos < length) {
-      charCode = content.charCodeAt(pos);
+    while (pos < end) {
+      charCode = src.charCodeAt(pos);
 
       if (isSpace(charCode) || charCode === 61 /* = */) break;
       pos++;
     }
-    const key = content.slice(keyStart, pos);
+    const key = src.slice(keyStart, pos);
 
     if (!key) break;
 
     // check =
-    if (pos < length && content.charCodeAt(pos) === 61 /* = */) {
+    if (pos < end && src.charCodeAt(pos) === 61 /* = */) {
       pos++; // skip =
 
-      if (pos >= length) break; // trailing =
+      if (pos >= end) break; // trailing =
 
-      const quoteCharCode = content.charCodeAt(pos);
+      const quoteCharCode = src.charCodeAt(pos);
       const quote = QUOTE_STYLES[quoteCharCode] ?? "none";
 
       if (quote === "none") {
         // unquoted value
-        const valEnd = scanUnquotedEnd(content, pos, length);
+        const valEnd = scanUnquotedEnd(src, pos, end);
 
-        attrs[key] = { value: content.slice(pos, valEnd), quote };
+        attrs[key] = { value: src.slice(pos, valEnd), quote };
         pos = valEnd;
       } else if (quote === "backtick") {
         // a backtick value is a code span, so its content is taken literally
-        const span = scanCodeSpan(content, pos, length);
+        const span = scanCodeSpan(src, pos, end);
 
         if (span) {
           attrs[key] = { value: span.value, quote };
@@ -251,9 +254,9 @@ export const parseAttributes = (
         } else {
           // an unclosed backtick value falls back to an unquoted value, so that existing
           // unquoted values starting with a backtick keep working
-          const valEnd = scanUnquotedEnd(content, pos, length);
+          const valEnd = scanUnquotedEnd(src, pos, end);
 
-          attrs[key] = { value: content.slice(pos, valEnd), quote: "none" };
+          attrs[key] = { value: src.slice(pos, valEnd), quote: "none" };
           pos = valEnd;
         }
       } else {
@@ -261,8 +264,8 @@ export const parseAttributes = (
         let scan = valueStart;
         let closed = false;
 
-        while (scan < length) {
-          const scanCode = content.charCodeAt(scan);
+        while (scan < end) {
+          const scanCode = src.charCodeAt(scan);
 
           // a backslash escapes the next character, so an escaped quote does not close the value
           if (scanCode === 92 /* \ */) {
@@ -279,10 +282,10 @@ export const parseAttributes = (
         }
 
         // an unclosed value takes the rest of the content
-        const valueEnd = closed ? scan : length;
+        const valueEnd = closed ? scan : end;
 
-        attrs[key] = { value: unescapeValue(content.slice(valueStart, valueEnd)), quote };
-        pos = closed ? scan + 1 : length;
+        attrs[key] = { value: unescapeValue(src.slice(valueStart, valueEnd)), quote };
+        pos = closed ? scan + 1 : end;
       }
     } else {
       // boolean
@@ -290,36 +293,65 @@ export const parseAttributes = (
     }
   }
 
+  const keys = Object.keys(attrs);
+
   if (!allowedAttributes) {
-    return Object.entries(attrs).map(([key, { value, quote }]) => ({
-      attr: key,
-      name: key
-        .split("-")
-        .map((part) => ucFirst(part))
-        .join(" "),
-      value,
-      quote,
-    }));
+    const items: FieldAttrItem[] = [];
+
+    for (const key of keys) {
+      const { value, quote } = attrs[key];
+
+      items.push({
+        attr: key,
+        name: key
+          .split("-")
+          .map((part) => ucFirst(part))
+          .join(" "),
+        value,
+        quote,
+      });
+    }
+
+    return items;
   }
 
-  return Object.entries(attrs)
-    .filter(([key]) => allowedAttributes.has(key))
-    .sort(
-      (a, b) =>
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        allowedAttributes.get(a[0])!.index -
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        allowedAttributes.get(b[0])!.index,
-    )
-    .map(([key, { value, quote }]) => {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const info = allowedAttributes.get(key)!;
+  // Resolve the allowed-attribute info (which memoizes the display name) once per key instead of
+  // looking it up again in every filter/sort/map pass.
+  const allowedItems: { info: AttrInfo; item: FieldAttrItem }[] = [];
 
-      return {
+  for (const key of keys) {
+    const info = allowedAttributes.get(key);
+
+    if (!info) continue;
+
+    const { value, quote } = attrs[key];
+
+    allowedItems.push({
+      info,
+      item: {
         attr: key,
         name: info.display,
         value: info.boolean ? true : value,
         quote,
-      };
+      },
     });
+  }
+
+  allowedItems.sort((a, b) => a.info.index - b.info.index);
+
+  return allowedItems.map(({ item }) => item);
 };
+
+/**
+ * Parse `key=value` attributes after a field marker
+ *
+ * 解析字段标记后的 `key=value` 属性
+ *
+ * @param content - Attribute content / 属性内容
+ * @param allowedAttributes - Allowed attributes / 允许的属性
+ * @returns Parsed attributes / 解析后的属性
+ */
+export const parseAttributes = (
+  content: string,
+  allowedAttributes: AllowedAttributes | null = null,
+): FieldAttrItem[] => parseAttributesRange(content, 0, content.length, allowedAttributes);
