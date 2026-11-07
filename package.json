@@ -32,7 +32,7 @@
     "@mr-hope/tsconfig": "0.0.4",
     "@mr-hope/verify-commit-message": "0.1.1",
     "@types/node": "22.20.5",
-    "@vitest/coverage-istanbul": "5.0.5",
+    "@vitest/coverage-istanbul": "5.1.0",
     "conventional-changelog-conventionalcommits": "10.4.1",
     "cross-env": "10.1.0",
     "happy-dom": "21.0.4",
@@ -51,7 +51,7 @@
     "tsdown": "0.23.5",
     "typescript": "7.0.2",
     "unrun": "0.3.1",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
