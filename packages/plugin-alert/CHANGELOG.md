@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-alert%402.1.0...%40mdit%2Fplugin-alert%402.2.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-alert:** cache rendered alert titles ([#895](https://github.com/mdit-plugins/mdit-plugins/issues/895)) ([b970150](https://github.com/mdit-plugins/mdit-plugins/commit/b970150ffd847f644485b7696fd2862375372ccd))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-alert%402.0.3...%40mdit%2Fplugin-alert%402.1.0) (2026-11-01)
 
 ### ✨ Features

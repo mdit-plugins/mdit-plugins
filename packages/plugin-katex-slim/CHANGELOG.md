@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.5...%40mdit%2Fplugin-katex-slim%401.2.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-katex-slim:** reuse KaTeX options per formula ([#891](https://github.com/mdit-plugins/mdit-plugins/issues/891)) ([c1c5e05](https://github.com/mdit-plugins/mdit-plugins/commit/c1c5e05bbb0563552de478e1cdf9c828c7b15e3c))
+
 ## [1.1.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.4...%40mdit%2Fplugin-katex-slim%401.1.5) (2026-11-01)
 
 ### 🐛 Bug Fixes

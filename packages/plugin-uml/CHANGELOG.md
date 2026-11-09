@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.4...%40mdit%2Fplugin-uml%402.1.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
 ## [2.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-uml%402.0.3...%40mdit%2Fplugin-uml%402.0.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

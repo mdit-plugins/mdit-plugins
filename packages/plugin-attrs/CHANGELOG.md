@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.4.0...%40mdit%2Fplugin-attrs%401.5.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
 ## [1.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.3.4...%40mdit%2Fplugin-attrs%401.4.0) (2026-11-01)
 
 ### ✨ Features

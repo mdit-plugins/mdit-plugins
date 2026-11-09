@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-emoji%401.2.4...%40mdit%2Fplugin-emoji%401.3.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-emoji:** linearize inline replacement pass ([#888](https://github.com/mdit-plugins/mdit-plugins/issues/888)) ([ee986a0](https://github.com/mdit-plugins/mdit-plugins/commit/ee986a0740cd4d4f14afe245762810d84b284b74))
+
 ## [1.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-emoji%401.2.3...%40mdit%2Fplugin-emoji%401.2.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

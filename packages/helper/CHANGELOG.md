@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.2.0...%40mdit%2Fhelper%401.2.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **helper:** skip dedent work when no indent ([#900](https://github.com/mdit-plugins/mdit-plugins/issues/900)) ([16c9285](https://github.com/mdit-plugins/mdit-plugins/commit/16c9285e15f56e1cafdf81a3f9ebca12e87ab852))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fhelper%401.1.3...%40mdit%2Fhelper%401.2.0) (2026-11-01)
 
 ### ✨ Features

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.4...%40mdit%2Fplugin-embed%401.1.5) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-embed:** reduce hot-path allocations ([#903](https://github.com/mdit-plugins/mdit-plugins/issues/903)) ([57eb9d9](https://github.com/mdit-plugins/mdit-plugins/commit/57eb9d976b4a47532448671d4b4d1ee316617db4))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-embed%401.1.3...%40mdit%2Fplugin-embed%401.1.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

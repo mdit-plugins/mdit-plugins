@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-cjk-breaks",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "CJK line-break plugin for MarkdownIt",
   "keywords": [
     "cjk",

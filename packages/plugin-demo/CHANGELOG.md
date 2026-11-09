@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-demo%402.1.0...%40mdit%2Fplugin-demo%402.1.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-demo:** extract demo code in one pass ([#902](https://github.com/mdit-plugins/mdit-plugins/issues/902)) ([25c0930](https://github.com/mdit-plugins/mdit-plugins/commit/25c0930520bbc18d977b80c58dec2abfa4116ca5))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-demo%402.0.3...%40mdit%2Fplugin-demo%402.1.0) (2026-11-01)
 
 ### ✨ Features

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%402.0.0...%40mdit%2Fplugin-snippet%402.0.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-snippet:** cache snippet file reads ([#910](https://github.com/mdit-plugins/mdit-plugins/issues/910)) ([b0598be](https://github.com/mdit-plugins/mdit-plugins/commit/b0598bedbcfc37aadbc09145995ce6632af32afa))
+
 ## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-snippet%401.1.3...%40mdit%2Fplugin-snippet%402.0.0) (2026-11-01)
 
 ### ⚠ BREAKING CHANGES

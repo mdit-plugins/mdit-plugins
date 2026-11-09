@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-ruby%401.1.4...%40mdit%2Fplugin-ruby%401.2.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-ruby:** linearize non-matching scan ([#892](https://github.com/mdit-plugins/mdit-plugins/issues/892)) ([cc7bc02](https://github.com/mdit-plugins/mdit-plugins/commit/cc7bc023d091066e4cb80d83cc54008cf4b54bb5))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-ruby%401.1.3...%40mdit%2Fplugin-ruby%401.1.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

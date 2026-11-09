@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-lazyload%401.1.4...%40mdit%2Fplugin-img-lazyload%401.1.5) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+- **plugin-img-lazyload:** avoid stacking renderer wrappers ([#906](https://github.com/mdit-plugins/mdit-plugins/issues/906)) ([905e077](https://github.com/mdit-plugins/mdit-plugins/commit/905e077accc11aaf9fb4287ba6e3995a18b112c3))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-img-lazyload%401.1.3...%40mdit%2Fplugin-img-lazyload%401.1.4) (2026-11-01)
 
 ### Documentation

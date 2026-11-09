@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-container%402.1.0...%40mdit%2Fplugin-container%402.2.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-container:** memoize nested closing scan ([#887](https://github.com/mdit-plugins/mdit-plugins/issues/887)) ([257dc9f](https://github.com/mdit-plugins/mdit-plugins/commit/257dc9f417c29fe895bfd4f7b1f3ef19885c8051))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-container%402.0.3...%40mdit%2Fplugin-container%402.1.0) (2026-11-01)
 
 ### ✨ Features

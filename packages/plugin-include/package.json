@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-include",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Include plugin for MarkdownIt",
   "keywords": [
     "include",

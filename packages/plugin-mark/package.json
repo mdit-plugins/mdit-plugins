@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-mark",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "description": "Mark plugin for MarkdownIt",
   "keywords": [
     "mark",

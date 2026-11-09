@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%402.0.0...%40mdit%2Fplugin-mathjax-slim%402.1.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🐛 Bug Fixes
+
+- **plugin-mathjax:** always register assistive MML handler ([#883](https://github.com/mdit-plugins/mdit-plugins/issues/883)) ([029d493](https://github.com/mdit-plugins/mdit-plugins/commit/029d49379dcbe3d49e9c7fe44b9404846e12ba4e))
+
 ## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%401.2.3...%40mdit%2Fplugin-mathjax-slim%402.0.0) (2026-11-01)
 
 ### ⚠ BREAKING CHANGES

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.3.0...%40mdit%2Fplugin-anchor%402.4.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-anchor:** linearize duplicate slug resolution ([#886](https://github.com/mdit-plugins/mdit-plugins/issues/886)) ([557951f](https://github.com/mdit-plugins/mdit-plugins/commit/557951f6132152ce8dd9ee1e57875cb4e69d66d4))
+
 ## [2.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-anchor%402.2.3...%40mdit%2Fplugin-anchor%402.3.0) (2026-11-01)
 
 ### ✨ Features

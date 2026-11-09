@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%403.0.2...%40mdit%2Fplugin-field%403.0.3) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-field:** rewrite field scanner in one pass ([#904](https://github.com/mdit-plugins/mdit-plugins/issues/904)) ([4d6f48c](https://github.com/mdit-plugins/mdit-plugins/commit/4d6f48c2f36450bc539ae3280e0b686ea35b5849))
+
 ## [3.0.2](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-field%403.0.1...%40mdit%2Fplugin-field%403.0.2) (2026-11-01)
 
 ### 🐛 Bug Fixes

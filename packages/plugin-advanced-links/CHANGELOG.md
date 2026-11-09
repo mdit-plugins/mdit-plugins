@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.3...%40mdit%2Fplugin-advanced-links%401.0.0) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-advanced-links:** fix quadratic props scan ([#901](https://github.com/mdit-plugins/mdit-plugins/issues/901)) ([f11969a](https://github.com/mdit-plugins/mdit-plugins/commit/f11969a2446ebdbe4514c8fcac033a43d23136da))
+- **plugin-advanced-links:** memoize only failed candidate scans ([#913](https://github.com/mdit-plugins/mdit-plugins/issues/913)) ([eb3d7cf](https://github.com/mdit-plugins/mdit-plugins/commit/eb3d7cf436b0d84d89ead665ba447e75edc52587))
+
+### Miscellaneous Chores
+
+- prepare three plugins for 1.0.0 release ([6828a43](https://github.com/mdit-plugins/mdit-plugins/commit/6828a43f5d8c53147bcd41190be59159b0e276fd))
+
 ## [0.2.3](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-advanced-links%400.2.2...%40mdit%2Fplugin-advanced-links%400.2.3) (2026-11-01)
 
 ### 🐛 Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-img-lazyload",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Image lazyload plugin for MarkdownIt",
   "keywords": [
     "img-lazyload",

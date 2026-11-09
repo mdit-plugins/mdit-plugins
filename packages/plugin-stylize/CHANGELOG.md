@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%402.0.4...%40mdit%2Fplugin-stylize%402.0.5) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-stylize:** reduce hot-path allocations ([#911](https://github.com/mdit-plugins/mdit-plugins/issues/911)) ([97dfa8f](https://github.com/mdit-plugins/mdit-plugins/commit/97dfa8f8b20af640536e8273a1433f1763607f75))
+
 ## [2.0.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-stylize%402.0.3...%40mdit%2Fplugin-stylize%402.0.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

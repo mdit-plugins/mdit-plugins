@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.1.4...%40mdit%2Fplugin-icon%401.1.5) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-icon:** speed up inline icon scan ([#905](https://github.com/mdit-plugins/mdit-plugins/issues/905)) ([de18ab8](https://github.com/mdit-plugins/mdit-plugins/commit/de18ab8bad8f0671d19f7863e78c50bc2b117354))
+
 ## [1.1.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-icon%401.1.3...%40mdit%2Fplugin-icon%401.1.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.2.0...%40mdit%2Fplugin-tex%401.3.0) (2026-11-09)
+
+### ✨ Features
+
+- add dedicated upstream comparison report ([#896](https://github.com/mdit-plugins/mdit-plugins/issues/896)) ([2b1a5ac](https://github.com/mdit-plugins/mdit-plugins/commit/2b1a5ac0d810b8c929c2832583d9a17645fc71a6))
+
+### 🚀 Performance Improvements
+
+- **plugin-tex:** memoize block close look-ahead ([#894](https://github.com/mdit-plugins/mdit-plugins/issues/894)) ([0bfc58c](https://github.com/mdit-plugins/mdit-plugins/commit/0bfc58ce081dd7d446834afdf68117e8c253364d))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tex%401.1.3...%40mdit%2Fplugin-tex%401.2.0) (2026-11-01)
 
 ### ✨ Features

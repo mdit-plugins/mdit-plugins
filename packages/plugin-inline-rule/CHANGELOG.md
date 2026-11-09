@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.4...%40mdit%2Fplugin-inline-rule%402.2.5) (2026-11-09)
+
+**Note:** Version bump only for package @mdit/plugin-inline-rule
+
 ## [2.2.4](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-inline-rule%402.2.3...%40mdit%2Fplugin-inline-rule%402.2.4) (2026-11-01)
 
 ### 🐛 Bug Fixes

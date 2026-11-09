@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%402.0.0...%40mdit%2Fplugin-layout%402.0.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-layout:** reduce render-time allocations ([#909](https://github.com/mdit-plugins/mdit-plugins/issues/909)) ([81580a2](https://github.com/mdit-plugins/mdit-plugins/commit/81580a225363a38911e49dff4c3a62a6f8cf4ec6))
+
 ## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-layout%401.1.4...%40mdit%2Fplugin-layout%402.0.0) (2026-11-01)
 
 ### ⚠ BREAKING CHANGES

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.1.0...%40mdit%2Fplugin-tab%402.1.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-tab:** walk tokens once and skip plain titles ([#912](https://github.com/mdit-plugins/mdit-plugins/issues/912)) ([bd00ddc](https://github.com/mdit-plugins/mdit-plugins/commit/bd00ddce5d479ede00d92a2921acbf923fbbc95b))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tab%402.0.3...%40mdit%2Fplugin-tab%402.1.0) (2026-11-01)
 
 ### ✨ Features

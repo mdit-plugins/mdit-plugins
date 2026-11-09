@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%402.0.0...%40mdit%2Fplugin-include%402.0.1) (2026-11-09)
+
+### 🚀 Performance Improvements
+
+- **plugin-include:** cache file reads per render ([#907](https://github.com/mdit-plugins/mdit-plugins/issues/907)) ([9ed7647](https://github.com/mdit-plugins/mdit-plugins/commit/9ed76471d1770a2eafd7671ceeb54c030ea19f4e))
+
 ## [2.0.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-include%401.1.4...%40mdit%2Fplugin-include%402.0.0) (2026-11-01)
 
 ### ⚠ BREAKING CHANGES
