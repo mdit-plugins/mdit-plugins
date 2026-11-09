@@ -22,8 +22,7 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:bench": "pnpm run bench:prepare && vitest bench",
-    "test:coverage": "vitest run --coverage",
-    "type-check": "tsc --noEmit"
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "2.0.1",

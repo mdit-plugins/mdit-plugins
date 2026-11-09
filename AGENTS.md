@@ -79,7 +79,6 @@ scripts are defined in `compare/package.json` and are invoked through the worksp
 | `pnpm run lint`                           | Run oxlint + oxfmt with auto-fix                               |
 | `pnpm run lint:check`                     | Run oxlint + oxfmt without writing changes                     |
 | `pnpm run lint:md`                        | Lint all Markdown files                                        |
-| `pnpm run type-check`                     | Type check the whole repository                                |
 | `pnpm run bundle:analyze`                 | Generate and upload per-package bundle analysis to Codecov     |
 | `pnpm run docs:dev`                       | Start the docs dev server                                      |
 | `pnpm run docs:build`                     | Build the documentation site                                   |
@@ -108,7 +107,7 @@ their `runtime:` input.
 | Workflow          | Triggers                                | What it runs                                                                                                                           |
 | ----------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job |
-| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `type-check`, `bundle:analyze`, `lint:check`, `lint:md`                               |
+| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `bundle:analyze`, `lint:check`, `lint:md`                                             |
 | `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                         |
 | `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                 |
 | `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                               |
@@ -656,8 +655,7 @@ When fixing a bug, every fix MUST follow this strict 8-step workflow:
 ### Commit Iron Rules
 
 - **Linter must pass**: `pnpm run lint:check` (oxlint + oxfmt) and `pnpm run lint:md` report no
-  errors.
-- **Types must pass**: `pnpm run type-check` reports no errors.
+  errors. This also includes type check.
 - **Coverage must be 100%**: `pnpm run test:coverage` in the repo root reports 100%
   statements/branches/functions/lines.
 - **READMEs must match**: run `pnpm run packages:check-readme` when changing package metadata or

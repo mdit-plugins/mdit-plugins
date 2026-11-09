@@ -58,9 +58,6 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      - name: Type check
-        run: pnpm run type-check
-
       - name: Linting check
         run: |
           pnpm run lint:check
