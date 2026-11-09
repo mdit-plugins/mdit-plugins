@@ -21,8 +21,10 @@ const SPACE = " ";
  *
  * 脚本为韩文的字符（Unicode 10.0）
  */
+// The combining Hangul tone marks must stay at the start of the character class,
+// otherwise `no-misleading-character-class` treats them as a combining sequence.
 const HANGUL_RE =
-  /[\u1100-\u11FF\u302E\u302F\u3131-\u318E\u3200-\u321E\u3260-\u327E\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uFFA0-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/u;
+  /[\u302E\u302F\u1100-\u11FF\u3131-\u318E\u3200-\u321E\u3260-\u327E\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uFFA0-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/u;
 
 // Check whether two UTF-16 code units form a surrogate pair
 const isSurrogatePair = (c1: number, c2: number): boolean =>

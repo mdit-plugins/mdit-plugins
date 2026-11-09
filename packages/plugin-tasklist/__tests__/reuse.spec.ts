@@ -22,7 +22,7 @@ const getElement = <T extends Element>(
 ): T => {
   const element = container.querySelector(selector);
 
-  if (!(element instanceof constructor)) throw new Error(`Missing element: ${selector}`);
+  if (!(element instanceof constructor)) throw new TypeError(`Missing element: ${selector}`);
 
   return element;
 };
