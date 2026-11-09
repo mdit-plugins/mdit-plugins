@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-advanced-links",
-  "version": "0.2.3",
+  "version": "1.0.0-alpha.0",
   "description": "advanced links plugin for MarkdownIt",
   "keywords": [
     "advanced-links",

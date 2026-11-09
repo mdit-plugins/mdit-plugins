@@ -430,6 +430,19 @@ Configuration lives in `lerna.json` (`@lerna-lite/cli`):
 - `ignoreChanges`: `**/__tests__/**`, `**/*.md`.
 - The npm mirror sync step runs `pnpm exec unrun scripts/sync.ts` (npmmirror).
 
+### Graduating Packages to 1.0.0
+
+`lerna version` cannot bump a package to `1.0.0` by itself: a breaking change on a `0.x` package is
+capped at a minor bump, and a brand-new package starts at `0.0.0`. To ship such a package as `1.0.0`,
+commit `1.0.0-alpha.0` as its `package.json` version first, then run the workflow with `graduate: true`
+(leave `prerelease` unset): `--conventional-graduate` promotes the prerelease to the stable `1.0.0`,
+while every other changed package keeps its normal conventional bump, so the release stays a single
+atomic release.
+
+Never release only a subset of the changed packages to force a version out: independent mode detects
+changes with `git diff` against the newest tag in the whole repository, so changes left out of a
+release are silently skipped by later releases until the package is changed again.
+
 ## Scripts Reference
 
 | Script                    | Purpose                                                                                         |
