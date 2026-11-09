@@ -43,12 +43,16 @@ const spec: ComparisonSpec = defineComparison({
       zh: "生成的脚注 id、引用 id 和 `href` 目标会被归一化；脚注编号、caption（`[1]`、`[1:1]`）以及渲染出的脚注列表仍会对比。",
     },
     {
-      en: "Neither plugin takes options, so `ourOptions` and `referenceOptions` are omitted.",
-      zh: "两个插件都不接受选项，因此省略 `ourOptions` 和 `referenceOptions`。",
+      en: "The current package emits standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) rendered by the default renderer, while the reference emits custom `footnote_*` tokens with dedicated renderer rules. The HTML output is identical after normalization, but the token streams are intentionally different, so token comparison is disabled for this variant.",
+      zh: "当前包输出标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等），由默认渲染器渲染；参考包则输出自定义的 `footnote_*` token 并配套渲染规则。两者 HTML 输出在归一化后一致，但 token 流是有意不同的，因此该变体关闭了 token 对比。",
     },
     {
-      en: "The current package escapes a caller-provided `env.docId` before interpolating it into generated ids (the reference does not). The harness renders without `env`, so the `docId` path is not exercised by the cases.",
-      zh: "当前包会先转义调用方提供的 `env.docId`，再将其插入生成的 id（参考包不会）。对比工具渲染时不传 `env`，因此这些用例不会覆盖 `docId` 路径。",
+      en: "The current package accepts optional `refAttrs`, `itemAttrs`, `backrefAttrs` and `containerAttrs` options that the reference has no equivalent for; no options are passed so the default output is compared.",
+      zh: "当前包接受可选的 `refAttrs`、`itemAttrs`、`backrefAttrs` 和 `containerAttrs` 选项，参考包没有对应能力；这里不传任何选项，只对比默认输出。",
+    },
+    {
+      en: "The current package interpolates a caller-provided `env.docId` into generated ids and lets the renderer escape the attribute values; the reference escapes before interpolation. The harness renders without `env`, so the `docId` path is not exercised by the cases.",
+      zh: "当前包会将调用方提供的 `env.docId` 插入生成的 id，并由渲染器转义属性值；参考包则在插入前转义。对比工具渲染时不传 `env`，因此这些用例不会覆盖 `docId` 路径。",
     },
     {
       en: "Scaling: the reference `footnote_tail` rebuilds the token array for every footnote definition (`state.tokens = state.tokens.concat(tokens)`), which is quadratic in the number of footnotes; the current package pushes into the existing array instead. `many-footnotes` exposes this (reference exponent ~1.6, current ~1.0).",
@@ -64,33 +68,21 @@ const spec: ComparisonSpec = defineComparison({
       id: "default",
       ourExport: "footnote",
       referenceExport: "default",
-    },
-  ],
-  issues: [
-    {
-      id: "footnote-body-level",
-      category: "reference-error",
-      note: {
-        en: "The reference parses footnote definitions inside a temporary `footnote_reference_open` wrapper and never re-levels them, so the paragraph inside `<li>` reports `level: 1` even though `footnote_block_open` plus `footnote_open` nest it two levels deep; the current package reports the correct level.",
-        zh: "参考包在临时的 `footnote_reference_open` 包裹中解析脚注定义，且不再重新计算层级，因此 `<li>` 内段落的 `level` 为 1，而 `footnote_block_open` 加 `footnote_open` 实际嵌套了两层；当前包报告的层级是正确的。",
-      },
+      compareTokens: false,
     },
   ],
   correctness: [
     {
       name: "single-reference",
       markdown: "Footnote 1 link[^first].\n\n[^first]: Footnote text.",
-      issue: "footnote-body-level",
     },
     {
       name: "multiple-references",
       markdown: "A[^a] B[^b]\n\n[^a]: first\n\n[^b]: second",
-      issue: "footnote-body-level",
     },
     {
       name: "duplicate-reference",
       markdown: "A[^a] B[^a] C[^a]\n\n[^a]: duplicated text",
-      issue: "footnote-body-level",
     },
     {
       name: "inline-footnote",
@@ -107,22 +99,18 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "multi-paragraph-definition",
       markdown: "A[^a]\n\n[^a]: first paragraph\n\n    second paragraph",
-      issue: "footnote-body-level",
     },
     {
       name: "definition-with-markup",
       markdown: "A[^a]\n\n[^a]: Footnote **can have markup**",
-      issue: "footnote-body-level",
     },
     {
       name: "definition-with-list",
       markdown: "A[^a]\n\n[^a]:\n    - one\n    - two",
-      issue: "footnote-body-level",
     },
     {
       name: "nested-footnotes",
       markdown: "A[^a]\n\n[^a]: see[^b]\n\n[^b]: other",
-      issue: "footnote-body-level",
     },
     {
       name: "escaped-reference",
@@ -136,38 +124,52 @@ const spec: ComparisonSpec = defineComparison({
     {
       name: "reference-order",
       markdown: "B[^b] A[^a]\n\n[^a]: first def\n\n[^b]: second def",
-      issue: "footnote-body-level",
     },
     {
       name: "reference-in-list",
       markdown: "- item[^a]\n\n[^a]: note",
-      issue: "footnote-body-level",
     },
     {
       name: "reference-in-blockquote",
       markdown: "> quote[^a]\n\n[^a]: note",
-      issue: "footnote-body-level",
     },
     {
       name: "reference-in-emphasis",
       markdown: "*text[^a]*\n\n[^a]: note",
-      issue: "footnote-body-level",
     },
     {
       name: "label-with-punctuation",
       markdown: "A[^a-b_c]\n\n[^a-b_c]: text",
-      issue: "footnote-body-level",
     },
     {
       name: "unicode-label",
       markdown: "文字[^注]\n\n[^注]: 脚注",
-      issue: "footnote-body-level",
     },
     { name: "code-fence", markdown: "```\nA[^a]\n```\n\n[^a]: note" },
     { name: "empty-input", markdown: "\n" },
     {
       name: "no-footnote-syntax",
       markdown: "# Title\n\nParagraph.\n\n- a\n- b",
+    },
+  ],
+  testSuiteSkips: [
+    {
+      file: "options.spec.ts",
+      name: "",
+      category: "feature-gap",
+      why: {
+        en: "The reference plugin has no attribute options.",
+        zh: "参考插件没有属性选项。",
+      },
+    },
+    {
+      file: "token-stream.spec.ts",
+      name: "",
+      category: "feature-gap",
+      why: {
+        en: "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+        zh: "参考插件输出自定义的 `footnote_*` token，而非标准 token。",
+      },
     },
   ],
   bench: BENCH_CASES,

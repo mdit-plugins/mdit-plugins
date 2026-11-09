@@ -50,6 +50,70 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 
 ::::
 
+## 选项
+
+::: fields
+@`refAttrs` type=`Record<string, string | number>`
+
+脚注引用标记（包裹引用链接的 `<sup class="footnote-ref">` 元素）的额外属性。
+
+`class` 值会与内置的 `footnote-ref` 类合并，其他属性会直接设置到元素上并覆盖生成的同名属性。
+
+@`itemAttrs` type=`Record<string, string | number>`
+
+每个脚注项（`<li id="footnote…" class="footnote-item">` 元素）的额外属性。
+
+`class` 值会与内置的 `footnote-item` 类合并，其他属性会直接设置到元素上并覆盖生成的同名属性。覆盖 `id` 会破坏 `href` 锚点。
+
+@`backrefAttrs` type=`Record<string, string | number>`
+
+反向引用链接（每个脚注项末尾的 `<a href="#footnote-ref…" class="footnote-backref">` 元素）的额外属性。
+
+`class` 值会与内置的 `footnote-backref` 类合并，其他属性会直接设置到元素上并覆盖生成的同名属性。
+
+@`containerAttrs` type=`Record<string, string | number>`
+
+脚注容器（包裹有序列表和所有脚注项的 `<section class="footnotes">` 元素）的额外属性；分隔线 `<hr class="footnotes-sep">` 会紧挨在该元素之前输出。
+
+`class` 值会与内置的 `footnotes` 类合并，其他属性会直接设置到元素上并覆盖生成的同名属性。
+:::
+
+脚注标记由默认渲染器从标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等）渲染。上述选项覆盖常见场景；如需更多控制，可在 core 规则中修改这些 token（例如使用 `attrJoin`），或覆盖它们的渲染规则。
+
+## 破坏性变更
+
+::: warning v2 是破坏性的大版本
+
+插件现在输出标准 markdown-it token，而不再输出自定义的 `footnote_*` token。升级前请先了解以下变化：
+
+- 不再注册内部的 `footnote_ref`、`footnote_block_open`、`footnote_block_close`、`footnote_open`、`footnote_close` 与 `footnote_anchor` 渲染规则。请改为覆盖标准 token 的规则（`sup_open`、`section_open`、`ordered_list_open`、`list_item_open`、`link_open` 等）。
+- core 规则在最终 token 流中不再看到 `footnote_ref` 或其他 `footnote_*` token，请改为修改对应的标准 token。
+- `FootNoteToken.meta.subId` 与 `FootNoteToken.meta.label` 现在是可选的：行内引用与行内脚注不会设置它们。
+- `env.docId` 会原样插入生成的 id 与 `href`，由默认渲染器统一转义一次。渲染出的 HTML 不变，但 token 的属性值不再预先转义。
+- 图片替代文本不再包含脚注引用标记：`![a[^1]](img.png)` 仍渲染为 `alt="a"`。
+
+:::
+
+### 迁移
+
+迁移前（v1），渲染规则覆盖使用内部规则：
+
+```ts
+md.renderer.rules.footnote_ref = (tokens, idx) => "...";
+```
+
+迁移后（v2），请使用上文选项或修改标准 token：
+
+```ts
+md.use(footnote, { refAttrs: { "data-kind": "reference" } });
+
+md.core.ruler.push("footnote-custom", (state) => {
+  for (const token of state.tokens) {
+    if (token.type === "section_open") token.attrJoin("class", "custom-notes");
+  }
+});
+```
+
 ## 示例
 
 ::: preview 示例

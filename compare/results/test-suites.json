@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-03T02:55:43.636Z",
-  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "generatedAt": "2026-11-09T14:43:15.238Z",
+  "commit": "9f02fe8110ff5ea45f89e24605f9abfba59aefeb",
   "packages": [
     {
       "plugin": "plugin-abbr",
@@ -5460,9 +5460,9 @@
       "total": 25,
       "passed": 5,
       "failed": 20,
-      "skipped": 0,
+      "skipped": 20,
       "skippedByCategory": {
-        "feature-gap": 0,
+        "feature-gap": 20,
         "internal": 0,
         "packaging": 0
       },
@@ -5601,6 +5601,106 @@
           "message": "AssertionError: expected '<p>text<sup class=\"footnote-ref\"><a h…' to be '<p>text<sup class=\"footnote-ref\"><a h…' // Object.is equality"
         },
         {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply refAttrs to the reference marker",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply itemAttrs to footnote items",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply backrefAttrs to back-reference links",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply containerAttrs to the footnote container",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply refAttrs to every reference marker",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply itemAttrs to every footnote item",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply backrefAttrs to every back-reference",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should allow overriding the generated back-reference href",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should escape option attribute values",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should allow generated attributes to be overridden",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
           "file": "security.spec.ts",
           "name": "footnote security should escape env.docId in generated ids and hrefs",
           "status": "failed",
@@ -5611,6 +5711,106 @@
           "name": "footnote security should keep normal docId output unchanged",
           "status": "failed",
           "message": "AssertionError: expected '<p>ref<sup class=\"footnote-ref\"><a hr…' to contain 'href=\"#footnote-test-doc-id-1\"'"
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should not emit plugin-specific token types",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should assign standard nesting levels",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should expose generated attributes on tokens",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should set standard block flags",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should keep raw attribute values on tokens and escape them at render time",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should append back-references to the last inline token",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should keep back-references after block content",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should keep image alt text free of reference markers",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should strip reference markers from nested image alt text",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should render attributes added to standard tokens by a core rule",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
         }
       ]
     },

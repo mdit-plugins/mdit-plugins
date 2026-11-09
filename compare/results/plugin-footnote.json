@@ -2,8 +2,8 @@
   "plugin": "plugin-footnote",
   "reference": "markdown-it-footnote",
   "referenceVersion": "4.0.0",
-  "generatedAt": "2026-11-03T01:56:12.384Z",
-  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "generatedAt": "2026-11-09T14:42:21.506Z",
+  "commit": "9f02fe8110ff5ea45f89e24605f9abfba59aefeb",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -17,81 +17,24 @@
       "correctness": {
         "total": 22,
         "exact": 6,
-        "normalized": 3,
-        "diff": 13,
-        "referenceErrors": 1,
+        "normalized": 16,
+        "diff": 0,
+        "referenceErrors": 0,
         "differences": 0,
-        "issues": [
-          {
-            "id": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The reference parses footnote definitions inside a temporary `footnote_reference_open` wrapper and never re-levels them, so the paragraph inside `<li>` reports `level: 1` even though `footnote_block_open` plus `footnote_open` nest it two levels deep; the current package reports the correct level.",
-              "zh": "参考包在临时的 `footnote_reference_open` 包裹中解析脚注定义，且不再重新计算层级，因此 `<li>` 内段落的 `level` 为 1，而 `footnote_block_open` 加 `footnote_open` 实际嵌套了两层；当前包报告的层级是正确的。"
-            },
-            "cases": [
-              "single-reference",
-              "multiple-references",
-              "duplicate-reference",
-              "multi-paragraph-definition",
-              "definition-with-markup",
-              "definition-with-list",
-              "nested-footnotes",
-              "reference-order",
-              "reference-in-list",
-              "reference-in-blockquote",
-              "reference-in-emphasis",
-              "label-with-punctuation",
-              "unicode-label"
-            ]
-          }
-        ],
+        "issues": [],
         "error": 0,
         "cases": [
           {
             "name": "single-reference",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "multiple-references",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "duplicate-reference",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "inline-footnote",
@@ -107,63 +50,19 @@
           },
           {
             "name": "multi-paragraph-definition",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "definition-with-markup",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "definition-with-list",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "nested-footnotes",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "escaped-reference",
@@ -179,93 +78,27 @@
           },
           {
             "name": "reference-order",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "reference-in-list",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[9].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[9].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[9].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "reference-in-blockquote",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[7].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[7].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[7].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "reference-in-emphasis",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "label-with-punctuation",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "unicode-label",
-            "status": "diff",
-            "issue": "footnote-body-level",
-            "category": "reference-error",
-            "note": {
-              "en": "The rendered HTML matches, but the token stream differs at `[5].level`: current `2`, reference `1`.",
-              "zh": "渲染后的 HTML 一致，但 token 流在 `[5].level` 处不同：当前包为 `2`，参考包为 `1`。"
-            },
-            "tokenDifference": {
-              "path": "[5].level",
-              "current": "2",
-              "reference": "1"
-            }
+            "status": "normalized"
           },
           {
             "name": "code-fence",
@@ -287,84 +120,84 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 10259.460098383577,
-            "meanMs": 0.09747101605839419
+            "opsPerSec": 7158.259891970052,
+            "meanMs": 0.1396987557160049
           },
           "reference": {
-            "opsPerSec": 10186.730192248007,
-            "meanMs": 0.09816692708333331
+            "opsPerSec": 9232.132722298798,
+            "meanMs": 0.10831733360858792
           },
-          "ratio": 1.0071396713923881
+          "ratio": 0.7753636247754947
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 2775.5695845471955,
-            "meanMs": 0.36028640952380925
+            "opsPerSec": 2116.7814679196645,
+            "meanMs": 0.4724153225806452
           },
           "reference": {
-            "opsPerSec": 2825.764122528087,
-            "meanMs": 0.3538865795724464
+            "opsPerSec": 2549.4345448353965,
+            "meanMs": 0.3922438416886536
           },
-          "ratio": 0.9822368266407231
+          "ratio": 0.8302944949921567
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 713.6838939699454,
-            "meanMs": 1.4011805625000022
+            "opsPerSec": 524.7391062755985,
+            "meanMs": 1.9057089285714288
           },
           "reference": {
-            "opsPerSec": 708.8201683235259,
-            "meanMs": 1.4107950714285704
+            "opsPerSec": 631.0309468093488,
+            "meanMs": 1.5847083333333356
           },
-          "ratio": 1.0068617201707495
+          "ratio": 0.8315584345408278
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 3881.6248500264455,
-            "meanMs": 0.2576240720411678
+            "opsPerSec": 1947.496588253604,
+            "meanMs": 0.5134797185430445
           },
           "reference": {
-            "opsPerSec": 3815.8525557177113,
-            "meanMs": 0.2620646331058023
+            "opsPerSec": 3295.048606692163,
+            "meanMs": 0.30348565965583163
           },
-          "ratio": 1.0172365921765454
+          "ratio": 0.5910372867636265
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 988.8727705033278,
-            "meanMs": 1.011252437956208
+            "opsPerSec": 496.1170129053168,
+            "meanMs": 2.01565351315789
           },
           "reference": {
-            "opsPerSec": 905.1644409784011,
-            "meanMs": 1.10477163565892
+            "opsPerSec": 790.421219549582,
+            "meanMs": 1.2651482213114742
           },
-          "ratio": 1.0924785881275292
+          "ratio": 0.6276615564395233
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 244.17617503317214,
-            "meanMs": 4.095403656250028
+            "opsPerSec": 116.80490007457554,
+            "meanMs": 8.561284666666703
           },
           "reference": {
-            "opsPerSec": 187.49381530817553,
-            "meanMs": 5.3335092592592614
+            "opsPerSec": 160.69230284328395,
+            "meanMs": 6.22307342857147
           },
-          "ratio": 1.3023158904299337
+          "ratio": 0.7268854699810368
         }
       ],
       "scaling": [
@@ -376,8 +209,8 @@
             2048,
             4096
           ],
-          "currentExponent": 1.0464164602903352,
-          "referenceExponent": 1.6212518785034569
+          "currentExponent": 1.1028709630204359,
+          "referenceExponent": 1.6381657656126833
         },
         {
           "case": "duplicate-references",
@@ -387,8 +220,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.9804791342442124,
-          "referenceExponent": 0.9822614647497213
+          "currentExponent": 0.9905036108165914,
+          "referenceExponent": 0.9671151195599158
         },
         {
           "case": "many-definitions",
@@ -398,8 +231,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.997939779501942,
-          "referenceExponent": 1.0045368605670155
+          "currentExponent": 1.0055236604041327,
+          "referenceExponent": 0.9951778973986501
         }
       ]
     }
@@ -414,12 +247,16 @@
       "zh": "生成的脚注 id、引用 id 和 `href` 目标会被归一化；脚注编号、caption（`[1]`、`[1:1]`）以及渲染出的脚注列表仍会对比。"
     },
     {
-      "en": "Neither plugin takes options, so `ourOptions` and `referenceOptions` are omitted.",
-      "zh": "两个插件都不接受选项，因此省略 `ourOptions` 和 `referenceOptions`。"
+      "en": "The current package emits standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) rendered by the default renderer, while the reference emits custom `footnote_*` tokens with dedicated renderer rules. The HTML output is identical, but the token streams are intentionally different, so token comparison is disabled for this variant.",
+      "zh": "当前包输出标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等），由默认渲染器渲染；参考包则输出自定义的 `footnote_*` token 并配套渲染规则。两者 HTML 输出一致，但 token 流是有意不同的，因此该变体关闭了 token 对比。"
     },
     {
-      "en": "The current package escapes a caller-provided `env.docId` before interpolating it into generated ids (the reference does not). The harness renders without `env`, so the `docId` path is not exercised by the cases.",
-      "zh": "当前包会先转义调用方提供的 `env.docId`，再将其插入生成的 id（参考包不会）。对比工具渲染时不传 `env`，因此这些用例不会覆盖 `docId` 路径。"
+      "en": "The current package accepts optional `refAttrs`, `itemAttrs`, `backrefAttrs` and `containerAttrs` options that the reference has no equivalent for; no options are passed so the default output is compared.",
+      "zh": "当前包接受可选的 `refAttrs`、`itemAttrs`、`backrefAttrs` 和 `containerAttrs` 选项，参考包没有对应能力；这里不传任何选项，只对比默认输出。"
+    },
+    {
+      "en": "The current package interpolates a caller-provided `env.docId` into generated ids and lets the renderer escape the attribute values; the reference escapes before interpolation. The harness renders without `env`, so the `docId` path is not exercised by the cases.",
+      "zh": "当前包会将调用方提供的 `env.docId` 插入生成的 id，并由渲染器转义属性值；参考包则在插入前转义。对比工具渲染时不传 `env`，因此这些用例不会覆盖 `docId` 路径。"
     },
     {
       "en": "Scaling: the reference `footnote_tail` rebuilds the token array for every footnote definition (`state.tokens = state.tokens.concat(tokens)`), which is quadratic in the number of footnotes; the current package pushes into the existing array instead. `many-footnotes` exposes this (reference exponent ~1.6, current ~1.0).",

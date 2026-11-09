@@ -1,10 +1,21 @@
 /** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
 
-import { escapeHtml, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, InlineRule, PluginSimple } from "@mdit/helper";
-import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
+import { hasRule } from "@mdit/helper";
+import type { BlockRule, CoreRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
-import type { FootNoteEnv, FootNoteToken } from "./types.js";
+import type { FootnoteOptions } from "./options.js";
+import {
+  applyAttrs,
+  createBackReferenceTokens,
+  createBlockToken,
+  createToken,
+  getFootnoteAnchorName,
+  getFootnoteSuffix,
+  normalizeTokenLevels,
+  replaceFootnoteRefs,
+} from "./tokens.js";
+import type { FootNoteEnv } from "./types.js";
 
 interface FootNoteStateBlock extends StateBlock {
   env: FootNoteEnv;
@@ -17,75 +28,6 @@ interface FootNoteStateInline extends StateInline {
 interface FootNoteStateCore extends StateCore {
   env: FootNoteEnv;
 }
-
-type FootNoteMeta = FootNoteToken["meta"];
-
-const getIDSuffix = (tokens: Token[], index: number): string => {
-  // add suffix when multiple id was found
-  const { subId } = tokens[index].meta as FootNoteMeta;
-
-  return subId > 0 ? `:${subId}` : "";
-};
-
-const renderFootnoteAnchorName: RendererRule = (tokens, index, _options, env) => {
-  // prefix
-  const docId = env?.docId;
-  // increasing id
-  const id = (tokens[index].meta as FootNoteMeta).id;
-
-  // `docId` comes from the caller-provided `env` and is interpolated into `id` / `href`
-  // attributes, so it must be escaped to prevent attribute injection.
-  return `${typeof docId === "string" ? `-${escapeHtml(docId)}-` : ""}${(id + 1).toString()}`;
-};
-
-const renderFootnoteCaption: RendererRule = (tokens: Token[], index) =>
-  `[${
-    // number
-    ((tokens[index].meta as FootNoteMeta).id + 1).toString()
-  }${getIDSuffix(tokens, index)}]`;
-
-const renderFootnoteRef: RendererRule = (tokens, index, options, env, self) => {
-  const id = self.rules.footnote_anchor_name(tokens, index, options, env, self);
-  const caption = self.rules.footnote_caption(tokens, index, options, env, self);
-
-  // A separate anchor element allows scroll offset control via CSS
-  // (e.g. `.footnote-anchor { scroll-margin-top: 80px; }` to leave
-  // space for a fixed navbar), which isn't possible when id and href
-  // share the same <a> element.
-  return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
-    tokens,
-    index,
-  )}"></a></sup>`;
-};
-
-const renderFootnoteBlockOpen: RendererRule = (_tokens, _index, options) =>
-  `\
-<hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
-<section class="footnotes">
-<ol class="footnotes-list">
-`;
-
-const renderFootnoteBlockClose = (): string => `\
-</ol>
-</section>
-`;
-
-const renderFootnoteOpen: RendererRule = (tokens, index, options, env, self) =>
-  `<li id="footnote${self.rules.footnote_anchor_name(
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  )}${getIDSuffix(tokens, index)}" class="footnote-item">`;
-
-const renderFootnoteClose: RendererRule = () => "</li>\n";
-
-const renderFootnoteAnchor: RendererRule = (tokens, index, options, env, self) =>
-  ` <a href="#footnote-ref${self.rules.footnote_anchor_name(tokens, index, options, env, self)}${
-    getIDSuffix(tokens, index)
-    /* ↩ with escape code to prevent display as Apple Emoji on iOS */
-  }" class="footnote-backref">\u21A9\uFE0E</a>`;
 
 // Process footnote block definition
 const footnoteDef: BlockRule = (state: FootNoteStateBlock, startLine, endLine, silent) => {
@@ -294,138 +236,166 @@ const footnoteRef: InlineRule = (state: FootNoteStateInline, silent) => {
   return true;
 };
 
-// Glue footnote tokens to end of token stream
-const footnoteTail: CoreRule = (state: FootNoteStateCore) => {
-  const refTokens: Record<string, Token[]> = {};
+/**
+ * Create the footnote tail core rule / 创建脚注收尾的 core 规则
+ *
+ * @param options - Plugin options / 插件选项
+ * @returns The core rule / core 规则
+ */
+const createFootnoteTail =
+  (options: FootnoteOptions): CoreRule =>
+  (state: FootNoteStateCore) => {
+    const refTokens: Record<string, Token[]> = {};
 
-  let current: Token[], currentLabel: string;
-  let isInsideRef = false;
+    let current: Token[], currentLabel: string;
+    let isInsideRef = false;
 
-  if (!state.env.footnotes?.list) {
-    // If no footnotes list, remove all footnote reference tokens
+    if (!state.env.footnotes?.list) {
+      // If no footnotes list, remove all footnote reference tokens
+      state.tokens = state.tokens.filter((stateToken) => {
+        if (stateToken.type === "footnote_reference_open") {
+          isInsideRef = true;
+
+          return false;
+        }
+
+        if (stateToken.type === "footnote_reference_close") {
+          isInsideRef = false;
+
+          return false;
+        }
+
+        return !isInsideRef;
+      });
+
+      return;
+    }
+
+    const { list } = state.env.footnotes;
+
     state.tokens = state.tokens.filter((stateToken) => {
       if (stateToken.type === "footnote_reference_open") {
         isInsideRef = true;
+        current = [];
+        currentLabel = (stateToken.meta as { label: string }).label;
 
         return false;
       }
 
       if (stateToken.type === "footnote_reference_close") {
         isInsideRef = false;
+        // prepend ':' to avoid conflict with Object.prototype members
+        refTokens[`:${currentLabel}`] = current;
 
         return false;
       }
+      if (isInsideRef) current.push(stateToken);
 
       return !isInsideRef;
     });
 
-    return;
-  }
+    const { Token } = state;
+    const blockStart = state.tokens.length;
 
-  const { list } = state.env.footnotes;
+    state.tokens.push(
+      createBlockToken(Token, "hr", "hr", 0, [["class", "footnotes-sep"]]),
+      createBlockToken(Token, "section_open", "section", 1, [["class", "footnotes"]]),
+      createBlockToken(Token, "ordered_list_open", "ol", 1, [["class", "footnotes-list"]]),
+    );
 
-  state.tokens = state.tokens.filter((stateToken) => {
-    if (stateToken.type === "footnote_reference_open") {
-      isInsideRef = true;
-      current = [];
-      currentLabel = (stateToken.meta as { label: string }).label;
+    applyAttrs(state.tokens[blockStart + 1], options.containerAttrs);
 
-      return false;
-    }
+    const listLength = list.length;
 
-    if (stateToken.type === "footnote_reference_close") {
-      isInsideRef = false;
-      // prepend ':' to avoid conflict with Object.prototype members
-      refTokens[`:${currentLabel}`] = current;
+    for (let index = 0; index < listLength; index++) {
+      const name = getFootnoteAnchorName(state.env, index);
+      // `block` stays false on purpose: the default renderer inserts a newline after a block
+      // opening token unless the next token is hidden or inline, which would change the
+      // historical `<li><p>` layout. The matching closing token stays a block token.
+      const listItemOpenToken = createToken(Token, "list_item_open", "li", 1, [
+        ["id", `footnote${name}`],
+        ["class", "footnote-item"],
+      ]);
 
-      return false;
-    }
-    if (isInsideRef) current.push(stateToken);
+      applyAttrs(listItemOpenToken, options.itemAttrs);
+      state.tokens.push(listItemOpenToken);
 
-    return !isInsideRef;
-  });
+      const inlineTokens = list[index].tokens;
 
-  const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
+      if (inlineTokens) {
+        const inlineToken = createBlockToken(Token, "inline", "", 0);
 
-  state.tokens.push(footnoteBlockOpenToken);
+        inlineToken.children = [...inlineTokens];
 
-  const listLength = list.length;
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        inlineToken.content = list[index].content!;
 
-  for (let index = 0; index < listLength; index++) {
-    const footnoteOpenToken = new state.Token("footnote_open", "", 1);
+        state.tokens.push(
+          createBlockToken(Token, "paragraph_open", "p", 1),
+          inlineToken,
+          createBlockToken(Token, "paragraph_close", "p", -1),
+        );
+      } else {
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        const tokens = refTokens[`:${list[index].label!}`];
 
-    footnoteOpenToken.meta = { id: index, label: list[index].label };
-    state.tokens.push(footnoteOpenToken);
+        // oxlint-disable-next-line typescript/strict-boolean-expressions
+        if (tokens) state.tokens.push(...tokens);
+      }
 
-    if (list[index].tokens) {
-      const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
-
-      paragraphOpenToken.block = true;
-
-      const inlineToken = new state.Token("inline", "", 0);
+      const backReferences: Token[] = [];
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      inlineToken.children = list[index].tokens!;
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      inlineToken.content = list[index].content!;
+      const referenceCount = Number(list[index].count) > 0 ? list[index].count! : 1;
 
-      const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
+      for (let subId = 0; subId < referenceCount; subId++) {
+        backReferences.push(
+          ...createBackReferenceTokens(Token, name, getFootnoteSuffix(subId), options),
+        );
+      }
 
-      paragraphCloseToken.block = true;
+      const lastToken = state.tokens[state.tokens.length - 1];
+      let lastInlineToken: Token | undefined;
 
-      state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
-    } else {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const tokens = refTokens[`:${list[index].label!}`];
+      if (lastToken?.type === "paragraph_close")
+        lastInlineToken = state.tokens[state.tokens.length - 2];
 
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (tokens) state.tokens.push(...tokens);
+      if (lastInlineToken?.type === "inline") {
+        lastInlineToken.children = [
+          // oxlint-disable-next-line typescript/no-non-null-assertion
+          ...lastInlineToken.children!,
+          ...backReferences,
+        ];
+      } else {
+        // Keep block-level back-references inside a standard inline token instead of emitting
+        // bare inline-level tokens at the top level. The default renderer renders the children
+        // in order, so the HTML stays the same.
+        const backReferenceContainer = createBlockToken(Token, "inline", "", 0);
+
+        backReferenceContainer.children = backReferences;
+        state.tokens.push(backReferenceContainer);
+      }
+
+      state.tokens.push(createBlockToken(Token, "list_item_close", "li", -1));
     }
 
-    const lastParagraph =
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      state.tokens[state.tokens.length - 1].type === "paragraph_close" ? state.tokens.pop()! : null;
+    state.tokens.push(
+      createBlockToken(Token, "ordered_list_close", "ol", -1),
+      createBlockToken(Token, "section_close", "section", -1),
+    );
 
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    for (let j = 0; j < (Number(list[index].count) > 0 ? list[index].count! : 1); j++) {
-      const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
+    replaceFootnoteRefs(Token, state.tokens, state.env, options);
+    normalizeTokenLevels(state.tokens.slice(blockStart));
+  };
 
-      footnoteAnchorToken.meta = {
-        id: index,
-        subId: j,
-        label: list[index].label,
-      };
-      state.tokens.push(footnoteAnchorToken);
-    }
-
-    if (lastParagraph) state.tokens.push(lastParagraph);
-
-    state.tokens.push(new state.Token("footnote_close", "", -1));
-  }
-
-  state.tokens.push(new state.Token("footnote_block_close", "", -1));
-};
-
-export const footnote: PluginSimple = (md) => {
+export const footnote: PluginWithOptions<FootnoteOptions> = (md, options) => {
   // A second installation would append the footnote section twice.
   if (hasRule(md, "footnoteTail", "core")) return;
-
-  md.renderer.rules.footnote_ref = renderFootnoteRef;
-  md.renderer.rules.footnote_block_open = renderFootnoteBlockOpen;
-  md.renderer.rules.footnote_block_close = renderFootnoteBlockClose;
-  md.renderer.rules.footnote_open = renderFootnoteOpen;
-  md.renderer.rules.footnote_close = renderFootnoteClose;
-  md.renderer.rules.footnote_anchor = renderFootnoteAnchor;
-
-  // helpers (only used in other rules, no tokens are attached to those)
-  // helpers (only used in other rules, no tokens are attached to those)
-  md.renderer.rules.footnote_caption = renderFootnoteCaption;
-  md.renderer.rules.footnote_anchor_name = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],
   });
   md.inline.ruler.after("image", "footnoteInline", footnoteInline);
   md.inline.ruler.after("footnoteInline", "footnote_ref", footnoteRef);
-  md.core.ruler.after("inline", "footnoteTail", footnoteTail);
+  md.core.ruler.after("inline", "footnoteTail", createFootnoteTail(options ?? {}));
 };

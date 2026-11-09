@@ -3,8 +3,8 @@ import type { Env, Token } from "markdown-it";
 export interface FootNoteToken extends Token {
   meta: {
     id: number;
-    subId: number;
-    label: string;
+    subId?: number;
+    label?: string;
   };
 }
 
