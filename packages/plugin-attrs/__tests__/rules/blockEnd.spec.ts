@@ -115,6 +115,34 @@ const createDualRuleTests = (
 
       it(
         replaceDelimiters(
+          "should add attributes after quoted content split by an inline element",
+          options,
+        ),
+        () => {
+          const src =
+            'Trying to add an attribute to a message containing "**THIS**" will not work. {.attribute}';
+          const expected =
+            '<p class="attribute">Trying to add an attribute to a message containing &quot;<strong>THIS</strong>&quot; will not work.</p>\n';
+
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+        },
+      );
+
+      it(
+        replaceDelimiters(
+          "should add attributes after an unbalanced quote in the preceding text",
+          options,
+        ),
+        () => {
+          const src = 'he said "hi {.c}';
+          const expected = '<p class="c">he said &quot;hi</p>\n';
+
+          expect(markdownIt.render(replaceDelimiters(src, options))).toBe(expected);
+        },
+      );
+
+      it(
+        replaceDelimiters(
           'should add classes in same class attribute {.c1 .c2} -> class="c1 c2"',
           options,
         ),

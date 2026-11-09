@@ -40,11 +40,11 @@ describe(createDelimiterChecker, () => {
     expect(endChecker('text {.replace-me data-tex="e^{i}=-1"}')).toStrictEqual([6, 37]);
     expect(startChecker('{a="}"} text')).toStrictEqual([1, 6]);
 
-    // a left delimiter inside an unbalanced quote is not a delimiter
-    expect(endChecker('he said "hi {.c}')).toBe(false);
-
     // an unterminated block whose only right delimiter is quoted
     expect(endChecker('x {a="}" y')).toBe(false);
+
+    // a quoted value can swallow the right delimiter
+    expect(startChecker('{a="x}')).toBe(false);
 
     // escaped quotes do not end a quoted value
     expect(endChecker(String.raw`text {a="x\" y"}`)).toStrictEqual([6, 15]);
@@ -57,6 +57,26 @@ describe(createDelimiterChecker, () => {
 
     // quotes after the block do not trigger the quote scan
     expect(startChecker('{.c} "q"')).toStrictEqual([1, 3]);
+  });
+
+  it("should detect the end delimiter when quotes are split across inline tokens", () => {
+    const endChecker = createDelimiterChecker(options, "end");
+
+    // quotes before the block do not affect end detection, even when unbalanced
+    expect(endChecker('he said "hi {.c}')).toStrictEqual([13, 15]);
+
+    // a quoted value may pair with a quote from a previous inline token, which leaves an odd
+    // quote in the checked text; the block ending the text is still detected
+    expect(endChecker('" will not work. {.attribute}')).toStrictEqual([18, 28]);
+
+    // quotes alone do not turn the text into a block end
+    expect(endChecker('"a" }')).toBe(false);
+
+    // only the right delimiter ending the text closes the block
+    expect(endChecker("text {.a} }")).toBe(false);
+
+    // an unbalanced quote before a block whose value contains a right delimiter
+    expect(endChecker('he said "hi {a="}"}')).toStrictEqual([13, 18]);
   });
 
   it("should check only delimiter", () => {
@@ -131,6 +151,18 @@ describe(createDelimiterChecker, () => {
     expect(startChecker("{.class}")).toBe(false);
     expect(endChecker("text {.class}")).toBe(false);
     expect(onlyChecker("{.class}")).toBe(false);
+  });
+
+  it("should detect the end delimiter when the right delimiter contains a quote", () => {
+    const quotedRightOptions: Required<MarkdownItAttrsOptions> = {
+      ...options,
+      right: 'a"',
+    };
+
+    const endChecker = createDelimiterChecker(quotedRightOptions, "end");
+
+    // the only quote is part of the right delimiter, so the fast path applies
+    expect(endChecker('text {.c a"')).toStrictEqual([6, 9]);
   });
 
   it("should throw an error while calling `hasDelimiters` with an invalid `where` param", () => {
