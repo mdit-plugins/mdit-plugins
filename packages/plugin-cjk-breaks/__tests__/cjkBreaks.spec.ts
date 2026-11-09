@@ -81,6 +81,9 @@ describe(cjkBreaks, () => {
         ["한국어\n테스트", "<p>한국어\n테스트</p>\n"],
         ["あ\nㅏ", "<p>あ\nㅏ</p>\n"],
         ["ㅏ\nあ", "<p>ㅏ\nあ</p>\n"],
+        // U+302E/U+302F are combining Hangul tone marks (East Asian Width: wide)
+        ["！\n\u302E", "<p>！\n\u302E</p>\n"],
+        ["\u302F\n！", "<p>\u302F\n！</p>\n"],
       ];
 
       testCases.forEach(([input, expected]) => {
