@@ -230,4 +230,28 @@ describe("footnote standard tokens", () => {
     expect(first.match(/href="#footnote-ref1"/gu)).toHaveLength(1);
     expect(second.match(/href="#footnote-ref1"/gu)).toHaveLength(1);
   });
+
+  it("should set standard block flags for inline notes", () => {
+    const tokens = getTokens("A^[note]");
+    const inlineToken = tokens.find((token) => token.type === "inline")!;
+    const listItemOpenToken = tokens.find((token) => token.type === "list_item_open")!;
+    const paragraphOpenTokens = tokens.filter((token) => token.type === "paragraph_open");
+    const paragraphCloseTokens = tokens.filter((token) => token.type === "paragraph_close");
+
+    expect(inlineToken.block).toBe(true);
+    expect(paragraphOpenTokens.every((token) => token.block)).toBe(true);
+    expect(paragraphCloseTokens.every((token) => token.block)).toBe(true);
+    // Deliberate: see the block flag test for definition footnotes.
+    expect(listItemOpenToken.block).toBe(false);
+  });
+
+  it("should stringify numeric option values on tokens", () => {
+    const markdownIt = new MarkdownIt().use(footnote, {
+      refAttrs: { "data-index": 1 },
+    });
+    const tokens = markdownIt.parse("A[^a]\n\n[^a]: note", {});
+    const supOpenToken = collectTokens(tokens).find((token) => token.type === "sup_open")!;
+
+    expect(supOpenToken.attrGet("data-index")).toBe("1");
+  });
 });

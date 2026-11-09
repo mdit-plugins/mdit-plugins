@@ -23,4 +23,11 @@ describe("footnote security", () => {
     expect(output).toContain('href="#footnote-test-doc-id-1"');
     expect(output).toContain('id="footnote-test-doc-id-1"');
   });
+
+  it("should keep single quotes in docId literal in attribute values", () => {
+    const output = new MarkdownIt().use(footnote).render("ref[^1]\n\n[^1]: note", { docId: "a'b" });
+
+    expect(output).toContain('id="footnote-a\'b-1"');
+    expect(output).not.toContain("&#39;");
+  });
 });

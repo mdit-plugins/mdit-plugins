@@ -78,7 +78,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 `class` 值会与内置的 `footnotes` 类合并，其他属性会直接设置到元素上并覆盖生成的同名属性。
 :::
 
-脚注标记由默认渲染器从标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等）渲染。上述选项覆盖常见场景；如需更多控制，可在 core 规则中修改这些 token（例如使用 `attrJoin`），或覆盖它们的渲染规则。
+脚注标记由默认渲染器从标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等）渲染。上述选项覆盖常见场景；如需更多控制，可在 core 规则中修改这些 token（例如使用 `attrJoin`），或覆盖它们的渲染规则。包含空白、引号、`<`、`>`、`/` 或 `=` 的属性名无法安全序列化，会被忽略。
 
 ## 破坏性变更
 
@@ -89,7 +89,7 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 - 不再注册内部的 `footnote_ref`、`footnote_block_open`、`footnote_block_close`、`footnote_open`、`footnote_close` 与 `footnote_anchor` 渲染规则。请改为覆盖标准 token 的规则（`sup_open`、`section_open`、`ordered_list_open`、`list_item_open`、`link_open` 等）。
 - core 规则在最终 token 流中不再看到 `footnote_ref` 或其他 `footnote_*` token，请改为修改对应的标准 token。
 - `FootNoteToken.meta.subId` 与 `FootNoteToken.meta.label` 现在是可选的：行内引用与行内脚注不会设置它们。
-- `env.docId` 在解析阶段读取，并原样插入生成的 id 与 `href`，由默认渲染器统一转义一次。请在解析时传入 `docId`（`md.render(src, { docId })` 即如此）；再向 `renderer.render()` 传不同环境不再改变生成的 id。token 的属性值不再预先转义。
+- `env.docId` 在解析阶段读取，并原样插入生成的 id 与 `href`，由默认渲染器统一转义一次。请在解析时传入 `docId`（`md.render(src, { docId })` 即如此）；再向 `renderer.render()` 传不同环境不再改变生成的 id。token 的属性值不再预先转义。单引号会保持原样，不再变成 `&#39;`；默认渲染器只转义 `&`、`<`、`>` 与 `"`。
 
 :::
 

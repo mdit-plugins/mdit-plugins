@@ -226,11 +226,11 @@
       "current": {
         "name": "@mdit/plugin-footnote",
         "version": "1.2.0",
-        "unpackedBytes": 88428,
+        "unpackedBytes": 93507,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 2161
+        "entryGzipBytes": 2233
       },
       "upstream": {
         "name": "markdown-it-footnote",

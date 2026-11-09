@@ -91,4 +91,43 @@ describe("footnote options", () => {
     expect(output).toContain('<sup class="footnote-ref">');
     expect(output).not.toContain('class="footnote-ref "');
   });
+
+  it("should apply refAttrs and itemAttrs to inline notes", () => {
+    const output = new MarkdownIt()
+      .use(footnote, {
+        refAttrs: { class: "custom-ref" },
+        itemAttrs: { class: "custom-item" },
+      })
+      .render("A^[note]");
+
+    expect(output).toContain('<sup class="footnote-ref custom-ref">');
+    expect(output).toContain('class="footnote-item custom-item"');
+  });
+
+  it("should stringify numeric attribute values", () => {
+    const output = render({ refAttrs: { "data-index": 1, title: 0 } });
+
+    expect(output).toContain('data-index="1"');
+    expect(output).toContain('title="0"');
+  });
+
+  it("should ignore attribute names that would inject attributes", () => {
+    const output = render({
+      refAttrs: {
+        "": "empty",
+        "x onmouseover": "alert(1)",
+        'a"b': "double",
+        "a'b": "single",
+        "a/b": "slash",
+        "a<b": "less-than",
+        "a=b": "equals",
+        "a>b": "greater-than",
+        "data-ok": "yes",
+      },
+    });
+
+    expect(output).not.toContain("onmouseover");
+    expect(output).not.toContain("double=");
+    expect(output).toContain('data-ok="yes"');
+  });
 });

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-09T14:57:53.113Z",
-  "commit": "999674f6430659edf3b68ad43e81bda151963037",
+  "generatedAt": "2026-11-09T15:13:13.151Z",
+  "commit": "1ee5ef1a851d403d32cfc31cb1b338a510eefd62",
   "packages": [
     {
       "plugin": "plugin-abbr",
@@ -5457,12 +5457,12 @@
     {
       "plugin": "plugin-footnote",
       "reference": "markdown-it-footnote",
-      "total": 25,
-      "passed": 5,
+      "total": 26,
+      "passed": 6,
       "failed": 20,
-      "skipped": 23,
+      "skipped": 29,
       "skippedByCategory": {
-        "feature-gap": 23,
+        "feature-gap": 29,
         "internal": 0,
         "packaging": 0
       },
@@ -5711,6 +5711,41 @@
           }
         },
         {
+          "file": "options.spec.ts",
+          "name": "footnote options should apply refAttrs and itemAttrs to inline notes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should stringify numeric attribute values",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should ignore attribute names that would inject attributes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
+          "file": "performance.spec.ts",
+          "name": "footnote reference scaling should replace references in linear time",
+          "status": "passed"
+        },
+        {
           "file": "security.spec.ts",
           "name": "footnote security should escape env.docId in generated ids and hrefs",
           "status": "failed",
@@ -5721,6 +5756,16 @@
           "name": "footnote security should keep normal docId output unchanged",
           "status": "failed",
           "message": "AssertionError: expected '<p>ref<sup class=\"footnote-ref\"><a hr…' to contain 'href=\"#footnote-test-doc-id-1\"'"
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "footnote security should keep single quotes in docId literal in attribute values",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin escapes single quotes in `docId`; the current package lets the renderer serialize them literally.",
+            "zh": "参考插件会转义 `docId` 中的单引号；当前包交由渲染器原样序列化。"
+          }
         },
         {
           "file": "token-stream.spec.ts",
@@ -5835,6 +5880,26 @@
         {
           "file": "token-stream.spec.ts",
           "name": "footnote standard tokens should not duplicate back-references when the env is reused",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should set standard block flags for inline notes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should stringify numeric option values on tokens",
           "status": "skipped",
           "skipCategory": "feature-gap",
           "skipReason": {

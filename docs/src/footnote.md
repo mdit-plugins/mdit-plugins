@@ -79,7 +79,7 @@ Extra attributes for the footnote container, i.e. the `<section class="footnotes
 A `class` value is merged with the built-in `footnotes` class. Other attributes are set on the element and override the generated ones.
 :::
 
-The footnote markup is rendered from standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) by the default renderer. The options above cover the common cases; for anything else, modify those tokens in a core rule (for example with `attrJoin`) or override their renderer rules.
+The footnote markup is rendered from standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) by the default renderer. The options above cover the common cases; for anything else, modify those tokens in a core rule (for example with `attrJoin`) or override their renderer rules. Attribute names that contain whitespace, quotes, `<`, `>`, `/` or `=` are ignored, because they cannot be serialized safely.
 
 ## Breaking Changes
 
@@ -90,7 +90,7 @@ The plugin now emits standard markdown-it tokens instead of custom `footnote_*` 
 - The internal `footnote_ref`, `footnote_block_open`, `footnote_block_close`, `footnote_open`, `footnote_close` and `footnote_anchor` renderer rules are no longer registered. Override the standard token rules (`sup_open`, `section_open`, `ordered_list_open`, `list_item_open`, `link_open`, ...) instead.
 - Core rules no longer see `footnote_ref` or any other `footnote_*` token in the final token stream. Modify the standard tokens instead.
 - `FootNoteToken.meta.subId` and `FootNoteToken.meta.label` are now optional: inline references and inline notes do not set them.
-- `env.docId` is read while parsing and interpolated into generated ids and `href` values as-is; the default renderer escapes it once. Pass `docId` as the parse environment (as `md.render(src, { docId })` does), because a different environment passed to `renderer.render()` no longer changes the generated ids. Token attribute values are no longer pre-escaped.
+- `env.docId` is read while parsing and interpolated into generated ids and `href` values as-is; the default renderer escapes it once. Pass `docId` as the parse environment (as `md.render(src, { docId })` does), because a different environment passed to `renderer.render()` no longer changes the generated ids. Token attribute values are no longer pre-escaped. Single quotes stay literal instead of becoming `&#39;`; the default renderer escapes `&`, `<`, `>` and `"`.
 
 :::
 

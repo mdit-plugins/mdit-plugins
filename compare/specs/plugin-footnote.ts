@@ -171,6 +171,15 @@ const spec: ComparisonSpec = defineComparison({
         zh: "参考插件输出自定义的 `footnote_*` token，而非标准 token。",
       },
     },
+    {
+      file: "security.spec.ts",
+      name: "should keep single quotes in docId literal in attribute values",
+      category: "feature-gap",
+      why: {
+        en: "The reference plugin escapes single quotes in `docId`; the current package lets the renderer serialize them literally.",
+        zh: "参考插件会转义 `docId` 中的单引号；当前包交由渲染器原样序列化。",
+      },
+    },
   ],
   bench: BENCH_CASES,
   scaling: [

@@ -78,6 +78,39 @@ export const createTextToken = (Token: TokenConstructor, content: string): Token
 };
 
 /**
+ * Check whether an attribute name can be serialized safely / 检查属性名是否可以安全序列化
+ *
+ * Markdown-it escapes attribute values but not separators inside attribute names, so a name
+ * containing whitespace, quotes, `<`, `>`, `/` or `=` could inject extra attributes. Such names are
+ * ignored.
+ *
+ * Markdown-it 会转义属性值，但不会处理属性名中的分隔符；包含空白、引号、`<`、`>`、`/` 或 `=` 的属性名 会注入额外属性，因此这类属性名会被忽略。
+ *
+ * @param name - Attribute name / 属性名
+ * @returns Whether the name may be serialized / 是否可以安全序列化
+ */
+const isValidAttributeName = (name: string): boolean => {
+  if (!name) return false;
+
+  for (let index = 0; index < name.length; index++) {
+    const code = name.charCodeAt(index);
+
+    if (
+      code <= 32 /* control characters and space */ ||
+      code === 34 /* " */ ||
+      code === 39 /* ' */ ||
+      code === 47 /* / */ ||
+      code === 60 /* < */ ||
+      code === 61 /* = */ ||
+      code === 62 /* > */
+    )
+      return false;
+  }
+
+  return true;
+};
+
+/**
  * Merge caller-provided attributes into a token / 将调用方提供的属性合并到 token
  *
  * `class` is appended to the existing classes so that the built-in class is preserved; other
@@ -95,6 +128,9 @@ export const applyAttrs = (
   if (!attrs) return;
 
   for (const [name, value] of Object.entries(attrs)) {
+    // A name with whitespace or quotes would inject extra attributes when serialized.
+    if (!isValidAttributeName(name)) continue;
+
     if (name === "class") {
       const classValue = String(value);
 
@@ -285,11 +321,26 @@ export const replaceFootnoteRefs = (
   env: FootNoteEnv,
   options: FootnoteOptions,
 ): void => {
+  let hasReference = false;
+
+  // Recurse into children first so nested references are handled bottom-up.
+  for (const token of tokens) {
+    if (token.type === "footnote_ref") hasReference = true;
+
+    if (token.children) {
+      if (token.type === "image") removeFootnoteRefs(token.children);
+      else replaceFootnoteRefs(Token, token.children, env, options);
+    }
+  }
+
+  if (!hasReference) return;
+
+  // Rebuild the array in one pass instead of splicing during iteration: replacing every
+  // reference shrinks the remainder each time and turns the loop quadratic.
+  const result: Token[] = [];
   let depth = 0;
 
-  for (let index = 0; index < tokens.length; index++) {
-    const token = tokens[index];
-
+  for (const token of tokens) {
     if (token.nesting === -1) depth--;
 
     if (token.type === "footnote_ref") {
@@ -302,13 +353,14 @@ export const replaceFootnoteRefs = (
         if (replacementToken.nesting === 1) replacementDepth++;
       }
 
-      tokens.splice(index, 1, ...replacement);
-      index += replacement.length - 1;
-    } else if (token.children) {
-      if (token.type === "image") removeFootnoteRefs(token.children);
-      else replaceFootnoteRefs(Token, token.children, env, options);
+      result.push(...replacement);
+    } else {
+      result.push(token);
     }
 
     if (token.nesting === 1) depth++;
   }
+
+  tokens.length = 0;
+  for (const token of result) tokens.push(token);
 };

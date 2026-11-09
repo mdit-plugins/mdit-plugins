@@ -1,4 +1,11 @@
-/** Plugin options for `@mdit/plugin-footnote` / `@mdit/plugin-footnote` 的插件选项 */
+/**
+ * Plugin options for `@mdit/plugin-footnote` / `@mdit/plugin-footnote` 的插件选项
+ *
+ * Attribute names that cannot be serialized safely (containing whitespace, quotes, `<`, `>`, `/` or
+ * `=`) are ignored.
+ *
+ * 无法安全序列化的属性名（包含空白、引号、`<`、`>`、`/` 或 `=`）会被忽略。
+ */
 export interface FootnoteOptions {
   /**
    * Extra attributes for the footnote reference marker.
