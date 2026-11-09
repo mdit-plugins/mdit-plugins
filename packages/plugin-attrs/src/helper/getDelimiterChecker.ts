@@ -34,26 +34,25 @@ const findDelimiter = (content: string, from: number, delimiter: string): number
   return -1;
 };
 
-// Find the last occurrence of the left delimiter outside quoted values
-const findLastLeftDelimiter = (content: string, left: string): number => {
-  const leftIndex = content.lastIndexOf(left);
-
-  if (leftIndex === -1) return -1;
-
-  // Fast path: without a quote before the delimiter it cannot be inside a quoted value
+// Find the left delimiter of the block ending the content
+// The checked text can be the tail of the inline content (inline elements split text tokens), so a
+// quote in it may pair with a quote from a previous token and look unbalanced here. Scanning
+// backwards skips such leading quotes: the block starts at the first left delimiter that is not
+// inside a quoted value at the end of the content
+const findLastLeftDelimiter = (content: string, left: string, end: number): number => {
+  // Fast path: without a quote before the end the delimiter cannot be inside a quoted value
   const quoteIndex = content.indexOf('"');
 
-  if (quoteIndex === -1 || quoteIndex > leftIndex) return leftIndex;
+  if (quoteIndex === -1 || quoteIndex >= end) return content.lastIndexOf(left, end - 1);
 
-  let result = -1;
   let insideQuotes = false;
 
-  for (let index = 0; index < content.length; index++) {
+  for (let index = end - 1; index >= 0; index--) {
     if (isUnescapedQuote(content, index)) insideQuotes = !insideQuotes;
-    else if (!insideQuotes && content.startsWith(left, index)) result = index;
+    else if (!insideQuotes && content.startsWith(left, index)) return index;
   }
 
-  return result;
+  return -1;
 };
 
 /**
@@ -101,14 +100,17 @@ export const createDelimiterChecker = (
         return false;
     } else if (where === "end") {
       // Check if content ends with right delimiter
-      start = findLastLeftDelimiter(content, left);
+      if (!content.endsWith(right)) return false;
+
+      end = content.length - rightLength;
+      start = findLastLeftDelimiter(content, left, end);
 
       if (start === -1) return false;
 
-      end = findDelimiter(content, start + leftLength + 1, right);
-      start += leftLength;
+      // The right delimiter must close this block, not appear earlier inside it
+      if (findDelimiter(content, start + leftLength + 1, right) !== end) return false;
 
-      if (end === -1 || end + rightLength !== content.length) return false;
+      start += leftLength;
     } else {
       // Check if content is wrapped by delimiters ('{.a}')
       if (!content.startsWith(left) || !content.endsWith(right)) return false;
