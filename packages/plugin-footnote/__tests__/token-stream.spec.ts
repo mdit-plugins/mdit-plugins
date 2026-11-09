@@ -209,4 +209,25 @@ describe("footnote standard tokens", () => {
     expect(output).toContain('<sup class="footnote-ref custom-ref">');
     expect(output).toContain('data-item="custom"');
   });
+
+  it("should resolve env.docId while parsing", () => {
+    const markdownIt = new MarkdownIt().use(footnote);
+    const tokens = markdownIt.parse("A[^a]\n\n[^a]: note", { docId: "parse" });
+    const html = markdownIt.renderer.render(tokens, markdownIt.options, { docId: "render" });
+
+    expect(html).toContain('id="footnote-parse-1"');
+    expect(html).toContain('href="#footnote-ref-parse-1"');
+    expect(html).not.toContain("render");
+  });
+
+  it("should not duplicate back-references when the env is reused", () => {
+    const markdownIt = new MarkdownIt().use(footnote);
+    const env = {};
+    const markdown = "A[^a] and ^[inline]\n\n[^a]: note";
+    const first = markdownIt.render(markdown, env);
+    const second = markdownIt.render(markdown, env);
+
+    expect(first.match(/href="#footnote-ref1"/gu)).toHaveLength(1);
+    expect(second.match(/href="#footnote-ref1"/gu)).toHaveLength(1);
+  });
 });

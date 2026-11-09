@@ -22,7 +22,7 @@ yarn add -D @mdit/plugin-footnote
 Compared against the upstream [`markdown-it-footnote`](https://www.npmjs.com/package/markdown-it-footnote) package `4.0.0`.
 
 - Correctness: **6/22** cases match the reference exactly (16 matching after normalization).
-- Throughput: **0.72×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Entry gzip: **2.1 kB** versus **2.7 kB** for the reference (import cost).
+- Throughput: **0.73×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
+- Entry gzip: **2.2 kB** versus **2.7 kB** for the reference (import cost).
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

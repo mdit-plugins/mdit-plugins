@@ -2,8 +2,8 @@
   "plugin": "plugin-footnote",
   "reference": "markdown-it-footnote",
   "referenceVersion": "4.0.0",
-  "generatedAt": "2026-11-09T14:42:21.506Z",
-  "commit": "9f02fe8110ff5ea45f89e24605f9abfba59aefeb",
+  "generatedAt": "2026-11-09T14:57:37.913Z",
+  "commit": "999674f6430659edf3b68ad43e81bda151963037",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
@@ -120,84 +120,84 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 7158.259891970052,
-            "meanMs": 0.1396987557160049
+            "opsPerSec": 6921.202880199495,
+            "meanMs": 0.1444835554323725
           },
           "reference": {
-            "opsPerSec": 9232.132722298798,
-            "meanMs": 0.10831733360858792
+            "opsPerSec": 8817.43980577964,
+            "meanMs": 0.11341160495867765
           },
-          "ratio": 0.7753636247754947
+          "ratio": 0.7849447268880471
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 2116.7814679196645,
-            "meanMs": 0.4724153225806452
+            "opsPerSec": 2018.69108806399,
+            "meanMs": 0.49537049324324417
           },
           "reference": {
-            "opsPerSec": 2549.4345448353965,
-            "meanMs": 0.3922438416886536
+            "opsPerSec": 2306.2182486399465,
+            "meanMs": 0.4336103057851239
           },
-          "ratio": 0.8302944949921567
+          "ratio": 0.8753252599811311
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 524.7391062755985,
-            "meanMs": 1.9057089285714288
+            "opsPerSec": 453.0757460699809,
+            "meanMs": 2.2071364637681192
           },
           "reference": {
-            "opsPerSec": 631.0309468093488,
-            "meanMs": 1.5847083333333356
+            "opsPerSec": 540.2775275992661,
+            "meanMs": 1.8509006000000032
           },
-          "ratio": 0.8315584345408278
+          "ratio": 0.8385981702463767
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 1947.496588253604,
-            "meanMs": 0.5134797185430445
+            "opsPerSec": 1755.616671514453,
+            "meanMs": 0.5696004237288126
           },
           "reference": {
-            "opsPerSec": 3295.048606692163,
-            "meanMs": 0.30348565965583163
+            "opsPerSec": 3146.3187114666507,
+            "meanMs": 0.3178317556818177
           },
-          "ratio": 0.5910372867636265
+          "ratio": 0.5579907290117077
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 496.1170129053168,
-            "meanMs": 2.01565351315789
+            "opsPerSec": 444.5250138150351,
+            "meanMs": 2.2495921914893535
           },
           "reference": {
-            "opsPerSec": 790.421219549582,
-            "meanMs": 1.2651482213114742
+            "opsPerSec": 732.117284531573,
+            "meanMs": 1.3659013673469342
           },
-          "ratio": 0.6276615564395233
+          "ratio": 0.6071773241898712
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 116.80490007457554,
-            "meanMs": 8.561284666666703
+            "opsPerSec": 120.28298812069448,
+            "meanMs": 8.313727615384638
           },
           "reference": {
-            "opsPerSec": 160.69230284328395,
-            "meanMs": 6.22307342857147
+            "opsPerSec": 160.49007584495897,
+            "meanMs": 6.23091486956519
           },
-          "ratio": 0.7268854699810368
+          "ratio": 0.7494730592369684
         }
       ],
       "scaling": [
@@ -209,8 +209,8 @@
             2048,
             4096
           ],
-          "currentExponent": 1.1028709630204359,
-          "referenceExponent": 1.6381657656126833
+          "currentExponent": 1.1203747993102897,
+          "referenceExponent": 1.689876705255521
         },
         {
           "case": "duplicate-references",
@@ -220,8 +220,8 @@
             512,
             1024
           ],
-          "currentExponent": 0.9905036108165914,
-          "referenceExponent": 0.9671151195599158
+          "currentExponent": 1.0151809532790044,
+          "referenceExponent": 0.976387345861512
         },
         {
           "case": "many-definitions",
@@ -231,8 +231,8 @@
             512,
             1024
           ],
-          "currentExponent": 1.0055236604041327,
-          "referenceExponent": 0.9951778973986501
+          "currentExponent": 0.9843418739531419,
+          "referenceExponent": 1.0058793217634587
         }
       ]
     }
@@ -247,8 +247,8 @@
       "zh": "生成的脚注 id、引用 id 和 `href` 目标会被归一化；脚注编号、caption（`[1]`、`[1:1]`）以及渲染出的脚注列表仍会对比。"
     },
     {
-      "en": "The current package emits standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) rendered by the default renderer, while the reference emits custom `footnote_*` tokens with dedicated renderer rules. The HTML output is identical, but the token streams are intentionally different, so token comparison is disabled for this variant.",
-      "zh": "当前包输出标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等），由默认渲染器渲染；参考包则输出自定义的 `footnote_*` token 并配套渲染规则。两者 HTML 输出一致，但 token 流是有意不同的，因此该变体关闭了 token 对比。"
+      "en": "The current package emits standard markdown-it tokens (`section_open`, `ordered_list_open`, `list_item_open`, `sup_open`, `link_open`, ...) rendered by the default renderer, while the reference emits custom `footnote_*` tokens with dedicated renderer rules. The HTML output is identical after normalization, but the token streams are intentionally different, so token comparison is disabled for this variant.",
+      "zh": "当前包输出标准 markdown-it token（`section_open`、`ordered_list_open`、`list_item_open`、`sup_open`、`link_open` 等），由默认渲染器渲染；参考包则输出自定义的 `footnote_*` token 并配套渲染规则。两者 HTML 输出在归一化后一致，但 token 流是有意不同的，因此该变体关闭了 token 对比。"
     },
     {
       "en": "The current package accepts optional `refAttrs`, `itemAttrs`, `backrefAttrs` and `containerAttrs` options that the reference has no equivalent for; no options are passed so the default output is compared.",

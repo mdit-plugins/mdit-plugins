@@ -95,9 +95,41 @@ export const applyAttrs = (
   if (!attrs) return;
 
   for (const [name, value] of Object.entries(attrs)) {
-    if (name === "class") token.attrJoin("class", String(value));
-    else token.attrSet(name, String(value));
+    if (name === "class") {
+      const classValue = String(value);
+
+      // Ignore empty class values so `class=""` does not leave a trailing space.
+      if (classValue) token.attrJoin(name, classValue);
+    } else {
+      token.attrSet(name, String(value));
+    }
   }
+};
+
+/**
+ * Clone a token and replace its children / 克隆 token 并替换其 children
+ *
+ * Tokens from `env.footnotes.list` are reused when the same environment is rendered again; mutating
+ * their children would corrupt the cached parse result. This helper renders a copy instead.
+ *
+ * 同一个环境被重复渲染时会复用 `env.footnotes.list` 中的 token；直接修改它们的 children 会污染 缓存的解析结果，因此这里改为渲染副本。
+ *
+ * @param Token - Token constructor / Token 构造函数
+ * @param token - Token to clone / 要克隆的 token
+ * @param children - Replacement children / 替换后的 children
+ * @returns The cloned token / 克隆后的 token
+ */
+export const cloneTokenWithChildren = (
+  Token: TokenConstructor,
+  token: Token,
+  children: Token[],
+): Token => {
+  const cloned = new Token(token.type, token.tag, token.nesting);
+
+  Object.assign(cloned, token);
+  cloned.children = children;
+
+  return cloned;
 };
 
 /**

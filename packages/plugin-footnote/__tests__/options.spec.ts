@@ -84,4 +84,11 @@ describe("footnote options", () => {
 
     expect(output).toContain('<li id="custom-item" class="footnote-item">');
   });
+
+  it("should ignore an empty class value", () => {
+    const output = render({ refAttrs: { class: "" } });
+
+    expect(output).toContain('<sup class="footnote-ref">');
+    expect(output).not.toContain('class="footnote-ref "');
+  });
 });

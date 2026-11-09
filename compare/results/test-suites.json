@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-09T14:43:15.238Z",
-  "commit": "9f02fe8110ff5ea45f89e24605f9abfba59aefeb",
+  "generatedAt": "2026-11-09T14:57:53.113Z",
+  "commit": "999674f6430659edf3b68ad43e81bda151963037",
   "packages": [
     {
       "plugin": "plugin-abbr",
@@ -5460,9 +5460,9 @@
       "total": 25,
       "passed": 5,
       "failed": 20,
-      "skipped": 20,
+      "skipped": 23,
       "skippedByCategory": {
-        "feature-gap": 20,
+        "feature-gap": 23,
         "internal": 0,
         "packaging": 0
       },
@@ -5701,6 +5701,16 @@
           }
         },
         {
+          "file": "options.spec.ts",
+          "name": "footnote options should ignore an empty class value",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin has no attribute options.",
+            "zh": "参考插件没有属性选项。"
+          }
+        },
+        {
           "file": "security.spec.ts",
           "name": "footnote security should escape env.docId in generated ids and hrefs",
           "status": "failed",
@@ -5805,6 +5815,26 @@
         {
           "file": "token-stream.spec.ts",
           "name": "footnote standard tokens should render attributes added to standard tokens by a core rule",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should resolve env.docId while parsing",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference plugin emits custom `footnote_*` tokens instead of standard tokens.",
+            "zh": "参考插件输出自定义的 `footnote_*` token，而非标准 token。"
+          }
+        },
+        {
+          "file": "token-stream.spec.ts",
+          "name": "footnote standard tokens should not duplicate back-references when the env is reused",
           "status": "skipped",
           "skipCategory": "feature-gap",
           "skipReason": {

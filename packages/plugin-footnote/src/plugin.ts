@@ -7,6 +7,7 @@ import type { StateBlock, StateCore, StateInline, Token } from "markdown-it";
 import type { FootnoteOptions } from "./options.js";
 import {
   applyAttrs,
+  cloneTokenWithChildren,
   createBackReferenceTokens,
   createBlockToken,
   createToken,
@@ -361,11 +362,13 @@ const createFootnoteTail =
         lastInlineToken = state.tokens[state.tokens.length - 2];
 
       if (lastInlineToken?.type === "inline") {
-        lastInlineToken.children = [
+        // Clone the inline token instead of mutating it: definition note tokens are stored in
+        // `env.footnotes.list` and reused when the same environment is rendered again.
+        state.tokens[state.tokens.length - 2] = cloneTokenWithChildren(Token, lastInlineToken, [
           // oxlint-disable-next-line typescript/no-non-null-assertion
           ...lastInlineToken.children!,
           ...backReferences,
-        ];
+        ]);
       } else {
         // Keep block-level back-references inside a standard inline token instead of emitting
         // bare inline-level tokens at the top level. The default renderer renders the children

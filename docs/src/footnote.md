@@ -90,8 +90,7 @@ The plugin now emits standard markdown-it tokens instead of custom `footnote_*` 
 - The internal `footnote_ref`, `footnote_block_open`, `footnote_block_close`, `footnote_open`, `footnote_close` and `footnote_anchor` renderer rules are no longer registered. Override the standard token rules (`sup_open`, `section_open`, `ordered_list_open`, `list_item_open`, `link_open`, ...) instead.
 - Core rules no longer see `footnote_ref` or any other `footnote_*` token in the final token stream. Modify the standard tokens instead.
 - `FootNoteToken.meta.subId` and `FootNoteToken.meta.label` are now optional: inline references and inline notes do not set them.
-- `env.docId` is interpolated into generated ids and `href` values as-is and escaped once by the default renderer. The rendered HTML is unchanged, but token attribute values are no longer pre-escaped.
-- Image alt text no longer includes footnote reference markers: `![a[^1]](img.png)` still renders `alt="a"`.
+- `env.docId` is read while parsing and interpolated into generated ids and `href` values as-is; the default renderer escapes it once. Pass `docId` as the parse environment (as `md.render(src, { docId })` does), because a different environment passed to `renderer.render()` no longer changes the generated ids. Token attribute values are no longer pre-escaped.
 
 :::
 
