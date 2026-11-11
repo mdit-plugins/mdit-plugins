@@ -88,6 +88,12 @@ type KatexLogger<MarkdownItEnv = unknown> = (
 
 :::
 
+::: tip 错误处理
+
+`throwOnError` 会透传给 KaTeX，默认值为 `false`，因此无效公式会渲染为错误文本。如果你希望无效公式直接抛出 KaTeX 的 `ParseError`（例如让构建失败），请将其设为 `true`。
+
+:::
+
 ## 示例
 
 ::: preview 示例

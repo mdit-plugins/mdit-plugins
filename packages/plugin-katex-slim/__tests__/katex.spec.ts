@@ -1,3 +1,4 @@
+import { ParseError } from "katex";
 import MarkdownIt from "markdown-it";
 import type { Env } from "markdown-it";
 import { describe, expect, it, vi } from "vitest";
@@ -72,15 +73,10 @@ describe("inline katex", () => {
     expect(markdownIt.render(String.raw`$\fra{a}{b}$`)).toMatchSnapshot();
   });
 
-  it("should render error msg when content is wrong", () => {
-    const consoleError = vi.spyOn(globalThis.console, "error").mockImplementation(() => {});
-
-    expect(markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toBe(
-      "<p><span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \\fra at position 1: \\̲f̲r̲a̲{a}{b}'>\\fra{a}{b}</span></p>\n",
-    );
-
-    expect(consoleError).toHaveBeenCalledTimes(1);
-    consoleError.mockRestore();
+  it("should throw a ParseError when throwOnError is true", () => {
+    expect(() => markdownItWithError.render(String.raw`$\fra{a}{b}$`)).toThrow(ParseError);
+    expect(() => markdownItWithError.renderInline(String.raw`$\fra{a}{b}$`)).toThrow(ParseError);
+    expect(markdownItWithError.render("$a=1$")).toContain('class="katex"');
   });
 });
 
@@ -164,23 +160,16 @@ $$
     ).toMatchSnapshot();
   });
 
-  it("should render error msg when content is wrong", () => {
-    const consoleError = vi.spyOn(globalThis.console, "error").mockImplementation(() => {});
-
-    expect(markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toMatch(
-      /<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/,
-    );
-
-    expect(
+  it("should throw a ParseError when throwOnError is true", () => {
+    expect(() => markdownItWithError.render(String.raw`$$\fra{a}{b}$$`)).toThrow(ParseError);
+    expect(markdownItWithError.render("$$\na=1\n$$")).toContain("katex-block");
+    expect(() =>
       markdownItWithError.render(`
 $$
 \\fra{a}{b}
 $$
 `),
-    ).toMatch(/<p class='katex-block katex-error' title='[\s\S]*?'>[\s\S]*?<\/p>/);
-
-    expect(consoleError).toHaveBeenCalledTimes(2);
-    consoleError.mockRestore();
+    ).toThrow(ParseError);
   });
 });
 

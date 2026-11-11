@@ -730,9 +730,6 @@ importers:
 
   packages/plugin-katex:
     dependencies:
-      '@mdit/helper':
-        specifier: workspace:*
-        version: link:../helper
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../plugin-tex
@@ -745,9 +742,6 @@ importers:
 
   packages/plugin-katex-slim:
     dependencies:
-      '@mdit/helper':
-        specifier: workspace:*
-        version: link:../helper
       '@mdit/plugin-tex':
         specifier: workspace:*
         version: link:../plugin-tex

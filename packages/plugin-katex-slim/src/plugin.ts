@@ -1,6 +1,5 @@
 // oxlint-disable typescript/consistent-type-imports
 
-import { escapeHtml } from "@mdit/helper";
 import { tex } from "@mdit/plugin-tex";
 import type { KatexOptions, KatexOptions as OriginalKatexOptions, StrictFunction } from "katex";
 import type { Env, MarkdownIt } from "markdown-it";
@@ -22,22 +21,7 @@ const katexInline = (
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
-  let result: string;
-
-  try {
-    result = katexLib.renderToString(content, options);
-  } catch (err) {
-    /* istanbul ignore else -- @preserve */
-    if (err instanceof katexLib.ParseError) {
-      // oxlint-disable-next-line no-console
-      console.error(err);
-      result = `<span class='katex-error' title='${escapeHtml(
-        (err as Error).toString(),
-      )}'>${escapeHtml(content)}</span>`;
-    } else {
-      throw err;
-    }
-  }
+  const result = katexLib.renderToString(content, options);
 
   return transformer?.(result, false) ?? result;
 };
@@ -47,22 +31,7 @@ const katexBlock = (
   options: OriginalKatexOptions,
   transformer?: TeXTransformer,
 ): string => {
-  let result: string;
-
-  try {
-    result = `<p class='katex-block'>${katexLib.renderToString(content, options)}</p>\n`;
-  } catch (err) {
-    /* istanbul ignore else -- @preserve */
-    if (err instanceof katexLib.ParseError) {
-      // oxlint-disable-next-line no-console
-      console.error(err);
-      result = `<p class='katex-block katex-error' title='${escapeHtml(
-        (err as Error).toString(),
-      )}'>${escapeHtml(content)}</p>\n`;
-    } else {
-      throw err;
-    }
-  }
+  const result = `<p class='katex-block'>${katexLib.renderToString(content, options)}</p>\n`;
 
   return transformer?.(result, true) ?? result;
 };

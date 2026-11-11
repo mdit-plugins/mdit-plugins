@@ -64,8 +64,8 @@ const spec: ComparisonSpec = defineComparison({
       zh: "两处有意的标记差异通过归一化处理而非直接对比：当前包把显示公式包在 `<p class='katex-block'>` 中（参考包输出普通 `<p>`），并保留块公式首尾的空白与换行，而参考包会将其裁剪。显示公式的包裹仅存在于渲染阶段；保留的空白还会体现在 token content 中，归入 `annotation-whitespace` issue。",
     },
     {
-      en: "Both packages run with their own defaults for error handling: the current package catches KaTeX parse errors and renders escaped `katex-error` markup, while the reference's catch block returns the raw LaTeX into the HTML. Tracked by the `raw-latex-on-error` issue.",
-      zh: "两侧都以各自的默认设置处理错误：当前包捕获 KaTeX 解析错误并渲染转义后的 `katex-error` 标记，而参考包的 catch 块会把原始 LaTeX 写入 HTML。归入 `raw-latex-on-error` issue。",
+      en: "Both packages run with their own defaults for error handling: the current package keeps `throwOnError: false`, so KaTeX renders invalid formulas as error markup, while the reference's catch block returns the raw LaTeX into the HTML. Tracked by the `raw-latex-on-error` issue.",
+      zh: "两侧都以各自的默认设置处理错误：当前包保持 `throwOnError: false`，无效公式由 KaTeX 渲染为错误标记，而参考包的 catch 块会把原始 LaTeX 写入 HTML。归入 `raw-latex-on-error` issue。",
     },
     {
       en: "The current fork applies stricter delimiter rules than the reference; the affected cases are grouped under the `word-boundary-delimiters`, `literal-gap-inline`, `block-trailing-content` and `adjacent-dollar-delimiter` issues.",
@@ -104,8 +104,8 @@ const spec: ComparisonSpec = defineComparison({
       id: "raw-latex-on-error",
       category: "reference-error",
       note: {
-        en: "KaTeX's `throwOnError` defaults to `true` in the reference, whose catch block then returns the raw LaTeX as HTML instead of an escaped error message, so markup is leaked unescaped; the current package defaults to `throwOnError: false` and renders escaped `katex-error` markup.",
-        zh: "参考包沿用 KaTeX 的 `throwOnError: true` 默认值，其 catch 块随后把原始 LaTeX 直接作为 HTML 返回，而不是输出转义后的错误信息，导致标记未转义地泄漏；当前包默认 `throwOnError: false`，会输出转义后的 `katex-error` 标记。",
+        en: "KaTeX's `throwOnError` defaults to `true` in the reference, whose catch block then returns the raw LaTeX as HTML instead of an escaped error message, so markup is leaked unescaped; the current package defaults to `throwOnError: false` and lets KaTeX render the error markup.",
+        zh: "参考包沿用 KaTeX 的 `throwOnError: true` 默认值，其 catch 块随后把原始 LaTeX 直接作为 HTML 返回，而不是输出转义后的错误信息，导致标记未转义地泄漏；当前包默认 `throwOnError: false`，由 KaTeX 渲染错误标记。",
       },
     },
     {

@@ -50,7 +50,6 @@
     "clean": "rimraf ./dist"
   },
   "dependencies": {
-    "@mdit/helper": "workspace:^",
     "@mdit/plugin-tex": "workspace:*",
     "katex": "catalog:"
   },

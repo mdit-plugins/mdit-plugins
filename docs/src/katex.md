@@ -88,6 +88,12 @@ Transformer function on output content.
 
 :::
 
+::: tip Error handling
+
+`throwOnError` is passed to KaTeX and defaults to `false`, so an invalid formula is rendered as error text. Set it to `true` if you want a KaTeX `ParseError` to be thrown instead, e.g. to fail your build when a formula is invalid.
+
+:::
+
 ## Demo
 
 ::: preview
