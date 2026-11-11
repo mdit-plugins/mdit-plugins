@@ -31,17 +31,24 @@ const startsWithTodoMarkdown = (token: Token): "checked" | boolean => {
   return contentChar === 32 /* space */ || contentChar === 160; /* \u00A0 */
 };
 
-// The checkbox marker takes the first three characters of the inline content: `[ ]`, `[x]` or `[X]`.
+// The checkbox marker is the first four characters of the inline content: `[ ] `, `[x] `,
+// `[X] ` or `[\u00A0] ` — the marker itself plus the separator (a normal space or a
+// non-breaking space), which is part of the marker syntax and must not become part of the label
+// text.
 // It is normally part of the first text token. However, when `[x]` matches a link reference
 // definition, markdown-it parses the marker as a link (`link_open`, text `x`, `link_close`), so
 // that whole link has to be removed instead.
 const removeTodoMarker = (children: Token[]): void => {
   if (children[0].type === "text") {
-    children[0].content = children[0].content.slice(3);
+    children[0].content = children[0].content.slice(4);
     return;
   }
 
   children.splice(0, 3);
+
+  // The separator directly follows the marker link, so it is the first character of the next
+  // token's content.
+  children[0].content = children[0].content.slice(1);
 };
 
 /**
