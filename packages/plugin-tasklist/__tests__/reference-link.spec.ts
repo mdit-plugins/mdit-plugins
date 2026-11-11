@@ -17,7 +17,7 @@ describe("tasklist with link reference definitions", () => {
     expect(result).not.toContain('href="/url"');
     expect(result).toContain('checked="checked"');
     expect(result).toContain(
-      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> done</label>',
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">done</label>',
     );
   });
 
@@ -33,12 +33,12 @@ describe("tasklist with link reference definitions", () => {
 
     expect(result).not.toContain('href="/url"');
     expect(result).toContain(
-      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> <a href="/foo">foo</a></label>',
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"><a href="/foo">foo</a></label>',
     );
     expect(result).toContain(
-      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> <a href="https://example.com">bar</a></label>',
+      '<label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"><a href="https://example.com">bar</a></label>',
     );
-    expect(result).toContain(" unchecked</label>");
+    expect(result).toContain("unchecked</label>");
     expect(result.match(/checked="checked"/g)).toHaveLength(2);
   });
 
@@ -56,6 +56,6 @@ describe("tasklist with link reference definitions", () => {
     expect(result).not.toContain("<a ");
     expect(result).not.toContain("<label");
     expect(result).toContain('checked="checked"');
-    expect(result).toContain("> done</li>");
+    expect(result).toContain(">done</li>");
   });
 });

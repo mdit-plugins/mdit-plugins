@@ -17,44 +17,44 @@ exports[`tasklist > should not render 1`] = `
 
 exports[`tasklist > should not render label 1`] = `
 "<ul class="task-list-container">
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 1</li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 2</li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 3</li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 4</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 1</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 2</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 3</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 4</li>
 </ul>
 "
 `;
 
 exports[`tasklist > should render 1`] = `
 "<ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 4</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 4</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 6</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 6</label></li>
 </ul>
 "
 `;
 
 exports[`tasklist > should render multiple lists 1`] = `
 "<ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 4</label></li>
 </ul>
 <p>Some content</p>
 <ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 4</label>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 4</label>
 <ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked item 4</label></li>
 </ul>
 </li>
 </ul>
@@ -65,10 +65,10 @@ exports[`tasklist > should render nested list > ol nested 1`] = `
 "<ol>
 <li>foo
 <ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> nested unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">nested unchecked item 1</label></li>
 <li>not a todo item 2</li>
 <li>not a todo item 3</li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> nested checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">nested checked item 4</label></li>
 </ul>
 </li>
 <li>bar</li>
@@ -81,10 +81,10 @@ exports[`tasklist > should render nested list > ul nested 1`] = `
 "<ul>
 <li>foo
 <ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> nested unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> nested unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> nested checked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> nested checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">nested unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">nested unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">nested checked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">nested checked item 4</label></li>
 </ul>
 </li>
 </ul>
@@ -93,31 +93,31 @@ exports[`tasklist > should render nested list > ul nested 1`] = `
 
 exports[`tasklist > should render ordered list 1`] = `
 "<ol class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked ordered 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked ordered 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> checked ordered 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked ordered 4</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked ordered 5</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked ordered 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked ordered 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled">checked ordered 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked ordered 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked ordered 5</label></li>
 </ol>
 "
 `;
 
 exports[`tasklist > should render with items containing other markdown syntax 1`] = `
 "<ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked <a href="https://example.com">link</a></label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> unchecked <strong>item 2</strong></label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"> <em>unchecked</em> item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"> <s>checked item 4</s></label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked <a href="https://example.com">link</a></label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled">unchecked <strong>item 2</strong></label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><em>unchecked</em> item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked" disabled="disabled"><s>checked item 4</s></label></li>
 </ul>
 "
 `;
 
 exports[`tasklist > should support disabled option 1`] = `
 "<ul class="task-list-container">
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox"> unchecked item 1</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox"> unchecked item 2</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox"> unchecked item 3</label></li>
-<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked"> checked item 4</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox">unchecked item 1</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox">unchecked item 2</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox">unchecked item 3</label></li>
+<li class="task-list-item"><label class="task-list-item-label"><input type="checkbox" class="task-list-item-checkbox" checked="checked">checked item 4</label></li>
 </ul>
 "
 `;
