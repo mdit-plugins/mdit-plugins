@@ -328,26 +328,26 @@ const createFootnoteTail =
   (options: FootnoteOptions): CoreRule =>
   (state: FootNoteStateCore) => {
     const refTokens: Record<string, Token[]> = {};
-
-    let current: Token[], currentLabel: string;
-    let isInsideRef = false;
+    const refStack: { label: string; tokens: Token[] }[] = [];
 
     if (!state.env.footnotes?.list) {
+      let refDepth = 0;
+
       // If no footnotes list, remove all footnote reference tokens
       state.tokens = state.tokens.filter((stateToken) => {
         if (stateToken.type === "footnote_reference_open") {
-          isInsideRef = true;
+          refDepth++;
 
           return false;
         }
 
         if (stateToken.type === "footnote_reference_close") {
-          isInsideRef = false;
+          refDepth--;
 
           return false;
         }
 
-        return !isInsideRef;
+        return refDepth === 0;
       });
 
       return;
@@ -357,23 +357,33 @@ const createFootnoteTail =
 
     state.tokens = state.tokens.filter((stateToken) => {
       if (stateToken.type === "footnote_reference_open") {
-        isInsideRef = true;
-        current = [];
-        currentLabel = (stateToken.meta as { label: string }).label;
+        refStack.push({
+          label: (stateToken.meta as { label: string }).label,
+          tokens: [],
+        });
 
         return false;
       }
 
       if (stateToken.type === "footnote_reference_close") {
-        isInsideRef = false;
+        // `footnoteDef` always pushes a balanced pair, so the stack has a matching entry here.
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        const { label, tokens } = refStack.pop()!;
+
         // prepend ':' to avoid conflict with Object.prototype members
-        refTokens[`:${currentLabel}`] = current;
+        refTokens[`:${label}`] = tokens;
 
         return false;
       }
-      if (isInsideRef) current.push(stateToken);
 
-      return !isInsideRef;
+      // Tokens outside any definition stay in the document.
+      if (refStack.length === 0) return true;
+
+      // Only the innermost definition collects the token, so a nested definition keeps its
+      // content out of the outer note.
+      refStack[refStack.length - 1].tokens.push(stateToken);
+
+      return false;
     });
 
     const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
@@ -421,6 +431,8 @@ const createFootnoteTail =
         // oxlint-disable-next-line typescript/no-non-null-assertion
         const tokens = refTokens[`:${list[index].label!}`];
 
+        // A list entry may exist when the definition is not in this token stream, e.g. the
+        // footnote reference sits in content rendered separately via `renderInline` (tab title).
         // oxlint-disable-next-line typescript/strict-boolean-expressions
         if (tokens) state.tokens.push(...tokens);
       }
