@@ -130,6 +130,47 @@ foo[^1] bar[^2].
     ).toMatchSnapshot();
   });
 
+  it("should keep nested definitions out of the outer note", () => {
+    expect(
+      markdownIt.render(`\
+Main text.[^1] More text.[^2]
+
+[^1]: First note.
+
+    [^2]: Second note.
+
+    Tail of first note.
+
+After.
+`),
+    ).toBe(`\
+<p>Main text.<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1"></a></sup> More text.<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2"></a></sup></p>
+<p>After.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>First note.</p>
+<p>Tail of first note. <a href="#footnote-ref1" class="footnote-backref">\u21A9\uFE0E</a></p>
+</li>
+<li id="footnote2" class="footnote-item"><p>Second note. <a href="#footnote-ref2" class="footnote-backref">\u21A9\uFE0E</a></p>
+</li>
+</ol>
+</section>
+`);
+  });
+
+  it("should drop nested definitions when there is no reference", () => {
+    expect(
+      markdownIt.render(`\
+[^1]: First note.
+
+    [^2]: Second note.
+
+    Tail of first note.
+`),
+    ).toBe("");
+  });
+
   it("should support inline note", () => {
     expect(
       markdownIt.render(`
