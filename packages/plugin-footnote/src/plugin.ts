@@ -1,10 +1,27 @@
-/** Forked from https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs */
+/**
+ * Forked and modified from
+ * https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs
+ */
 
 import { escapeHtml, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, InlineRule, PluginSimple } from "@mdit/helper";
+import type { BlockRule, CoreRule, InlineRule, PluginWithOptions } from "@mdit/helper";
 import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
-import type { FootNoteEnv, FootNoteToken } from "./types.js";
+import type { FootnoteOptions } from "./options.js";
+import type {
+  FootnoteAnchorMeta,
+  FootnoteBlockOpenMeta,
+  FootnoteRefMeta,
+  FootNoteEnv,
+  FootNoteMeta,
+} from "./types.js";
+import {
+  applyAttrs,
+  escapeAttribute,
+  getFootnoteAnchorName,
+  getFootnoteCaption,
+  getFootnoteSuffix,
+} from "./utils.js";
 
 interface FootNoteStateBlock extends StateBlock {
   env: FootNoteEnv;
@@ -18,74 +35,60 @@ interface FootNoteStateCore extends StateCore {
   env: FootNoteEnv;
 }
 
-type FootNoteMeta = FootNoteToken["meta"];
+const REF_CLASS = "footnote-ref";
+const ANCHOR_CLASS = "footnote-anchor";
+const ITEM_CLASS = "footnote-item";
+const BACK_REFERENCE_CLASS = "footnote-backref";
+const SEPARATOR_CLASS = "footnotes-sep";
+const CONTAINER_CLASS = "footnotes";
+const LIST_CLASS = "footnotes-list";
 
-const getIDSuffix = (tokens: Token[], index: number): string => {
-  // add suffix when multiple id was found
-  const { subId } = tokens[index].meta as FootNoteMeta;
+// `↩` with escape code to prevent display as Apple Emoji on iOS
+const BACK_REFERENCE_TEXT = "\u21A9\uFE0E";
 
-  return subId > 0 ? `:${subId}` : "";
+const renderFootnoteCaption: RendererRule = (tokens, index) => {
+  const { id, subId } = tokens[index].meta as unknown as FootNoteMeta;
+
+  return getFootnoteCaption(id, subId);
 };
-
-const renderFootnoteAnchorName: RendererRule = (tokens, index, _options, env) => {
-  // prefix
-  const docId = env?.docId;
-  // increasing id
-  const id = (tokens[index].meta as FootNoteMeta).id;
-
-  // `docId` comes from the caller-provided `env` and is interpolated into `id` / `href`
-  // attributes, so it must be escaped to prevent attribute injection.
-  return `${typeof docId === "string" ? `-${escapeHtml(docId)}-` : ""}${(id + 1).toString()}`;
-};
-
-const renderFootnoteCaption: RendererRule = (tokens: Token[], index) =>
-  `[${
-    // number
-    ((tokens[index].meta as FootNoteMeta).id + 1).toString()
-  }${getIDSuffix(tokens, index)}]`;
 
 const renderFootnoteRef: RendererRule = (tokens, index, options, env, self) => {
-  const id = self.rules.footnote_anchor_name(tokens, index, options, env, self);
+  const { href, anchorId, anchorClass } = tokens[index].meta as unknown as FootnoteRefMeta;
+  // The caption goes through the `footnote_caption` rule so overriding it keeps working like in
+  // previous versions. Renderer rules return HTML, so the caption is embedded as-is.
   const caption = self.rules.footnote_caption(tokens, index, options, env, self);
 
   // A separate anchor element allows scroll offset control via CSS
   // (e.g. `.footnote-anchor { scroll-margin-top: 80px; }` to leave
   // space for a fixed navbar), which isn't possible when id and href
   // share the same <a> element.
-  return `<sup class="footnote-ref"><a href="#footnote${id}">${caption}</a><a class="footnote-anchor" id="footnote-ref${id}${getIDSuffix(
-    tokens,
-    index,
-  )}"></a></sup>`;
+  return `<sup${self.renderAttrs(tokens[index])}><a href="${escapeAttribute(href)}">${caption}</a><a class="${escapeAttribute(anchorClass)}" id="${escapeAttribute(anchorId)}"></a></sup>`;
 };
 
-const renderFootnoteBlockOpen: RendererRule = (_tokens, _index, options) =>
-  `\
-<hr class="footnotes-sep"${options.xhtmlOut ? " /" : ""}>
-<section class="footnotes">
-<ol class="footnotes-list">
+const renderFootnoteBlockOpen: RendererRule = (tokens, index, options, _env, self) => {
+  const { separatorClass, listClass } = tokens[index].meta as unknown as FootnoteBlockOpenMeta;
+
+  return `<hr class="${escapeAttribute(separatorClass)}"${options.xhtmlOut ? " /" : ""}>
+<section${self.renderAttrs(tokens[index])}>
+<ol class="${escapeAttribute(listClass)}">
 `;
+};
 
 const renderFootnoteBlockClose = (): string => `\
 </ol>
 </section>
 `;
 
-const renderFootnoteOpen: RendererRule = (tokens, index, options, env, self) =>
-  `<li id="footnote${self.rules.footnote_anchor_name(
-    tokens,
-    index,
-    options,
-    env,
-    self,
-  )}${getIDSuffix(tokens, index)}" class="footnote-item">`;
+const renderFootnoteOpen: RendererRule = (tokens, index, _options, _env, self) =>
+  `<li${self.renderAttrs(tokens[index])}>`;
 
-const renderFootnoteClose: RendererRule = () => "</li>\n";
+const renderFootnoteClose = (): string => "</li>\n";
 
-const renderFootnoteAnchor: RendererRule = (tokens, index, options, env, self) =>
-  ` <a href="#footnote-ref${self.rules.footnote_anchor_name(tokens, index, options, env, self)}${
-    getIDSuffix(tokens, index)
-    /* ↩ with escape code to prevent display as Apple Emoji on iOS */
-  }" class="footnote-backref">\u21A9\uFE0E</a>`;
+const renderFootnoteAnchor: RendererRule = (tokens, index, _options, _env, self) => {
+  const { text } = tokens[index].meta as unknown as FootnoteAnchorMeta;
+
+  return ` <a${self.renderAttrs(tokens[index])}>${escapeHtml(text)}</a>`;
+};
 
 // Process footnote block definition
 const footnoteDef: BlockRule = (state: FootNoteStateBlock, startLine, endLine, silent) => {
@@ -178,235 +181,283 @@ const footnoteDef: BlockRule = (state: FootNoteStateBlock, startLine, endLine, s
   return true;
 };
 
-// Process inline footnotes (^[...])
-const footnoteInline: InlineRule = (state: FootNoteStateInline, silent) => {
-  const max = state.posMax;
-  const start = state.pos;
+// Create the footnote reference token from parsed data, resolved at parse time so renderers are
+// pure serializers.
+const createFootnoteRefToken = (
+  state: FootNoteStateInline,
+  options: FootnoteOptions,
+  id: number,
+  subId?: number,
+  label?: string,
+): void => {
+  const refToken = state.push("footnote_ref", "", 0);
+  const anchorName = getFootnoteAnchorName(state.env.docId, id);
+  const suffix = getFootnoteSuffix(subId);
 
-  if (
-    start + 2 >= max ||
-    state.src.charCodeAt(start) !== 94 /* ^ */ ||
-    state.src.charCodeAt(start + 1) !== 91 /* [ */
-  )
-    return false;
+  refToken.meta = {
+    id,
+    subId,
+    label,
+    href: `#footnote${anchorName}`,
+    anchorId: `footnote-ref${anchorName}${suffix}`,
+    anchorClass: ANCHOR_CLASS,
+  } satisfies FootNoteMeta;
 
-  const labelEnd = state.md.helpers.parseLinkLabel(state, start + 1);
-
-  // parser failed to find ']', so it’s not a valid note
-  if (labelEnd < 0) return false;
-
-  const labelStart = start + 2;
-
-  /*
-   * We found the end of the link, and know for a fact it’s a valid link;
-   * so all that’s left to do is to call tokenizer.
-   *
-   */
-  // silent mode is hard to trigger with standard syntax
-  // this is more like a guard to prevent run tokenizer in silent mode
-  if (!silent) {
-    const list = ((state.env.footnotes ??= {}).list ??= []);
-    const footnoteId = list.length;
-    const tokens: Token[] = [];
-
-    state.md.inline.parse(state.src.slice(labelStart, labelEnd), state.md, state.env, tokens);
-
-    const refToken = state.push("footnote_ref", "", 0);
-
-    refToken.meta = { id: footnoteId };
-
-    state.env.footnotes.list[footnoteId] = {
-      content: state.src.slice(labelStart, labelEnd),
-      tokens,
-    };
-  }
-
-  state.pos = labelEnd + 1;
-  state.posMax = max;
-
-  return true;
+  refToken.attrJoin("class", REF_CLASS);
+  applyAttrs(refToken, options.refAttrs);
 };
 
-// Process footnote references ([^...])
-const footnoteRef: InlineRule = (state: FootNoteStateInline, silent) => {
-  const start = state.pos;
-  const max = state.posMax;
+// Process inline footnotes (^[...])
+const createFootnoteInline =
+  (options: FootnoteOptions): InlineRule =>
+  (state: FootNoteStateInline, silent) => {
+    const max = state.posMax;
+    const start = state.pos;
 
-  if (
-    // should be at least 4 chars - "[^x]"
-    start + 3 > max ||
-    !state.env.footnotes?.refs ||
-    state.src.charCodeAt(start) !== 91 /* [ */ ||
-    state.src.charCodeAt(start + 1) !== 94 /* ^ */
-  )
-    return false;
+    if (
+      start + 2 >= max ||
+      state.src.charCodeAt(start) !== 94 /* ^ */ ||
+      state.src.charCodeAt(start + 1) !== 91 /* [ */
+    )
+      return false;
 
-  let pos = start + 2;
-  let charCode: number;
+    const labelEnd = state.md.helpers.parseLinkLabel(state, start + 1);
 
-  while (pos < max) {
-    charCode = state.src.charCodeAt(pos);
-    if (charCode === 32 /* space */ || charCode === 10 /* \n */) return false;
+    // parser failed to find ']', so it’s not a valid note
+    if (labelEnd < 0) return false;
 
-    if (charCode === 93 /* ] */) break;
+    const labelStart = start + 2;
 
-    pos++;
-  }
+    /*
+     * We found the end of the link, and know for a fact it’s a valid link;
+     * so all that’s left to do is to call tokenizer.
+     *
+     */
+    // silent mode is hard to trigger with standard syntax
+    // this is more like a guard to prevent run tokenizer in silent mode
+    if (!silent) {
+      const list = ((state.env.footnotes ??= {}).list ??= []);
+      const footnoteId = list.length;
+      const tokens: Token[] = [];
 
-  // empty footnote labels
-  if (pos === start + 2 || pos >= max) return false;
+      state.md.inline.parse(state.src.slice(labelStart, labelEnd), state.md, state.env, tokens);
 
-  pos++;
+      state.env.footnotes.list[footnoteId] = {
+        content: state.src.slice(labelStart, labelEnd),
+        tokens,
+      };
 
-  const label = state.src.slice(start + 2, pos - 1);
-
-  if (typeof state.env.footnotes.refs[`:${label}`] !== "number") return false;
-
-  // silent mode is hard to trigger with standard syntax
-  // this is more like a guard to prevent run tokenizer in silent mode
-  if (!silent) {
-    const list = (state.env.footnotes.list ??= []);
-    const { refs } = state.env.footnotes;
-    let footnoteId: number;
-
-    if (refs[`:${label}`] < 0) {
-      footnoteId = list.length;
-      list[footnoteId] = { label, count: 0 };
-      refs[`:${label}`] = footnoteId;
-    } else {
-      footnoteId = refs[`:${label}`];
+      createFootnoteRefToken(state, options, footnoteId);
     }
 
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    const subId = list[footnoteId].count!;
+    state.pos = labelEnd + 1;
+    state.posMax = max;
 
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    list[footnoteId].count! += 1;
+    return true;
+  };
 
-    const refToken = state.push("footnote_ref", "", 0);
+// Process footnote references ([^...])
+const createFootnoteRef =
+  (options: FootnoteOptions): InlineRule =>
+  (state: FootNoteStateInline, silent) => {
+    const start = state.pos;
+    const max = state.posMax;
 
-    refToken.meta = { id: footnoteId, subId, label };
-  }
+    if (
+      // should be at least 4 chars - "[^x]"
+      start + 3 > max ||
+      !state.env.footnotes?.refs ||
+      state.src.charCodeAt(start) !== 91 /* [ */ ||
+      state.src.charCodeAt(start + 1) !== 94 /* ^ */
+    )
+      return false;
 
-  state.pos = pos;
-  state.posMax = max;
+    let pos = start + 2;
+    let charCode: number;
 
-  return true;
-};
+    while (pos < max) {
+      charCode = state.src.charCodeAt(pos);
+      if (charCode === 32 /* space */ || charCode === 10 /* \n */) return false;
+
+      if (charCode === 93 /* ] */) break;
+
+      pos++;
+    }
+
+    // empty footnote labels
+    if (pos === start + 2 || pos >= max) return false;
+
+    pos++;
+
+    const label = state.src.slice(start + 2, pos - 1);
+
+    if (typeof state.env.footnotes.refs[`:${label}`] !== "number") return false;
+
+    // silent mode is hard to trigger with standard syntax
+    // this is more like a guard to prevent run tokenizer in silent mode
+    if (!silent) {
+      const list = (state.env.footnotes.list ??= []);
+      const { refs } = state.env.footnotes;
+      let footnoteId: number;
+
+      if (refs[`:${label}`] < 0) {
+        footnoteId = list.length;
+        list[footnoteId] = { label, count: 0 };
+        refs[`:${label}`] = footnoteId;
+      } else {
+        footnoteId = refs[`:${label}`];
+      }
+
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      const subId = list[footnoteId].count!;
+
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      list[footnoteId].count! += 1;
+
+      createFootnoteRefToken(state, options, footnoteId, subId, label);
+    }
+
+    state.pos = pos;
+    state.posMax = max;
+
+    return true;
+  };
 
 // Glue footnote tokens to end of token stream
-const footnoteTail: CoreRule = (state: FootNoteStateCore) => {
-  const refTokens: Record<string, Token[]> = {};
+const createFootnoteTail =
+  (options: FootnoteOptions): CoreRule =>
+  (state: FootNoteStateCore) => {
+    const refTokens: Record<string, Token[]> = {};
 
-  let current: Token[], currentLabel: string;
-  let isInsideRef = false;
+    let current: Token[], currentLabel: string;
+    let isInsideRef = false;
 
-  if (!state.env.footnotes?.list) {
-    // If no footnotes list, remove all footnote reference tokens
+    if (!state.env.footnotes?.list) {
+      // If no footnotes list, remove all footnote reference tokens
+      state.tokens = state.tokens.filter((stateToken) => {
+        if (stateToken.type === "footnote_reference_open") {
+          isInsideRef = true;
+
+          return false;
+        }
+
+        if (stateToken.type === "footnote_reference_close") {
+          isInsideRef = false;
+
+          return false;
+        }
+
+        return !isInsideRef;
+      });
+
+      return;
+    }
+
+    const { list } = state.env.footnotes;
+
     state.tokens = state.tokens.filter((stateToken) => {
       if (stateToken.type === "footnote_reference_open") {
         isInsideRef = true;
+        current = [];
+        currentLabel = (stateToken.meta as { label: string }).label;
 
         return false;
       }
 
       if (stateToken.type === "footnote_reference_close") {
         isInsideRef = false;
+        // prepend ':' to avoid conflict with Object.prototype members
+        refTokens[`:${currentLabel}`] = current;
 
         return false;
       }
+      if (isInsideRef) current.push(stateToken);
 
       return !isInsideRef;
     });
 
-    return;
-  }
+    const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
 
-  const { list } = state.env.footnotes;
+    footnoteBlockOpenToken.meta = {
+      separatorClass: SEPARATOR_CLASS,
+      listClass: LIST_CLASS,
+    } satisfies FootnoteBlockOpenMeta;
+    footnoteBlockOpenToken.attrJoin("class", CONTAINER_CLASS);
+    applyAttrs(footnoteBlockOpenToken, options.containerAttrs);
 
-  state.tokens = state.tokens.filter((stateToken) => {
-    if (stateToken.type === "footnote_reference_open") {
-      isInsideRef = true;
-      current = [];
-      currentLabel = (stateToken.meta as { label: string }).label;
+    state.tokens.push(footnoteBlockOpenToken);
 
-      return false;
-    }
+    const listLength = list.length;
 
-    if (stateToken.type === "footnote_reference_close") {
-      isInsideRef = false;
-      // prepend ':' to avoid conflict with Object.prototype members
-      refTokens[`:${currentLabel}`] = current;
+    for (let index = 0; index < listLength; index++) {
+      const footnoteOpenToken = new state.Token("footnote_open", "", 1);
+      const anchorName = getFootnoteAnchorName(state.env.docId, index);
 
-      return false;
-    }
-    if (isInsideRef) current.push(stateToken);
+      footnoteOpenToken.meta = { id: index, label: list[index].label };
+      footnoteOpenToken.attrSet("id", `footnote${anchorName}`);
+      footnoteOpenToken.attrJoin("class", ITEM_CLASS);
+      applyAttrs(footnoteOpenToken, options.itemAttrs);
 
-    return !isInsideRef;
-  });
+      state.tokens.push(footnoteOpenToken);
 
-  const footnoteBlockOpenToken = new state.Token("footnote_block_open", "", 1);
+      if (list[index].tokens) {
+        const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
 
-  state.tokens.push(footnoteBlockOpenToken);
+        paragraphOpenToken.block = true;
 
-  const listLength = list.length;
+        const inlineToken = new state.Token("inline", "", 0);
 
-  for (let index = 0; index < listLength; index++) {
-    const footnoteOpenToken = new state.Token("footnote_open", "", 1);
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        inlineToken.children = list[index].tokens!;
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        inlineToken.content = list[index].content!;
 
-    footnoteOpenToken.meta = { id: index, label: list[index].label };
-    state.tokens.push(footnoteOpenToken);
+        const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
 
-    if (list[index].tokens) {
-      const paragraphOpenToken = new state.Token("paragraph_open", "p", 1);
+        paragraphCloseToken.block = true;
 
-      paragraphOpenToken.block = true;
+        state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
+      } else {
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        const tokens = refTokens[`:${list[index].label!}`];
 
-      const inlineToken = new state.Token("inline", "", 0);
+        // oxlint-disable-next-line typescript/strict-boolean-expressions
+        if (tokens) state.tokens.push(...tokens);
+      }
+
+      const lastParagraph =
+        state.tokens[state.tokens.length - 1].type === "paragraph_close"
+          ? // oxlint-disable-next-line typescript/no-non-null-assertion
+            state.tokens.pop()!
+          : null;
 
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      inlineToken.children = list[index].tokens!;
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      inlineToken.content = list[index].content!;
+      for (let j = 0; j < (Number(list[index].count) > 0 ? list[index].count! : 1); j++) {
+        const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
 
-      const paragraphCloseToken = new state.Token("paragraph_close", "p", -1);
+        footnoteAnchorToken.meta = {
+          id: index,
+          subId: j,
+          label: list[index].label,
+          text: BACK_REFERENCE_TEXT,
+        } satisfies FootNoteMeta;
 
-      paragraphCloseToken.block = true;
+        footnoteAnchorToken.attrSet("href", `#footnote-ref${anchorName}${getFootnoteSuffix(j)}`);
+        footnoteAnchorToken.attrJoin("class", BACK_REFERENCE_CLASS);
+        applyAttrs(footnoteAnchorToken, options.backrefAttrs);
 
-      state.tokens.push(paragraphOpenToken, inlineToken, paragraphCloseToken);
-    } else {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const tokens = refTokens[`:${list[index].label!}`];
+        state.tokens.push(footnoteAnchorToken);
+      }
 
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (tokens) state.tokens.push(...tokens);
+      if (lastParagraph) state.tokens.push(lastParagraph);
+
+      state.tokens.push(new state.Token("footnote_close", "", -1));
     }
 
-    const lastParagraph =
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      state.tokens[state.tokens.length - 1].type === "paragraph_close" ? state.tokens.pop()! : null;
+    state.tokens.push(new state.Token("footnote_block_close", "", -1));
+  };
 
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    for (let j = 0; j < (Number(list[index].count) > 0 ? list[index].count! : 1); j++) {
-      const footnoteAnchorToken = new state.Token("footnote_anchor", "", 0);
-
-      footnoteAnchorToken.meta = {
-        id: index,
-        subId: j,
-        label: list[index].label,
-      };
-      state.tokens.push(footnoteAnchorToken);
-    }
-
-    if (lastParagraph) state.tokens.push(lastParagraph);
-
-    state.tokens.push(new state.Token("footnote_close", "", -1));
-  }
-
-  state.tokens.push(new state.Token("footnote_block_close", "", -1));
-};
-
-export const footnote: PluginSimple = (md) => {
+export const footnote: PluginWithOptions<FootnoteOptions> = (md, options) => {
   // A second installation would append the footnote section twice.
   if (hasRule(md, "footnoteTail", "core")) return;
 
@@ -417,15 +468,15 @@ export const footnote: PluginSimple = (md) => {
   md.renderer.rules.footnote_close = renderFootnoteClose;
   md.renderer.rules.footnote_anchor = renderFootnoteAnchor;
 
-  // helpers (only used in other rules, no tokens are attached to those)
-  // helpers (only used in other rules, no tokens are attached to those)
+  // The caption helper is still routed through `renderFootnoteRef`, so overriding it works.
+  // `footnote_anchor_name` was an internal helper and is gone: anchor names are resolved while
+  // parsing, so update the generated ids / hrefs on the tokens instead.
   md.renderer.rules.footnote_caption = renderFootnoteCaption;
-  md.renderer.rules.footnote_anchor_name = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],
   });
-  md.inline.ruler.after("image", "footnoteInline", footnoteInline);
-  md.inline.ruler.after("footnoteInline", "footnote_ref", footnoteRef);
-  md.core.ruler.after("inline", "footnoteTail", footnoteTail);
+  md.inline.ruler.after("image", "footnoteInline", createFootnoteInline(options ?? {}));
+  md.inline.ruler.after("footnoteInline", "footnote_ref", createFootnoteRef(options ?? {}));
+  md.core.ruler.after("inline", "footnoteTail", createFootnoteTail(options ?? {}));
 };

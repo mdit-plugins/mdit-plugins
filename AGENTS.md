@@ -168,8 +168,7 @@ import type { PluginSimple, PluginWithOptions } from "@mdit/helper";
   export const pluginName: PluginSimple = (md) => { ... };
   ```
 
-  Examples: `abbr`, `align`, `dl`, `footnote`, `img-lazyload`, `img-size`, `ins`, `mark`, `ruby`,
-  `sub`, `sup`.
+  Examples: `abbr`, `align`, `dl`, `img-lazyload`, `img-size`, `ins`, `mark`, `ruby`, `sub`, `sup`.
 
 - **`PluginWithOptions<PluginOptions>`** — for plugins with options:
 
@@ -178,8 +177,8 @@ import type { PluginSimple, PluginWithOptions } from "@mdit/helper";
   ```
 
   Examples: `advanced-links`, `alert`, `anchor`, `attrs`, `container`, `demo`, `embed`, `field`,
-  `figure`, `icon`, `img-mark`, `include`, `inline-rule`, `katex`, `layout`, `mathjax`, `plantuml`,
-  `snippet`, `spoiler`, `stylize`, `tab`, `tasklist`, `tex`, `uml`.
+  `figure`, `footnote`, `icon`, `img-mark`, `include`, `inline-rule`, `katex`, `layout`, `mathjax`,
+  `plantuml`, `snippet`, `spoiler`, `stylize`, `tab`, `tasklist`, `tex`, `uml`.
 
 **Naming**: Export the camelCase short package name (`advancedLinks`, `imgSize`, `inlineRule`,
 `tasklist`). Multi-variant packages export one const per variant (e.g. `bareEmoji`, `legacyImgSize`).
@@ -191,14 +190,15 @@ Plugins must tolerate being installed twice: guard rule registration (e.g. with 
 
 ### `index.ts` Export Patterns
 
-| Pattern                                                               | Use case                                                       |
-| --------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `export type * from "./options.js";` + `export * from "./plugin.js";` | Plugin with options, single plugin                             |
-| `export * from "./plugin.js";`                                        | Plugin without options                                         |
-| `export type * from "./options.js";` + variant files                  | Multi-variant plugin (e.g. `plugin-emoji`, `plugin-img-size`)  |
-| `export * from "./plugin.js";` + `export type * from "./types.js";`   | Plugin that also exposes public types (e.g. `plugin-footnote`) |
-| Selected named exports (`export { layout } from "./plugin.js";`)      | Only part of the implementation module is public               |
-| Extra public helpers                                                  | Parsers, renderers, permalink presets, `getMathjax`, etc.      |
+| Pattern                                                                                                    | Use case                                                                    |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `export type * from "./options.js";` + `export * from "./plugin.js";`                                      | Plugin with options, single plugin                                          |
+| `export * from "./plugin.js";`                                                                             | Plugin without options                                                      |
+| `export type * from "./options.js";` + variant files                                                       | Multi-variant plugin (e.g. `plugin-emoji`, `plugin-img-size`)               |
+| `export * from "./plugin.js";` + `export type * from "./types.js";`                                        | Plugin that also exposes public types (e.g. `plugin-img-size`)              |
+| `export type * from "./options.js";` + `export * from "./plugin.js";` + `export type * from "./types.js";` | Plugin with options that also exposes public types (e.g. `plugin-footnote`) |
+| Selected named exports (`export { layout } from "./plugin.js";`)                                           | Only part of the implementation module is public                            |
+| Extra public helpers                                                                                       | Parsers, renderers, permalink presets, `getMathjax`, etc.                   |
 
 Every package also exports `"./package.json"` in `package.json` → `exports`. Never use a default
 export. Some packages re-export utilities from `@mdit/helper` (e.g. `defaultSensitiveFiles` in

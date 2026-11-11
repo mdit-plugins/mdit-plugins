@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-03T02:55:43.636Z",
-  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "generatedAt": "2026-11-10T17:33:13.341Z",
+  "commit": "1aaec67bbd4e906b5116afd3247f49365db75702",
   "packages": [
     {
       "plugin": "plugin-abbr",
@@ -5457,16 +5457,86 @@
     {
       "plugin": "plugin-footnote",
       "reference": "markdown-it-footnote",
-      "total": 25,
+      "total": 23,
       "passed": 5,
-      "failed": 20,
-      "skipped": 0,
+      "failed": 18,
+      "skipped": 20,
       "skippedByCategory": {
-        "feature-gap": 0,
+        "feature-gap": 20,
         "internal": 0,
         "packaging": 0
       },
       "tests": [
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should resolve render data while parsing",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should keep raw docId in tokens and escape it only when rendering",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should render only the token attributes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should allow a core rule to change token attributes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should allow a core rule to change token metadata",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should keep the caption renderer rule overridable",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
+        {
+          "file": "customization.spec.ts",
+          "name": "footnote token data should keep apostrophes in a docId unescaped in every generated attribute",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation does not expose parsed attributes and render data on tokens.",
+            "zh": "参考实现不会把解析出的属性和渲染数据暴露在 token 上。"
+          }
+        },
         {
           "file": "footnote.spec.ts",
           "name": "footnote_plugin should render",
@@ -5601,16 +5671,134 @@
           "message": "AssertionError: expected '<p>text<sup class=\"footnote-ref\"><a h…' to be '<p>text<sup class=\"footnote-ref\"><a h…' // Object.is equality"
         },
         {
+          "file": "options.spec.ts",
+          "name": "footnote options should add refAttrs to footnote references",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should add refAttrs to inline footnotes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should add itemAttrs to footnote items",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should allow overriding the generated id with itemAttrs",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should add backrefAttrs to back references",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should allow overriding the generated back reference href",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should add containerAttrs to the footnote section",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should ignore invalid attribute names",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should ignore empty class values",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
+          "file": "options.spec.ts",
+          "name": "footnote options should escape attribute values",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no attribute options (`refAttrs`, `itemAttrs`, `backrefAttrs`, `containerAttrs`).",
+            "zh": "参考实现没有属性选项（`refAttrs`、`itemAttrs`、`backrefAttrs`、`containerAttrs`）。"
+          }
+        },
+        {
           "file": "security.spec.ts",
           "name": "footnote security should escape env.docId in generated ids and hrefs",
-          "status": "failed",
-          "message": "AssertionError: expected '<p>ref<sup class=\"footnote-ref\"><a hr…' not to contain '<script>'"
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no `env.docId` support, so every `docId` escaping case is specific to the current package.",
+            "zh": "参考实现不支持 `env.docId`，因此所有 `docId` 转义用例都是当前包特有的。"
+          }
+        },
+        {
+          "file": "security.spec.ts",
+          "name": "footnote security should escape ampersands in generated attributes",
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no `env.docId` support, so every `docId` escaping case is specific to the current package.",
+            "zh": "参考实现不支持 `env.docId`，因此所有 `docId` 转义用例都是当前包特有的。"
+          }
         },
         {
           "file": "security.spec.ts",
           "name": "footnote security should keep normal docId output unchanged",
-          "status": "failed",
-          "message": "AssertionError: expected '<p>ref<sup class=\"footnote-ref\"><a hr…' to contain 'href=\"#footnote-test-doc-id-1\"'"
+          "status": "skipped",
+          "skipCategory": "feature-gap",
+          "skipReason": {
+            "en": "The reference implementation has no `env.docId` support, so every `docId` escaping case is specific to the current package.",
+            "zh": "参考实现不支持 `env.docId`，因此所有 `docId` 转义用例都是当前包特有的。"
+          }
         }
       ]
     },
