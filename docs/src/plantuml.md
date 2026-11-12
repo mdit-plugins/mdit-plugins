@@ -64,6 +64,12 @@ Image format. Only available when using default srcGetter.
 
 Image src getter. Takes diagram content and returns image link.
 
+::: warning Long diagrams and the URL length limit
+
+The default `srcGetter` deflates the diagram source and puts it into the image URL. Very large diagrams can exceed the URL length limit of the PlantUML server or the browser, and the image then fails to load. For large diagrams, self-host the server to raise the server-side limit (the browser limit still applies), or provide a custom `srcGetter` that returns a shorter URL, for example one that is created during the build. Keep in mind that `srcGetter` must return the URL synchronously, so uploading the source with a POST request has to happen outside rendering.
+
+:::
+
 @`renderer` type=RendererRule
 
 <!-- @include: ./render-rule.snippet.md -->

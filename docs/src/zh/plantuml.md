@@ -64,6 +64,12 @@ Plantuml 服务器。仅在使用默认地址获取器时可用。
 
 图片地址获取器。接收图表内容并返回图片链接。
 
+::: warning 大图与 URL 长度限制
+
+默认 `srcGetter` 会对图表源码进行 deflate 压缩并放入图片 URL。非常大的图表可能超出 PlantUML 服务器或浏览器的 URL 长度限制，导致图片无法加载。对于大图，可以自建服务器以提高服务端限制（浏览器侧限制仍在），或提供返回更短链接的自定义 `srcGetter`，例如在构建阶段生成链接。注意 `srcGetter` 必须同步返回链接；若要通过 POST 提交源码，需要在渲染之外完成。
+
+:::
+
 @`renderer` type=RendererRule
 
 <!-- @include: ../render-rule.snippet.md -->
