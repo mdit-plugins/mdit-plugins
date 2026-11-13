@@ -19,4 +19,4 @@ yarn add -D @mdit/plugin-frontmatter
 
 ## Acknowledgements / 鸣谢
 
-Rewritten from [@mdit-vue/plugin-frontmatter](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter) by [Mr.Hope](https://github.com/Mister-Hope). The frontmatter parsing behavior is based on [gray-matter](https://github.com/jonschlinkert/gray-matter) by [Jon Schlinkert](https://github.com/jonschlinkert).
+Rewritten from [@mdit-vue/plugin-frontmatter](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter) by [Mr.Hope](https://github.com/Mister-Hope). The parser structure and excerpt handling are adapted from [gray-matter](https://github.com/jonschlinkert/gray-matter) by [Jon Schlinkert](https://github.com/jonschlinkert).
