@@ -155,14 +155,14 @@ export interface MarkdownItFrontmatterOptions {
   /**
    * Options passed to `js-yaml`'s `load` function
    *
-   * `schema` defaults to a schema based on `gray-matter`'s `safeLoad` behavior: core tags plus
-   * timestamps, merge keys, `!!binary`, `!!omap`, `!!pairs`, `!!set`, and YAML 1.1 integers.
-   * `yes`/`no` remain strings and `1e3` stays a number.
+   * `schema` defaults to `YAML11_SCHEMA`, js-yaml's YAML 1.1 schema. It parses timestamps as
+   * `Date`, `yes`/`no` as booleans, and supports merge keys plus the `!!binary`, `!!omap`,
+   * `!!pairs` and `!!set` tags. Pass another schema to change how YAML is parsed.
    *
    * 传递给 `js-yaml` 的 `load` 函数的选项
    *
-   * `schema` 默认基于 `gray-matter` 的 `safeLoad` 行为：核心标签加时间戳、合并键、`!!binary`、`!!omap`、`!!pairs`、`!!set`
-   * 以及 YAML 1.1 整数格式。`yes`/`no` 保持字符串，`1e3` 仍为数字。
+   * `schema` 默认为 `YAML11_SCHEMA`，即 js-yaml 的 YAML 1.1 模式。时间戳会解析为 `Date`，`yes`/`no` 会解析为布尔值，
+   * 并支持合并键以及 `!!binary`、`!!omap`、`!!pairs`、`!!set` 标签。可以传入其他模式改变 YAML 的解析方式。
    */
   yamlOptions?: LoadOptions;
 
