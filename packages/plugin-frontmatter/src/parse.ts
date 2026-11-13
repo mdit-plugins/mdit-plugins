@@ -1,17 +1,6 @@
 /** Forked and modified from https://github.com/jonschlinkert/gray-matter/blob/master/index.js */
 
-import {
-  binaryTag,
-  CORE_SCHEMA,
-  intYaml11Tag,
-  load,
-  mergeTag,
-  omapTag,
-  pairsTag,
-  Schema,
-  setTag,
-  timestampTag,
-} from "js-yaml";
+import { load, YAML11_SCHEMA } from "js-yaml";
 
 import type {
   FrontmatterFile,
@@ -23,25 +12,6 @@ const BOM_CODE = 0xfeff;
 const DEFAULT_DELIMITER = "---";
 const DEFAULT_LANGUAGE = "yaml";
 const COMMENT_LINE_RE = /^\s*#.*$/gm;
-
-/**
- * YAML schema based on gray-matter's js-yaml 3 `safeLoad` default
- *
- * Js-yaml 3's safe schema is the core schema plus timestamps, merge keys, binary/omap/pairs/set
- * tags and YAML 1.1 scalar formats. js-yaml 5's `CORE_SCHEMA` no longer parses timestamps or YAML
- * 1.1 integers, so use `intYaml11Tag` in place of the core integer tag and add the missing tags.
- * The core float tag is kept so `1e3` stays a number (YAML 1.1 would make it a string), and
- * `yes`/`no` remain strings.
- */
-const DEFAULT_YAML_SCHEMA = new Schema([
-  ...CORE_SCHEMA.tags.map((tag) => (tag.tagName === "tag:yaml.org,2002:int" ? intYaml11Tag : tag)),
-  timestampTag,
-  mergeTag,
-  binaryTag,
-  omapTag,
-  pairsTag,
-  setTag,
-]);
 
 interface LanguageInfo {
   language: string;
@@ -130,7 +100,7 @@ const getParser = (
     };
   }
   if (language === "yaml" || language === "yml")
-    return (source) => load(source, { schema: DEFAULT_YAML_SCHEMA, ...options.yamlOptions });
+    return (source) => load(source, { schema: YAML11_SCHEMA, ...options.yamlOptions });
 
   return null;
 };
@@ -206,11 +176,11 @@ const resolveExcerptSeparator = (
 /**
  * Resolve the delimiter used to split the excerpt
  *
- * An empty configured separator falls back to the opening delimiter, matching gray-matter.
+ * An empty configured separator falls back to the opening delimiter.
  *
  * 解析用于拆分摘要的分隔符。
  *
- * 配置的空字符串分隔符会回退到开始分隔符，与 gray-matter 一致。
+ * 配置的空字符串分隔符会回退到开始分隔符。
  *
  * @param excerpt - Excerpt option / 摘要选项
  * @param separator - Excerpt separator / 摘要分隔符

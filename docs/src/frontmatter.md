@@ -54,7 +54,7 @@ A language marker directly after the opening delimiter selects another parser:
 ---
 ```
 
-`yaml` and `yml` use `js-yaml`, `json` uses `JSON.parse`, and the `parsers` option adds custom languages. The YAML schema is based on `gray-matter`'s `safeLoad` schema: core tags plus timestamps, merge keys, `!!binary`, `!!omap`, `!!pairs`, `!!set`, and YAML 1.1 integers. `yes`/`no` remain strings and `1e3` stays a number. Compared with `gray-matter`'s js-yaml 3, YAML 1.1 float forms (`1_000.5`, `12:34:56.7`) remain strings, leading-zero numbers such as `08` are parsed as numbers, `!!binary` is decoded to a `Uint8Array`, and `!!set` to a `Set`.
+`yaml` and `yml` use `js-yaml` with `YAML11_SCHEMA`, `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Timestamps become `Date`, `yes`/`no` become booleans, and merge keys plus `!!binary`, `!!omap`, `!!pairs`, `!!set` are supported.
 
 A line starting with an extended delimiter such as `----` is a horizontal rule, not frontmatter.
 
@@ -114,7 +114,7 @@ The excerpt delimiter. Precedence: a string `excerpt` option, then a non-empty s
 
 @`yamlOptions` type=LoadOptions
 
-Options passed to `js-yaml`'s `load` function. `schema` defaults to a schema based on `gray-matter`'s `safeLoad` behavior: core tags plus timestamps, merge keys, `!!binary`, `!!omap`, `!!pairs`, `!!set`, and YAML 1.1 integers. `yes`/`no` remain strings and `1e3` stays a number. Pass another schema to change how YAML is parsed.
+Options passed to `js-yaml`'s `load` function. `schema` defaults to `YAML11_SCHEMA`. Pass another schema to change how YAML is parsed.
 
 @`parsers` type=`Record<string, FrontmatterParser>`
 

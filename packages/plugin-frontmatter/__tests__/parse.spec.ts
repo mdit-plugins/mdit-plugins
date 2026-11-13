@@ -186,19 +186,20 @@ describe(parseFrontmatter, () => {
   });
 
   describe("data parsing", () => {
-    it("matches gray-matter for core scalar forms", () => {
+    it("parses YAML 1.1 scalar forms", () => {
       expect(
-        parseFrontmatter("---\ndate: 2022-07-06\nflag: yes\nn: no\nhex: 0x10\nexp: 1e3\n---").data,
+        parseFrontmatter("---\ndate: 2022-07-06\nflag: yes\nnegative: no\nhex: 0x10\nexp: 1e3\n---")
+          .data,
       ).toStrictEqual({
         date: new Date("2022-07-06T00:00:00Z"),
-        flag: "yes",
-        n: "no",
+        flag: true,
+        negative: false,
         hex: 16,
-        exp: 1000,
+        exp: "1e3",
       });
     });
 
-    it("supports gray-matter's YAML safe tags", () => {
+    it("supports YAML 1.1 tags", () => {
       expect(
         parseFrontmatter(`---
 base: &base
