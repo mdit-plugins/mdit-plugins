@@ -34,6 +34,7 @@ This repo contains the following plugins:
 - @mdit/plugin-field
 - @mdit/plugin-figure
 - @mdit/plugin-footnote
+- @mdit/plugin-frontmatter
 - @mdit/plugin-icon
 - @mdit/plugin-img-lazyload
 - @mdit/plugin-img-mark

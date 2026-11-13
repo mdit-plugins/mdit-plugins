@@ -8,7 +8,7 @@
 ## Project Overview
 
 - **Project type**: TypeScript monorepo using pnpm workspaces.
-- **Packages**: 40 plugin packages (`@mdit/plugin-*`) plus the shared `@mdit/helper`.
+- **Packages**: 41 plugin packages (`@mdit/plugin-*`) plus the shared `@mdit/helper`.
 - **Node.js**: `>= 22` (`engines.node`). `devEngines.runtime` pins the tested floors
   (`^22.23.4 || ^24.22.1 || ^26.13.0`); CI runs all three majors.
 - **Package manager**: pnpm 12, with the exact version pinned in `devEngines.packageManager`.
@@ -25,7 +25,7 @@ mdit-plugins/
 ├── .github/workflows/   # CI: unit tests, linters, docs, CodeQL, publish
 ├── docs/                # VuePress 2 documentation site (en + zh)
 ├── compare/             # upstream comparison harness (private workspace package), specs, data
-├── packages/            # 40 plugin packages + @mdit/helper
+├── packages/            # 41 plugin packages + @mdit/helper
 ├── scripts/             # build config, README sync, release sync, commit checks (+ tests)
 ├── tests/               # Cross-package integration tests
 ├── AGENTS.md

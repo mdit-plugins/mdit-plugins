@@ -85,6 +85,11 @@ features:
     details: Support footnotes
     link: ./footnote.html
 
+  - title: frontmatter
+    icon: file-lines
+    details: Extract frontmatter and excerpts
+    link: ./frontmatter.html
+
   - title: icon
     icon: icons
     details: Add icon support

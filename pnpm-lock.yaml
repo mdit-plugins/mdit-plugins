@@ -176,6 +176,9 @@ catalogs:
     get-east-asian-width:
       specifier: ^1.7.0
       version: 1.7.0
+    js-yaml:
+      specifier: ^5.5.0
+      version: 5.5.0
     markdown-it:
       specifier: ^15.0.3
       version: 15.0.3
@@ -199,6 +202,7 @@ overrides:
   '@mdit/plugin-field': workspace:*
   '@mdit/plugin-figure': workspace:*
   '@mdit/plugin-footnote': workspace:*
+  '@mdit/plugin-frontmatter': workspace:*
   '@mdit/plugin-icon': workspace:*
   '@mdit/plugin-img-lazyload': workspace:*
   '@mdit/plugin-img-mark': workspace:*
@@ -639,6 +643,18 @@ importers:
       '@mdit/helper':
         specifier: workspace:*
         version: link:../helper
+      markdown-it:
+        specifier: 'catalog:'
+        version: 15.0.3
+
+  packages/plugin-frontmatter:
+    dependencies:
+      '@mdit/helper':
+        specifier: workspace:*
+        version: link:../helper
+      js-yaml:
+        specifier: 'catalog:'
+        version: 5.5.0
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.3

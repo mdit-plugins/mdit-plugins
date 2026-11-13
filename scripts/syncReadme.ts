@@ -60,6 +60,10 @@ const README_EXTRAS: Readonly<Record<string, ReadmeExtras>> = {
     acknowledgements:
       "Rewritten from [markdown-it-cjk-friendly](https://github.com/tats-u/markdown-cjk-friendly) by [Tatsunori Uchino](https://github.com/tats-u). It also derives from the `StateInline#scanDelims` implementation of [markdown-it](https://github.com/markdown-it/markdown-it) by [Vitaly Puzrin](https://github.com/puzrin) and [Alex Kocharin](https://github.com/rlidwka).",
   },
+  "plugin-frontmatter": {
+    acknowledgements:
+      "Rewritten from [@mdit-vue/plugin-frontmatter](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter) by [Mr.Hope](https://github.com/Mister-Hope). The frontmatter parsing behavior is based on [gray-matter](https://github.com/jonschlinkert/gray-matter) by [Jon Schlinkert](https://github.com/jonschlinkert).",
+  },
   "plugin-include": {
     notes: ["This package can only run in Node.js environment."],
   },
