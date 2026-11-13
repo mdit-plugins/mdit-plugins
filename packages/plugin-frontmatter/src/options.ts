@@ -153,16 +153,49 @@ export interface MarkdownItFrontmatterOptions {
   excerptSeparator?: string;
 
   /**
+   * Whether to parse YAML timestamps into `Date` objects
+   *
+   * Date-only values are anchored at 00:00:00 in `timezone`; if midnight is skipped, the first
+   * valid time on that date is used. Quoted timestamps remain strings. This option only affects the
+   * `yaml` and `yml` parsers. When `yamlOptions.schema` is set, that schema takes precedence.
+   *
+   * 是否将 YAML 时间戳解析为 `Date` 对象
+   *
+   * 仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效时间。带引号的时间戳会保持字符串。此选项只影响 `yaml` 与 `yml`
+   * 解析器。设置 `yamlOptions.schema` 时，该模式优先。
+   *
+   * @default false
+   */
+  parseTimestamps?: boolean;
+
+  /**
+   * IANA timezone for YAML timestamps without an explicit offset
+   *
+   * This includes date-only values. Explicit offsets such as `Z` or `+08:00` always take
+   * precedence. Empty values fall back to `UTC`; invalid names throw a `TypeError`. Ambiguous
+   * repeated local times use the earlier occurrence. The option is only used when `parseTimestamps`
+   * is enabled and `yamlOptions.schema` is not set.
+   *
+   * 用于无显式偏移的 YAML 时间戳的 IANA 时区
+   *
+   * 包括仅日期的值。`Z` 或 `+08:00` 等显式偏移始终优先。空值会回退到 `UTC`；无效名称会抛出 `TypeError`。重复出现的歧义本地时间取较早的一次。仅当启用
+   * `parseTimestamps` 且未设置 `yamlOptions.schema` 时使用。
+   *
+   * @default "UTC"
+   */
+  timezone?: string;
+
+  /**
    * Options passed to `js-yaml`'s `load` function
    *
-   * `schema` defaults to `CORE_SCHEMA`, js-yaml's YAML 1.2 core schema. Timestamps and `yes`/`no`
-   * remain strings, while `1e3` is parsed as a number. Pass `YAML11_SCHEMA` or another schema to
-   * change how YAML is parsed.
+   * `schema` defaults to `CORE_SCHEMA`, js-yaml's YAML 1.2 core schema. Unless `parseTimestamps` is
+   * enabled, timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number. Pass
+   * `YAML11_SCHEMA` or another schema to change how YAML is parsed.
    *
    * 传递给 `js-yaml` 的 `load` 函数的选项
    *
-   * `schema` 默认为 `CORE_SCHEMA`，即 js-yaml 的 YAML 1.2 核心模式。时间戳与 `yes`/`no` 会保持字符串， `1e3` 会解析为数字。可以传入
-   * `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
+   * `schema` 默认为 `CORE_SCHEMA`，即 js-yaml 的 YAML 1.2 核心模式。除非启用 `parseTimestamps`，时间戳与 `yes`/`no`
+   * 会保持字符串，`1e3` 会解析为数字。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
    */
   yamlOptions?: LoadOptions;
 

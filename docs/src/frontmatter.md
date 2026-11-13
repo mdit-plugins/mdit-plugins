@@ -54,7 +54,7 @@ A language marker directly after the opening delimiter selects another parser:
 ---
 ```
 
-`yaml` and `yml` use `js-yaml` with `CORE_SCHEMA` (YAML 1.2 core), `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number.
+`yaml` and `yml` use `js-yaml` with `CORE_SCHEMA` (YAML 1.2 core), `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Unless `parseTimestamps` is enabled, timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number.
 
 A line starting with an extended delimiter such as `----` is a horizontal rule, not frontmatter.
 
@@ -75,6 +75,23 @@ Body
 ```
 
 With `{ excerpt: true, excerptSeparator: "<!-- more -->" }`, `env.excerpt` is rendered as `<h1>Hello</h1>\n`. Setting `excerptSeparator` alone also enables extraction, even when `excerpt` is `false`. Set `renderExcerpt: false` to keep the raw Markdown instead.
+
+### Timestamps
+
+By default YAML timestamps stay strings. Set `parseTimestamps: true` to parse unquoted timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if that local time is skipped by a daylight-saving transition, the first valid time on that date is used.
+
+```md
+---
+date: 2022-07-06
+created: 2022-07-06 00:30:00
+---
+```
+
+With `{ parseTimestamps: true, timezone: "Asia/Shanghai" }`, `date` becomes `2022-07-05T16:00:00.000Z` and `created` becomes `2022-07-05T16:30:00.000Z`. Explicit offsets such as `Z` and `+08:00` always take precedence.
+
+An ambiguous repeated local time resolves to the earlier occurrence. Datetime values whose local time is skipped remain strings; a date skipped entirely also remains a string. An invalid IANA timezone throws a `TypeError`.
+
+A `Date` represents an instant, not a calendar date. Format date-only values with the same timezone; calling `toISOString()` can show a different date.
 
 ## Options
 
@@ -111,6 +128,14 @@ interface FrontmatterFile {
 @`excerptSeparator` type=string
 
 The excerpt delimiter. Precedence: a string `excerpt` option, then a non-empty string `excerpt_separator` in the frontmatter data, then this option, then the opening delimiter. An empty value falls back to the opening delimiter. Setting this option alone enables extraction, even when `excerpt` is `false`.
+
+@`parseTimestamps` type=boolean default=`false`
+
+Whether to parse unquoted YAML timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if midnight is skipped, the first valid time on that date is used. Quoted timestamps remain strings. When `yamlOptions.schema` is set, that schema takes precedence.
+
+@`timezone` type=string default=`"UTC"`
+
+IANA timezone used for timestamps without an explicit offset, including date-only values. `Z` and `+08:00` always take precedence. Empty values fall back to `UTC`; invalid names throw a `TypeError`. Only used when `parseTimestamps` is enabled and `yamlOptions.schema` is not set.
 
 @`yamlOptions` type=LoadOptions
 
