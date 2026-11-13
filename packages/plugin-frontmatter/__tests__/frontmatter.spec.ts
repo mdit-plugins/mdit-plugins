@@ -28,7 +28,7 @@ date: 2022-07-06
     frontmatter: {
       str: "string",
       num: 123,
-      date: new Date("2022-07-06T00:00:00Z"),
+      date: "2022-07-06",
     },
     excerpt: "",
   },

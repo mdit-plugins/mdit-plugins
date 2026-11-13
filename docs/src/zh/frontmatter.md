@@ -54,7 +54,7 @@ tags:
 ---
 ```
 
-`yaml` 与 `yml` 使用 `js-yaml` 的 `YAML11_SCHEMA`，`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。时间戳会解析为 `Date`，`yes`/`no` 会解析为布尔值，并支持合并键以及 `!!binary`、`!!omap`、`!!pairs`、`!!set` 标签。
+`yaml` 与 `yml` 使用 `js-yaml` 的 `CORE_SCHEMA`（YAML 1.2 核心模式），`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。时间戳与 `yes`/`no` 保持字符串，`1e3` 会解析为数字。
 
 以 `----` 等扩展分隔符开头的行会被视为水平分割线，而不是 frontmatter。
 
@@ -79,7 +79,7 @@ Body
 ## 选项
 
 ::: fields
-@`delimiters` type=`string | [string, string]` default=`"---"`
+@`delimiters` type=`string | [start: string, end: string]` default=`"---"`
 
 开始与结束分隔符。传入单个字符串时开始与结束使用同一分隔符，也可以传入元组使用不同的分隔符。
 
@@ -114,7 +114,7 @@ interface FrontmatterFile {
 
 @`yamlOptions` type=LoadOptions
 
-传递给 `js-yaml` 的 `load` 函数的选项。`schema` 默认为 `YAML11_SCHEMA`。可以传入其他模式改变 YAML 的解析方式。
+传递给 `js-yaml` 的 `load` 函数的选项。`schema` 默认为 `CORE_SCHEMA`（YAML 1.2 核心模式）。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
 
 @`parsers` type=`Record<string, FrontmatterParser>`
 

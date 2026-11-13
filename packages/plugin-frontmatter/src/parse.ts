@@ -1,6 +1,6 @@
 /** Forked and modified from https://github.com/jonschlinkert/gray-matter/blob/master/index.js */
 
-import { load, YAML11_SCHEMA } from "js-yaml";
+import { CORE_SCHEMA, load } from "js-yaml";
 
 import type {
   FrontmatterFile,
@@ -24,7 +24,9 @@ interface LanguageInfo {
  * @param delimiters - Delimiter option / 分隔符选项
  * @returns Opening and closing delimiters / 开始与结束分隔符
  */
-const resolveDelimiters = (delimiters?: string | [string, string]): [string, string] => {
+const resolveDelimiters = (
+  delimiters?: string | [start: string, end: string],
+): [string, string] => {
   if (typeof delimiters === "string") return [delimiters, delimiters];
 
   return delimiters ?? [DEFAULT_DELIMITER, DEFAULT_DELIMITER];
@@ -100,7 +102,7 @@ const getParser = (
     };
   }
   if (language === "yaml" || language === "yml")
-    return (source) => load(source, { schema: YAML11_SCHEMA, ...options.yamlOptions });
+    return (source) => load(source, { schema: CORE_SCHEMA, ...options.yamlOptions });
 
   return null;
 };

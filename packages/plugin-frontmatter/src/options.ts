@@ -105,7 +105,7 @@ export interface MarkdownItFrontmatterOptions {
    *
    * @default "---"
    */
-  delimiters?: string | [string, string];
+  delimiters?: string | [start: string, end: string];
 
   /**
    * Default frontmatter language
@@ -155,14 +155,14 @@ export interface MarkdownItFrontmatterOptions {
   /**
    * Options passed to `js-yaml`'s `load` function
    *
-   * `schema` defaults to `YAML11_SCHEMA`, js-yaml's YAML 1.1 schema. It parses timestamps as
-   * `Date`, `yes`/`no` as booleans, and supports merge keys plus the `!!binary`, `!!omap`,
-   * `!!pairs` and `!!set` tags. Pass another schema to change how YAML is parsed.
+   * `schema` defaults to `CORE_SCHEMA`, js-yaml's YAML 1.2 core schema. Timestamps and `yes`/`no`
+   * remain strings, while `1e3` is parsed as a number. Pass `YAML11_SCHEMA` or another schema to
+   * change how YAML is parsed.
    *
    * 传递给 `js-yaml` 的 `load` 函数的选项
    *
-   * `schema` 默认为 `YAML11_SCHEMA`，即 js-yaml 的 YAML 1.1 模式。时间戳会解析为 `Date`，`yes`/`no` 会解析为布尔值，
-   * 并支持合并键以及 `!!binary`、`!!omap`、`!!pairs`、`!!set` 标签。可以传入其他模式改变 YAML 的解析方式。
+   * `schema` 默认为 `CORE_SCHEMA`，即 js-yaml 的 YAML 1.2 核心模式。时间戳与 `yes`/`no` 会保持字符串， `1e3` 会解析为数字。可以传入
+   * `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
    */
   yamlOptions?: LoadOptions;
 
