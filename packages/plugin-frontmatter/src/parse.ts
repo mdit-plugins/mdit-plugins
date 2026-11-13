@@ -7,6 +7,7 @@ import type {
   FrontmatterParser,
   MarkdownItFrontmatterOptions,
 } from "./options.js";
+import { createTimestampSchema } from "./timestamp.js";
 
 const BOM_CODE = 0xfeff;
 const DEFAULT_DELIMITER = "---";
@@ -82,6 +83,18 @@ const splitLanguage = (source: string): LanguageInfo => {
 };
 
 /**
+ * Resolve the timezone option, treating empty values as UTC
+ *
+ * @param timezone - Configured timezone / 配置的时区
+ * @returns Normalized timezone / 规范化后的时区
+ */
+const resolveTimezone = (timezone?: string): string => {
+  const normalized = timezone?.trim() ?? "";
+
+  return normalized === "" ? "UTC" : normalized;
+};
+
+/**
  * Get the parser for a language
  *
  * @param language - Normalized language / 规范化后的语言
@@ -101,8 +114,15 @@ const getParser = (
       return parsed;
     };
   }
-  if (language === "yaml" || language === "yml")
-    return (source) => load(source, { schema: CORE_SCHEMA, ...options.yamlOptions });
+  if (language === "yaml" || language === "yml") {
+    const schema =
+      options.yamlOptions?.schema ??
+      (options.parseTimestamps
+        ? createTimestampSchema(resolveTimezone(options.timezone))
+        : CORE_SCHEMA);
+
+    return (source) => load(source, { schema, ...options.yamlOptions });
+  }
 
   return null;
 };

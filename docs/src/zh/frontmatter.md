@@ -54,7 +54,7 @@ tags:
 ---
 ```
 
-`yaml` 与 `yml` 使用 `js-yaml` 的 `CORE_SCHEMA`（YAML 1.2 核心模式），`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。时间戳与 `yes`/`no` 保持字符串，`1e3` 会解析为数字。
+`yaml` 与 `yml` 使用 `js-yaml` 的 `CORE_SCHEMA`（YAML 1.2 核心模式），`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。除非启用 `parseTimestamps`，时间戳与 `yes`/`no` 会保持字符串，`1e3` 会解析为数字。
 
 以 `----` 等扩展分隔符开头的行会被视为水平分割线，而不是 frontmatter。
 
@@ -75,6 +75,23 @@ Body
 ```
 
 使用 `{ excerpt: true, excerptSeparator: "<!-- more -->" }` 时，`env.excerpt` 会渲染为 `<h1>Hello</h1>\n`。仅设置 `excerptSeparator` 也会启用提取，即使 `excerpt` 为 `false`。设置 `renderExcerpt: false` 可以保留原始 Markdown。
+
+### 时间戳
+
+默认情况下 YAML 时间戳会保持字符串。设置 `parseTimestamps: true` 后，未加引号的时间戳会解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果该本地时间被夏令时跳过，则使用该日期第一个有效时间。
+
+```md
+---
+date: 2022-07-06
+created: 2022-07-06 00:30:00
+---
+```
+
+使用 `{ parseTimestamps: true, timezone: "Asia/Shanghai" }` 时，`date` 会变成 `2022-07-05T16:00:00.000Z`，`created` 会变成 `2022-07-05T16:30:00.000Z`。`Z` 与 `+08:00` 等显式偏移始终优先。
+
+重复出现的歧义本地时间会取较早的一次。本地时间被夏令时跳过的时间戳会保持字符串；整日被跳过的日期也会保持字符串。无效的 IANA 时区会抛出 `TypeError`。
+
+`Date` 表示某个瞬间，而不是日历日期。仅日期的值应使用同一时区进行格式化；直接调用 `toISOString()` 可能显示为另一天。
 
 ## 选项
 
@@ -111,6 +128,14 @@ interface FrontmatterFile {
 @`excerptSeparator` type=string
 
 摘要分隔符。优先级：字符串 `excerpt` 选项、frontmatter 数据中的非空字符串 `excerpt_separator`、此选项、开始分隔符。空值会回退到开始分隔符。仅设置此选项也会启用提取，即使 `excerpt` 为 `false`。
+
+@`parseTimestamps` type=boolean default=`false`
+
+是否将未加引号的 YAML 时间戳解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效时间。带引号的时间戳会保持字符串。设置 `yamlOptions.schema` 时，该模式优先。
+
+@`timezone` type=string default=`"UTC"`
+
+用于无显式偏移的时间戳的 IANA 时区，包括仅日期的值。`Z` 与 `+08:00` 始终优先。空值会回退到 `UTC`；无效名称会抛出 `TypeError`。仅当启用 `parseTimestamps` 且未设置 `yamlOptions.schema` 时使用。
 
 @`yamlOptions` type=LoadOptions
 
