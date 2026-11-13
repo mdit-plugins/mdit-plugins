@@ -1,4 +1,4 @@
-import { CORE_SCHEMA } from "js-yaml";
+import { YAML11_SCHEMA } from "js-yaml";
 import { describe, expect, it } from "vitest";
 
 import { parseFrontmatter } from "../src/parse.js";
@@ -186,66 +186,31 @@ describe(parseFrontmatter, () => {
   });
 
   describe("data parsing", () => {
-    it("parses YAML 1.1 scalar forms", () => {
-      expect(
-        parseFrontmatter("---\ndate: 2022-07-06\nflag: yes\nnegative: no\nhex: 0x10\nexp: 1e3\n---")
-          .data,
-      ).toStrictEqual({
-        date: new Date("2022-07-06T00:00:00Z"),
-        flag: true,
-        negative: false,
-        hex: 16,
-        exp: "1e3",
-      });
-    });
-
-    it("supports YAML 1.1 tags", () => {
-      expect(
-        parseFrontmatter(`---
-base: &base
-  a: 1
-merged:
-  <<: *base
-  b: 2
-binary: !!binary aGVsbG8=
-set: !!set
-  ? a
-  ? b
-omap: !!omap
-  - a: 1
-pairs: !!pairs
-  - a: 1
----`).data,
-      ).toStrictEqual({
-        base: { a: 1 },
-        merged: { a: 1, b: 2 },
-        binary: new Uint8Array([104, 101, 108, 108, 111]),
-        set: new Set(["a", "b"]),
-        omap: [{ a: 1 }],
-        pairs: [["a", 1]],
-      });
-    });
-
-    it("parses YAML 1.1 integer forms", () => {
+    it("parses YAML 1.2 core scalar forms", () => {
       expect(
         parseFrontmatter(
-          "---\noctal: 010\nbinary: 0b101\nunderscored: 1_000\nsexagesimal: 12:34\nnotOctal: 0o17\n---",
+          "---\ndate: 2022-07-06\nflag: yes\nnegative: no\nhex: 0x10\nexp: 1e3\noctal: 010\nmodernOctal: 0o17\nbinary: 0b101\nunderscored: 1_000\nsexagesimal: 12:34\n---",
         ).data,
       ).toStrictEqual({
-        octal: 8,
-        binary: 5,
-        underscored: 1000,
-        sexagesimal: 754,
-        notOctal: "0o17",
+        date: "2022-07-06",
+        flag: "yes",
+        negative: "no",
+        hex: 16,
+        exp: 1000,
+        octal: 10,
+        modernOctal: 15,
+        binary: "0b101",
+        underscored: "1_000",
+        sexagesimal: "12:34",
       });
     });
 
     it("allows overriding the YAML schema", () => {
       expect(
         parseFrontmatter("---\ndate: 2022-07-06\nflag: yes\n---", {
-          yamlOptions: { schema: CORE_SCHEMA },
+          yamlOptions: { schema: YAML11_SCHEMA },
         }).data,
-      ).toStrictEqual({ date: "2022-07-06", flag: "yes" });
+      ).toStrictEqual({ date: new Date("2022-07-06T00:00:00Z"), flag: true });
     });
 
     it("parses JSON", () => {

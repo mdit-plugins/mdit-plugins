@@ -54,7 +54,7 @@ A language marker directly after the opening delimiter selects another parser:
 ---
 ```
 
-`yaml` and `yml` use `js-yaml` with `YAML11_SCHEMA`, `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Timestamps become `Date`, `yes`/`no` become booleans, and merge keys plus `!!binary`, `!!omap`, `!!pairs`, `!!set` are supported.
+`yaml` and `yml` use `js-yaml` with `CORE_SCHEMA` (YAML 1.2 core), `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number.
 
 A line starting with an extended delimiter such as `----` is a horizontal rule, not frontmatter.
 
@@ -79,7 +79,7 @@ With `{ excerpt: true, excerptSeparator: "<!-- more -->" }`, `env.excerpt` is re
 ## Options
 
 ::: fields
-@`delimiters` type=`string | [string, string]` default=`"---"`
+@`delimiters` type=`string | [start: string, end: string]` default=`"---"`
 
 The opening and closing delimiters. Pass one string to use the same delimiter for both, or a tuple for asymmetric delimiters.
 
@@ -114,7 +114,7 @@ The excerpt delimiter. Precedence: a string `excerpt` option, then a non-empty s
 
 @`yamlOptions` type=LoadOptions
 
-Options passed to `js-yaml`'s `load` function. `schema` defaults to `YAML11_SCHEMA`. Pass another schema to change how YAML is parsed.
+Options passed to `js-yaml`'s `load` function. `schema` defaults to `CORE_SCHEMA` (YAML 1.2 core). Pass `YAML11_SCHEMA` or another schema to change how YAML is parsed.
 
 @`parsers` type=`Record<string, FrontmatterParser>`
 
