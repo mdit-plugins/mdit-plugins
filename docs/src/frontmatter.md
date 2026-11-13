@@ -54,7 +54,7 @@ A language marker directly after the opening delimiter selects another parser:
 ---
 ```
 
-`yaml` and `yml` use `js-yaml` with `CORE_SCHEMA` (YAML 1.2 core), `json` uses `JSON.parse`, and the `parsers` option adds custom languages. Unless `parseTimestamps` is enabled, timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number.
+`yaml` and `yml` use `js-yaml` with `CORE_SCHEMA` (YAML 1.2 core), `json` uses `JSON.parse`, and the `parsers` option adds custom languages. By default, timestamps and `yes`/`no` are strings and `1e3` is a number. Enabling `parseTimestamps` changes only timestamp scalars.
 
 A line starting with an extended delimiter such as `----` is a horizontal rule, not frontmatter.
 
@@ -78,7 +78,7 @@ With `{ excerpt: true, excerptSeparator: "<!-- more -->" }`, `env.excerpt` is re
 
 ### Timestamps
 
-By default YAML timestamps stay strings. Set `parseTimestamps: true` to parse unquoted timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if that local time is skipped by a daylight-saving transition, the first valid time on that date is used.
+By default YAML timestamps stay strings. Set `parseTimestamps: true` to parse unquoted timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if that local time is skipped by a daylight-saving transition, the first valid whole minute on that date is used.
 
 ```md
 ---
@@ -131,7 +131,7 @@ The excerpt delimiter. Precedence: a string `excerpt` option, then a non-empty s
 
 @`parseTimestamps` type=boolean default=`false`
 
-Whether to parse unquoted YAML timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if midnight is skipped, the first valid time on that date is used. Quoted timestamps remain strings. When `yamlOptions.schema` is set, that schema takes precedence.
+Whether to parse unquoted YAML timestamps as `Date` objects. Date-only values are anchored at 00:00:00 in `timezone`; if midnight is skipped, the first valid whole minute on that date is used. Quoted timestamps remain strings. When `yamlOptions.schema` is set, that schema takes precedence.
 
 @`timezone` type=string default=`"UTC"`
 
@@ -139,7 +139,7 @@ IANA timezone used for timestamps without an explicit offset, including date-onl
 
 @`yamlOptions` type=LoadOptions
 
-Options passed to `js-yaml`'s `load` function. `schema` defaults to `CORE_SCHEMA` (YAML 1.2 core). Pass `YAML11_SCHEMA` or another schema to change how YAML is parsed.
+Options passed to `js-yaml`'s `load` function. `schema` defaults to `CORE_SCHEMA` (YAML 1.2 core). When `parseTimestamps` is enabled, it defaults to `CORE_SCHEMA` plus an implicit timestamp tag. Pass `YAML11_SCHEMA` or another schema to change how YAML is parsed.
 
 @`parsers` type=`Record<string, FrontmatterParser>`
 

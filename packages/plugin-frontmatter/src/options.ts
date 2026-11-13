@@ -161,7 +161,7 @@ export interface MarkdownItFrontmatterOptions {
    *
    * 是否将 YAML 时间戳解析为 `Date` 对象
    *
-   * 仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效时间。带引号的时间戳会保持字符串。此选项只影响 `yaml` 与 `yml`
+   * 仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效的整分钟。带引号的时间戳会保持字符串。此选项只影响 `yaml` 与 `yml`
    * 解析器。设置 `yamlOptions.schema` 时，该模式优先。
    *
    * @default false
@@ -188,14 +188,15 @@ export interface MarkdownItFrontmatterOptions {
   /**
    * Options passed to `js-yaml`'s `load` function
    *
-   * `schema` defaults to `CORE_SCHEMA`, js-yaml's YAML 1.2 core schema. Unless `parseTimestamps` is
-   * enabled, timestamps and `yes`/`no` remain strings, while `1e3` is parsed as a number. Pass
-   * `YAML11_SCHEMA` or another schema to change how YAML is parsed.
+   * `schema` defaults to `CORE_SCHEMA`, js-yaml's YAML 1.2 core schema. When `parseTimestamps` is
+   * enabled, it defaults to `CORE_SCHEMA` plus an implicit timestamp tag. Timestamps and `yes`/`no`
+   * are strings by default, while `1e3` is parsed as a number. Pass `YAML11_SCHEMA` or another
+   * schema to change how YAML is parsed.
    *
    * 传递给 `js-yaml` 的 `load` 函数的选项
    *
-   * `schema` 默认为 `CORE_SCHEMA`，即 js-yaml 的 YAML 1.2 核心模式。除非启用 `parseTimestamps`，时间戳与 `yes`/`no`
-   * 会保持字符串，`1e3` 会解析为数字。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
+   * `schema` 默认为 `CORE_SCHEMA`，即 js-yaml 的 YAML 1.2 核心模式。启用 `parseTimestamps` 时，默认为 `CORE_SCHEMA`
+   * 加一个隐式时间戳标签。默认情况下时间戳与 `yes`/`no` 为字符串，`1e3` 为数字。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
    */
   yamlOptions?: LoadOptions;
 

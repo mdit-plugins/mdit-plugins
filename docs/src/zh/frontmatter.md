@@ -54,7 +54,7 @@ tags:
 ---
 ```
 
-`yaml` 与 `yml` 使用 `js-yaml` 的 `CORE_SCHEMA`（YAML 1.2 核心模式），`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。除非启用 `parseTimestamps`，时间戳与 `yes`/`no` 会保持字符串，`1e3` 会解析为数字。
+`yaml` 与 `yml` 使用 `js-yaml` 的 `CORE_SCHEMA`（YAML 1.2 核心模式），`json` 使用 `JSON.parse`，`parsers` 选项可以添加自定义语言。默认情况下，时间戳与 `yes`/`no` 为字符串，`1e3` 为数字。启用 `parseTimestamps` 只会改变时间戳标量。
 
 以 `----` 等扩展分隔符开头的行会被视为水平分割线，而不是 frontmatter。
 
@@ -78,7 +78,7 @@ Body
 
 ### 时间戳
 
-默认情况下 YAML 时间戳会保持字符串。设置 `parseTimestamps: true` 后，未加引号的时间戳会解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果该本地时间被夏令时跳过，则使用该日期第一个有效时间。
+默认情况下 YAML 时间戳会保持字符串。设置 `parseTimestamps: true` 后，未加引号的时间戳会解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果该本地时间被夏令时跳过，则使用该日期第一个有效的整分钟。
 
 ```md
 ---
@@ -131,7 +131,7 @@ interface FrontmatterFile {
 
 @`parseTimestamps` type=boolean default=`false`
 
-是否将未加引号的 YAML 时间戳解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效时间。带引号的时间戳会保持字符串。设置 `yamlOptions.schema` 时，该模式优先。
+是否将未加引号的 YAML 时间戳解析为 `Date` 对象。仅日期的值会以 `timezone` 的 00:00:00 为基准；如果午夜被跳过，则使用该日期第一个有效的整分钟。带引号的时间戳会保持字符串。设置 `yamlOptions.schema` 时，该模式优先。
 
 @`timezone` type=string default=`"UTC"`
 
@@ -139,7 +139,7 @@ interface FrontmatterFile {
 
 @`yamlOptions` type=LoadOptions
 
-传递给 `js-yaml` 的 `load` 函数的选项。`schema` 默认为 `CORE_SCHEMA`（YAML 1.2 核心模式）。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
+传递给 `js-yaml` 的 `load` 函数的选项。`schema` 默认为 `CORE_SCHEMA`（YAML 1.2 核心模式）。启用 `parseTimestamps` 时，默认为 `CORE_SCHEMA` 加一个隐式时间戳标签。可以传入 `YAML11_SCHEMA` 或其他模式改变 YAML 的解析方式。
 
 @`parsers` type=`Record<string, FrontmatterParser>`
 
