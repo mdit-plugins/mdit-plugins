@@ -37,7 +37,7 @@
     "happy-dom": "21.0.4",
     "husky": "9.1.7",
     "markdown-it": "catalog:",
-    "markdownlint-cli2": "0.24.0",
+    "markdownlint-cli2": "0.24.1",
     "nano-staged": "1.0.2",
     "npm-check-updates": "23.1.1",
     "oxc-config-hope": "0.3.15",
