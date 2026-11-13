@@ -85,6 +85,11 @@ features:
     details: 支持脚注
     link: ./footnote.html
 
+  - title: frontmatter
+    icon: file-lines
+    details: 提取 frontmatter 与摘要
+    link: ./frontmatter.html
+
   - title: icon
     icon: icons
     details: 添加图标支持
