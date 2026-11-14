@@ -35,11 +35,13 @@ const DYNAMIC_FONT_FILE_RE =
  *
  * @param file - File name or specifier requested by MathJax / MathJax 请求的文件名或说明符
  * @param fontLoaders - Static loaders of the selected output / 所选输出的静态加载器
+ * @param packageName - Package name used in error messages / 错误信息中使用的包名
  * @returns The loaded module / 加载的模块
  */
 export const loadMathJaxFile = async (
   file: string,
   fontLoaders: DynamicFontLoaderSet,
+  packageName = "@mdit/plugin-mathjax",
 ): Promise<unknown> => {
   const match = DYNAMIC_FONT_FILE_RE.exec(file);
   const loader =
@@ -53,7 +55,7 @@ export const loadMathJaxFile = async (
     return await import(/* @vite-ignore */ /* webpackIgnore: true */ file);
   } catch (err) {
     throw new Error(
-      `[@mdit/plugin-mathjax] cannot load "${file}": it is not part of the bundled dynamic font files. Install @mathjax/mathjax-newcm-font@4.1.3 or pass the asyncLoad option to load it yourself.`,
+      `[${packageName}] cannot load "${file}": it is not part of the bundled dynamic font files. Install the pinned @mathjax/mathjax-newcm-font version or pass the asyncLoad option to load it yourself.`,
       { cause: err },
     );
   }

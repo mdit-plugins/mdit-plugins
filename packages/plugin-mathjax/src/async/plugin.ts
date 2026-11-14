@@ -99,7 +99,7 @@ export const getDocumentOptionsWithFontLoaders = async (
       // oxlint-disable-next-line no-console
       console.debug(`[MathJax]: loading ${file}...`);
 
-    return options.asyncLoad?.(file) ?? loadMathJaxFile(file, fontLoaders);
+    return options.asyncLoad?.(file) ?? loadMathJaxFile(file, fontLoaders, "@mdit/plugin-mathjax");
   };
 
   const userPackages = options.tex?.packages;

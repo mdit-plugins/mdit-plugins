@@ -19,10 +19,14 @@ describe("dynamic font partial failures", () => {
   it("keeps the instance and later instances usable", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
+    const asyncLoad = vi.fn<(file: string) => Promise<unknown>>(createAsyncLoad(FAILING_FILE));
+
     const instance = (await createMathjaxInstance({
       output: "svg",
-      asyncLoad: createAsyncLoad(FAILING_FILE),
+      asyncLoad,
     }))!;
+
+    expect(asyncLoad).toHaveBeenCalledWith(FAILING_FILE);
 
     await expect(instance.outputStyle()).resolves.toContain('mjx-container[jax="SVG"]');
 

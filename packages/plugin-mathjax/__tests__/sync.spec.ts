@@ -436,6 +436,18 @@ describe("synchronous mathjax plugin", () => {
     dispose(md);
   });
 
+  it("accepts undefined async-only options", () => {
+    const md = setup({
+      output: "svg",
+      asyncLoad: undefined,
+      preloadDynamicFonts: undefined,
+    } as MarkdownItSyncMathjaxOptions);
+
+    expect(md.render(inline)).toContain('jax="SVG"');
+
+    dispose(md);
+  });
+
   it("throws after dispose", () => {
     const md = setup({ output: "svg" });
 

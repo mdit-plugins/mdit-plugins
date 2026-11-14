@@ -54,7 +54,7 @@ const css = await mathjaxInstance.outputStyle();
 
 `./async` keeps the v1 instance API: `createMathjaxInstance(options)` resolves to a MathJax instance and `mathjax(md, instance)` installs it on a markdown-it instance. Use it in browsers, in runtimes without `worker_threads`, or when you need function options that cannot be sent to the synchronous worker. By default, dynamic font files are imported when the instance is created, so `render()` stays synchronous in browsers; TeX packages are still loaded through MathJax's official async API.
 
-The default `./async` entry selects the output at runtime and only loads the matching font map. For a smaller browser build, import `@mdit/plugin-mathjax/async/svg` or `@mdit/plugin-mathjax/async/chtml` instead: these entries force the output and bundle only that output's dynamic font files.
+The default `./async` entry selects the output at runtime and only loads the matching font map. For a smaller browser build, import `@mdit/plugin-mathjax/async/svg` or `@mdit/plugin-mathjax/async/chtml` instead: these entries force the output and bundle only that output's dynamic font files. The same entries are available from `@mdit/plugin-mathjax-slim/async/svg` and `@mdit/plugin-mathjax-slim/async/chtml`.
 
 ## Breaking Changes
 
@@ -240,7 +240,7 @@ For the async entry, the `html` option of the markdown-it instance passed to `md
 
 The plugin bundles MathJax's NewCM font (`@mathjax/mathjax-newcm-font`). Standard math variants work out of the box: `\mathbb` renders as double-struck, `\mathcal` as calligraphic, `\mathfrak` as fraktur, and so on. The async entry preloads the selected output's dynamic font files when the instance is created, using static import specifiers so browser bundlers can split and resolve them. In the browser this costs about 10 MB of uncompressed font data for SVG and about 1 MB for CHTML; use the output-specific `./async/svg` or `./async/chtml` entry, or set `preloadDynamicFonts: false` and provide `asyncLoad`, to control that cost. The synchronous entry loads them in its worker instead.
 
-The dynamic font file names are internal to the font package, so the plugin pins `@mathjax/src` and `@mathjax/mathjax-newcm-font` to the exact tested `4.1.3` version. The static loader map is generated for that version; upgrade both packages together and verify the map when you override the pinned versions.
+The dynamic font file names are internal to the font package, so the plugin pins `@mathjax/src` and `@mathjax/mathjax-newcm-font` to the exact tested `4.1.3` version. The static loader map is written for that version and verified against the installed font files by tests; upgrade both packages together and verify the map when you override the pinned versions.
 
 The bundled font does not ship the font-extension data used by the `bbm`, `bboldx` and `dsfont` TeX packages. These packages are therefore not enabled by default: loading them would replace standard macros (e.g. `\mathbb`) with missing font variants and fall back to normal glyphs with an `Invalid variant` warning. If you enable them explicitly through `tex.packages`, commands such as `\mathbbm` and `\mathds` still fall back with a warning because the extension data is missing.
 

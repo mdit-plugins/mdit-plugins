@@ -22,7 +22,11 @@ import type { MarkdownIt } from "markdown-it";
 import { createSyncFn } from "synckit";
 import type { Syncify } from "synckit";
 
-import type { MarkdownItMathjaxOptions, TeXTransformer } from "./options.js";
+import type {
+  MarkdownItMathjaxAsyncOptions,
+  MarkdownItMathjaxOptions,
+  TeXTransformer,
+} from "./options.js";
 import type {
   MathjaxItem,
   SerializableMathjaxOptions,
@@ -185,8 +189,10 @@ const collectUnsupportedOptions = (options: MarkdownItSyncMathjaxOptions): strin
 
   if (options.tex?.formatError) names.push("tex.formatError");
 
+  const asyncOptions = options as Partial<MarkdownItMathjaxAsyncOptions>;
+
   for (const name of ["asyncLoad", "preloadDynamicFonts"] as const)
-    if (name in options) names.push(name);
+    if (asyncOptions[name] !== void 0) names.push(name);
 
   for (const outputName of ["chtml", "svg"] as const) {
     const outputOptions = options[outputName];
