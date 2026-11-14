@@ -118,6 +118,11 @@ export const createMathjaxInstance = async (
 
   const { OutputJax } = documentOptions;
 
+  // MathJax 4 loads glyph data for commands such as `\mathbb` on demand and throws a retry error
+  // when that happens during a synchronous `convert()`. Preload every dynamic font file before the
+  // instance is used so that `render()` can stay synchronous.
+  await OutputJax.font.loadDynamicFiles();
+
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
   const handler = RegisterHTMLHandler(adaptor);
