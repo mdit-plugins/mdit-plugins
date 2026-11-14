@@ -73,6 +73,22 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * @default false
    */
   debug?: boolean;
+
+  /**
+   * Custom loader for the asynchronous files requested by MathJax.
+   *
+   * By default the dynamic font files of the bundled font are imported with static specifiers, so
+   * browser bundlers can split and resolve them. Set this option when you use a custom `fontData`
+   * or want to load the files from another location.
+   *
+   * 自定义 MathJax 请求的异步文件的加载器。
+   *
+   * 默认情况下，内置字体的动态字体文件使用静态说明符导入，以便浏览器打包器拆分并解析。使用自定义 `fontData` 或希望从其他位置加载文件时设置此项。
+   *
+   * @param file - File name or specifier requested by MathJax / MathJax 请求的文件名或说明符
+   * @returns The loaded module / 加载的模块
+   */
+  asyncLoad?: (file: string) => Promise<unknown>;
 }
 
 /**
