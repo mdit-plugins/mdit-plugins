@@ -73,7 +73,14 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * @default false
    */
   debug?: boolean;
+}
 
+/**
+ * Options of the asynchronous MathJax entry.
+ *
+ * 异步 MathJax 入口的选项。
+ */
+export interface MarkdownItMathjaxAsyncOptions extends MarkdownItMathjaxOptions {
   /**
    * Custom loader for the asynchronous files requested by MathJax.
    *
@@ -81,14 +88,37 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * browser bundlers can split and resolve them. Set this option when you use a custom `fontData`
    * or want to load the files from another location.
    *
+   * MathJax stores the loader on its shared MathJax instance, so the last created instance wins for
+   * lazy requests made after creation. Disable `preloadDynamicFonts` if you need to control loading
+   * yourself.
+   *
    * 自定义 MathJax 请求的异步文件的加载器。
    *
    * 默认情况下，内置字体的动态字体文件使用静态说明符导入，以便浏览器打包器拆分并解析。使用自定义 `fontData` 或希望从其他位置加载文件时设置此项。
+   *
+   * MathJax 将加载器保存在共享的 MathJax 实例上，因此创建实例后发生的懒加载请求会使用最后创建的实例的加载器。若需要自行控制加载，请关闭
+   * `preloadDynamicFonts`。
    *
    * @param file - File name or specifier requested by MathJax / MathJax 请求的文件名或说明符
    * @returns The loaded module / 加载的模块
    */
   asyncLoad?: (file: string) => Promise<unknown>;
+
+  /**
+   * Whether to preload the dynamic font files of the selected output when the instance is created.
+   *
+   * Preloading keeps `render()` synchronous for dynamic glyphs such as `\mathbb`. Disable it when
+   * you provide a custom `asyncLoad` and want to load the files yourself; until they are loaded,
+   * rendering such glyphs throws MathJax's retry error.
+   *
+   * 是否在创建实例时预加载所选输出的动态字体文件。
+   *
+   * 预加载能让 `render()` 同步渲染 `\mathbb` 等动态字形。使用自定义 `asyncLoad` 并希望自行加载时关闭此项；在文件加载完成前，渲染这些字形会抛出 MathJax
+   * 的重试错误。
+   *
+   * @default true
+   */
+  preloadDynamicFonts?: boolean;
 }
 
 /**

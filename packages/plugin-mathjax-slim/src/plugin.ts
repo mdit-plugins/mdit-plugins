@@ -185,6 +185,9 @@ const collectUnsupportedOptions = (options: MarkdownItSyncMathjaxOptions): strin
 
   if (options.tex?.formatError) names.push("tex.formatError");
 
+  for (const name of ["asyncLoad", "preloadDynamicFonts"] as const)
+    if (name in options) names.push(name);
+
   for (const outputName of ["chtml", "svg"] as const) {
     const outputOptions = options[outputName];
 

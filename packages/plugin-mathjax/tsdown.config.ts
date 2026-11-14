@@ -10,6 +10,8 @@ const config: UserConfig[] = [
     },
   }),
   tsdownConfig("async/index"),
+  tsdownConfig("async/svg"),
+  tsdownConfig("async/chtml"),
 ];
 
 export default config;

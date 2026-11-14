@@ -251,6 +251,16 @@ describe("synchronous mathjax plugin", () => {
         },
       }),
     ).toThrow(/LinebreakVisitor/);
+
+    expect(() =>
+      new MarkdownIt().use(mathjaxNext, {
+        asyncLoad: (): Promise<unknown> => Promise.resolve({}),
+      } as never),
+    ).toThrow(/asyncLoad/);
+
+    expect(() =>
+      new MarkdownIt().use(mathjaxNext, { preloadDynamicFonts: false } as never),
+    ).toThrow(/preloadDynamicFonts/);
   });
 
   it("throws a clear error for non-serializable options", () => {

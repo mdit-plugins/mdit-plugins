@@ -16,9 +16,14 @@ import type { SVG as SVGType } from "@mathjax/src/js/output/svg.js";
 import { tex } from "@mdit/plugin-tex";
 import type { MarkdownIt } from "markdown-it";
 
-import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "../options.js";
+import type {
+  MarkdownItMathjaxAsyncOptions,
+  DocumentOptions,
+  MathjaxInstance,
+} from "../options.js";
 import { loadTexPackages, resolveTexPackages } from "../tex/index.js";
 import { clearUserState } from "../utils.js";
+import type { DynamicFontLoaderSet } from "./dynamic-fonts.js";
 import { loadMathJaxFile } from "./dynamic-fonts.js";
 
 type InputJax = DocumentOptions["InputJax"];
@@ -101,8 +106,9 @@ try {
   isMathJaxNewcmFontInstalled = false;
 }
 
-export const getDocumentOptions = async (
-  options: MarkdownItMathjaxOptions,
+export const getDocumentOptionsWithFontLoaders = async (
+  options: MarkdownItMathjaxAsyncOptions,
+  fontLoaders: DynamicFontLoaderSet,
 ): Promise<DocumentOptions> => {
   /* istanbul ignore if -- @preserve */
   if (!isMathJaxInstalled)
@@ -135,7 +141,7 @@ export const getDocumentOptions = async (
       // oxlint-disable-next-line no-console
       console.debug(`[MathJax]: loading ${file}...`);
 
-    return options.asyncLoad?.(file) ?? loadMathJaxFile(file);
+    return options.asyncLoad?.(file) ?? loadMathJaxFile(file, fontLoaders);
   };
 
   const userPackages = options.tex?.packages;
@@ -154,10 +160,11 @@ export const getDocumentOptions = async (
   };
 };
 
-export const createMathjaxInstance = async (
-  options: MarkdownItMathjaxOptions = {},
+export const createMathjaxInstanceWithFontLoaders = async (
+  options: MarkdownItMathjaxAsyncOptions,
+  fontLoaders: DynamicFontLoaderSet,
 ): Promise<MathjaxInstance | null> => {
-  const documentOptions = await getDocumentOptions(options);
+  const documentOptions = await getDocumentOptionsWithFontLoaders(options, fontLoaders);
 
   const { OutputJax } = documentOptions;
 
@@ -167,7 +174,10 @@ export const createMathjaxInstance = async (
   //
   // A failed file is marked as failed by MathJax itself; retrying it would reject every later
   // `loadDynamicFiles()` call. Keep the instance usable for the files that did load instead.
+  const shouldPreload = options.preloadDynamicFonts !== false;
   const preloadDynamicFonts = async (): Promise<void> => {
+    if (!shouldPreload) return;
+
     try {
       await OutputJax.font.loadDynamicFiles();
     } catch {
