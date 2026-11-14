@@ -78,17 +78,23 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * Custom loader for the asynchronous files requested by MathJax.
    *
    * By default, Node.js imports the files from `@mathjax/mathjax-newcm-font`, while browsers load
-   * the matching version of the font from unpkg. Set this option when you use a custom `fontData`
-   * or want to load the files from another location.
+   * the font class and its dynamic files from unpkg. The font class uses the running MathJax
+   * version; unpkg rewrites its internal `@mathjax/src` imports to `@latest`, so the plugin
+   * resolves that redirect and imports the same runtime module. The browser runtime can therefore
+   * differ from the version installed in your project. Set this option to load files from another
+   * location. The loader must use the same font-class copy that is used as `fontData`, because
+   * MathJax installs glyphs on that class.
    *
-   * Only used by the async entry.
+   * MathJax's `asyncLoad` is process-global: when multiple async instances use different loaders,
+   * the last created instance wins. Only used by the async entry.
    *
    * 自定义 MathJax 请求的异步文件的加载器。
    *
-   * 默认情况下，Node.js 从 `@mathjax/mathjax-newcm-font` 导入文件，浏览器则从 unpkg 加载对应版本的字体。使用自定义 `fontData`
-   * 或希望从其他位置加载文件时设置此项。
+   * 默认情况下，Node.js 从 `@mathjax/mathjax-newcm-font` 导入文件，浏览器则从 unpkg 加载字体类及其动态文件。字体类使用当前 MathJax
+   * 版本；unpkg 会把字体包自身的 `@mathjax/src` 导入重写为 `@latest`，插件会解析该重定向并导入同一个运行时模块。因此浏览器运行时可能与项目安装的版本不同。
+   * 设置此项可从其他位置加载文件。加载器必须使用作为 `fontData` 的同一个字体类副本，因为 MathJax 会把字形安装到该类上。
    *
-   * 仅异步入口使用。
+   * MathJax 的 `asyncLoad` 是进程级全局设置：多个异步实例使用不同加载器时，最后创建的实例会覆盖之前的值。仅异步入口使用。
    *
    * @param file - File name or specifier requested by MathJax / MathJax 请求的文件名或说明符
    * @returns The loaded module / 加载的模块

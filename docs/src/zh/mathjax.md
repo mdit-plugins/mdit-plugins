@@ -52,7 +52,7 @@ const html = md.render("$e^{i\\pi}+1=0$");
 const css = await mathjaxInstance.outputStyle();
 ```
 
-`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。动态字体文件会在创建实例时加载，因此浏览器中的 `render()` 仍保持同步；TeX 包仍通过 MathJax 官方异步 API 加载。浏览器会按当前 MathJax 版本从 unpkg 加载字体，因此页面需要能访问 unpkg。
+`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。动态字体文件会在创建实例时加载，因此浏览器中的 `render()` 仍保持同步；TeX 包仍通过 MathJax 官方异步 API 加载。浏览器会从 unpkg 加载字体类及其动态文件。字体类使用当前 MathJax 版本；unpkg 会把其内部的 `@mathjax/src` 导入重写为 `@latest`，插件会解析该重定向并导入同一个运行时模块。因此页面需要能访问 unpkg，且运行时可能比项目安装的 MathJax 版本更新。如果 CSP 禁止远程脚本，请提供自定义 `fontData` 与 `asyncLoad`，或改用同步入口。
 
 ## 破坏性变更
 
@@ -175,7 +175,7 @@ SVG 输出选项。
 
 @`asyncLoad` type=`(file: string) => Promise<unknown>`
 
-自定义 MathJax 请求的异步文件加载器。默认情况下，Node.js 从已安装的字体包导入，浏览器则从 unpkg 加载对应版本的字体。仅异步入口使用。
+自定义 MathJax 请求的异步文件加载器。默认情况下，Node.js 从已安装的字体包导入，浏览器则从 unpkg 加载字体类与动态文件。字体类使用当前 MathJax 版本；unpkg 会把其内部的 `@mathjax/src` 导入重写为 `@latest`，插件会导入同一个解析后的运行时模块。该运行时可能与项目安装的 MathJax 版本不同。自定义加载器必须把字形安装到作为 `fontData` 的同一个字体类上；MathJax 的 `asyncLoad` 是全局设置，最后创建的异步实例会覆盖之前的值。仅异步入口使用。
 
 @`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
 
@@ -229,9 +229,11 @@ const md = new MarkdownIt().use(mathjax, {
 
 异步入口中，由传给 `md.use(mathjax, instance)` 的 markdown-it 实例的 `html` 选项在安装时决定默认列表。MathJax 实例持有共享的 TeX 状态，因此只能安装到一个 markdown-it 实例上；每个实例（尤其是信任级别不同的实例）都应使用单独的 `createMathjaxInstance()` 结果。
 
+浏览器中的异步入口会执行来自 unpkg 的 JavaScript：字体类、其 MathJax 运行时以及动态字体文件会在创建实例和渲染时导入。禁止 unpkg 的 Content Security Policy 会使该路径失效；不允许远程脚本时，请使用自定义 `fontData` 与 `asyncLoad`，或改用同步入口。运行时版本由 unpkg 的 `@latest` 重定向解析，可能与项目安装的版本不同；如需完全控制，请提供自定义 `fontData` 与 `asyncLoad`。
+
 ## 字体与 TeX 包限制
 
-插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等。异步入口会在创建实例时预加载所选输出格式的动态字体文件：Node.js 从已安装的字体包读取，浏览器则按当前 MathJax 版本从 unpkg 获取。浏览器中 SVG 约需下载 10 MB 未压缩字体数据，CHTML 约 1 MB；同步入口则在 worker 中加载。
+插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等。异步入口会在创建实例时预加载所选输出格式的动态字体文件：Node.js 从已安装的字体包读取，浏览器则从 unpkg 获取字体类与动态文件。字体类使用当前 MathJax 版本，其内部运行时由 unpkg 的 `@latest` 重定向解析，可能更新。浏览器中 SVG 约需下载 10 MB 未压缩字体数据，CHTML 约 2.6 MB；同步入口则在 worker 中加载。
 
 内置字体不包含 `bbm`、`bboldx`、`dsfont` 这三个 TeX 包所需的字体扩展数据，因此这些包默认不启用：加载它们会用缺失的字体变体替换标准宏（如 `\mathbb`），在 `Invalid variant` 警告后回退为普通字形。即使通过 `tex.packages` 显式启用，`\mathbbm`、`\mathds` 等命令仍会因扩展数据缺失而告警并回退。
 

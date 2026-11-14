@@ -19,6 +19,7 @@ import type { MarkdownIt } from "markdown-it";
 import type { DocumentOptions, MarkdownItMathjaxOptions, MathjaxInstance } from "../options.js";
 import { loadTexPackages, resolveTexPackages } from "../tex/index.js";
 import { clearUserState } from "../utils.js";
+import { getCdnFontUrls, resolveCdnMathJaxVersion } from "./cdn.js";
 
 type InputJax = DocumentOptions["InputJax"];
 
@@ -73,7 +74,7 @@ export const getDocumentOptions = async (
   const isCHTML = options.output === "chtml";
   const output = isCHTML ? "chtml" : "svg";
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
-  const isBrowser = typeof window !== "undefined";
+  const isBrowser = typeof self !== "undefined";
 
   // Node.js can resolve the font package directly. Browsers cannot resolve the package's bare
   // `@mathjax/src` imports, so load the font class from a CDN that rewrites them (`unpkg?module`).
@@ -84,15 +85,21 @@ export const getDocumentOptions = async (
   /* istanbul ignore next -- @preserve -- the browser CDN imports cannot run in Node; covered by the browser smoke test */
   if (isBrowser && !userOptions.fontData) {
     try {
-      const base = `https://unpkg.com/@mathjax/mathjax-newcm-font@${mathjaxLib.version}/mjs`;
-      const fontModule = (await import(
-        /* @vite-ignore */ /* webpackIgnore: true */ `${base}/${output}.js?module`
-      )) as {
+      const runtimeVersion = await resolveCdnMathJaxVersion(mathjaxLib.version);
+      const cdn = getCdnFontUrls(mathjaxLib.version, output, runtimeVersion);
+      const fontModule = (await import(/* @vite-ignore */ /* webpackIgnore: true */ cdn.font)) as {
         MathJaxNewcmFont: typeof chtmlFont;
       };
       const cdnMathJax = (await import(
-        /* @vite-ignore */ /* webpackIgnore: true */ `https://unpkg.com/@mathjax/src@${mathjaxLib.version}/mjs/mathjax.js?module`
+        /* @vite-ignore */ /* webpackIgnore: true */ cdn.mathjax
       )) as { mathjax: typeof mathjaxLib };
+
+      if (cdnMathJax.mathjax.version !== mathjaxLib.version) {
+        // oxlint-disable-next-line no-console
+        console.warn(
+          `[@mdit/plugin-mathjax] unpkg loaded MathJax ${cdnMathJax.mathjax.version}, but this package uses ${mathjaxLib.version}. The browser font files use unpkg's release; upgrade the plugin or self-host the fonts if dynamic glyphs fail.`,
+        );
+      }
 
       cdnMathJax.mathjax.asyncLoad = (file): Promise<unknown> => {
         if (options.debug)
@@ -102,9 +109,7 @@ export const getDocumentOptions = async (
         if (options.asyncLoad) return options.asyncLoad(file);
 
         const name = file.slice(file.lastIndexOf("/") + 1).replace(/\.js$/, "");
-        return import(
-          /* @vite-ignore */ /* webpackIgnore: true */ `${base}/${output}/dynamic/${name}.js?module`
-        );
+        return import(/* @vite-ignore */ /* webpackIgnore: true */ cdn.dynamic(name));
       };
 
       fontData = fontModule.MathJaxNewcmFont;
@@ -113,7 +118,7 @@ export const getDocumentOptions = async (
       // MathJax's retry error when they are used, as they did before the async entry preloaded fonts.
       // oxlint-disable-next-line no-console
       console.warn(
-        `[@mdit/plugin-mathjax] failed to load the browser font files from unpkg, falling back to the local font package.`,
+        `[@mdit/plugin-mathjax] failed to load the browser font files from unpkg, falling back to the local font package; dynamic glyphs may not load unless asyncLoad is provided.`,
         err,
       );
     }

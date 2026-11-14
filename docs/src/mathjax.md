@@ -52,7 +52,7 @@ const html = md.render("$e^{i\\pi}+1=0$");
 const css = await mathjaxInstance.outputStyle();
 ```
 
-`./async` keeps the v1 instance API: `createMathjaxInstance(options)` resolves to a MathJax instance and `mathjax(md, instance)` installs it on a markdown-it instance. Use it in browsers, in runtimes without `worker_threads`, or when you need function options that cannot be sent to the synchronous worker. Dynamic font files are loaded when the instance is created, so `render()` stays synchronous in browsers; TeX packages are still loaded through MathJax's official async API. In browsers the font is loaded from unpkg using the running MathJax version, so the page needs network access to unpkg.
+`./async` keeps the v1 instance API: `createMathjaxInstance(options)` resolves to a MathJax instance and `mathjax(md, instance)` installs it on a markdown-it instance. Use it in browsers, in runtimes without `worker_threads`, or when you need function options that cannot be sent to the synchronous worker. Dynamic font files are loaded when the instance is created, so `render()` stays synchronous in browsers; TeX packages are still loaded through MathJax's official async API. In browsers the font class and its dynamic files are loaded from unpkg. The font class uses the running MathJax version; unpkg rewrites its internal `@mathjax/src` imports to `@latest`, so the plugin resolves that redirect and imports the same runtime module. The page therefore needs network access to unpkg, and the runtime may be newer than the MathJax version installed in the project. If a Content Security Policy blocks remote scripts, provide a custom `fontData` and `asyncLoad`, or use the synchronous entry.
 
 ## Breaking Changes
 
@@ -175,7 +175,7 @@ Enable debug mode.
 
 @`asyncLoad` type=`(file: string) => Promise<unknown>`
 
-Custom loader for the asynchronous files requested by MathJax. By default, Node.js imports them from the installed font package, while browsers load the matching font version from unpkg. Only used by the async entry.
+Custom loader for the asynchronous files requested by MathJax. By default, Node.js imports them from the installed font package, while browsers load the font class and dynamic files from unpkg. The font class uses the running MathJax version; unpkg rewrites its internal `@mathjax/src` imports to `@latest`, and the plugin imports the same resolved runtime module. That runtime may differ from the MathJax version installed in the project. Custom loaders must install glyphs on the same font class used as `fontData`; MathJax's `asyncLoad` is global, so the last created async instance wins. Only used by the async entry.
 
 @`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
 
@@ -229,9 +229,11 @@ The `html` option is read when the plugin is installed (`md.use(...)`); changing
 
 For the async entry, the `html` option of the markdown-it instance passed to `md.use(mathjax, instance)` decides the default list when the instance is installed. A MathJax instance owns shared TeX state, so it can only be installed on one markdown-it instance; use a separate `createMathjaxInstance()` result for each instance, especially when they have different trust levels.
 
+In browsers, the async entry executes JavaScript from unpkg: the font class, its MathJax runtime, and dynamic font files are imported at instance creation and render time. A Content Security Policy that blocks unpkg disables this path; use a custom `fontData` with `asyncLoad`, or the synchronous entry, when remote scripts are not allowed. The runtime version is resolved from unpkg's `@latest` redirect and may differ from the version installed in your project; supply a custom `fontData` and `asyncLoad` if you need to control it exactly.
+
 ## Font and TeX Package Limitations
 
-The plugin bundles MathJax's NewCM font (`@mathjax/mathjax-newcm-font`). Standard math variants work out of the box: `\mathbb` renders as double-struck, `\mathcal` as calligraphic, `\mathfrak` as fraktur, and so on. The async entry preloads the selected output's dynamic font files when the instance is created: Node.js reads them from the installed font package, and browsers fetch them from unpkg using the running MathJax version. In the browser this costs about 10 MB of uncompressed font data for SVG and about 1 MB for CHTML; the synchronous entry loads them in its worker instead.
+The plugin bundles MathJax's NewCM font (`@mathjax/mathjax-newcm-font`). Standard math variants work out of the box: `\mathbb` renders as double-struck, `\mathcal` as calligraphic, `\mathfrak` as fraktur, and so on. The async entry preloads the selected output's dynamic font files when the instance is created: Node.js reads them from the installed font package, and browsers fetch the font class and dynamic files from unpkg. The font class uses the running MathJax version, while its internal runtime is resolved from unpkg's `@latest` redirect and may be newer. In the browser this costs about 10 MB of uncompressed font data for SVG and about 2.6 MB for CHTML; the synchronous entry loads them in its worker instead.
 
 The bundled font does not ship the font-extension data used by the `bbm`, `bboldx` and `dsfont` TeX packages. These packages are therefore not enabled by default: loading them would replace standard macros (e.g. `\mathbb`) with missing font variants and fall back to normal glyphs with an `Invalid variant` warning. If you enable them explicitly through `tex.packages`, commands such as `\mathbbm` and `\mathds` still fall back with a warning because the extension data is missing.
 

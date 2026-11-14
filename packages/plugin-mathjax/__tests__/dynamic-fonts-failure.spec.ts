@@ -21,6 +21,8 @@ describe("dynamic font failures", () => {
     expect(nextMarkdownIt.render("$x$")).toContain("<svg");
     await expect(nextInstance.outputStyle()).resolves.toContain('mjx-container[jax="SVG"]');
 
+    expect(warn).toHaveBeenCalledWith(expect.any(Error));
+
     warn.mockRestore();
   });
 });
