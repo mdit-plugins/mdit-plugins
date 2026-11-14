@@ -52,7 +52,7 @@ const html = md.render("$e^{i\\pi}+1=0$");
 const css = await mathjaxInstance.outputStyle();
 ```
 
-`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。字体与 TeX 包仍通过 MathJax 官方异步 API 按需加载。
+`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。动态字体文件会在创建实例时导入，因此浏览器中的 `render()` 仍保持同步；TeX 包仍通过 MathJax 官方异步 API 加载。
 
 ## 破坏性变更
 
@@ -173,6 +173,10 @@ SVG 输出选项。
 
 启用调试模式。
 
+@`asyncLoad` type=`(file: string) => Promise<unknown>`
+
+自定义 MathJax 请求的异步文件加载器。默认使用内置字体动态文件的静态导入，浏览器打包器可以拆分并解析这些导入。仅异步入口使用。
+
 @`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
 
 文档中公式的转换方式。`"batch"` 会收集整篇文档的公式，在最外层 render 结束时用一次 worker 往返转换；嵌套的 `md.render()` / `md.renderInline()` 在 flush 前返回内部占位符。`"immediate"` 会在遇到公式时立即转换，嵌套 render 会立即返回最终 HTML，代价是每个公式一次 worker 往返。
@@ -191,6 +195,7 @@ SVG 输出选项。
 - `chtml` / `svg` 中的 `preFilters` 与 `postFilters`
 - `chtml` / `svg` 中的 `fontData`、`wrapperFactory` 与 `cssStyles`（自定义字体、包装器与样式）
 - `chtml` / `svg` 中的 `linebreaks.LinebreakVisitor`
+- `asyncLoad`
 
 需要上述任意选项时，请从 `@mdit/plugin-mathjax/async` 导入。`transformer` 是同步主入口唯一支持的函数类选项。其他不可克隆的值（例如 `tex.macros` 中的函数）同样会被拒绝。
 
@@ -226,7 +231,7 @@ const md = new MarkdownIt().use(mathjax, {
 
 ## 字体与 TeX 包限制
 
-插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等；字体文件通过 MathJax 的动态字体加载器按需加载。
+插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等。异步入口会在创建实例时预加载所选输出格式的动态字体文件，并使用静态导入说明符，以便浏览器打包器拆分与解析。浏览器中 SVG 约需下载 10 MB 未压缩字体数据，CHTML 约 1 MB；同步入口则在 worker 中加载。
 
 内置字体不包含 `bbm`、`bboldx`、`dsfont` 这三个 TeX 包所需的字体扩展数据，因此这些包默认不启用：加载它们会用缺失的字体变体替换标准宏（如 `\mathbb`），在 `Invalid variant` 警告后回退为普通字形。即使通过 `tex.packages` 显式启用，`\mathbbm`、`\mathds` 等命令仍会因扩展数据缺失而告警并回退。
 
@@ -241,7 +246,7 @@ const md = new MarkdownIt().use(mathjax, {
 
 同步返回汇总所有已渲染公式的 CSS 内容，返回类型为 `string`。
 
-生成样式表前会按需加载字体文件，并会在返回后清空样式缓存，因此请在全部渲染完成后再调用。
+同步入口会在生成样式表前按需加载字体文件，并在返回后清空样式缓存，因此请在全部渲染完成后再调用。
 
 @`reset` type=`() => void`
 

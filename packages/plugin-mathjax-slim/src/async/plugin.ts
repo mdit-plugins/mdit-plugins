@@ -19,6 +19,7 @@ import type { MarkdownIt } from "markdown-it";
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "../options.js";
 import { loadTexPackages, resolveTexPackages } from "../tex/index.js";
 import { clearUserState } from "../utils.js";
+import { loadMathJaxFile } from "./dynamic-fonts.js";
 
 type InputJax = DocumentOptions["InputJax"];
 
@@ -134,7 +135,7 @@ export const getDocumentOptions = async (
       // oxlint-disable-next-line no-console
       console.debug(`[MathJax]: loading ${file}...`);
 
-    return import(file);
+    return options.asyncLoad?.(file) ?? loadMathJaxFile(file);
   };
 
   const userPackages = options.tex?.packages;
@@ -159,6 +160,22 @@ export const createMathjaxInstance = async (
   const documentOptions = await getDocumentOptions(options);
 
   const { OutputJax } = documentOptions;
+
+  // MathJax 4 loads glyph data for commands such as `\mathbb` on demand and throws a retry error
+  // when that happens during a synchronous `convert()`. Preload every dynamic font file before the
+  // instance is used so that `render()` can stay synchronous.
+  //
+  // A failed file is marked as failed by MathJax itself; retrying it would reject every later
+  // `loadDynamicFiles()` call. Keep the instance usable for the files that did load instead.
+  const preloadDynamicFonts = async (): Promise<void> => {
+    try {
+      await OutputJax.font.loadDynamicFiles();
+    } catch {
+      // MathJax already warned about the file and marked it as failed.
+    }
+  };
+
+  await preloadDynamicFonts();
 
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
@@ -194,7 +211,7 @@ export const createMathjaxInstance = async (
   };
 
   const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+    await preloadDynamicFonts();
 
     const style = adaptor.cssText(
       OutputJax.styleSheet(
