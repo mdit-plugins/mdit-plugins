@@ -36,14 +36,6 @@
       "types": "./dist/async/index.d.ts",
       "default": "./dist/async/index.js"
     },
-    "./async/svg": {
-      "types": "./dist/async/svg.d.ts",
-      "default": "./dist/async/svg.js"
-    },
-    "./async/chtml": {
-      "types": "./dist/async/chtml.d.ts",
-      "default": "./dist/async/chtml.js"
-    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

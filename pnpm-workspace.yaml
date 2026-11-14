@@ -9,9 +9,8 @@ allowBuilds:
   unrs-resolver: true
 
 catalog:
-  # The async entry maps MathJax's internal dynamic font file names, so the tested version is pinned.
-  "@mathjax/src": 4.1.3
-  "@mathjax/mathjax-newcm-font": 4.1.3
+  "@mathjax/src": ^4.1.3
+  "@mathjax/mathjax-newcm-font": ^4.1.3
   "@mathjax/mathjax-tex-font": ^4.1.3
   get-east-asian-width: ^1.7.0
   js-yaml: ^5.5.0

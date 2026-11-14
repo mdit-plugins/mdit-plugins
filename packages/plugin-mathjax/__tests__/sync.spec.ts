@@ -237,6 +237,10 @@ describe("synchronous mathjax plugin", () => {
 
   it("reports unsupported worker options", () => {
     expect(() =>
+      new MarkdownIt().use(mathjaxNext, { asyncLoad: (): Promise<unknown> => Promise.resolve({}) }),
+    ).toThrow(/asyncLoad/);
+
+    expect(() =>
       new MarkdownIt().use(mathjaxNext, { svg: { preFilters: [(): void => {}] } }),
     ).toThrow(/svg\.preFilters/);
 
@@ -251,16 +255,6 @@ describe("synchronous mathjax plugin", () => {
         },
       }),
     ).toThrow(/LinebreakVisitor/);
-
-    expect(() =>
-      new MarkdownIt().use(mathjaxNext, {
-        asyncLoad: (): Promise<unknown> => Promise.resolve({}),
-      } as never),
-    ).toThrow(/asyncLoad/);
-
-    expect(() =>
-      new MarkdownIt().use(mathjaxNext, { preloadDynamicFonts: false } as never),
-    ).toThrow(/preloadDynamicFonts/);
   });
 
   it("throws a clear error for non-serializable options", () => {
@@ -432,18 +426,6 @@ describe("synchronous mathjax plugin", () => {
     const baseline = setup({ output: "svg", a11y: false }).render(String.raw`$\foo2$`);
 
     expect(normalize(md.render(String.raw`$\foo2$`))).toBe(normalize(baseline));
-
-    dispose(md);
-  });
-
-  it("accepts undefined async-only options", () => {
-    const md = setup({
-      output: "svg",
-      asyncLoad: undefined,
-      preloadDynamicFonts: undefined,
-    } as MarkdownItSyncMathjaxOptions);
-
-    expect(md.render(inline)).toContain('jax="SVG"');
 
     dispose(md);
   });
