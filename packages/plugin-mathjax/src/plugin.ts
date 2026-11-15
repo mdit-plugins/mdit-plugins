@@ -183,7 +183,8 @@ const FORBIDDEN_OUTPUT_OPTION_KEYS = [
 const collectUnsupportedOptions = (options: MarkdownItSyncMathjaxOptions): string[] => {
   const names: string[] = [];
 
-  if ("asyncLoad" in options) names.push("asyncLoad");
+  if (typeof options.asyncLoad === "function") names.push("asyncLoad");
+  if (typeof options.preloadDynamicFonts === "boolean") names.push("preloadDynamicFonts");
   if (options.tex?.formatError) names.push("tex.formatError");
 
   for (const outputName of ["chtml", "svg"] as const) {

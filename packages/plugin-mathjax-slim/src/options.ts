@@ -78,28 +78,48 @@ export interface MarkdownItMathjaxOptions extends Pick<
    * Custom loader for the asynchronous files requested by MathJax.
    *
    * By default, Node.js imports the files from `@mathjax/mathjax-newcm-font`, while browsers load
-   * the font class and its dynamic files from unpkg. The font class uses the running MathJax
-   * version; unpkg rewrites its internal `@mathjax/src` imports to `@latest`, so the plugin
-   * resolves that redirect and imports the same runtime module. The browser runtime can therefore
-   * differ from the version installed in your project. Set this option to load files from another
-   * location. The loader must use the same font-class copy that is used as `fontData`, because
-   * MathJax installs glyphs on that class.
+   * the font class, its dynamic files, and the MathJax runtime from unpkg. The plugin routes each
+   * file to the loader registered for its SVG or CHTML output, so two async instances do not
+   * overwrite each other's loader. A custom loader must return modules from the same font-class and
+   * MathJax copies that are used as `fontData` and the output jax; otherwise MathJax installs
+   * glyphs on a class the renderer does not use. MathJax's `asyncLoad` is still process-global, so
+   * the last custom loader registered for the same output wins.
    *
-   * MathJax's `asyncLoad` is process-global: when multiple async instances use different loaders,
-   * the last created instance wins. Only used by the async entry.
+   * Only used by the async entry.
    *
    * 自定义 MathJax 请求的异步文件的加载器。
    *
-   * 默认情况下，Node.js 从 `@mathjax/mathjax-newcm-font` 导入文件，浏览器则从 unpkg 加载字体类及其动态文件。字体类使用当前 MathJax
-   * 版本；unpkg 会把字体包自身的 `@mathjax/src` 导入重写为 `@latest`，插件会解析该重定向并导入同一个运行时模块。因此浏览器运行时可能与项目安装的版本不同。
-   * 设置此项可从其他位置加载文件。加载器必须使用作为 `fontData` 的同一个字体类副本，因为 MathJax 会把字形安装到该类上。
+   * 默认情况下，Node.js 从 `@mathjax/mathjax-newcm-font` 导入文件，浏览器则从 unpkg 加载字体类、动态文件与 MathJax
+   * 运行时。插件会按文件所属的 SVG 或 CHTML 输出分发到对应加载器，因此两个异步实例不会互相覆盖。自定义加载器必须返回与 `fontData` 和输出 jax 相同的字体类及
+   * MathJax 副本； 否则 MathJax 会把字形安装到渲染器不使用的类上。MathJax 的 `asyncLoad` 仍是进程级全局设置，后注册的同一输出加载器会覆盖先前的值。
    *
-   * MathJax 的 `asyncLoad` 是进程级全局设置：多个异步实例使用不同加载器时，最后创建的实例会覆盖之前的值。仅异步入口使用。
+   * 仅异步入口使用。
    *
    * @param file - File name or specifier requested by MathJax / MathJax 请求的文件名或说明符
    * @returns The loaded module / 加载的模块
    */
   asyncLoad?: (file: string) => Promise<unknown>;
+
+  /**
+   * Whether to preload all dynamic font files when the instance is created.
+   *
+   * `render()` is synchronous, so dynamic glyphs such as `\mathbb` fail with MathJax's retry error
+   * unless their font files are already loaded. Keep this enabled unless you provide a custom
+   * loader that resolves these files synchronously or you only render glyphs from preloaded font
+   * groups.
+   *
+   * Only used by the async entry.
+   *
+   * 是否在创建实例时预加载所有动态字体文件。
+   *
+   * `render()` 是同步的，因此除非字体文件已经加载，`\mathbb` 等动态字形会触发 MathJax 的 retry
+   * 错误。除非你提供了能同步解析这些文件的自定义加载器，或只渲染已预加载字体组中的字形，否则请保持开启。
+   *
+   * 仅异步入口使用。
+   *
+   * @default true
+   */
+  preloadDynamicFonts?: boolean;
 }
 
 /**

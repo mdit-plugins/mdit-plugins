@@ -25,4 +25,14 @@ describe("dynamic fonts", () => {
       expect(result).not.toContain("mjx-merror");
     },
   );
+
+  it("keeps SVG and CHTML dynamic files apart when both instances exist", async () => {
+    const svgInstance = (await createMathjaxInstance({ output: "svg" }))!;
+    const chtmlInstance = (await createMathjaxInstance({ output: "chtml" }))!;
+    const svgMarkdownIt = new MarkdownIt().use(mathjax, svgInstance);
+    const chtmlMarkdownIt = new MarkdownIt().use(mathjax, chtmlInstance);
+
+    expect(svgMarkdownIt.render(`$${DYNAMIC_GLYPHS}$`)).toContain('jax="SVG"');
+    expect(chtmlMarkdownIt.render(`$${DYNAMIC_GLYPHS}$`)).toContain('jax="CHTML"');
+  });
 });

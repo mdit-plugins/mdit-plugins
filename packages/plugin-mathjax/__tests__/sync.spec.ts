@@ -240,6 +240,17 @@ describe("synchronous mathjax plugin", () => {
       new MarkdownIt().use(mathjaxNext, { asyncLoad: (): Promise<unknown> => Promise.resolve({}) }),
     ).toThrow(/asyncLoad/);
 
+    expect(() => new MarkdownIt().use(mathjaxNext, { preloadDynamicFonts: true })).toThrow(
+      /preloadDynamicFonts/,
+    );
+
+    expect(() =>
+      new MarkdownIt().use(mathjaxNext, {
+        asyncLoad: undefined,
+        preloadDynamicFonts: undefined,
+      }),
+    ).not.toThrow();
+
     expect(() =>
       new MarkdownIt().use(mathjaxNext, { svg: { preFilters: [(): void => {}] } }),
     ).toThrow(/svg\.preFilters/);
