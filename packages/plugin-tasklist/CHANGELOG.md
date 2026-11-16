@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.3.0...%40mdit%2Fplugin-tasklist%401.3.1) (2026-11-16)
+
+### 🐛 Bug Fixes
+
+- **plugin-tasklist:** drop space before task text ([#933](https://github.com/mdit-plugins/mdit-plugins/issues/933)) ([78705d1](https://github.com/mdit-plugins/mdit-plugins/commit/78705d1136fb2ecc60f636ea7c56f13fe28e392a))
+
+### Miscellaneous Chores
+
+- **deps:** update dependency oxlint to v1.92.0 ([#921](https://github.com/mdit-plugins/mdit-plugins/issues/921)) ([1f0371b](https://github.com/mdit-plugins/mdit-plugins/commit/1f0371b5e65e6967e3bb64d3d5d15afca1f33934))
+
 ## [1.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-tasklist%401.2.0...%40mdit%2Fplugin-tasklist%401.3.0) (2026-11-09)
 
 ### ✨ Features

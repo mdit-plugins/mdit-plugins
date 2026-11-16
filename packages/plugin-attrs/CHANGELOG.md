@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.5.0...%40mdit%2Fplugin-attrs%401.5.1) (2026-11-16)
+
+### 🐛 Bug Fixes
+
+- **plugin-attrs:** keep attrs after split quoted text ([#931](https://github.com/mdit-plugins/mdit-plugins/issues/931)) ([bb31541](https://github.com/mdit-plugins/mdit-plugins/commit/bb31541301a658ff2d722453211926b8237164f6))
+- **plugin-tasklist:** drop space before task text ([#933](https://github.com/mdit-plugins/mdit-plugins/issues/933)) ([78705d1](https://github.com/mdit-plugins/mdit-plugins/commit/78705d1136fb2ecc60f636ea7c56f13fe28e392a))
+
 ## [1.5.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-attrs%401.4.0...%40mdit%2Fplugin-attrs%401.5.0) (2026-11-09)
 
 ### ✨ Features

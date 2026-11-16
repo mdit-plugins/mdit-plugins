@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.2.0...%40mdit%2Fplugin-katex-slim%401.2.1) (2026-11-16)
+
+### 🐛 Bug Fixes
+
+- **plugin-katex:** rethrow ParseError when throwOnError is true ([#934](https://github.com/mdit-plugins/mdit-plugins/issues/934)) ([1c61daa](https://github.com/mdit-plugins/mdit-plugins/commit/1c61daa6d324806b4d5e03ce965a35cccff70eff))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-katex-slim%401.1.5...%40mdit%2Fplugin-katex-slim%401.2.0) (2026-11-09)
 
 ### ✨ Features

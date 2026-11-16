@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-sup",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Superscript plugin for MarkdownIt",
   "keywords": [
     "markdown-it",

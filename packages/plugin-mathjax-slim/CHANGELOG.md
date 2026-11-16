@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%402.1.0...%40mdit%2Fplugin-mathjax-slim%402.1.1) (2026-11-16)
+
+### 🐛 Bug Fixes
+
+- **plugin-mathjax:** load dynamic fonts in async entries ([#947](https://github.com/mdit-plugins/mdit-plugins/issues/947)) ([a835fa7](https://github.com/mdit-plugins/mdit-plugins/commit/a835fa7200c255ca14818d5e0158ab9e1e019ef0))
+
 ## [2.1.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-mathjax-slim%402.0.0...%40mdit%2Fplugin-mathjax-slim%402.1.0) (2026-11-09)
 
 ### ✨ Features

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-footnote%401.2.0...%40mdit%2Fplugin-footnote%401.3.0) (2026-11-16)
+
+### ✨ Features
+
+- **plugin-footnote:** render from token attrs and meta ([#930](https://github.com/mdit-plugins/mdit-plugins/issues/930)) ([9ea4314](https://github.com/mdit-plugins/mdit-plugins/commit/9ea43149331f05813564805fd0dc18d519083e08))
+
+### 🐛 Bug Fixes
+
+- **plugin-footnote:** keep nested definitions in own note ([#932](https://github.com/mdit-plugins/mdit-plugins/issues/932)) ([58b2440](https://github.com/mdit-plugins/mdit-plugins/commit/58b244064817d33e674c53f45ba38eeabb8f02ea))
+
 ## [1.2.0](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-footnote%401.1.4...%40mdit%2Fplugin-footnote%401.2.0) (2026-11-09)
 
 ### ✨ Features

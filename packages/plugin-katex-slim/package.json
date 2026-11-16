@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-katex-slim",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "katex-slim plugin for MarkdownIt",
   "keywords": [
     "katex",

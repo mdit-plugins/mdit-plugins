@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/mdit-plugins/mdit-plugins/compare/%40mdit%2Fplugin-cjk-breaks%401.0.0...%40mdit%2Fplugin-cjk-breaks%401.0.1) (2026-11-16)
+
+### Miscellaneous Chores
+
+- **deps:** update dependency oxlint to v1.92.0 ([#921](https://github.com/mdit-plugins/mdit-plugins/issues/921)) ([1f0371b](https://github.com/mdit-plugins/mdit-plugins/commit/1f0371b5e65e6967e3bb64d3d5d15afca1f33934))
+
 ## 1.0.0 (2026-11-09)
 
 ### ✨ Features

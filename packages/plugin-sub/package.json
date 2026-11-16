@@ -1,6 +1,6 @@
 {
   "name": "@mdit/plugin-sub",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Subscript plugin for MarkdownIt",
   "keywords": [
     "markdown-it",
