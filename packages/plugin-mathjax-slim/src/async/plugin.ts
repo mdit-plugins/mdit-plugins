@@ -19,6 +19,9 @@ import type { MarkdownIt } from "markdown-it";
 import type { MarkdownItMathjaxOptions, DocumentOptions, MathjaxInstance } from "../options.js";
 import { loadTexPackages, resolveTexPackages } from "../tex/index.js";
 import { clearUserState } from "../utils.js";
+import { isBrowserRuntime, loadBrowserFonts } from "./browser.js";
+import { importCdnModule } from "./cdn.js";
+import { loadDynamicFontFile, registerDynamicFontLoader } from "./loader.js";
 
 type InputJax = DocumentOptions["InputJax"];
 
@@ -108,34 +111,71 @@ export const getDocumentOptions = async (
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/src" is not installed!');
 
   const isCHTML = options.output === "chtml";
+  const output = isCHTML ? "chtml" : "svg";
   const userOptions = (isCHTML ? options.chtml : options.svg) ?? {};
+  const isBrowser = isBrowserRuntime();
+  const loadDynamicFont = (file: string): Promise<unknown> => {
+    if (options.debug)
+      // oxlint-disable-next-line no-console
+      console.debug(`[MathJax]: loading ${file}...`);
+
+    return loadDynamicFontFile(file);
+  };
 
   /* istanbul ignore if -- @preserve */
-  if (!userOptions.fontData && !isMathJaxNewcmFontInstalled)
+  if (!isBrowser && !userOptions.fontData && !isMathJaxNewcmFontInstalled)
     throw new Error('[@mdit/plugin-mathjax-slim] "@mathjax/mathjax-newcm-font" is not installed!');
 
+  // Node.js can resolve the font package directly. Browsers cannot resolve the package's bare
+  // `@mathjax/src` imports, so load the font class from a CDN that rewrites them (`unpkg?module`).
+  // The font data installs dynamic glyphs on the class it was loaded with, so keep the local output
+  // jax but use the same CDN copy for the font and its dynamic files.
+  let fontData: typeof chtmlFontType | typeof svgFontType = isCHTML ? chtmlFont : svgFont;
+
+  if (isBrowser && !userOptions.fontData) {
+    const browserFonts = await loadBrowserFonts(mathjaxLib.version, output);
+    fontData = browserFonts.fontData;
+
+    if (
+      browserFonts.fontVersion !== mathjaxLib.version ||
+      browserFonts.runtimeVersion !== mathjaxLib.version
+    ) {
+      // oxlint-disable-next-line no-console
+      console.warn(
+        `[@mdit/plugin-mathjax-slim] browser fonts use @mathjax/mathjax-newcm-font ${browserFonts.fontVersion} and the unpkg runtime ${browserFonts.runtimeVersion}, while this package uses @mathjax/src ${mathjaxLib.version}. Dynamic glyphs may differ; keep the font package and MathJax versions aligned, or self-host them.`,
+      );
+    }
+
+    registerDynamicFontLoader(output, (file) => {
+      if (options.asyncLoad) return options.asyncLoad(file);
+
+      const name = file.slice(file.lastIndexOf("/") + 1).replace(/\.js$/, "");
+
+      return importCdnModule(browserFonts.dynamic(name));
+    });
+
+    browserFonts.mathjax.asyncLoad = loadDynamicFont;
+  }
+
   const outputOptions = Object.assign(
-    {
-      fontData: isCHTML ? chtmlFont : svgFont,
-    },
+    { fontData: userOptions.fontData ?? fontData },
     // fontURL can be set to undefined if you want to bundle the fonts yourself
     // both fontURL and dynamicPrefix shall be synced with fontData, so set it to undefined if fontData is customized
-    userOptions?.fontData
+    userOptions.fontData || isBrowser
       ? {}
-      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${isCHTML ? "chtml" : "svg"}/dynamic` },
+      : { dynamicPrefix: `@mathjax/mathjax-newcm-font/js/${output}/dynamic` },
     isCHTML && !userOptions.fontData
       ? { fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2" }
       : {},
     userOptions,
   );
 
-  mathjaxLib.asyncLoad = (file): Promise<unknown> => {
-    if (options.debug)
-      // oxlint-disable-next-line no-console
-      console.debug(`[MathJax]: loading ${file}...`);
+  if (!isBrowser)
+    registerDynamicFontLoader(output, (file) => options.asyncLoad?.(file) ?? import(file));
+  else if (userOptions.fontData && options.asyncLoad)
+    registerDynamicFontLoader(output, options.asyncLoad);
 
-    return import(file);
-  };
+  mathjaxLib.asyncLoad = loadDynamicFont;
 
   const userPackages = options.tex?.packages;
 
@@ -159,6 +199,25 @@ export const createMathjaxInstance = async (
   const documentOptions = await getDocumentOptions(options);
 
   const { OutputJax } = documentOptions;
+
+  // MathJax 4 loads glyph data for commands such as `\mathbb` on demand and throws a retry error
+  // when that happens during a synchronous `convert()`. Preload every dynamic font file before the
+  // instance is used so that `render()` can stay synchronous.
+  //
+  // A failed file is marked as failed by MathJax itself; retrying it would reject every later
+  // `loadDynamicFiles()` call. Keep the instance usable for the files that did load instead.
+  const shouldPreload = options.preloadDynamicFonts !== false;
+  const preloadDynamicFonts = async (): Promise<void> => {
+    if (!shouldPreload) return;
+
+    try {
+      await OutputJax.font.loadDynamicFiles();
+    } catch {
+      // MathJax already warned about the file and marked it as failed.
+    }
+  };
+
+  await preloadDynamicFonts();
 
   const adaptor = liteAdaptor();
   // oxlint-disable-next-line new-cap
@@ -194,7 +253,7 @@ export const createMathjaxInstance = async (
   };
 
   const outputStyle = async (): Promise<string> => {
-    await OutputJax.font.loadDynamicFiles();
+    await preloadDynamicFonts();
 
     const style = adaptor.cssText(
       OutputJax.styleSheet(

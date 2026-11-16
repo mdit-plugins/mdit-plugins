@@ -14,7 +14,7 @@ icon: square-root-variable
 
 <!-- more -->
 
-## 使用 <Badge text="没有 CDN 脚本" />
+## 使用 <Badge text="不使用 CDN 脚本（同步入口）" />
 
 ```ts
 import { getMathjax, mathjax } from "@mdit/plugin-mathjax";
@@ -52,7 +52,7 @@ const html = md.render("$e^{i\\pi}+1=0$");
 const css = await mathjaxInstance.outputStyle();
 ```
 
-`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。字体与 TeX 包仍通过 MathJax 官方异步 API 按需加载。
+`./async` 保留 v1 的实例 API：`createMathjaxInstance(options)` 会 resolve 出 MathJax 实例，`mathjax(md, instance)` 将其安装到 markdown-it 实例上。在浏览器、没有 `worker_threads` 的运行时，或需要使用无法传入同步 worker 的函数类选项时，请使用该入口。动态字体文件会在创建实例时加载，因此浏览器中的 `render()` 仍保持同步；TeX 包仍通过 MathJax 官方异步 API 加载。浏览器会从 unpkg 加载字体类及其动态文件。字体 URL 使用已安装的 `@mathjax/mathjax-newcm-font` 版本；MathJax 运行时通过 unpkg 的 `@latest` 重定向解析，可能与项目安装的版本不同。页面需要能访问 unpkg。若 CSP 禁止远程脚本，请通过自定义 `fontData` 与 `asyncLoad` 自托管字体类与动态文件；同步入口仅支持 Node.js，不能作为浏览器中的替代方案。
 
 ## 破坏性变更
 
@@ -173,6 +173,14 @@ SVG 输出选项。
 
 启用调试模式。
 
+@`asyncLoad` type=`(file: string) => Promise<unknown>`
+
+自定义 MathJax 请求的异步文件加载器。默认情况下，Node.js 会把每个文件路由到已安装的字体包，浏览器则按输出格式注册加载器；因此 SVG 与 CHTML 两个异步实例不会互相覆盖。CDN 字体类必须是作为 `fontData` 使用的同一个副本，因为 MathJax 会把字形安装到该类上。MathJax 的 `asyncLoad` 是进程级全局设置，某种输出格式的已注册加载器会被该格式最后创建的实例替换。仅异步入口使用。
+
+@`preloadDynamicFonts` type=boolean default=`true`
+
+是否在创建异步实例以及调用 `outputStyle()` 时预加载所选输出格式的动态字体文件。禁用后，动态字形会一直不可用，直到自定义 `asyncLoad` 加载了对应文件。仅异步入口使用。
+
 @`renderStrategy` type=`"batch" | "immediate"` default=`"batch"`
 
 文档中公式的转换方式。`"batch"` 会收集整篇文档的公式，在最外层 render 结束时用一次 worker 往返转换；嵌套的 `md.render()` / `md.renderInline()` 在 flush 前返回内部占位符。`"immediate"` 会在遇到公式时立即转换，嵌套 render 会立即返回最终 HTML，代价是每个公式一次 worker 往返。
@@ -191,6 +199,8 @@ SVG 输出选项。
 - `chtml` / `svg` 中的 `preFilters` 与 `postFilters`
 - `chtml` / `svg` 中的 `fontData`、`wrapperFactory` 与 `cssStyles`（自定义字体、包装器与样式）
 - `chtml` / `svg` 中的 `linebreaks.LinebreakVisitor`
+- `asyncLoad`
+- `preloadDynamicFonts`
 
 需要上述任意选项时，请从 `@mdit/plugin-mathjax/async` 导入。`transformer` 是同步主入口唯一支持的函数类选项。其他不可克隆的值（例如 `tex.macros` 中的函数）同样会被拒绝。
 
@@ -224,9 +234,11 @@ const md = new MarkdownIt().use(mathjax, {
 
 异步入口中，由传给 `md.use(mathjax, instance)` 的 markdown-it 实例的 `html` 选项在安装时决定默认列表。MathJax 实例持有共享的 TeX 状态，因此只能安装到一个 markdown-it 实例上；每个实例（尤其是信任级别不同的实例）都应使用单独的 `createMathjaxInstance()` 结果。
 
+浏览器中的异步入口会执行来自 unpkg 的 JavaScript：字体类、其 MathJax 运行时以及动态字体文件会在创建实例和渲染时导入。这需要 `script-src https://unpkg.com`；运行时版本探测需要 `connect-src https://unpkg.com`；CHTML 的 woff2 字体来自 `https://cdn.jsdelivr.net`，需要 `font-src https://cdn.jsdelivr.net`。这些动态导入无法使用 SRI，解析出的运行时也可能与已安装的 MathJax 不同；如需完全控制，请用自定义 `fontData` 与 `asyncLoad` 固定或自托管。同步入口仅支持 Node.js，不是浏览器回退方案。
+
 ## 字体与 TeX 包限制
 
-插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等；字体文件通过 MathJax 的动态字体加载器按需加载。
+插件内置 MathJax 的 NewCM 字体（`@mathjax/mathjax-newcm-font`）。标准数学变体可以直接使用：`\mathbb` 渲染为 double-struck（双线体）、`\mathcal` 为书法体、`\mathfrak` 为哥特体等。异步入口会在创建实例时预加载所选输出格式的动态字体文件：Node.js 从已安装的字体包读取，浏览器则从 unpkg 获取字体类与动态文件。字体 URL 使用已安装的字体包版本（无法读取其 manifest 时回退到 MathJax 版本）；运行时由 unpkg 的 `@latest` 重定向解析，可能更新。任一版本与插件的 MathJax 版本不同时，插件会给出警告。浏览器中 SVG 约需下载 10 MB 未压缩字体数据，CHTML 约 2.6 MB；`preloadDynamicFonts: false` 可跳过预加载，但动态字形需要已加载其文件的自定义加载器。同步入口则在 worker 中加载。
 
 内置字体不包含 `bbm`、`bboldx`、`dsfont` 这三个 TeX 包所需的字体扩展数据，因此这些包默认不启用：加载它们会用缺失的字体变体替换标准宏（如 `\mathbb`），在 `Invalid variant` 警告后回退为普通字形。即使通过 `tex.packages` 显式启用，`\mathbbm`、`\mathds` 等命令仍会因扩展数据缺失而告警并回退。
 
@@ -241,7 +253,7 @@ const md = new MarkdownIt().use(mathjax, {
 
 同步返回汇总所有已渲染公式的 CSS 内容，返回类型为 `string`。
 
-生成样式表前会按需加载字体文件，并会在返回后清空样式缓存，因此请在全部渲染完成后再调用。
+异步与同步入口都会在生成样式表前按需加载字体文件；异步入口在 `preloadDynamicFonts` 为 `false` 时跳过。返回后会清空样式缓存，因此请在全部渲染完成后再调用。
 
 @`reset` type=`() => void`
 
