@@ -1,5 +1,5 @@
-import { MarkdownExit } from "markdown-exit";
 /* oxlint-disable import/max-dependencies -- This contract imports every plugin on purpose. */
+import { MarkdownExit } from "markdown-exit";
 import MarkdownIt from "markdown-it";
 import type { Env, MarkdownIt as MarkdownItInstance } from "markdown-it";
 import { describe, expectTypeOf, it } from "vitest";
