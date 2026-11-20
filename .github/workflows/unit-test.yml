@@ -55,3 +55,22 @@ jobs:
           use_oidc: true
           files: ./coverage/cobertura-coverage.xml
           fail_ci_if_error: true
+
+  markdown-exit-compat:
+    name: Markdown-exit compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/setup@v3
+        with:
+          runtime: node@^24.22.1
+          require-lockfile: true
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Run tests against markdown-exit
+        run: pnpm run test:compat
