@@ -159,9 +159,9 @@ manifests are maintained by hand.
 ### Plugin Signatures
 
 Declare plugins as arrow functions and assert the universal types from `@mdit/helper`. The `as`
-assertion is type-only — it emits no runtime code, so plugins keep zero wrapper overhead. Annotate
-the parameters with markdown-it types; inside the callback `md` is `MarkdownIt`, so plugin code keeps
-full markdown-it typing.
+assertion is erased at compile time: it adds no wrapper call and no runtime helper import, only the
+parentheses required for the assertion. Annotate the parameters with markdown-it types; inside the
+callback `md` is `MarkdownIt`, so plugin code keeps full markdown-it typing.
 
 ```ts
 import type { UniversalPluginSimple, UniversalPluginWithOptions } from "@mdit/helper";
