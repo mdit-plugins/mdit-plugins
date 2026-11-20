@@ -23,7 +23,8 @@
     "test": "vitest run",
     "test:bench": "pnpm run bench:prepare && vitest bench",
     "test:compat": "vitest run --config vitest.compat.config.ts",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:types": "vitest run --typecheck.only"
   },
   "devDependencies": {
     "@codecov/bundle-analyzer": "2.0.1",

@@ -75,6 +75,7 @@ scripts are defined in `compare/package.json` and are invoked through the worksp
 | `pnpm run test:coverage`                  | Run unit tests with coverage; fails below the 100% thresholds  |
 | `pnpm run test:bench`                     | Prepare the benchmark baseline and run vitest benchmarks       |
 | `pnpm run test:compat`                    | Run unit tests with `markdown-exit` in place of `markdown-it`  |
+| `pnpm run test:types`                     | Type-check the plugins against both engines (Vitest typecheck) |
 | `pnpm run bench:prepare`                  | Build the current tree and the `origin/main` baseline worktree |
 | `pnpm run bench:clean`                    | Remove the benchmark baseline worktree                         |
 | `pnpm run lint`                           | Run oxlint + oxfmt with auto-fix                               |
@@ -105,13 +106,13 @@ All workflows live in `.github/workflows/` and use `pnpm/setup` with `require-lo
 unit tests run on Node.js 22, 24 and 26; the other workflows each set up a single Node.js runtime in
 their `runtime:` input.
 
-| Workflow          | Triggers                                | What it runs                                                                                                                                                                            |
-| ----------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job; also runs `test:compat` against `markdown-exit` |
-| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `bundle:analyze`, `lint:check`, `lint:md`                                                                                              |
-| `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                                                                          |
-| `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                                                                  |
-| `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                                                                                |
+| Workflow          | Triggers                                | What it runs                                                                                                                                                                              |
+| ----------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job; also runs the `test:compat` and `test:types` jobs |
+| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `bundle:analyze`, `lint:check`, `lint:md`                                                                                                |
+| `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                                                                            |
+| `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                                                                    |
+| `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                                                                                  |
 
 ## Package Structure
 
@@ -197,8 +198,8 @@ markdown-it typing. `PluginSimple` / `PluginWithOptions` remain the markdown-it-
 and are what `definePlugin` accepts. The katex and mathjax packages do not depend on `@mdit/helper`;
 they declare an equivalent engine-agnostic signature locally.
 
-`tests/markdown-exit-types.ts` is the compile-time contract: it installs every plugin on both
-engines, so a plugin that stops being engine-agnostic fails `pnpm run lint:check`.
+`tests/markdown-exit.spec-d.ts` is the type-test contract: it installs every plugin on both engines,
+so a plugin that stops being engine-agnostic fails `pnpm run test:types` (Vitest typecheck).
 
 **Naming**: Export the camelCase short package name (`advancedLinks`, `imgSize`, `inlineRule`,
 `tasklist`). Multi-variant packages export one const per variant (e.g. `bareEmoji`, `legacyImgSize`).
@@ -385,10 +386,11 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
   `tests/*.spec.ts` directory, never inside a single plugin package. They import plugin packages
   from source with relative paths (e.g. `../packages/plugin-dl/src/index.js`) and may rely on the
   root `markdown-it` devDependency.
-- `tests/markdown-exit-types.ts` is a compile-time-only contract (no `.spec` suffix, never executed):
-  it installs every plugin on both `markdown-it` and `markdown-exit`, and `pnpm run lint:check`
-  reports a type error if one stops being engine-agnostic. `pnpm run test:compat` runs the whole
-  test suite with `markdown-exit` aliased in place of `markdown-it`.
+- `tests/markdown-exit.spec-d.ts` is a type-test contract: it installs every plugin on both
+  `markdown-it` and `markdown-exit` and asserts the markdown-it plugin shape. Vitest runs it in
+  typecheck mode via `pnpm run test:types`, so a plugin that stops being engine-agnostic fails there.
+  `pnpm run test:compat` runs the whole test suite with `markdown-exit` aliased in place of
+  `markdown-it`.
 - Use `vitest` for testing.
 - Import the package under test from source with the `.js` extension:
   `import { pluginName } from "../src/index.js";` (subpaths such as `../src/plugin.js` are fine).
@@ -429,6 +431,9 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
   `**/node_modules/**`, `**/dist/**` and `temp/**` for both tests and benchmarks.
 - **Aliases**: the root config aliases `@deflate` to the Node.js plantuml implementation; each
   package build aliases it per platform.
+- **Typecheck**: `test.typecheck.include` covers `tests/**/*.spec-d.ts`; `pnpm run test:types`
+  (`vitest run --typecheck.only`) runs only those type tests, using the root `tsconfig.json` with the
+  `tsc` checker.
 
 ## Release Workflow
 
