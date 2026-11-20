@@ -1,6 +1,6 @@
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { UniversalPluginWithOptions } from "@mdit/helper";
-import type { StateCore } from "markdown-it";
+import type { MarkdownIt, StateCore } from "markdown-it";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorEnv, AnchorOptions, ResolvedAnchorOptions } from "./options.js";
@@ -17,81 +17,81 @@ const DEFAULTS = {
   uniqueSlugStartIndex: 1,
 };
 
-export const anchor: UniversalPluginWithOptions<AnchorOptions> = definePlugin<AnchorOptions>(
-  "anchor",
-  (md, options = {}): void => {
-    // Repeated installation would run the anchor rule twice; the second pass sees the ids
-    // written by the first one and throws on non-unique slugs.
-    if (hasRule(md, "anchor", "core")) return;
+export const anchor: UniversalPluginWithOptions<AnchorOptions> = ((
+  md: MarkdownIt,
+  options: AnchorOptions = {},
+): void => {
+  // Repeated installation would run the anchor rule twice; the second pass sees the ids
+  // written by the first one and throws on non-unique slugs.
+  if (hasRule(md, "anchor", "core")) return;
 
-    const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
+  const resolvedOptions = Object.assign({}, DEFAULTS, options) as ResolvedAnchorOptions;
 
-    const {
-      defaultPlaceHolder,
-      level,
-      slugify,
-      slugifyWithState,
-      uniqueSlugStartIndex,
-      tabIndex,
-      getTokensText,
-      permalink,
-      callback,
-    } = resolvedOptions;
+  const {
+    defaultPlaceHolder,
+    level,
+    slugify,
+    slugifyWithState,
+    uniqueSlugStartIndex,
+    tabIndex,
+    getTokensText,
+    permalink,
+    callback,
+  } = resolvedOptions;
 
-    md.core.ruler.push("anchor", (state: StateCore): void => {
-      const env = (state.env.markdownItAnchor ??= {}) as AnchorEnv;
+  md.core.ruler.push("anchor", (state: StateCore): void => {
+    const env = (state.env.markdownItAnchor ??= {}) as AnchorEnv;
 
-      const slugs = (env.slugs ??= {});
-      const { tokens } = state;
-      // Per-render cache of the next free duplicate index for each slug, so a
-      // long duplicate chain is scanned once instead of once per heading.
-      const nextSlugIndices = new Map<string, number>();
+    const slugs = (env.slugs ??= {});
+    const { tokens } = state;
+    // Per-render cache of the next free duplicate index for each slug, so a
+    // long duplicate chain is scanned once instead of once per heading.
+    const nextSlugIndices = new Map<string, number>();
 
-      const isLevelSelected = Array.isArray(level)
-        ? isLevelSelectedArray(level)
-        : isLevelSelectedNumber(level);
+    const isLevelSelected = Array.isArray(level)
+      ? isLevelSelectedArray(level)
+      : isLevelSelectedNumber(level);
 
-      for (let index = 0; index < tokens.length; index++) {
-        const token = tokens[index];
+    for (let index = 0; index < tokens.length; index++) {
+      const token = tokens[index];
 
-        if (token.type !== "heading_open") continue;
+      if (token.type !== "heading_open") continue;
 
-        if (!isLevelSelected(Number(token.tag.slice(1)))) continue;
+      if (!isLevelSelected(Number(token.tag.slice(1)))) continue;
 
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        const title = getTokensText(tokens[index + 1].children!);
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      const title = getTokensText(tokens[index + 1].children!);
 
-        let slug = token.attrGet("id") as string | null;
+      let slug = token.attrGet("id") as string | null;
 
-        if (slug == null) {
-          slug = slugifyWithState ? slugifyWithState(title, state) : slugify(title);
+      if (slug == null) {
+        slug = slugifyWithState ? slugifyWithState(title, state) : slugify(title);
 
-          // Fall back to a stable placeholder when the slug is empty
-          // (e.g. image-only or empty headings) to avoid invalid empty ids
-          if (!slug) slug = defaultPlaceHolder || DEFAULT_PLACE_HOLDER;
+        // Fall back to a stable placeholder when the slug is empty
+        // (e.g. image-only or empty headings) to avoid invalid empty ids
+        if (!slug) slug = defaultPlaceHolder || DEFAULT_PLACE_HOLDER;
 
-          slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex, nextSlugIndices);
-        } else {
-          slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex, nextSlugIndices);
-        }
-
-        token.attrSet("id", slug);
-
-        if (tabIndex !== false) token.attrSet("tabindex", `${tabIndex}`);
-
-        if (typeof permalink === "function") {
-          permalink(slug, resolvedOptions, state, index);
-
-          // A permalink renderer could modify the `tokens` array so make sure to
-          // get the up-to-date index on each iteration. Checking the current
-          // position first avoids an O(n) `indexOf` scan for the common case
-          // where the renderer only rewrites token children.
-          if (tokens[index] !== token) index = tokens.indexOf(token);
-        }
-
-        // oxlint-disable-next-line promise/prefer-await-to-callbacks
-        if (callback) callback(token, { slug, title });
+        slug = uniqueSlug(slug, slugs, false, uniqueSlugStartIndex, nextSlugIndices);
+      } else {
+        slug = uniqueSlug(slug, slugs, true, uniqueSlugStartIndex, nextSlugIndices);
       }
-    });
-  },
-);
+
+      token.attrSet("id", slug);
+
+      if (tabIndex !== false) token.attrSet("tabindex", `${tabIndex}`);
+
+      if (typeof permalink === "function") {
+        permalink(slug, resolvedOptions, state, index);
+
+        // A permalink renderer could modify the `tokens` array so make sure to
+        // get the up-to-date index on each iteration. Checking the current
+        // position first avoids an O(n) `indexOf` scan for the common case
+        // where the renderer only rewrites token children.
+        if (tokens[index] !== token) index = tokens.indexOf(token);
+      }
+
+      // oxlint-disable-next-line promise/prefer-await-to-callbacks
+      if (callback) callback(token, { slug, title });
+    }
+  });
+}) as UniversalPluginWithOptions<AnchorOptions>;

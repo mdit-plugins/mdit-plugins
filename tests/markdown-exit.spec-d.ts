@@ -102,6 +102,12 @@ describe("markdown-exit type compatibility", () => {
     markdownExit.use(attrs, { rule: "all" });
   });
 
+  it("rejects invalid plugin options", () => {
+    expectTypeOf(attrs).toBeFunction();
+    // @ts-expect-error `rule` only accepts the documented values
+    md.use(attrs, { rule: "invalid" });
+  });
+
   it("cjkBreaks", () => {
     expectTypeOf(cjkBreaks).toExtend<MarkdownItPlugin>();
     md.use(cjkBreaks);

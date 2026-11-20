@@ -1,6 +1,6 @@
-import { definePlugin, escapeHtml, hasRule, scanFence } from "@mdit/helper";
+import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, CoreRule, TokenMeta, UniversalPluginWithOptions } from "@mdit/helper";
-import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
+import type { Env, MarkdownIt, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
@@ -484,102 +484,104 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
   };
 };
 
-export const tab: UniversalPluginWithOptions<MarkdownItTabOptions> =
-  definePlugin<MarkdownItTabOptions>("tab", (md, options) => {
-    const renderTabTitle = (title: string, env: Env | undefined): string => {
-      for (let i = 0; i < title.length; i++) {
-        const code = title.charCodeAt(i);
+export const tab: UniversalPluginWithOptions<MarkdownItTabOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItTabOptions,
+) => {
+  const renderTabTitle = (title: string, env: Env | undefined): string => {
+    for (let i = 0; i < title.length; i++) {
+      const code = title.charCodeAt(i);
 
-        // Non-ASCII text never matches a built-in inline rule
-        if (code < 128 && INLINE_MARKUP[code] === 1) return md.renderInline(title, env);
-      }
+      // Non-ASCII text never matches a built-in inline rule
+      if (code < 128 && INLINE_MARKUP[code] === 1) return md.renderInline(title, env);
+    }
 
-      // Plain text is escaped as a whole by the inline parser, and no escaped character is left
-      return title;
-    };
+    // Plain text is escaped as a whole by the inline parser, and no escaped character is left
+    return title;
+  };
 
-    const {
-      name = "tabs",
+  const {
+    name = "tabs",
 
-      openRenderer = (
-        info: MarkdownItTabInfo,
-        _tokens: Token[],
-        _index: number,
-        _options: Required<MarkdownItOptions>,
-        env: Env | undefined,
-      ): string => {
-        const { active, data, id: containerId } = info;
+    openRenderer = (
+      info: MarkdownItTabInfo,
+      _tokens: Token[],
+      _index: number,
+      _options: Required<MarkdownItOptions>,
+      env: Env | undefined,
+    ): string => {
+      const { active, data, id: containerId } = info;
 
-        const tabs = data.map(
-          ({ title, id }, dataIndex) =>
-            `<button type="button" class="${name}-tab-button${
-              active === dataIndex ? " active" : ""
-            }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
-              active === dataIndex ? " data-active" : ""
-            }>${renderTabTitle(title, env)}</button>`,
-        );
+      const tabs = data.map(
+        ({ title, id }, dataIndex) =>
+          `<button type="button" class="${name}-tab-button${
+            active === dataIndex ? " active" : ""
+          }" data-tab="${dataIndex}"${id ? ` data-id="${escapeHtml(id)}"` : ""}${
+            active === dataIndex ? " data-active" : ""
+          }>${renderTabTitle(title, env)}</button>`,
+      );
 
-        return `\
+      return `\
 <div class="${name}-tabs-wrapper"${
-          containerId ? ` data-id="${md.utils.escapeHtml(containerId)}"` : ""
-        }>
+        containerId ? ` data-id="${md.utils.escapeHtml(containerId)}"` : ""
+      }>
   <div class="${name}-tabs-header">
     ${tabs.join("\n    ")}
   </div>
   <div class="${name}-tabs-container">
 `;
-      },
+    },
 
-      closeRenderer = (): string => `\
+    closeRenderer = (): string => `\
   </div>
 </div>
 `,
 
-      tabOpenRenderer = (info: MarkdownItTabData): string => {
-        const { index, id, isActive } = info;
+    tabOpenRenderer = (info: MarkdownItTabData): string => {
+      const { index, id, isActive } = info;
 
-        return `\
+      return `\
 <div class="${name}-tab-content${isActive ? " active" : ""}" data-index="${index}"${
-          id ? ` data-id="${md.utils.escapeHtml(id)}"` : ""
-        }${isActive ? ' data-active=""' : ""}>
+        id ? ` data-id="${md.utils.escapeHtml(id)}"` : ""
+      }${isActive ? ' data-active=""' : ""}>
 `;
-      },
+    },
 
-      tabCloseRenderer = (): string => `\
+    tabCloseRenderer = (): string => `\
 </div>
 `,
-    } = options ?? {};
+  } = options ?? {};
 
-    // Repeated installation of the same configuration must not register the rules twice.
-    if (hasRule(md, `${name}_tabs`, "block")) return;
+  // Repeated installation of the same configuration must not register the rules twice.
+  if (hasRule(md, `${name}_tabs`, "block")) return;
 
-    const tabsCoreRule = createTabsCoreRule(name);
+  const tabsCoreRule = createTabsCoreRule(name);
 
-    md.block.ruler.before("fence", `${name}_tabs`, createTabContainerRule(name), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-
-    md.block.ruler.before("paragraph", `${name}_tab`, createTabItemRule(name), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-
-    md.core.ruler.push(`${name}_tabs_core`, tabsCoreRule);
-
-    md.renderer.rules[`${name}_tabs_open`] = (tokens, index, mdItOptions, env, self): string => {
-      // Fall back to an empty tab list if the tokens were not processed by the core rule
-      const meta = tokens[index].meta as TabContainerMeta;
-      const info: MarkdownItTabInfo = meta.tabsData ?? { active: -1, data: [], id: meta.id };
-
-      return openRenderer(info, tokens, index, mdItOptions, env, self);
-    };
-
-    md.renderer.rules[`${name}_tabs_close`] = closeRenderer;
-
-    md.renderer.rules[`${name}_tab_open`] = (tokens, index, mdItOptions, env, self): string => {
-      const data = tabDataGetter(tokens, index);
-
-      return tabOpenRenderer(data, tokens, index, mdItOptions, env, self);
-    };
-
-    md.renderer.rules[`${name}_tab_close`] = tabCloseRenderer;
+  md.block.ruler.before("fence", `${name}_tabs`, createTabContainerRule(name), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
   });
+
+  md.block.ruler.before("paragraph", `${name}_tab`, createTabItemRule(name), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
+
+  md.core.ruler.push(`${name}_tabs_core`, tabsCoreRule);
+
+  md.renderer.rules[`${name}_tabs_open`] = (tokens, index, mdItOptions, env, self): string => {
+    // Fall back to an empty tab list if the tokens were not processed by the core rule
+    const meta = tokens[index].meta as TabContainerMeta;
+    const info: MarkdownItTabInfo = meta.tabsData ?? { active: -1, data: [], id: meta.id };
+
+    return openRenderer(info, tokens, index, mdItOptions, env, self);
+  };
+
+  md.renderer.rules[`${name}_tabs_close`] = closeRenderer;
+
+  md.renderer.rules[`${name}_tab_open`] = (tokens, index, mdItOptions, env, self): string => {
+    const data = tabDataGetter(tokens, index);
+
+    return tabOpenRenderer(data, tokens, index, mdItOptions, env, self);
+  };
+
+  md.renderer.rules[`${name}_tab_close`] = tabCloseRenderer;
+}) as UniversalPluginWithOptions<MarkdownItTabOptions>;

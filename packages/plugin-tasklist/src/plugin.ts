@@ -1,8 +1,8 @@
 /** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
 import { isInlineToken, isListItemToken, isParagraphToken, setTokenAttr } from "./utils.js";
@@ -59,86 +59,84 @@ const removeTodoMarker = (children: Token[]): void => {
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Task list options / 任务列表选项
  */
-export const tasklist: UniversalPluginWithOptions<MarkdownItTaskListOptions> =
-  definePlugin<MarkdownItTaskListOptions>("tasklist", (md, options = {}) => {
-    // Registering the core rule twice would wrap the same inline token again, producing nested
-    // labels and duplicated checkboxes.
-    if (hasRule(md, "task_list", "core")) return;
+export const tasklist: UniversalPluginWithOptions<MarkdownItTaskListOptions> = ((
+  md: MarkdownIt,
+  options: MarkdownItTaskListOptions = {},
+) => {
+  // Registering the core rule twice would wrap the same inline token again, producing nested
+  // labels and duplicated checkboxes.
+  if (hasRule(md, "task_list", "core")) return;
 
-    const {
-      disabled = true,
-      label = true,
-      containerClass = "task-list-container",
-      itemClass = "task-list-item",
-      checkboxClass = "task-list-item-checkbox",
-      labelClass = "task-list-item-label",
-    } = options;
+  const {
+    disabled = true,
+    label = true,
+    containerClass = "task-list-container",
+    itemClass = "task-list-item",
+    checkboxClass = "task-list-item-checkbox",
+    labelClass = "task-list-item-label",
+  } = options;
 
-    const taskListRule: CoreRule = (state) => {
-      const tokens = state.tokens;
-      // Index of the nearest preceding token for every nesting level. The parent list token of a list
-      // item is the nearest preceding token one level up, so tracking it while walking forward once
-      // keeps the parent lookup O(1) instead of rescanning the token list for every task item.
-      const lastIndexByLevel: number[] = [];
+  const taskListRule: CoreRule = (state) => {
+    const tokens = state.tokens;
+    // Index of the nearest preceding token for every nesting level. The parent list token of a list
+    // item is the nearest preceding token one level up, so tracking it while walking forward once
+    // keeps the parent lookup O(1) instead of rescanning the token list for every task item.
+    const lastIndexByLevel: number[] = [];
 
-      for (let index = 0; index < tokens.length; index++) {
-        const token = tokens[index];
+    for (let index = 0; index < tokens.length; index++) {
+      const token = tokens[index];
 
-        lastIndexByLevel[token.level] = index;
+      lastIndexByLevel[token.level] = index;
 
-        // check if the token is an inline token inside a list item and starts with todo markdown
-        if (
-          index < 2 ||
-          !isInlineToken(token) ||
-          !isParagraphToken(tokens[index - 1]) ||
-          !isListItemToken(tokens[index - 2])
-        )
-          continue;
+      // check if the token is an inline token inside a list item and starts with todo markdown
+      if (
+        index < 2 ||
+        !isInlineToken(token) ||
+        !isParagraphToken(tokens[index - 1]) ||
+        !isListItemToken(tokens[index - 2])
+      )
+        continue;
 
-        const todoState = startsWithTodoMarkdown(token);
+      const todoState = startsWithTodoMarkdown(token);
 
-        if (todoState === false) continue;
+      if (todoState === false) continue;
 
-        token.children ??= [];
+      token.children ??= [];
 
-        // remove the checkbox syntax letter
-        removeTodoMarker(token.children);
+      // remove the checkbox syntax letter
+      removeTodoMarker(token.children);
 
-        const checkboxToken = new state.Token("checkbox_input", "input", 0);
+      const checkboxToken = new state.Token("checkbox_input", "input", 0);
 
-        // No `id`/`for` attributes are emitted: ids are per document and would collide when multiple
-        // documents are rendered on the same page. Nesting the input inside the label keeps the
-        // native label/checkbox association without any document-scoped identifier.
-        checkboxToken.attrs = [
-          ["type", "checkbox"],
-          ["class", checkboxClass],
-        ];
+      // No `id`/`for` attributes are emitted: ids are per document and would collide when multiple
+      // documents are rendered on the same page. Nesting the input inside the label keeps the
+      // native label/checkbox association without any document-scoped identifier.
+      checkboxToken.attrs = [
+        ["type", "checkbox"],
+        ["class", checkboxClass],
+      ];
 
-        // if token.content starts with '[x] ' or '[X] '
-        if (todoState === "checked") checkboxToken.attrs.push(["checked", "checked"]);
+      // if token.content starts with '[x] ' or '[X] '
+      if (todoState === "checked") checkboxToken.attrs.push(["checked", "checked"]);
 
-        if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
+      if (disabled) checkboxToken.attrs.push(["disabled", "disabled"]);
 
-        // checkbox, placed before the label is unshifted so that it ends up inside the label
-        token.children.unshift(checkboxToken);
+      // checkbox, placed before the label is unshifted so that it ends up inside the label
+      token.children.unshift(checkboxToken);
 
-        if (label) {
-          const labelToken = new state.Token("label_open", "label", 1);
+      if (label) {
+        const labelToken = new state.Token("label_open", "label", 1);
 
-          labelToken.attrs = [["class", labelClass]];
+        labelToken.attrs = [["class", labelClass]];
 
-          token.children.unshift(labelToken);
-          token.children.push(new state.Token("label_close", "label", -1));
-        }
-
-        setTokenAttr(tokens[index - 2], "class", itemClass);
-        setTokenAttr(
-          tokens[lastIndexByLevel[tokens[index - 2].level - 1]],
-          "class",
-          containerClass,
-        );
+        token.children.unshift(labelToken);
+        token.children.push(new state.Token("label_close", "label", -1));
       }
-    };
 
-    md.core.ruler.after("inline", "task_list", taskListRule);
-  });
+      setTokenAttr(tokens[index - 2], "class", itemClass);
+      setTokenAttr(tokens[lastIndexByLevel[tokens[index - 2].level - 1]], "class", containerClass);
+    }
+  };
+
+  md.core.ruler.after("inline", "task_list", taskListRule);
+}) as UniversalPluginWithOptions<MarkdownItTaskListOptions>;

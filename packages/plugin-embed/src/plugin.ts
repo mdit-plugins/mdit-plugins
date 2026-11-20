@@ -1,4 +1,4 @@
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt } from "markdown-it";
 
@@ -195,73 +195,75 @@ const createBlockEmbedRule =
     return true;
   };
 
-export const embed: UniversalPluginWithOptions<MarkdownItEmbedOptions> =
-  definePlugin<MarkdownItEmbedOptions>("embed", (md, options) => {
-    if (typeof options !== "object" || options == null || !Array.isArray(options.config))
-      throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
+export const embed: UniversalPluginWithOptions<MarkdownItEmbedOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItEmbedOptions,
+) => {
+  if (typeof options !== "object" || options == null || !Array.isArray(options.config))
+    throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
 
-    // Get existing maps or create new ones to support multiple plugin instances
-    const mdWithMaps = md as MarkdownIt & {
-      __embedMap?: Map<string, EmbedConfig>;
-      __inlineEmbedMap?: Map<string, EmbedConfig>;
-    };
+  // Get existing maps or create new ones to support multiple plugin instances
+  const mdWithMaps = md as MarkdownIt & {
+    __embedMap?: Map<string, EmbedConfig>;
+    __inlineEmbedMap?: Map<string, EmbedConfig>;
+  };
 
-    // oxlint-disable-next-line no-underscore-dangle
-    const embedMap = (mdWithMaps.__embedMap ??= new Map<string, EmbedConfig>());
-    // oxlint-disable-next-line no-underscore-dangle
-    const inlineEmbedMap = (mdWithMaps.__inlineEmbedMap ??= new Map<string, EmbedConfig>());
+  // oxlint-disable-next-line no-underscore-dangle
+  const embedMap = (mdWithMaps.__embedMap ??= new Map<string, EmbedConfig>());
+  // oxlint-disable-next-line no-underscore-dangle
+  const inlineEmbedMap = (mdWithMaps.__inlineEmbedMap ??= new Map<string, EmbedConfig>());
 
-    options.config.forEach((item) => {
-      embedMap.set(item.name, item);
-      // Inline embeds are only supported when allowInline is true
-      if (item.allowInline) inlineEmbedMap.set(item.name, item);
-      // Drop any inline entry left by a previous installation of the same name
-      else inlineEmbedMap.delete(item.name);
+  options.config.forEach((item) => {
+    embedMap.set(item.name, item);
+    // Inline embeds are only supported when allowInline is true
+    if (item.allowInline) inlineEmbedMap.set(item.name, item);
+    // Drop any inline entry left by a previous installation of the same name
+    else inlineEmbedMap.delete(item.name);
+  });
+
+  // Repeated installation must not register the rules twice; a differing configuration keeps
+  // the first installation's parse rules (renderers are still refreshed).
+  if (!hasRule(md, "embed_block", "block")) {
+    // Register the block rule
+    md.block.ruler.before("paragraph", "embed_block", createBlockEmbedRule(embedMap), {
+      alt: ["paragraph", "reference", "blockquote", "list"],
     });
+  }
 
-    // Repeated installation must not register the rules twice; a differing configuration keeps
-    // the first installation's parse rules (renderers are still refreshed).
-    if (!hasRule(md, "embed_block", "block")) {
-      // Register the block rule
-      md.block.ruler.before("paragraph", "embed_block", createBlockEmbedRule(embedMap), {
-        alt: ["paragraph", "reference", "blockquote", "list"],
-      });
+  if (!("embed_block" in md.renderer.rules)) {
+    // Register the block renderer
+    md.renderer.rules.embed_block = (tokens, index): string => {
+      const token = tokens[index];
+
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      return embedMap.get(token.info)!.setup(token.content, false);
+    };
+  }
+
+  // only register embed_inline rules if inline embeds are allowed
+  if (inlineEmbedMap.size > 0) {
+    if (!hasRule(md, "embed_inline", "inline")) {
+      // Register the inline rule
+      md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
     }
 
-    if (!("embed_block" in md.renderer.rules)) {
-      // Register the block renderer
-      md.renderer.rules.embed_block = (tokens, index): string => {
+    if (!("embed_inline" in md.renderer.rules)) {
+      md.renderer.rules.embed_inline = (tokens, index): string => {
         const token = tokens[index];
+        const config = inlineEmbedMap.get(token.info);
 
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        return embedMap.get(token.info)!.setup(token.content, false);
+        // `config` can be missing when tokens were parsed before a later
+        // installation dropped the inline entry: render the source literally
+        // instead of crashing. Rendering a stale token stream is harmless as long
+        // as the text is escaped.
+        if (!config) {
+          return md.utils.escapeHtml(
+            `{% ${token.info}${token.content ? ` ${token.content}` : ""} %}`,
+          );
+        }
+
+        return config.setup(token.content, true);
       };
     }
-
-    // only register embed_inline rules if inline embeds are allowed
-    if (inlineEmbedMap.size > 0) {
-      if (!hasRule(md, "embed_inline", "inline")) {
-        // Register the inline rule
-        md.inline.ruler.before("emphasis", "embed_inline", createInlineEmbedRule(inlineEmbedMap));
-      }
-
-      if (!("embed_inline" in md.renderer.rules)) {
-        md.renderer.rules.embed_inline = (tokens, index): string => {
-          const token = tokens[index];
-          const config = inlineEmbedMap.get(token.info);
-
-          // `config` can be missing when tokens were parsed before a later
-          // installation dropped the inline entry: render the source literally
-          // instead of crashing. Rendering a stale token stream is harmless as long
-          // as the text is escaped.
-          if (!config) {
-            return md.utils.escapeHtml(
-              `{% ${token.info}${token.content ? ` ${token.content}` : ""} %}`,
-            );
-          }
-
-          return config.setup(token.content, true);
-        };
-      }
-    }
-  });
+  }
+}) as UniversalPluginWithOptions<MarkdownItEmbedOptions>;

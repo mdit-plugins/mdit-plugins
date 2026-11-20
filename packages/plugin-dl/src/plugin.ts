@@ -1,8 +1,8 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-deflist/blob/master/index.mjs */
 
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, UniversalPluginSimple } from "@mdit/helper";
-import type { StateBlock } from "markdown-it";
+import type { MarkdownIt, StateBlock } from "markdown-it";
 
 // Search `[:~][\n ]`, returns next pos after marker on success
 // or -1 on fail.
@@ -206,7 +206,7 @@ const dlRule: BlockRule = (state, startLine, endLine, silent) => {
   return true;
 };
 
-export const dl: UniversalPluginSimple = definePlugin("dl", (md) => {
+export const dl: UniversalPluginSimple = ((md: MarkdownIt) => {
   // Repeated installation must not register the rule twice; a differing configuration keeps
   // the first installation's parse rule (renderers are still refreshed).
   if (!hasRule(md, "dl", "block")) {
@@ -214,4 +214,4 @@ export const dl: UniversalPluginSimple = definePlugin("dl", (md) => {
       alt: ["paragraph", "reference", "blockquote"],
     });
   }
-});
+}) as UniversalPluginSimple;

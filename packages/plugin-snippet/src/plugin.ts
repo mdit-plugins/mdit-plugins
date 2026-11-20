@@ -1,8 +1,9 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { readFileSync, statSync } from "node:fs";
 
-import { NEWLINE_RE, dedent, definePlugin, hasRule } from "@mdit/helper";
+import { NEWLINE_RE, dedent, hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 import { dirname, extname, resolve } from "upath";
 
 import type { CachedSnippetFile, SnippetCache } from "./cache.js";
@@ -205,77 +206,79 @@ const createSnippetRule =
 
 const defaultPathResolver = (filePath: string): string => filePath;
 
-export const snippet: UniversalPluginWithOptions<MarkdownItSnippetOptions> =
-  definePlugin<MarkdownItSnippetOptions>("snippet", (md, options) => {
-    const {
-      currentPath,
-      resolvePath = defaultPathResolver,
-      allowOutsideRoot = false,
-      projectRoot,
-      denyFiles,
-    } = options ?? {};
+export const snippet: UniversalPluginWithOptions<MarkdownItSnippetOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItSnippetOptions,
+) => {
+  const {
+    currentPath,
+    resolvePath = defaultPathResolver,
+    allowOutsideRoot = false,
+    projectRoot,
+    denyFiles,
+  } = options ?? {};
 
-    if (typeof currentPath !== "function")
-      throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
+  if (typeof currentPath !== "function")
+    throw new TypeError('[@mdit/plugin-snippet]: "currentPath" is required');
 
-    // A second installation must not register the block rule or wrap the fence renderer twice. As
-    // with the other guarded plugins, the first installation's options (including the security
-    // checker) stay in effect for repeated installations.
-    if (hasRule(md, "snippet", "block")) return;
+  // A second installation must not register the block rule or wrap the fence renderer twice. As
+  // with the other guarded plugins, the first installation's options (including the security
+  // checker) stay in effect for repeated installations.
+  if (hasRule(md, "snippet", "block")) return;
 
-    const checkSecurity = createSecurityChecker({
-      allowOutsideRoot,
-      projectRoot,
-      denyFiles,
-    });
+  const checkSecurity = createSecurityChecker({
+    allowOutsideRoot,
+    projectRoot,
+    denyFiles,
+  });
 
-    md.core.ruler.before("normalize", "snippet_security_cache", resetSnippetSecurityCache);
+  md.core.ruler.before("normalize", "snippet_security_cache", resetSnippetSecurityCache);
 
-    md.block.ruler.before(
-      "fence",
-      "snippet",
-      createSnippetRule(currentPath, resolvePath, checkSecurity),
-    );
+  md.block.ruler.before(
+    "fence",
+    "snippet",
+    createSnippetRule(currentPath, resolvePath, checkSecurity),
+  );
 
-    const originalFence = md.renderer.rules.fence;
+  const originalFence = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
-      const token = tokens[index];
-      const snippetEnv = env as SnippetEnv;
-      const { src, region, requestedPath } = (token.meta ??= {}) as {
-        src: string;
-        region: string;
-        requestedPath?: string;
-      };
+  md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
+    const token = tokens[index];
+    const snippetEnv = env as SnippetEnv;
+    const { src, region, requestedPath } = (token.meta ??= {}) as {
+      src: string;
+      region: string;
+      requestedPath?: string;
+    };
 
-      if (src) {
-        const cache = getSnippetCache(snippetEnv);
+    if (src) {
+      const cache = getSnippetCache(snippetEnv);
 
-        // Re-validate at the actual read site: a custom token can carry `meta.src`
-        // without going through the snippet block rule.
-        checkSecurity(requestedPath ?? src, src, cache.security);
+      // Re-validate at the actual read site: a custom token can carry `meta.src`
+      // without going through the snippet block rule.
+      checkSecurity(requestedPath ?? src, src, cache.security);
 
-        try {
-          // `statSync` follows symbolic links, so symlinked snippet files are
-          // resolved like regular files.
-          const file = readSnippetFile(src, cache);
+      try {
+        // `statSync` follows symbolic links, so symlinked snippet files are
+        // resolved like regular files.
+        const file = readSnippetFile(src, cache);
 
-          if (file) {
-            token.content = region ? getRegionContent(file, region) : file.content;
+        if (file) {
+          token.content = region ? getRegionContent(file, region) : file.content;
 
-            (snippetEnv.snippetFiles ??= []).push(src);
-          } else {
-            token.content = `Unable to find snippet: ${src}`;
-            token.info = "";
-          }
-        } catch {
-          // an unreadable file or directory (e.g. EACCES) should not crash the
-          // whole render; degrade to a "Failed to read snippet" result instead
-          token.content = `Failed to read snippet: ${src}`;
+          (snippetEnv.snippetFiles ??= []).push(src);
+        } else {
+          token.content = `Unable to find snippet: ${src}`;
           token.info = "";
         }
+      } catch {
+        // an unreadable file or directory (e.g. EACCES) should not crash the
+        // whole render; degrade to a "Failed to read snippet" result instead
+        token.content = `Failed to read snippet: ${src}`;
+        token.info = "";
       }
+    }
 
-      return originalFence(tokens, index, mdItOptions, env, self);
-    };
-  });
+    return originalFence(tokens, index, mdItOptions, env, self);
+  };
+}) as UniversalPluginWithOptions<MarkdownItSnippetOptions>;

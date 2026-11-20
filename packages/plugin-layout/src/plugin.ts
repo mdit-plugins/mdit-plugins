@@ -1,5 +1,6 @@
-import { definePlugin, escapeHtml, hasRule, scanFence } from "@mdit/helper";
+import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
 import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN, layoutKey } from "./constant.js";
 import { detectDirective, parseAttributes } from "./directive.js";
@@ -276,83 +277,83 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
   return true;
 };
 
-export const layout: UniversalPluginWithOptions<MarkdownItLayoutOptions> =
-  definePlugin<MarkdownItLayoutOptions>("layout", (md, options) => {
-    const { inlineStyles = true } = options ?? {};
+export const layout: UniversalPluginWithOptions<MarkdownItLayoutOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItLayoutOptions,
+) => {
+  const { inlineStyles = true } = options ?? {};
 
-    // Repeated installation is a full no-op: both block rules and the renderers are
-    // registered together, so the first installation's options always win.
-    if (hasRule(md, "layout_container", "block")) return;
+  // Repeated installation is a full no-op: both block rules and the renderers are
+  // registered together, so the first installation's options always win.
+  if (hasRule(md, "layout_container", "block")) return;
 
-    md.block.ruler.before("fence", "layout_container", getContainerRule(), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-
-    md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-
-    // Resolved utilities and warned names are cached for this installation
-    const utilityCache: UtilityCache = { styles: new Map(), warned: new Set() };
-
-    // Container open renderer
-    md.renderer.rules.layout_container_open = (tokens, index): string => {
-      const token = tokens[index];
-      const meta = token.meta as LayoutMeta;
-      const attrs: string[] = [];
-      const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
-
-      if (inlineStyles) {
-        const style = buildStyleString(meta.utilities, baseDisplay, utilityCache);
-
-        if (style) attrs.push(`style="${style}"`);
-        if (meta.classes.length > 0)
-          attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
-      } else {
-        if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
-
-        if (meta.classes.length > 0 || meta.utilities.length > 0)
-          attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
-      }
-
-      if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
-
-      return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
-    };
-
-    // Container close renderer
-    md.renderer.rules.layout_container_close = (): string => "</div>\n";
-
-    // Item open renderer
-    md.renderer.rules.layout_item_open = (tokens, index): string => {
-      const token = tokens[index];
-      const meta = token.meta as LayoutMeta;
-      const attrs: string[] = [];
-
-      if (inlineStyles) {
-        const styleParts: string[] = [];
-
-        if (meta.type === LAYOUT_COLUMN && meta.classes.includes("span-all"))
-          styleParts.push("column-span:all");
-
-        for (let idx = 0; idx < meta.utilities.length; idx++) {
-          const style = resolveUtility(meta.utilities[idx], utilityCache);
-
-          if (style) styleParts.push(style);
-        }
-
-        if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
-        if (meta.classes.length > 0)
-          attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
-      } else if (meta.classes.length > 0 || meta.utilities.length > 0) {
-        attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
-      }
-
-      if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
-
-      return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
-    };
-
-    // Item close renderer
-    md.renderer.rules.layout_item_close = (): string => "</div>\n";
+  md.block.ruler.before("fence", "layout_container", getContainerRule(), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
   });
+
+  md.block.ruler.before("paragraph", "layout_item", getItemRule(), {
+    alt: ["paragraph", "reference", "blockquote", "list"],
+  });
+
+  // Resolved utilities and warned names are cached for this installation
+  const utilityCache: UtilityCache = { styles: new Map(), warned: new Set() };
+
+  // Container open renderer
+  md.renderer.rules.layout_container_open = (tokens, index): string => {
+    const token = tokens[index];
+    const meta = token.meta as LayoutMeta;
+    const attrs: string[] = [];
+    const baseDisplay = CONTAINER_DISPLAY[meta.type] ?? "";
+
+    if (inlineStyles) {
+      const style = buildStyleString(meta.utilities, baseDisplay, utilityCache);
+
+      if (style) attrs.push(`style="${style}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
+    } else {
+      if (baseDisplay) attrs.push(`style="${baseDisplay}"`);
+
+      if (meta.classes.length > 0 || meta.utilities.length > 0)
+        attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
+    }
+
+    if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
+
+    return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
+  };
+
+  // Container close renderer
+  md.renderer.rules.layout_container_close = (): string => "</div>\n";
+
+  // Item open renderer
+  md.renderer.rules.layout_item_open = (tokens, index): string => {
+    const token = tokens[index];
+    const meta = token.meta as LayoutMeta;
+    const attrs: string[] = [];
+
+    if (inlineStyles) {
+      const styleParts: string[] = [];
+
+      if (meta.type === LAYOUT_COLUMN && meta.classes.includes("span-all"))
+        styleParts.push("column-span:all");
+
+      for (let idx = 0; idx < meta.utilities.length; idx++) {
+        const style = resolveUtility(meta.utilities[idx], utilityCache);
+
+        if (style) styleParts.push(style);
+      }
+
+      if (styleParts.length > 0) attrs.push(`style="${styleParts.join(";")}"`);
+      if (meta.classes.length > 0) attrs.push(`class="${escapeAttribute(meta.classes.join(" "))}"`);
+    } else if (meta.classes.length > 0 || meta.utilities.length > 0) {
+      attrs.push(`class="${escapeAttribute(joinClassNames(meta.classes, meta.utilities))}"`);
+    }
+
+    if (meta.id) attrs.push(`id="${escapeAttribute(meta.id)}"`);
+
+    return `<div${attrs.length > 0 ? ` ${attrs.join(" ")}` : ""}>\n`;
+  };
+
+  // Item close renderer
+  md.renderer.rules.layout_item_close = (): string => "</div>\n";
+}) as UniversalPluginWithOptions<MarkdownItLayoutOptions>;

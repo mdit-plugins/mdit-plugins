@@ -1,6 +1,5 @@
-import { definePlugin } from "@mdit/helper";
 import type { UniversalPluginSimple } from "@mdit/helper";
-import type { RendererRule } from "markdown-it";
+import type { MarkdownIt, RendererRule } from "markdown-it";
 
 const LAZYLOAD_RENDERER_MARKER: unique symbol = Symbol.for("@mdit/plugin-img-lazyload/installed");
 
@@ -11,7 +10,7 @@ interface LazyloadRendererRule extends RendererRule {
 const isLazyloadRenderer = (rule: RendererRule): boolean =>
   (rule as LazyloadRendererRule)[LAZYLOAD_RENDERER_MARKER] === true;
 
-export const imgLazyload: UniversalPluginSimple = definePlugin("imgLazyload", (md) => {
+export const imgLazyload = ((md: MarkdownIt) => {
   const originalImageRender = md.renderer.rules.image;
 
   // A second installation must not stack another wrapper: the installed rule already sets the
@@ -28,4 +27,4 @@ export const imgLazyload: UniversalPluginSimple = definePlugin("imgLazyload", (m
   lazyloadImageRender[LAZYLOAD_RENDERER_MARKER] = true;
 
   md.renderer.rules.image = lazyloadImageRender;
-});
+}) as UniversalPluginSimple;

@@ -1,6 +1,5 @@
 /** Fork and edited from https://github.com/tatsy/markdown-it-imsize/blob/master/lib/index.js */
 
-import { definePlugin } from "@mdit/helper";
 import type { InlineRule, UniversalPluginSimple } from "@mdit/helper";
 import type { MarkdownIt, Token } from "markdown-it";
 
@@ -269,9 +268,9 @@ const hasLegacyImgSizeRule = (md: MarkdownIt): boolean => {
  * @deprecated Recommended to use `imgSize` instead.
  * @param md Markdown-it instance
  */
-export const legacyImgSize: UniversalPluginSimple = definePlugin("legacyImgSize", (md) => {
+export const legacyImgSize: UniversalPluginSimple = ((md: MarkdownIt) => {
   // A second installation would add another `image` rule in front of the upstream one.
   if (hasLegacyImgSizeRule(md)) return;
 
   md.inline.ruler.before("emphasis", "image", legacyImgSizeRule);
-});
+}) as UniversalPluginSimple;

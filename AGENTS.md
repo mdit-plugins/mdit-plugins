@@ -158,45 +158,45 @@ manifests are maintained by hand.
 
 ### Plugin Signatures
 
-Declare plugins with `definePlugin` from `@mdit/helper` and annotate them with the universal types.
-`definePlugin` is a runtime identity function apart from assigning `Function.name` when a name is
-passed; it widens the markdown-it authoring type so the same plugin is installable on both
-`markdown-it` and `markdown-exit`. Pass the exported plugin name as the first argument so
-`Function.name` stays meaningful: an inline callback has no inferred name, and test runners, stack
-traces and debugging tools display it.
+Declare plugins as arrow functions and assert the universal types from `@mdit/helper`. The `as`
+assertion is type-only — it emits no runtime code, so plugins keep zero wrapper overhead. Annotate
+the parameters with markdown-it types; inside the callback `md` is `MarkdownIt`, so plugin code keeps
+full markdown-it typing.
 
 ```ts
-import { definePlugin } from "@mdit/helper";
 import type { UniversalPluginSimple, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 ```
 
 - **`UniversalPluginSimple`** — for plugins without options:
 
   ```ts
-  export const pluginName: UniversalPluginSimple = definePlugin("pluginName", (md) => { ... });
+  export const pluginName: UniversalPluginSimple = ((md: MarkdownIt) => {
+    // ...
+  }) as UniversalPluginSimple;
   ```
 
   Examples: `abbr`, `align`, `dl`, `img-lazyload`, `img-size`, `ins`, `mark`, `ruby`, `sub`, `sup`.
 
-- **`UniversalPluginWithOptions<PluginOptions>`** — for plugins with options. Pass the option type to
-  `definePlugin` explicitly; without it the option-less overload matches and `md.use(plugin, options)`
-  fails to type-check:
+- **`UniversalPluginWithOptions<PluginOptions>`** — for plugins with options. Annotate the options
+  parameter so callbacks keep their option types:
 
   ```ts
-  export const pluginName: UniversalPluginWithOptions<PluginOptions> = definePlugin<PluginOptions>(
-    "pluginName",
-    (md, options) => { ... },
-  );
+  export const pluginName: UniversalPluginWithOptions<PluginOptions> = ((
+    md: MarkdownIt,
+    options: PluginOptions = {},
+  ) => {
+    // ...
+  }) as UniversalPluginWithOptions<PluginOptions>;
   ```
 
   Examples: `advanced-links`, `alert`, `anchor`, `attrs`, `container`, `demo`, `embed`, `field`,
   `figure`, `footnote`, `icon`, `img-mark`, `include`, `inline-rule`, `layout`, `plantuml`,
   `snippet`, `spoiler`, `stylize`, `tab`, `tasklist`, `tex`, `uml`.
 
-Inside the callback `md` is still typed as markdown-it's `MarkdownIt`, so plugin code keeps full
-markdown-it typing. `PluginSimple` / `PluginWithOptions` remain the markdown-it-only authoring types
-and are what `definePlugin` accepts. The katex and mathjax packages do not depend on `@mdit/helper`;
-they declare an equivalent engine-agnostic signature locally.
+`PluginSimple` / `PluginWithOptions` remain the markdown-it-only authoring types. The katex and
+mathjax packages do not depend on `@mdit/helper`; they declare an equivalent engine-agnostic
+signature locally.
 
 `tests/markdown-exit.spec-d.ts` is the type-test contract: it installs every plugin on both engines,
 so a plugin that stops being engine-agnostic fails `pnpm run test:types` (Vitest typecheck).
@@ -352,7 +352,6 @@ export default config;
 - `sensitive-files` — `defaultSensitiveFiles`, `isSensitiveFile`
 - `types` — `PluginSimple`, `PluginWithOptions`, `MarkdownEngine`, `UniversalPluginSimple`,
   `UniversalPluginWithOptions`, `BlockRule`, `CoreRule`, `InlineRule`, `Nesting`, `TokenMeta`
-- `plugin` — `definePlugin`
 
 ## Commit Conventions
 

@@ -1,6 +1,6 @@
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { MarkdownItStylizeConfig, MarkdownItStylizeOptions } from "./options.js";
 
@@ -97,48 +97,50 @@ const scanTokens = <
   }
 };
 
-export const stylize: UniversalPluginWithOptions<MarkdownItStylizeOptions> =
-  definePlugin<MarkdownItStylizeOptions>("stylize", (md, options = {}) => {
-    // A second installation would apply the replacer twice to the same tokens.
-    if (hasRule(md, "stylize_tag", "core")) return;
+export const stylize: UniversalPluginWithOptions<MarkdownItStylizeOptions> = ((
+  md: MarkdownIt,
+  options: MarkdownItStylizeOptions = {},
+) => {
+  // A second installation would apply the replacer twice to the same tokens.
+  if (hasRule(md, "stylize_tag", "core")) return;
 
-    const globalConfig = options.config ?? [];
-    const localConfigGetter = options.localConfigGetter;
+  const globalConfig = options.config ?? [];
+  const localConfigGetter = options.localConfigGetter;
 
-    if (globalConfig.length === 0 && !localConfigGetter) {
-      // oxlint-disable-next-line no-console
-      console.error(
-        "[@mdit/plugin-stylize]: No global config or localConfigGetter provided, plugin will be inactive.",
-      );
+  if (globalConfig.length === 0 && !localConfigGetter) {
+    // oxlint-disable-next-line no-console
+    console.error(
+      "[@mdit/plugin-stylize]: No global config or localConfigGetter provided, plugin will be inactive.",
+    );
 
-      return;
+    return;
+  }
+
+  const stylizeRule: CoreRule = (state) => {
+    const tokens = state.tokens;
+
+    // The local configs are resolved once per render; keeping them in a separate array avoids
+    // copying the global configs on every render.
+    let localConfig: MarkdownItStylizeConfig[] | null = null;
+
+    if (localConfigGetter) {
+      // oxlint-disable-next-line typescript/no-explicit-any
+      const config = localConfigGetter(state.env as Record<string, any>);
+
+      if (config && config.length > 0) localConfig = config;
     }
 
-    const stylizeRule: CoreRule = (state) => {
-      const tokens = state.tokens;
+    if (globalConfig.length === 0 && !localConfig) return;
 
-      // The local configs are resolved once per render; keeping them in a separate array avoids
-      // copying the global configs on every render.
-      let localConfig: MarkdownItStylizeConfig[] | null = null;
+    const length = tokens.length;
 
-      if (localConfigGetter) {
-        // oxlint-disable-next-line typescript/no-explicit-any
-        const config = localConfigGetter(state.env as Record<string, any>);
+    for (let i = 0; i < length; i++) {
+      const token = tokens[i];
 
-        if (config && config.length > 0) localConfig = config;
-      }
+      if (token.type === "inline" && token.children)
+        scanTokens(token.children, localConfig, globalConfig, state.env);
+    }
+  };
 
-      if (globalConfig.length === 0 && !localConfig) return;
-
-      const length = tokens.length;
-
-      for (let i = 0; i < length; i++) {
-        const token = tokens[i];
-
-        if (token.type === "inline" && token.children)
-          scanTokens(token.children, localConfig, globalConfig, state.env);
-      }
-    };
-
-    md.core.ruler.push("stylize_tag", stylizeRule);
-  });
+  md.core.ruler.push("stylize_tag", stylizeRule);
+}) as UniversalPluginWithOptions<MarkdownItStylizeOptions>;

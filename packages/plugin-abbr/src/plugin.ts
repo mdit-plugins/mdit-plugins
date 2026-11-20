@@ -1,8 +1,8 @@
 /** Forked and modified from https://github.com/markdown-it/markdown-it-abbr/blob/master/index.mjs */
 
-import { definePlugin, hasRule } from "@mdit/helper";
+import { hasRule } from "@mdit/helper";
 import type { BlockRule, CoreRule, UniversalPluginSimple } from "@mdit/helper";
-import type { Env, StateBlock, StateCore, Token } from "markdown-it";
+import type { Env, MarkdownIt, StateBlock, StateCore, Token } from "markdown-it";
 
 interface AbbrEnv extends Env {
   abbreviations?: Record<string, string>;
@@ -68,7 +68,7 @@ const abbrDefinition: BlockRule = (state: AbbrStateBlock, startLine, _endLine, s
   return true;
 };
 
-export const abbr: UniversalPluginSimple = definePlugin("abbr", (md) => {
+export const abbr: UniversalPluginSimple = ((md: MarkdownIt) => {
   // A second installation would wrap the abbreviation text twice.
   if (hasRule(md, "abbr_replace", "core")) return;
 
@@ -200,4 +200,4 @@ export const abbr: UniversalPluginSimple = definePlugin("abbr", (md) => {
   });
 
   md.core.ruler.after("linkify", "abbr_replace", abbrReplace);
-});
+}) as UniversalPluginSimple;
