@@ -6,8 +6,8 @@
  * Copyright (c) 2018 Authors.
  */
 
-import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginSimple } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { CoreRule, UniversalPluginSimple } from "@mdit/helper";
 import { eastAsianWidthType } from "get-east-asian-width";
 import type { Token } from "markdown-it";
 
@@ -118,8 +118,8 @@ const cjkBreaksRule: CoreRule = (state) => {
   }
 };
 
-export const cjkBreaks: PluginSimple = (md) => {
+export const cjkBreaks: UniversalPluginSimple = definePlugin("cjkBreaks", (md) => {
   if (hasRule(md, "cjk_breaks", "core")) return;
 
   md.core.ruler.push("cjk_breaks", cjkBreaksRule);
-};
+});

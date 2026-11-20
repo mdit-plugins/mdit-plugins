@@ -157,29 +157,48 @@ manifests are maintained by hand.
 
 ### Plugin Signatures
 
-Use the plugin types re-exported by `@mdit/helper`:
+Declare plugins with `definePlugin` from `@mdit/helper` and annotate them with the universal types.
+`definePlugin` is a runtime identity function apart from assigning `Function.name` when a name is
+passed; it widens the markdown-it authoring type so the same plugin is installable on both
+`markdown-it` and `markdown-exit`. Pass the exported plugin name as the first argument so
+`Function.name` stays meaningful: an inline callback has no inferred name, and test runners, stack
+traces and debugging tools display it.
 
 ```ts
-import type { PluginSimple, PluginWithOptions } from "@mdit/helper";
+import { definePlugin } from "@mdit/helper";
+import type { UniversalPluginSimple, UniversalPluginWithOptions } from "@mdit/helper";
 ```
 
-- **`PluginSimple`** — for plugins without options:
+- **`UniversalPluginSimple`** — for plugins without options:
 
   ```ts
-  export const pluginName: PluginSimple = (md) => { ... };
+  export const pluginName: UniversalPluginSimple = definePlugin("pluginName", (md) => { ... });
   ```
 
   Examples: `abbr`, `align`, `dl`, `img-lazyload`, `img-size`, `ins`, `mark`, `ruby`, `sub`, `sup`.
 
-- **`PluginWithOptions<PluginOptions>`** — for plugins with options:
+- **`UniversalPluginWithOptions<PluginOptions>`** — for plugins with options. Pass the option type to
+  `definePlugin` explicitly; without it the option-less overload matches and `md.use(plugin, options)`
+  fails to type-check:
 
   ```ts
-  export const pluginName: PluginWithOptions<PluginOptions> = (md, options) => { ... };
+  export const pluginName: UniversalPluginWithOptions<PluginOptions> = definePlugin<PluginOptions>(
+    "pluginName",
+    (md, options) => { ... },
+  );
   ```
 
   Examples: `advanced-links`, `alert`, `anchor`, `attrs`, `container`, `demo`, `embed`, `field`,
-  `figure`, `footnote`, `icon`, `img-mark`, `include`, `inline-rule`, `katex`, `layout`, `mathjax`,
-  `plantuml`, `snippet`, `spoiler`, `stylize`, `tab`, `tasklist`, `tex`, `uml`.
+  `figure`, `footnote`, `icon`, `img-mark`, `include`, `inline-rule`, `layout`, `plantuml`,
+  `snippet`, `spoiler`, `stylize`, `tab`, `tasklist`, `tex`, `uml`.
+
+Inside the callback `md` is still typed as markdown-it's `MarkdownIt`, so plugin code keeps full
+markdown-it typing. `PluginSimple` / `PluginWithOptions` remain the markdown-it-only authoring types
+and are what `definePlugin` accepts. The katex and mathjax packages do not depend on `@mdit/helper`;
+they declare an equivalent engine-agnostic signature locally.
+
+`tests/markdown-exit-types.ts` is the compile-time contract: it installs every plugin on both
+engines, so a plugin that stops being engine-agnostic fails `pnpm run lint:check`.
 
 **Naming**: Export the camelCase short package name (`advancedLinks`, `imgSize`, `inlineRule`,
 `tasklist`). Multi-variant packages export one const per variant (e.g. `bareEmoji`, `legacyImgSize`).
@@ -330,8 +349,9 @@ export default config;
 - `reg` — `NEWLINE_RE`, `UNESCAPE_RE`
 - `rules` — `hasRule`, `RuleScope`
 - `sensitive-files` — `defaultSensitiveFiles`, `isSensitiveFile`
-- `types` — `PluginSimple`, `PluginWithOptions`, `BlockRule`, `CoreRule`, `InlineRule`, `Nesting`,
-  `TokenMeta`
+- `types` — `PluginSimple`, `PluginWithOptions`, `MarkdownEngine`, `UniversalPluginSimple`,
+  `UniversalPluginWithOptions`, `BlockRule`, `CoreRule`, `InlineRule`, `Nesting`, `TokenMeta`
+- `plugin` — `definePlugin`
 
 ## Commit Conventions
 
@@ -365,6 +385,10 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
   `tests/*.spec.ts` directory, never inside a single plugin package. They import plugin packages
   from source with relative paths (e.g. `../packages/plugin-dl/src/index.js`) and may rely on the
   root `markdown-it` devDependency.
+- `tests/markdown-exit-types.ts` is a compile-time-only contract (no `.spec` suffix, never executed):
+  it installs every plugin on both `markdown-it` and `markdown-exit`, and `pnpm run lint:check`
+  reports a type error if one stops being engine-agnostic. `pnpm run test:compat` runs the whole
+  test suite with `markdown-exit` aliased in place of `markdown-it`.
 - Use `vitest` for testing.
 - Import the package under test from source with the `.js` extension:
   `import { pluginName } from "../src/index.js";` (subpaths such as `../src/plugin.js` are fine).

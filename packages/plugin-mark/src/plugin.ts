@@ -1,7 +1,8 @@
-import type { PluginSimple } from "@mdit/helper";
+import { definePlugin } from "@mdit/helper";
+import type { UniversalPluginSimple } from "@mdit/helper";
 import { inlineRule } from "@mdit/plugin-inline-rule";
 
-export const mark: PluginSimple = (md) => {
+export const mark: UniversalPluginSimple = definePlugin("mark", (md) => {
   inlineRule(md, {
     marker: "=",
     tag: "mark",
@@ -10,4 +11,4 @@ export const mark: PluginSimple = (md) => {
     double: true,
     placement: "before-emphasis",
   });
-};
+});

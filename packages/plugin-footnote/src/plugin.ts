@@ -3,8 +3,8 @@
  * https://github.com/markdown-it/markdown-it-footnote/blob/master/index.mjs
  */
 
-import { escapeHtml, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, escapeHtml, hasRule } from "@mdit/helper";
+import type { BlockRule, CoreRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
 
 import type { FootnoteOptions } from "./options.js";
@@ -469,26 +469,29 @@ const createFootnoteTail =
     state.tokens.push(new state.Token("footnote_block_close", "", -1));
   };
 
-export const footnote: PluginWithOptions<FootnoteOptions> = (md, options) => {
-  // A second installation would append the footnote section twice.
-  if (hasRule(md, "footnoteTail", "core")) return;
+export const footnote: UniversalPluginWithOptions<FootnoteOptions> = definePlugin<FootnoteOptions>(
+  "footnote",
+  (md, options) => {
+    // A second installation would append the footnote section twice.
+    if (hasRule(md, "footnoteTail", "core")) return;
 
-  md.renderer.rules.footnote_ref = renderFootnoteRef;
-  md.renderer.rules.footnote_block_open = renderFootnoteBlockOpen;
-  md.renderer.rules.footnote_block_close = renderFootnoteBlockClose;
-  md.renderer.rules.footnote_open = renderFootnoteOpen;
-  md.renderer.rules.footnote_close = renderFootnoteClose;
-  md.renderer.rules.footnote_anchor = renderFootnoteAnchor;
+    md.renderer.rules.footnote_ref = renderFootnoteRef;
+    md.renderer.rules.footnote_block_open = renderFootnoteBlockOpen;
+    md.renderer.rules.footnote_block_close = renderFootnoteBlockClose;
+    md.renderer.rules.footnote_open = renderFootnoteOpen;
+    md.renderer.rules.footnote_close = renderFootnoteClose;
+    md.renderer.rules.footnote_anchor = renderFootnoteAnchor;
 
-  // The caption helper is still routed through `renderFootnoteRef`, so overriding it works.
-  // `footnote_anchor_name` was an internal helper and is gone: anchor names are resolved while
-  // parsing, so update the generated ids / hrefs on the tokens instead.
-  md.renderer.rules.footnote_caption = renderFootnoteCaption;
+    // The caption helper is still routed through `renderFootnoteRef`, so overriding it works.
+    // `footnote_anchor_name` was an internal helper and is gone: anchor names are resolved while
+    // parsing, so update the generated ids / hrefs on the tokens instead.
+    md.renderer.rules.footnote_caption = renderFootnoteCaption;
 
-  md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
-    alt: ["paragraph", "reference"],
-  });
-  md.inline.ruler.after("image", "footnoteInline", createFootnoteInline(options ?? {}));
-  md.inline.ruler.after("footnoteInline", "footnote_ref", createFootnoteRef(options ?? {}));
-  md.core.ruler.after("inline", "footnoteTail", createFootnoteTail(options ?? {}));
-};
+    md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
+      alt: ["paragraph", "reference"],
+    });
+    md.inline.ruler.after("image", "footnoteInline", createFootnoteInline(options ?? {}));
+    md.inline.ruler.after("footnoteInline", "footnote_ref", createFootnoteRef(options ?? {}));
+    md.core.ruler.after("inline", "footnoteTail", createFootnoteTail(options ?? {}));
+  },
+);

@@ -1,6 +1,6 @@
 /** Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures */
-import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
 import type { MarkdownItFigureOptions } from "./options.js";
@@ -128,110 +128,117 @@ const getCaption = (image: Token): string => {
   return image.content;
 };
 
-export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
-  md,
-  { moveAttrs, focusable, linkImage } = {},
-) => {
-  const figureRule: CoreRule = (state) => {
-    // do not process first and last token
-    for (let index = 1, { length } = state.tokens; index < length - 1; index++) {
-      const token = state.tokens[index];
+export const figure: UniversalPluginWithOptions<MarkdownItFigureOptions> =
+  definePlugin<MarkdownItFigureOptions>(
+    "figure",
+    (md, { moveAttrs, focusable, linkImage } = {}) => {
+      const figureRule: CoreRule = (state) => {
+        // do not process first and last token
+        for (let index = 1, { length } = state.tokens; index < length - 1; index++) {
+          const token = state.tokens[index];
 
-      if (token.type !== "inline") continue;
+          if (token.type !== "inline") continue;
 
-      // children: image alone, or link_open -> image -> link_close
-      if (!token.children || (token.children.length !== 1 && token.children.length !== 3)) continue;
+          // children: image alone, or link_open -> image -> link_close
+          if (!token.children || (token.children.length !== 1 && token.children.length !== 3))
+            continue;
 
-      // one child, should be img
-      if (token.children.length === 1 && token.children[0].type !== "image") continue;
+          // one child, should be img
+          if (token.children.length === 1 && token.children[0].type !== "image") continue;
 
-      // three children, should be image enclosed in link
-      if (token.children.length === 3) {
-        // skip linked images if linkImage is false
-        if (linkImage === false) continue;
+          // three children, should be image enclosed in link
+          if (token.children.length === 3) {
+            // skip linked images if linkImage is false
+            if (linkImage === false) continue;
 
-        const [childrenA, childrenB, childrenC] = token.children;
-        const isEnclosed =
-          childrenA.type !== "link_open" ||
-          childrenB.type !== "image" ||
-          childrenC.type !== "link_close";
+            const [childrenA, childrenB, childrenC] = token.children;
+            const isEnclosed =
+              childrenA.type !== "link_open" ||
+              childrenB.type !== "image" ||
+              childrenC.type !== "link_close";
 
-        if (isEnclosed) continue;
-      }
-
-      // check prev token is paragraph open and next token is paragraph close
-      // hidden paragraphs (tight lists) render no figure tags, which would orphan the figcaption
-      if (
-        state.tokens[index - 1].type !== "paragraph_open" ||
-        state.tokens[index - 1].hidden ||
-        state.tokens[index + 1].type !== "paragraph_close"
-      )
-        continue;
-
-      // We have inline token containing an image only.
-      // Previous token is paragraph open.
-      // Next token is paragraph close.
-      // Lets replace the paragraph tokens with figure tokens.
-      const figureToken = state.tokens[index - 1];
-
-      figureToken.type = "figure_open";
-      figureToken.tag = "figure";
-      state.tokens[index + 1].type = "figure_close";
-      state.tokens[index + 1].tag = "figure";
-
-      // for linked images, image is one off
-      const image = token.children.length === 1 ? token.children[0] : token.children[1];
-
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      if (moveAttrs && image.attrs) {
-        if (moveAttrs === true) {
-          // Copy all non-native attrs to figure (img keeps them)
-          const copiedAttrs = image.attrs.filter(([key]) => !NATIVE_IMG_ATTRS.has(key));
-
-          for (const attr of copiedAttrs) mergeFigureAttr(figureToken, attr);
-        } else {
-          // Move matching attrs from img to figure (img loses them)
-          const movedAttrs: [string, string | number][] = [];
-          const keptAttrs: [string, string | number][] = [];
-
-          for (const attr of image.attrs) {
-            if (
-              !NATIVE_IMG_ATTRS.has(attr[0]) &&
-              moveAttrs.some((pattern) =>
-                typeof pattern === "string" ? pattern === attr[0] : testPattern(pattern, attr[0]),
-              )
-            )
-              movedAttrs.push(attr);
-            else keptAttrs.push(attr);
+            if (isEnclosed) continue;
           }
 
-          if (movedAttrs.length > 0) {
-            for (const attr of movedAttrs) mergeFigureAttr(figureToken, attr);
-            image.attrs = keptAttrs;
+          // check prev token is paragraph open and next token is paragraph close
+          // hidden paragraphs (tight lists) render no figure tags, which would orphan the figcaption
+          if (
+            state.tokens[index - 1].type !== "paragraph_open" ||
+            state.tokens[index - 1].hidden ||
+            state.tokens[index + 1].type !== "paragraph_close"
+          )
+            continue;
+
+          // We have inline token containing an image only.
+          // Previous token is paragraph open.
+          // Next token is paragraph close.
+          // Lets replace the paragraph tokens with figure tokens.
+          const figureToken = state.tokens[index - 1];
+
+          figureToken.type = "figure_open";
+          figureToken.tag = "figure";
+          state.tokens[index + 1].type = "figure_close";
+          state.tokens[index + 1].tag = "figure";
+
+          // for linked images, image is one off
+          const image = token.children.length === 1 ? token.children[0] : token.children[1];
+
+          // oxlint-disable-next-line typescript/strict-boolean-expressions
+          if (moveAttrs && image.attrs) {
+            if (moveAttrs === true) {
+              // Copy all non-native attrs to figure (img keeps them)
+              const copiedAttrs = image.attrs.filter(([key]) => !NATIVE_IMG_ATTRS.has(key));
+
+              for (const attr of copiedAttrs) mergeFigureAttr(figureToken, attr);
+            } else {
+              // Move matching attrs from img to figure (img loses them)
+              const movedAttrs: [string, string | number][] = [];
+              const keptAttrs: [string, string | number][] = [];
+
+              for (const attr of image.attrs) {
+                if (
+                  !NATIVE_IMG_ATTRS.has(attr[0]) &&
+                  moveAttrs.some((pattern) =>
+                    typeof pattern === "string"
+                      ? pattern === attr[0]
+                      : testPattern(pattern, attr[0]),
+                  )
+                )
+                  movedAttrs.push(attr);
+                else keptAttrs.push(attr);
+              }
+
+              if (movedAttrs.length > 0) {
+                for (const attr of movedAttrs) mergeFigureAttr(figureToken, attr);
+                image.attrs = keptAttrs;
+              }
+            }
           }
+
+          const figCaption = getCaption(image);
+
+          if (figCaption) {
+            const [captionContent] = md.parseInline(figCaption, state.env);
+
+            token.children.push(
+              new state.Token("figcaption_open", "figcaption", 1),
+              // oxlint-disable-next-line typescript/no-non-null-assertion
+              ...captionContent.children!,
+              new state.Token("figcaption_close", "figcaption", -1),
+            );
+          }
+
+          // keep an author-provided tabindex instead of emitting a duplicate one
+          // HTML attribute names are case-insensitive, and authored attrs keep their case
+          if (
+            focusable !== false &&
+            !image.attrs?.some(([key]) => key.toLowerCase() === "tabindex")
+          )
+            image.attrPush(["tabindex", "0"]);
         }
-      }
+      };
 
-      const figCaption = getCaption(image);
-
-      if (figCaption) {
-        const [captionContent] = md.parseInline(figCaption, state.env);
-
-        token.children.push(
-          new state.Token("figcaption_open", "figcaption", 1),
-          // oxlint-disable-next-line typescript/no-non-null-assertion
-          ...captionContent.children!,
-          new state.Token("figcaption_close", "figcaption", -1),
-        );
-      }
-
-      // keep an author-provided tabindex instead of emitting a duplicate one
-      // HTML attribute names are case-insensitive, and authored attrs keep their case
-      if (focusable !== false && !image.attrs?.some(([key]) => key.toLowerCase() === "tabindex"))
-        image.attrPush(["tabindex", "0"]);
-    }
-  };
-
-  // Repeated installation of the same configuration must not register the rule twice.
-  if (!hasRule(md, "figure", "core")) md.core.ruler.before("linkify", "figure", figureRule);
-};
+      // Repeated installation of the same configuration must not register the rule twice.
+      if (!hasRule(md, "figure", "core")) md.core.ruler.before("linkify", "figure", figureRule);
+    },
+  );

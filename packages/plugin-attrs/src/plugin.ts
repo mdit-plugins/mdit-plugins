@@ -1,7 +1,7 @@
 /** Forked and modified from https://github.com/arve0/markdown-it-attrs/ */
 
-import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { Renderer, RendererRule } from "markdown-it";
 
 import { normalizeAllowed, testRule } from "./helper/index.js";
@@ -33,101 +33,102 @@ const getDefaultFenceRule = (renderer: Renderer): RendererRule | undefined => {
   return defaultFence;
 };
 
-export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
-  md,
-  { left = "{", right = "}", allowed = [], rule = "all", fenceAttrsOnPre = true } = {},
-) => {
-  const filter = normalizeAllowed(allowed);
+export const attrs: UniversalPluginWithOptions<MarkdownItAttrsOptions> =
+  definePlugin<MarkdownItAttrsOptions>(
+    "attrs",
+    (md, { left = "{", right = "}", allowed = [], rule = "all", fenceAttrsOnPre = true } = {}) => {
+      const filter = normalizeAllowed(allowed);
 
-  const rules = createRules(md, {
-    left,
-    right,
-    allowed,
-    filter,
-    rule,
-  });
+      const rules = createRules(md, {
+        left,
+        right,
+        allowed,
+        filter,
+        rule,
+      });
 
-  const attrsRule: CoreRule = (state) => {
-    const tokens = state.tokens;
+      const attrsRule: CoreRule = (state) => {
+        const tokens = state.tokens;
 
-    for (let index = 0; index < tokens.length; index++) {
-      for (let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
-        const pattern = rules[ruleIndex];
-        // position of child with offset 0
-        let position: null | number = null;
-        let range: DelimiterRange | null = null;
+        for (let index = 0; index < tokens.length; index++) {
+          for (let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
+            const pattern = rules[ruleIndex];
+            // position of child with offset 0
+            let position: null | number = null;
+            let range: DelimiterRange | null = null;
 
-        const match = pattern.tests.every((test) => {
-          const result = testRule(tokens, index, test);
+            const match = pattern.tests.every((test) => {
+              const result = testRule(tokens, index, test);
 
-          if (result.position != null) ({ position } = result);
-          if (result.range) range = result.range;
+              if (result.position != null) ({ position } = result);
+              if (result.range) range = result.range;
 
-          return result.match;
-        });
+              return result.match;
+            });
 
-        if (match) {
-          const currentToken = tokens[index];
+            if (match) {
+              const currentToken = tokens[index];
 
-          // oxlint-disable-next-line typescript/no-non-null-assertion
-          pattern.transform(tokens, index, position!, range!);
+              // oxlint-disable-next-line typescript/no-non-null-assertion
+              pattern.transform(tokens, index, position!, range!);
 
-          // re-locate the current token in case the transform spliced tokens
-          // before it (e.g. the table calculate rule removing covered cells)
-          if (tokens[index] !== currentToken) index = tokens.indexOf(currentToken);
+              // re-locate the current token in case the transform spliced tokens
+              // before it (e.g. the table calculate rule removing covered cells)
+              if (tokens[index] !== currentToken) index = tokens.indexOf(currentToken);
 
-          if (
-            pattern.name === "inline attributes" ||
-            pattern.name === "inline nesting self-close"
-          ) {
-            // retry, may be several inline attributes
-            ruleIndex--;
+              if (
+                pattern.name === "inline attributes" ||
+                pattern.name === "inline nesting self-close"
+              ) {
+                // retry, may be several inline attributes
+                ruleIndex--;
+              }
+            }
           }
         }
-      }
-    }
-  };
-
-  // Repeated installation must not register the rule twice; a differing configuration keeps
-  // the first installation's parse rule (renderers are still refreshed).
-  if (!hasRule(md, "attrs", "core")) md.core.ruler.before("linkify", "attrs", attrsRule);
-
-  // Place fence attributes on <pre> instead of <code>, but only when enabled,
-  // the fence rule is active, and no custom fence renderer is already present.
-  if (fenceAttrsOnPre && rules.some(({ name }) => name === "code-block")) {
-    // The wrapper below clears `token.attrs` and re-injects them into the opening `<pre>`, which
-    // is only valid for markdown-it's default fence output. `md.renderer.rules.fence` may already
-    // be replaced by the caller or another plugin, so it cannot be the default reference:
-    // comparing it with itself would wrap a custom renderer, and calling `use(attrs)` twice would
-    // stack wrappers. A pristine default rule is needed; `getDefaultFenceRule` creates a renderer
-    // of the same class via the passed renderer's constructor (which copies `default_rules`), so
-    // there is no runtime import of markdown-it. It runs once in `md.use()`, not on the hot path.
-    const defaultFence = getDefaultFenceRule(md.renderer);
-    const currentFence = md.renderer.rules.fence;
-    const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence;
-
-    if (!hasCustomFence && typeof currentFence === "function") {
-      const originalFence = currentFence;
-
-      md.renderer.rules.fence = (tokens, idx, mdOptions, env, slf): string => {
-        const token = tokens[idx];
-        const savedAttrs = token.attrs ? token.attrs.slice() : null;
-
-        // Temporarily clear attrs so the default renderer does not place them
-        // on <code>.
-        token.attrs = null;
-        const result = originalFence(tokens, idx, mdOptions, env, slf);
-
-        token.attrs = savedAttrs;
-
-        if (!savedAttrs || savedAttrs.length === 0) return result;
-
-        // Inject user attrs into the opening <pre> tag.
-        return result.replace(
-          /^<pre(?<char>[ >])/,
-          (_, ch) => `<pre${slf.renderAttrs(token)}${ch}`,
-        );
       };
-    }
-  }
-};
+
+      // Repeated installation must not register the rule twice; a differing configuration keeps
+      // the first installation's parse rule (renderers are still refreshed).
+      if (!hasRule(md, "attrs", "core")) md.core.ruler.before("linkify", "attrs", attrsRule);
+
+      // Place fence attributes on <pre> instead of <code>, but only when enabled,
+      // the fence rule is active, and no custom fence renderer is already present.
+      if (fenceAttrsOnPre && rules.some(({ name }) => name === "code-block")) {
+        // The wrapper below clears `token.attrs` and re-injects them into the opening `<pre>`, which
+        // is only valid for markdown-it's default fence output. `md.renderer.rules.fence` may already
+        // be replaced by the caller or another plugin, so it cannot be the default reference:
+        // comparing it with itself would wrap a custom renderer, and calling `use(attrs)` twice would
+        // stack wrappers. A pristine default rule is needed; `getDefaultFenceRule` creates a renderer
+        // of the same class via the passed renderer's constructor (which copies `default_rules`), so
+        // there is no runtime import of markdown-it. It runs once in `md.use()`, not on the hot path.
+        const defaultFence = getDefaultFenceRule(md.renderer);
+        const currentFence = md.renderer.rules.fence;
+        const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence;
+
+        if (!hasCustomFence && typeof currentFence === "function") {
+          const originalFence = currentFence;
+
+          md.renderer.rules.fence = (tokens, idx, mdOptions, env, slf): string => {
+            const token = tokens[idx];
+            const savedAttrs = token.attrs ? token.attrs.slice() : null;
+
+            // Temporarily clear attrs so the default renderer does not place them
+            // on <code>.
+            token.attrs = null;
+            const result = originalFence(tokens, idx, mdOptions, env, slf);
+
+            token.attrs = savedAttrs;
+
+            if (!savedAttrs || savedAttrs.length === 0) return result;
+
+            // Inject user attrs into the opening <pre> tag.
+            return result.replace(
+              /^<pre(?<char>[ >])/,
+              (_, ch) => `<pre${slf.renderAttrs(token)}${ch}`,
+            );
+          };
+        }
+      }
+    },
+  );

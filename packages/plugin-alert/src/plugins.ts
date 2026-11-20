@@ -1,5 +1,5 @@
-import { hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { StateBlock } from "markdown-it";
 
 import type { MarkdownItAlertOptions } from "./options.js";
@@ -359,47 +359,51 @@ const getAlertRule =
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Alert options / 提示框选项
  */
-export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
-  md,
-  {
-    alertNames = ["tip", "warning", "caution", "important", "note"],
-    deep = false,
-    openRenderer,
-    closeRenderer,
-    titleRenderer,
-  } = {},
-) => {
-  // Repeated installation is a full no-op: the first installation's parse options and
-  // renderers always win.
-  if (hasRule(md, "alert", "block")) return;
+export const alert: UniversalPluginWithOptions<MarkdownItAlertOptions> =
+  definePlugin<MarkdownItAlertOptions>(
+    "alert",
+    (
+      md,
+      {
+        alertNames = ["tip", "warning", "caution", "important", "note"],
+        deep = false,
+        openRenderer,
+        closeRenderer,
+        titleRenderer,
+      } = {},
+    ) => {
+      // Repeated installation is a full no-op: the first installation's parse options and
+      // renderers always win.
+      if (hasRule(md, "alert", "block")) return;
 
-  const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
+      const normalizedNames = new Set(alertNames.map((name) => name.toLowerCase()));
 
-  md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
-    alt: ["paragraph", "reference", "blockquote", "list"],
-  });
+      md.block.ruler.before("blockquote", "alert", getAlertRule(normalizedNames, deep), {
+        alt: ["paragraph", "reference", "blockquote", "list"],
+      });
 
-  if (openRenderer) md.renderer.rules.alert_open = openRenderer;
+      if (openRenderer) md.renderer.rules.alert_open = openRenderer;
 
-  if (closeRenderer) md.renderer.rules.alert_close = closeRenderer;
+      if (closeRenderer) md.renderer.rules.alert_close = closeRenderer;
 
-  // Title content is a validated alert name, so only its casing variants can occur.
-  // The rendered inline HTML can therefore be reused for the same title content.
-  const titleCache = new Map<string, string>();
+      // Title content is a validated alert name, so only its casing variants can occur.
+      // The rendered inline HTML can therefore be reused for the same title content.
+      const titleCache = new Map<string, string>();
 
-  md.renderer.rules.alert_title =
-    titleRenderer ??
-    ((tokens, index): string => {
-      const { content } = tokens[index];
-      let title = titleCache.get(content);
+      md.renderer.rules.alert_title =
+        titleRenderer ??
+        ((tokens, index): string => {
+          const { content } = tokens[index];
+          let title = titleCache.get(content);
 
-      if (!title) {
-        // capitalize the first letter and render the title as inline markdown,
-        // which escapes HTML unless the `html` option is enabled
-        title = md.renderInline(content[0].toUpperCase() + content.slice(1));
-        titleCache.set(content, title);
-      }
+          if (!title) {
+            // capitalize the first letter and render the title as inline markdown,
+            // which escapes HTML unless the `html` option is enabled
+            title = md.renderInline(content[0].toUpperCase() + content.slice(1));
+            titleCache.set(content, title);
+          }
 
-      return `<p class="markdown-alert-title">${title}</p>\n`;
-    });
-};
+          return `<p class="markdown-alert-title">${title}</p>\n`;
+        });
+    },
+  );

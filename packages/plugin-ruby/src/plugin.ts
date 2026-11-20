@@ -1,7 +1,7 @@
 /** Forked and modified from https://github.com/lostandfound/markdown-it-ruby/blob/master/index.js */
 
-import { hasRule } from "@mdit/helper";
-import type { InlineRule, PluginSimple } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { InlineRule, UniversalPluginSimple } from "@mdit/helper";
 import type { Token } from "markdown-it";
 
 /**
@@ -134,9 +134,9 @@ const rubyRule: InlineRule = (state, silent) => {
   return true;
 };
 
-export const ruby: PluginSimple = (md) => {
+export const ruby: UniversalPluginSimple = definePlugin("ruby", (md) => {
   // A second installation would register the inline rule twice.
   if (hasRule(md, "ruby", "inline")) return;
 
   md.inline.ruler.before("text", "ruby", rubyRule);
-};
+});

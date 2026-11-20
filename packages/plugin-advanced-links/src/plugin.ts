@@ -1,4 +1,5 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import { definePlugin } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, RendererRule } from "markdown-it";
 
 import type { AdvancedLinkProps, MarkdownItAdvancedLinksOptions } from "./options.js";
@@ -128,33 +129,34 @@ const registerRenderers = (md: MarkdownIt, configs: AdvancedLinkConfigs): void =
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const advancedLinks: PluginWithOptions<MarkdownItAdvancedLinksOptions> = (md, options) => {
-  if (typeof options !== "object" || options == null)
-    throw new TypeError('[@mdit/plugin-advanced-links]: "options" is required.');
+export const advancedLinks: UniversalPluginWithOptions<MarkdownItAdvancedLinksOptions> =
+  definePlugin<MarkdownItAdvancedLinksOptions>("advancedLinks", (md, options) => {
+    if (typeof options !== "object" || options == null)
+      throw new TypeError('[@mdit/plugin-advanced-links]: "options" is required.');
 
-  const { name, inline = false, renderer } = options;
+    const { name, inline = false, renderer } = options;
 
-  if (typeof name !== "string" || !isValidName(name)) {
-    throw new TypeError(
-      '[@mdit/plugin-advanced-links]: "name" must be a non-empty string without whitespace, "[", "]", "(", ")", "\'" and \'"\'.',
-    );
-  }
+    if (typeof name !== "string" || !isValidName(name)) {
+      throw new TypeError(
+        '[@mdit/plugin-advanced-links]: "name" must be a non-empty string without whitespace, "[", "]", "(", ")", "\'" and \'"\'.',
+      );
+    }
 
-  if (typeof renderer !== "function")
-    throw new TypeError('[@mdit/plugin-advanced-links]: "renderer" must be a function.');
+    if (typeof renderer !== "function")
+      throw new TypeError('[@mdit/plugin-advanced-links]: "renderer" must be a function.');
 
-  const mdWithState = md as MarkdownItWithState;
-  // oxlint-disable-next-line no-underscore-dangle
-  const state = (mdWithState.__advancedLinkState ??= { configs: new Map(), registered: false });
+    const mdWithState = md as MarkdownItWithState;
+    // oxlint-disable-next-line no-underscore-dangle
+    const state = (mdWithState.__advancedLinkState ??= { configs: new Map(), registered: false });
 
-  // register the parser rules only once, so that repeated calls just add configs
-  if (!state.registered) {
-    registerParserRules(md, state.configs);
-    state.registered = true;
-  }
+    // register the parser rules only once, so that repeated calls just add configs
+    if (!state.registered) {
+      registerParserRules(md, state.configs);
+      state.registered = true;
+    }
 
-  // restore renderers removed by other code, without touching the parser rules
-  if (!("advanced_link_block" in md.renderer.rules)) registerRenderers(md, state.configs);
+    // restore renderers removed by other code, without touching the parser rules
+    if (!("advanced_link_block" in md.renderer.rules)) registerRenderers(md, state.configs);
 
-  state.configs.set(name, { inline, renderer });
-};
+    state.configs.set(name, { inline, renderer });
+  });

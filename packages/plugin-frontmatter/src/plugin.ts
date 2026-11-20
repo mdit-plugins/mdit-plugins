@@ -3,8 +3,8 @@
  * https://github.com/mdit-vue/mdit-vue/blob/main/packages/plugin-frontmatter/src/index.ts
  */
 
-import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { StateCore } from "markdown-it";
 
 import type { MarkdownItFrontmatterOptions } from "./options.js";
@@ -34,30 +34,31 @@ const EXCERPT_FLAG = Symbol("md-frontmatter-excerpt");
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const frontmatter: PluginWithOptions<MarkdownItFrontmatterOptions> = (md, options = {}) => {
-  // A second installation must not strip the same source twice.
-  if (hasRule(md, RULE_NAME, "core")) return;
+export const frontmatter: UniversalPluginWithOptions<MarkdownItFrontmatterOptions> =
+  definePlugin<MarkdownItFrontmatterOptions>("frontmatter", (md, options = {}) => {
+    // A second installation must not strip the same source twice.
+    if (hasRule(md, RULE_NAME, "core")) return;
 
-  const { renderExcerpt = true } = options;
+    const { renderExcerpt = true } = options;
 
-  const rule: CoreRule = (state: StateCore): void => {
-    // `parseInline` runs the core chain too, and inline callers often reuse the page env.
-    if (state.inlineMode) return;
+    const rule: CoreRule = (state: StateCore): void => {
+      // `parseInline` runs the core chain too, and inline callers often reuse the page env.
+      if (state.inlineMode) return;
 
-    state.env ??= {};
+      state.env ??= {};
 
-    if (state.env[EXCERPT_FLAG] === true) return;
+      if (state.env[EXCERPT_FLAG] === true) return;
 
-    const { data, content, excerpt } = parseFrontmatter(state.src, options);
+      const { data, content, excerpt } = parseFrontmatter(state.src, options);
 
-    state.env.content = content;
-    state.env.frontmatter = { ...state.env.frontmatter, ...data };
-    state.env.excerpt =
-      renderExcerpt && excerpt
-        ? md.render(excerpt, { ...state.env, [EXCERPT_FLAG]: true })
-        : excerpt;
-    state.src = content;
-  };
+      state.env.content = content;
+      state.env.frontmatter = { ...state.env.frontmatter, ...data };
+      state.env.excerpt =
+        renderExcerpt && excerpt
+          ? md.render(excerpt, { ...state.env, [EXCERPT_FLAG]: true })
+          : excerpt;
+      state.src = content;
+    };
 
-  md.core.ruler.before("normalize", RULE_NAME, rule);
-};
+    md.core.ruler.before("normalize", RULE_NAME, rule);
+  });

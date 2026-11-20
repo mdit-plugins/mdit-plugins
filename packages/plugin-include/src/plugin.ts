@@ -1,8 +1,8 @@
 // oxlint-disable-next-line import/no-nodejs-modules
 import { randomBytes } from "node:crypto";
 
-import { defaultSensitiveFiles, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
+import { defaultSensitiveFiles, definePlugin, hasRule } from "@mdit/helper";
+import type { BlockRule, CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
@@ -324,150 +324,154 @@ const resolveRelatedLink = (
   return null;
 };
 
-// oxlint-disable-next-line max-lines-per-function
-export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
-  // A second installation would run the include rule twice and expand nested directives twice.
-  if (hasRule(md, "md_import", "core")) return;
+export const include: UniversalPluginWithOptions<MarkdownItIncludeOptions> =
+  definePlugin<MarkdownItIncludeOptions>(
+    "include",
+    // oxlint-disable-next-line max-lines-per-function
+    (md, options): void => {
+      // A second installation would run the include rule twice and expand nested directives twice.
+      if (hasRule(md, "md_import", "core")) return;
 
-  const {
-    currentPath,
-    resolvePath = (filePath: string): string => filePath,
-    deep = false,
-    resolveLinkPath = true,
-    resolveImagePath = true,
-    useComment = true,
-    allowOutsideRoot = false,
-    projectRoot,
-    denyFiles,
-  } = options ?? {};
-
-  if (typeof currentPath !== "function")
-    throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
-
-  const checkSecurity = createSecurityChecker({
-    allowOutsideRoot,
-    projectRoot,
-    denyFiles,
-  });
-
-  const includeRule: CoreRule = (state): void => {
-    const env = state.env as IncludeEnv;
-    // A fresh nonce per render prevents markers leaked by an earlier render (e.g. a marker
-    // swallowed by an unclosed fence) from being replayed when the env object is reused.
-    const nonce = (env[includeNonceKey] = randomBytes(8).toString("hex"));
-    const includedFiles = (env.includedFiles ??= []);
-    const filePath = currentPath(env);
-
-    // fast path: no directive keyword at all → nothing to expand
-    if (!state.src.includes("@include")) return;
-
-    // reuse markdown-it's block structure to locate fenced/indented code
-    // blocks, so directive-looking lines inside code examples stay literal
-    const codeRanges = scanCodeRanges(state.src, md);
-
-    state.src = resolveInclude(
-      state.src,
-      {
+      const {
         currentPath,
-        resolvePath,
-        deep,
-        resolveLinkPath,
-        resolveImagePath,
-        useComment,
+        resolvePath = (filePath: string): string => filePath,
+        deep = false,
+        resolveLinkPath = true,
+        resolveImagePath = true,
+        useComment = true,
+        allowOutsideRoot = false,
+        projectRoot,
+        denyFiles,
+      } = options ?? {};
+
+      if (typeof currentPath !== "function")
+        throw new TypeError('[@mdit/plugin-include]: "currentPath" is required');
+
+      const checkSecurity = createSecurityChecker({
         allowOutsideRoot,
-        projectRoot: projectRoot ?? process.cwd(),
-        denyFiles: denyFiles ?? defaultSensitiveFiles,
-      },
-      {
-        cwd: filePath ? dirname(filePath) : null,
-        includedFiles,
-        checkSecurity,
-        nonce,
-      },
-      codeRanges,
-      md,
-    );
-  };
+        projectRoot,
+        denyFiles,
+      });
 
-  // add md_import core rule
-  md.core.ruler.after("normalize", "md_import", includeRule);
+      const includeRule: CoreRule = (state): void => {
+        const env = state.env as IncludeEnv;
+        // A fresh nonce per render prevents markers leaked by an earlier render (e.g. a marker
+        // swallowed by an unclosed fence) from being replayed when the env object is reused.
+        const nonce = (env[includeNonceKey] = randomBytes(8).toString("hex"));
+        const includedFiles = (env.includedFiles ??= []);
+        const filePath = currentPath(env);
 
-  if (resolveImagePath || resolveLinkPath) {
-    md.block.ruler.before("table", "md_include_start", includePushRule, {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
-    md.block.ruler.before("table", "md_include_end", includePopRule, {
-      alt: ["paragraph", "reference", "blockquote", "list"],
-    });
+        // fast path: no directive keyword at all → nothing to expand
+        if (!state.src.includes("@include")) return;
 
-    md.renderer.rules.include_start = (tokens, index, _options, env): string => {
-      const token = tokens[index];
-      const includeEnv = env as IncludeEnv;
-      const includedPaths = (includeEnv[includePathsKey] ??= []);
+        // reuse markdown-it's block structure to locate fenced/indented code
+        // blocks, so directive-looking lines inside code examples stay literal
+        const codeRanges = scanCodeRanges(state.src, md);
 
-      includedPaths.push(token.info);
-
-      return "";
-    };
-
-    md.renderer.rules.include_end = (_tokens, _index, _options, env): string => {
-      const includeEnv = env as IncludeEnv;
-      const includedPaths = includeEnv[includePathsKey];
-
-      /* istanbul ignore else -- @preserve */
-      if (Array.isArray(includedPaths)) includedPaths.pop();
-
-      // oxlint-disable-next-line no-console
-      else console.error(`[@mdit/plugin-include]: include_end failed, no include_start.`);
-
-      return "";
-    };
-
-    if (resolveImagePath) {
-      const defaultImageRender = md.renderer.rules.image;
-
-      md.renderer.rules.image = (tokens, index, mdItOptions, env, self): string => {
-        const token = tokens[index];
-        const includeEnv = env as IncludeEnv;
-
-        const filePath = currentPath(includeEnv);
-
-        const restoreUrl = filePath
-          ? resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey])
-          : null;
-
-        try {
-          // pass token to default renderer.
-          return defaultImageRender(tokens, index, mdItOptions, env, self);
-        } finally {
-          restoreUrl?.();
-        }
+        state.src = resolveInclude(
+          state.src,
+          {
+            currentPath,
+            resolvePath,
+            deep,
+            resolveLinkPath,
+            resolveImagePath,
+            useComment,
+            allowOutsideRoot,
+            projectRoot: projectRoot ?? process.cwd(),
+            denyFiles: denyFiles ?? defaultSensitiveFiles,
+          },
+          {
+            cwd: filePath ? dirname(filePath) : null,
+            includedFiles,
+            checkSecurity,
+            nonce,
+          },
+          codeRanges,
+          md,
+        );
       };
-    }
 
-    if (resolveLinkPath) {
-      const defaultLinkRender =
-        md.renderer.rules.link_open ??
-        ((tokens, index, mdItOptions, _env, self): string =>
-          self.renderToken(tokens, index, mdItOptions));
+      // add md_import core rule
+      md.core.ruler.after("normalize", "md_import", includeRule);
 
-      md.renderer.rules.link_open = (tokens, index, mdItOptions, env, self): string => {
-        const token = tokens[index];
-        const includeEnv = env as IncludeEnv;
+      if (resolveImagePath || resolveLinkPath) {
+        md.block.ruler.before("table", "md_include_start", includePushRule, {
+          alt: ["paragraph", "reference", "blockquote", "list"],
+        });
+        md.block.ruler.before("table", "md_include_end", includePopRule, {
+          alt: ["paragraph", "reference", "blockquote", "list"],
+        });
 
-        const filePath = currentPath(includeEnv);
+        md.renderer.rules.include_start = (tokens, index, _options, env): string => {
+          const token = tokens[index];
+          const includeEnv = env as IncludeEnv;
+          const includedPaths = (includeEnv[includePathsKey] ??= []);
 
-        const restoreUrl = filePath
-          ? resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey])
-          : null;
+          includedPaths.push(token.info);
 
-        try {
-          // pass token to default renderer.
-          return defaultLinkRender(tokens, index, mdItOptions, env, self);
-        } finally {
-          restoreUrl?.();
+          return "";
+        };
+
+        md.renderer.rules.include_end = (_tokens, _index, _options, env): string => {
+          const includeEnv = env as IncludeEnv;
+          const includedPaths = includeEnv[includePathsKey];
+
+          /* istanbul ignore else -- @preserve */
+          if (Array.isArray(includedPaths)) includedPaths.pop();
+
+          // oxlint-disable-next-line no-console
+          else console.error(`[@mdit/plugin-include]: include_end failed, no include_start.`);
+
+          return "";
+        };
+
+        if (resolveImagePath) {
+          const defaultImageRender = md.renderer.rules.image;
+
+          md.renderer.rules.image = (tokens, index, mdItOptions, env, self): string => {
+            const token = tokens[index];
+            const includeEnv = env as IncludeEnv;
+
+            const filePath = currentPath(includeEnv);
+
+            const restoreUrl = filePath
+              ? resolveRelatedLink("src", token, filePath, includeEnv[includePathsKey])
+              : null;
+
+            try {
+              // pass token to default renderer.
+              return defaultImageRender(tokens, index, mdItOptions, env, self);
+            } finally {
+              restoreUrl?.();
+            }
+          };
         }
-      };
-    }
-  }
-};
+
+        if (resolveLinkPath) {
+          const defaultLinkRender =
+            md.renderer.rules.link_open ??
+            ((tokens, index, mdItOptions, _env, self): string =>
+              self.renderToken(tokens, index, mdItOptions));
+
+          md.renderer.rules.link_open = (tokens, index, mdItOptions, env, self): string => {
+            const token = tokens[index];
+            const includeEnv = env as IncludeEnv;
+
+            const filePath = currentPath(includeEnv);
+
+            const restoreUrl = filePath
+              ? resolveRelatedLink("href", token, filePath, includeEnv[includePathsKey])
+              : null;
+
+            try {
+              // pass token to default renderer.
+              return defaultLinkRender(tokens, index, mdItOptions, env, self);
+            } finally {
+              restoreUrl?.();
+            }
+          };
+        }
+      }
+    },
+  );

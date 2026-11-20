@@ -1,7 +1,7 @@
 /** Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js */
 
-import { hasRule } from "@mdit/helper";
-import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import { definePlugin, hasRule } from "@mdit/helper";
+import type { BlockRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { StateBlock, StateInline } from "markdown-it";
 
 import type { MarkdownItTexOptions } from "./options.js";
@@ -480,61 +480,62 @@ const ruleOptions = {
   alt: ["paragraph", "reference", "blockquote", "list"],
 };
 
-export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
-  if (typeof options?.render !== "function")
-    throw new TypeError('[@mdit/plugin-tex]: "render" option should be a function');
+export const tex: UniversalPluginWithOptions<MarkdownItTexOptions> =
+  definePlugin<MarkdownItTexOptions>("tex", (md, options) => {
+    if (typeof options?.render !== "function")
+      throw new TypeError('[@mdit/plugin-tex]: "render" option should be a function');
 
-  const {
-    allowInlineWithSpace = false,
-    mathFence = false,
-    delimiters = "dollars",
-    render,
-  } = options;
+    const {
+      allowInlineWithSpace = false,
+      mathFence = false,
+      delimiters = "dollars",
+      render,
+    } = options;
 
-  // Repeated installation is a full no-op: a second call must not stack the fence wrapper,
-  // merge another delimiter's rules or replace the first installation's renderers.
-  const installed =
-    hasRule(md, "math_inline_dollar", "inline") ||
-    hasRule(md, "math_block_dollar", "block") ||
-    hasRule(md, "math_inline_bracket", "inline") ||
-    hasRule(md, "math_block_bracket", "block");
+    // Repeated installation is a full no-op: a second call must not stack the fence wrapper,
+    // merge another delimiter's rules or replace the first installation's renderers.
+    const installed =
+      hasRule(md, "math_inline_dollar", "inline") ||
+      hasRule(md, "math_block_dollar", "block") ||
+      hasRule(md, "math_inline_bracket", "inline") ||
+      hasRule(md, "math_block_bracket", "block");
 
-  if (installed) return;
+    if (installed) return;
 
-  // Handle ```math blocks
-  if (mathFence) {
-    const fence = md.renderer.rules.fence;
+    // Handle ```math blocks
+    if (mathFence) {
+      const fence = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
-      const token = tokens[index];
+      md.renderer.rules.fence = (tokens, index, mdItOptions, env, self): string => {
+        const token = tokens[index];
 
-      if (token.info.trim() === "math")
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        return render(token.content, true, env!);
+        if (token.info.trim() === "math")
+          // oxlint-disable-next-line typescript/no-non-null-assertion
+          return render(token.content, true, env!);
 
-      return fence(tokens, index, mdItOptions, env, self);
-    };
-  }
+        return fence(tokens, index, mdItOptions, env, self);
+      };
+    }
 
-  // Register inline and block rules based on delimiters option
-  if (delimiters === "dollars" || delimiters === "all") {
-    md.inline.ruler.after(
-      "escape",
-      "math_inline_dollar",
-      createDollarInlineTexRule(allowInlineWithSpace),
-    );
-    md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
-  }
+    // Register inline and block rules based on delimiters option
+    if (delimiters === "dollars" || delimiters === "all") {
+      md.inline.ruler.after(
+        "escape",
+        "math_inline_dollar",
+        createDollarInlineTexRule(allowInlineWithSpace),
+      );
+      md.block.ruler.after("blockquote", "math_block_dollar", dollarBlockTexRule, ruleOptions);
+    }
 
-  if (delimiters === "brackets" || delimiters === "all") {
-    md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
-    md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
-  }
+    if (delimiters === "brackets" || delimiters === "all") {
+      md.inline.ruler.before("escape", "math_inline_bracket", createBracketInlineTexRule());
+      md.block.ruler.after("blockquote", "math_block_bracket", bracketBlockTexRule, ruleOptions);
+    }
 
-  md.renderer.rules.math_inline = (tokens, index, _options, env): string =>
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    render(tokens[index].content, false, env!);
-  md.renderer.rules.math_block = (tokens, index, _options, env): string =>
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    render(tokens[index].content, true, env!);
-};
+    md.renderer.rules.math_inline = (tokens, index, _options, env): string =>
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      render(tokens[index].content, false, env!);
+    md.renderer.rules.math_block = (tokens, index, _options, env): string =>
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      render(tokens[index].content, true, env!);
+  });

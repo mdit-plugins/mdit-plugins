@@ -1,5 +1,5 @@
-import { hasRule, UNESCAPE_RE } from "@mdit/helper";
-import type { InlineRule, PluginWithOptions } from "@mdit/helper";
+import { UNESCAPE_RE, definePlugin, hasRule } from "@mdit/helper";
+import type { InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { Delimiter, StateInline } from "markdown-it";
 
 import type { InlineRuleAttrs, InlineRuleOptions } from "./options.js";
@@ -251,64 +251,65 @@ const createRuler2Handler =
     }
   };
 
-export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
-  if (
-    !options ||
-    typeof options.marker !== "string" ||
-    typeof options.token !== "string" ||
-    typeof options.tag !== "string"
-  ) {
-    throw new Error(
-      "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
-    );
-  }
-
-  const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options;
-
-  if (marker.length !== 1)
-    throw new Error("Invalid marker for inlineRule plugin: 'marker' must be a single character.");
-
-  const double = options.double ?? false;
-  const allowSpace = nested ? false : (options.allowSpace ?? false);
-
-  const markerCode = marker.charCodeAt(0);
-  const markup = double ? marker + marker : marker;
-  const ruleName = `${token}_${marker}`;
-  const isBefore = placement === "before-emphasis";
-
-  // Repeated installation of the same configuration must not register the rule twice.
-  if (!hasRule(md, ruleName, "inline")) {
-    if (nested) {
-      const tokenize = createNestedTokenize(markerCode, double);
-      const postProcess = createNestedPostProcess({
-        markerCode,
-        tag,
-        token,
-        markup,
-        double,
-        attrs,
-      });
-      const ruler2Handler = createRuler2Handler(postProcess);
-
-      if (isBefore) {
-        md.inline.ruler.before("emphasis", ruleName, tokenize);
-        md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
-      } else {
-        md.inline.ruler.after("emphasis", ruleName, tokenize);
-        md.inline.ruler2.after("emphasis", ruleName, ruler2Handler);
-      }
-    } else {
-      const rule = createLinearRule({
-        markerCode,
-        tag,
-        token,
-        markup,
-        allowSpace,
-        attrs,
-      });
-
-      if (isBefore) md.inline.ruler.before("emphasis", ruleName, rule);
-      else md.inline.ruler.after("emphasis", ruleName, rule);
+export const inlineRule: UniversalPluginWithOptions<InlineRuleOptions> =
+  definePlugin<InlineRuleOptions>("inlineRule", (md, options) => {
+    if (
+      !options ||
+      typeof options.marker !== "string" ||
+      typeof options.token !== "string" ||
+      typeof options.tag !== "string"
+    ) {
+      throw new Error(
+        "Invalid options for inlineRule plugin: 'marker', 'token', and 'tag' are required string properties.",
+      );
     }
-  }
-};
+
+    const { marker, tag, token, attrs, nested = false, placement = "after-emphasis" } = options;
+
+    if (marker.length !== 1)
+      throw new Error("Invalid marker for inlineRule plugin: 'marker' must be a single character.");
+
+    const double = options.double ?? false;
+    const allowSpace = nested ? false : (options.allowSpace ?? false);
+
+    const markerCode = marker.charCodeAt(0);
+    const markup = double ? marker + marker : marker;
+    const ruleName = `${token}_${marker}`;
+    const isBefore = placement === "before-emphasis";
+
+    // Repeated installation of the same configuration must not register the rule twice.
+    if (!hasRule(md, ruleName, "inline")) {
+      if (nested) {
+        const tokenize = createNestedTokenize(markerCode, double);
+        const postProcess = createNestedPostProcess({
+          markerCode,
+          tag,
+          token,
+          markup,
+          double,
+          attrs,
+        });
+        const ruler2Handler = createRuler2Handler(postProcess);
+
+        if (isBefore) {
+          md.inline.ruler.before("emphasis", ruleName, tokenize);
+          md.inline.ruler2.before("emphasis", ruleName, ruler2Handler);
+        } else {
+          md.inline.ruler.after("emphasis", ruleName, tokenize);
+          md.inline.ruler2.after("emphasis", ruleName, ruler2Handler);
+        }
+      } else {
+        const rule = createLinearRule({
+          markerCode,
+          tag,
+          token,
+          markup,
+          allowSpace,
+          attrs,
+        });
+
+        if (isBefore) md.inline.ruler.before("emphasis", ruleName, rule);
+        else md.inline.ruler.after("emphasis", ruleName, rule);
+      }
+    }
+  });

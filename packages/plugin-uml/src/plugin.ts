@@ -1,112 +1,118 @@
-import { dedent, hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import { dedent, definePlugin, hasRule } from "@mdit/helper";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
 
 import type { MarkdownItUMLOptions } from "./options.js";
 import { defaultRenderer } from "./options.js";
 
-export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
-  const { name = "uml", open = "start", close = "end", renderer = defaultRenderer } = options ?? {};
+export const uml: UniversalPluginWithOptions<MarkdownItUMLOptions> =
+  definePlugin<MarkdownItUMLOptions>("uml", (md, options) => {
+    const {
+      name = "uml",
+      open = "start",
+      close = "end",
+      renderer = defaultRenderer,
+    } = options ?? {};
 
-  const OPEN_MARKER = `@${open}`;
-  const CLOSE_MARKER = `@${close}`;
+    const OPEN_MARKER = `@${open}`;
+    const CLOSE_MARKER = `@${close}`;
 
-  const umlRule: BlockRule = (state, startLine, endLine, silent) => {
-    let start = state.bMarks[startLine] + state.tShift[startLine];
-    let max = state.eMarks[startLine];
+    const umlRule: BlockRule = (state, startLine, endLine, silent) => {
+      let start = state.bMarks[startLine] + state.tShift[startLine];
+      let max = state.eMarks[startLine];
 
-    /*
-     * Check out the first character quickly,
-     * this should filter out most of non-uml blocks
-     */
-    if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
+      /*
+       * Check out the first character quickly,
+       * this should filter out most of non-uml blocks
+       */
+      if (state.src.charCodeAt(start) !== 64 /* @ */) return false;
 
-    let index;
+      let index;
 
-    // Check out the rest of the marker string
-    for (index = 0; index < OPEN_MARKER.length; ++index)
-      if (OPEN_MARKER[index] !== state.src[start + index]) return false;
+      // Check out the rest of the marker string
+      for (index = 0; index < OPEN_MARKER.length; ++index)
+        if (OPEN_MARKER[index] !== state.src[start + index]) return false;
 
-    const markup = state.src.slice(start, start + index);
-    const params = state.src.slice(start + index, max);
+      const markup = state.src.slice(start, start + index);
+      const params = state.src.slice(start + index, max);
 
-    // Since start is found, we can report success here in validation mode
-    if (silent) return true;
+      // Since start is found, we can report success here in validation mode
+      if (silent) return true;
 
-    let autoClosed = false;
-    let nextLine = startLine;
+      let autoClosed = false;
+      let nextLine = startLine;
 
-    // Search for the end of the block
-    while (
-      // unclosed block should be auto closed by end of document.
-      // also block seems to be auto closed by end of parent
-      nextLine < endLine
-    ) {
-      start = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-
-      if (start < max && state.sCount[nextLine] < state.blkIndent) {
-        // non-empty line with negative indent should stop the list:
-        // - @umlstart
-        //  test
-        break;
-      }
-
-      if (
-        // didn’t find the closing fence
-        state.src.charCodeAt(start) === 64 /* @ */ &&
-        // closing fence should not be indented with respect of opening fence
-        state.sCount[nextLine] <= state.sCount[startLine]
+      // Search for the end of the block
+      while (
+        // unclosed block should be auto closed by end of document.
+        // also block seems to be auto closed by end of parent
+        nextLine < endLine
       ) {
-        let closeMarkerMatched = true;
+        start = state.bMarks[nextLine] + state.tShift[nextLine];
+        max = state.eMarks[nextLine];
 
-        for (index = 0; index < CLOSE_MARKER.length; ++index) {
-          if (CLOSE_MARKER[index] !== state.src[start + index]) {
-            closeMarkerMatched = false;
+        if (start < max && state.sCount[nextLine] < state.blkIndent) {
+          // non-empty line with negative indent should stop the list:
+          // - @umlstart
+          //  test
+          break;
+        }
+
+        if (
+          // didn’t find the closing fence
+          state.src.charCodeAt(start) === 64 /* @ */ &&
+          // closing fence should not be indented with respect of opening fence
+          state.sCount[nextLine] <= state.sCount[startLine]
+        ) {
+          let closeMarkerMatched = true;
+
+          for (index = 0; index < CLOSE_MARKER.length; ++index) {
+            if (CLOSE_MARKER[index] !== state.src[start + index]) {
+              closeMarkerMatched = false;
+              break;
+            }
+          }
+
+          if (
+            closeMarkerMatched &&
+            // make sure tail has spaces only
+            state.skipSpaces(start + index) >= max
+          ) {
+            // found!
+            autoClosed = true;
             break;
           }
         }
 
-        if (
-          closeMarkerMatched &&
-          // make sure tail has spaces only
-          state.skipSpaces(start + index) >= max
-        ) {
-          // found!
-          autoClosed = true;
-          break;
-        }
+        nextLine++;
       }
 
-      nextLine++;
-    }
+      // `getLines` strips the block indent (including blockquote prefixes) using the parser's
+      // line offsets instead of splitting the whole document, which was O(N²) for many blocks.
+      const contents = state.getLines(startLine + 1, nextLine, state.blkIndent, false);
 
-    // `getLines` strips the block indent (including blockquote prefixes) using the parser's
-    // line offsets instead of splitting the whole document, which was O(N²) for many blocks.
-    const contents = state.getLines(startLine + 1, nextLine, state.blkIndent, false);
+      const umlToken = state.push(name, "uml", 0);
 
-    const umlToken = state.push(name, "uml", 0);
+      umlToken.block = true;
+      umlToken.info = params;
+      umlToken.content = dedent(contents);
+      umlToken.map = [startLine, nextLine];
+      umlToken.markup = markup;
 
-    umlToken.block = true;
-    umlToken.info = params;
-    umlToken.content = dedent(contents);
-    umlToken.map = [startLine, nextLine];
-    umlToken.markup = markup;
+      state.line = nextLine + (autoClosed ? 1 : 0);
 
-    state.line = nextLine + (autoClosed ? 1 : 0);
+      return true;
+    };
 
-    return true;
-  };
+    // The configurable `name` is also the token type and renderer key (kept for backward
+    // compatibility), so it may collide with a built-in or another plugin's rule name (`paragraph`,
+    // `fence`, `table`, ...). Namespace the parser rule to avoid silently skipping registration, and
+    // return early on a repeated installation: the second install must not register the rule again
+    // or replace the renderer, even when it passes different options.
+    if (hasRule(md, `uml_${name}`, "block")) return;
 
-  // The configurable `name` is also the token type and renderer key (kept for backward
-  // compatibility), so it may collide with a built-in or another plugin's rule name (`paragraph`,
-  // `fence`, `table`, ...). Namespace the parser rule to avoid silently skipping registration, and
-  // return early on a repeated installation: the second install must not register the rule again
-  // or replace the renderer, even when it passes different options.
-  if (hasRule(md, `uml_${name}`, "block")) return;
+    md.block.ruler.before("fence", `uml_${name}`, umlRule, {
+      alt: ["paragraph", "reference", "blockquote", "list"],
+    });
 
-  md.block.ruler.before("fence", `uml_${name}`, umlRule, {
-    alt: ["paragraph", "reference", "blockquote", "list"],
+    md.renderer.rules[name] = renderer;
   });
-
-  md.renderer.rules[name] = renderer;
-};

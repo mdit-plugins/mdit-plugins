@@ -47,6 +47,12 @@ const instanceTexStates = new WeakMap<MathjaxInstance, InstanceTexState>();
  */
 const installedInstances = new WeakSet<MathjaxInstance>();
 
+interface MarkdownEngine {
+  render: (src: string, env?: Record<string, unknown>) => string | Promise<string>;
+}
+
+type UniversalMathjaxPlugin = (md: MarkdownEngine, instance: MathjaxInstance) => void;
+
 /**
  * Match the HTML-related TeX packages of an instance with the markdown-it `html` option.
  *
@@ -250,7 +256,7 @@ export const createMathjaxInstance = async (
   return instance;
 };
 
-export const mathjax = (md: MarkdownIt, instance: MathjaxInstance): void => {
+export const mathjax = ((md: MarkdownIt, instance: MathjaxInstance): void => {
   if (installedInstances.has(instance)) {
     throw new Error(
       "[@mdit/plugin-mathjax] the instance is already installed on a MarkdownIt instance. Create a separate MathJax instance with `createMathjaxInstance` for each `MarkdownIt` instance",
@@ -304,4 +310,4 @@ export const mathjax = (md: MarkdownIt, instance: MathjaxInstance): void => {
       return transformer?.(result, displayMode) ?? result;
     },
   });
-};
+}) as UniversalMathjaxPlugin;
