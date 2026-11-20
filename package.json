@@ -22,6 +22,7 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:bench": "pnpm run bench:prepare && vitest bench",
+    "test:compat": "vitest run --config vitest.compat.config.ts",
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "cross-env": "10.1.0",
     "happy-dom": "21.0.4",
     "husky": "9.1.7",
+    "markdown-exit": "2.1.3",
     "markdown-it": "catalog:",
     "markdownlint-cli2": "0.24.1",
     "nano-staged": "1.0.2",

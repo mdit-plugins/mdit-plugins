@@ -74,6 +74,7 @@ scripts are defined in `compare/package.json` and are invoked through the worksp
 | `pnpm run test`                           | Run unit tests                                                 |
 | `pnpm run test:coverage`                  | Run unit tests with coverage; fails below the 100% thresholds  |
 | `pnpm run test:bench`                     | Prepare the benchmark baseline and run vitest benchmarks       |
+| `pnpm run test:compat`                    | Run unit tests with `markdown-exit` in place of `markdown-it`  |
 | `pnpm run bench:prepare`                  | Build the current tree and the `origin/main` baseline worktree |
 | `pnpm run bench:clean`                    | Remove the benchmark baseline worktree                         |
 | `pnpm run lint`                           | Run oxlint + oxfmt with auto-fix                               |
@@ -104,13 +105,13 @@ All workflows live in `.github/workflows/` and use `pnpm/setup` with `require-lo
 unit tests run on Node.js 22, 24 and 26; the other workflows each set up a single Node.js runtime in
 their `runtime:` input.
 
-| Workflow          | Triggers                                | What it runs                                                                                                                           |
-| ----------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job |
-| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `bundle:analyze`, `lint:check`, `lint:md`                                             |
-| `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                         |
-| `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                 |
-| `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                               |
+| Workflow          | Triggers                                | What it runs                                                                                                                                                                            |
+| ----------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unit-test.yml`   | push, pull request                      | Build, then `test:coverage` with `TEST_REPORT=true` on the Node.js 22/24/26 matrix; uploads JUnit and coverage from the Node.js 24 job; also runs `test:compat` against `markdown-exit` |
+| `linter-test.yml` | push, pull request                      | `packages:check-readme`, compare `check`, build, `bundle:analyze`, `lint:check`, `lint:md`                                                                                              |
+| `codeql.yml`      | push/PR to `main`, weekly (Wednesday)   | CodeQL analysis for JavaScript                                                                                                                                                          |
+| `docs.yml`        | push, pull request                      | Build, then `docs:build`; deploys the docs from `main` to the documentation repository                                                                                                  |
+| `publish.yml`     | manual `workflow_dispatch`, `main` only | Release checks, `lerna version`, `lerna publish`, npm mirror sync (see Release Workflow)                                                                                                |
 
 ## Package Structure
 
@@ -400,8 +401,8 @@ The `commit-msg` hook runs `scripts/verifyCommit.ts`.
   `pnpm run bench:clean`.
 - **CI reports**: `TEST_REPORT=true` switches coverage reporters to `["cobertura", "text"]` (no HTML
   report) and adds the `junit` reporter writing `coverage/test-report.junit.xml`.
-- **Discovery**: the root config excludes `**/node_modules/**`, `**/dist/**` and `temp/**` for both
-  tests and benchmarks.
+- **Discovery**: the root config excludes `**/.agents/**` (local agent worktrees),
+  `**/node_modules/**`, `**/dist/**` and `temp/**` for both tests and benchmarks.
 - **Aliases**: the root config aliases `@deflate` to the Node.js plantuml implementation; each
   package build aliases it per platform.
 
