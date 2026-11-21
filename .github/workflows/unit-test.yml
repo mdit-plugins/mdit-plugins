@@ -74,3 +74,22 @@ jobs:
 
       - name: Run tests against markdown-exit
         run: pnpm run test:compat
+
+  type-check:
+    name: Type check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/setup@v3
+        with:
+          runtime: node@^24.22.1
+          require-lockfile: true
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Run type tests
+        run: pnpm run test:types

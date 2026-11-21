@@ -1,6 +1,6 @@
 import { hasRule } from "@mdit/helper";
-import type { InlineRule, PluginSimple } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { InlineRule, UniversalPluginSimple } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
 import { normalizeSize } from "./utils.js";
@@ -237,9 +237,9 @@ export const imgSizeRule: InlineRule = (state, silent) => {
   return true;
 };
 
-export const imgSize: PluginSimple = (md) => {
+export const imgSize: UniversalPluginSimple = ((md: MarkdownIt) => {
   // A second installation would register the inline rule twice.
   if (hasRule(md, "img-size", "inline")) return;
 
   md.inline.ruler.before("image", "img-size", imgSizeRule);
-};
+}) as UniversalPluginSimple;

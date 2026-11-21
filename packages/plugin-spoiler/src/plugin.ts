@@ -1,10 +1,11 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
 import { inlineRule } from "@mdit/plugin-inline-rule";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItSpoilerOptions } from "./options.js";
 
-export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
-  md,
+export const spoiler: UniversalPluginWithOptions<MarkdownItSpoilerOptions> = ((
+  md: MarkdownIt,
   {
     tag = "span",
     // A factory is used by default so every token receives a fresh attrs array: token attrs are
@@ -13,7 +14,7 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
       ["class", "spoiler"],
       ["tabindex", "-1"],
     ],
-  } = {},
+  }: MarkdownItSpoilerOptions = {},
 ) => {
   inlineRule(md, {
     marker: "!",
@@ -24,4 +25,4 @@ export const spoiler: PluginWithOptions<MarkdownItSpoilerOptions> = (
     placement: "before-emphasis",
     attrs,
   });
-};
+}) as UniversalPluginWithOptions<MarkdownItSpoilerOptions>;

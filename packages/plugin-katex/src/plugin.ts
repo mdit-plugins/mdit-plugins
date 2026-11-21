@@ -25,7 +25,16 @@ const katexBlock = (
   return transformer?.(result, true) ?? result;
 };
 
-export const katex = <MarkdownItEnv extends Env = Env>(
+interface MarkdownEngine {
+  render: (src: string, env?: Record<string, unknown>) => string | Promise<string>;
+}
+
+type UniversalKatexPlugin = <MarkdownItEnv extends Env = Env>(
+  md: MarkdownEngine,
+  options?: MarkdownItKatexOptions<MarkdownItEnv>,
+) => void;
+
+export const katex = (<MarkdownItEnv extends Env = Env>(
   md: MarkdownIt,
   {
     allowInlineWithSpace = false,
@@ -99,4 +108,4 @@ export const katex = <MarkdownItEnv extends Env = Env>(
         : katexInline(content, commonKatexOptions, transformer);
     },
   });
-};
+}) as UniversalKatexPlugin;

@@ -1,5 +1,5 @@
 import { hasRule } from "@mdit/helper";
-import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt } from "markdown-it";
 
 import type { EmbedConfig, MarkdownItEmbedOptions } from "./options.js";
@@ -195,7 +195,10 @@ const createBlockEmbedRule =
     return true;
   };
 
-export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) => {
+export const embed: UniversalPluginWithOptions<MarkdownItEmbedOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItEmbedOptions,
+) => {
   if (typeof options !== "object" || options == null || !Array.isArray(options.config))
     throw new TypeError("[@mdit/plugin-embed]: config is required and must be an array.");
 
@@ -263,4 +266,4 @@ export const embed: PluginWithOptions<MarkdownItEmbedOptions> = (md, options) =>
       };
     }
   }
-};
+}) as UniversalPluginWithOptions<MarkdownItEmbedOptions>;

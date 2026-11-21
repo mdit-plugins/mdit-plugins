@@ -1,6 +1,6 @@
 import { hasRule } from "@mdit/helper";
-import type { InlineRule, PluginSimple } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { InlineRule, UniversalPluginSimple } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { ImgSizeEnv } from "./types.js";
 
@@ -246,9 +246,9 @@ export const obsidianImgSizeRule: InlineRule = (state, silent) => {
   return true;
 };
 
-export const obsidianImgSize: PluginSimple = (md) => {
+export const obsidianImgSize: UniversalPluginSimple = ((md: MarkdownIt) => {
   // A second installation would register the inline rule twice.
   if (hasRule(md, "obsidian-img-size", "inline")) return;
 
   md.inline.ruler.before("image", "obsidian-img-size", obsidianImgSizeRule);
-};
+}) as UniversalPluginSimple;

@@ -1,4 +1,4 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt } from "markdown-it";
 
 import type { FieldMeta, MarkdownItFieldOptions } from "./options.js";
@@ -19,8 +19,8 @@ import { normalizeAttributes } from "./utils.js";
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Field options / 字段选项
  */
-export const field: PluginWithOptions<MarkdownItFieldOptions> = (
-  md,
+export const field: UniversalPluginWithOptions<MarkdownItFieldOptions> = ((
+  md: MarkdownIt,
   {
     name = "fields",
     classPrefix = "field-",
@@ -30,7 +30,7 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
     fieldsCloseRenderer = defaultFieldsCloseRenderer,
     fieldOpenRenderer = getDefaultFieldOpenRender(classPrefix),
     fieldCloseRenderer = defaultFieldCloseRenderer,
-  } = {},
+  }: MarkdownItFieldOptions = {},
 ) => {
   const normalizedAttributes = normalizeAttributes(allowedAttributes);
   const fieldsScanner = getFieldsScanner(name);
@@ -76,4 +76,4 @@ export const field: PluginWithOptions<MarkdownItFieldOptions> = (
   md.core.ruler.push(`field_${name}_fields_scanner`, (state) => {
     fieldsScanner(state.tokens);
   });
-};
+}) as UniversalPluginWithOptions<MarkdownItFieldOptions>;

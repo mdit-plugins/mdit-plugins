@@ -1,6 +1,6 @@
-import { hasRule, UNESCAPE_RE } from "@mdit/helper";
-import type { InlineRule, PluginWithOptions } from "@mdit/helper";
-import type { Delimiter, StateInline } from "markdown-it";
+import { UNESCAPE_RE, hasRule } from "@mdit/helper";
+import type { InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { Delimiter, MarkdownIt, StateInline } from "markdown-it";
 
 import type { InlineRuleAttrs, InlineRuleOptions } from "./options.js";
 
@@ -251,7 +251,10 @@ const createRuler2Handler =
     }
   };
 
-export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) => {
+export const inlineRule: UniversalPluginWithOptions<InlineRuleOptions> = ((
+  md: MarkdownIt,
+  options?: InlineRuleOptions,
+) => {
   if (
     !options ||
     typeof options.marker !== "string" ||
@@ -311,4 +314,4 @@ export const inlineRule: PluginWithOptions<InlineRuleOptions> = (md, options) =>
       else md.inline.ruler.after("emphasis", ruleName, rule);
     }
   }
-};
+}) as UniversalPluginWithOptions<InlineRuleOptions>;

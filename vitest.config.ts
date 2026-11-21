@@ -13,6 +13,9 @@ const config: ViteUserConfigExport = defineConfig({
     exclude: ["**/.agents/**", "**/node_modules/**", "**/dist/**", "temp/**"],
     fsModuleCache: true,
     pool: "threads",
+    typecheck: {
+      include: ["tests/**/*.spec-d.ts"],
+    },
     coverage: {
       provider: "istanbul",
       include: ["packages/*/src/**/*.ts"],

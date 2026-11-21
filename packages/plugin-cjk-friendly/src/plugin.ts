@@ -11,7 +11,7 @@
  * Copyright (c) 2014 Vitaly Puzrin, Alex Kocharin
  */
 
-import type { PluginSimple } from "@mdit/helper";
+import type { UniversalPluginSimple } from "@mdit/helper";
 import { eastAsianWidthType } from "get-east-asian-width";
 import type { MarkdownIt } from "markdown-it";
 
@@ -121,7 +121,7 @@ const getLastCharCode = (str: string, pos: number): [number, number] => {
 /** MarkdownIt instances that already installed this plugin / 已安装此插件的 MarkdownIt 实例 */
 const installedMarkdownIt = new WeakSet<MarkdownIt>();
 
-export const cjkFriendly: PluginSimple = (md) => {
+export const cjkFriendly: UniversalPluginSimple = ((md: MarkdownIt) => {
   if (installedMarkdownIt.has(md)) return;
 
   installedMarkdownIt.add(md);
@@ -202,4 +202,4 @@ export const cjkFriendly: PluginSimple = (md) => {
   }
 
   md.inline.State = CjkFriendlyState;
-};
+}) as UniversalPluginSimple;

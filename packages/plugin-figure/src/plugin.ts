@@ -1,7 +1,7 @@
 /** Forked and modified from https://github.com/Antonio-Laguna/markdown-it-image-figures */
 import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { MarkdownItFigureOptions } from "./options.js";
 
@@ -128,9 +128,9 @@ const getCaption = (image: Token): string => {
   return image.content;
 };
 
-export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
-  md,
-  { moveAttrs, focusable, linkImage } = {},
+export const figure: UniversalPluginWithOptions<MarkdownItFigureOptions> = ((
+  md: MarkdownIt,
+  { moveAttrs, focusable, linkImage }: MarkdownItFigureOptions = {},
 ) => {
   const figureRule: CoreRule = (state) => {
     // do not process first and last token
@@ -234,4 +234,4 @@ export const figure: PluginWithOptions<MarkdownItFigureOptions> = (
 
   // Repeated installation of the same configuration must not register the rule twice.
   if (!hasRule(md, "figure", "core")) md.core.ruler.before("linkify", "figure", figureRule);
-};
+}) as UniversalPluginWithOptions<MarkdownItFigureOptions>;
