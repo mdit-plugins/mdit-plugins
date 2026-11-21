@@ -21,7 +21,7 @@
     "@mdit/plugin-snippet": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.31",
     "@vuepress/helper": "2.0.0-rc.135",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.137",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.138",
     "@vuepress/plugin-markdown-field": "2.0.0-rc.137",
     "markdown-it": "catalog:",
     "sass-embedded": "1.108.2",
