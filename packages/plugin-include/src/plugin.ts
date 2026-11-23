@@ -219,8 +219,14 @@ const includePushRule: BlockRule = (state, startLine, _, silent): boolean => {
 
     if (silent) return true;
 
+    // Model the pair as a container: the renderers emit nothing, but the nesting keeps the
+    // opener and closer balanced when a token filter drops the surrounding content.
     state.line = startLine + 1;
-    const token = state.push("include_start", "", 0);
+    const token = state.push("include_start", "", 1);
+
+    // Keep the included content transparent: only the marker nesting changes, so block rules
+    // that rely on the surrounding level (e.g. alerts at the top level) still apply.
+    state.level = token.level;
 
     token.map = [startLine, state.line];
     token.info = includePath;
@@ -254,7 +260,11 @@ const includePopRule: BlockRule = (state, startLine, _endLine, silent): boolean 
 
       state.line = startLine + 1;
 
-      const token = state.push("include_end", "", 0);
+      const token = state.push("include_end", "", -1);
+
+      // Restore the level of the surrounding block after the marker nesting shift.
+      token.level = state.level + 1;
+      state.level = token.level;
 
       token.map = [startLine, state.line];
       token.markup = "include_end";
