@@ -23,6 +23,6 @@ Compared against the upstream [`@traptitech/markdown-it-spoiler`](https://www.np
 
 - Correctness: **22/22** cases match the reference exactly.
 - Throughput: **1.01×** the reference (geometric mean across 6 benchmark cases; above 1× means faster).
-- Entry gzip: **236 B** versus **1.8 kB** for the reference (import cost).
+- Entry gzip: **235 B** versus **1.8 kB** for the reference (import cost).
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).
