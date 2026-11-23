@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-10T17:33:13.341Z",
-  "commit": "1aaec67bbd4e906b5116afd3247f49365db75702",
+  "generatedAt": "2026-11-23T13:47:38.098Z",
+  "commit": "eeaa77c0257b78e175456fe086af0c05f84fb0cc",
   "packages": [
     {
       "plugin": "plugin-abbr",
@@ -871,8 +871,8 @@
     {
       "plugin": "plugin-attrs",
       "reference": "markdown-it-attrs",
-      "total": 616,
-      "passed": 610,
+      "total": 636,
+      "passed": 630,
       "failed": 6,
       "skipped": 20,
       "skippedByCategory": {
@@ -1379,6 +1379,11 @@
         },
         {
           "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should detect the end delimiter when quotes are split across inline tokens",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
           "name": "createDelimiterChecker should check only delimiter",
           "status": "passed"
         },
@@ -1395,6 +1400,11 @@
         {
           "file": "getDelimiterChecker.spec.ts",
           "name": "createDelimiterChecker should work with custom delimiters",
+          "status": "passed"
+        },
+        {
+          "file": "getDelimiterChecker.spec.ts",
+          "name": "createDelimiterChecker should detect the end delimiter when the right delimiter contains a quote",
           "status": "passed"
         },
         {
@@ -1674,6 +1684,16 @@
         },
         {
           "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (legacy block rule only) should add attributes after an unbalanced quote in the preceding text",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
           "name": "blockEnd rules  (legacy block rule only) should add classes in same class attribute {.c1 .c2} -> class=\"c1 c2\"",
           "status": "passed"
         },
@@ -1770,6 +1790,16 @@
         {
           "file": "blockEnd.spec.ts",
           "name": "blockEnd rules  (blockEnd rule only) should support attributes inside \" {attr=\"lorem ipsum\"}",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (blockEnd rule only) should add attributes after an unbalanced quote in the preceding text",
           "status": "passed"
         },
         {
@@ -1874,6 +1904,16 @@
         },
         {
           "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules  (all rules) should add attributes after an unbalanced quote in the preceding text",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
           "name": "blockEnd rules  (all rules) should add classes in same class attribute {.c1 .c2} -> class=\"c1 c2\"",
           "status": "passed"
         },
@@ -1970,6 +2010,16 @@
         {
           "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should support attributes inside \" [attr=\"lorem ipsum\"]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (legacy block rule only) should add attributes after an unbalanced quote in the preceding text",
           "status": "passed"
         },
         {
@@ -2074,6 +2124,16 @@
         },
         {
           "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add attributes after an unbalanced quote in the preceding text",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [ ] delimiters (blockEnd rule only) should add classes in same class attribute [.c1 .c2] -> class=\"c1 c2\"",
           "status": "passed"
         },
@@ -2170,6 +2230,16 @@
         {
           "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [ ] delimiters (all rules) should support attributes inside \" [attr=\"lorem ipsum\"]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [ ] delimiters (all rules) should add attributes after an unbalanced quote in the preceding text",
           "status": "passed"
         },
         {
@@ -2274,6 +2344,16 @@
         },
         {
           "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add attributes after an unbalanced quote in the preceding text",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [[ ]] delimiters (legacy block rule only) should add classes in same class attribute [[.c1 .c2]] -> class=\"c1 c2\"",
           "status": "passed"
         },
@@ -2374,6 +2454,16 @@
         },
         {
           "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add attributes after an unbalanced quote in the preceding text",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [[ ]] delimiters (blockEnd rule only) should add classes in same class attribute [[.c1 .c2]] -> class=\"c1 c2\"",
           "status": "passed"
         },
@@ -2470,6 +2560,16 @@
         {
           "file": "blockEnd.spec.ts",
           "name": "blockEnd rules with [[ ]] delimiters (all rules) should support attributes inside \" [[attr=\"lorem ipsum\"]]",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add attributes after quoted content split by an inline element",
+          "status": "passed"
+        },
+        {
+          "file": "blockEnd.spec.ts",
+          "name": "blockEnd rules with [[ ]] delimiters (all rules) should add attributes after an unbalanced quote in the preceding text",
           "status": "passed"
         },
         {
@@ -5457,9 +5557,9 @@
     {
       "plugin": "plugin-footnote",
       "reference": "markdown-it-footnote",
-      "total": 23,
+      "total": 25,
       "passed": 5,
-      "failed": 18,
+      "failed": 20,
       "skipped": 20,
       "skippedByCategory": {
         "feature-gap": 20,
@@ -5582,6 +5682,18 @@
           "name": "footnote_plugin nested footnotes",
           "status": "failed",
           "message": "Error: Snapshot `footnote_plugin > nested footnotes 1` mismatched"
+        },
+        {
+          "file": "footnote.spec.ts",
+          "name": "footnote_plugin should keep nested definitions out of the outer note",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>Main text.<sup class=\"footnote-ref…' to be '<p>Main text.<sup class=\"footnote-ref…' // Object.is equality"
+        },
+        {
+          "file": "footnote.spec.ts",
+          "name": "footnote_plugin should drop nested definitions when there is no reference",
+          "status": "failed",
+          "message": "AssertionError: expected '<p>Tail of first note.</p>\\n' to be '' // Object.is equality"
         },
         {
           "file": "footnote.spec.ts",
@@ -6132,9 +6244,9 @@
         },
         {
           "file": "katex.spec.ts",
-          "name": "inline katex should render error msg when content is wrong",
+          "name": "inline katex should throw a ParseError when throwOnError is true",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\fra{a}{b}</p>\\n' to be '<p><span class=\\'katex-error\\' title=…' // Object.is equality"
+          "message": "AssertionError: expected function to throw an error, but it didn't"
         },
         {
           "file": "katex.spec.ts",
@@ -6168,9 +6280,9 @@
         },
         {
           "file": "katex.spec.ts",
-          "name": "block katex should render error msg when content is wrong",
+          "name": "block katex should throw a ParseError when throwOnError is true",
           "status": "failed",
-          "message": "AssertionError: expected '\\fra{a}{b}\\n\\n' to match /<p class='katex-block katex-error' …/p>"
+          "message": "AssertionError: expected function to throw an error, but it didn't"
         },
         {
           "file": "katex.spec.ts",
@@ -6281,9 +6393,9 @@
         },
         {
           "file": "katex.spec.ts",
-          "name": "inline katex should render error msg when content is wrong",
+          "name": "inline katex should throw a ParseError when throwOnError is true",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\fra{a}{b}</p>\\n' to be '<p><span class=\\'katex-error\\' title=…' // Object.is equality"
+          "message": "AssertionError: expected function to throw an error, but it didn't"
         },
         {
           "file": "katex.spec.ts",
@@ -6317,9 +6429,9 @@
         },
         {
           "file": "katex.spec.ts",
-          "name": "block katex should render error msg when content is wrong",
+          "name": "block katex should throw a ParseError when throwOnError is true",
           "status": "failed",
-          "message": "AssertionError: expected '\\fra{a}{b}\\n\\n' to match /<p class='katex-block katex-error' …/p>"
+          "message": "AssertionError: expected function to throw an error, but it didn't"
         },
         {
           "file": "katex.spec.ts",
@@ -6457,8 +6569,8 @@
     {
       "plugin": "plugin-mathjax",
       "reference": "markdown-it-mathjax3",
-      "total": 36,
-      "passed": 0,
+      "total": 65,
+      "passed": 29,
       "failed": 36,
       "skipped": 57,
       "skippedByCategory": {
@@ -6476,6 +6588,121 @@
             "en": "Tests the fork-only async MathJax API (`createMathjaxInstance`) and its assistive-MathML switch; the reference only exposes the synchronous plugin.",
             "zh": "测试 fork 专有的异步 MathJax API（`createMathjaxInstance`）及其辅助 MathML 开关；参考包只提供同步插件。"
           }
+        },
+        {
+          "file": "browser-font-version-fallback.spec.ts",
+          "name": "loadBrowserFonts falls back to the MathJax version when the font manifest is unreadable",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading uses the CDN font class and runtime",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading uses a custom asyncLoad when provided",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading registers a custom loader with custom font data",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading does not fall back to the local font when unpkg fails",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts loads the font class and runtime from unpkg",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts throws when the runtime version cannot be resolved",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts throws when a remote module fails to load",
+          "status": "passed"
+        },
+        {
+          "file": "cdn-font-version-failure.spec.ts",
+          "name": "getFontPackageVersion returns null when the package manifest cannot be read",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls creates unpkg URLs for svg",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls creates unpkg URLs for chtml",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls uses independent font and runtime versions",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getFontPackageVersion reads the installed font package version",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "importCdnModule imports an absolute module URL",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion reads the version from the redirected unpkg URL and caches it",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null when the request fails",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null for a failed response",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null when unpkg does not resolve to a concrete version",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts-failure.spec.ts",
+          "name": "dynamic font failures keeps the instance and later instances usable",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts-partial-failure.spec.ts",
+          "name": "partial dynamic font failure keeps the instance usable when one dynamic font file fails",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts renders svg glyphs that live in dynamic font files",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts renders chtml glyphs that live in dynamic font files",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts keeps SVG and CHTML dynamic files apart when both instances exist",
+          "status": "passed"
         },
         {
           "file": "font.spec.ts",
@@ -6632,6 +6859,36 @@
             "en": "Tests CHTML output through the fork-only async API; the reference is a synchronous SVG-only plugin.",
             "zh": "通过 fork 专有的异步 API 测试 CHTML 输出；参考包是只输出 SVG 的同步插件。"
           }
+        },
+        {
+          "file": "loader.spec.ts",
+          "name": "getDynamicFontOutput reads the output from a dynamic font file path",
+          "status": "passed"
+        },
+        {
+          "file": "loader.spec.ts",
+          "name": "registerDynamicFontLoader routes a dynamic font file to the loader registered for its output",
+          "status": "passed"
+        },
+        {
+          "file": "loader.spec.ts",
+          "name": "registerDynamicFontLoader throws when no loader is registered for the output",
+          "status": "passed"
+        },
+        {
+          "file": "preload-option.spec.ts",
+          "name": "preloadDynamicFonts skips font preloading when disabled",
+          "status": "passed"
+        },
+        {
+          "file": "runtime-dom.spec.ts",
+          "name": "isBrowserRuntime returns true when window and document exist",
+          "status": "passed"
+        },
+        {
+          "file": "runtime.spec.ts",
+          "name": "isBrowserRuntime returns false outside a browser",
+          "status": "passed"
         },
         {
           "file": "security.spec.ts",
@@ -6837,13 +7094,13 @@
           "file": "state.spec.ts",
           "name": "mathjax state isolation sync should not leak newcommand macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-2368068\">\\n   …' to be '<p>\\n    <span id=\"mjx-ab2e8908\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-68d1e1c8\">\\n  …' to be '<p>\\n    <span id=\"mjx-06898c08\">\\n  …' // Object.is equality"
         },
         {
           "file": "state.spec.ts",
           "name": "mathjax state isolation sync should not leak newenvironment macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-a42e7d08\">\\n     …' to be '\\n    <span id=\"mjx-d4b2ae88\">\\n     …' // Object.is equality"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-db15219\">\\n      …' to be '\\n    <span id=\"mjx-a7abd438\">\\n     …' // Object.is equality"
         },
         {
           "file": "svg-sync.spec.ts",
@@ -6981,7 +7238,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin renders the same HTML as the async implementation",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-4de5144\">\\n   …' to be '<p><mjx-container class=\"MathJax\" jax…' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-b5a50728\">\\n  …' to be '<p><mjx-container class=\"MathJax\" jax…' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -6993,19 +7250,19 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin supports chtml output",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-214a21b\">\\n      …' to match /jax=\"CHTML\"/"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-3dd07c88\">\\n     …' to match /jax=\"CHTML\"/"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin honors the a11y option",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-6df2a388\">\\n  …' not to contain '<mjx-assistive-mml'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-0993cf8\">\\n   …' not to contain '<mjx-assistive-mml'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin keeps a11y isolated between sessions sharing the worker",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-4cc41bb\">\\n      …' not to contain '<mjx-assistive-mml'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-98fcecb8\">\\n     …' not to contain '<mjx-assistive-mml'"
         },
         {
           "file": "sync.spec.ts",
@@ -7023,13 +7280,13 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin applies transformer on the main thread",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-00b1e8d8\">\\n  …' to contain '<!--inline-->'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-7597af3\">\\n   …' to contain '<!--inline-->'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin does not leak TeX macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-d1e5ac68\">\\n  …' to be '<p>\\n    <span id=\"mjx-d6a69e08\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-a47400d\">\\n   …' to be '<p>\\n    <span id=\"mjx-6dd1091\">\\n   …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7071,7 +7328,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin discards formulas collected by a failed render pass",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-1cae56\">\\n    …' to be '<p>\\n    <span id=\"mjx-77bb0778\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-ca6742c\">\\n   …' to be '<p>\\n    <span id=\"mjx-0a622f78\">\\n  …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7089,7 +7346,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin renders mathbb with the built-in double-struck variant",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-949394e8\">\\n  …' to contain 'NCM-DS-'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-5c506868\">\\n  …' to contain 'NCM-DS-'"
         },
         {
           "file": "sync.spec.ts",
@@ -7101,7 +7358,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin returns placeholders to nested renders in batch mode",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-99fee568\">\\n     …' to contain '\\u0002'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-2f81b8b\">\\n      …' to contain '\\u0002'"
         },
         {
           "file": "sync.spec.ts",
@@ -7113,19 +7370,19 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy keeps document-order TeX state in nested renders",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-4ce155e8\">\\n     …' not to contain 'merror'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-ab8b2c7\">\\n      …' not to contain 'merror'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy applies transformer",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-b208a0a\">\\n   …' to contain '<!--immediate-->'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-c35a5ba8\">\\n  …' to contain '<!--immediate-->'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy keeps documents isolated",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-04d72f6\">\\n   …' to be '<p>\\n    <span id=\"mjx-39296088\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-1e11c39\">\\n   …' to be '<p>\\n    <span id=\"mjx-f1ab9458\">\\n  …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7258,8 +7515,8 @@
     {
       "plugin": "plugin-mathjax-slim",
       "reference": "markdown-it-mathjax3",
-      "total": 36,
-      "passed": 0,
+      "total": 66,
+      "passed": 30,
       "failed": 36,
       "skipped": 60,
       "skippedByCategory": {
@@ -7277,6 +7534,126 @@
             "en": "Tests the fork-only async MathJax API (`createMathjaxInstance`) and its assistive-MathML switch; the reference only exposes the synchronous plugin.",
             "zh": "测试 fork 专有的异步 MathJax API（`createMathjaxInstance`）及其辅助 MathML 开关；参考包只提供同步插件。"
           }
+        },
+        {
+          "file": "browser-font-version-fallback.spec.ts",
+          "name": "loadBrowserFonts falls back to the MathJax version when the font manifest is unreadable",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading uses the CDN font class and runtime",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading uses a custom asyncLoad when provided",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading registers a custom loader with custom font data",
+          "status": "passed"
+        },
+        {
+          "file": "browser-plugin.spec.ts",
+          "name": "browser font loading does not fall back to the local font when unpkg fails",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts loads the font class and runtime from unpkg",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts throws when the runtime version cannot be resolved",
+          "status": "passed"
+        },
+        {
+          "file": "browser.spec.ts",
+          "name": "loadBrowserFonts throws when a remote module fails to load",
+          "status": "passed"
+        },
+        {
+          "file": "cdn-font-version-failure.spec.ts",
+          "name": "getFontPackageVersion returns null when the package manifest cannot be read",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls creates unpkg URLs for svg",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls creates unpkg URLs for chtml",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getCdnFontUrls uses independent font and runtime versions",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "getFontPackageVersion reads the installed font package version",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "importCdnModule imports an absolute module URL",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion reads the version from the redirected unpkg URL and caches it",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null when the request fails",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null for a failed response",
+          "status": "passed"
+        },
+        {
+          "file": "cdn.spec.ts",
+          "name": "resolveCdnMathJaxVersion returns null when unpkg does not resolve to a concrete version",
+          "status": "passed"
+        },
+        {
+          "file": "custom-font-data.spec.ts",
+          "name": "custom font data without the NewCM font package creates an instance with the provided font data",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts-failure.spec.ts",
+          "name": "dynamic font failures keeps the instance and later instances usable",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts-partial-failure.spec.ts",
+          "name": "partial dynamic font failure keeps the instance usable when one dynamic font file fails",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts renders svg glyphs that live in dynamic font files",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts renders chtml glyphs that live in dynamic font files",
+          "status": "passed"
+        },
+        {
+          "file": "dynamic-fonts.spec.ts",
+          "name": "dynamic fonts keeps SVG and CHTML dynamic files apart when both instances exist",
+          "status": "passed"
         },
         {
           "file": "font.spec.ts",
@@ -7435,6 +7812,21 @@
           }
         },
         {
+          "file": "loader.spec.ts",
+          "name": "getDynamicFontOutput reads the output from a dynamic font file path",
+          "status": "passed"
+        },
+        {
+          "file": "loader.spec.ts",
+          "name": "registerDynamicFontLoader routes a dynamic font file to the loader registered for its output",
+          "status": "passed"
+        },
+        {
+          "file": "loader.spec.ts",
+          "name": "registerDynamicFontLoader throws when no loader is registered for the output",
+          "status": "passed"
+        },
+        {
           "file": "optional-peer.spec.ts",
           "name": "optional mathjax peers should not statically import @mathjax in dist/index.js",
           "status": "skipped",
@@ -7463,6 +7855,21 @@
             "en": "Inspects the built `dist` entries for static `@mathjax` imports to verify optional-peer packaging; it tests this fork's build artifacts, not reference behavior.",
             "zh": "检查构建后的 `dist` 入口是否静态导入 `@mathjax`，以验证可选 peer 依赖的打包方式；它测试本 fork 的构建产物，而非参考包行为。"
           }
+        },
+        {
+          "file": "preload-option.spec.ts",
+          "name": "preloadDynamicFonts skips font preloading when disabled",
+          "status": "passed"
+        },
+        {
+          "file": "runtime-dom.spec.ts",
+          "name": "isBrowserRuntime returns true when window and document exist",
+          "status": "passed"
+        },
+        {
+          "file": "runtime.spec.ts",
+          "name": "isBrowserRuntime returns false outside a browser",
+          "status": "passed"
         },
         {
           "file": "security.spec.ts",
@@ -7668,13 +8075,13 @@
           "file": "state.spec.ts",
           "name": "mathjax state isolation sync should not leak newcommand macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-46567d18\">\\n  …' to be '<p>\\n    <span id=\"mjx-d7b14a2\">\\n   …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-e5bc7478\">\\n  …' to be '<p>\\n    <span id=\"mjx-e71b974\">\\n   …' // Object.is equality"
         },
         {
           "file": "state.spec.ts",
           "name": "mathjax state isolation sync should not leak newenvironment macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-ece5c238\">\\n     …' to be '\\n    <span id=\"mjx-0391c678\">\\n     …' // Object.is equality"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-bf5eee78\">\\n     …' to be '\\n    <span id=\"mjx-4c7335b8\">\\n     …' // Object.is equality"
         },
         {
           "file": "svg-sync.spec.ts",
@@ -7812,7 +8219,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin renders the same HTML as the async implementation",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-333e8d58\">\\n  …' to be '<p><mjx-container class=\"MathJax\" jax…' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-75397e38\">\\n  …' to be '<p><mjx-container class=\"MathJax\" jax…' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7824,19 +8231,19 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin supports chtml output",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-271c7198\">\\n     …' to match /jax=\"CHTML\"/"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-73c985c8\">\\n     …' to match /jax=\"CHTML\"/"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin honors the a11y option",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-9ca783d\">\\n   …' not to contain '<mjx-assistive-mml'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-0b746db8\">\\n  …' not to contain '<mjx-assistive-mml'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin keeps a11y isolated between sessions sharing the worker",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-fbfa41\">\\n      <…' not to contain '<mjx-assistive-mml'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-f9fbf32\">\\n      …' not to contain '<mjx-assistive-mml'"
         },
         {
           "file": "sync.spec.ts",
@@ -7854,13 +8261,13 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin applies transformer on the main thread",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-13acd7\">\\n    …' to contain '<!--inline-->'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-44e424b\">\\n   …' to contain '<!--inline-->'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin does not leak TeX macros across documents",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-722c42c\">\\n   …' to be '<p>\\n    <span id=\"mjx-bc34aee8\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-0aa2d33\">\\n   …' to be '<p>\\n    <span id=\"mjx-dd09254\">\\n   …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7902,7 +8309,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin discards formulas collected by a failed render pass",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-6c5d832\">\\n   …' to be '<p>\\n    <span id=\"mjx-86216898\">\\n  …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-bf7e7b88\">\\n  …' to be '<p>\\n    <span id=\"mjx-66df82\">\\n    …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -7920,7 +8327,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin renders mathbb with the built-in double-struck variant",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-424ce6b8\">\\n  …' to contain 'NCM-DS-'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-22eb9f88\">\\n  …' to contain 'NCM-DS-'"
         },
         {
           "file": "sync.spec.ts",
@@ -7932,7 +8339,7 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin returns placeholders to nested renders in batch mode",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-e0e664\">\\n      <…' to contain '\\u0002'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-05489f98\">\\n     …' to contain '\\u0002'"
         },
         {
           "file": "sync.spec.ts",
@@ -7944,19 +8351,19 @@
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy keeps document-order TeX state in nested renders",
           "status": "failed",
-          "message": "AssertionError: expected '\\n    <span id=\"mjx-dfd4d1e8\">\\n     …' not to contain 'merror'"
+          "message": "AssertionError: expected '\\n    <span id=\"mjx-53d36bc8\">\\n     …' not to contain 'merror'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy applies transformer",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-a9b1a2f\">\\n   …' to contain '<!--immediate-->'"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-4451b3b\">\\n   …' to contain '<!--immediate-->'"
         },
         {
           "file": "sync.spec.ts",
           "name": "synchronous mathjax plugin immediate strategy keeps documents isolated",
           "status": "failed",
-          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-8ef8d048\">\\n  …' to be '<p>\\n    <span id=\"mjx-13f0b4\">\\n    …' // Object.is equality"
+          "message": "AssertionError: expected '<p>\\n    <span id=\"mjx-bba87ac\">\\n   …' to be '<p>\\n    <span id=\"mjx-486a2cb8\">\\n  …' // Object.is equality"
         },
         {
           "file": "sync.spec.ts",
@@ -8487,7 +8894,7 @@
     },
     {
       "plugin": "plugin-spoiler",
-      "reference": "markdown-it-spoiler",
+      "reference": "@traptitech/markdown-it-spoiler",
       "total": 13,
       "passed": 6,
       "failed": 7,
@@ -8730,9 +9137,9 @@
     {
       "plugin": "plugin-tasklist",
       "reference": "markdown-it-task-checkbox",
-      "total": 14,
-      "passed": 0,
-      "failed": 14,
+      "total": 26,
+      "passed": 2,
+      "failed": 24,
       "skipped": 2,
       "skippedByCategory": {
         "feature-gap": 2,
@@ -8740,6 +9147,76 @@
         "packaging": 0
       },
       "tests": [
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the space separator before the label text",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the non-breaking space separator before the label text",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop only one separator when the label starts with extra spaces",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop only the non-breaking space when a normal space follows",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the separator when the label starts with inline markup",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the separator when the marker is parsed as a link",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' not to contain '<a '"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the separator after a marker link followed by inline markup",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' not to contain '<a '"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should drop the non-breaking space separator after a marker link",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' not to contain '<a '"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should render an empty label when only the separator follows the marker",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' to contain '<label class=\"task-list-item-label\"><…'"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should render an empty label when only the separator follows a marker link",
+          "status": "failed",
+          "message": "AssertionError: expected '<ul class=\"task-list\">\\n<li class=\"ta…' not to contain '<a '"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should not treat a marker link without a separator as a task item",
+          "status": "passed"
+        },
+        {
+          "file": "label-separator.spec.ts",
+          "name": "task list item label separator should not treat a marker without a separator as a task item",
+          "status": "passed"
+        },
         {
           "file": "reference-link.spec.ts",
           "name": "tasklist with link reference definitions should not render the checked marker as a link",

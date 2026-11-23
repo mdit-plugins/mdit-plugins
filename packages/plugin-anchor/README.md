@@ -19,10 +19,10 @@ yarn add -D @mdit/plugin-anchor
 
 ## Comparison / 对比
 
-Compared against the upstream [`markdown-it-anchor`](https://www.npmjs.com/package/markdown-it-anchor) package `10.0.0`.
+Compared against the upstream [`markdown-it-anchor`](https://www.npmjs.com/package/markdown-it-anchor) package `10.1.0`.
 
 - Correctness: **75/88** cases match the reference exactly (1 reference errors, 5 differences).
-- Throughput: **1.71×** the reference (geometric mean across 24 benchmark cases; above 1× means faster).
+- Throughput: **1.64×** the reference (geometric mean across 24 benchmark cases; above 1× means faster).
 - Entry gzip: **2.2 kB** versus **2.2 kB** for the reference (import cost).
 
 See the full comparison report: [English](https://mdit-plugins.github.io/compare.html) · [中文](https://mdit-plugins.github.io/zh/compare.html).

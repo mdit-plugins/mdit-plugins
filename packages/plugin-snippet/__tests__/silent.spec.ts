@@ -12,7 +12,7 @@ import { snippet } from "../src/index.js";
 
 const createMd = (projectRoot: string): MarkdownItType =>
   new MarkdownIt({ html: true }).use(snippet, {
-    currentPath: (env: SnippetEnv) => env.filePath as string,
+    currentPath: (env: SnippetEnv) => env.filePath!,
     projectRoot,
   });
 
@@ -37,7 +37,7 @@ describe("snippet silent mode", () => {
     const { dir, filePath } = createFixture();
 
     try {
-      const currentPath = vi.fn<(env: SnippetEnv) => string>((env) => env.filePath as string);
+      const currentPath = vi.fn<(env: SnippetEnv) => string>((env) => env.filePath!);
       const resolvePath = vi.fn<(path: string) => string>((path) => path);
       const md = new MarkdownIt({ html: true }).use(snippet, {
         currentPath,

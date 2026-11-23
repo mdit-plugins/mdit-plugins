@@ -51,7 +51,7 @@ vi.mock("node:fs", async (importOriginal) => {
 
 const createMd = (projectRoot: string): MarkdownItType =>
   new MarkdownIt({ html: true }).use(snippet, {
-    currentPath: (env: SnippetEnv) => env.filePath as string,
+    currentPath: (env: SnippetEnv) => env.filePath!,
     projectRoot,
   });
 

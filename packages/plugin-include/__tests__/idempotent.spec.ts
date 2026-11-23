@@ -10,7 +10,7 @@ const fixturePath = resolve(__dirname, "./__fixtures__/deepInclude.md");
 describe("include repeated use", () => {
   it("should not expand nested directives twice", () => {
     const options = {
-      currentPath: (env: IncludeEnv): string => env.filePath as string,
+      currentPath: (env: IncludeEnv): string => env.filePath!,
     };
     const source = `<!-- @include: ${fixturePath} -->\n`;
     const single = new MarkdownIt({ html: true }).use(include, options);

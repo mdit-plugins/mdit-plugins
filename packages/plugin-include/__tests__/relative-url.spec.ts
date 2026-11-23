@@ -7,7 +7,7 @@ import { include } from "../src/index.js";
 
 const createMd = (): MarkdownItType =>
   new MarkdownIt().use(include, {
-    currentPath: (env: IncludeEnv) => env.filePath as string,
+    currentPath: (env: IncludeEnv) => env.filePath!,
   });
 
 const renderInclude = (file: string): string => {

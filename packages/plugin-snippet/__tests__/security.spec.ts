@@ -30,7 +30,7 @@ const createFixture = (): Fixture => {
 
 const createMd = (options: Omit<MarkdownItSnippetOptions, "currentPath"> = {}): MarkdownItType =>
   new MarkdownIt({ html: true }).use(snippet, {
-    currentPath: (env: SnippetEnv) => env.filePath as string,
+    currentPath: (env: SnippetEnv) => env.filePath!,
     ...options,
   });
 

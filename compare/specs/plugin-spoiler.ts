@@ -13,8 +13,12 @@ const BENCH_CASES = (["normal", "heavy"] as const).flatMap((kind) =>
 
 const spec: ComparisonSpec = defineComparison({
   plugin: "plugin-spoiler",
-  reference: "markdown-it-spoiler",
+  reference: "@traptitech/markdown-it-spoiler",
   notes: [
+    {
+      en: "The comparison uses `@traptitech/markdown-it-spoiler`, the maintained fork that `markdown-it-spoiler` was transferred to. The fork fixes the delimiter `jump` metadata of odd-length marker runs; markdown-it 15 no longer reads that field when pairing delimiters, so the rendered output is unchanged.",
+      zh: "对比使用 `markdown-it-spoiler` 迁移后的维护分支 `@traptitech/markdown-it-spoiler`。该分支修正了奇数长度标记序列的 delimiter `jump` 元数据；markdown-it 15 在分隔符配对时不再读取该字段，因此渲染输出没有变化。",
+    },
     {
       en: 'The current package adds `tabindex="-1"` to the spoiler element by default for keyboard accessibility. The variant sets `attrs` to `[["class", "spoiler"]]` so that the compared markup is the reference\'s `<span class="spoiler">`; the accessibility attribute is an intentional addition and is not part of this comparison.',
       zh: '当前包默认给 spoiler 元素加上 `tabindex="-1"` 以支持键盘可访问性。该变体将 `attrs` 设为 `[["class", "spoiler"]]`，使参与比较的标记与参考包的 `<span class="spoiler">` 一致；可访问性属性是有意新增的，不属于本次比较范围。',

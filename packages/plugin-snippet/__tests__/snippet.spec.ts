@@ -58,11 +58,11 @@ vi.mock("node:fs", async (importOriginal) => {
 
 describe(snippet, () => {
   const md = new MarkdownIt({ html: true }).use(snippet, {
-    currentPath: (env: SnippetEnv) => env.filePath as string,
+    currentPath: (env: SnippetEnv) => env.filePath!,
     projectRoot: resolve(__dirname, ".."),
   });
   const mdOutsideRoot = new MarkdownIt({ html: true }).use(snippet, {
-    currentPath: (env: SnippetEnv) => env.filePath as string,
+    currentPath: (env: SnippetEnv) => env.filePath!,
     allowOutsideRoot: true,
   });
 

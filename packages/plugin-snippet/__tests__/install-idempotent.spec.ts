@@ -13,7 +13,7 @@ const blockRuleNames = (md: MarkdownItType): string[] => {
 };
 
 const options = {
-  currentPath: (env: SnippetEnv): string => env.filePath as string,
+  currentPath: (env: SnippetEnv): string => env.filePath!,
   projectRoot: resolve(__dirname, ".."),
 };
 
