@@ -33,7 +33,13 @@ export const createSoftBreakRule = (options: DelimiterConfig): AttrRule =>
       // Find the last closing tag by searching forward
       let closingTokenIndex = index + 1;
 
-      while (tokens[closingTokenIndex + 1]?.nesting === -1) closingTokenIndex++;
+      // Only skip closers that belong to a markdown-it block container; other plugins may push
+      // tokens with nesting -1 (e.g. include markers) that must not receive the attributes.
+      while (
+        tokens[closingTokenIndex + 1]?.nesting === -1 &&
+        tokens[closingTokenIndex + 1].type.endsWith("_close")
+      )
+        closingTokenIndex++;
 
       // Apply attributes to the opening token
       addAttrs(
