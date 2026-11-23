@@ -69,7 +69,7 @@ const mdFixtureFrontmatterPath = resolve(__dirname, mdFixtureFrontmatterPathRela
 describe("directive", () => {
   const md = new MarkdownIt({ html: true })
     .use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       useComment: false,
       allowOutsideRoot: true,
     })
@@ -146,7 +146,7 @@ describe("directive", () => {
 describe("comment", () => {
   const md = new MarkdownIt({ html: true })
     .use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       allowOutsideRoot: true,
     })
     .use(container, { name: "tip" });
@@ -450,7 +450,7 @@ describe("comment", () => {
 
     const mdWithOptions = new MarkdownIt({ html: true })
       .use(include, {
-        currentPath: (env: IncludeEnv) => env.filePath as string,
+        currentPath: (env: IncludeEnv) => env.filePath!,
         resolvePath: (str: string): string =>
           str.replace(/^@fixtures/, resolve(__dirname, "./__fixtures__")),
       })
@@ -555,7 +555,7 @@ foo
 
       const mdWithOptions = new MarkdownIt({ html: true })
         .use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (env: IncludeEnv) => env.filePath!,
           deep: true,
         })
         .use(container, { name: "tip" });
@@ -580,7 +580,7 @@ foo
       try {
         const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
-            currentPath: (env: IncludeEnv) => env.filePath as string,
+            currentPath: (env: IncludeEnv) => env.filePath!,
             deep: true,
             projectRoot: dir,
           })
@@ -607,7 +607,7 @@ foo
       try {
         const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
-            currentPath: (env: IncludeEnv) => env.filePath as string,
+            currentPath: (env: IncludeEnv) => env.filePath!,
             projectRoot: dir,
           })
           .use(container, { name: "tip" });
@@ -629,7 +629,7 @@ foo
       try {
         const mdWithOptions = new MarkdownIt({ html: true })
           .use(include, {
-            currentPath: (env: IncludeEnv) => env.filePath as string,
+            currentPath: (env: IncludeEnv) => env.filePath!,
             projectRoot: dir,
             allowOutsideRoot: true,
           })
@@ -684,7 +684,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = new MarkdownIt().use(include, {
-          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath!,
           resolveLinkPath: false,
         });
         const rendered = mdWithOptions.render(source, env);
@@ -706,7 +706,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = new MarkdownIt().use(include, {
-          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath!,
           resolveImagePath: false,
         });
         const rendered = mdWithOptions.render(source, env);
@@ -728,7 +728,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = new MarkdownIt().use(include, {
-          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath!,
           resolveImagePath: false,
           resolveLinkPath: false,
         });
@@ -753,7 +753,7 @@ foo
           filePath: __filename,
         };
         const mdWithOptions = new MarkdownIt().use(include, {
-          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath as string,
+          currentPath: (includeEnv: IncludeEnv) => includeEnv.filePath!,
           deep: true,
         });
         const rendered = mdWithOptions.render(source, env);
@@ -882,7 +882,7 @@ foo
 
       try {
         const bomMd = new MarkdownIt({ html: true }).use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (env: IncludeEnv) => env.filePath!,
           projectRoot: dir,
         });
         const env: IncludeEnv = { filePath: join(dir, "index.md") };
@@ -969,7 +969,7 @@ describe("currentPath", () => {
 
     try {
       const md = new MarkdownIt().use(include, {
-        currentPath: (env: IncludeEnv) => env.filePath as string,
+        currentPath: (env: IncludeEnv) => env.filePath!,
         projectRoot: dir,
       });
       const env: IncludeEnv = { filePath: join(dir, "current.md") };
@@ -984,7 +984,7 @@ describe("currentPath", () => {
 
   it("should deep include with relative path and no cwd", () => {
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       deep: true,
     });
     const env: IncludeEnv = { filePath: null };
@@ -996,7 +996,7 @@ describe("currentPath", () => {
 
   it("should support include markers in silent mode", () => {
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const state = new md.block.State("<!-- #include-env-start:mdit-include: /foo -->", md, {}, []);
@@ -1031,7 +1031,7 @@ describe("currentPath", () => {
 
   it("should resolveRelatedLink correctly with different paths", () => {
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const env: IncludeEnv = {
@@ -1055,7 +1055,7 @@ describe("currentPath", () => {
   it("should handle include_end failed", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const state = new md.core.State("", md, {});
@@ -1070,7 +1070,7 @@ describe("currentPath", () => {
 
   it("should handle falsy path in renderer", () => {
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const env: IncludeEnv = {
@@ -1088,7 +1088,7 @@ describe("currentPath", () => {
 describe("should not expand directives inside code blocks", () => {
   it("should preserve directives inside fenced code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "```md\n<!-- @include: /path/to/foo.md -->\n```\n";
@@ -1103,7 +1103,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives inside tilde fenced code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "~~~\n<!-- @include: /path/to/foo.md -->\n~~~\n";
@@ -1116,7 +1116,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives inside indented code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "    <!-- @include: /path/to/foo.md -->\n";
@@ -1129,7 +1129,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives after an unclosed fence", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source =
@@ -1144,7 +1144,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives inside fenced code block with useComment false", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       useComment: false,
     });
 
@@ -1160,7 +1160,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives inside deeply indented list code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "- item\n\n        <!-- @include: /path/to/foo.md -->\n\n- next\n";
@@ -1173,7 +1173,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives with blockquote prefix", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "> quote\n>\n>     <!-- @include: /path/to/foo.md -->\n>\n> more\n";
@@ -1186,7 +1186,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should not run code detection when no directive exists", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "```md\nsome code\n```\n";
@@ -1204,7 +1204,7 @@ describe("should not expand directives inside code blocks", () => {
     try {
       const mdWithOptions = MarkdownIt({ html: true })
         .use(include, {
-          currentPath: (env: IncludeEnv) => env.filePath as string,
+          currentPath: (env: IncludeEnv) => env.filePath!,
           deep: true,
           projectRoot: dir,
         })
@@ -1222,7 +1222,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should preserve directives inside a multi-line indented code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "    line one\n    <!-- @include: /path/to/foo.md -->\n    line three\n";
@@ -1236,7 +1236,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should expand directives between two code blocks only", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       allowOutsideRoot: true,
     });
 
@@ -1263,7 +1263,7 @@ describe("should not expand directives inside code blocks", () => {
   it("should treat a fence with backtick in info as non-fence", () => {
     // ```a`b 不是合法围栏（语言标识含反引号）→ 指令照常展开
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       allowOutsideRoot: true,
     });
 
@@ -1277,7 +1277,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should keep looking for a closing fence after an over-indented fence line", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     // 4 空格缩进的 ``` 不闭合；随后的 ``` 才是闭合 → 指令保留在围栏内
@@ -1291,7 +1291,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should keep looking for a longer closing fence", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     // 开围栏 4 反引号；3 反引号行不闭合；4 反引号行闭合 → 指令保留
@@ -1305,7 +1305,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should keep looking for a closing fence with trailing content", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     // "``` extra" 尾随非空白不闭合；随后的 ``` 闭合 → 指令保留
@@ -1319,7 +1319,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should end an indented code block at a non-indented line", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     // 行 0 缩进代码块（指令保留）；行 1 非缩进结束代码块
@@ -1333,7 +1333,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should treat an indented line after a blank line as code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     // 行 2 前有空行 → 缩进代码块（指令保留）
@@ -1347,7 +1347,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should expand a 4-space indented directive following a paragraph line", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       allowOutsideRoot: true,
     });
 
@@ -1362,7 +1362,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should handle trailing empty lines after a code block", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
 
     const source = "```\n<!-- @include: /path/to/foo.md -->\n```\n\n\n";
@@ -1375,7 +1375,7 @@ describe("should not expand directives inside code blocks", () => {
 
   it("should keep line numbers accurate after a multi-line directive", () => {
     const md = MarkdownIt({ html: true }).use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       allowOutsideRoot: true,
     });
 

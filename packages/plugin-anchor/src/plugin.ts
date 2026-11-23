@@ -37,7 +37,7 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
   } = resolvedOptions;
 
   md.core.ruler.push("anchor", (state: StateCore): void => {
-    const env = (state.env.markdownItAnchor ??= {}) as AnchorEnv;
+    const env = (state.env.markdownItAnchor ??= { slugs: {} }) as AnchorEnv;
 
     const slugs = (env.slugs ??= {});
     const { tokens } = state;

@@ -7,7 +7,7 @@ import { include } from "../src/index.js";
 describe("include renderer idempotency", () => {
   it("should resolve relative links and images once when rendering the same tokens twice", () => {
     const md = new MarkdownIt().use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
     });
     const env: IncludeEnv = { filePath: __filename };
     const tokens = md.parse("<!-- @include: ./__fixtures__/relative/includeLink.md -->\n", env);

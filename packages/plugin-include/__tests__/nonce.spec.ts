@@ -13,7 +13,7 @@ import type { MarkdownItIncludeOptions } from "../src/options.js";
 
 const createMd = (options: Omit<MarkdownItIncludeOptions, "currentPath"> = {}): MarkdownItType =>
   new MarkdownIt({ html: true }).use(include, {
-    currentPath: (env: IncludeEnv) => env.filePath as string,
+    currentPath: (env: IncludeEnv) => env.filePath!,
     ...options,
   });
 

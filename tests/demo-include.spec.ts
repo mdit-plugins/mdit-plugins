@@ -13,7 +13,7 @@ import type { IncludeEnv } from "../packages/plugin-include/src/types.js";
 const createMarkdown = (projectRoot: string): MarkdownItInstance =>
   new MarkdownIt({ html: true })
     .use(include, {
-      currentPath: (env: IncludeEnv) => env.filePath as string,
+      currentPath: (env: IncludeEnv) => env.filePath!,
       projectRoot,
     })
     .use(demo);

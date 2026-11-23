@@ -6,7 +6,6 @@ import { ins } from "@mdit/plugin-ins";
 import { layout } from "@mdit/plugin-layout";
 import { ruby } from "@mdit/plugin-ruby";
 import { snippet } from "@mdit/plugin-snippet";
-import type { MarkdownIt } from "markdown-it";
 import type { UserConfig } from "vuepress";
 import { defineUserConfig } from "vuepress";
 import { getDirname, path } from "vuepress/utils";
@@ -33,10 +32,7 @@ const config: UserConfig = defineUserConfig({
 
   pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
-  extendsMarkdown: (md) => {
-    // vuepress still types `md` with `@types/markdown-it` (v14), while our plugins use markdown-it v15 builtin types
-    const markdownIt = md as unknown as MarkdownIt;
-
+  extendsMarkdown: (markdownIt) => {
     markdownIt.use(abbr);
     markdownIt.use(container, {
       name: "hint",

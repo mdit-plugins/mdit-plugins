@@ -9,7 +9,7 @@ import type { SnippetEnv } from "../src/index.js";
 import { snippet } from "../src/index.js";
 
 const md = new MarkdownIt({ html: true }).use(snippet, {
-  currentPath: (env: SnippetEnv) => env.filePath as string,
+  currentPath: (env: SnippetEnv) => env.filePath!,
   projectRoot: tmpdir(),
 });
 

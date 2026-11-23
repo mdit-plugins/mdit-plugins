@@ -5,8 +5,8 @@
       "reference": "markdown-it-abbr",
       "current": {
         "name": "@mdit/plugin-abbr",
-        "version": "1.1.4",
-        "unpackedBytes": 30650,
+        "version": "1.2.0",
+        "unpackedBytes": 30760,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -27,8 +27,8 @@
       "reference": "markdown-it-github-alerts",
       "current": {
         "name": "@mdit/plugin-alert",
-        "version": "2.1.0",
-        "unpackedBytes": 57387,
+        "version": "2.2.0",
+        "unpackedBytes": 57638,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -49,17 +49,17 @@
       "reference": "markdown-it-anchor",
       "current": {
         "name": "@mdit/plugin-anchor",
-        "version": "2.3.0",
-        "unpackedBytes": 80467,
+        "version": "2.4.1",
+        "unpackedBytes": 80770,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 2232
+        "entryGzipBytes": 2237
       },
       "upstream": {
         "name": "markdown-it-anchor",
-        "version": "10.0.0",
-        "unpackedBytes": 138673,
+        "version": "10.1.0",
+        "unpackedBytes": 139027,
         "fileCount": 14,
         "entry": "dist/markdownItAnchor.mjs",
         "entryFileCount": 1,
@@ -71,12 +71,12 @@
       "reference": "markdown-it-attrs",
       "current": {
         "name": "@mdit/plugin-attrs",
-        "version": "1.4.0",
-        "unpackedBytes": 240565,
+        "version": "1.5.1",
+        "unpackedBytes": 242995,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 4648
+        "entryGzipBytes": 4659
       },
       "upstream": {
         "name": "markdown-it-attrs",
@@ -93,12 +93,12 @@
       "reference": "markdown-it-cjk-breaks",
       "current": {
         "name": "@mdit/plugin-cjk-breaks",
-        "version": "0.0.0",
-        "unpackedBytes": 42232,
+        "version": "1.0.1",
+        "unpackedBytes": 42637,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 673
+        "entryGzipBytes": 674
       },
       "upstream": {
         "name": "markdown-it-cjk-breaks",
@@ -115,8 +115,8 @@
       "reference": "markdown-it-cjk-friendly",
       "current": {
         "name": "@mdit/plugin-cjk-friendly",
-        "version": "0.0.0",
-        "unpackedBytes": 49939,
+        "version": "1.0.0",
+        "unpackedBytes": 49969,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -137,8 +137,8 @@
       "reference": "markdown-it-container",
       "current": {
         "name": "@mdit/plugin-container",
-        "version": "2.1.0",
-        "unpackedBytes": 36939,
+        "version": "2.2.0",
+        "unpackedBytes": 37142,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -159,12 +159,12 @@
       "reference": "markdown-it-deflist",
       "current": {
         "name": "@mdit/plugin-dl",
-        "version": "1.1.4",
-        "unpackedBytes": 30484,
+        "version": "1.2.0",
+        "unpackedBytes": 30672,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 978
+        "entryGzipBytes": 970
       },
       "upstream": {
         "name": "markdown-it-deflist",
@@ -181,8 +181,8 @@
       "reference": "markdown-it-emoji",
       "current": {
         "name": "@mdit/plugin-emoji",
-        "version": "1.2.4",
-        "unpackedBytes": 291824,
+        "version": "1.3.0",
+        "unpackedBytes": 292023,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -203,8 +203,8 @@
       "reference": "markdown-it-image-figures",
       "current": {
         "name": "@mdit/plugin-figure",
-        "version": "1.2.4",
-        "unpackedBytes": 38337,
+        "version": "1.3.0",
+        "unpackedBytes": 38416,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -225,12 +225,12 @@
       "reference": "markdown-it-footnote",
       "current": {
         "name": "@mdit/plugin-footnote",
-        "version": "1.2.0",
-        "unpackedBytes": 82073,
+        "version": "1.3.0",
+        "unpackedBytes": 84178,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 2173
+        "entryGzipBytes": 2199
       },
       "upstream": {
         "name": "markdown-it-footnote",
@@ -247,8 +247,8 @@
       "reference": "markdown-it-imsize",
       "current": {
         "name": "@mdit/plugin-img-size",
-        "version": "1.2.0",
-        "unpackedBytes": 87949,
+        "version": "1.3.0",
+        "unpackedBytes": 88270,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -269,8 +269,8 @@
       "reference": "markdown-it-ins",
       "current": {
         "name": "@mdit/plugin-ins",
-        "version": "2.1.4",
-        "unpackedBytes": 18646,
+        "version": "2.2.1",
+        "unpackedBytes": 18684,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -291,12 +291,12 @@
       "reference": "markdown-it-katex",
       "current": {
         "name": "@mdit/plugin-katex",
-        "version": "1.1.5",
-        "unpackedBytes": 37145,
+        "version": "1.2.1",
+        "unpackedBytes": 33790,
         "fileCount": 10,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 605
+        "entryGzipBytes": 469
       },
       "upstream": {
         "name": "markdown-it-katex",
@@ -313,12 +313,12 @@
       "reference": "markdown-it-katex",
       "current": {
         "name": "@mdit/plugin-katex-slim",
-        "version": "1.1.5",
-        "unpackedBytes": 13834,
+        "version": "1.2.1",
+        "unpackedBytes": 12222,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 673
+        "entryGzipBytes": 563
       },
       "upstream": {
         "name": "markdown-it-katex",
@@ -335,8 +335,8 @@
       "reference": "markdown-it-mark",
       "current": {
         "name": "@mdit/plugin-mark",
-        "version": "2.1.4",
-        "unpackedBytes": 18602,
+        "version": "2.2.0",
+        "unpackedBytes": 18640,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -357,12 +357,12 @@
       "reference": "markdown-it-mathjax3",
       "current": {
         "name": "@mdit/plugin-mathjax",
-        "version": "2.0.0",
-        "unpackedBytes": 117288,
+        "version": "2.1.1",
+        "unpackedBytes": 144034,
         "fileCount": 12,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 1669
+        "entryGzipBytes": 1718
       },
       "upstream": {
         "name": "markdown-it-mathjax3",
@@ -379,12 +379,12 @@
       "reference": "markdown-it-mathjax3",
       "current": {
         "name": "@mdit/plugin-mathjax-slim",
-        "version": "2.0.0",
-        "unpackedBytes": 125673,
+        "version": "2.1.1",
+        "unpackedBytes": 152508,
         "fileCount": 12,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 1675
+        "entryGzipBytes": 1722
       },
       "upstream": {
         "name": "markdown-it-mathjax3",
@@ -401,8 +401,8 @@
       "reference": "markdown-it-plantuml",
       "current": {
         "name": "@mdit/plugin-plantuml",
-        "version": "2.0.4",
-        "unpackedBytes": 390960,
+        "version": "2.1.0",
+        "unpackedBytes": 393475,
         "fileCount": 11,
         "entry": "./dist/node.js",
         "entryFileCount": 1,
@@ -423,8 +423,8 @@
       "reference": "markdown-it-ruby",
       "current": {
         "name": "@mdit/plugin-ruby",
-        "version": "1.1.4",
-        "unpackedBytes": 22956,
+        "version": "1.2.0",
+        "unpackedBytes": 23026,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -442,24 +442,24 @@
     },
     "plugin-spoiler": {
       "plugin": "plugin-spoiler",
-      "reference": "markdown-it-spoiler",
+      "reference": "@traptitech/markdown-it-spoiler",
       "current": {
         "name": "@mdit/plugin-spoiler",
-        "version": "2.1.4",
-        "unpackedBytes": 21333,
+        "version": "2.2.1",
+        "unpackedBytes": 21432,
         "fileCount": 9,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
         "entryGzipBytes": 235
       },
       "upstream": {
-        "name": "markdown-it-spoiler",
-        "version": "1.1.1",
-        "unpackedBytes": 6575,
-        "fileCount": 5,
+        "name": "@traptitech/markdown-it-spoiler",
+        "version": "1.1.6",
+        "unpackedBytes": 14056,
+        "fileCount": 10,
         "entry": "index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 1741
+        "entryGzipBytes": 1756
       }
     },
     "plugin-sub": {
@@ -467,8 +467,8 @@
       "reference": "markdown-it-sub",
       "current": {
         "name": "@mdit/plugin-sub",
-        "version": "1.1.4",
-        "unpackedBytes": 18357,
+        "version": "1.2.1",
+        "unpackedBytes": 18395,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -489,8 +489,8 @@
       "reference": "markdown-it-sup",
       "current": {
         "name": "@mdit/plugin-sup",
-        "version": "1.1.4",
-        "unpackedBytes": 18363,
+        "version": "1.2.1",
+        "unpackedBytes": 18401,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -511,12 +511,12 @@
       "reference": "markdown-it-task-checkbox",
       "current": {
         "name": "@mdit/plugin-tasklist",
-        "version": "1.2.0",
-        "unpackedBytes": 27276,
+        "version": "1.3.1",
+        "unpackedBytes": 28264,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
-        "entryGzipBytes": 731
+        "entryGzipBytes": 739
       },
       "upstream": {
         "name": "markdown-it-task-checkbox",
@@ -533,8 +533,8 @@
       "reference": "markdown-it-katex",
       "current": {
         "name": "@mdit/plugin-tex",
-        "version": "1.2.0",
-        "unpackedBytes": 68025,
+        "version": "1.3.0",
+        "unpackedBytes": 68349,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,
@@ -555,8 +555,8 @@
       "reference": "markdown-it-plantuml",
       "current": {
         "name": "@mdit/plugin-uml",
-        "version": "2.0.4",
-        "unpackedBytes": 24318,
+        "version": "2.1.0",
+        "unpackedBytes": 24552,
         "fileCount": 8,
         "entry": "./dist/index.js",
         "entryFileCount": 1,

@@ -1,13 +1,13 @@
 {
   "plugin": "plugin-spoiler",
-  "reference": "markdown-it-spoiler",
-  "referenceVersion": "1.1.1",
-  "generatedAt": "2026-11-03T01:59:06.643Z",
-  "commit": "22a2ebfc09d141698434eee896a30b985f0e5e28",
+  "reference": "@traptitech/markdown-it-spoiler",
+  "referenceVersion": "1.1.6",
+  "generatedAt": "2026-11-23T13:47:11.824Z",
+  "commit": "eeaa77c0257b78e175456fe086af0c05f84fb0cc",
   "machine": {
     "platform": "darwin",
     "arch": "arm64",
-    "node": "v26.13.0",
+    "node": "v26.13.1",
     "cpu": "Apple M4",
     "memoryGB": 16
   },
@@ -120,84 +120,84 @@
           "kind": "normal",
           "size": "small",
           "current": {
-            "opsPerSec": 10971.483808603192,
-            "meanMs": 0.09114537444933919
+            "opsPerSec": 9527.662910920471,
+            "meanMs": 0.10495753358925138
           },
           "reference": {
-            "opsPerSec": 11075.687824140576,
-            "meanMs": 0.09028784630606863
+            "opsPerSec": 9491.886237452298,
+            "meanMs": 0.1053531379310345
           },
-          "ratio": 0.9905916438606855
+          "ratio": 1.003769184814606
         },
         {
           "case": "normal/medium",
           "kind": "normal",
           "size": "medium",
           "current": {
-            "opsPerSec": 2781.9590299707093,
-            "meanMs": 0.3594589241706154
+            "opsPerSec": 2414.5689147103017,
+            "meanMs": 0.4141526025236597
           },
           "reference": {
-            "opsPerSec": 2821.406928342226,
-            "meanMs": 0.35443309859154914
+            "opsPerSec": 2203.3326675564867,
+            "meanMs": 0.45385792836676264
           },
-          "ratio": 0.9860183591472588
+          "ratio": 1.0958712455292
         },
         {
           "case": "normal/large",
           "kind": "normal",
           "size": "large",
           "current": {
-            "opsPerSec": 697.403841008965,
-            "meanMs": 1.433889435643566
+            "opsPerSec": 606.9113195039247,
+            "meanMs": 1.647687179104481
           },
           "reference": {
-            "opsPerSec": 701.5291370906998,
-            "meanMs": 1.4254575428571419
+            "opsPerSec": 622.7623616239765,
+            "meanMs": 1.6057489367088618
           },
-          "ratio": 0.994119565583772
+          "ratio": 0.9745472059699994
         },
         {
           "case": "heavy/small",
           "kind": "heavy",
           "size": "small",
           "current": {
-            "opsPerSec": 3415.644219570587,
-            "meanMs": 0.29277053923541235
+            "opsPerSec": 2816.2249888595547,
+            "meanMs": 0.35508526625387105
           },
           "reference": {
-            "opsPerSec": 3444.2573696239815,
-            "meanMs": 0.2903383495145639
+            "opsPerSec": 2448.687423392156,
+            "meanMs": 0.4083820541760714
           },
-          "ratio": 0.9916925052390849
+          "ratio": 1.1500957459724488
         },
         {
           "case": "heavy/medium",
           "kind": "heavy",
           "size": "medium",
           "current": {
-            "opsPerSec": 873.9067697289518,
-            "meanMs": 1.1442868217054285
+            "opsPerSec": 659.7267292710914,
+            "meanMs": 1.5157791182795708
           },
           "reference": {
-            "opsPerSec": 884.8926091783071,
-            "meanMs": 1.1300806330935222
+            "opsPerSec": 705.1686840708282,
+            "meanMs": 1.4181004099999972
           },
-          "ratio": 0.9875851156000087
+          "ratio": 0.9355587452672918
         },
         {
           "case": "heavy/large",
           "kind": "heavy",
           "size": "large",
           "current": {
-            "opsPerSec": 217.59397112573507,
-            "meanMs": 4.595715565217372
+            "opsPerSec": 177.6004900149755,
+            "meanMs": 5.630615095238075
           },
           "reference": {
-            "opsPerSec": 222.61136871938726,
-            "meanMs": 4.4921335588235385
+            "opsPerSec": 187.54510669129576,
+            "meanMs": 5.3320506071428815
           },
-          "ratio": 0.9774611798915945
+          "ratio": 0.9469748006132233
         }
       ],
       "scaling": [
@@ -209,8 +209,8 @@
             2000,
             4000
           ],
-          "currentExponent": 1.0159637944385296,
-          "referenceExponent": 1.0207110873491025
+          "currentExponent": 1.1211350658804116,
+          "referenceExponent": 1.1298271292442532
         },
         {
           "case": "unmatched-openers",
@@ -220,8 +220,8 @@
             2000,
             4000
           ],
-          "currentExponent": 1.0032342206684983,
-          "referenceExponent": 1.002857469004948
+          "currentExponent": 1.0384812632479417,
+          "referenceExponent": 1.0151212862532488
         },
         {
           "case": "nested-odd-markers",
@@ -231,13 +231,17 @@
             512,
             1024
           ],
-          "currentExponent": 0.991805123155633,
-          "referenceExponent": 0.9881531828578055
+          "currentExponent": 0.6672153439957993,
+          "referenceExponent": 0.957955301372753
         }
       ]
     }
   ],
   "notes": [
+    {
+      "en": "The comparison uses `@traptitech/markdown-it-spoiler`, the maintained fork that `markdown-it-spoiler` was transferred to. The fork fixes the delimiter `jump` metadata of odd-length marker runs; markdown-it 15 no longer reads that field when pairing delimiters, so the rendered output is unchanged.",
+      "zh": "对比使用 `markdown-it-spoiler` 迁移后的维护分支 `@traptitech/markdown-it-spoiler`。该分支修正了奇数长度标记序列的 delimiter `jump` 元数据；markdown-it 15 在分隔符配对时不再读取该字段，因此渲染输出没有变化。"
+    },
     {
       "en": "The current package adds `tabindex=\"-1\"` to the spoiler element by default for keyboard accessibility. The variant sets `attrs` to `[[\"class\", \"spoiler\"]]` so that the compared markup is the reference's `<span class=\"spoiler\">`; the accessibility attribute is an intentional addition and is not part of this comparison.",
       "zh": "当前包默认给 spoiler 元素加上 `tabindex=\"-1\"` 以支持键盘可访问性。该变体将 `attrs` 设为 `[[\"class\", \"spoiler\"]]`，使参与比较的标记与参考包的 `<span class=\"spoiler\">` 一致；可访问性属性是有意新增的，不属于本次比较范围。"

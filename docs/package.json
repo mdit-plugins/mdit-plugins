@@ -19,15 +19,15 @@
     "@mdit/plugin-mathjax-slim": "workspace:*",
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
-    "@vuepress/bundler-vite": "2.0.0-rc.31",
-    "@vuepress/helper": "2.0.0-rc.135",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.137",
-    "@vuepress/plugin-markdown-field": "2.0.0-rc.137",
+    "@vuepress/bundler-vite": "2.0.0-rc.32",
+    "@vuepress/helper": "2.0.0-rc.139",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.141",
+    "@vuepress/plugin-markdown-field": "2.0.0-rc.139",
     "markdown-it": "catalog:",
     "sass-embedded": "1.108.2",
     "vue": "3.5.46",
-    "vuepress": "2.0.0-rc.31",
-    "vuepress-shared": "2.0.0-rc.110",
-    "vuepress-theme-hope": "2.0.0-rc.110"
+    "vuepress": "2.0.0-rc.32",
+    "vuepress-shared": "2.0.0-rc.111",
+    "vuepress-theme-hope": "2.0.0-rc.111"
   }
 }
