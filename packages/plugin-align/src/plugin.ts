@@ -1,7 +1,8 @@
-import type { PluginSimple } from "@mdit/helper";
+import type { UniversalPluginSimple } from "@mdit/helper";
 import { container } from "@mdit/plugin-container";
+import type { MarkdownIt } from "markdown-it";
 
-export const align: PluginSimple = (md) => {
+export const align: UniversalPluginSimple = ((md: MarkdownIt) => {
   ["left", "center", "right", "justify"].forEach((name) => {
     md.use(() => {
       container(md, {
@@ -10,4 +11,4 @@ export const align: PluginSimple = (md) => {
       });
     });
   });
-};
+}) as UniversalPluginSimple;

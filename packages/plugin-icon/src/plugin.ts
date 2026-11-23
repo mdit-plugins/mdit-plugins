@@ -1,5 +1,6 @@
 import { escapeHtml, hasRule } from "@mdit/helper";
-import type { InlineRule, PluginWithOptions } from "@mdit/helper";
+import type { InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItIconOptions } from "./options.js";
 
@@ -136,12 +137,14 @@ const iconRule: InlineRule = (state, silent) => {
   return true;
 };
 
-export const icon: PluginWithOptions<MarkdownItIconOptions> = (
-  md,
-  { render = (content: string): string => `<i class="${escapeHtml(content)}"></i>` } = {},
+export const icon: UniversalPluginWithOptions<MarkdownItIconOptions> = ((
+  md: MarkdownIt,
+  {
+    render = (content: string): string => `<i class="${escapeHtml(content)}"></i>`,
+  }: MarkdownItIconOptions = {},
 ) => {
   // Repeated installation of the same configuration must not register the rule twice.
   if (!hasRule(md, "icon", "inline")) md.inline.ruler.before("link", "icon", iconRule);
 
   md.renderer.rules.icon = (tokens, idx, _, env): string => render(tokens[idx].content, env);
-};
+}) as UniversalPluginWithOptions<MarkdownItIconOptions>;

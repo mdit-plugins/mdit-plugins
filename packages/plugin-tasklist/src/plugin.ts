@@ -1,8 +1,8 @@
 /** Forked from https://github.com/linsir/markdown-it-task-checkbox/blob/master/index.js */
 
 import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { MarkdownItTaskListOptions } from "./options.js";
 import { isInlineToken, isListItemToken, isParagraphToken, setTokenAttr } from "./utils.js";
@@ -59,7 +59,10 @@ const removeTodoMarker = (children: Token[]): void => {
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Task list options / 任务列表选项
  */
-export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, options = {}) => {
+export const tasklist: UniversalPluginWithOptions<MarkdownItTaskListOptions> = ((
+  md: MarkdownIt,
+  options: MarkdownItTaskListOptions = {},
+) => {
   // Registering the core rule twice would wrap the same inline token again, producing nested
   // labels and duplicated checkboxes.
   if (hasRule(md, "task_list", "core")) return;
@@ -136,4 +139,4 @@ export const tasklist: PluginWithOptions<MarkdownItTaskListOptions> = (md, optio
   };
 
   md.core.ruler.after("inline", "task_list", taskListRule);
-};
+}) as UniversalPluginWithOptions<MarkdownItTaskListOptions>;

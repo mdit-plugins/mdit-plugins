@@ -7,9 +7,9 @@
  */
 
 import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginSimple } from "@mdit/helper";
+import type { CoreRule, UniversalPluginSimple } from "@mdit/helper";
 import { eastAsianWidthType } from "get-east-asian-width";
-import type { Token } from "markdown-it";
+import type { MarkdownIt, Token } from "markdown-it";
 
 /** Zero-width space character / 零宽空格字符 */
 const ZWSP = "\u200B";
@@ -118,8 +118,8 @@ const cjkBreaksRule: CoreRule = (state) => {
   }
 };
 
-export const cjkBreaks: PluginSimple = (md) => {
+export const cjkBreaks: UniversalPluginSimple = ((md: MarkdownIt) => {
   if (hasRule(md, "cjk_breaks", "core")) return;
 
   md.core.ruler.push("cjk_breaks", cjkBreaksRule);
-};
+}) as UniversalPluginSimple;

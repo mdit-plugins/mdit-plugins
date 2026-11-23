@@ -1,6 +1,6 @@
 import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
-import type { BlockRule, CoreRule, PluginWithOptions, TokenMeta } from "@mdit/helper";
-import type { Env, MarkdownItOptions, StateBlock, Token } from "markdown-it";
+import type { BlockRule, CoreRule, TokenMeta, UniversalPluginWithOptions } from "@mdit/helper";
+import type { Env, MarkdownIt, MarkdownItOptions, StateBlock, Token } from "markdown-it";
 
 import type { MarkdownItTabData, MarkdownItTabInfo, MarkdownItTabOptions } from "./options.js";
 
@@ -484,7 +484,10 @@ const tabDataGetter = (tokens: Token[], index: number): MarkdownItTabData => {
   };
 };
 
-export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
+export const tab: UniversalPluginWithOptions<MarkdownItTabOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItTabOptions,
+) => {
   const renderTabTitle = (title: string, env: Env | undefined): string => {
     for (let i = 0; i < title.length; i++) {
       const code = title.charCodeAt(i);
@@ -581,4 +584,4 @@ export const tab: PluginWithOptions<MarkdownItTabOptions> = (md, options) => {
   };
 
   md.renderer.rules[`${name}_tab_close`] = tabCloseRenderer;
-};
+}) as UniversalPluginWithOptions<MarkdownItTabOptions>;

@@ -4,8 +4,15 @@
  */
 
 import { hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { MarkdownItOptions, Renderer, RendererRule, StateBlock, Token } from "markdown-it";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type {
+  MarkdownIt,
+  MarkdownItOptions,
+  Renderer,
+  RendererRule,
+  StateBlock,
+  Token,
+} from "markdown-it";
 
 import type { MarkdownItContainerOptions } from "./options.js";
 
@@ -60,7 +67,10 @@ const defaultCloseRenderer: RendererRule = (
 ): string => self.renderToken(tokens, index, mdItOptions);
 
 // oxlint-disable-next-line max-lines-per-function
-export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, options) => {
+export const container: UniversalPluginWithOptions<MarkdownItContainerOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItContainerOptions,
+) => {
   if (typeof options !== "object" || options == null || !options.name)
     throw new Error("[@mdit/plugin-container]: 'name' option is required.");
 
@@ -259,4 +269,4 @@ export const container: PluginWithOptions<MarkdownItContainerOptions> = (md, opt
 
   md.renderer.rules[`${ruleName}_open`] = openRenderer ?? defaultOpenRenderer;
   md.renderer.rules[`${ruleName}_close`] = closeRenderer ?? defaultCloseRenderer;
-};
+}) as UniversalPluginWithOptions<MarkdownItContainerOptions>;

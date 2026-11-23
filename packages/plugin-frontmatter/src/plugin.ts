@@ -4,8 +4,8 @@
  */
 
 import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { StateCore } from "markdown-it";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, StateCore } from "markdown-it";
 
 import type { MarkdownItFrontmatterOptions } from "./options.js";
 import { parseFrontmatter } from "./parse.js";
@@ -34,7 +34,10 @@ const EXCERPT_FLAG = Symbol("md-frontmatter-excerpt");
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const frontmatter: PluginWithOptions<MarkdownItFrontmatterOptions> = (md, options = {}) => {
+export const frontmatter: UniversalPluginWithOptions<MarkdownItFrontmatterOptions> = ((
+  md: MarkdownIt,
+  options: MarkdownItFrontmatterOptions = {},
+) => {
   // A second installation must not strip the same source twice.
   if (hasRule(md, RULE_NAME, "core")) return;
 
@@ -60,4 +63,4 @@ export const frontmatter: PluginWithOptions<MarkdownItFrontmatterOptions> = (md,
   };
 
   md.core.ruler.before("normalize", RULE_NAME, rule);
-};
+}) as UniversalPluginWithOptions<MarkdownItFrontmatterOptions>;

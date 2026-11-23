@@ -1,4 +1,4 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, RendererRule } from "markdown-it";
 
 import type { AdvancedLinkProps, MarkdownItAdvancedLinksOptions } from "./options.js";
@@ -128,7 +128,10 @@ const registerRenderers = (md: MarkdownIt, configs: AdvancedLinkConfigs): void =
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const advancedLinks: PluginWithOptions<MarkdownItAdvancedLinksOptions> = (md, options) => {
+export const advancedLinks: UniversalPluginWithOptions<MarkdownItAdvancedLinksOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItAdvancedLinksOptions,
+) => {
   if (typeof options !== "object" || options == null)
     throw new TypeError('[@mdit/plugin-advanced-links]: "options" is required.');
 
@@ -157,4 +160,4 @@ export const advancedLinks: PluginWithOptions<MarkdownItAdvancedLinksOptions> = 
   if (!("advanced_link_block" in md.renderer.rules)) registerRenderers(md, state.configs);
 
   state.configs.set(name, { inline, renderer });
-};
+}) as UniversalPluginWithOptions<MarkdownItAdvancedLinksOptions>;

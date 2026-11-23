@@ -2,7 +2,7 @@
 import { randomBytes } from "node:crypto";
 
 import { defaultSensitiveFiles, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
 import type { MarkdownIt, Token } from "markdown-it";
 import { isAbsolute, resolve, relative, join, dirname } from "upath";
 
@@ -325,7 +325,10 @@ const resolveRelatedLink = (
 };
 
 // oxlint-disable-next-line max-lines-per-function
-export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options): void => {
+export const include: UniversalPluginWithOptions<MarkdownItIncludeOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItIncludeOptions,
+): void => {
   // A second installation would run the include rule twice and expand nested directives twice.
   if (hasRule(md, "md_import", "core")) return;
 
@@ -470,4 +473,4 @@ export const include: PluginWithOptions<MarkdownItIncludeOptions> = (md, options
       };
     }
   }
-};
+}) as UniversalPluginWithOptions<MarkdownItIncludeOptions>;

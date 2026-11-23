@@ -1,6 +1,6 @@
 import { hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { StateBlock } from "markdown-it";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, StateBlock } from "markdown-it";
 
 import type { MarkdownItAlertOptions } from "./options.js";
 
@@ -359,15 +359,15 @@ const getAlertRule =
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Alert options / 提示框选项
  */
-export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
-  md,
+export const alert: UniversalPluginWithOptions<MarkdownItAlertOptions> = ((
+  md: MarkdownIt,
   {
     alertNames = ["tip", "warning", "caution", "important", "note"],
     deep = false,
     openRenderer,
     closeRenderer,
     titleRenderer,
-  } = {},
+  }: MarkdownItAlertOptions = {},
 ) => {
   // Repeated installation is a full no-op: the first installation's parse options and
   // renderers always win.
@@ -402,4 +402,4 @@ export const alert: PluginWithOptions<MarkdownItAlertOptions> = (
 
       return `<p class="markdown-alert-title">${title}</p>\n`;
     });
-};
+}) as UniversalPluginWithOptions<MarkdownItAlertOptions>;

@@ -1,8 +1,8 @@
 /** Forked and modified from https://github.com/arve0/markdown-it-attrs/ */
 
 import { hasRule } from "@mdit/helper";
-import type { CoreRule, PluginWithOptions } from "@mdit/helper";
-import type { Renderer, RendererRule } from "markdown-it";
+import type { CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, Renderer, RendererRule } from "markdown-it";
 
 import { normalizeAllowed, testRule } from "./helper/index.js";
 import type { MarkdownItAttrsOptions } from "./options.js";
@@ -33,9 +33,15 @@ const getDefaultFenceRule = (renderer: Renderer): RendererRule | undefined => {
   return defaultFence;
 };
 
-export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
-  md,
-  { left = "{", right = "}", allowed = [], rule = "all", fenceAttrsOnPre = true } = {},
+export const attrs: UniversalPluginWithOptions<MarkdownItAttrsOptions> = ((
+  md: MarkdownIt,
+  {
+    left = "{",
+    right = "}",
+    allowed = [],
+    rule = "all",
+    fenceAttrsOnPre = true,
+  }: MarkdownItAttrsOptions = {},
 ) => {
   const filter = normalizeAllowed(allowed);
 
@@ -130,4 +136,4 @@ export const attrs: PluginWithOptions<MarkdownItAttrsOptions> = (
       };
     }
   }
-};
+}) as UniversalPluginWithOptions<MarkdownItAttrsOptions>;

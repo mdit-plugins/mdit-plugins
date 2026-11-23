@@ -1,10 +1,11 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItImgMarkOptions } from "./options.js";
 
-export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
-  md,
-  { light = ["light"], dark = ["dark"] } = {},
+export const imgMark: UniversalPluginWithOptions<MarkdownItImgMarkOptions> = ((
+  md: MarkdownIt,
+  { light = ["light"], dark = ["dark"] }: MarkdownItImgMarkOptions = {},
 ): void => {
   const originalImageRender = md.renderer.rules.image;
 
@@ -35,4 +36,4 @@ export const imgMark: PluginWithOptions<MarkdownItImgMarkOptions> = (
 
     return originalImageRender(tokens, index, options, env, self);
   };
-};
+}) as UniversalPluginWithOptions<MarkdownItImgMarkOptions>;

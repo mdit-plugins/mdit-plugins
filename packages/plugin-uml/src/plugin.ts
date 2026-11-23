@@ -1,10 +1,14 @@
 import { dedent, hasRule } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import type { MarkdownItUMLOptions } from "./options.js";
 import { defaultRenderer } from "./options.js";
 
-export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
+export const uml: UniversalPluginWithOptions<MarkdownItUMLOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItUMLOptions,
+) => {
   const { name = "uml", open = "start", close = "end", renderer = defaultRenderer } = options ?? {};
 
   const OPEN_MARKER = `@${open}`;
@@ -109,4 +113,4 @@ export const uml: PluginWithOptions<MarkdownItUMLOptions> = (md, options) => {
   });
 
   md.renderer.rules[name] = renderer;
-};
+}) as UniversalPluginWithOptions<MarkdownItUMLOptions>;

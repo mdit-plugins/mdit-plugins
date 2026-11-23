@@ -1,5 +1,6 @@
 import { escapeHtml, hasRule, scanFence } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 
 import { AT, CONTAINER_DISPLAY, LAYOUT_COLUMN, layoutKey } from "./constant.js";
 import { detectDirective, parseAttributes } from "./directive.js";
@@ -276,7 +277,10 @@ const getContainerRule = (): BlockRule => (state: LayoutStateBlock, startLine, e
   return true;
 };
 
-export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) => {
+export const layout: UniversalPluginWithOptions<MarkdownItLayoutOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItLayoutOptions,
+) => {
   const { inlineStyles = true } = options ?? {};
 
   // Repeated installation is a full no-op: both block rules and the renderers are
@@ -352,4 +356,4 @@ export const layout: PluginWithOptions<MarkdownItLayoutOptions> = (md, options) 
 
   // Item close renderer
   md.renderer.rules.layout_item_close = (): string => "</div>\n";
-};
+}) as UniversalPluginWithOptions<MarkdownItLayoutOptions>;

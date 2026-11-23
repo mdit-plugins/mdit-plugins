@@ -296,6 +296,15 @@ const convertImmediate = (state: RuntimeState, content: string, display: boolean
   return state.transformer ? state.transformer(value, display) : value;
 };
 
+interface MarkdownEngine {
+  render: (src: string, env?: Record<string, unknown>) => string | Promise<string>;
+}
+
+type UniversalSyncMathjaxPlugin = (
+  md: MarkdownEngine,
+  options?: MarkdownItSyncMathjaxOptions,
+) => void;
+
 /**
  * Create a synchronous MathJax plugin, sharing the MathJax state of the given markdown-it instance.
  *
@@ -304,7 +313,7 @@ const convertImmediate = (state: RuntimeState, content: string, display: boolean
  * @param md - MarkdownIt instance / MarkdownIt 实例
  * @param options - Plugin options / 插件选项
  */
-export const installSyncMathjax = (
+export const installSyncMathjax = ((
   md: MarkdownIt,
   options: MarkdownItSyncMathjaxOptions = {},
 ): void => {
@@ -434,7 +443,7 @@ export const installSyncMathjax = (
   };
 
   mathjaxMethods.set(md, methods);
-};
+}) as UniversalSyncMathjaxPlugin;
 
 /**
  * Get the synchronous MathJax methods of a markdown-it instance.

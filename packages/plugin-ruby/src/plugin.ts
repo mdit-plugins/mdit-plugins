@@ -1,8 +1,8 @@
 /** Forked and modified from https://github.com/lostandfound/markdown-it-ruby/blob/master/index.js */
 
 import { hasRule } from "@mdit/helper";
-import type { InlineRule, PluginSimple } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { InlineRule, UniversalPluginSimple } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 /**
  * Check whether the character at `pos` is escaped by an odd number of preceding backslashes.
@@ -134,9 +134,9 @@ const rubyRule: InlineRule = (state, silent) => {
   return true;
 };
 
-export const ruby: PluginSimple = (md) => {
+export const ruby: UniversalPluginSimple = ((md: MarkdownIt) => {
   // A second installation would register the inline rule twice.
   if (hasRule(md, "ruby", "inline")) return;
 
   md.inline.ruler.before("text", "ruby", rubyRule);
-};
+}) as UniversalPluginSimple;

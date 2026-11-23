@@ -2,7 +2,8 @@
 import { readFileSync, statSync } from "node:fs";
 
 import { NEWLINE_RE, dedent, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, PluginWithOptions } from "@mdit/helper";
+import type { BlockRule, CoreRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt } from "markdown-it";
 import { dirname, extname, resolve } from "upath";
 
 import type { CachedSnippetFile, SnippetCache } from "./cache.js";
@@ -205,7 +206,10 @@ const createSnippetRule =
 
 const defaultPathResolver = (filePath: string): string => filePath;
 
-export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options) => {
+export const snippet: UniversalPluginWithOptions<MarkdownItSnippetOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItSnippetOptions,
+) => {
   const {
     currentPath,
     resolvePath = defaultPathResolver,
@@ -277,4 +281,4 @@ export const snippet: PluginWithOptions<MarkdownItSnippetOptions> = (md, options
 
     return originalFence(tokens, index, mdItOptions, env, self);
   };
-};
+}) as UniversalPluginWithOptions<MarkdownItSnippetOptions>;

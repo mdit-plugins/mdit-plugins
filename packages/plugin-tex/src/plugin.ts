@@ -1,8 +1,8 @@
 /** Forked from https://github.com/waylonflinn/markdown-it-katex/blob/master/index.js */
 
 import { hasRule } from "@mdit/helper";
-import type { BlockRule, InlineRule, PluginWithOptions } from "@mdit/helper";
-import type { StateBlock, StateInline } from "markdown-it";
+import type { BlockRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, StateBlock, StateInline } from "markdown-it";
 
 import type { MarkdownItTexOptions } from "./options.js";
 
@@ -480,7 +480,10 @@ const ruleOptions = {
   alt: ["paragraph", "reference", "blockquote", "list"],
 };
 
-export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
+export const tex: UniversalPluginWithOptions<MarkdownItTexOptions> = ((
+  md: MarkdownIt,
+  options?: MarkdownItTexOptions,
+) => {
   if (typeof options?.render !== "function")
     throw new TypeError('[@mdit/plugin-tex]: "render" option should be a function');
 
@@ -537,4 +540,4 @@ export const tex: PluginWithOptions<MarkdownItTexOptions> = (md, options) => {
   md.renderer.rules.math_block = (tokens, index, _options, env): string =>
     // oxlint-disable-next-line typescript/no-non-null-assertion
     render(tokens[index].content, true, env!);
-};
+}) as UniversalPluginWithOptions<MarkdownItTexOptions>;

@@ -1,6 +1,6 @@
 import { hasRule } from "@mdit/helper";
-import type { PluginWithOptions } from "@mdit/helper";
-import type { StateCore } from "markdown-it";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, StateCore } from "markdown-it";
 
 import { defaultGetTokensText, defaultSlugify } from "./defaults.js";
 import type { AnchorEnv, AnchorOptions, ResolvedAnchorOptions } from "./options.js";
@@ -17,7 +17,10 @@ const DEFAULTS = {
   uniqueSlugStartIndex: 1,
 };
 
-export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void => {
+export const anchor: UniversalPluginWithOptions<AnchorOptions> = ((
+  md: MarkdownIt,
+  options: AnchorOptions = {},
+): void => {
   // Repeated installation would run the anchor rule twice; the second pass sees the ids
   // written by the first one and throws on non-unique slugs.
   if (hasRule(md, "anchor", "core")) return;
@@ -91,4 +94,4 @@ export const anchor: PluginWithOptions<AnchorOptions> = (md, options = {}): void
       if (callback) callback(token, { slug, title });
     }
   });
-};
+}) as UniversalPluginWithOptions<AnchorOptions>;

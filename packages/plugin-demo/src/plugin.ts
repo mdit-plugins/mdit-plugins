@@ -1,6 +1,6 @@
 import { hasRule, scanFence } from "@mdit/helper";
-import type { BlockRule, PluginWithOptions } from "@mdit/helper";
-import type { Token } from "markdown-it";
+import type { BlockRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type { MarkdownIt, Token } from "markdown-it";
 
 import type { MarkdownItDemoOptions } from "./options.js";
 
@@ -86,8 +86,8 @@ const extractDemoCode = (src: string, start: number, end: number, indent: number
  * @param options - Demo options / 示例选项
  */
 // oxlint-disable-next-line max-lines-per-function
-export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
-  md,
+export const demo: UniversalPluginWithOptions<MarkdownItDemoOptions> = ((
+  md: MarkdownIt,
   {
     name = "demo",
     openRenderer = (tokens: Token[], index: number): string =>
@@ -97,7 +97,7 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
     contentOpenRenderer,
     contentCloseRenderer,
     showCodeFirst = false,
-  } = {},
+  }: MarkdownItDemoOptions = {},
 ) => {
   // oxlint-disable-next-line max-lines-per-function
   const demoRule: BlockRule = (state, startLine, endLine, silent) => {
@@ -293,4 +293,4 @@ export const demo: PluginWithOptions<MarkdownItDemoOptions> = (
   if (contentOpenRenderer) md.renderer.rules[`${name}_demo_content_open`] = contentOpenRenderer;
 
   if (contentCloseRenderer) md.renderer.rules[`${name}_demo_content_close`] = contentCloseRenderer;
-};
+}) as UniversalPluginWithOptions<MarkdownItDemoOptions>;

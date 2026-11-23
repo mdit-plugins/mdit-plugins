@@ -1,14 +1,14 @@
-import type { PluginWithOptions } from "@mdit/helper";
+import type { UniversalPluginWithOptions } from "@mdit/helper";
 import { uml } from "@mdit/plugin-uml";
-import type { MarkdownItOptions, Renderer, Token } from "markdown-it";
+import type { MarkdownIt, MarkdownItOptions, Renderer, Token } from "markdown-it";
 
 import { deflate } from "@deflate";
 
 import { customEncodeBase64 } from "./customBase64.js";
 import type { MarkdownItPlantumlOptions } from "./options.js";
 
-export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
-  md,
+export const plantuml: UniversalPluginWithOptions<MarkdownItPlantumlOptions> = ((
+  md: MarkdownIt,
   {
     type = "uml",
     name = "uml",
@@ -39,7 +39,7 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
 
       return self.renderToken(tokens, index, options);
     },
-  } = {},
+  }: MarkdownItPlantumlOptions = {},
 ) => {
   if (type === "uml") {
     md.use(uml, {
@@ -73,4 +73,4 @@ export const plantuml: PluginWithOptions<MarkdownItPlantumlOptions> = (
       return fenceRender(tokens, index, options, env, self);
     };
   }
-};
+}) as UniversalPluginWithOptions<MarkdownItPlantumlOptions>;

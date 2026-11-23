@@ -4,8 +4,15 @@
  */
 
 import { escapeHtml, hasRule } from "@mdit/helper";
-import type { BlockRule, CoreRule, InlineRule, PluginWithOptions } from "@mdit/helper";
-import type { RendererRule, StateBlock, StateCore, StateInline, Token } from "markdown-it";
+import type { BlockRule, CoreRule, InlineRule, UniversalPluginWithOptions } from "@mdit/helper";
+import type {
+  MarkdownIt,
+  RendererRule,
+  StateBlock,
+  StateCore,
+  StateInline,
+  Token,
+} from "markdown-it";
 
 import type { FootnoteOptions } from "./options.js";
 import type {
@@ -469,7 +476,10 @@ const createFootnoteTail =
     state.tokens.push(new state.Token("footnote_block_close", "", -1));
   };
 
-export const footnote: PluginWithOptions<FootnoteOptions> = (md, options) => {
+export const footnote: UniversalPluginWithOptions<FootnoteOptions> = ((
+  md: MarkdownIt,
+  options?: FootnoteOptions,
+) => {
   // A second installation would append the footnote section twice.
   if (hasRule(md, "footnoteTail", "core")) return;
 
@@ -491,4 +501,4 @@ export const footnote: PluginWithOptions<FootnoteOptions> = (md, options) => {
   md.inline.ruler.after("image", "footnoteInline", createFootnoteInline(options ?? {}));
   md.inline.ruler.after("footnoteInline", "footnote_ref", createFootnoteRef(options ?? {}));
   md.core.ruler.after("inline", "footnoteTail", createFootnoteTail(options ?? {}));
-};
+}) as UniversalPluginWithOptions<FootnoteOptions>;
