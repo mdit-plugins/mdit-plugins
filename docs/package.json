@@ -19,7 +19,7 @@
     "@mdit/plugin-mathjax-slim": "workspace:*",
     "@mdit/plugin-ruby": "workspace:*",
     "@mdit/plugin-snippet": "workspace:*",
-    "@vuepress/bundler-vite": "2.0.0-rc.32",
+    "@vuepress/bundler-vite": "2.0.0-rc.33",
     "@vuepress/helper": "2.0.0-rc.139",
     "@vuepress/plugin-docsearch": "2.0.0-rc.141",
     "@vuepress/plugin-markdown-field": "2.0.0-rc.139",
