@@ -22,7 +22,7 @@
     "@vuepress/bundler-vite": "2.0.0-rc.32",
     "@vuepress/helper": "2.0.0-rc.139",
     "@vuepress/plugin-docsearch": "2.0.0-rc.141",
-    "@vuepress/plugin-markdown-field": "2.0.0-rc.139",
+    "@vuepress/plugin-markdown-field": "2.0.0-rc.142",
     "markdown-it": "catalog:",
     "sass-embedded": "1.108.2",
     "vue": "3.5.46",
