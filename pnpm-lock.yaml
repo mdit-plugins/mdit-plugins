@@ -437,8 +437,8 @@ importers:
         specifier: 2.0.0-rc.32
         version: 2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1)
       '@vuepress/helper':
-        specifier: 2.0.0-rc.139
-        version: 2.0.0-rc.139(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.32(@vue/compiler-sfc@3.5.46)(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.3.3)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.8(@types/node@22.20.7)(sass-embedded@1.108.2)(sass@1.108.2)(yaml@2.9.1))(vue@3.5.46(typescript@7.0.2)))
+        specifier: 2.0.0-rc.142
+        version: 2.0.0-rc.142(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.32(@vue/compiler-sfc@3.5.46)(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.3.3)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.8(@types/node@22.20.7)(sass-embedded@1.108.2)(sass@1.108.2)(yaml@2.9.1))(vue@3.5.46(typescript@7.0.2)))
       '@vuepress/plugin-docsearch':
         specifier: 2.0.0-rc.141
         version: 2.0.0-rc.141(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.32(@vue/compiler-sfc@3.5.46)(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.3.3)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.8(@types/node@22.20.7)(sass-embedded@1.108.2)(sass@1.108.2)(yaml@2.9.1))(vue@3.5.46(typescript@7.0.2)))
@@ -2214,6 +2214,9 @@ packages:
   '@types/web-bluetooth@0.0.21':
     resolution: {integrity: sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==}
 
+  '@types/web-bluetooth@0.0.22':
+    resolution: {integrity: sha512-4O7kU0Ut0irZvFyk3EvgDrzFYBQI80Puhkb65I7eV6WTZX4iOo5zoDrEfjDBRB7x5Stz31csoHO4hAjSiRTALw==}
+
   '@types/whatwg-mimetype@3.0.2':
     resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
 
@@ -2453,6 +2456,21 @@ packages:
       '@vuepress/bundler-vite': 2.0.0-rc.32
       '@vuepress/bundler-webpack': 2.0.0-rc.32
       vuepress: 2.0.0-rc.32
+    peerDependenciesMeta:
+      '@vuepress/bundler-rspack':
+        optional: true
+      '@vuepress/bundler-vite':
+        optional: true
+      '@vuepress/bundler-webpack':
+        optional: true
+
+  '@vuepress/helper@2.0.0-rc.142':
+    resolution: {integrity: sha512-6u334Btb6LSJBtnnEjYsluzT34GSnmvJefLu0O1SMOzqICvUyoGGj1kGQPhR13/xA00OjBbTvkqjWT+h/YgP1g==}
+    peerDependencies:
+      '@vuepress/bundler-rspack': 2.0.0-rc.33
+      '@vuepress/bundler-vite': 2.0.0-rc.33
+      '@vuepress/bundler-webpack': 2.0.0-rc.33
+      vuepress: 2.0.0-rc.33
     peerDependenciesMeta:
       '@vuepress/bundler-rspack':
         optional: true
@@ -2784,12 +2802,28 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
+  '@vueuse/core@15.1.0':
+    resolution: {integrity: sha512-OuZ5ecLw/sikX0HFjlJM/p/PkfL0567Ntfov9G0jYlw92QqZpPVikZOoB1Mpe4unZ+7E/QQ+uFpEgAjj2FYRbw==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      vue: ^3.5.0
+
   '@vueuse/metadata@15.0.0':
     resolution: {integrity: sha512-sfWE5LADAKJ0KnjtGliMdSN8Ij/L7uP6rXIZlgPloAI4zvvefbw6H5Lt7KJA6RqQOYgVqWF5Guj50HHMIzygBg==}
     engines: {node: '>=22'}
 
+  '@vueuse/metadata@15.1.0':
+    resolution: {integrity: sha512-yHKFelRTdQdp7vdjXXEw68Wh9v8OgyxWm1v1aHbGM6Z4qbqHhB6QgB8MTNB76pZYh22wPeALCdr8qjShlxPBHA==}
+    engines: {node: '>=22'}
+
   '@vueuse/shared@15.0.0':
     resolution: {integrity: sha512-vbNXhGrbV53xPOMSyOzMHQRvhMgZf7oNDw2RChUetVxwTIEkInQ1joZ9JbT0G3z2n2AJNjvmCWeM9ySYrnvogA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      vue: ^3.5.0
+
+  '@vueuse/shared@15.1.0':
+    resolution: {integrity: sha512-JAbQLO+vOULt8MPR4oRbvstBuztTTMIX4LOfCGeBvp9JSgj5OppZDing3gKDrmlyUQvYYFSPIX4dxkfJgdsxWQ==}
     engines: {node: '>=22'}
     peerDependencies:
       vue: ^3.5.0
@@ -6427,6 +6461,8 @@ snapshots:
 
   '@types/web-bluetooth@0.0.21': {}
 
+  '@types/web-bluetooth@0.0.22': {}
+
   '@types/whatwg-mimetype@3.0.2': {}
 
   '@types/ws@8.18.2':
@@ -6769,6 +6805,20 @@ snapshots:
     dependencies:
       '@vue/shared': 3.5.46
       '@vueuse/core': 15.0.0(vue@3.5.46(typescript@7.0.2))
+      cheerio: 1.2.0
+      fflate: 0.8.3
+      gray-matter: 4.0.3
+      vue: 3.5.46(typescript@7.0.2)
+      vuepress: 2.0.0-rc.32(@vue/compiler-sfc@3.5.46)(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.3.3)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.8(@types/node@22.20.7)(sass-embedded@1.108.2)(sass@1.108.2)(yaml@2.9.1))(vue@3.5.46(typescript@7.0.2))
+    optionalDependencies:
+      '@vuepress/bundler-vite': 2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1)
+    transitivePeerDependencies:
+      - typescript
+
+  '@vuepress/helper@2.0.0-rc.142(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)(vuepress@2.0.0-rc.32(@vue/compiler-sfc@3.5.46)(@vuepress/bundler-vite@2.0.0-rc.32(@types/node@22.20.7)(@vue/compiler-sfc@3.5.46)(sass-embedded@1.108.2)(sass@1.108.2)(supports-color@8.1.1)(typescript@7.0.2)(yaml@2.9.1))(rolldown@1.3.3)(supports-color@8.1.1)(typescript@7.0.2)(vite@8.3.8(@types/node@22.20.7)(sass-embedded@1.108.2)(sass@1.108.2)(yaml@2.9.1))(vue@3.5.46(typescript@7.0.2)))':
+    dependencies:
+      '@vue/shared': 3.5.46
+      '@vueuse/core': 15.1.0(vue@3.5.46(typescript@7.0.2))
       cheerio: 1.2.0
       fflate: 0.8.3
       gray-matter: 4.0.3
@@ -7293,9 +7343,22 @@ snapshots:
       '@vueuse/shared': 15.0.0(vue@3.5.46(typescript@7.0.2))
       vue: 3.5.46(typescript@7.0.2)
 
+  '@vueuse/core@15.1.0(vue@3.5.46(typescript@7.0.2))':
+    dependencies:
+      '@types/web-bluetooth': 0.0.22
+      '@vueuse/metadata': 15.1.0
+      '@vueuse/shared': 15.1.0(vue@3.5.46(typescript@7.0.2))
+      vue: 3.5.46(typescript@7.0.2)
+
   '@vueuse/metadata@15.0.0': {}
 
+  '@vueuse/metadata@15.1.0': {}
+
   '@vueuse/shared@15.0.0(vue@3.5.46(typescript@7.0.2))':
+    dependencies:
+      vue: 3.5.46(typescript@7.0.2)
+
+  '@vueuse/shared@15.1.0(vue@3.5.46(typescript@7.0.2))':
     dependencies:
       vue: 3.5.46(typescript@7.0.2)
 
